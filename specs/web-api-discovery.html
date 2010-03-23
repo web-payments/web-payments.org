@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
+<html lang="en-US">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 7 December 2008), see www.w3.org">
+
+  <title>Web API Discovery</title>
+  <style type="text/css">
+ pre { margin-left: 2em; white-space: pre-wrap; }
+   h2 { margin: 3em 0 1em 0; }
+   h3 { margin: 2.5em 0 1em 0; }
+   h4 { margin: 2.5em 0 0.75em 0; }
+   h5, h6 { margin: 2.5em 0 1em; }
+   h1 + h2, h1 + h2 + h2 { margin: 0.75em 0 0.75em; }
+   h2 + h3, h3 + h4, h4 + h5, h5 + h6 { margin-top: 0.5em; }
+   p { margin: 1em 0; }
+   hr:not(.top) { display: block; background: none; border: none; padding: 0; margin: 2em 0; height: auto; }
+   dl, dd { margin-top: 0; margin-bottom: 0; }
+   dt { margin-top: 0.75em; margin-bottom: 0.25em; clear: left; }
+   dt + dt { margin-top: 0; }
+   dd dt { margin-top: 0.25em; margin-bottom: 0; }
+   dd p { margin-top: 0; }
+   dd dl + p { margin-top: 1em; }
+   dd table + p { margin-top: 1em; }
+   p + * > li, dd li { margin: 1em 0; }
+   dt, dfn { font-weight: bold; font-style: normal; }
+   dt dfn { font-style: italic; }
+   pre, code { font-size: inherit; font-family: monospace; font-variant: normal; }
+   pre strong { color: black; font: inherit; font-weight: bold; background: yellow; }
+   pre em { font-weight: bolder; font-style: normal; }
+   @media screen { code { color: orangered; } code :link, code :visited { color: inherit; } }
+   var sub { vertical-align: bottom; font-size: smaller; position: relative; top: 0.1em; }
+   table { border-collapse: collapse; border-style: hidden hidden none hidden; }
+   table thead { border-bottom: solid; }
+   table tbody th:first-child { border-left: solid; }
+   table td, table th { border-left: solid; border-right: solid; border-bottom: solid thin; vertical-align: top; padding: 0.2em; }
+   blockquote { margin: 0 0 0 2em; border: 0; padding: 0; font-style: italic; }
+
+   .bad, .bad *:not(.XXX) { color: gray; border-color: gray; background: transparent; }
+   .matrix, .matrix td { border: none; text-align: right; }
+   .matrix { margin-left: 2em; }
+   .dice-example { border-collapse: collapse; border-style: hidden solid solid hidden; border-width: thin; margin-left: 3em; }
+   .dice-example caption { width: 30em; font-size: smaller; font-style: italic; padding: 0.75em 0; text-align: left; }
+   .dice-example td, .dice-example th { border: solid thin; width: 1.35em; height: 1.05em; text-align: center; padding: 0; }
+   .applies th > * { display: block; white-space: nowrap; }
+   .applies thead code { display: block; }
+   .applies td { text-align: center; }
+   .applies .yes { background: yellow; }
+
+   .toc dfn, h1 dfn, h2 dfn, h3 dfn, h4 dfn, h5 dfn, h6 dfn { font: inherit; }
+   img.extra { float: right; }
+   pre.idl { border: solid thin; background: #EEEEEE; color: black; padding: 0.5em 1em; }
+   pre.idl :link, pre.idl :visited { color: inherit; background: transparent; }
+   pre.css { border: solid thin; background: #FFFFEE; color: black; padding: 0.5em 1em; }
+   pre.css:first-line { color: #AAAA50; }
+   dl.domintro { color: green; margin: 2em 0 2em 2em; padding: 0.5em 1em; border: none; background: #EEFFEE; }
+   hr + dl.domintro, div.impl + dl.domintro { margin-top: 2.5em; margin-bottom: 1.5em; }
+   dl.domintro dt, dl.domintro dt * { color: black; text-decoration: none; }
+   dl.domintro dd { margin: 0.5em 0 1em 2em; padding: 0; }
+   dl.domintro dd p { margin: 0.5em 0; }
+   dl.switch { padding-left: 2em; }
+   dl.switch > dt { text-indent: -1.5em; }
+   dl.switch > dt:before { content: '\21AA'; padding: 0 0.5em 0 0; display: inline-block; width: 1em; text-align: right; line-height: 0.5em; }
+   dl.triple { padding: 0 0 0 1em; }
+   dl.triple dt, dl.triple dd { margin: 0; display: inline }
+   dl.triple dt:after { content: ':'; }
+   dl.triple dd:after { content: '\A'; white-space: pre; }
+   .diff-old { text-decoration: line-through; color: silver; background: transparent; }
+   .diff-chg, .diff-new { text-decoration: underline; color: green; background: transparent; }
+   a .diff-new { border-bottom: 1px blue solid; }
+
+   h2 { page-break-before: always; }
+   h1 + h2, hr + h2.no-toc { page-break-before: auto; }
+
+   p > span:not([title=""]):not([class="XXX"]):not([class="impl"]), li > span:not([title=""]):not([class="XXX"]):not([class="impl"]) { border-bottom: solid #9999CC; }
+
+   div.head { margin: 0 0 1em; padding: 1em 0 0 0; }
+   div.head p { margin: 0; }
+   div.head h1 { margin: 0; }
+   div.head .logo { float: right; margin: 0 1em; }
+   div.head .logo img { border: none } /* remove border from top image */
+   div.head dl { margin: 1em 0; }
+   p.copyright { font-size: x-small; font-style: oblique; margin: 0; }
+
+   body > .toc > li { margin-top: 1em; margin-bottom: 1em; }
+   body > .toc.brief > li { margin-top: 0.35em; margin-bottom: 0.35em; }
+   body > .toc > li > * { margin-bottom: 0.5em; }
+   body > .toc > li > * > li > * { margin-bottom: 0.25em; }
+   .toc, .toc li { list-style: none; }
+
+   .brief { margin-top: 1em; margin-bottom: 1em; line-height: 1.1; }
+   .brief li { margin: 0; padding: 0; }
+   .brief li p { margin: 0; padding: 0; }
+
+   .category-list { margin-top: -0.75em; margin-bottom: 1em; line-height: 1.5; }
+   .category-list::before { content: '\21D2\A0'; font-size: 1.2em; font-weight: 900; }
+   .category-list li { display: inline; }
+   .category-list li:not(:last-child)::after { content: ', '; }
+   .category-list li > span, .category-list li > a { text-transform: lowercase; }
+   .category-list li * { text-transform: none; } /* don't affect <code> nested in <a> */
+
+   .XXX { color: #E50000; background: white; border: solid red; padding: 0.5em; margin: 1em 0; }
+   .XXX > :first-child { margin-top: 0; }
+   p .XXX { line-height: 3em; }
+   .annotation { border: solid thin black; background: #0C479D; color: white; position: relative; margin: 8px 0 20px 0; }
+   .annotation:before { position: absolute; left: 0; top: 0; width: 100%; height: 100%; margin: 6px -6px -6px 6px; background: #333333; z-index: -1; content: ''; }
+   .annotation :link, .annotation :visited { color: inherit; }
+   .annotation :link:hover, .annotation :visited:hover { background: transparent; }
+   .annotation span { border: none ! important; }
+   .note { color: green; background: transparent; font-family: sans-serif; }
+   .warning { color: red; background: transparent; }
+   .note, .warning { font-weight: bolder; font-style: italic; }
+   p.note, div.note { padding: 0.5em 2em; }
+   span.note { padding: 0 2em; }
+   .note p:first-child, .warning p:first-child { margin-top: 0; }
+   .note p:last-child, .warning p:last-child { margin-bottom: 0; }
+   .warning:before { font-style: normal; }
+   p.note:before { content: 'Note: '; }
+   p.warning:before { content: '\26A0 Warning! '; }
+
+   .bookkeeping:before { display: block; content: 'Bookkeeping details'; font-weight: bolder; font-style: italic; }
+   .bookkeeping { font-size: 0.8em; margin: 2em 0; }
+   .bookkeeping p { margin: 0.5em 2em; display: list-item; list-style: square; }
+
+   h4 { position: relative; z-index: 3; }
+   h4 + .element, h4 + div + .element { margin-top: -2.5em; padding-top: 2em; }
+   .element {
+     background: #EEEEFF;
+     color: black;
+     margin: 0 0 1em 0.15em;
+     padding: 0 1em 0.25em 0.75em;
+     border-left: solid #9999FF 0.25em;
+     position: relative;
+     z-index: 1;
+   }
+   .element:before {
+     position: absolute;
+     z-index: 2;
+     top: 0;
+     left: -1.15em;
+     height: 2em;
+     width: 0.9em;
+     background: #EEEEFF;
+     content: ' ';
+     border-style: none none solid solid;
+     border-color: #9999FF;
+     border-width: 0.25em;
+   }
+
+   .example {
+     display: block;
+     color: #222222;
+     background: #FCFCFC;
+     border-left: double;
+     margin-left: 2em;
+     padding-left: 1em;
+   }
+
+   .tall-and-narrow {
+     font-size: 0.6em;
+     column-width: 25em;
+     column-gap: 1em;
+     -moz-column-width: 25em;
+     -moz-column-gap: 1em;
+     -webkit-column-width: 25em;
+     -webkit-column-gap: 1em;
+   }
+
+   ul.domTree, ul.domTree ul { padding: 0 0 0 1em; margin: 0; }
+   ul.domTree li { padding: 0; margin: 0; list-style: none; position: relative; }
+   ul.domTree li li { list-style: none; }
+   ul.domTree li:first-child::before { position: absolute; top: 0; height: 0.6em; left: -0.75em; width: 0.5em; border-style: none none solid solid; content: ''; border-width: 0.1em; }
+   ul.domTree li:not(:last-child)::after { position: absolute; top: 0; bottom: -0.6em; left: -0.75em; width: 0.5em; border-style: none none solid solid; content: ''; border-width: 0.1em; }
+   ul.domTree span { font-style: italic; font-family: serif; }
+   ul.domTree .t1 code { color: purple; font-weight: bold; }
+   ul.domTree .t2 { font-style: normal; font-family: monospace; }
+   ul.domTree .t2 .name { color: black; font-weight: bold; }
+   ul.domTree .t2 .value { color: blue; font-weight: normal; }
+   ul.domTree .t3 code, .domTree .t4 code, .domTree .t5 code { color: gray; }
+   ul.domTree .t7 code, .domTree .t8 code { color: green; }
+   ul.domTree .t10 code { color: teal; }
+
+  </style>
+  <link href="data:text/css," rel="stylesheet" title="Complete specification"
+  type="text/css">
+  <link href="data:text/css,.impl%20{%20display:%20none;%20}" rel=
+  "alternate stylesheet" title="Author documentation only">
+  <link href="data:text/css,.impl%20{%20background:%20%23FFEEEE;%20}" rel=
+  "alternate stylesheet" title="Highlight implementation requirements">
+  <link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel=
+  "stylesheet" type="text/css">
+</head>
+
+<body>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1539674-7']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+  })();
+
+</script>
+  <div class="head">
+    <h1>Web API Discovery</h1>
+
+    <h2 class="no-num no-toc" id="web-api-discovery-subtitle">Automatic
+    Discovery of Web API Endpoints</h2>
+
+    <h2 class="no-num no-toc" id="editor-s-draft-date-05-January-2010">
+    Editor's Draft 05 January 2010</h2>
+
+    <dl>
+      <dt>Latest Editor's Draft:</dt>
+
+      <dd><a href=
+      "http://payswarm.com/specs/web-api-discovery.html">http://payswarm.com/specs/web-api-discovery.html</a></dd>
+
+      <dt>Editors:</dt>
+
+      <dd><a href="mailto:msporny@digitalbazaar.com">Manu Sporny</a>, Digital
+      Bazaar, Inc.</dd>
+    </dl>
+
+    <p class="copyright"><a href=
+    "http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a>
+    &copy; 2010 <a href="http://www.w3.org/"><abbr title=
+    "World Wide Web Consortium">W3C</abbr></a><sup>&reg;</sup> (<a href=
+    "http://www.csail.mit.edu/"><abbr title=
+    "Massachusetts Institute of Technology">MIT</abbr></a>, <a href=
+    "http://www.ercim.org/"><abbr title=
+    "European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+    <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C
+    <a href=
+    "http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+    <a href=
+    "http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>
+    and <a href=
+    "http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+    rules apply.</p>
+  </div>
+  <hr class="top">
+
+  <h2 class="no-num no-toc" id="abstract">Abstract</h2>
+
+  <p>Web Applications have become widely adopted and are replacing public and
+  corporate software infrastructure at an accelerated pace. The need for
+  inter-operable Web Services and Web Service Providers is growing at the
+  same pace. While the definition of these Web APIs will be handled by expert
+  organizations such as messaging, storage, commerce, and computing
+  providers, the discovery of these Web APIs can utilize existing standards
+  to announce these Web Service endpoints. This document defines a mechanism
+  and vocabulary for user agents that may be used to automatically discover
+  Web APIs using standard web authoring technologies - HTML and RDFa.</p>
+
+  <h2 class="no-num no-toc" id="status-of-this-document">Status of this
+  document</h2>
+
+  <p><em>This section describes the status of this document at the time of
+  its publication. Other documents may supersede this document.</em></p>
+
+  <p>This is a very experimental document and has no status as a
+  standards-track document at this time. While it is very early in the
+  development of this document, all feedback is welcome.</p>
+
+  <dl>
+    <dt>Browsable version-control record of all changes:</dt>
+
+    <dd>Github change record: <a href=
+    "http://github.com/digitalbazaar/payswarm/tree/">http://github.com/digitalbazaar/payswarm/tree/</a></dd>
+
+    <dd>Raw Git interface: <code>git clone
+    git://github.com/digitalbazaar/payswarm.git</code></dd>
+  </dl>
+
+  <p>This specification is the 05 January 2010 Editor's Draft.</p>
+
+  <p>This document was produced by a group operating under the <a href=
+  "http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C
+  Patent Policy</a>. W3C maintains a <a href=
+  "http://www.w3.org/2004/01/pp-impl/40318/status" rel="disclosure">public
+  list of any patent disclosures</a> made in connection with the deliverables
+  of the group; that page also includes instructions for disclosing a patent.
+  An individual who has actual knowledge of a patent which the individual
+  believes contains <a href=
+  "http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+  Claim(s)</a> must disclose the information in accordance with <a href=
+  "http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+  6 of the W3C Patent Policy</a>.</p>
+
+  <h2 class="no-num no-toc" id="contents">Table of Contents</h2>
+  <!--begin-toc-->
+
+  <ol class="toc">
+    <li><a href="#the-basic-idea"><span class="secno">1</span> The Basic
+    Idea</a></li>
+
+    <li><a href="#acknowledgements"><span class="secno">2</span>
+    Acknowledgements</a></li>
+
+    <li>
+      <a href="#references"><span class="secno">3</span> References</a>
+
+      <ol>
+        <li><a href="#normative-references"><span class="secno">3.1</span>
+        Normative References</a></li>
+
+        <li><a href="#non-normative-references"><span class=
+        "secno">3.2</span> Non-Normative References</a></li>
+      </ol>
+    </li>
+  </ol><!--end-toc-->
+  <hr>
+
+  <h2 id="the-basic-idea"><span class="secno">1</span> The Basic Idea</h2>
+
+  <p>Using XHTML 1.1, HTML5 or XHTML5, one could use RDFa to express
+  webservices that are available via a particular website.</p>
+
+  <p>For example, if a website supported a standard messaging API, every page
+  on the site could have the following piece of markup:</p>
+  <pre>
+We support the &lt;a rel="webapi:services" href="services.html"&gt;Web Storage API&lt;/a&gt;.
+</pre>
+
+  <p>The services.html document would be marked up with RDFa, generating
+  triples like the following:</p>
+  <pre>
+   &lt;http://mysite.com/some/arbitary/path/api/sendmsg&gt;
+      &lt;http://w3.org/vocab/messaging-webapi#deliver-message&gt;
+         "POST" .
+</pre>
+
+  <p>User agents could then use this to make specific calls to a website
+  using a standardized Web API protocol. If this sounds much like
+  SOAP/WSDL/WSIL/UDDI it is, but much, much less complex.</p>
+
+  <p>Our experiences with SOAP/WSDL/WSIL and UDDI have been fairly awful. We
+  needed a lightweight solution and settled on AJAX, REST and JSON for the
+  RPC stack. The switch resulted in a simpler implementation, less code and
+  an easier to understand Web API.</p>
+
+  <p>One of the goals of this document is to make publishing Web APIs as
+  simple and straightforward as possible, using tools that many are already
+  familiar with using to create.</p>
+
+  <h2 id="acknowledgements"><span class="secno">2</span>
+  Acknowledgements</h2>
+
+  <p>The editors graciously acknowledge reviews and contributions from (in
+  alphabetical order):</p>
+
+  <ul>
+    <li>Mike Johnson</li>
+
+    <li>David I. Lehn</li>
+
+    <li>Dave Longley</li>
+
+    <li>Doug Schepers</li>
+  </ul>
+
+  <h2 id="references"><span class="secno">3</span> References</h2>
+
+  <p>Some of the following references are normative while others are
+  informative.</p>
+
+  <h3 id="normative-references"><span class="secno">3.1</span> Normative
+  References</h3>
+
+  <dl>
+    <dt id="refsXHTMLRDFA">[<a href=
+    "http://www.w3.org/TR/rdfa-syntax/">XHTML+RDFA</a>]</dt>
+
+    <dd>RDFa in XHTML: Syntax and Processing, Mark Birbeck, Shane McCarron,
+    Steven Pemberton. W3C, October 2008.</dd>
+  </dl>
+
+  <h3 id="non-normative-references"><span class="secno">3.2</span>
+  Non-Normative References</h3>
+
+  <p>All references are non-normative.</p>
+
+  <dl>
+    <dt id="refsHTML4">[<a href=
+    "http://www.w3.org/TR/html401/">HTML4</a>]</dt>
+
+    <dd>The HTML 4.01 Specification, D. Raggett, A. Le Hors, I. Jacobs, 24
+    December 1999.</dd>
+
+    <dt id="refsHTML5">[<a href="http://www.w3.org/TR/html5/">HTML5</a>]
+    (currently not a REC)</dt>
+
+    <dd>The HTML5 Specification, Ian Hickson. W3C, Work in Progress</dd>
+  </dl>
+</body>
+</html>

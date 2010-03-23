@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+
+<head> 
+  <title>An Introduction to PaySwarm</title> 
+  <meta name="copyright" 
+   content="Copyright &#169; 2010 Digital Bazaar, Inc. Available under Creative Commons Attribution Share-Alike 3.0" /> 
+  <link rel="stylesheet" type="text/css" media="screen, projection, print" 
+   href="slidy.css" /> 
+  <script src="slidy.js" 
+   charset="utf-8" type="text/javascript"></script> 
+  <style type="text/css"> 
+    <!-- your custom style rules --> 
+  </style> 
+</head>
+<body>
+
+<div class="background">
+</div>
+
+<div class="slide cover"> 
+ <h1>An Introduction to PaySwarm</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="payswarm-twitter.png" 
+   alt="PaySwarm logo - a blocky, green tornado on a white background" class="cover" /><br />
+  <a href="http://payswarm.com/">http://payswarm.com</a>
+ </div>
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+ <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+  alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 
+ </div>
+</div>
+
+<div class="slide"> 
+  <h1>The End-Goal of PaySwarm</h1> 
+
+  <p style="font-weight: bold; font-style: italic;">
+"The PaySwarm web platform is an open standard that enables web browsers and web devices to perform micropayments and copyright-aware, peer-to-peer digital media distribution."
+  </p>
+
+  <ul class="incremental">
+    <li>
+The patent and royalty-free standard would be implemented in all major web browsers.
+    </li>
+
+    <li>
+PaySwarm would turn 1.7 billion web browsers into a point-of-sale for music and video content.
+    </li>
+
+    <li>
+Music labels would retain all rights and can set royalties and prices at will.
+    </li>
+
+    <li>
+Sounds great, but how do we accomplish this?
+    </li>
+  </ul>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div> 
+
+<div class="slide"> 
+  <h1>The World Wide Web Consortium</h1> 
+
+  <p style="font-weight: bold; font-style: italic;">
+"Led by the inventor of the Web, Tim Berners-Lee, W3C's mission is to lead the Web to its full potential."
+  </p>
+
+  <ul class="incremental">
+    <li>
+W3C is responsible for key technologies implemented every web browser in the world.
+    </li>
+
+    <li>
+A few examples: The HyperText Markup Language (HTML), Cascading Style Sheets (CSS), Really Simple Syndication (RSS), and the eXtensible Markup Language (XML)
+    </li>
+
+    <li>
+There is interest at W3C for the PaySwarm work, but standardization doesn't begin until we can demonstrate industry support and guidance.
+    </li>
+
+  </ul>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div> 
+
+<div class="slide"> 
+  <h1>The PaySwarm Technology</h1> 
+
+  <p style="font-weight: bold; font-style: italic;">
+"Digital Bazaar created the first reference implementation of a PaySwarm network in 2007. The network has been operating live for over 3 years. The technology is scalable and solid."
+  </p>
+
+  <ul class="incremental">
+    <li>
+The first PaySwarm network was <a href="http://bitmunk.com">Bitmunk</a> - over 1 million songs for sale, >38000 artists under management.
+    </li>
+
+    <li>
+The <a href="http://github.com/digitalbazaar/bitmunk">reference implementation source code</a> is available under an open source license.
+    </li>
+
+    <li>
+The technology works, the W3C is ready to start standardization. We need the 
+content creators to give us the signal to start, as well as help guide the 
+standard.
+    </li>
+
+  </ul>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div> 
+
+<div class="slide"> 
+  <h1>Half-way break - Any questions?</h1>
+
+  <ul>
+    <li>A purchase example is next...</li>
+  </ul>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase - The Participants</h1>
+  <div style="text-align: center;">
+   <img src="pp-participants.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase - The Concepts</h1> 
+  <div style="text-align: center;">
+   <img src="pp-concepts.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase - Overview</h1> 
+  <div style="text-align: center;">
+   <img src="pp-overview.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step1.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step2.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step3.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step4.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step5.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step6.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Typical PaySwarm Purchase</h1> 
+  <div style="text-align: center;">
+   <img src="pp-step7.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+
+<div class="slide end"> 
+ <h1>Comments and Concerns</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="payswarm-twitter.png" 
+   alt="PaySwarm logo - a blocky, green tornado on a white background" class="cover" /><br />
+  <a href="http://payswarm.com/">http://payswarm.com</a>
+ </div>
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+ <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="db-logo-square.png" 
+  alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 
+ </div>
+</div>
+
+</body>
+</html>
+

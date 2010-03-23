@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
+<html lang="en" dir="ltr">
+<head>
+    <title>PaySwarm - Frequently Asked Questions</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    
+    
+  <link href="http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css" rel="stylesheet" type="text/css" charset="utf-8"><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8"></head><body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">PaySwarm - Frequently Asked Questions</h1><h2 id="unofficial-draft-23-march-2010">Unofficial Draft 23 March 2010</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd></dl><p class="copyright">This document is licensed under a <a class="subfoot" href="http://creativecommons.org/licenses/by/3.0/" rel="license">Creative Commons Attribution 3.0 License</a>.</p><hr></div>
+    <div id="abstract" class="introductory section"><h2 id="abstract-1">Abstract</h2>
+      <p>
+The PaySwarm web platform is an open standard that enables web browsers and web 
+devices to perform micropayments and copyright-aware, peer-to-peer digital 
+media distribution. This document is designed to answer a number of frequently
+asked questions surrounding the PaySwarm standardization process.
+      </p>
+    </div><div id="sotd" class="introductory section"><h2 id="status-of-this-document">Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a><ul class="toc"><li class="tocline"><a href="#what-is-payswarm" class="tocxref"><span class="secno">1.1 </span>What is PaySwarm?</a></li><li class="tocline"><a href="#what-does-payswarm-do" class="tocxref"><span class="secno">1.2 </span>What does PaySwarm do?</a></li><li class="tocline"><a href="#what-is-an-open-web-platform" class="tocxref"><span class="secno">1.3 </span>What is an open web platform?</a></li><li class="tocline"><a href="#what-is-a-micropayment" class="tocxref"><span class="secno">1.4 </span>What is a Micropayment?</a></li><li class="tocline"><a href="#who-can-implement-and-use-the-technology" class="tocxref"><span class="secno">1.5 </span>Who can implement and use the technology?</a></li></ul></li><li class="tocline"><a href="#scope--goals-and-objectives" class="tocxref"><span class="secno">2. </span>Scope, Goals and Objectives</a><ul class="toc"><li class="tocline"><a href="#what-is-the-scope-of-the-payswarm-work" class="tocxref"><span class="secno">2.1 </span>What is the scope of the PaySwarm work?</a></li><li class="tocline"><a href="#what-is-the-objective-of-payswarm" class="tocxref"><span class="secno">2.2 </span>What is the objective of PaySwarm?</a></li><li class="tocline"><a href="#what-will-the-end-product-look-like" class="tocxref"><span class="secno">2.3 </span>What will the end product look like?</a></li><li class="tocline"><a href="#how-does-payswarm-deal-with-online-identity" class="tocxref"><span class="secno">2.4 </span>How does PaySwarm deal with online identity?</a></li><li class="tocline"><a href="#how-does-payswarm-deal-with-credit-card-processing" class="tocxref"><span class="secno">2.5 </span>How does PaySwarm deal with credit card processing?</a></li></ul></li><li class="tocline"><a href="#core-technology" class="tocxref"><span class="secno">3. </span>Core Technology</a><ul class="toc"><li class="tocline"><a href="#what-types-of-technology-are-used-for-payswarm" class="tocxref"><span class="secno">3.1 </span>What types of technology are used for PaySwarm?</a></li><li class="tocline"><a href="#how-are-the-digital-contracts-signed-and-verified" class="tocxref"><span class="secno">3.2 </span>How are the digital contracts signed and verified?</a></li></ul></li><li class="tocline"><a href="#existing-technologies" class="tocxref"><span class="secno">4. </span>Existing Technologies</a><ul class="toc"><li class="tocline"><a href="#affiliate-systems-already-exist--why-do-we-need-payswarm" class="tocxref"><span class="secno">4.1 </span>Affiliate systems already exist, why do we need PaySwarm?</a></li><li class="tocline"><a href="#there-are-thousands-of-online-content-stores--why-isn-t-that-good-enough" class="tocxref"><span class="secno">4.2 </span>There are thousands of online content stores, why isn't that good enough?</a></li><li class="tocline"><a href="#it-s-easy-to-stream-digital-content-now--what-added-value-does-payswarm-provide" class="tocxref"><span class="secno">4.3 </span>It's easy to stream digital content now, what added value does PaySwarm provide?</a></li><li class="tocline"><a href="#there-are-already-digital-download-widgets--how-is-payswarm-different" class="tocxref"><span class="secno">4.4 </span>There are already digital download widgets, how is PaySwarm different?</a></li></ul></li><li class="tocline"><a href="#licensing--copyright--and-other-legal-concerns" class="tocxref"><span class="secno">5. </span>Licensing, Copyright, and Other Legal Concerns</a><ul class="toc"><li class="tocline"><a href="#who-is-going-to-take-care-of-licensing-and-copyright-concerns" class="tocxref"><span class="secno">5.1 </span>Who is going to take care of licensing and copyright concerns?</a></li><li class="tocline"><a href="#is-it-possible-to-do-license-only-transactions-on-payswarm" class="tocxref"><span class="secno">5.2 </span>Is it possible to do license-only transactions on PaySwarm?</a></li><li class="tocline"><a href="#does-the-system-rely-on-drm-to-protect-the-files" class="tocxref"><span class="secno">5.3 </span>Does the system rely on DRM to protect the files?</a></li><li class="tocline"><a href="#resale-can-t-work-with-digital-content--can-it" class="tocxref"><span class="secno">5.4 </span>Resale can't work with digital content, can it?</a></li></ul></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">A. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">B. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">B.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">B.2 </span>Informative references</a></li></ul></li></ul></div>
+    
+    <div id="introduction" class="section">
+      <!--OddPage--><h2 id="x1.-introduction"><span class="secno">1. </span>Introduction</h2>
+      <p>
+This document answers a number of frequently asked questions about the
+PaySwarm standardization work.
+      </p>
+
+      <div id="what-is-payswarm" class="section">
+        <h3 id="x1.1-what-is-payswarm"><span class="secno">1.1 </span>What is PaySwarm?</h3>
+        <p>
+PaySwarm is an open web platform standard that enables web browsers and 
+web devices to perform micropayments and copyright-aware, peer-to-peer digital 
+media distribution.
+        </p>
+      </div>
+      <div id="what-does-payswarm-do" class="section">
+        <h3 id="x1.2-what-does-payswarm-do"><span class="secno">1.2 </span>What does PaySwarm do?</h3>
+        <p>
+PaySwarm enables people that create digital content to distribute it through
+the Web and receive payment directly from their fans and customers. It is
+also designed to help fans and customers distribute digital content 
+on behalf of the content creators in a way that is both legal and financially
+beneficial to the creators, fans and customers. The technology is designed to 
+be integrated directly into web devices, finally making legal digital content 
+distribution a first-class citizen on the web.
+        </p>
+      </div>
+      <div id="what-is-an-open-web-platform" class="section">
+        <h3 id="x1.3-what-is-an-open-web-platform"><span class="secno">1.3 </span>What is an open web platform?</h3>
+        <p>
+An open web platform is a combination of technology that is patent-free, 
+royalty-free, published in a free specification, using well-defined 
+protocols and other open technologies. The combination of open technology
+to accomplish a particular set of related tasks on the web defines an
+"open web platform".
+        </p>
+      </div>
+      <div id="what-is-a-micropayment" class="section">
+        <h3 id="x1.4-what-is-a-micropayment"><span class="secno">1.4 </span>What is a Micropayment?</h3>
+        <p>
+The term micropayment is used loosely, as we don't want to bother the
+customer to reach for their wallet every time they need to spend a
+couple of cents, or even a couple of dollars. Micropayment in this case,
+specifically refers to the ability to divvy royalties and payments in
+increments of up to 1/10,000th of a cent to various royalty and payment
+accounts as listed in the digital contracts.
+        </p>
+      </div>
+
+      <div id="who-can-implement-and-use-the-technology" class="section">
+        <h3 id="x1.5-who-can-implement-and-use-the-technology"><span class="secno">1.5 </span>Who can implement and use the technology?</h3>
+        <p>
+Anybody. The entire PaySwarm standard is implementable on a patent and 
+royalty-free basis, just like HTTP [<a class="bibref" rel="biblioentry" href="#bib-HTTP11">HTTP11</a>], HTML 4.01 [<a class="bibref" rel="biblioentry" href="#bib-HTML40">HTML40</a>] and 
+Javascript. This means 
+that anybody may implement any part of the system without worrying about 
+technology licensing fees or patent suits from any of the participating W3C 
+member companies.
+        </p>
+      </div>
+
+    </div>
+    <div id="scope--goals-and-objectives" class="section">
+      <!--OddPage--><h2 id="x2.-scope--goals-and-objectives"><span class="secno">2. </span>Scope, Goals and Objectives</h2>
+      <p>
+This section discusses the scope of the PaySwarm work while outlining 
+short-term and long-term goals and objectives.
+      </p>
+      <div id="what-is-the-scope-of-the-payswarm-work" class="section">
+        <h3 id="x2.1-what-is-the-scope-of-the-payswarm-work"><span class="secno">2.1 </span>What is the scope of the PaySwarm work?</h3>
+        <p>
+We are sensitive to the needs of the entire content creation,
+distribution, payment, and customer ecosystem. This includes content 
+identification and search (RDFa, Microformats, etc.), account crediting 
+(credit card, PayPal, bank transfer, network-to-network cash transfer), 
+identity management (OpenID, X509 certificate generation, validation and 
+revocation), content registration, content distribution (physical point-of-sale,
+web-based, peer-to-peer based), contracts and licensing, royalty
+payments, coupons/discounts, dynamic pricing, and many other aspects
+that are vital when considering the operation of such a system.
+        </p>
+        <p>
+That said, it is important to have a sharp focus when performing good
+standardization; the work must produce a tangible technology product. For
+version 1.0, PaySwarm will focus on enabling web browsers to buy and resell
+digital content among one another.
+        </p>
+      </div>
+
+      <div id="what-is-the-objective-of-payswarm" class="section">
+        <h3 id="x2.2-what-is-the-objective-of-payswarm"><span class="secno">2.2 </span>What is the objective of PaySwarm?</h3>
+        <p>
+The objective is to create a standards-based, patent and royalty-free
+micropayment and content distribution platform that is capable of
+meeting the needs of the digital content industries, web browser
+manufacturers, content distributors and content customers. We are focusing 
+initially on digital music, film and print media.
+        </p>
+        <p>
+The long-term goal is to ensure that commercial content is directly
+available for purchase via web browsers with a single button click.
+        </p>
+        <p>
+The technology to do this is open sourced because we want to ensure that it 
+is available for browser manufacturers to implement (patent and royalty-free).
+        </p>
+      </div>
+
+      <div id="what-will-the-end-product-look-like" class="section">
+        <h3 id="x2.3-what-will-the-end-product-look-like"><span class="secno">2.3 </span>What will the end product look like?</h3>
+        <p>
+The PaySwarm web platform will be a collection of REST APIs that can be
+implemented by web servers and web clients to enable the legal transfer
+of digital content. The collection of REST APIs will mimic the tremendously
+simple and successful API model used by Twitter, Flickr, Google, Digg and
+a variety of other online services.
+        </p>
+      </div>
+
+      <div id="how-does-payswarm-deal-with-online-identity" class="section">
+        <h3 id="x2.4-how-does-payswarm-deal-with-online-identity"><span class="secno">2.4 </span>How does PaySwarm deal with online identity?</h3>
+        <p>
+Online identity exchange and management is something that has
+multiple solutions online at the moment. Granted - they are not
+integrated into the browser, but we have to pick the technology that
+will be the catalyst for getting online identity management started. 
+We think the PaySwarm API will kickstart more online identity 
+standardization work at the W3C and thus online identity may be
+better suited for the PaySwarm 2.0 work.
+        </p>
+      </div>
+
+      <div id="how-does-payswarm-deal-with-credit-card-processing" class="section">
+        <h3 id="x2.5-how-does-payswarm-deal-with-credit-card-processing"><span class="secno">2.5 </span>How does PaySwarm deal with credit card processing?</h3>
+        <p>
+Checking account, bank card, online payment services and credit card 
+processing are monetary transfer mechanisms that have
+multiple solutions online at the moment. Granted - they are not
+integrated into the browser, but we have to pick the technology that
+will be the catalyst for getting card processing and financial transfer 
+standardization work started at the W3C. We think the PaySwarm 1.0 API will
+act as a catalyst to get the broader standards work related to inter-network 
+financial transfer started at the W3C.
+        </p>
+      </div>
+    </div>
+    <div id="core-technology" class="section">
+      <!--OddPage--><h2 id="x3.-core-technology"><span class="secno">3. </span>Core Technology</h2>
+      <p>
+This section discusses core technology that is used by the PaySwarm
+web platform.
+      </p>
+
+      <div id="what-types-of-technology-are-used-for-payswarm" class="section">
+        <h3 id="x3.1-what-types-of-technology-are-used-for-payswarm"><span class="secno">3.1 </span>What types of technology are used for PaySwarm?</h3>
+        <p>
+Where it is possible, PaySwarm re-uses a number of standard technologies for
+digital content distribution. Here are all of the technologies that PaySwarm
+is built on top of:
+        </p>
+        <dl>
+          <dt>Messaging</dt>
+          <dd>
+<a href="http://en.wikipedia.org/wiki/Http">HTTP</a> - all peer-to-peer 
+messaging is performed using the Hyper Text Transfer Protocol 
+[<a class="bibref" rel="biblioentry" href="#bib-HTTP11">HTTP11</a>] [<a class="bibref" rel="biblioentry" href="#bib-HTTP-TLS">HTTP-TLS</a>].
+          </dd>
+          <dt>Serialization</dt>
+          <dd>
+<a href="http://en.wikipedia.org/wiki/JSON">JSON</a> - all peer-to-peer
+message encoding is formatted in Javascript Object Notation.
+          </dd>
+          <dt>Security</dt>
+          <dd>
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>,
+<a href="http://en.wikipedia.org/wiki/Transport_Layer_Security">TLS</a>, 
+<a href="http://en.wikipedia.org/wiki/X.509">X.509 Certificates</a>, 
+<a href="http://en.wikipedia.org/wiki/Digital_Signature_Algorithm">DSA</a>,and 
+<a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">PKI</a> -
+all peer-to-peer communication is secured via [<a class="bibref" rel="biblioentry" href="#bib-AES">AES</a>] and [<a class="bibref" rel="biblioentry" href="#bib-HTTP-TLS">HTTP-TLS</a>]. 
+Identities are verified using X.509 certificates. Digital contracts are 
+signed using DSA.
+          </dd>
+          <dt>Steganography</dt>
+          <dd>
+Binary file processor module plugins to provide custom steganography 
+mechanisms by file type. For example, processing MP3 files may have N
+steganography algorithms for encoding the contract information into the
+file without degrading audio quality in any way.
+          </dd>
+        </dl>
+      </div>
+
+      <div id="how-are-the-digital-contracts-signed-and-verified" class="section">
+        <h3 id="x3.2-how-are-the-digital-contracts-signed-and-verified"><span class="secno">3.2 </span>How are the digital contracts signed and verified?</h3>
+        <p>
+The digital contracts are expressed in JSON. Identities on the network must
+be verified and tied to a bank account. Contract Sections are digitally
+signed using the verified identity's private key using the <a href="http://en.wikipedia.org/wiki/Digital_Signature_Algorithm">DSA</a> standard.
+        </p>
+      </div>
+
+    </div>
+    <div id="existing-technologies" class="section">
+      <!--OddPage--><h2 id="x4.-existing-technologies"><span class="secno">4. </span>Existing Technologies</h2>
+      <p>
+This section provides arguments for standardizing PaySwarm over other
+pre-existing technologies.
+      </p>
+      <div id="affiliate-systems-already-exist--why-do-we-need-payswarm" class="section">
+        <h3 id="x4.1-affiliate-systems-already-exist--why-do-we-need-payswarm"><span class="secno">4.1 </span>Affiliate systems already exist, why do we need PaySwarm?</h3>
+        <p>
+While affiliate programs are one avenue for a blogger or website owner to 
+sell content, what they really want is the ability to sell content directly
+from their website without having to send their customers to an external
+website - they want to create a solid online presence for their
+community and affiliate links detract from that presence.
+        </p>
+        <p>
+The PaySwarm system also allows website operators to set their markup fees
+independently. With the system, content producers and distributors set
+their fees and royalties independently and dynamically. The combined
+total results in the final price of the product. This allows independent
+control over the final prices on the network - which leads to market
+efficiencies, while ensuring that royalties set by the content companies are
+always respected.
+        </p>
+        <p>
+Some bloggers may choose higher fees because of the strength of their
+followers, others might choose lower fees because they are attempting to
+attract more purchases from their site. The end result is that content
+creators are always guaranteed the royalty amounts that they have set
+for themselves, but you allow the bloggers to compete using different
+payment models.
+        </p>
+        <p>
+This approach is far more powerful than affiliate links because it
+allows bloggers to have complete ownership over their site while
+ensuring a steady royalty stream to the content owners.
+        </p>
+      </div>
+
+      <div id="there-are-thousands-of-online-content-stores--why-isn-t-that-good-enough" class="section">
+        <h3 id="x4.2-there-are-thousands-of-online-content-stores--why-isn-t-that-good-enough"><span class="secno">4.2 </span>There are thousands of online content stores, why isn't that good enough?</h3>
+        <p>
+While there are certainly many sites that already sell digital content
+online, there is a larger issue that is of concern.
+        </p>
+        <p>
+The goal of many W3C standards is to ensure that the technology is
+ubiquitous and implemented in every web browser. Closed systems will
+never be implemented in every web browser due to the nature of
+proprietary systems. In other words, relying primarily on a few
+retailers artificially constrains the avenues available to distribute and
+monetize digital content. That is something that concerns both independent
+content creators and large content creators alike.
+        </p>
+        <p>
+There are roughly 1.7 billion individuals that use the Internet via a
+web browser today. Those numbers will continue to increase as the mobile
+device market expands. These markets are magnitudes larger than the
+iTunes install base (50-70 million), or those who use Napster (0.8-1.0
+million), or other online retailers.
+        </p>
+        <p>
+The PaySwarming work endeavors to make every web browser and Internet
+device into a point-of-sale and redistribution for digital content.
+        </p>
+      </div>
+
+      <div id="it-s-easy-to-stream-digital-content-now--what-added-value-does-payswarm-provide" class="section">
+        <h3 id="x4.3-it-s-easy-to-stream-digital-content-now--what-added-value-does-payswarm-provide"><span class="secno">4.3 </span>It's easy to stream digital content now, what added value does PaySwarm provide?</h3>
+        <p>
+While it is true that anyone can stream music or video on the Internet,
+those organizations are struggling to create a business model that
+is effective at getting their listeners to pay for a stream on a regular
+basis without resorting to advertising or funding it themselves.
+        </p>
+        <p>
+One of the driving reasons for this is due to most Internet radio
+business models requiring monthly subscriptions or advertising. So, it
+requires somebody to either pull out their credit card and put their
+information into a site, or the station owner to have a fair amount of
+knowledge about the advertising industry to make the station work.
+        </p>
+        <p>
+If payment and streaming were integrated into the browser, the customer
+would not have to pull out their credit card whenever they wanted to
+listen to a for-pay stream - instead, they would set a spending limit
+(perhaps on a per-site basis), and micropayments would flow out of their
+account depending on what they were listening to on a song-by-song
+basis. If they didn't want to spend money, their web browser could
+request to stream several advertisements (if available), which would
+then credit the listener's account. That credit could then be used to
+listen to the stream.
+        </p>
+        <p>
+We're focusing on developing technology to make this scenario easier for
+browser manufacturers and software developers - to make it easier to
+implement in a way that respects copyright while ensuring that the
+endeavor is financially viable for everyone involved.
+        </p>
+      </div>
+
+      <div id="there-are-already-digital-download-widgets--how-is-payswarm-different" class="section">
+        <h3 id="x4.4-there-are-already-digital-download-widgets--how-is-payswarm-different"><span class="secno">4.4 </span>There are already digital download widgets, how is PaySwarm different?</h3>
+        <p>
+There are certainly mechanisms out there that allow one to pair
+up with one or two proprietary services in order to provide downloads
+directly from one's website. The downside with that approach is:
+        </p>
+        <ul>
+          <li>
+The solution is proprietary, which means that web browsers will never
+integrate the approach into their user interfaces. Proprietary
+solutions have a hard time gaining wide acceptance. Alternatively,
+open solutions like HTML, Javascript and HTTP have gained wide
+acceptance. That's not to say that you cannot be successful, like
+Adobe has with Flash, but rather to point out that open standards
+more often lead to deeper market penetration.
+          </li>
+          <li>
+It requires the blogger to choose a handful of companies, each with
+their own login and payment processing requirements. If the blogger
+wants to sell music, movies and books - they may have 3 music
+providers, 2 movie providers and 4 book providers. The APIs and
+user accounts would differ between these providers, which would not
+only make implementation more difficult, but would also make the
+customer experience aggravating (especially if you don't have or
+want an account with one of those services).
+          </li>
+        </ul>
+        <p>
+The underlying point to all of this is that while it may be possible to
+solve the problem using a proprietary solution with a proprietary vendor
+- the ideal solution is to follow what has made the web successful. That
+is, define an open standard for doing these sorts of transactions. There
+are a great number of halo effects that occur from standardization - to
+come back to this example, three of those effects would be:
+        </p>
+        <ol>
+          <li>
+You wouldn't need a widget of any kind to enable the scenario
+because the web browser has the ability to purchase content from
+anybody that provides the PaySwarm API.
+          </li>
+          <li>
+Bloggers could use the same API interface to interact with music,
+movie and book publishers.
+          </li>
+          <li>
+Customers could choose their Micropayment provider independently of
+where they are purchasing their content - providing a sort of single
+sign-on service for digital content purchasing.
+          </li>
+        </ol>
+      </div>
+
+    </div>
+    <div id="licensing--copyright--and-other-legal-concerns" class="section">
+      <!--OddPage--><h2 id="x5.-licensing--copyright--and-other-legal-concerns"><span class="secno">5. </span>Licensing, Copyright, and Other Legal Concerns</h2>
+      <p>
+This section covers how licensing, copyright and other legal concerns will
+be addressed in the PaySwarming work.
+      </p>
+      <div id="who-is-going-to-take-care-of-licensing-and-copyright-concerns" class="section">
+        <h3 id="x5.1-who-is-going-to-take-care-of-licensing-and-copyright-concerns"><span class="secno">5.1 </span>Who is going to take care of licensing and copyright concerns?</h3>
+        <p>
+There is a great deal of complexity involved with licensing, royalty 
+collection, and financial account management. That is why there is the 
+concept of a "PaySwarm Authority" in the network. 
+The PaySwarm Authority is the trusted platform vendor that processes all of the 
+credit card transactions, royalty collection and distribution, identity 
+verification, and the other necessary services provided by a trusted platform 
+vendor. These are the companies that license digital content from the content 
+creators.
+        </p>
+        <p>
+The bloggers, radio stations and other digital content distributors use
+the trusted platform vendors as their PaySwarm Authority - which allows the 
+network to be open, but payment and royalty collection/distribution to remain 
+secure.
+        </p>
+        <p>
+The PaySwarm work is focused on ensuring interoperability between the
+browsers and the PaySwarm Authority at the moment. Future work will focus on
+interoperability between multiple PaySwarm Authorities. PaySwarm Authority 
+interoperability would allow a customer to have multiple financial accounts at 
+multiple PaySwarm Authority locations and authorize payment from one 
+PaySwarm Authority to another in a standards-compliant way.
+        </p>
+      </div>
+
+      <div id="is-it-possible-to-do-license-only-transactions-on-payswarm" class="section">
+        <h3 id="x5.2-is-it-possible-to-do-license-only-transactions-on-payswarm"><span class="secno">5.2 </span>Is it possible to do license-only transactions on PaySwarm?</h3>
+        <p>
+Yes, it is possible to transact only licenses on the PaySwarm network. This
+is useful when the data is readily available, but a special license must be
+acquired for a different use of the data. For example, if a videographer 
+purchases a song for personal use and then they find a use for that same song in
+one of their videos. A separate license for use in a video could be negotiated
+and purchased using PaySwarm.
+        </p>
+        <p>
+Alternatively, if a CAD file is purchased for manufacturing but the license
+dictates that each manufactured item have a unique serial number assigned to it,
+the license could express a digitally signed, unique serial number that would
+be embedded in the manufactured part (such as through an RFID tag).
+        </p>
+      </div>
+      
+      <div id="does-the-system-rely-on-drm-to-protect-the-files" class="section">
+        <h3 id="x5.3-does-the-system-rely-on-drm-to-protect-the-files"><span class="secno">5.3 </span>Does the system rely on DRM to protect the files?</h3>
+        <p>
+PaySwarm does not depend on any sort of proprietary DRM mechanism to 
+provide a secure content transfer and payment mechanism.
+        </p>
+        <p>
+The PaySwarming technology can steganographically watermark every file
+sold with a unique key in a way that we believe does not violate any
+patents. If a file containing one of these keys is found on a network,
+it can be traced back to the owner. This provides an incentive to not
+upload such a file to a file sharing network that is not aware of
+licensing or copyright.
+        </p>
+        <p>
+The watermarking is accomplished via a module called the Binary File
+Processor (BFP). The PaySwarm standard defines this as an opaque module
+that should be downloaded from the PaySwarm Authority. The BFP is used to 
+provide DRM services if necessary, but leaves implementation of this up to the 
+PaySwarm Authority provider.
+        </p>
+        <p>
+While watermarking is a viable incentive, the greater incentive for
+respecting copyright will be that individuals can receive payment for
+being part of the content distribution vehicle. This is accomplished
+without cannibalizing the content creator's royalty.
+        </p>
+        <p>
+We believe that it is possible to implement the PaySwarm system without
+entering the DRM patent thicket. However, we also ensure that there is a
+mechanism to provide DRM services, the BFP, if a PaySwarm Authority provider 
+wishes to do so.
+        </p>
+      </div>
+
+      <div id="resale-can-t-work-with-digital-content--can-it" class="section">
+        <h3 id="x5.4-resale-can-t-work-with-digital-content--can-it"><span class="secno">5.4 </span>Resale can't work with digital content, can it?</h3>
+        <p>
+The term "resale", when it is used in the context of PaySwarming, 
+doesn't mean a transfer of license from one owner to another, but rather an 
+additional download source for the content.
+        </p>
+        <p>
+We don't believe that customer-focused license transfers make sense for
+digital content due to the ease of digital copying - and thus, the
+concept is not currently supported in PaySwarm. We have some ideas on
+how this might work for particular industries in the future (such as
+physical goods manufacturing), but those concepts are not ready for
+standardization.
+        </p>
+        <p>
+Here's an example of "resale" on PaySwarming:
+        </p>
+        <ol>
+          <li>
+Customer Q buys a song via their favorite music blog site by downloading from 
+a PaySwarm network.
+          </li>
+          <li>
+The PaySwarm Authority assigns the license and collects royalties from customer 
+Q.
+          </li>
+          <li>
+Customer Q then puts their song up for "resale" on the network,
+which adds them to the pool of available sellers.
+          </li>
+          <li>
+Customer R starts to purchase the same song Q bought.
+          </li>
+          <li>
+Customer Q is chosen as one of the download sources for the file and
+is remunerated accordingly.
+          </li>
+          <li>
+The PaySwarm Authority assigns a new license and collects royalties from 
+customer R.
+          </li>
+        </ol>
+        <p>
+At this point, both Q and R have licenses - which were acquired by
+paying the record label a royalty for each song sold. Q has also been
+paid a data transfer fee for providing a download source for R.
+        </p>
+        <p>
+To be clear, every time a song is sold on a PaySwarm network, the record
+label receives the royalty amount that they set for a license sale. The
+record label is /always/ paid the royalty they set for each song sale.
+        </p>
+      </div>
+
+    </div>
+    
+    <div class="appendix section" id="acknowledgements">
+      <!--OddPage--><h2 id="a.-acknowledgements"><span class="secno">A. </span>Acknowledgements</h2>
+      <p>
+The editors graciously acknowledge reviews and contributions from (in alphabetical order): Mike Johnson, David I. Lehn, Dave Longley, Dave Raggett, Doug Schepers
+      </p>
+    </div>
+  
+
+<div id="references" class="appendix section"><!--OddPage--><h2 id="b.-references"><span class="secno">B. </span>References</h2><div id="normative-references" class="section"><h3 id="b.1-normative-references"><span class="secno">B.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3 id="b.2-informative-references"><span class="secno">B.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-AES">[AES]</dt><dd><a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf"><cite>NIST FIPS 197: Advanced Encryption Standard (AES)</cite></a>. November 2001. URI: <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>
+</dd><dt id="bib-HTML40">[HTML40]</dt><dd>Ian Jacobs; David Raggett; Arnaud Le Hors. <a href="http://www.w3.org/TR/1998/REC-html40-19980424"><cite>HTML 4.0 Specification.</cite></a> 24 April 1998. W3C Recommendation. URL: <a href="http://www.w3.org/TR/1998/REC-html40-19980424">http://www.w3.org/TR/1998/REC-html40-19980424</a> 
+</dd><dt id="bib-HTTP-TLS">[HTTP-TLS]</dt><dd>E. Rescorla. <a href="http://www.ietf.org/rfc/rfc2818.txt"><cite>HTTP Over TLS.</cite></a> May 2000. Internet RFC 2818. URL: <a href="http://www.ietf.org/rfc/rfc2818.txt">http://www.ietf.org/rfc/rfc2818.txt</a> 
+</dd><dt id="bib-HTTP11">[HTTP11]</dt><dd>R. Fielding; et al. <a href="http://www.ietf.org/rfc/rfc2616.txt"><cite>Hypertext Transfer Protocol - HTTP/1.1.</cite></a> June 1999. Internet RFC 2616. URL: <a href="http://www.ietf.org/rfc/rfc2616.txt">http://www.ietf.org/rfc/rfc2616.txt</a> 
+</dd></dl></div></div></body></html>

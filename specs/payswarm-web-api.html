@@ -1,0 +1,1312 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
+<html lang="en" dir="ltr">
+<head> 
+    <title>Payswarm - Web API</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+     
+     
+  <link href="http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css" rel="stylesheet" type="text/css" charset="utf-8"><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8"></head><body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">Payswarm - Web API</h1><h2 id="unofficial-draft-23-march-2010">Unofficial Draft 23 March 2010</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd></dl><p class="copyright">Copyright 2009-2010 © Digital Bazaar, Inc.</p><hr></div> 
+    <div id="abstract" class="introductory section"><h2 id="abstract-1">Abstract</h2> 
+      <p> 
+This document defines a set of REST Web APIs to enable the legal transfer of 
+commercialized digital content. These APIs enable new Web-based 
+business models by specifying methods of interaction between user agents and 
+web servers to exchange digital goods and ensure the subequent distribution of 
+monetary compensation to the content distributors and rights holders.
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2 id="status-of-this-document">Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#network-participants" class="tocxref"><span class="secno">2. </span>Network Participants</a></li><li class="tocline"><a href="#content-transaction-overview" class="tocxref"><span class="secno">3. </span>Content Transaction Overview</a></li><li class="tocline"><a href="#base-technologies" class="tocxref"><span class="secno">4. </span>Base Technologies</a><ul class="toc"><li class="tocline"><a href="#rest" class="tocxref"><span class="secno">4.1 </span>REST</a></li><li class="tocline"><a href="#javascript-object-notation" class="tocxref"><span class="secno">4.2 </span>Javascript Object Notation</a></li><li class="tocline"><a href="#aes-cryptography-suite" class="tocxref"><span class="secno">4.3 </span>AES Cryptography Suite</a></li><li class="tocline"><a href="#rdfa" class="tocxref"><span class="secno">4.4 </span>RDFa</a></li></ul></li><li class="tocline"><a href="#discovery" class="tocxref"><span class="secno">5. </span>Discovery</a><ul class="toc"><li class="tocline"><a href="#api-discovery" class="tocxref"><span class="secno">5.1 </span>API Discovery</a></li><li class="tocline"><a href="#content-discovery" class="tocxref"><span class="secno">5.2 </span>Content Discovery</a></li></ul></li><li class="tocline"><a href="#the-purchase-process" class="tocxref"><span class="secno">6. </span>The Purchase Process</a><ul class="toc"><li class="tocline"><a href="#media-discovery" class="tocxref"><span class="secno">6.1 </span>Media Discovery</a></li><li class="tocline"><a href="#license-selection" class="tocxref"><span class="secno">6.2 </span>License Selection</a></li><li class="tocline"><a href="#asserting-purchase-preferences" class="tocxref"><span class="secno">6.3 </span>Asserting Purchase Preferences</a></li><li class="tocline"><a href="#creating-a-ware-bundle" class="tocxref"><span class="secno">6.4 </span>Creating a Ware Bundle</a></li><li class="tocline"><a href="#brokering-a-non-swarming-contract" class="tocxref"><span class="secno">6.5 </span>Brokering a Non-Swarming Contract</a></li><li class="tocline"><a href="#brokering-a-swarming-contract" class="tocxref"><span class="secno">6.6 </span>Brokering a Swarming Contract</a></li><li class="tocline"><a href="#negotiating-with-a-seller" class="tocxref"><span class="secno">6.7 </span>Negotiating with a Seller</a></li><li class="tocline"><a href="#downloading-a-filepiece" class="tocxref"><span class="secno">6.8 </span>Downloading a FilePiece</a></li><li class="tocline"><a href="#purchasing-the-license" class="tocxref"><span class="secno">6.9 </span>Purchasing the License</a></li><li class="tocline"><a href="#purchasing-the-data" class="tocxref"><span class="secno">6.10 </span>Purchasing the Data</a></li><li class="tocline"><a href="#assembling-the-data" class="tocxref"><span class="secno">6.11 </span>Assembling the Data</a></li></ul></li><li class="tocline"><a href="#security-concerns" class="tocxref"><span class="secno">7. </span>Security Concerns</a><ul class="toc"><li class="tocline"><a href="#identity-management" class="tocxref"><span class="secno">7.1 </span>Identity Management</a></li><li class="tocline"><a href="#digital-signatures" class="tocxref"><span class="secno">7.2 </span>Digital Signatures</a></li><li class="tocline"><a href="#encryption-and-decryption" class="tocxref"><span class="secno">7.3 </span>Encryption and Decryption</a></li><li class="tocline"><a href="#identifying-and-removing-troublemakers" class="tocxref"><span class="secno">7.4 </span>Identifying and Removing Troublemakers</a></li><li class="tocline"><a href="#halting-content-distribution" class="tocxref"><span class="secno">7.5 </span>Halting Content Distribution</a></li></ul></li><li class="tocline"><a href="#api-reference" class="tocxref"><span class="secno">8. </span>API Reference</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+
+    <div id="introduction" class="section">
+      <!--OddPage--><h2 id="x1.-introduction"><span class="secno">1. </span>Introduction</h2>
+      <p>
+      </p>
+    </div>
+
+    <div id="network-participants" class="section">
+      <!--OddPage--><h2 id="x2.-network-participants"><span class="secno">2. </span>Network Participants</h2>
+      <p>
+      </p>
+    </div>
+
+    <div id="content-transaction-overview" class="section">
+      <!--OddPage--><h2 id="x3.-content-transaction-overview"><span class="secno">3. </span>Content Transaction Overview</h2>
+      <img src="purchase-process-page1.png" alt="PaySwarm purchase process diagram #1"><br>
+      <img src="purchase-process-page2.png" alt="PaySwarm purchase process diagram #2"><br>
+      <img src="purchase-process-page3.png" alt="PaySwarm purchase process diagram #3"><br>
+    </div>
+
+    <div id="base-technologies" class="section">
+      <!--OddPage--><h2 id="x4.-base-technologies"><span class="secno">4. </span>Base Technologies</h2>
+      <p>
+      </p>
+
+      <div id="rest" class="section">
+        <h3 id="x4.1-rest"><span class="secno">4.1 </span>REST</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="javascript-object-notation" class="section">
+        <h3 id="x4.2-javascript-object-notation"><span class="secno">4.2 </span>Javascript Object Notation</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="aes-cryptography-suite" class="section">
+        <h3 id="x4.3-aes-cryptography-suite"><span class="secno">4.3 </span>AES Cryptography Suite</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="rdfa" class="section">
+        <h3 id="x4.4-rdfa"><span class="secno">4.4 </span>RDFa</h3>
+        <p>
+        </p>
+      </div>
+    </div>
+
+    <div id="discovery" class="section">
+      <!--OddPage--><h2 id="x5.-discovery"><span class="secno">5. </span>Discovery</h2>
+      <p>
+      </p>
+
+      <div id="api-discovery" class="section">
+      <h3 id="x5.1-api-discovery"><span class="secno">5.1 </span>API Discovery</h3>
+      <p>
+      </p>
+      </div>
+
+      <div id="content-discovery" class="section">
+      <h3 id="x5.2-content-discovery"><span class="secno">5.2 </span>Content Discovery</h3>
+      <p>
+      </p>
+      </div>
+    </div>
+
+    <div id="the-purchase-process" class="section">
+      <!--OddPage--><h2 id="x6.-the-purchase-process"><span class="secno">6. </span>The Purchase Process</h2>
+      <p>
+This section describes the media discovery, license acquisition, contract
+drafting, negotiating, data transfer, payment and file assembly process in
+detail.
+      </p>
+      
+      <div id="media-discovery" class="section">
+        <h3 id="x6.1-media-discovery"><span class="secno">6.1 </span>Media Discovery</h3>
+<ul> 
+<li>Buyer finds the Media they want to purchase.
+<ul> 
+<li>Media can be found on a digital content sales website encoded in RDFa, in a file recognized by the browser as a media description, or anywhere else on the web.</li> 
+<li>Digitally signed media could be found, in the future, by multicast (or other broadcast-like method) via peers on the network.</li> 
+</ul> 
+</li> 
+</ul> 
+      </div>
+
+      <div id="license-selection" class="section">
+        <h3 id="x6.2-license-selection"><span class="secno">6.2 </span>License Selection</h3>
+<ul> 
+<li>Current implementation includes license information in the Media object. Future implementations may split these two apart.</li> 
+<li>PaySwarm Authority must digitally sign the Media so the Buyer can purchase it later. Sellers may also elect to reject negotiation attempts with them if the associated Media is not already signed.</li> 
+</ul> 
+      </div>
+
+      <div id="asserting-purchase-preferences" class="section">
+        <h3 id="x6.3-asserting-purchase-preferences"><span class="secno">6.3 </span>Asserting Purchase Preferences</h3>
+<ul> 
+<li>Buyer selects from the available options their preferred media file format, number of sellers, particular sellers, type of purchase (PeerBuy vs. WebBuy), etc.</li> 
+<li>May include purchase amount, minimum download rate, guaranteed streaming rate, and account ID but doesn't need to. This can be specified at the time of purchase.</li> 
+</ul> 
+      </div>
+
+      <div id="creating-a-ware-bundle" class="section">
+        <h3 id="x6.4-creating-a-ware-bundle"><span class="secno">6.4 </span>Creating a Ware Bundle</h3>
+<ul> 
+<li>The media and files to be purchased are added to a WareBundle.
+</li></ul> 
+      </div>
+
+      <div id="brokering-a-non-swarming-contract" class="section">
+        <h3 id="x6.5-brokering-a-non-swarming-contract"><span class="secno">6.5 </span>Brokering a Non-Swarming Contract</h3>
+<ul>
+<li>Note: Used primarily for non-PaySwarming-aware Web browser based purchases (for old browsers).</li>
+<li>Website sends the Contract to the Broker, which broker's a contract on behalf of the Buyer.</li>
+<li>The Broker handles negotiating with 1 Seller, which is usually the Website.</li>
+</ul>
+      </div>
+
+      <div id="brokering-a-swarming-contract" class="section">
+        <h3 id="x6.6-brokering-a-swarming-contract"><span class="secno">6.6 </span>Brokering a Swarming Contract</h3>
+<ul> 
+<li>A WareBundle is constructed by the Buyer, using the Media and PurchasePreferences extracted from RDFa or other semantic markup on the page, or auto-generated by the User Agent.</li> 
+<li>A number of Sellers are selected by the Buyer based on the PurchasePreferences.</li>
+</ul> 
+      </div>
+
+      <div id="negotiating-with-a-seller" class="section">
+        <h3 id="x6.7-negotiating-with-a-seller"><span class="secno">6.7 </span>Negotiating with a Seller</h3>
+<ul> 
+<li>Note: A Broker may act on behalf of a Buyer.</li> 
+<li>Buyer creates a ContractSection with favorable or default terms.</li> 
+<li>Buyer sends the Contract with the single ContractSection to the Seller.</li> 
+<li>ContractSection contains a Ware that the Seller is expected to be selling.
+<ul> 
+<li>In the case of a ware bundle in PeerBuy, multiple wares may be constructed from the bundle, if for instance it contained an audio album with X songs. Each song would be negotiated for separately, but would include the License from the album.</li> 
+</ul> 
+</li> 
+<li>Seller receives the Contract which includes the negotiated ContractSection.</li> 
+<li>Seller optionally checks the Contract's Media License for the PaySwarm Authority's digital signature.
+<ul> 
+<li>If the signature fails, the Seller may simply deny the negotiation request. The seller may also allow it to proceed if they trust the buyer enough to assume the buyer will get a signature later and will not have wasted the seller's bandwidth for downloading an encrypted piece.</li> 
+</ul> 
+</li> 
+<li>Seller adjusts the ContractSection according to their terms.
+<ul> 
+<li>EDITORS NOTE: Add details about signing algorithm, explain how cheating is avoided by signing particular fields.</li> 
+</ul> 
+</li> 
+<li>Seller digitally signs the ContractSection establishing non-repudiation and implicitly agreeing to any terms they set forth.</li> 
+<li>For Swarm-based purchases, Seller adds the signature, their profile ID, and a SwarmingPurchaseKey to the ContractSection that the buyer uses to authorize downloading FilePieces from the Seller.</li> 
+<li>Seller returns the updated Contract w/ContractSection.</li> 
+<li>If the buyer agrees to the Seller's terms, they will also sign the ContractSection.</li> 
+</ul> 
+      </div>
+
+      <div id="downloading-a-filepiece" class="section">
+        <h3 id="x6.8-downloading-a-filepiece"><span class="secno">6.8 </span>Downloading a FilePiece</h3>
+<ul> 
+<li>Buyer's sends, to the Seller, the ContractSection hash, the file ID, the media ID, the index of the FilePiece, the standard FilePiece size, the peerbuyKey, the ID of the Profile the Seller used to sign the ContractSection, and the ID of the Binary File Processor the Seller must use.</li> 
+<li>Seller ensures the ContractSection hash and SwarmingPurchaseKey are valid.</li> 
+<li>Seller loads the appropriate Binary File Processor.</li> 
+<li>Seller begins streaming the FilePiece through the Binary File Processor to the Buyer.</li> 
+<li>Binary File Processor generates a unique PieceKey and OpenKey.
+<ul> 
+<li>The PieceKey is used to encrypt the FilePiece data.</li> 
+<li>The OpenKey is used to encrypt the PieceKey.
+<ul> 
+<li>The OpenKey is itself encrypted with a PublicKey unique to the Seller, whose PrivateKey pair is stored on the PaySwarm Authority.</li> 
+<li>Only the PaySwarm Authority can unlock the OpenKey, which in turn, means only the PaySwarm Authority can unlock the PieceKey.</li> 
+<li>FIXME: It seems this could be optimized to just locking the PieceKey with the PublicKey... and perhaps wasn't done this way due to some limitation with OpenSSL's API.</li> 
+</ul> 
+</li> 
+</ul> 
+</li> 
+<li>Binary File Processor signs FilePiece information.</li> 
+<li>Seller sends actual FilePiece size, the Binary File Processor's signature on the FilePiece, the Seller's profile ID and signature on the FilePiece, the encrypted PieceKey, and the encrypted OpenKey to the Buyer.
+<ul> 
+<li>EDITORS NOTE: Add details about what is signed on a FilePiece and why, explain how cheating is avoided by signing particular fields</li> 
+</ul> 
+</li> 
+</ul> 
+      </div>
+
+      <div id="purchasing-the-license" class="section">
+        <h3 id="x6.9-purchasing-the-license"><span class="secno">6.9 </span>Purchasing the License</h3>
+<ul> 
+<li>Buyer sends the Contract with the Media License to the PaySwarm Authority.</li> 
+<li>PaySwarm Authority checks the signature on the Media License.</li> 
+<li>PaySwarm Authority moves money from the Buyer's account to the accounts specified in the License.</li> 
+</ul> 
+      </div>
+
+      <div id="purchasing-the-data" class="section">
+        <h3 id="x6.10-purchasing-the-data"><span class="secno">6.10 </span>Purchasing the Data</h3>
+<ul> 
+<li>Buyer sends a ContractSection with N FilePieces to the PaySwarm Authority.</li> 
+<li>The PaySwarm Authority verifies the Seller and Buyer signatures on the ContractSection and the Seller and Binary File Processor signatures on the FilePieces.</li> 
+<li>The PaySwarm Authority moves money from the Buyer's account to the accounts specified in the ContractSection.
+<ul> 
+<li>EDITORS NOTE: Add details on how payment amounts are determined</li> 
+</ul> 
+</li> 
+<li>The PaySwarm Authority unlocks each FilePiece PieceKey.</li> 
+<li>The PaySwarm Authority returns the FilePieces with unlocked PieceKeys to the Buyer.</li> 
+</ul> 
+      </div>
+      
+      <div id="assembling-the-data" class="section">
+        <h3 id="x6.11-assembling-the-data"><span class="secno">6.11 </span>Assembling the Data</h3>
+<ul> 
+<li>Buyer loads the Binary File Processor with the appropriate ID.</li> 
+<li>Buyer streams the encrypted FilePieces with unlocked PieceKeys through the Binary File Processor.</li> 
+<li>Binary File Processor outputs assembled file(s).</li>
+<li>EDITORS NOTE: Add details on Binary File Processor checking/reporting bad sellers (sellers that failed to use Binary File Processors correctly)</li> 
+      </ul></div>
+    </div>
+    
+    <div id="security-concerns" class="section">
+      <!--OddPage--><h2 id="x7.-security-concerns"><span class="secno">7. </span>Security Concerns</h2>
+      <p>
+      </p>
+
+      <div id="identity-management" class="section">
+        <h3 id="x7.1-identity-management"><span class="secno">7.1 </span>Identity Management</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="digital-signatures" class="section">
+        <h3 id="x7.2-digital-signatures"><span class="secno">7.2 </span>Digital Signatures</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="encryption-and-decryption" class="section">
+        <h3 id="x7.3-encryption-and-decryption"><span class="secno">7.3 </span>Encryption and Decryption</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="identifying-and-removing-troublemakers" class="section">
+        <h3 id="x7.4-identifying-and-removing-troublemakers"><span class="secno">7.4 </span>Identifying and Removing Troublemakers</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="halting-content-distribution" class="section">
+        <h3 id="x7.5-halting-content-distribution"><span class="secno">7.5 </span>Halting Content Distribution</h3>
+        <p>
+        </p>
+      </div>
+    </div>
+
+    <div id="api-reference" class="section">
+      <!--OddPage--><h2 id="x8.-api-reference"><span class="secno">8. </span>API Reference</h2>
+
+      
+<p>This section contains all of the developer documentation
+for interacting with a PaySwarm network via a standard
+set of REST-based API calls. Programs written in Javascript
+Python, Ruby, C, C++, C#, Perl, and many other
+programming languages can be written to interact with
+a PaySwarm network via the following Web Services.</p>
+<h3 id="bfp"> bfp </h3>
+
+<ul><li><a href="#get-sva-bfp">GET /sva/bfp</a></li>
+
+</ul>
+<h3 id="catalog"> catalog </h3>
+
+<ul><li><a href="#delete-catalog-payees-schemes-schemeid-nodeuser">DELETE /catalog/payees/schemes/&lt;schemeId&gt;?nodeuser=A</a></li>
+<li><a href="#delete-catalog-wares-wareid-nodeuser">DELETE /catalog/wares/&lt;wareId&gt;?nodeuser=A</a></li>
+<li><a href="#get-catalog-payees-schemes-nodeuser">GET /catalog/payees/schemes?nodeuser=A</a></li>
+<li><a href="#get-catalog-payees-schemes-schemeid-nodeuser">GET /catalog/payees/schemes/&lt;schemeId&gt;?nodeuser=A</a></li>
+<li><a href="#get-catalog-sellerpools-fileid-mediaids">GET /catalog/sellerpools?fileId=A&amp;mediaIds=B</a></li>
+<li><a href="#get-catalog-sellerpools-mediaid">GET /catalog/sellerpools/&lt;mediaId&gt;</a></li>
+<li><a href="#get-catalog-sellerpools-mediaid-fileid">GET /catalog/sellerpools/&lt;mediaId&gt;/&lt;fileId&gt;</a></li>
+<li><a href="#get-catalog-sellers-userid">GET /catalog/sellers/&lt;userId&gt;</a></li>
+<li><a href="#get-catalog-sellers-userid-serverid">GET /catalog/sellers/&lt;userId&gt;/&lt;serverId&gt;</a></li>
+<li><a href="#get-catalog-server-nodeuser">GET /catalog/server?nodeuser=A</a></li>
+<li><a href="#get-catalog-wares-nodeuser">GET /catalog/wares?nodeuser=A</a></li>
+<li><a href="#get-catalog-wares-wareid">GET /catalog/wares/&lt;wareId&gt;</a></li>
+<li><a href="#get-catalog-wares-wareid-nodeuser">GET /catalog/wares/&lt;wareId&gt;?nodeuser=A</a></li>
+<li><a href="#post-catalog-bundles">POST /catalog/bundles</a></li>
+<li><a href="#post-catalog-netaccess-rtest">POST /catalog/netaccess/rtest</a></li>
+<li><a href="#post-catalog-netaccess-test-nodeuser">POST /catalog/netaccess/test?nodeuser=A</a></li>
+<li><a href="#post-catalog-payees-schemes-nodeuser">POST /catalog/payees/schemes?nodeuser=A</a></li>
+<li><a href="#post-catalog-payees-schemes-schemeid-nodeuser">POST /catalog/payees/schemes/&lt;schemeId&gt;?nodeuser=A</a></li>
+<li><a href="#post-catalog-sellers-userid">POST /catalog/sellers/&lt;userId&gt;</a></li>
+<li><a href="#post-catalog-sellers-userid-serverid">POST /catalog/sellers/&lt;userId&gt;/&lt;serverId&gt;</a></li>
+<li><a href="#post-catalog-wares-nodeuser">POST /catalog/wares?nodeuser=A</a></li>
+
+</ul>
+<h3 id="contract"> contract </h3>
+
+<ul><li><a href="#get-sva-contracts-contractid">GET /sva/contracts/&lt;contractId&gt;</a></li>
+<li><a href="#get-sva-contracts-sections-contractid-sellerid">GET /sva/contracts/sections/&lt;contractId&gt;/&lt;sellerId&gt;</a></li>
+<li><a href="#post-sales-contract-filepiece">POST /sales/contract/filepiece</a></li>
+<li><a href="#post-sales-contract-negotiate">POST /sales/contract/negotiate</a></li>
+<li><a href="#post-sva-contracts-media-mediaid">POST /sva/contracts/media/&lt;mediaId&gt;</a></li>
+<li><a href="#post-sva-contracts-purchase-data">POST /sva/contracts/purchase/data</a></li>
+<li><a href="#post-sva-contracts-purchase-license">POST /sva/contracts/purchase/license</a></li>
+
+</ul>
+<h3 id="financial"> financial </h3>
+
+<ul><li><a href="#post-payees-resolve">POST /payees/resolve</a></li>
+
+</ul>
+<h3 id="media"> media </h3>
+
+<ul><li><a href="#delete-media-mediaid">DELETE /media/&lt;mediaId&gt;</a></li>
+<li><a href="#get-media-genre-list-num-owner-query-start">GET /media?genre=A&amp;list=B&amp;num=C&amp;owner=D&amp;query=E&amp;start=F</a></li>
+<li><a href="#get-media-genres-mediatype">GET /media/genres/&lt;mediaType&gt;</a></li>
+<li><a href="#get-media-mediaid">GET /media/&lt;mediaId&gt;</a></li>
+<li><a href="#get-media-related-mediaid-num-relationship-start">GET /media/related/&lt;mediaId&gt;?num=A&amp;relationship=B&amp;start=C</a></li>
+<li><a href="#post-media">POST /media</a></li>
+<li><a href="#post-media-mediaid">POST /media/&lt;mediaId&gt;</a></li>
+
+</ul>
+<h3 id="post-payees-resolve">POST /payees/resolve</h3>
+
+Resolves a set of given payees to the final dollar amount.
+
+<div>Authentication: Optional</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="input-validator">Input Validator</h4>
+<pre>(
+   
+   (
+   
+      (
+         <strong>licenseAmount</strong>: <span style="color: orangered;">string</span>
+      )
+      <span style="font-style: italic;">or</span>
+   
+      (
+         <strong>licensePayees</strong>: <span style="color: orangered;">array</span>
+      )
+   )
+   <span style="font-style: italic;">and</span>
+   
+   (
+      <strong>licenseAmount</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">precisemoney</span>
+      <strong>piecePayees</strong>: <span style="color: gray;">optional</span> 
+      (
+         <span style="color: orangered;">array</span>
+         <span style="font-style: italic;">and</span>
+         <span style="font-style: italic;">each item matches</span>
+         (
+            <strong>mediaId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>description</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>min</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>amount</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">precisemoney</span>
+            <strong>amountResolved</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">boolean</span>
+            <strong>amountType</strong>: <span style="color: orangered;">string</span>
+            <strong>percentage</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>taxExempt</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">boolean</span>
+         )
+      )
+      <strong>filePieceCount</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      <strong>licensePayees</strong>: <span style="color: gray;">optional</span> 
+      (
+         <span style="color: orangered;">array</span>
+         <span style="font-style: italic;">and</span>
+         <span style="font-style: italic;">each item matches</span>
+         (
+            <strong>mediaId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>description</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>min</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>amount</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">precisemoney</span>
+            <strong>amountResolved</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">boolean</span>
+            <strong>amountType</strong>: <span style="color: orangered;">string</span>
+            <strong>percentage</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>taxExempt</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">boolean</span>
+         )
+      )
+      <strong>dataPayees</strong>: <span style="color: gray;">optional</span> 
+      (
+         <span style="color: orangered;">array</span>
+         <span style="font-style: italic;">and</span>
+         <span style="font-style: italic;">each item matches</span>
+         (
+            <strong>mediaId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">0</span>)
+            <strong>description</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>min</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>amount</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">precisemoney</span>
+            <strong>amountResolved</strong>: <span style="color: gray;">optional</span> <span style="font-style: italic;">equals </span><span style="color: darkblue;">false</span>
+            <strong>amountType</strong>: 
+            (
+            <span style="font-style: italic;">equals </span><span style="color: darkblue;">PAYEE_AMOUNT_TYPE_FLATFEE</span>
+               <span style="font-style: italic;">or</span>
+            <span style="font-style: italic;">equals </span><span style="color: darkblue;">PAYEE_AMOUNT_TYPE_PLICENSE</span>
+               <span style="font-style: italic;">or</span>
+            <span style="font-style: italic;">equals </span><span style="color: darkblue;">PAYEE_AMOUNT_TYPE_PCUMULATIVE</span>
+               <span style="font-style: italic;">or</span>
+            <span style="font-style: italic;">equals </span><span style="color: darkblue;">PAYEE_AMOUNT_TYPE_PTOTAL</span>
+            )
+            <strong>percentage</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>taxExempt</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">boolean</span>
+         )
+      )
+   )
+)</pre><h3 id="get-catalog-server-nodeuser">GET /catalog/server?nodeuser=A</h3>
+
+Gets a user's server information, including their server ID, server token, and server url.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 200 code if successful, an exception if not.</div>
+<h4 id="query-parameters">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="get-catalog-sellerpools-fileid-mediaids">GET /catalog/sellerpools?fileId=A&amp;mediaIds=B</h3>
+
+Gets all media IDs associated with the given file ID in the set of all seller pools. Typically, there will be only one.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="query-parameters-1">Query Parameters</h4>
+<ul>
+<li><strong>fileId</strong> - the file ID to use as a filter for the returned seller pools.</li>
+<li><strong>mediaIds</strong> - true to return only the list of media IDs (false not presently supported).</li>
+</ul>
+<h4 id="query-validator-1">Query Validator</h4>
+<pre>(
+   <strong>mediaIds</strong>: <span style="font-style: italic;">equals </span><span style="color: darkblue;">true</span>
+   <strong>fileId</strong>: <span style="color: orangered;">fileid</span>
+)</pre><h3 id="get-catalog-sellerpools-mediaid">GET /catalog/sellerpools/&lt;mediaId&gt;</h3>
+
+Gets all seller pools for the given media ID in the given range.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - the media ID to use when filtering the set of sellerpools to return.
+</li></ul>
+<h3 id="get-catalog-sellerpools-mediaid-fileid">GET /catalog/sellerpools/&lt;mediaId&gt;/&lt;fileId&gt;</h3>
+
+Gets the seller pool for the given media ID and file ID.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-1">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - the media ID to use when filtering the set of sellerpools to return.
+</li><li> <strong>fileId</strong> - the file ID to use when filtering the set of sellerpools to return.
+</li></ul>
+<h3 id="get-catalog-payees-schemes-nodeuser">GET /catalog/payees/schemes?nodeuser=A</h3>
+
+Gets a set of payee schemes from a user's custom catalog given a set of filters.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 200 code if successful, an exception if not.</div>
+<h4 id="query-parameters-2">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h3 id="get-catalog-payees-schemes-schemeid-nodeuser">GET /catalog/payees/schemes/&lt;schemeId&gt;?nodeuser=A</h3>
+
+Gets an existing payee scheme from a user's custom catalog.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 200 code if successful, an exception if not.</div>
+<h4 id="path-parameters-2">Path Parameters</h4>
+<ul>
+<li> <strong>schemeId</strong> - the ID of the payee scheme to get.
+</li></ul>
+<h4 id="query-parameters-3">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-2">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="post-catalog-payees-schemes-nodeuser">POST /catalog/payees/schemes?nodeuser=A</h3>
+
+Creates a new payee scheme in a user's custom catalog. The message body must contain a PayeeScheme object.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 200 code if successful, an exception if not.</div>
+<h4 id="query-parameters-4">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-3">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h4 id="input-validator-1">Input Validator</h4>
+<pre>(
+   <strong>payees</strong>: <span style="color: orangered;">datapayees</span>
+   <strong>description</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+)</pre><h3 id="post-catalog-payees-schemes-schemeid-nodeuser">POST /catalog/payees/schemes/&lt;schemeId&gt;?nodeuser=A</h3>
+
+Updates an existing payee scheme in a user's custom catalog. The message body must contain an array of Payee objects.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 200 code if successful, an exception if not.</div>
+<h4 id="path-parameters-3">Path Parameters</h4>
+<ul>
+<li> <strong>schemeId</strong> - the ID of the payee scheme to update.
+</li></ul>
+<h4 id="query-parameters-5">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-4">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h4 id="input-validator-2">Input Validator</h4>
+<pre>(
+   <strong>payees</strong>: <span style="color: orangered;">datapayees</span>
+   <strong>description</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+)</pre><h3 id="delete-catalog-payees-schemes-schemeid-nodeuser">DELETE /catalog/payees/schemes/&lt;schemeId&gt;?nodeuser=A</h3>
+
+Deletes an existing payee scheme from a user's custom catalog.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 201 code if successful, an exception if not. // DELETE .../payees/schemes/<schemeid></schemeid></div>
+<h4 id="path-parameters-4">Path Parameters</h4>
+<ul>
+<li> <strong>schemeId</strong> - the ID associated with the scheme that should be removed.
+</li></ul>
+<h4 id="query-parameters-6">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-5">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="get-sva-contracts-sections-contractid-sellerid">GET /sva/contracts/sections/&lt;contractId&gt;/&lt;sellerId&gt;</h3>
+
+Gets the contract sections for a particular seller, according to that seller's user ID and the related contract ID.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-5">Path Parameters</h4>
+<ul>
+<li> <strong>contractId</strong> - The ID associated with the contract.
+</li><li> <strong>sellerId</strong> - The ID associated with the seller of each contract section.
+</li></ul>
+<h3 id="post-catalog-netaccess-test-nodeuser">POST /catalog/netaccess/test?nodeuser=A</h3>
+
+Responds to a token sent to this server to determine if another entity can access it over the net. If the token matches the unique token used by this catalog, this method will return with success.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 201 code if successful, an exception if not.</div>
+<h4 id="query-parameters-7">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-6">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h4 id="input-validator-3">Input Validator</h4>
+<pre>(
+   <strong>ip</strong>: <span style="color: orangered;">string</span>
+   <strong>token</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">less than </span><span style="color: darkblue;">50</span><span style="font-style: italic;"> characters</span>
+   )
+)</pre><h3 id="get-media-related-mediaid-num-relationship-start">GET /media/related/&lt;mediaId&gt;?num=A&amp;relationship=B&amp;start=C</h3>
+
+Retrieves a ResourceSet of Media that are related to the specified media ID in an optionally provided way.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 and a ResourceSet if successful, an exception otherwise.</div>
+<h4 id="path-parameters-6">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - The ID associated with the Media, which is used as the basis of the relationship comparison.
+</li></ul>
+<h4 id="query-parameters-8">Query Parameters</h4>
+<ul>
+<li><strong>start</strong> - The starting offset into the media set.</li>
+<li><strong>num</strong> - The maximum number of items to return in the ResourceSet.</li>
+<li><strong>relationship</strong> - The relationship type to use when building the ResourceSet. Valid values are "similar".</li>
+</ul>
+<h4 id="query-validator-7">Query Validator</h4>
+<pre>(
+   <strong>start</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>num</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>relationship</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^(similar)$"</span>)
+)</pre><h3 id="get-media-genre-list-num-owner-query-start">GET /media?genre=A&amp;list=B&amp;num=C&amp;owner=D&amp;query=E&amp;start=F</h3>
+
+Retrieves a set of media resources an a ResourceSet. The contents of the media resources are modified by the content filters passed as query parameters.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 code and a ResourceSet containing all of the media items if successful, an exception otherwise.</div>
+<h4 id="query-parameters-9">Query Parameters</h4>
+<ul>
+<li><strong>num</strong> - The number of items to fetch into the resource set.</li>
+<li><strong>start</strong> - The starting offset in the list of all resources in the set.</li>
+<li><strong>query</strong> - The query string to use when searching the media set.</li>
+<li><strong>owner</strong> - The UserId of the owner of the media set.</li>
+<li><strong>genre</strong> - The GenreId of the media set to retrieve.</li>
+<li><strong>list</strong> - The ListId of the media set to retrieve.</li>
+</ul>
+<h4 id="query-validator-8">Query Validator</h4>
+<pre>(
+   <strong>index</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^(contributors|media)$"</span>)
+   <strong>list</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>owner</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>start</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>num</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">50</span>)
+   <strong>genre</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>query</strong>: <span style="color: gray;">optional</span> 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">2</span><span style="font-style: italic;"> characters</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">less than </span><span style="color: darkblue;">320</span><span style="font-style: italic;"> characters</span>
+   )
+   <strong>type</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+)</pre><h3 id="get-media-mediaid">GET /media/&lt;mediaId&gt;</h3>
+
+Retrieves a single media resource by id. The contents of the media resource are modified by the content filters passed as query parameters.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 and a Media object if successful, an exception otherwise.</div>
+<h4 id="path-parameters-7">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - The ID associated with the media.
+</li></ul>
+<h3 id="post-media">POST /media</h3>
+
+Adds or updates a single Media resource.
+
+<div>Authentication: Required</div>
+<div>Returns: HTTP 200 if successful, an exception otherwise.</div>
+<h4 id="query-validator-9">Query Validator</h4>
+<pre>(
+   <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="post-media-mediaid">POST /media/&lt;mediaId&gt;</h3>
+
+Updates a single Media resource.
+
+<div>Authentication: Required</div>
+<div>Returns: HTTP 200 if successful, an exception otherwise.</div>
+<h4 id="path-parameters-8">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - The ID associated with the Media resource.
+</li></ul>
+<h4 id="query-validator-10">Query Validator</h4>
+<pre>(
+)</pre><h3 id="delete-media-mediaid">DELETE /media/&lt;mediaId&gt;</h3>
+
+Deletes a single Media resource.
+
+<div>Authentication: Required</div>
+<div>Returns: HTTP 200 if successful, an exception otherwise.</div>
+<h4 id="path-parameters-9">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - The ID associated with the Media resource.
+</li></ul>
+<h3 id="get-catalog-wares-wareid">GET /catalog/wares/&lt;wareId&gt;</h3>
+
+Populates a ware according to its ID.
+
+<div>Authentication: Optional</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-10">Path Parameters</h4>
+<ul>
+<li> <strong>wareId</strong> - the ware ID associated with the ware.
+</li></ul>
+<h3 id="post-catalog-wares-nodeuser">POST /catalog/wares?nodeuser=A</h3>
+
+Creates or updates an existing Ware in a user's catalog with the given ware.
+
+<div>Authentication: Required</div>
+<div>Returns: HTTP 200 OK if the add was successful, an exception otherwise.</div>
+<h4 id="query-parameters-10">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-11">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h4 id="input-validator-4">Input Validator</h4>
+<pre>(
+   
+   (
+      <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      <strong>id</strong>: 
+      (
+         <span style="color: orangered;">string</span>
+         <span style="font-style: italic;">and</span>
+         <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+      )
+      <strong>description</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+   )
+   <span style="font-style: italic;">and</span>
+   
+   (
+   
+      (
+         <strong>fileInfo</strong>: 
+         (
+            <strong>id</strong>: <span style="color: orangered;">fileid</span>
+         )
+      )
+      <span style="font-style: italic;">or</span>
+   
+      (
+         <strong>fileInfos</strong>: 
+         (
+            <span style="color: orangered;">array</span>
+            <span style="font-style: italic;">and</span>
+            <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+            <span style="font-style: italic;">and</span>
+            <span style="font-style: italic;">less than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> characters</span>
+            <span style="font-style: italic;">and</span>
+            <span style="font-style: italic;">each item matches</span>
+            (
+               <strong>id</strong>: <span style="color: orangered;">fileid</span>
+            )
+         )
+      )
+   )
+   <span style="font-style: italic;">and</span>
+   
+   (
+   
+      (
+         <strong>payeeSchemeId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      )
+      <span style="font-style: italic;">or</span>
+   
+      (
+         <strong>payees</strong>: <span style="color: orangered;">datapayees</span>
+      )
+   )
+)</pre><h3 id="get-catalog-wares-nodeuser">GET /catalog/wares?nodeuser=A</h3>
+
+Populates Wares that is contained in a user's catalog based on ware IDs or file IDs.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 OK and a Ware if the ware exists, an exception otherwise.</div>
+<h4 id="query-parameters-11">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h3 id="get-catalog-wares-wareid-nodeuser">GET /catalog/wares/&lt;wareId&gt;?nodeuser=A</h3>
+
+Populates a Ware that is contained in a user's catalog.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 OK and a Ware if the ware exists, an exception otherwise.</div>
+<h4 id="path-parameters-11">Path Parameters</h4>
+<ul>
+<li> <strong>wareId</strong> - the ID of the ware to populate.
+</li></ul>
+<h4 id="query-parameters-12">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-12">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="delete-catalog-wares-wareid-nodeuser">DELETE /catalog/wares/&lt;wareId&gt;?nodeuser=A</h3>
+
+Deletes a Ware that is contained in a user's catalog.
+
+<div>Authentication: Required</div>
+<div>Returns: HTTP 200 OK if the ware was deleted successfully, or an exception otherwise.</div>
+<h4 id="path-parameters-12">Path Parameters</h4>
+<ul>
+<li> <strong>wareId</strong> - the ID of the ware to delete.
+</li></ul>
+<h4 id="query-parameters-13">Query Parameters</h4>
+<ul>
+<li><strong>nodeuser</strong> - the user on the node that should perform the requested action on the caller's behalf.</li>
+</ul>
+<h4 id="query-validator-13">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="post-sva-contracts-media-mediaid">POST /sva/contracts/media/&lt;mediaId&gt;</h3>
+
+Gets a signed media license for a particular buyer.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-13">Path Parameters</h4>
+<ul>
+<li> <strong>mediaId</strong> - The list of payees to associate with a particular media license.
+</li></ul>
+<h4 id="input-validator-5">Input Validator</h4>
+<pre>(
+<span style="color: orangered;">null</span>
+   <span style="font-style: italic;">or</span>
+<span style="color: orangered;">dynamiclicensepayees</span>
+)</pre><h3 id="get-sva-contracts-contractid">GET /sva/contracts/&lt;contractId&gt;</h3>
+
+Gets a contract by its ID.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-14">Path Parameters</h4>
+<ul>
+<li> <strong>contractId</strong> - The ID associated with the contract.
+</li></ul>
+<h3 id="post-sales-contract-filepiece">POST /sales/contract/filepiece</h3>
+
+Retrieves a filepiece from the seller.
+
+<div>Authentication: Required</div>
+<div>Returns: the encrypted data for the filepiece followed by trailers with signatures and encrypted key(s).</div>
+<h4 id="query-validator-14">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h4 id="input-validator-6">Input Validator</h4>
+<pre>(
+   <strong>index</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>peerbuyKey</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+   <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>sellerProfileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>bfpId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>csHash</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+   <strong>fileId</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+   <strong>size</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="get-catalog-sellers-userid">GET /catalog/sellers/&lt;userId&gt;</h3>
+
+Gets a set of sellers for the given user ID.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-15">Path Parameters</h4>
+<ul>
+<li> <strong>userId</strong> - the user ID associated with the seller.
+</li></ul>
+<h3 id="get-catalog-sellers-userid-serverid">GET /catalog/sellers/&lt;userId&gt;/&lt;serverId&gt;</h3>
+
+Gets a particular seller, given the seller's user ID and server ID.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-16">Path Parameters</h4>
+<ul>
+<li> <strong>userId</strong> - the user ID associated with the seller.
+</li><li> <strong>serverId</strong> - the server ID associated with the seller.
+</li></ul>
+<h3 id="post-catalog-sellers-userid">POST /catalog/sellers/&lt;userId&gt;</h3>
+
+Adds a new seller for the given user ID. The new server ID and token will be returned on success.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-17">Path Parameters</h4>
+<ul>
+<li> <strong>userId</strong> - the user ID associated with the seller.
+</li></ul>
+<h4 id="input-validator-7">Input Validator</h4>
+<pre>(
+   <strong>url</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+   <strong>listingUpdateId</strong>: <span style="color: orangered;">string</span>
+)</pre><h3 id="post-catalog-sellers-userid-serverid">POST /catalog/sellers/&lt;userId&gt;/&lt;serverId&gt;</h3>
+
+Updates an existing seller's URL.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="path-parameters-18">Path Parameters</h4>
+<ul>
+<li> <strong>userId</strong> - the user ID associated with the seller.
+</li><li> <strong>serverId</strong> - the server ID associated with the seller.
+</li></ul>
+<h4 id="input-validator-8">Input Validator</h4>
+<pre>(
+   <strong>url</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+   )
+)</pre><h3 id="post-sales-contract-negotiate">POST /sales/contract/negotiate</h3>
+
+Negotiates a contract section with a seller. The buyer provides a contract section with their desired terms, the seller responds with a signed contract section containing their acceptable terms.
+
+<div>Authentication: Required</div>
+<div>Returns: the seller's signed contract section, which the buyer may elect to accept.</div>
+<h4 id="query-validator-15">Query Validator</h4>
+<pre>(
+   <strong>nodeuser</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h4 id="input-validator-9">Input Validator</h4>
+<pre>(
+   <strong>media</strong>: 
+   (
+      <strong>licenseAmount</strong>: <span style="color: orangered;">precisemoney</span>
+      <strong>piecePayees</strong>: <span style="color: orangered;">piecepayees</span>
+      <strong>publicDomain</strong>: <span style="color: orangered;">boolean</span>
+      <strong>title</strong>: <span style="color: orangered;">string</span>
+      <strong>ccLicenses</strong>: <span style="color: orangered;">string</span>
+      <strong>payees</strong>: <span style="color: orangered;">licensepayees</span>
+      <strong>signature</strong>: <span style="color: orangered;">string</span>
+      <strong>releaseDate</strong>: <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^[0-9]{4}-"</span>)
+      <strong>buyerId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      <strong>signer</strong>: 
+      (
+         <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      )
+      <strong>ownerId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      <strong>distribution</strong>: <span style="color: orangered;">string</span>
+      <strong>payeeRules</strong>: 
+      (
+         <span style="color: orangered;">array</span>
+         <span style="font-style: italic;">and</span>
+         <span style="font-style: italic;">each item matches</span>
+         (
+            <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>value</strong>: <span style="color: orangered;">string</span>
+            <strong>type</strong>: <span style="color: orangered;">string</span>
+         )
+      )
+      <strong>type</strong>: <span style="color: orangered;">string</span>
+      <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   )
+   <strong>version</strong>: <span style="font-style: italic;">equals </span><span style="color: darkblue;">"3.0"</span>
+   <strong>buyer</strong>: 
+   (
+      <strong>username</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+      <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      <strong>delegateId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   )
+   <strong>sections</strong>: 
+   (
+      <span style="color: orangered;">map</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">each item matches</span><span style="font-style: italic;">each item matches</span>
+      (
+         <strong>negotiationTerms</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">map</span>
+         <strong>seller</strong>: 
+         (
+            <strong>username</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>serverId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>url</strong>: <span style="color: orangered;">string</span>
+         )
+         <strong>webbuy</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">boolean</span>
+         <strong>buyer</strong>: 
+         (
+            <strong>username</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>delegateId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         )
+         <strong>ware</strong>: 
+         (
+            <strong>id</strong>: 
+            (
+               <span style="color: orangered;">string</span>
+               <span style="font-style: italic;">and</span>
+               <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+            )
+         )
+         <strong>contractId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+      )
+   )
+   <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+)</pre><h3 id="post-sva-contracts-purchase-data">POST /sva/contracts/purchase/data</h3>
+
+Purchases data associated with a given contract section.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="input-validator-10">Input Validator</h4>
+<pre>(
+   <strong>date</strong>: <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^[2-9][0-9]{3}-"</span>)
+   <strong>section</strong>: 
+   (
+      
+      (
+         <strong>sellerSignature</strong>: <span style="color: orangered;">string</span>
+         <strong>seller</strong>: 
+         (
+            <strong>username</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>url</strong>: <span style="color: orangered;">string</span>
+            <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>serverId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         )
+         <strong>buyerSignature</strong>: <span style="color: orangered;">string</span>
+         <strong>buyer</strong>: 
+         (
+            <strong>username</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+            <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>delegateId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>accountId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         )
+         <strong>ware</strong>: 
+         (
+            <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>payees</strong>: <span style="color: orangered;">warepayees</span>
+            <strong>id</strong>: 
+            (
+               <span style="color: orangered;">string</span>
+               <span style="font-style: italic;">and</span>
+               <span style="font-style: italic;">more than </span><span style="color: darkblue;">1</span><span style="font-style: italic;"> character</span>
+            )
+            <strong>description</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+         )
+         <strong>contractId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      )
+      <span style="font-style: italic;">and</span>
+      
+      (
+      
+         (
+            <strong>webbuy</strong>: <span style="font-style: italic;">equals </span><span style="color: darkblue;">true</span>
+            <strong>ware</strong>: 
+            (
+               <strong>fileInfos</strong>: 
+               (
+                  <span style="color: orangered;">array</span>
+                  <span style="font-style: italic;">and</span>
+                  <span style="font-style: italic;">each item matches</span>
+                  (
+                     <strong>contentType</strong>: <span style="color: orangered;">string</span>
+                     <strong>extension</strong>: <span style="color: orangered;">string</span>
+                     <strong>pieces</strong>: <span style="color: gray;">optional</span> 
+                     (
+                        <span style="color: orangered;">map</span>
+                        <span style="font-style: italic;">and</span>
+                        <span style="font-style: italic;">less than </span><span style="color: darkblue;">0</span><span style="font-style: italic;"> characters</span>
+                     )
+                     <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                     <strong>size</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                     <strong>id</strong>: <span style="color: orangered;">string</span>
+                     <strong>contentSize</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                  )
+               )
+            )
+         )
+         <span style="font-style: italic;">or</span>
+      
+         (
+            <strong>webbuy</strong>: <span style="color: gray;">optional</span> <span style="font-style: italic;">equals </span><span style="color: darkblue;">false</span>
+            <strong>ware</strong>: 
+            (
+               <strong>fileInfos</strong>: 
+               (
+                  <span style="color: orangered;">array</span>
+                  <span style="font-style: italic;">and</span>
+                  <span style="font-style: italic;">each item matches</span>
+                  (
+                     <strong>contentType</strong>: <span style="color: orangered;">string</span>
+                     <strong>extension</strong>: <span style="color: orangered;">string</span>
+                     <strong>pieces</strong>: <span style="color: gray;">optional</span> 
+                     (
+                        <span style="color: orangered;">array</span>
+                        <span style="font-style: italic;">and</span>
+                        <span style="font-style: italic;">each item matches</span>
+                        (
+                           <strong>index</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+                           <strong>ciphered</strong>: <span style="color: orangered;">boolean</span>
+                           <strong>encrypted</strong>: <span style="color: orangered;">boolean</span>
+                           <strong>sellerSignature</strong>: <span style="color: orangered;">string</span>
+                           <strong>bfpSignature</strong>: <span style="color: orangered;">string</span>
+                           <strong>pieceKey</strong>: <span style="color: gray;">optional</span> 
+                           (
+                              <strong>data</strong>: <span style="color: orangered;">string</span>
+                              <strong>length</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                              <strong>algorithm</strong>: <span style="color: orangered;">string</span>
+                           )
+                           <strong>openKey</strong>: <span style="color: gray;">optional</span> 
+                           (
+                              <strong>data</strong>: <span style="color: orangered;">string</span>
+                              <strong>length</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                              <strong>algorithm</strong>: <span style="color: orangered;">string</span>
+                           )
+                           <strong>sellerProfileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                           <strong>bfpId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                           <strong>size</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+                        )
+                     )
+                     <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                     <strong>size</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                     <strong>id</strong>: <span style="color: orangered;">string</span>
+                     <strong>contentSize</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+                  )
+               )
+            )
+         )
+      )
+   )
+)</pre><h3 id="get-media-genres-mediatype">GET /media/genres/&lt;mediaType&gt;</h3>
+
+Retrieves the entire tree of genres for a given MediaType.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 if successful and a nested map of genres, or an exception otherwise.</div>
+<h4 id="path-parameters-19">Path Parameters</h4>
+<ul>
+<li> <strong>mediaType</strong> - The type of media associated with a particular genre. Acceptable values include "audio", "book", "collection", "image", and "video".
+</li></ul>
+<h3 id="get-media-genres-mediatype">GET /media/genres/&lt;mediaType&gt;</h3>
+
+Retrieves a genre object for a given MediaType and genre ID.
+
+<div>Authentication: Optional</div>
+<div>Returns: HTTP 200 and a genre object if successful, or an exception otherwise.</div>
+<h4 id="path-parameters-20">Path Parameters</h4>
+<ul>
+<li> <strong>mediaType</strong> - The type of media associated with a particular genre. Acceptable values include "audio", "book", "collection", "image", and "video".
+</li></ul>
+<h3 id="post-catalog-bundles">POST /catalog/bundles</h3>
+
+Creates a ware bundle according to the given media ID(s) and data preferences.
+
+<div>Authentication: Optional</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="input-validator-11">Input Validator</h4>
+<pre>(
+   <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>preferences</strong>: 
+   (
+      <span style="color: orangered;">array</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">each item matches</span>
+      (
+         <strong>mediaIds</strong>: <span style="color: gray;">optional</span> 
+         (
+            <span style="color: orangered;">array</span>
+            <span style="font-style: italic;">and</span>
+            <span style="font-style: italic;">each item matches</span><span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         )
+         <strong>preferences</strong>: 
+         (
+            <span style="color: orangered;">array</span>
+            <span style="font-style: italic;">and</span>
+            <span style="font-style: italic;">each item matches</span>
+            (
+            
+               (
+                  <strong>contentType</strong>: <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^audio/.+$"</span>)
+                  <strong>minBitrate</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+               )
+               <span style="font-style: italic;">or</span>
+            
+               (
+                  <strong>contentType</strong>: <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^video/.+$"</span>)
+                  <strong>videoCodec</strong>: <span style="color: orangered;">string</span>
+               )
+            )
+         )
+      )
+   )
+)</pre><h3 id="post-sva-contracts-purchase-license">POST /sva/contracts/purchase/license</h3>
+
+Purchases a license for the given media for a particular buyer.
+
+<div>Authentication: Required</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="input-validator-12">Input Validator</h4>
+<pre>(
+   
+   (
+      <strong>media</strong>: 
+      (
+         <strong>licenseAmount</strong>: <span style="color: orangered;">precisemoney</span>
+         <strong>piecePayees</strong>: <span style="color: orangered;">piecepayees</span>
+         <strong>publicDomain</strong>: <span style="color: orangered;">boolean</span>
+         <strong>title</strong>: <span style="color: orangered;">string</span>
+         <strong>ccLicenses</strong>: <span style="color: orangered;">string</span>
+         <strong>payees</strong>: <span style="color: orangered;">licensepayees</span>
+         <strong>signature</strong>: <span style="color: orangered;">string</span>
+         <strong>releaseDate</strong>: <span style="color: orangered;">regex</span>(<span style="color: darkgreen">"^[0-9]{4}-"</span>)
+         <strong>buyerId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         <strong>signer</strong>: 
+         (
+            <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+            <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         )
+         <strong>ownerId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         <strong>distribution</strong>: <span style="color: orangered;">string</span>
+         <strong>payeeRules</strong>: 
+         (
+            <span style="color: orangered;">array</span>
+            <span style="font-style: italic;">and</span>
+            <span style="font-style: italic;">each item matches</span>
+            (
+               <strong>mediaId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">4294967296</span>)
+               <strong>value</strong>: <span style="color: orangered;">string</span>
+               <strong>type</strong>: <span style="color: orangered;">string</span>
+            )
+         )
+         <strong>type</strong>: <span style="color: orangered;">string</span>
+         <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      )
+      <strong>version</strong>: <span style="font-style: italic;">equals </span><span style="color: darkblue;">"3.0"</span>
+      <strong>buyer</strong>: 
+      (
+         <strong>username</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">string</span>
+         <strong>userId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         <strong>delegateId</strong>: <span style="color: gray;">optional</span> <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         <strong>profileId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+         <strong>accountId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+      )
+      <strong>sections</strong>: <span style="color: gray;">optional</span> 
+      (
+         <span style="color: orangered;">map</span>
+         <span style="font-style: italic;">and</span>
+         <span style="font-style: italic;">less than </span><span style="color: darkblue;">0</span><span style="font-style: italic;"> characters</span>
+      )
+      <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">0</span> - <span style="color: darkblue;">0</span>)
+   )
+   <span style="font-style: italic;">and</span>
+
+)</pre><h3 id="post-catalog-netaccess-rtest">POST /catalog/netaccess/rtest</h3>
+
+Performs a reverse network access test to ensure an in-the-wild sales server's catalog can be accessed via the internet. The message body must contain the sales server host, port, and URL path to post to and the token to post. If the given host is blank, the IP address of the caller will be used.
+
+<div>Authentication: Required</div>
+<div>Returns: an HTTP 201 code if successful, an exception if not.</div>
+<h4 id="input-validator-13">Input Validator</h4>
+<pre>(
+   <strong>token</strong>: 
+   (
+      <span style="color: orangered;">string</span>
+      <span style="font-style: italic;">and</span>
+      <span style="font-style: italic;">less than </span><span style="color: darkblue;">50</span><span style="font-style: italic;"> characters</span>
+   )
+   <strong>host</strong>: <span style="color: orangered;">string</span>
+   <strong>timeout</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">15</span> - <span style="color: darkblue;">30</span>)
+   <strong>path</strong>: <span style="color: orangered;">string</span>
+   <strong>sellerId</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>port</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">65535</span>)
+)</pre><h3 id="get-sva-bfp">GET /sva/bfp</h3>
+
+Gets the BFP module for the given bfp ID, API version, operating system, and cpu type.
+
+<div>Authentication: Optional</div>
+<div>Returns: The return value is currently not documented.</div>
+<h4 id="query-validator-16">Query Validator</h4>
+<pre>(
+   <strong>os</strong>: <span style="color: orangered;">string</span>
+   <strong>id</strong>: <span style="color: orangered;">integer</span> range(<span style="color: darkblue;">1</span> - <span style="color: darkblue;">4294967296</span>)
+   <strong>apiVersion</strong>: <span style="color: orangered;">string</span>
+   <strong>cpuType</strong>: <span style="color: orangered;">string</span>
+)</pre>
+
+    </div>
+
+   
+
+
+<div id="references" class="appendix section"><!--OddPage--><h2 id="a.-references"><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3 id="a.1-normative-references"><span class="secno">A.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3 id="a.2-informative-references"><span class="secno">A.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>

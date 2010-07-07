@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
 
 <head> 
-  <title>An Introduction to PaySwarm</title> 
+  <title>Simple, Server-based PaySwarm</title> 
   <meta name="copyright" 
    content="Copyright &#169; 2010 Digital Bazaar, Inc. Available under Creative Commons Attribution Share-Alike 3.0" /> 
   <link rel="stylesheet" type="text/css" media="screen, projection, print" 
@@ -21,7 +21,7 @@
 </div>
 
 <div class="slide cover"> 
- <h1>An Introduction to PaySwarm</h1> 
+ <h1>Simple, Server-based PaySwarm</h1> 
  <div style="text-align: center;">
   <img style="width: 25%;" src="../../images/payswarm-twitter.png" 
    alt="PaySwarm logo - a blocky, green tornado on a white background" class="cover" /><br />
@@ -40,61 +40,32 @@
 </div>
 
 <div class="slide">
-  <h1>PaySwarm Introductory Video</h1>
-  <div style="text-align: center;">
-   <object width="873" height="525">
-<param value="http://www.youtube.com/v/z8d5J0SgEvg&#38;ap=%2526fmt%3D22" name="movie" /><param value="window" name="wmode" />
-<param value="true" name="allowFullScreen" /><embed width="873" height="525" wmode="window" allowfullscreen="true" type="application/x-shockwave-flash" src="http://www.youtube.com/v/Z8d5J0SgEvg&#38;ap=%2526fmt%3D22"></embed></object>
-  </div>
+  <h1>Introduction to PaySwarm</h1>
+  <p>This set of slides assumes that you have already seen and understood the
+  <a href="../intro/">Introduction to PaySwarm</a> slide deck.</p>
+ <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+  alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 
+ </div>
 </div>
 
 <div class="slide"> 
-  <h1>The Goal of PaySwarm</h1> 
-
-  <p style="font-weight: bold; font-style: italic;">
-"The PaySwarm web platform is an open standard that enables web browsers and web devices to acquire licenses, collect micropayments and perform copyright-aware digital media distribution."
-  </p>
+  <h1>The Goal of Simple PaySwarm</h1> 
 
   <ul class="incremental">
     <li>
-The patent and royalty-free standard would be implemented in all major web browsers.
+Provide a purely server-based way to use PaySwarm.
     </li>
 
     <li>
-PaySwarm would turn 1.7 billion web browsers into a point-of-sale for digital content (images, music, video, and data).
+Websites can implement PaySwarm independently of the browser manufacturers.
     </li>
 
     <li>
-Content owners would retain all rights and can set royalties and prices at will.
+Easy and familiar to developers who have worked with OAuth (Twitter, Facebook, etc.)
     </li>
 
     <li>
-Sounds great, but how do we accomplish this?
-    </li>
-  </ul>
-
-  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
-    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
-</div> 
-
-<div class="slide"> 
-  <h1>The World Wide Web Consortium</h1> 
-
-  <p style="font-weight: bold; font-style: italic;">
-"Led by the inventor of the Web, Tim Berners-Lee, W3C's mission is to lead the Web to its full potential."
-  </p>
-
-  <ul class="incremental">
-    <li>
-W3C is responsible for key technologies implemented in every web browser in the world.
-    </li>
-
-    <li>
-A few examples: The HyperText Markup Language (HTML), Cascading Style Sheets (CSS), Really Simple Syndication (RSS), and the eXtensible Markup Language (XML)
-    </li>
-
-    <li>
-There is interest at W3C for the PaySwarm work, but standardization doesn't begin until we can demonstrate industry support and guidance.
+Useful if you only need to sell licenses to access your content. For example you want to sell access to journal articles, and don't have expensive data streaming requirements like HD Video.
     </li>
 
   </ul>
@@ -104,41 +75,82 @@ There is interest at W3C for the PaySwarm work, but standardization doesn't begi
 </div> 
 
 <div class="slide"> 
-  <h1>The PaySwarm Technology</h1> 
-
-  <p style="font-weight: bold; font-style: italic;">
-"Digital Bazaar created the first reference implementation of a PaySwarm network in 2007. The network has been operating live for over 3 years. The technology is scalable and solid."
-  </p>
-
-  <ul class="incremental">
-    <li>
-The first PaySwarm network was <a href="http://bitmunk.com">Bitmunk</a> - over 1 million songs for sale, >38000 artists under management.
-    </li>
-
-    <li>
-The <a href="http://github.com/digitalbazaar/bitmunk">reference implementation source code</a> is available under an open source license.
-    </li>
-
-    <li>
-The technology works, the W3C is ready to start standardization. We need the 
-content creators to give us the signal to start, as well as help guide the 
-standard.
-    </li>
-
-  </ul>
-
+  <h1>A Simple PaySwarm Purchase - The Participants</h1>
+  <div style="text-align: center;">
+   <img src="pl-participants.png" width="80%"
+     alt=""/>
+  </div>
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
     alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
-</div> 
+</div>
+
+<div class="slide"> 
+  <h1>A Simple PaySwarm Purchase - The Concepts</h1>
+  <div style="text-align: center;">
+   <img src="pl-concepts.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Simple PaySwarm Purchase - Overview</h1>
+  <div style="text-align: center;">
+   <img src="pl-overview.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Simple PaySwarm Purchase</h1>
+  <div style="text-align: center;">
+   <img src="pl-step1.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Simple PaySwarm Purchase</h1>
+  <div style="text-align: center;">
+   <img src="pl-step2.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Simple PaySwarm Purchase</h1>
+  <div style="text-align: center;">
+   <img src="pl-step3.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide"> 
+  <h1>A Simple PaySwarm Purchase</h1>
+  <div style="text-align: center;">
+   <img src="pl-step4.png" width="80%"
+     alt=""/>
+  </div>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
 
 <div class="slide"> 
   <h1>Learn More about PaySwarm</h1>
 
   <ul>
-    <li>Learn about <a href="../oauth-payswarm/">Simple PaySwarm</a> (OAuth/Server-based)</li>
     <li>Learn about <a href="../full-payswarm/">Distributed PaySwarm</a> (Browser-based)</li>
   </ul>
-  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/../../images/db-logo-square.png" 
     alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
 </div>
 

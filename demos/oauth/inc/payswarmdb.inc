@@ -5,15 +5,14 @@ abstract class db
 
    function connect()
    {
-      self::$dbh = new PDO('sqlite:/var/tmp/payswarm-oauth-demo.sq3');
+      self::$dbh = new PDO('sqlite:/var/tmp/payswarm-oauth-demo.db');
       self::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       
-      $dbh->exec(
+      self::$dbh->exec(
          'CREATE TABLE IF NOT EXISTS payswarm 
             (id STRING, state integer, token STRING, 
                secret STRING, amount STRING, 
-               mtime TIMESTAMP default CURRENT_TIMESTAMP 
-                  ON UPDATE CURRENT_TIMESTAMP,
+               mtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                PRIMARY KEY (id))');
    }
 
@@ -33,7 +32,7 @@ abstract class db
 
 class payswarm extends db
 {
-   function save($record)
+   function save($ptok)
    {
       $rval = false;
       
@@ -42,7 +41,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($record['id'] != 0)
+      if($ptok['id'] != 0)
       {
          try
          {
@@ -50,11 +49,11 @@ class payswarm extends db
                'REPLACE INTO payswarm (id,state,token,secret,amount)
                   VALUES (:id,:state,:token,:secret,:amount)');
             $params = array(
-               ':id'=>$record['id'],
-               ':state'=>$record['state'],
-               ':token'=>$record['token'],
-               ':secret'=>$record['secret'],
-               ':amount'=>$record['amount']);
+               ':id'=>$ptok['id'],
+               ':state'=>$ptok['state'],
+               ':token'=>$ptok['token'],
+               ':secret'=>$ptok['secret'],
+               ':amount'=>$ptok['amount']);
             $stmt->execute($params);
          }
          catch (PDOException $e)
@@ -65,7 +64,7 @@ class payswarm extends db
       return $rval;
    }
 
-   function update($record)
+   function update($ptok)
    {
       $rval = false;
       
@@ -74,23 +73,23 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($record['id'] != 0)
+      if($ptok['id'] != 0)
       {
          try
          {
             $q = "UPDATE payswarm SET ";
-            foreach($record as $k=>$v)
+            foreach($ptok as $k=>$v)
             {
                if($k=='id') continue;
                $q .= "$k=?,";
             }
             $q = trim($q,",");
-            $stmt = self::$dbh->prepare("$q where id={$record['id']}");
+            $stmt = self::$dbh->prepare("$q where id={$ptok['id']}");
             $i=1;
-            foreach($record as $k=>$v)
+            foreach($ptok as $k=>$v)
             {
                if($k=='id') continue;
-               $stmt->bindParam($i, $record[$k]);
+               $stmt->bindParam($i, $ptok[$k]);
                $i++;
             }
             $stmt->execute();
@@ -111,7 +110,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($record['id'] != 0)
+      if($id != 0)
       {
          try
          {
@@ -135,7 +134,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($record['id'] != 0)
+      if($ptok['id'] != 0)
       {
          try
          {
@@ -159,7 +158,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($record['id'] != 0)
+      if($ptok['id'] != 0)
       {
          try
          {

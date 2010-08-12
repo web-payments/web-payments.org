@@ -90,11 +90,11 @@ h5 { font-size:100%; }
       /* The nice box with introducing text and news */
       
       /* set millions of background images */
-      .rbroundbox { background: #d02c2c url('../img/main.jpg') no-repeat; }
-      .rbtop div { background: url('../img/tl.gif') no-repeat top left; }
-      .rbtop { background: url('../img/tr.gif') no-repeat top right; }
-      .rbbot div { background: url('../img/bl.gif') no-repeat bottom left; }
-      .rbbot { background: url('../img/br.gif') no-repeat bottom right; clear: both; }
+      .rbroundbox { background: #d02c2c url('img/main.jpg') no-repeat; }
+      .rbtop div { background: url('img/tl.gif') no-repeat top left; }
+      .rbtop { background: url('img/tr.gif') no-repeat top right; }
+      .rbbot div { background: url('img/bl.gif') no-repeat bottom left; }
+      .rbbot { background: url('img/br.gif') no-repeat bottom right; clear: both; }
 
       /* height and width stuff, width not really nessisary. */
       .rbtop div, .rbtop, .rbbot div, .rbbot {

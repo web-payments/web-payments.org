@@ -54,7 +54,7 @@ class payswarm extends db
                ':token'=>$ptok['token'],
                ':secret'=>$ptok['secret'],
                ':amount'=>$ptok['amount']);
-            $stmt->execute($params);
+            $rval = $stmt->execute($params);
          }
          catch (PDOException $e)
          {

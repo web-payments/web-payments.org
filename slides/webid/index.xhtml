@@ -89,7 +89,10 @@ Identity and Discovery is starting to become a big problem for the Web.
     <li>
 <strong>Nuance</strong>: The identity that we choose is always affected, sometimes in very small or very large ways, by the person or audience receiving the message.
     </li>
+    
   </ul>
+
+  <p style="font-weight: bold; font-style: italic;">Not a replacement for authorization - OAuth is already good at that.</p>
 
 </div>
 
@@ -107,6 +110,7 @@ Identity and Discovery is starting to become a big problem for the Web.
     exists today.</li>
 
     <li>Simple, uniform UI experience across all browsers.</li>
+    
     <li class="incremental"><a href="https://webid.digitalbazaar.com/manage/">Try the demo</a></li>
   </ul>
 
@@ -135,16 +139,57 @@ Identity and Discovery is starting to become a big problem for the Web.
   <h1>WebFinger</h1> 
 
   <p style="font-weight: bold; font-style: italic;">
-
+    Focuses on profile discoverability, not authentication or a profile expression mechanism.
   </p>
 
   <ul>
-    <li>Focuses on profile discoverability, not authentication or profile storage mechanism.</li>
 
-    <li>Requires modification to DNS entries.</li>
+    <li>Requires strange XRD format, modification to DNS entries.</li>
 
     <li>Works with WebID and OpenID.</li>
 
+  </ul>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div> 
+
+<div class="slide"> 
+  <h1>/.well-known/</h1> 
+
+  <p style="font-weight: bold; font-style: italic;">
+    Directory for well known files such as robots.txt, avatar images, WebIDs, etc.
+  </p>
+
+  <ul>
+  
+    <li>Generally agreed that it's not an ideal solution - bad for the Web.</li>
+
+    <li>Works well with WebID and OpenID</li>
+
+  </ul>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div> 
+
+<div class="slide"> 
+  <h1>Deployment</h1> 
+
+  <p style="font-weight: bold; font-style: italic;">
+   Companies using each technology:
+  </p>
+
+  <ul>
+    <li>OpenID - Google, SixApart, Yahoo!, Flickr, MySpace, Facebook, Wordpress, Verisign, AOL, and many more...</li>
+
+    <li>OAuth - Google, Yahoo!, Twitter, OpenSocial, Netflix, Vimeo, and many more...</li>
+
+    <li>WebFinger - Google</li>
+
+    <li>.well-known - ???</li>
+
+    <li>WebID - spec isn't finished yet, but already several interoperable implementations.</li>
   </ul>
 
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
@@ -189,9 +234,19 @@ Identity and Discovery is starting to become a big problem for the Web.
         <li>Authorization of Web Agents to operate on one's behalf.</li>
       </ul>
     </li>
-    <li><a href="http://hueniverse.com/2009/08/introducing-webfinger/">WebFinger</a>.
+    <li><a href="http://xauth.org/info/">XAuth</a>
+      <ul>
+        <li>Cross-site preferences cookie jar - solves NASCAR problem.</li>
+      </ul>
+    </li>
+    <li><a href="http://hueniverse.com/2009/08/introducing-webfinger/">WebFinger</a>
       <ul>
         <li>Discovery of identity information via e-mail addresses</li>
+      </ul>
+    </li>
+    <li><a href="http://tools.ietf.org/html/rfc5785">/.well-known/ URIs</a>
+      <ul>
+        <li>Directory for well-known files such as robots.txt, icon files, avatar images, etc.</li>
       </ul>
     </li>
     <li><a href="http://portablecontacts.net/">Portable Contacts</a>

@@ -1,3 +1,7 @@
 Options -Indexes
 RewriteEngine on 
-DirectoryIndex story.php
+RewriteRule ^previews/([0-9]{1,4})$ preview.php?article=$1 [L]
+RewriteRule ^buy/([0-9]{1,4})$ buy.php?action=purchase&article=$1 [L]
+RewriteRule ^articles/([0-9]{1,4})$ articles.php?action=purchase&article=$1 [L]
+DirectoryIndex preview.php?action=preview&article=1
+

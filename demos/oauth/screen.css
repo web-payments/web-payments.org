@@ -10,9 +10,9 @@ body {
 }
 
 /* obecne odkazy --------------------------------------------------------------- */
-a {color:#b41818;}
-a:link {color:#b41818;}
-a:hover {color:#b41818; text-decoration: none;}
+a {color:#0f710f;}
+a:link {color:#0f710f;}
+a:hover {color:#0f710f; text-decoration: none;}
 
 /* nadpisy --------------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6 { margin:15px 0 7px 0; }
@@ -48,7 +48,7 @@ h5 { font-size:100%; }
         text-decoration: none;
         color: #fff;
         font-weight: normal;
-        border-left: 8px solid #b41818;  
+        border-left: 8px solid #0f710f;  
         padding: 0px 10px 7px 10px;  
       }
       
@@ -90,7 +90,7 @@ h5 { font-size:100%; }
       /* The nice box with introducing text and news */
       
       /* set millions of background images */
-      .rbroundbox { background: #d02c2c url('img/main.jpg') no-repeat; }
+      .rbroundbox { background: #0e6c0e url('img/main.jpg') no-repeat; }
       .rbtop div { background: url('img/tl.gif') no-repeat top left; }
       .rbtop { background: url('img/tr.gif') no-repeat top right; }
       .rbbot div { background: url('img/bl.gif') no-repeat bottom left; }
@@ -191,7 +191,7 @@ strong, .strong { font-weight:bold; }
 cite, em, q, var { font-style:italic; }
 code, kbd, samp  {font-family:monospace; font-size:110%; }
 hr { display:block; height:1px; margin:10px 0; padding:0; border:0 solid #CCC; background:#CCC; color:#CCC;} 
-.light {padding: 4px 5px; background: #ac0001; text-decoration: none;} .light:hover {color: #fff;}
+.light {padding: 4px 5px; background: #0f7c0f; text-decoration: none;} .light:hover {color: #fff;}
 .noscreen { display:none; }
 
 /* Code Highlighting */

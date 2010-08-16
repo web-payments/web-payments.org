@@ -12,6 +12,17 @@
    media="screen,projection" />
 
   <title>PaySwarm via OAuth Demo</title>
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script> 
+  <script type="text/javascript" src="jquery.cookie.js"></script>
+<script type="text/javascript">
+function clearSession()
+{
+   $.cookie("session", null);
+   window.location = "https://sites.local/payswarm.com/demos/oauth/story.php";
+}
+</script>
+
 </head>
 
 <body>
@@ -43,13 +54,31 @@
     </div>
 
     <div>
-      <h1 id="free-content">The Story</h1>
+      <h1 id="free-content">PaySwarm for Content Creators</h1>
 
-      <p>This paragraph is an introduction to the story and gives a lead-in
-      so that people may want to purchase the rest of the article.
-      </p>
+      <a href="javascript: clearSession();">CLEAR SESSION</a>
 
-      <p><a href="story.php?action=purchase">See the rest of the article ($0.01)...</a></p>
+      <p>The PaySwarm micropayment platform has a number of features that are
+      beneficial to content creators:</p>
+
+      <ul>
+        <li>Easy to deploy into Drupal, Wordpress and other CMSes</li>
+        <li>Great customer experience - </li>
+        <li>Flexible payment </li>
+        <li>It is an open, patent and royalty free standard, which means that anybody can setup their own PaySwarm provider.</li>
+        <li>It is based on open standards such as HTTP, OAuth, Transaction Security Layer (TLS) and RDFa.</li>
+      </ul>
+
+      <p>This site is a demonstration of the PaySwarm technology. You won't be
+      charged anything to use this site. It is provided merely to demonstrate the
+      customer experience that is achievable via PaySwarm.</p>
+
+      <h2>Easy Deployment</h2>
+
+      <p>PaySwarm is easy to integrate into your website because it uses
+      browser technologies that are already in wide deployment today - 
+      .</p>
+
     </div>
 
     <div id="footer">

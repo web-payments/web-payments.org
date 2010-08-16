@@ -4,6 +4,8 @@ include './inc/payswarmdb.inc';
 $consumer_key = 'devclient';
 $consumer_secret = 'password';
 $payswarm_api_server = "localhost:19100";
+$preview_url = 'https://' . $_SERVER['SERVER_NAME'] . 
+   '/payswarm.com/demos/oauth/previews/1';
 
 // get the session ID if it exists
 $id = 0;
@@ -15,15 +17,6 @@ else if(array_key_exists("session", $_GET))
 {
    $id = $_GET["session"];
 }
-else
-{
-   $timeVal = time();
-   $randomVal = rand(0, 100000);
-   $id = sha1("$timeVal$randomVal");
-}
-
-// update the ID for the session
-setcookie("session", $id, time() + 3600);
 
 // get the payment token if it exists
 $ps = new payswarm;
@@ -32,21 +25,13 @@ $ptok = $ps->load($id);
 if($ptok === false)
 {
    $ptok = array('id' => $id, 'state' => 0);
-   // if the story action is not set and the token doesn't exist, preview
-   // the article
-   $fh = fopen("stories/preview.html", "r");
-   print(fread($fh, 32768));
-   fclose($fh);
 }
 
 // If we are in state == 1 there should be an OAuth_token, if not go back to 0
 if($ptok['state'] == 1 && !isset($_GET['oauth_token']))
 {
    $ptok['state'] = 0;
-   setcookie("session", $id, time() + 3600);
-   $fh = fopen("stories/preview.html", "r");
-   print(fread($fh, 32768));
-   fclose($fh);
+   header("Location: $redir_url");
 }
 
 try
@@ -59,8 +44,7 @@ try
    $oauth->disableSSLChecks();
 
    // check the state of the payment token
-   if($ptok['state'] == 0 && array_key_exists("action", $_GET) &&
-      $_GET["action"] == "purchase")
+   if($ptok['state'] == 0)
    {
       $fh = fopen("/tmp/ps-oauth-state-0.txt", "w");
       fwrite($fh, "STATE: 0\n");

@@ -1,7 +1,7 @@
 <?php
 // Service Website URLs
 $WEBSITE = "sites.local";
-$DEMO_PATH = "payswarm.com/demos/oauth";
+$DEMO_PATH = "payswarm.com/demos/oauth/news";
 $BASE_URL = "https://$WEBSITE/$DEMO_PATH";
 $BUY_URL = "https://$WEBSITE/$DEMO_PATH/buy";
 $PREVIEW_URL = "https://$WEBSITE/$DEMO_PATH/previews";

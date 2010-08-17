@@ -3,5 +3,5 @@ RewriteEngine on
 RewriteRule ^previews/([0-9]{1,4}).*$ previews.php?article=$1 [L,QSA]
 RewriteRule ^buy/([0-9]{1,4}).*$ buy.php?article=$1 [L,QSA]
 RewriteRule ^articles/([0-9]{1,4}).*$ articles.php?article=$1 [L,QSA]
-RewriteRule ^$ /payswarm.com/demos/oauth/previews/1 [R=permanent]
+RewriteRule ^$ /payswarm.com/demos/oauth/news/previews/1 [R=permanent]
 

@@ -18,7 +18,7 @@
 function clearSession()
 {
    $.cookie("session", null, { 
-         expires: -1, path: '/payswarm.com/demos/oauth/news', 
+         expires: -1, path: '/payswarm.com/demos/oauth/news/', 
          domain: '.sites.local', secure: true
       });
    window.location = "https://sites.local/payswarm.com/demos/oauth/news/previews/1";
@@ -41,7 +41,7 @@ function clearSession()
 
       <div class="rbcontent">
         <div class="content">
-          <h2>PaySwarm Demo via OAuth (Full Article)</h2>
+          <h2>PaySwarm Demo (Full Article)</h2>
 
           <p>This page is a demonstration of how PaySwarm can be used by
           journalists, bloggers and website operators to provide access to
@@ -88,6 +88,13 @@ function clearSession()
       account that you create will be pre-charged with a certain amount.</p>
 
       <h2>Easy Deployment</h2>
+
+      <p>Deploying PaySwarm into existing Content Management Systems (CMS) like
+      Drupal, Wordpress or Joomla is easy. PaySwarm purchasing and digital
+      contract retrieval can be done using standard OAuth libraries in under
+      a hundred lines of code.
+      </p>
+
 
     </div>
 

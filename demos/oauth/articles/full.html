@@ -8,18 +8,20 @@
    content="PaySwarm via OAuth" />
   <meta name="keywords" content="rdfa,twitter" />
   <meta name="robots" content="all,follow" />
-  <link href="screen.css" type="text/css" rel="stylesheet" 
+  <link href="../screen.css" type="text/css" rel="stylesheet" 
    media="screen,projection" />
-
   <title>PaySwarm via OAuth Demo</title>
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script> 
-  <script type="text/javascript" src="jquery.cookie.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+  <script type="text/javascript" src="../jquery.cookie.js"></script>
 <script type="text/javascript">
 function clearSession()
 {
-   $.cookie("session", null);
-   window.location = "https://sites.local/payswarm.com/demos/oauth/story.php";
+   $.cookie("session", null, { 
+         expires: -1, path: '/payswarm.com/demos/oauth/', 
+         domain: '.sites.local', secure: true
+      });
+   window.location = "https://sites.local/payswarm.com/demos/oauth/previews/1";
 }
 </script>
 
@@ -39,45 +41,53 @@ function clearSession()
 
       <div class="rbcontent">
         <div class="content">
-          <h2>PaySwarm Demo via OAuth</h2>
+          <h2>PaySwarm Demo via OAuth (Full Article)</h2>
 
           <p>This page is a demonstration of how PaySwarm can be used by
           journalists, bloggers and website operators to provide access to
-          articles and content based on the PaySwarm micropayment platform.
+          articles and content based on the PaySwarm payment platform.
           </p>
  
-          <a href="#goals" class="light">Read on to find out more...</a>
+          <a href="#free-content" class="light">Read on to find out more...</a>
         </div>
       </div>
 
       <div class="rbbot"></div>
     </div>
 
+    <p><a href="javascript: clearSession();">CLEAR SESSION</a></p>
+
     <div>
       <h1 id="free-content">PaySwarm for Content Creators</h1>
 
-      <a href="javascript: clearSession();">CLEAR SESSION</a>
-
-      <p>The PaySwarm micropayment platform has a number of features that are
+      <p>The PaySwarm standard has a number of features that are
       beneficial to content creators:</p>
 
       <ul>
-        <li>Easy to deploy into Drupal, Wordpress and other CMSes</li>
-        <li>Great customer experience - </li>
-        <li>Flexible payment </li>
-        <li>It is an open, patent and royalty free standard, which means that anybody can setup their own PaySwarm provider.</li>
-        <li>It is based on open standards such as HTTP, OAuth, Transaction Security Layer (TLS) and RDFa.</li>
+        <li>Easy to deploy into Drupal, Wordpress and other content systems.</li>
+        <li>Simple, site-integrated customer experience.</li>
+        <li>Flexible payments from $0.00001 to thousands of dollars.</li>
+        <li>Based on open standards like HTTP, TLS and OAuth.</li>
+        <li>PaySwarm itself is an open, patent and royalty free standard.</li>
       </ul>
 
       <p>This site is a demonstration of the PaySwarm technology. You won't be
-      charged anything to use this site. It is provided merely to demonstrate the
-      customer experience that is achievable via PaySwarm.</p>
+      charged anything to use this site. It is provided merely to demonstrate 
+      the customer experience that is achievable via PaySwarm.</p>
+
+      <p>You must have a valid PaySwarm account via a PaySwarm Provider. A
+      PaySwarm account is much like a bank account. You deposit money into it 
+      and approve charges to it when you purchase content on the Web, much like
+      you use a debit card. Since PaySwarm is an open standard, you choose
+      your PaySwarm Provider and any PaySwarm-compliant website will work
+      with your provider.</p>
+
+      <p>You will need to 
+      <a href="http://dev.payswarm.com/">create a PaySwarm account</a>
+      if you haven't already created one. For demonstration purposes, the 
+      account that you create will be pre-charged with a certain amount.</p>
 
       <h2>Easy Deployment</h2>
-
-      <p>PaySwarm is easy to integrate into your website because it uses
-      browser technologies that are already in wide deployment today - 
-      .</p>
 
     </div>
 
@@ -100,7 +110,7 @@ function clearSession()
     </div>
   </div>
 
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+<script src="https://www.google-analytics.com/urchin.js" type="text/javascript">
 </script>
 <script type="text/javascript">
   try {

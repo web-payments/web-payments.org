@@ -1,19 +1,12 @@
 <?php
-include './inc/payswarmdb.inc'; 
-
-$consumer_key = 'devclient';
-$consumer_secret = 'password';
-$payswarm_api_server = "localhost:19100";
+include 'config.inc';
+include 'payswarmdb.inc';
 
 // get the session ID if it exists
 $id = 0;
 if(array_key_exists("session", $_COOKIE))
 {
    $id = $_COOKIE["session"];
-}
-else if(array_key_exists("session", $_GET))
-{
-   $id = $_GET["session"];
 }
 
 // get the payment token if it exists
@@ -30,6 +23,6 @@ if($ptok !== false and $ptok['state'] == 3)
 }
 else
 {
-   print_r("<pre>Couldn't find a payment token!</pre>");
+   error("Couldn't find a payment token!");
 }
 

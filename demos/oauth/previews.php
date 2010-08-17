@@ -1,6 +1,6 @@
 <?php
-include './config.inc'; 
-include './payswarmdb.inc'; 
+include 'config.inc'; 
+include 'payswarmdb.inc'; 
 
 // get the session ID if it exists, otherwise create a new session ID
 $id = 0;
@@ -18,7 +18,7 @@ else
       'id' => $id, 'state' => 0, 
       'token' => "", 'secret' => "", 'amount' => "");
 }
-setcookie("session", $id, time() + 3600, "/$DEMO_PATH/");
+setcookie("session", $id, time() + 3600, "/$DEMO_PATH/", $WEBSITE, true);
 
 // Create the payment token if it doesn't already exist
 $ps = new payswarm;
@@ -27,7 +27,7 @@ if($tok === false)
 {
    if($ps->save($ptok) === false)
    {
-      setcookie("session", "", time() - 3600, "$DEMO_PATH/demos/oauth/");
+      setcookie("session", "", time() - 3600, "/$DEMO_PATH/", $WEBSITE, true);
       error("Failed to initialize Payment Token: " . print_r($ptok, true) .
          "Try again...");
    }

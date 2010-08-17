@@ -1,7 +1,7 @@
 Options -Indexes
 RewriteEngine on 
-RewriteRule ^previews/([0-9]{1,4})$ preview.php?article=$1 [L]
-RewriteRule ^buy/([0-9]{1,4})$ buy.php?action=purchase&article=$1 [L]
-RewriteRule ^articles/([0-9]{1,4})$ articles.php?action=purchase&article=$1 [L]
-DirectoryIndex preview.php?action=preview&article=1
+RewriteRule ^previews/([0-9]{1,4}).*$ previews.php?article=$1 [L,QSA]
+RewriteRule ^buy/([0-9]{1,4}).*$ buy.php?article=$1 [L,QSA]
+RewriteRule ^articles/([0-9]{1,4}).*$ articles.php?article=$1 [L,QSA]
+RewriteRule ^$ /payswarm.com/demos/oauth/previews/1 [R=permanent]
 

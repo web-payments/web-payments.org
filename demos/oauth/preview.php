@@ -1,8 +1,10 @@
 <?php
-include './inc/payswarmdb.inc'; 
+include './config.inc'; 
+include './payswarmdb.inc'; 
 
-// get the session ID if it exists
+// get the session ID if it exists, otherwise create a new session ID
 $id = 0;
+$ptok = null;
 if(array_key_exists("session", $_COOKIE))
 {
    $id = $_COOKIE["session"];
@@ -13,20 +15,25 @@ else
    $randomVal = rand(0, 100000);
    $id = sha1("$timeVal$randomVal");
    $ptok = array(
-      'id' => $id, 'token' => "", 'secret' => "", 'amount' => "", 'state' => 0);
+      'id' => $id, 'state' => 0, 
+      'token' => "", 'secret' => "", 'amount' => "");
 }
+setcookie("session", $id, time() + 3600, "/$DEMO_PATH/");
 
 // Create the payment token if it doesn't already exist
 $ps = new payswarm;
-$ptok = $ps->load($id);
-if($ptok === false)
+$tok = $ps->load($id);
+if($tok === false)
 {
-   $ps->save($ptok);
+   if($ps->save($ptok) === false)
+   {
+      setcookie("session", "", time() - 3600, "$DEMO_PATH/demos/oauth/");
+      error("Failed to initialize Payment Token: " . print_r($ptok, true) .
+         "Try again...");
+   }
 }
-setcookie("session", $id, time() + 3600, "/payswarm.com/demos/oauth/");
 
-// if the story action is not set and the token doesn't exist, preview
-// the article
+// Display the article preview
 $fh = fopen("articles/preview.html", "r");
 print(fread($fh, 32768));
 fclose($fh);

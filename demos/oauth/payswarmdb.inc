@@ -1,4 +1,11 @@
 <?php
+
+function error($msg)
+{
+   echo "<pre>ERROR: $msg";
+   exit();
+}
+
 abstract class db
 {
    protected static $dbh = false;
@@ -41,7 +48,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($ptok['id'] != 0)
+      if($ptok['id'] !== 0)
       {
          try
          {
@@ -73,7 +80,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($ptok['id'] != 0)
+      if($ptok['id'] !== 0)
       {
          try
          {
@@ -110,7 +117,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($id != 0)
+      if($id !== 0)
       {
          try
          {
@@ -134,7 +141,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($ptok['id'] != 0)
+      if($ptok['id'] !== 0)
       {
          try
          {
@@ -158,7 +165,7 @@ class payswarm extends db
          $this->connect();
       }
       
-      if($ptok['id'] != 0)
+      if($ptok['id'] !== 0)
       {
          try
          {

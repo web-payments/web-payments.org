@@ -1,11 +1,12 @@
 <?php
-include './inc/payswarmdb.inc'; 
+include './config.inc'; 
+include './payswarmdb.inc'; 
 
 $consumer_key = 'devclient';
 $consumer_secret = 'password';
 $payswarm_api_server = "localhost:19100";
 $preview_url = 'https://' . $_SERVER['SERVER_NAME'] . 
-   '/payswarm.com/demos/oauth/previews/1';
+   "$DEMO_PATH/demos/oauth/previews/1";
 
 // get the session ID if it exists
 $id = 0;
@@ -17,6 +18,10 @@ else if(array_key_exists("session", $_GET))
 {
    $id = $_GET["session"];
 }
+else
+{
+   error("Session ID does not exist.");
+}
 
 // get the payment token if it exists
 $ps = new payswarm;
@@ -24,7 +29,7 @@ $ptok = $ps->load($id);
 
 if($ptok === false)
 {
-   $ptok = array('id' => $id, 'state' => 0);
+   error("Failed to retrieve Payment Token associated with ID: $id");
 }
 
 // If we are in state == 1 there should be an OAuth_token, if not go back to 0
@@ -33,6 +38,10 @@ if($ptok['state'] == 1 && !isset($_GET['oauth_token']))
    $ptok['state'] = 0;
    header("Location: $redir_url");
 }
+
+// initialize CURL to use HTTP/1.1
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
 
 try
 {
@@ -53,8 +62,7 @@ try
       fwrite($fh, "PTOK: " . print_r($ptok, true) . "\n");
       // State 0 - Generate request token and redirect user to payswarm site 
       // to authorize
-      $callback_url = "https://" . $_SERVER['SERVER_NAME'] .
-         $_SERVER['SCRIPT_NAME'] . "?session=" . $id;
+      $callback_url = $BUY_URL . "/buy?session=" . $id;
       $request_token_info = $oauth->getRequestToken(
          "https://$payswarm_api_server/api/3.2/oauth1/tokens/request",
          $callback_url);

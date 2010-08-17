@@ -8,8 +8,8 @@ $PREVIEW_URL = "https://$WEBSITE/$DEMO_PATH/previews";
 $ARTICLES_URL = "https://$WEBSITE/$DEMO_PATH/articles";
 
 // PaySwarm Authority consumer key and secret
-$consumer_key = 'devclient';
-$consumer_secret = 'password';
+$CONSUMER_KEY = 'devclient';
+$CONSUMER_SECRET = 'password';
 
 // PaySwarm Authority URLs
 $PAYSWARM_AUTHORITY = "localhost:19100";

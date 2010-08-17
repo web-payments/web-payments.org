@@ -2,7 +2,7 @@
 
 function error($msg)
 {
-   echo "<pre>ERROR: $msg";
+   echo "<pre>ERROR: $msg</pre>";
    exit();
 }
 

@@ -36,7 +36,7 @@ if($ptok['state'] === "authorizing" && !isset($_GET['oauth_token']))
 try
 {
    $oauth = new OAuth(
-      $consumer_key, $consumer_secret, OAUTH_SIG_METHOD_HMACSHA1, 
+      $CONSUMER_KEY, $CONSUMER_SECRET, OAUTH_SIG_METHOD_HMACSHA1, 
       OAUTH_AUTH_TYPE_FORM);
 
    // enable debug output for OAuth and remove SSL checks

@@ -13,7 +13,7 @@ if(array_key_exists("session", $_COOKIE))
 $ps = new payswarm;
 $ptok = $ps->load($id);
 
-if($ptok !== false and $ptok['state'] == 3)
+if($ptok !== false and $ptok['state'] == "valid")
 {
    // if the payment token state for the current story is set to 3, then
    // the story has been purchased, so display the full story
@@ -25,4 +25,4 @@ else
 {
    error("Couldn't find a payment token!");
 }
-
+?>

@@ -27,9 +27,9 @@ if($ptok === false)
 }
 
 // If we are in state == 1 there should be an OAuth_token, if not go back to 0
-if($ptok['state'] == 1 && !isset($_GET['oauth_token']))
+if($ptok['state'] === "authorizing" && !isset($_GET['oauth_token']))
 {
-   $ptok['state'] = 0;
+   $ptok['state'] = "initializing";
    error("OAUTH TOKEN IS NOT SET: " . print_r($_GET, true));
 }
 
@@ -44,7 +44,7 @@ try
    $oauth->disableSSLChecks();
 
    // check the state of the payment token
-   if($ptok['state'] == 0)
+   if($ptok['state'] === "initializing")
    {
       // State 0 - Generate request token and redirect user to payswarm site 
       // to authorize
@@ -57,7 +57,7 @@ try
       $tok['token'] = $request_token_info['oauth_token'];
       $tok['secret'] = $request_token_info['oauth_token_secret'];
       $tok['amount'] = "0.0";
-      $tok['state'] = 1;
+      $tok['state'] = "authorizing";
       if($ps->save($tok))
       {
          // Save the token and the secret, which will be used later
@@ -72,13 +72,13 @@ try
          header("Location: $BASE_URL/");
       }
    }
-   else if($ptok['state'] == 1)
+   else if($ptok['state'] === "authorizing")
    {
       // State 1 - Handle callback from payswarm and get and store an access token
       $oauth->setToken($_GET['oauth_token'], $ptok['secret']);
       $access_token_info = $oauth->getAccessToken($ACCESS_URL);
       $tok['id'] = $id;
-      $tok['state'] = 2;
+      $tok['state'] = "purchasing";
       $tok['token'] = $access_token_info['oauth_token'];
       $tok['secret'] = $access_token_info['oauth_token_secret'];
       $tok['amount'] = '0.2'; // FIXME: Make this read the actual amount value
@@ -88,7 +88,7 @@ try
       $redir_url = "$BUY_URL/$article?session=$id";
       header("Location: $redir_url");
    }
-   else if($ptok['state'] == 2)
+   else if($ptok['state'] === "purchasing")
    {
       // State 2 - Authorized. We can just use the stored access token
       $oauth->setToken($ptok['token'], $ptok['secret']);
@@ -98,7 +98,8 @@ try
          'license_hash' => '866f3f9540e572e8cc4467f470a869242db201ba');
       $oauth->fetch($CONTRACTS_URL, $params);
       $json = json_decode($oauth->getLastResponse());
-      $ptok['state'] = 3;
+
+      $ptok['state'] = "valid";
       /*
       $debug = $oauth->getLastResponseInfo();
       print_r($debug);
@@ -114,7 +115,7 @@ try
       $redir_url = "$ARTICLES_URL/$article";
       header("Location: $redir_url");
    }
-   else if($ptok['state'] == 3)
+   else if($ptok['state'] === "valid")
    {
       // FIXME: check to see if the article has been purchased
       $article = $_GET['article'];
@@ -126,4 +127,4 @@ catch(OAuthException $E)
 {
    print_r('<pre>' . $E . '</pre>');
 }
-
+?>

@@ -15,7 +15,7 @@ else
    $randomVal = rand(0, 100000);
    $id = sha1("$timeVal$randomVal");
    $ptok = array(
-      'id' => $id, 'state' => 0, 
+      'id' => $id, 'state' => "initializing", 
       'token' => "", 'secret' => "", 'amount' => "");
 }
 setcookie("session", $id, time() + 3600, "/$DEMO_PATH/", $WEBSITE, true);
@@ -37,4 +37,4 @@ if($tok === false)
 $fh = fopen("articles/preview.html", "r");
 print(fread($fh, 32768));
 fclose($fh);
-
+?>

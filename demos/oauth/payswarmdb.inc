@@ -17,7 +17,7 @@ abstract class db
       
       self::$dbh->exec(
          'CREATE TABLE IF NOT EXISTS payswarm 
-            (id STRING, state integer, token STRING, 
+            (id STRING, state STRING, token STRING, 
                secret STRING, amount STRING, 
                mtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                PRIMARY KEY (id))');

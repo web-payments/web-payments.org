@@ -78,44 +78,67 @@ try
       $oauth->setToken($_GET['oauth_token'], $ptok['secret']);
       $access_token_info = $oauth->getAccessToken($ACCESS_URL);
       $tok['id'] = $id;
-      $tok['state'] = "purchasing";
+      $tok['state'] = "valid";
       $tok['token'] = $access_token_info['oauth_token'];
       $tok['secret'] = $access_token_info['oauth_token_secret'];
-      $tok['amount'] = '0.2'; // FIXME: Make this read the actual amount value
+      $tok['amount'] = '0.0';
       $ps->save($tok); // Save the access token and secret
 
       $article = $_GET['article'];
       $redir_url = "$BUY_URL/$article?session=$id";
       header("Location: $redir_url");
    }
-   else if($ptok['state'] === "purchasing")
+   else if($ptok['state'] === "valid")
    {
       // State 2 - Authorized. We can just use the stored access token
       $oauth->setToken($ptok['token'], $ptok['secret']);
+      $article = $_GET['article'];
       $params = array(
-         'asset' => 'http://example.org/news/myarticle.html',
+         'asset' => "$ARTICLES_URL/$article",
          'license' => 'http://example.org/licenses/personal-use',
          'license_hash' => '866f3f9540e572e8cc4467f470a869242db201ba');
       $oauth->fetch($CONTRACTS_URL, $params);
-      $json = json_decode($oauth->getLastResponse());
 
-      $ptok['state'] = "valid";
-      /*
-      $debug = $oauth->getLastResponseInfo();
-      print_r($debug);
-      */
-      $tok['id'] = $ptok['id'];
-      $tok['state'] = $ptok['state'];
-      $tok['token'] = $ptok['token'];
-      $tok['secret'] = $ptok['secret'];
-      $tok['amount'] = $ptok['amount'];
-      // Save the access token and secret
-      $ps->save($tok);
-      $article = $_GET['article'];
-      $redir_url = "$ARTICLES_URL/$article";
-      header("Location: $redir_url");
+      // check to see if the purchase was approved and get the remaining
+      // balance on the payment token
+      $authorized = false;
+      $balance = "0.0";
+      $items = explode("&", $oauth->getLastResponse());
+      foreach($items as $item)
+      {
+         $kv = explode("=", $item, 2);
+         if($kv[0] === "authorized" && $kv[1] === "true")
+         {
+            $authorized = true;
+         }
+         else if($kv[0] === "balance")
+         {
+            $balance = $kv[1];
+         }
+      }
+
+      if(!$authorized)
+      {
+         error("PURCHASE RESPONSE: AUTHORIZED: $authorized BALANCE: $balance");
+      }
+      else
+      {
+         $ptok['state'] = "valid";
+         $tok['id'] = $ptok['id'];
+         $tok['state'] = $ptok['state'];
+         $tok['token'] = $ptok['token'];
+         $tok['secret'] = $ptok['secret'];
+         $tok['amount'] = $balance;
+         // Save the access token and secret
+         $ps->save($tok);
+         $article = $_GET['article'];
+         $redir_url = "$ARTICLES_URL/$article";
+         header("Location: $redir_url");
+      }
    }
-   else if($ptok['state'] === "valid")
+
+   // FIXME: This code is never executed
+   if($ptok['state'] === "valid")
    {
       // FIXME: check to see if the article has been purchased
       $article = $_GET['article'];

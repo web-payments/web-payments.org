@@ -14,6 +14,7 @@
 
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
   <script type="text/javascript" src="../jquery.cookie.js"></script>
+  <script type="text/javascript" src="../json2.js"></script>
 <script type="text/javascript">
 function clearSession()
 {
@@ -23,11 +24,17 @@ function clearSession()
       });
    window.location = "https://sites.local/payswarm.com/demos/oauth/news/previews/1";
 }
+
+function displayContract()
+{
+   var contract = JSON.parse("%CONTRACT%");
+   $("#contract").html(JSON.stringify(contract, null, 3));
+}
 </script>
 
 </head>
 
-<body>
+<body onload="javascript:displayContract();">
   <div id="layout">
     <div id="header">
       <h1 id="logo">
@@ -41,7 +48,7 @@ function clearSession()
 
       <div class="rbcontent">
         <div class="content">
-          <h2>PaySwarm Demo (Full Article)</h2>
+          <h2>PaySwarm Demo (Full Article #%ARTICLE%)</h2>
 
           <p>This page is a demonstration of how PaySwarm can be used by
           journalists, bloggers and website operators to provide access to
@@ -55,7 +62,9 @@ function clearSession()
       <div class="rbbot"></div>
     </div>
 
-    <p><a href="javascript: clearSession();">CLEAR SESSION</a></p>
+    <h4>Your PaySwarm Token Status</h4>
+    <p>Balance: $%BALANCE%</p>
+    <p>Actions: <a href="javascript: clearSession();">Delete Token</a></p>
 
     <div>
       <h1 id="free-content">PaySwarm for Content Creators</h1>
@@ -64,10 +73,10 @@ function clearSession()
       beneficial to content creators:</p>
 
       <ul>
-        <li>Easy to deploy into Drupal, Wordpress and other content systems.</li>
+        <li>Easy to deploy into Drupal, Wordpress, and other content systems.</li>
         <li>Simple, site-integrated customer experience.</li>
         <li>Flexible payments from $0.00001 to thousands of dollars.</li>
-        <li>Based on open standards like HTTP, TLS and OAuth.</li>
+        <li>Based on open standards like HTTP, TLS, and OAuth.</li>
         <li>PaySwarm itself is an open, patent and royalty free standard.</li>
       </ul>
 
@@ -87,6 +96,24 @@ function clearSession()
       if you haven't already created one. For demonstration purposes, the 
       account that you create will be pre-charged with a certain amount.</p>
 
+      <h2>Your Purchased Contract</h2>
+
+      <p>The text below shows your purchased contract (encoded as 
+      <a href="http://rdfa.digitalbazaar.com/specs/source/json-ld/">JSON-LD</a>):
+      </p>
+
+      <pre id="contract"></pre>
+
+      <h2>Buy Another Random Article</h2>
+
+      <p>Now that that a PaySwarm Payment Token has been approved for use by
+      this site. You can use it to purchase other articles without having to
+      authorize each purchase. You currently have $%BALANCE% remaining on
+      the PaySwarm Payment Token that you assigned this website, click the
+      link below to see how easy it is to purchase another article:</p>
+
+      <a href="%RANDOM%">Buy Article #%RANDOM%</a>
+
       <h2>Easy Deployment</h2>
 
       <p>Deploying PaySwarm into existing Content Management Systems (CMS) like
@@ -94,7 +121,6 @@ function clearSession()
       contract retrieval can be done using standard OAuth libraries in under
       a hundred lines of code.
       </p>
-
 
     </div>
 

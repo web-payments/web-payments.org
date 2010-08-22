@@ -18,4 +18,3 @@ $REQUEST_URL = "https://$PAYSWARM_AUTHORITY/api/3.2/oauth1/tokens/request";
 $ACCESS_URL = "https://$PAYSWARM_AUTHORITY/api/3.2/oauth1/tokens";
 $CONTRACTS_URL = "https://$PAYSWARM_AUTHORITY/api/3.2/oauth1/contracts";
 ?>
-

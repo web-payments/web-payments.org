@@ -1,7 +1,7 @@
 <?php
 // Service Website URLs
-$WEBSITE = "sites.local";
-$DEMO_PATH = "payswarm.com/demos/oauth/news";
+$WEBSITE = "payswarm.com";
+$DEMO_PATH = "demos/oauth/news";
 $BASE_URL = "https://$WEBSITE/$DEMO_PATH";
 $BUY_URL = "https://$WEBSITE/$DEMO_PATH/buy";
 $PREVIEW_URL = "https://$WEBSITE/$DEMO_PATH/previews";
@@ -12,7 +12,7 @@ $CONSUMER_KEY = 'devclient';
 $CONSUMER_SECRET = 'password';
 
 // PaySwarm Authority URLs
-$PAYSWARM_AUTHORITY = "localhost:19100";
+$PAYSWARM_AUTHORITY = "dev.payswarm.com:19100";
 $AUTHORIZE_URL = "https://$PAYSWARM_AUTHORITY/home/authorize";
 $REQUEST_URL = "https://$PAYSWARM_AUTHORITY/api/3.2/oauth1/tokens/request";
 $ACCESS_URL = "https://$PAYSWARM_AUTHORITY/api/3.2/oauth1/tokens";

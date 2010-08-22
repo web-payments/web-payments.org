@@ -19,10 +19,10 @@
 function clearSession()
 {
    $.cookie("session", null, { 
-         expires: -1, path: '/payswarm.com/demos/oauth/news/', 
-         domain: '.sites.local', secure: true
+         expires: -1, path: '/demos/oauth/news/', 
+         domain: '.payswarm.com', secure: true
       });
-   window.location = "https://sites.local/payswarm.com/demos/oauth/news/previews/1";
+   window.location = "https://payswarm.com/demos/oauth/news/previews/1";
 }
 
 function displayContract()

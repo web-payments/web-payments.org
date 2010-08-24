@@ -78,10 +78,10 @@ Identity and Discovery is starting to become a big problem for the Web.
 
   <ul>
     <li>
-<strong>Personal Control</strong>: One's identity should never be left to the whims of others.
+<strong>Personal Control</strong>: One should be in control of their identity at all times.
     </li>
     <li>
-<strong>Decentralization</strong>: The communication of human identity is fully decentralized by nature.
+<strong>Decentralization</strong>: Day-to-day human identity is a "Web of Trust", not "Government Issued Identity".
     </li>
     <li>
 <strong>Access Control</strong>: One person has multiple identities which are often context sensitive.
@@ -128,6 +128,8 @@ Identity and Discovery is starting to become a big problem for the Web.
 
     <li>Complex attribute exchange protocol is not easily extensible (RDF is extensible).</li>
 
+    <li><a href="http://blogs.sun.com/bblfish/entry/foaf_ssl_creating_a_global">WebID</a> (6 steps) vs. <a href="http://blogs.sun.com/bblfish/entry/the_openid_sequence_diagram">OpenID</a> (11 steps) protected profile retrieval - WebID is simpler.</li>
+
     <li><a href="http://getwebid.org/spec/webid-related.respec.html">More on OpenID shortcomings...</a></li>
   </ul>
 
@@ -144,7 +146,11 @@ Identity and Discovery is starting to become a big problem for the Web.
 
   <ul>
 
-    <li>Requires strange <a href="http://en.wikipedia.org/wiki/XRDS">XRD format</a>, modification to DNS entries.</li>
+    <li>Find a person's identity via their e-mail address.</li>
+
+    <li>Requires strange <a href="http://en.wikipedia.org/wiki/XRDS">XRD format</a>, possible use of DNS.</li>
+
+    <li>Simple to deploy.</li>
 
     <li>Works with WebID and OpenID.</li>
 
@@ -165,7 +171,9 @@ Identity and Discovery is starting to become a big problem for the Web.
   
     <li>Generally agreed that it's not an ideal solution - bad for the Web.</li>
 
-    <li>Works well with WebID and OpenID</li>
+    <li>Very easy to deploy.</li>
+
+    <li>Works well with WebID and OpenID.</li>
 
   </ul>
 
@@ -185,9 +193,9 @@ Identity and Discovery is starting to become a big problem for the Web.
 
     <li>OAuth - Google, Yahoo!, Twitter, OpenSocial, Netflix, Vimeo, and many more...</li>
 
-    <li>WebFinger - Google</li>
+    <li>WebFinger - Google, AOL</li>
 
-    <li>.well-known - ???</li>
+    <li>.well-known - Google, AOL</li>
 
     <li>WebID - spec isn't finished yet, but already several interoperable implementations.</li>
   </ul>
@@ -206,9 +214,13 @@ Identity and Discovery is starting to become a big problem for the Web.
   <ul>
     <li>Web payments and micro-financing - <a href="http://payswarm.com/">PaySwarm</a></li>
 
-    <li>Decentralized social networking - <a href="http://identi.ca/">Identi.ca</a>, <a href="http://www.joindiaspora.com/project.html">Diaspora</a>, etc.</li>
+    <li>Decentralized social messaging - <a href="http://identi.ca/">Identi.ca</a>, <a href="http://www.joindiaspora.com/project.html">Diaspora</a>, etc.</li>
 
     <li>eGovernment and verifiable online elections - <a href="http://heliosvoting.org/">Helios</a></li>
+
+    <li>Secrets in the cloud via <a href="http://www.links.org/files/nigori/nigori-protocol-01.html/">Nigori</a></li>
+
+    <li>The Social Web</li>
   </ul>
 
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 

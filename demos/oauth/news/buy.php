@@ -51,7 +51,7 @@ try
       $article = $_GET['article'];
       $callback_url = "$BUY_URL/$article?session=$id";
       $request_token_info = 
-         $oauth->getRequestToken($REQUEST_URL, $callback_url);
+         $oauth->getRequestToken("$REQUEST_URL?currency=USD&amount=1.00", $callback_url);
 
       $tok['id'] = $id;
       $tok['token'] = $request_token_info['oauth_token'];
@@ -96,7 +96,9 @@ try
       $params = array(
          'asset' => "$ARTICLES_URL/$article",
          'license' => 'http://example.org/licenses/personal-use',
-         'license_hash' => '866f3f9540e572e8cc4467f470a869242db201ba');
+         'license_hash' => '866f3f9540e572e8cc4467f470a869242db201ba',
+         'currency' => 'USD',
+         'amount' => '0.01');
       $oauth->fetch($CONTRACTS_URL, $params);
 
       // check to see if the purchase was approved and get the remaining

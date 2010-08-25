@@ -3,7 +3,39 @@
 // compare 2 public keys to ensure they are the same
 function compare_public_keys($key1, $key2)
 {
-   // FIXME: implement me
+   // assume exponent is small enough to be a regular int
+   $rval = ($key1['exponent'] === $key2['exponent']);
+   if($rval)
+   {
+      // normalize hex
+      $hex1 = strtoupper($key1['modulus']);
+      $hexlen1 = strlen($hex1);
+      if($hexlen1 % 2 !== 0)
+      {
+         $hex1 = '0' . $hex1;
+         ++$hex1len;
+      }
+      
+      $hex2 = strtoupper($key2['modulus']);
+      $hexlen2 = strlen($hex2);
+      if($hexlen2 % 2 !== 0)
+      {
+         $hex2 = '0' . $hex2;
+         ++$hex2len;
+      }
+      
+      // compare hex
+      if($hex1len === $hex2len)
+      {
+         $rval = true;
+         for($i = 0; $rval and $i < $hex1len; ++$i)
+         {
+            $rval = ($hex1[$i] === $hex2[$i]);
+         }
+      }
+   }
+   
+   return $rval;
 }
 
 // read the info from the certificate
@@ -38,7 +70,9 @@ function get_certificate_info()
          $webID = substr($webID, 4);
          $rval['webID'] = $webID;
          $rval['cert'] = $cert;
-         $rval['publicKey'] = openssl_pkey_get_details($key);
+         $details = openssl_pkey_get_details($key);
+         $rval['publicKey']['modulus'] = bin2hex($details['rsa']['n']);
+         $rval['publicKey']['exponent'] = hexdec(bin2hex($details['rsa']['e']));
          openssl_free_key($key);
       }
    }

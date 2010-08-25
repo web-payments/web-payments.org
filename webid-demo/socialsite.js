@@ -33,9 +33,9 @@ window.authenticate = function(data)
    try
    {
       var output = JSON.parse(data);
+      //console.log('logged in', output);
       if(output.success)
       {
-         //console.log('logged in', output);
          success = true;
       }
    }

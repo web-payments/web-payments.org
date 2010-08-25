@@ -18,6 +18,7 @@ if(!isset($rval['error']))
       if(check_public_key($rdf, $info['webID'], $info['publicKey']))
       {
          // set cert and web ID
+         $rval['success'] = true;
          $rval['cert'] = $info['cert'];
          $rval['webID'] = $info['webID'];
          

@@ -15,7 +15,9 @@ foreach($dlls as $dll)
 function compare_public_keys($key1, $key2)
 {
    // assume exponent is small enough to be a regular int
-   $rval = ($key1['exponent'] === $key2['exponent']);
+   $rval =
+      (is_array($key1) and is_array($key2) and
+      $key1['exponent'] == $key2['exponent']);
    if($rval)
    {
       // get hex
@@ -127,8 +129,7 @@ EOD;
    if($rv !== 0)
    {
       // parse error
-      // FIXME: remove me
-      echo 'parse error: "' . $rv . '"';
+      //echo 'parse error: "' . $rv . '"';
    }
    else
    {
@@ -161,10 +162,8 @@ EOD;
             $key['modulus'] = librdf_node_get_literal_value($mn);
             $key['exponent'] = librdf_node_get_literal_value($en);
             
-            // FIXME: check public key
-            // $rval = compare_public_keys($key, $publicKey);
-            echo 'public key';
-            print_r($key);
+            // check public key
+            $rval = compare_public_keys($key, $publicKey);
          }
          
          // clean up

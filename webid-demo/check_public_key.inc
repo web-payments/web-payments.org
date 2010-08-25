@@ -1,10 +1,51 @@
 <?php
 
+// compare 2 public keys to ensure they are the same
 function compare_public_keys($key1, $key2)
 {
    // FIXME: implement me
 }
 
+// read the info from the certificate
+function get_certificate_info()
+{
+   $rval = array();
+   
+   // check for client-side certificate
+   if(!isset($_SERVER[SSL_CLIENT_CERT]) || $_SERVER[SSL_CLIENT_CERT] === '')
+   {
+      $rval['error'] = 'No client-side certificate.';
+   }
+   else
+   {
+      // get client-side certificate
+      $cert = openssl_x509_parse($_SERVER[SSL_CLIENT_CERT]);
+      $key = openssl_get_publickey($_SERVER[SSL_CLIENT_CERT]);
+      
+      // check for web ID url
+      if(!isset($cert['extensions']['subjectAltName']))
+      {
+         $rval['error'] = 'No WebID subjectAltName in certificate.';
+      }
+      else if($key === false)
+      {
+         $rval['error'] = 'Could not read public key in certificate.';
+      }
+      else
+      {
+         // strip 'URI:' from web ID
+         $webID = $cert['extensions']['subjectAltName'];
+         $webID = substr($webID, 4);
+         $rval['webID'] = $webID;
+         $rval['cert'] = $cert;
+         $rval['publicKey'] = $key;
+      }
+   }
+   
+   return $rval;
+}
+
+// check the public key against rdf from a web ID url
 function check_public_key($rdf, $publicKey)
 {
    $rval = false;
@@ -34,6 +75,7 @@ EOD;
    if($rv !== 0)
    {
       // parse error
+      // FIXME: remove me
       echo 'parse error: "' . $rv . '"';
    }
    else
@@ -69,6 +111,7 @@ EOD;
             
             // FIXME: check public key
             // $rval = compare_public_keys($key, $publicKey);
+            echo 'public key';
             print_r($key);
          }
          
@@ -90,34 +133,5 @@ EOD;
    
    return $rval;
 }
-
-// FIXME: move elsewhere
-// grab rdf data from the WebID url
-$timeout = 30;
-$ch = curl_init();
-// FIXME: force https
-curl_setopt($ch, CURLOPT_URL, 'http://foaf.me/dbtest');
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-curl_setopt($ch, CURLOPT_ENCODING, '');
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-// ignore https certificate check
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
-$rdf = curl_exec($ch);
-$response = curl_getinfo($ch);
-curl_close($ch);
-
-if($response['http_code'] >= 400)
-{
-   // bad WebID url
-   echo 'bad webid url';
-}
-
-print_r($rdf);
-
-// FIXME: pass in the public key from the cert
-check_public_key($rdf, NULL);
 
 ?>

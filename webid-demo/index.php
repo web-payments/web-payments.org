@@ -1,4 +1,7 @@
 <?php
+//require_once('get_webid_rdf.inc');
+//require_once('check_public_key.inc');
+
 // the user may have selected a browser-generated WebID...
 // so grab that information here
 

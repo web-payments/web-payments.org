@@ -1,4 +1,7 @@
 <?php
+//require_once('get_webid_rdf.inc');
+//require_once('check_public_key.inc');
+
 // check subject alternative name for web ID uri
 // get cert from uri confirm is the same as client-side cert
 

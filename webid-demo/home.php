@@ -50,15 +50,15 @@ setcookie('rdf', '', 0);
                fully-customizable information in a single, global location. For the purpose of this demo, this
                page is intentionally left empty - a blank slate to represent the endless possibilities of WebID ;).</p>
 	            <p>Your demo WebID: <?php echo $cookie->webID; ?></p>
-               <p>For geeks: To demonstrate that your certificate was read during the login, here is your certificate subject:</p>
-               <p><?php echo json_encode($cookie->cert->subject); ?></p>
-               <p>Here is your RDF profile:</p>
-               <p><pre><?php echo htmlspecialchars($rdf); ?></pre></p>
                <p>If you refresh this page or navigate away from it you will be logged out.
                Note that this is not a limitation of the technology, rather it makes it
                easier to more rapidly demonstrate selecting different WebIDs and repeat
                the demonstration process.
                </p>
+               <p>For geeks: To demonstrate that your certificate was read during the login, here is your certificate subject:</p>
+               <p><?php echo json_encode($cookie->cert->subject); ?></p>
+               <p>Here is your RDF profile:</p>
+               <p><pre><?php echo htmlspecialchars($rdf); ?></pre></p>
             <?php } else if(isset($cookie)) { ?>
                <p>You are not logged in. Authentication failed:
                "<?php echo $cookie->error ?>"</p>

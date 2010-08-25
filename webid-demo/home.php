@@ -54,7 +54,11 @@ setcookie('rdf', '', 0);
                <p><?php echo json_encode($cookie->cert->subject); ?></p>
                <p>Here is your RDF profile:</p>
                <p><pre><?php echo htmlspecialchars($rdf); ?></pre></p>
-               <p>If you refresh this page or navigate away from it you will be logged out.</p>
+               <p>If you refresh this page or navigate away from it you will be logged out.
+               Note that this is not a limitation of the technology, rather it makes it
+               easier to more rapidly demonstrate selecting different WebIDs and repeat
+               the demonstration process.
+               </p>
             <?php } else if(isset($cookie)) { ?>
                <p>You are not logged in. Authentication failed:
                "<?php echo $cookie->error ?>"</p>

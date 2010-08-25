@@ -6,8 +6,14 @@ $info = get_certificate_info();
 print_r($info);
 
 $rv = compare_public_keys($info['publicKey'], $info['publicKey']);
-echo 'result: "' . $rv . '"';
+echo 'public key result: "' . $rv . '"';
 
 //get_webid_rdf($info['webID']);
+$rdf = get_webid_rdf('http://foaf.me/dbtest');
+echo '</br>start rdf</br>';
+print_r($rdf);
+echo '</br>end rdf</br>';
+
+check_public_key($rdf, NULL);
 
 ?>

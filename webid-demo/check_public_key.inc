@@ -7,30 +7,35 @@ function compare_public_keys($key1, $key2)
    $rval = ($key1['exponent'] === $key2['exponent']);
    if($rval)
    {
-      // normalize hex
+      // get hex
       $hex1 = strtoupper($key1['modulus']);
       $hexlen1 = strlen($hex1);
-      if($hexlen1 % 2 !== 0)
-      {
-         $hex1 = '0' . $hex1;
-         ++$hex1len;
-      }
-      
       $hex2 = strtoupper($key2['modulus']);
       $hexlen2 = strlen($hex2);
-      if($hexlen2 % 2 !== 0)
-      {
-         $hex2 = '0' . $hex2;
-         ++$hex2len;
-      }
       
-      // compare hex
-      if($hex1len === $hex2len)
+      $rval = ($hex1len !== 0 and $hex2len !== 0);
+      if($rval)
       {
-         $rval = true;
-         for($i = 0; $rval and $i < $hex1len; ++$i)
+         // normalize hex
+         if($hexlen1 % 2 !== 0)
          {
-            $rval = ($hex1[$i] === $hex2[$i]);
+            $hex1 = '0' . $hex1;
+            ++$hex1len;
+         }
+         if($hexlen2 % 2 !== 0)
+         {
+            $hex2 = '0' . $hex2;
+            ++$hex2len;
+         }
+         
+         // compare hex
+         $rval = ($hex1len === $hex2len) and $hex1len
+         {
+            $rval = true;
+            for($i = 0; $rval and $i < $hex1len; ++$i)
+            {
+               $rval = ($hex1[$i] === $hex2[$i]);
+            }
          }
       }
    }

@@ -5,10 +5,11 @@ function get_webid_rdf($url)
    $rval = false;
    
    // force web ID url to https
+   /*
    if(strpos($url, 'http://') === 0)
    {
       $url = 'https://' . substr($url, 4);
-   }
+   }*/
    
    // TODO: don't assume its RDF data, it may be something else
    

@@ -29,7 +29,7 @@ function compare_public_keys($key1, $key2)
          }
          
          // compare hex
-         $rval = ($hex1len === $hex2len) and $hex1len
+         $rval = ($hex1len === $hex2len);
          {
             $rval = true;
             for($i = 0; $rval and $i < $hex1len; ++$i)

@@ -1,10 +1,23 @@
 <?php
 
+// load redland lib
+$dlls = array(
+   'redland.so', 'php_redland.dll', 'redland.dylib', 'redland.bundle');
+foreach($dlls as $dll)
+{
+   if(file_exists($dll))
+   {
+      dl($dll);
+   }
+}
+
 // compare 2 public keys to ensure they are the same
 function compare_public_keys($key1, $key2)
 {
    // assume exponent is small enough to be a regular int
-   $rval = ($key1['exponent'] === $key2['exponent']);
+   $rval =
+      (is_array($key1) and is_array($key2) and
+      $key1['exponent'] == $key2['exponent']);
    if($rval)
    {
       // get hex
@@ -86,17 +99,17 @@ function get_certificate_info()
 }
 
 // check the public key against rdf from a web ID url
-function check_public_key($rdf, $publicKey)
+function check_public_key($rdf, $webID, $publicKey)
 {
    $rval = false;
    
    // sparql query to get public key modulus and exponent
    $publicKeyQuery = <<<"EOD"
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-PREFIX cert: <http://www.w3.org/ns/auth/cert#>"
-PREFIX rsa: <http://www.w3.org/ns/auth/rsa#>"
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX cert: <http://www.w3.org/ns/auth/cert#>
+PREFIX rsa: <http://www.w3.org/ns/auth/rsa#>
 SELECT ?m ?e ?mod ?exp WHERE {
-?key cert:identity <%s>; rsa:modulus ?m; rsa:public_exponent ?e.
+?key cert:identity <$webID>; rsa:modulus ?m; rsa:public_exponent ?e.
 OPTIONAL { ?m cert:hex ?mod. }
 OPTIONAL { ?e cert:decimal ?exp. }
 }
@@ -104,19 +117,19 @@ EOD;
    
    // create rdf model
    $world = librdf_php_get_world();
-   $storage = librdf_new_storage(
-      $world, 'hashes', NULL, "new='yes',hash-type='memory'");
+   $storage = librdf_new_storage($world, 'memory', NULL, NULL);
    $model = librdf_new_model($world, $storage, NULL);
    
    // parse rdf data into model
-   $parser = librdf_new_parser($world, 'rdfxml', 'application/rdf+xml', null);
-   $rv = librdf_parser_parse_string_into_model($parser, $rdf, NULL, $model);
+   $uri = librdf_new_uri($world, $webID);
+   $parser = librdf_new_parser($world, 'rdfxml', 'application/rdf+xml', NULL);
+   $rv = librdf_parser_parse_string_into_model($parser, $rdf, $uri, $model);
    librdf_free_parser($parser);
+   librdf_free_uri($uri);
    if($rv !== 0)
    {
       // parse error
-      // FIXME: remove me
-      echo 'parse error: "' . $rv . '"';
+      //echo 'parse error: "' . $rv . '"';
    }
    else
    {
@@ -149,10 +162,8 @@ EOD;
             $key['modulus'] = librdf_node_get_literal_value($mn);
             $key['exponent'] = librdf_node_get_literal_value($en);
             
-            // FIXME: check public key
-            // $rval = compare_public_keys($key, $publicKey);
-            echo 'public key';
-            print_r($key);
+            // check public key
+            $rval = compare_public_keys($key, $publicKey);
          }
          
          // clean up

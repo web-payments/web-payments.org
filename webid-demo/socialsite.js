@@ -28,34 +28,29 @@ var webidLogin = function(url)
 
 window.authenticate = function(data)
 {
-   var success = false;
+   var output;
 
    try
    {
-      var output = JSON.parse(data);
-      if(output.success)
-      {
-         //console.log('logged in', output);
-         success = true;
-      }
+      output = JSON.parse(data);
+      //console.log('logged in', output);
    }
    catch(ex)
    {
-      // bad response
+      // bad response, set error
+      output = {
+         success: false,
+         error: 'Invalid response from server.',
+         rdf: ''
+      };
+      data = JSON.stringify(output);
    }
-
-   //console.log('success', success, data);
-   if(!success)
-   {
-      // FIXME: show error text, invalid login
-      $('#webid-frame').empty();
-   }
-   else
-   {
-      // set data in a cookie
-      $.cookie('webid', escape(data), { secure: true });
-      $.cookie('rdf', output.rdf, { secure: true });
-      var url = 'https://payswarm.com/webid-demo/home.php';
-      window.location = url;
-   }
+   
+   // set data in a cookie
+   $.cookie('webid', escape(data), { secure: true });
+   $.cookie('rdf', output.rdf, { secure: true });
+   
+   // redirect
+   var url = 'https://payswarm.com/webid-demo/home.php';
+   window.location = url;
 };

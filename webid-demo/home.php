@@ -40,21 +40,25 @@ setcookie('rdf', '', 0);
 
          <div id="content">
             <div id="home">
-            <?php if(isset($cookie)) { ?>
+            <?php if(isset($cookie) and $cookie->success) { ?>
                <h2>Welcome, you are now logged in.</h2>
 
                <p>Congratulations! You have logged into socialswarm using your demo WebID.</p>
-	       <p>Normally, if this were a real social networking site, you would see your messages, friends,
+	            <p>Normally, if this were a real social networking site, you would see your messages, friends,
                and other social stuff on this page. Much of this information could actually be retrieved
                directly from your WebID URL, making it possible for you to store your friends and any other
                fully-customizable information in a single, global location. For the purpose of this demo, this
                page is intentionally left empty - a blank slate to represent the endless possibilities of WebID ;).</p>
-	       <p>Your demo WebID: <?php echo $cookie->webID; ?></p>
+	            <p>Your demo WebID: <?php echo $cookie->webID; ?></p>
                <p>For geeks: To demonstrate that your certificate was read during the login, here is your certificate subject:</p>
                <p><?php echo json_encode($cookie->cert->subject); ?></p>
                <p>Here is your RDF profile:</p>
                <p><pre><?php echo htmlspecialchars($rdf); ?></pre></p>
                <p>If you refresh this page or navigate away from it you will be logged out.</p>
+            <?php } else if(isset($cookie)) { ?>
+               <p>You are not logged in. Authentication failed:
+               "<?php echo $cookie->error ?>"</p>
+               <p><a href="https://payswarm.com/webid-demo">Click here to try to login again.</a></p>
             <?php } else { ?>
                <p>You are not logged in. <a href="https://payswarm.com/webid-demo">Click here to login.</a></p>
             <?php } ?>

@@ -1,5 +1,16 @@
 <?php
 
+// load redland lib
+$dlls = array(
+   'redland.so', 'php_redland.dll', 'redland.dylib', 'redland.bundle');
+foreach($dlls as $dll)
+{
+   if(file_exists($dll))
+   {
+      dl($dll);
+   }
+}
+
 // compare 2 public keys to ensure they are the same
 function compare_public_keys($key1, $key2)
 {

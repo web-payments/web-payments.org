@@ -12,17 +12,22 @@ if(!isset($rval['error']))
 {
    // get the web ID rdf
    $rdf = get_webid_rdf($info['webID']);
-   if($rdf !== false)
+   if($rdf === false)
    {
-      // authenticate by checking public key
-      if(check_public_key($rdf, $info['webID'], $info['publicKey']))
-      {
-         // set cert, web ID, and rdf
-         $rval['success'] = true;
-         $rval['cert'] = $info['cert'];
-         $rval['webID'] = $info['webID'];
-         $rval['rdf'] = $rdf;
-      }
+      $rval['error'] = 'Could not retrieve RDF from WebID url.';
+   }
+   // authenticate by checking public key
+   else if(!check_public_key($rdf, $info['webID'], $info['publicKey']))
+   {
+      $rval['error'] = 'Public keys did not match.';
+   }
+   else
+   {
+      // set cert, web ID, and rdf
+      $rval['success'] = true;
+      $rval['cert'] = $info['cert'];
+      $rval['webID'] = $info['webID'];
+      $rval['rdf'] = $rdf;
    }
 }
 //print_r($rval);

@@ -12,30 +12,35 @@ if(!isset($rval['error']))
 {
    // get the web ID rdf
    $rdf = get_webid_rdf($info['webID']);
-   if($rdf !== false)
+   if($rdf === false)
    {
-      // authenticate by checking public key
-      if(check_public_key($rdf, $info['webID'], $info['publicKey']))
-      {
-         // set cert and web ID
-         $rval['success'] = true;
-         $rval['cert'] = $info['cert'];
-         $rval['webID'] = $info['webID'];
-         
-         // encode rdf for transport
-         $rval['rdf'] = base64_encode($rdf);
-         
-         // set cookies (current js code doesn't grab the
-         // cookies in the javascript and pass them on but could to avoid
-         // having to deal with the return data as json)
-         setcookie(
-            'webid',
-            urlencode(json_encode($rval)),
-            0, '/', '.payswarm.com', true);
-         setcookie(
-            'rdf', $rval['rdf'],
-            0, '/', '.payswarm.com', true);
-      }
+      $rval['error'] = 'Could not retrieve RDF from WebID url.';
+   }
+   // authenticate by checking public key
+   else if(!check_public_key($rdf, $info['webID'], $info['publicKey']))
+   {
+      $rval['error'] = 'Public keys did not match.';
+   }
+   else
+   {
+      // set cert and web ID
+      $rval['success'] = true;
+      $rval['cert'] = $info['cert'];
+      $rval['webID'] = $info['webID'];
+      
+      // encode rdf for transport
+      $rval['rdf'] = base64_encode($rdf);
+      
+      // set cookies (current js code doesn't grab the
+      // cookies in the javascript and pass them on but could to avoid
+      // having to deal with the return data as json)
+      setcookie(
+         'webid',
+         urlencode(json_encode($rval)),
+         0, '/', '.payswarm.com', true);
+      setcookie(
+         'rdf', $rval['rdf'],
+         0, '/', '.payswarm.com', true);
    }
 }
 //print_r($rval);

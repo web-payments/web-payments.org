@@ -44,18 +44,9 @@ window.authenticate = function(data)
       // bad response
    }
 
-   //console.log('success', success, data);
-   if(!success)
-   {
-      // FIXME: show error text, invalid login
-      $('#webid-frame').empty();
-   }
-   else
-   {
-      // set data in a cookie
-      $.cookie('webid', escape(data), { secure: true });
-      $.cookie('rdf', output.rdf, { secure: true });
-      var url = 'https://payswarm.com/webid-demo/home.php';
-      window.location = url;
-   }
+   // set data in a cookie
+   $.cookie('webid', escape(data), { secure: true });
+   $.cookie('rdf', output.rdf, { secure: true });
+   var url = 'https://payswarm.com/webid-demo/home.php';
+   window.location = url;
 };

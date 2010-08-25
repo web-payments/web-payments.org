@@ -37,12 +37,13 @@ window.authenticate = function(data)
    }
    catch(ex)
    {
-      // bad response
-      data = JSON.stringify({
+      // bad response, set error
+      output = {
          success: false,
-         error: 'No response from server.',
+         error: 'Invalid response from server.',
          rdf: ''
-      });
+      };
+      data = JSON.stringify(output);
    }
    
    // set data in a cookie

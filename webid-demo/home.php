@@ -57,7 +57,7 @@ setcookie('rdf', '', 0);
                <p>If you refresh this page or navigate away from it you will be logged out.</p>
             <?php } else if(isset($cookie)) { ?>
                <p>You are not logged in. Authentication failed:
-               "<?php echo $cookie->error ?>".</p>
+               "<?php echo $cookie->error ?>"</p>
                <p><a href="https://payswarm.com/webid-demo">Click here to try to login again.</a></p>
             <?php } else { ?>
                <p>You are not logged in. <a href="https://payswarm.com/webid-demo">Click here to login.</a></p>

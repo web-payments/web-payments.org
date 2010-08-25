@@ -38,7 +38,8 @@ function get_certificate_info()
          $webID = substr($webID, 4);
          $rval['webID'] = $webID;
          $rval['cert'] = $cert;
-         $rval['publicKey'] = $key;
+         $rval['publicKey'] = openssl_pkey_get_details($key);
+         openssl_free_key($key);
       }
    }
    

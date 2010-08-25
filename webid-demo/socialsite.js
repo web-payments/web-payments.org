@@ -28,25 +28,28 @@ var webidLogin = function(url)
 
 window.authenticate = function(data)
 {
-   var success = false;
+   var output;
 
    try
    {
-      var output = JSON.parse(data);
+      output = JSON.parse(data);
       //console.log('logged in', output);
-      if(output.success)
-      {
-         success = true;
-      }
    }
    catch(ex)
    {
       // bad response
+      data = JSON.stringify({
+         success: false,
+         error: 'No response from server.',
+         rdf: ''
+      });
    }
-
+   
    // set data in a cookie
    $.cookie('webid', escape(data), { secure: true });
    $.cookie('rdf', output.rdf, { secure: true });
+   
+   // redirect
    var url = 'https://payswarm.com/webid-demo/home.php';
    window.location = url;
 };

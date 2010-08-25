@@ -91,12 +91,7 @@ if(!isset($rval['error']))
                profile retrieved from its URI by clicking the link below. This demonstration purposely does not
                show the login page for browser-generated WebIDs to ensure that the viewers of this demo can
                select a web-generated WebID and witness how it works. A future demonstration may integrate
-               both browser-generated and web-generated WebIDs.
-
-               <p>This demo also does not read RDF information from your WebID or perform any of the other
-               functions that have already been demonstrated by other WebID technologies. This demo merely
-               shows that WebIDs can be generated and put to use with client-side web-only technologies -- the
-               rest of the WebID stack (ie: the server-side) is unchanged and already proven.</p>
+               both browser-generated and web-generated WebIDs.</p>
 
                <p>If you would like to learn more about this technology demo,
                <a href="http://blog.digitalbazaar.com/2010/08/07/webid/2/#demo">WebID and Universal Login

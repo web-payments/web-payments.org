@@ -11,15 +11,15 @@ function check_public_key($rdf, $publicKey)
    
    // sparql query to get public key modulus and exponent
    $publicKeyQuery = <<<"EOD"
-   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-   PREFIX cert: <http://www.w3.org/ns/auth/cert#>"
-   PREFIX rsa: <http://www.w3.org/ns/auth/rsa#>"
-   SELECT ?m ?e ?mod ?exp WHERE {
-   ?key cert:identity <%s>; rsa:modulus ?m; rsa:public_exponent ?e.
-   OPTIONAL { ?m cert:hex ?mod. }
-   OPTIONAL { ?e cert:decimal ?exp. }
-   }
-   EOD;
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
+PREFIX cert: <http://www.w3.org/ns/auth/cert#>"
+PREFIX rsa: <http://www.w3.org/ns/auth/rsa#>"
+SELECT ?m ?e ?mod ?exp WHERE {
+?key cert:identity <%s>; rsa:modulus ?m; rsa:public_exponent ?e.
+OPTIONAL { ?m cert:hex ?mod. }
+OPTIONAL { ?e cert:decimal ?exp. }
+}
+EOD;
    
    // create rdf model
    $world = librdf_php_get_world();
@@ -77,9 +77,9 @@ function check_public_key($rdf, $publicKey)
          librdf_free_node($en);
          
          // match not found, go to next result
-         if(!$match)
+         if(!$rval)
          {
-            librdf_query_results_next($results);
+            librdf_query_results_next($rs);
          }
       }
    }
@@ -114,6 +114,8 @@ if($response['http_code'] >= 400)
    // bad WebID url
    echo 'bad webid url';
 }
+
+print_r($rdf);
 
 // FIXME: pass in the public key from the cert
 check_public_key($rdf, NULL);

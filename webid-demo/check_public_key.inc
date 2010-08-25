@@ -97,17 +97,17 @@ function get_certificate_info()
 }
 
 // check the public key against rdf from a web ID url
-function check_public_key($rdf, $publicKey)
+function check_public_key($rdf, $webID, $publicKey)
 {
    $rval = false;
    
    // sparql query to get public key modulus and exponent
    $publicKeyQuery = <<<"EOD"
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>"
-PREFIX cert: <http://www.w3.org/ns/auth/cert#>"
-PREFIX rsa: <http://www.w3.org/ns/auth/rsa#>"
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX cert: <http://www.w3.org/ns/auth/cert#>
+PREFIX rsa: <http://www.w3.org/ns/auth/rsa#>
 SELECT ?m ?e ?mod ?exp WHERE {
-?key cert:identity <%s>; rsa:modulus ?m; rsa:public_exponent ?e.
+?key cert:identity <$webID>; rsa:modulus ?m; rsa:public_exponent ?e.
 OPTIONAL { ?m cert:hex ?mod. }
 OPTIONAL { ?e cert:decimal ?exp. }
 }
@@ -115,14 +115,15 @@ EOD;
    
    // create rdf model
    $world = librdf_php_get_world();
-   $storage = librdf_new_storage(
-      $world, 'hashes', NULL, "new='yes',hash-type='memory'");
+   $storage = librdf_new_storage($world, 'memory', NULL, NULL);
    $model = librdf_new_model($world, $storage, NULL);
    
    // parse rdf data into model
-   $parser = librdf_new_parser($world, 'rdfxml', 'application/rdf+xml', null);
-   $rv = librdf_parser_parse_string_into_model($parser, $rdf, NULL, $model);
+   $uri = librdf_new_uri($world, $webID);
+   $parser = librdf_new_parser($world, 'rdfxml', 'application/rdf+xml', NULL);
+   $rv = librdf_parser_parse_string_into_model($parser, $rdf, $uri, $model);
    librdf_free_parser($parser);
+   librdf_free_uri($uri);
    if($rv !== 0)
    {
       // parse error

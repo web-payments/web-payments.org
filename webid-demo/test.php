@@ -9,11 +9,11 @@ $rv = compare_public_keys($info['publicKey'], $info['publicKey']);
 echo 'public key result: "' . $rv . '"';
 
 //get_webid_rdf($info['webID']);
-$rdf = get_webid_rdf('http://foaf.me/dbtest');
+$rdf = get_webid_rdf('http://foaf.me/dbtest#me');
 echo '</br>start rdf</br>';
 print_r($rdf);
 echo '</br>end rdf</br>';
 
-check_public_key($rdf, NULL);
+check_public_key($rdf, 'http://foaf.me/dbtest#me', NULL);
 
 ?>

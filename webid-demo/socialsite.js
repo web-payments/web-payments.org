@@ -48,7 +48,7 @@ window.authenticate = function(data)
    // set data in a cookie
    $.cookie('rdf', output.rdf, { secure: true });
    delete output.rdf;
-   $.cookie('webid', JSON.stringify(output), { secure: true });
+   $.cookie('webid', escape(JSON.stringify(output)), { secure: true });
    
    // redirect
    var url = 'https://payswarm.com/webid-demo/home.php';

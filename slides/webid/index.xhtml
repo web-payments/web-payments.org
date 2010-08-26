@@ -44,23 +44,32 @@
   Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
   Skype: msporny<br />
  </p>
+ <p>
+  <a href="http://bblfish.net/">Henry Story</a>, Community Leader, WebID<br />
+  E-mail: <a href="mailto:hjs@bblfish.net ">hjs@bblfish.net</a><br />
+  Twitter: <a href="http://twitter.com/bblfish">@bblfish</a><br />
+ </p>
  <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
   alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 
  </div>
 </div>
 
 <div class="slide bgimage">
-  <h1>Consider old technology?</h1>
+  <h1>Consider how we use identity...</h1>
 
   <ul>
-    <li>Phone - you can phone anybody in any social network.
+    <li>Phone - you can phone anybody across systems and social networks.
     </li>
-    <li>E-mail - you can e-mail anybody in any social network.
+    <li>E-mail - you can e-mail anybody across systems and social networks.
     </li>
-    <li>Web - your identity does not work between communities - there is no global identity. You cannot create a social network between websites. There is no globally distributed authentication.
+    <li>Web - You can identify web pages using global identifiers.
     </li>
+    <li>However, your web identities are not interoperable - there is no global identity. You can't take your friends with you from Facebook, to LinkedIn, to Twitter. Your identity exists in a silo - a walled garden.</li>
   </ul>
 
+  <em style="margin: 50px; float:right">The most basic type of identity...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
 </div>
 
 <div class="slide">
@@ -77,6 +86,19 @@
     </li>
   </ul>
 
+  <em style="margin: 50px; float:right">Toward a global identity...</em>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png"
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide">
+  <h1>OpenID Video Demonstration</h1>
+  
+  <object width="800" height="600" style="position: absolute; left: 50%; margin-left: -400px">
+<param value="http://www.youtube.com/v/ImBzky5Igxo&#38;ap=%2526fmt%3D22" name="movie" /><param value="window" name="wmode" />
+<param value="true" name="allowFullScreen" /><embed width="800" height="600" wmode="window" allowfullscreen="true" type="application/x-shockwave-flash" src="http://www.youtube.com/v/ImBzky5Igxo&#38;ap=%2526fmt%3D22"></embed></object>
+
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png"
     alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
 </div>
@@ -87,8 +109,6 @@
   <ul>
     <li>Purpose: Global identity and authentication.</li>
     
-    <li>OPENID VIDEO DEMO</li>
-
     <li>Advantages: one identity across all domains, protected name/value pair attribute transfer, partly distributed/partly RESTful</li>
 
     <li>Disadvantages <ul><li>Usability: have to type in your username as a URI</li><li>Technical: requires many connections <a href="http://blogs.sun.com/bblfish/entry/the_openid_sequence_diagram">(7-8 HTTPS connections)</a>, awkward/unRESTful attribute exchange protocol, no strong crypto support for digital signatures or encryption, difficult to change OpenID providers w/o starting from scratch</li></ul></li>
@@ -96,6 +116,8 @@
     <li>Implementers: Google, SixApart, Yahoo!, Flickr, MySpace, Facebook, Wordpress, Verisign, AOL, and many more...</li>
 
   </ul>
+
+  <em style="margin: 50px; float:right">Supporting architecture for OpenID...</em>
 
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png"
     alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
@@ -144,17 +166,28 @@
 
   </ul>
 
+  <em style="margin: 50px; float:right">A simpler, more powerful identification protocol...</em>
+
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
     alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
 </div> 
+
+<div class="slide">
+  <h1>WebID Video Demonstration</h1>
+  
+  <object width="800" height="600" style="position: absolute; left: 50%; margin-left: -400px">
+<param value="http://www.youtube.com/v/S4dlMTZhUDc&#38;ap=%2526fmt%3D22" name="movie" /><param value="window" name="wmode" />
+<param value="true" name="allowFullScreen" /><embed width="800" height="600" wmode="window" allowfullscreen="true" type="application/x-shockwave-flash" src="http://www.youtube.com/v/S4dlMTZhUDc&#38;ap=%2526fmt%3D22"></embed></object>
+
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png"
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
 
 <div class="slide">
   <h1>WebID</h1>
 
   <ul>
     <li>Purpose: Web architecture-compliant identity and authentication protocol for the Social Web.</li>
-
-    <li>INSERT VIDEO HERE</li>
 
     <li>Description of <a href="http://esw.w3.org/Foaf%2Bssl#How_does_it_work.3F">how it works</a></li>
 
@@ -163,9 +196,9 @@
       <li>Technical: RESTful authentication, peer-to-peer identity, simplified identification protocol, supports digital signatures (X509), supports strong encryption of messages (TLS), extensibility via Linked Data (RDF, RDFa), syntax agnostic (easy to integrate w/ Portable Contacts, etc.)</li></ul></li>
     <li>Disadvantages: <a href="http://code.google.com/p/chromium/issues/detail?id=29784">Inability to log out</a>, user-interfaces, uniform UI across all browsers, does not work on old devices (cellphones)</li>
 
-    <li class="incremental"><a href="https://webid.digitalbazaar.com/manage/">Try the demo</a></li>
-
   </ul>
+  
+  <p style="margin: 50px; float:right"><a href="https://webid.digitalbazaar.com/manage/">Try the in-browser Javascript WebID demo...</a></p>
 
   <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png"
     alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
@@ -198,7 +231,7 @@
   <h1>Learn More about Identity on the Web</h1>
 
   <ul>
-    <li><a href="http://getwebid.org/">WebID</a>
+    <li><a href="http://getwebid.org/">WebID</a> (<a href="http://esw.w3.org/foaf+ssl">Wiki</a>)
       <ul>
         <li>Decentralized Identity and Discovery for the Web.</li>
       </ul>
@@ -206,6 +239,11 @@
     <li><a href="http://openid.net/">OpenID</a>
       <ul>
         <li>Open identity for the Web.</li>
+      </ul>
+    </li>
+    <li><a href="http://openidconnect.com/">OpenID Connect</a>
+      <ul>
+        <li>The newest development work on OpenID - effectively OpenID 3.0.</li>
       </ul>
     </li>
     <li><a href="http://oauth.net/">OAuth</a>
@@ -271,6 +309,11 @@
   E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
   Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
   Skype: msporny<br />
+ </p>
+ <p>
+  <a href="http://bblfish.net/">Henry Story</a>, Community Leader, WebID<br />
+  E-mail: <a href="mailto:hjs@bblfish.net ">hjs@bblfish.net</a><br />
+  Twitter: <a href="http://twitter.com/bblfish">@bblfish</a><br />
  </p>
  <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
   alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 

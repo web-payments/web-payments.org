@@ -22,7 +22,7 @@ $(document).ready(function()
 
 var webidLogin = function(url)
 {
-   url += '?domain=payswarm.com&auth=webid-demo/auth.php&redirect=webid-demo/redirect.html&pport=501';
+   url += '?domain=payswarm.com&auth=webid-demo/auth.php&redirect=webid-demo/redirect.html&pport=80';
    $('#webid-frame').html('<iframe id="webid-iframe" src="' + url + '"></iframe>');
 };
 

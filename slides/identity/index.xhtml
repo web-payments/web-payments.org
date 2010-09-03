@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+
+<head> 
+  <title>Identity and Discovery - Javascript-based WebID Case Study</title> 
+  <meta name="copyright" 
+   content="Copyright &#169; 2010 Digital Bazaar, Inc. Available under Creative Commons Attribution Share-Alike 3.0" /> 
+  <link rel="stylesheet" type="text/css" media="screen, projection, print" 
+   href="slidy.css" /> 
+  <script src="slidy.js" 
+   charset="utf-8" type="text/javascript"></script> 
+  <style type="text/css"> 
+    <!-- your custom style rules --> 
+  </style> 
+</head>
+<body>
+
+<div class="background">
+</div>
+
+<div class="slide cover"> 
+ <h1>Identity and Discovery - Javascript-based WebID Case Study</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="../../images/openid.png" 
+   alt="" class="cover" />
+  <img style="width: 25%;" src="../../images/webid.png" 
+   alt="" class="cover" /><br />
+   
+ <br clear="all" />
+ <br clear="all" />
+  <a href="http://openid.net/">OpenID</a> |
+  <a href="http://getwebid.org/">WebID</a>
+ </div>
+ <br clear="all" />
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+ <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+  alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 
+ </div>
+</div>
+
+<div class="slide">
+  <h1>WebID Demo</h1>
+
+  <ul>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+  </ul>
+
+  <em style="margin: 50px; float:right">...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide">
+  <h1>WebID vs. OpenID Process</h1>
+
+  <ul>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+  </ul>
+
+  <em style="margin: 50px; float:right">...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide">
+  <h1>Creating and using Identity</h1>
+
+  <ul>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+  </ul>
+
+  <em style="margin: 50px; float:right">...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide">
+  <h1>Implementation Issues</h1>
+
+  <ul>
+    <li>Cross-domain communicating with the end point (flash, cross domain policies, apache module to solve this, etc).</li>
+
+    <li>Communication between javascript and flash (needing to base64 encode strings to pass utf-16 strings between them).</li>
+
+    <li>Needing a raw socket ... needed to use flash to do this.</li>
+
+    <li>Local storage ... needed for pre-IE8 browsers.</li>
+
+    <li>Cross-browser storage - one cert works in all browsers.</li>
+
+    <li>Cross-domain communicating/interfacing with web ID provider on the end service's website (iframe data passing).</li>
+
+    <li>Needing to implement TLS in javascript due to lack of crypto/TLS-cert APIs in the browser. (More like a reason why it had to happen vs. implementation difficulty?)</li>
+
+    <li>Needing flash to save/load binary files (we don't even do this yet, but it should work).</li>
+  </ul>
+
+  <em style="margin: 50px; float:right">...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+
+<div class="slide">
+  <h1>Standardization Opportunities</h1>
+
+  <ul>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+    <li>
+    </li>
+  </ul>
+
+  <em style="margin: 50px; float:right">...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+
+<div class="slide">
+  <h1>What the work would enable</h1>
+
+  <ul>
+    <li>Federated Identity
+    </li>
+    <li>PaySwarm
+    </li>
+    <li>Crypto in the Browser
+    </li>
+    <li>Digital Signatures
+    </li>
+    <li>End-to-end Encryption
+    </li>
+  </ul>
+
+  <em style="margin: 50px; float:right">...</em>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+
+<div class="slide"> 
+  <h1>Learn More about Identity on the Web</h1>
+
+  <ul>
+    <li><a href="http://getwebid.org/">WebID</a> (<a href="http://esw.w3.org/foaf+ssl">Wiki</a>)
+      <ul>
+        <li>Decentralized Identity and Discovery for the Web.</li>
+      </ul>
+    </li>
+    <li><a href="http://openid.net/">OpenID</a>
+      <ul>
+        <li>Open identity for the Web.</li>
+      </ul>
+    </li>
+    <li><a href="http://openidconnect.com/">OpenID Connect</a>
+      <ul>
+        <li>The newest development work on OpenID - effectively OpenID 3.0.</li>
+      </ul>
+    </li>
+    <li><a href="http://oauth.net/">OAuth</a>
+      <ul>
+        <li>Authorization of Web Agents to operate on one's behalf.</li>
+      </ul>
+    </li>
+    <li><a href="http://xauth.org/info/">XAuth</a>
+      <ul>
+        <li>Cross-site preferences cookie jar - solves NASCAR problem.</li>
+      </ul>
+    </li>
+    <li><a href="http://hueniverse.com/2009/08/introducing-webfinger/">WebFinger</a>
+      <ul>
+        <li>Discovery of identity information via e-mail addresses</li>
+      </ul>
+    </li>
+    <li><a href="http://tools.ietf.org/html/rfc5785">/.well-known/ URIs</a>
+      <ul>
+        <li>Directory for well-known files such as robots.txt, icon files, avatar images, etc.</li>
+      </ul>
+    </li>
+    <li><a href="http://portablecontacts.net/">Portable Contacts</a>
+      <ul>
+        <li>Universal friends and contacts, remove friend entry repetition.</li>
+      </ul>
+    </li>
+    <li><a href="http://activitystrea.ms/">Activity Streams</a>
+      <ul>
+        <li>A format for syndicating social activities around the Web.</li>
+      </ul>
+    </li>
+    <li><a href="http://www.opensocial.org/">Open Social</a>
+      <ul>
+        <li>Open APIs for social network interoperability.</li>
+      </ul>
+    </li>
+  </ul>
+  <img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+    alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" />
+</div>
+
+<div class="slide end"> 
+ <h1>Comments and Concerns</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="../../images/openid.png" 
+   alt="" class="cover" /> 
+  <img style="width: 25%;" src="../../images/webid.png" 
+   alt="" class="cover" /><br />
+   
+ <br clear="all" />
+ <br clear="all" />
+  <a href="http://openid.net/">OpenID</a> |
+  <a href="http://getwebid.org/">WebID</a>
+ </div>
+ <br clear="all" />
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+ <div><img style="position:absolute; bottom: 0; right: 10px; width: 10%;" src="../../images/db-logo-square.png" 
+  alt="Digital Bazaar Logo - lower case letters d and b together in white lettering on blue rectangle with curved corners background" class="cover" /> 
+ </div>
+</div>
+
+</body>
+</html>
+

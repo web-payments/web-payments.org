@@ -73,11 +73,12 @@ function displayContract()
       beneficial to content creators:</p>
 
       <ul>
-        <li>Easy to deploy into Drupal, Wordpress, and other content systems.</li>
-        <li>Simple, site-integrated customer experience.</li>
-        <li>Flexible payments from $0.00001 to thousands of dollars.</li>
-        <li>Based on open standards like HTTP, TLS, and OAuth.</li>
-        <li>PaySwarm itself is an open, patent and royalty free standard.</li>
+        <li><a href="#easy">Easy to deploy</a> into Drupal, Wordpress, and other content systems.</li>
+        <li>Much more <a href="#secure">secure and safe</a> than credit-cards</li>
+        <li><a href="#simple">Simple</a> customer experience.</li>
+        <li><a href="#flexible">Flexible payments</a> from $0.00001 to thousands of dollars.</li>
+        <li><a href="#open">Based on open standards</a> like HTTP, TLS, and OAuth.</li>
+        <li>PaySwarm itself is an open, patent and <a href="#royalty-free">royalty-free standard</a>.</li>
       </ul>
 
       <p>This site is a demonstration of the PaySwarm technology. You won't be
@@ -114,12 +115,90 @@ function displayContract()
 
       <a href="%RANDOM%">Buy Article #%RANDOM%</a>
 
-      <h2>Easy Deployment</h2>
+      <h2>Manage Your Payment Tokens</h2>
+      
+      <p>You can 
+      <a href="https://dev.payswarm.com:19443/home/tokens">manage Payment Tokens</a> 
+      that you have assigned to websites using your PaySwarm provider. This
+      includes revoking Payment Tokens, decreasing or increasing the Payment
+      Token limit, viewing Payment Token expiration dates, and other details
+      associated with Payment Tokens.</p>
+
+      <h1>The Benefits</h1>
+
+      <p>Using PaySwarm benefits Content Creators in a number of different
+      ways, some of which are outlined in the following sections.
+
+      <h2 id="easy">Easy Deployment</h2>
 
       <p>Deploying PaySwarm into existing Content Management Systems (CMS) like
       Drupal, Wordpress or Joomla is easy. PaySwarm purchasing and digital
       contract retrieval can be done using standard OAuth libraries in under
-      a hundred lines of code.
+      a hundred lines of code. Because PaySwarm is built on top of the OAuth
+      standard, which is used by Twitter, Google, Netflix, and Yahoo, there are
+      many libraries in many different languages to choose from when it comes
+      to implementing PaySwarm.
+      </p>
+      
+      <h2 id="secure">Secure Financial Transactions</h2>
+      
+      <p>PaySwarm is built around the concept of a Payment Token, which provides
+      much stronger financial protections than a credit card or debit card
+      when used online. A Payment
+      Token is like a debit card that is specifically assigned to a content 
+      provider's website. The Payment Token has a spending limit that is set 
+      by the customer before being activated. The Payment Token is then assigned
+      to a specific website and can only be used by that website until the
+      spending limit has been met. Customers are protected by excessive 
+      fraudulent spending by the spending limit. Content creators are protected 
+      against excessive damages due to theft of the Payment Token because of
+      the spending limit and because Payment Tokens can always be revoked at 
+      any time by the customer or content website.</p>
+      
+      <p>In most cases, stealing a customer's credit card number could result
+      in hundreds of dollars in damages. Using PaySwarm, stealing a customer's 
+      per-website Payment Token may result in damages up to $1. However, whoever
+      steals the customer's Payment Token would only be able to transfer money
+      into the content creator's financial that owns the Payment Token.
+      </p>
+      
+      <h2 id="simple">Simple Customer Experience</h2>
+      
+      <p>PaySwarm does not require any extra browser software for customers and
+      will therefore work in any modern web browser. PaySwarm is 
+      fully-integrated into your website, which means that you can
+      show your customer's how much is left of their spending limit, what
+      they've purchased previously, and a variety of other information about 
+      their spending on your website. The only time a customer is redirected to 
+      another website is to authorize the Payment Token. The content creator
+      stays in control of the experience at all other times.
+      </p>
+
+      <h2 id="flexible">Flexible Payments</h2>
+      
+      <p>The payments that are allowed using a PaySwarm Payment Token can 
+      range from thousands of dollars, to pennies, to thousandths of a 
+      a penny. This enables content creators to charge per year and per book
+      down to per second and per article. PaySwarm can be used for macropayments
+      as well as micropayments, and allows content creators to determine how 
+      much or how little to charge their customers.
+      </p>
+      
+      <h2 id="open">Open and Standards-based</h2>
+      
+      <p>PaySwarm is built on top of open or standard Web technologies. There 
+      are no black-boxes or overly-restrictive digital rights management systems 
+      involved. All that is required for PaySwarm to operate is HTTP, TLS,
+      RDFa and JSON-LD. This ensures full interoperability between different
+      implementations. If you'd like to help develop the PaySwarm standard,
+      you are urged to <a href="http://payswarm.com/">join the community</a>.
+      </p>
+
+      <h2 id="royalty-free">Royalty-free</h2>
+      
+      <p>Anyone can implement and use the PaySwarm standard in a patent and
+      royalty-free manner. You don't need permission, you don't need to pay
+      royalties.
       </p>
 
     </div>

@@ -22,7 +22,7 @@ $(document).ready(function()
 
 var webidLogin = function(url)
 {
-   url += '?domain=payswarm.com&auth=webid-demo/auth.php&redirect=webid-demo/redirect.html&pport=501';
+   url += '?domain=payswarm.com&auth=webid-demo/auth.php&redirect=webid-demo/redirect.html&pport=80';
    $('#webid-frame').html('<iframe id="webid-iframe" src="' + url + '"></iframe>');
 };
 
@@ -43,12 +43,12 @@ window.authenticate = function(data)
          error: 'Invalid response from server.',
          rdf: ''
       };
-      data = JSON.stringify(output);
    }
    
    // set data in a cookie
-   $.cookie('webid', escape(data), { secure: true });
    $.cookie('rdf', output.rdf, { secure: true });
+   delete output.rdf;
+   $.cookie('webid', escape(JSON.stringify(output)), { secure: true });
    
    // redirect
    var url = 'https://payswarm.com/webid-demo/home.php';

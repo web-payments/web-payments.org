@@ -30,38 +30,11 @@ if(!isset($rval['error']))
       
       // encode rdf for transport
       $rval['rdf'] = base64_encode($rdf);
-      
-      // set cookies (current js code doesn't grab the
-      // cookies in the javascript and pass them on but could to avoid
-      // having to deal with the return data as json)
-      setcookie(
-         'webid',
-         urlencode(json_encode($rval)),
-         0, '/', '.payswarm.com', true);
-      setcookie(
-         'rdf', $rval['rdf'],
-         0, '/', '.payswarm.com', true);
    }
 }
 //print_r($rval);
 
-// send headers
+// send headers and output
 header('Content-Type: application/json');
-//header('Content-Type: x-www-form-urlencoded');
-//header('Content-Type: text/plain');
-
-/*
-// send output
-$output = '';
-foreach($rval as $key => $value)
-{
-   if(strlen($output) > 0)
-   {
-      $output .= '&';
-   }
-   $output .= urlencode($key) . '=' . urlencode($value);
-}
-echo $output;*/
-
 echo json_encode($rval);
 ?>

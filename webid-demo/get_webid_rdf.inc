@@ -10,12 +10,13 @@ function get_webid_rdf($url)
       $url = 'https' . substr($url, 4);
    }
    
-   // TODO: don't assume its RDF data, it may be something else
-   
    // grab rdf data from the url
    $timeout = 30;
    $ch = curl_init();
    curl_setopt($ch, CURLOPT_URL, $url);
+   curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+      'Accept: application/rdf+xml'
+   ));
    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
    //curl_setopt($ch, CURLOPT_ENCODING, '');
    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

@@ -10,7 +10,7 @@ $(document).ready(function()
 
    $('#button-db').click(function()
    {
-      webidLogin('http://webid.digitalbazaar.com');
+      webidLogin('https://webid.digitalbazaar.com/login');
    });
 
    $('#button-provider').click(function()

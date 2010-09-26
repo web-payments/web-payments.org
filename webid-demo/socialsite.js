@@ -10,7 +10,7 @@ $(document).ready(function()
 
    $('#button-db').click(function()
    {
-      webidLogin('http://webid.digitalbazaar.com');
+      webidLogin('https://webid.digitalbazaar.com/login');
    });
 
    $('#button-provider').click(function()
@@ -22,8 +22,13 @@ $(document).ready(function()
 
 var webidLogin = function(url)
 {
-   url += '?domain=payswarm.com&auth=webid-demo/auth.php&redirect=webid-demo/redirect.html&pport=80';
-   $('#webid-frame').html('<iframe id="webid-iframe" src="' + url + '"></iframe>');
+   url +=
+      '?domain=payswarm.com' +
+      '&auth=webid-demo/auth.php' +
+      '&redirect=webid-demo/redirect.html' +
+      '&pport=80';
+   $('#webid-frame').html(
+      '<iframe id="webid-iframe" src="' + url + '"></iframe>');
 };
 
 window.authenticate = function(data)
@@ -33,21 +38,22 @@ window.authenticate = function(data)
    try
    {
       output = JSON.parse(data);
-      //console.log('logged in', output);
    }
    catch(ex)
    {
       // bad response, set error
       output = {
          success: false,
-         error: 'Invalid response from server.',
-         rdf: ''
+         error: 'Invalid response from server.'
       };
    }
    
-   // set data in a cookie
-   $.cookie('rdf', output.rdf, { secure: true });
-   delete output.rdf;
+   // set cookie data
+   if(output.rdf)
+   {
+      $.cookie('rdf', output.rdf, { secure: true });
+      delete output.rdf;
+   }
    $.cookie('webid', escape(JSON.stringify(output)), { secure: true });
    
    // redirect

@@ -8,7 +8,11 @@ $rval['success'] = false;
 // the user may have selected a browser-generated WebID...
 // so grab that information here
 $info = get_certificate_info();
-if(!isset($rval['error']))
+if(isset($info['error']))
+{
+   $rval['error'] = $info['error'];
+}
+else
 {
    // get the web ID rdf
    $rdf = get_webid_rdf($info['webID']);

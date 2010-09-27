@@ -47,7 +47,7 @@ window.authenticate = function(data)
          error: 'Invalid response from server.'
       };
    }
-   
+
    // set cookie data
    if(output.rdf)
    {
@@ -55,7 +55,7 @@ window.authenticate = function(data)
       delete output.rdf;
    }
    $.cookie('webid', escape(JSON.stringify(output)), { secure: true });
-   
+
    // redirect
    var url = 'https://payswarm.com/webid-demo/home.php';
    window.location = url;

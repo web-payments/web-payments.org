@@ -144,6 +144,13 @@ border: 1px solid #ccc;
 cursor: pointer;
 }
 
+button.provider:hover {
+border-color: #3b5998;
+-moz-box-shadow: 0 0 4px #ccc;
+-webkit-box-shadow: 0 0 4px #ccc;
+box-shadow: 0 0 4px #ccc;
+}
+
 button.social {
 border: 0 none;
 color: #fff;

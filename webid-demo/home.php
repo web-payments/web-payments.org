@@ -49,7 +49,7 @@ setcookie('rdf', '', 0);
                directly from your WebID URL, making it possible for you to store your friends and any other
                fully-customizable information in a single, global location. For the purpose of this demo, this
                page is intentionally left empty - a blank slate to represent the endless possibilities of WebID ;).</p>
-	            <p>Your demo WebID: <?php echo $cookie->webID; ?></p>
+	            <p>Your demo WebID: <a href="<?php echo $cookie->webID; ?>"><?php echo $cookie->webID; ?></a></p>
                <p>If you refresh this page or navigate away from it you will be logged out.
                Note that this is not a limitation of the technology, rather it makes it
                easier to more rapidly demonstrate selecting different WebIDs and repeat

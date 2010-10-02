@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+
+<head> 
+  <title>W3C and Identity on the Web</title> 
+  <meta name="copyright" 
+   content="Copyright &#169; 2010 Digital Bazaar, Inc. Available under Creative Commons Attribution Share-Alike 3.0" /> 
+  <link rel="stylesheet" type="text/css" media="screen, projection, print" 
+   href="slidy.css" /> 
+  <script src="slidy.js" 
+   charset="utf-8" type="text/javascript"></script> 
+  <style type="text/css"> 
+    <!-- your custom style rules --> 
+  </style> 
+</head>
+<body>
+
+<div class="background">
+</div>
+
+<div class="slide cover"> 
+ <h1>W3C and Identity on the Web</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="../../images/openid.png" 
+   alt="" class="cover" />
+  <img style="width: 10%;" src="../../images/webfinger.png" 
+   alt="" class="cover" />
+  <img style="width: 25%;" src="../../images/webid.png" 
+   alt="" class="cover" /><br />
+   
+ <br clear="all" />
+ <br clear="all" />
+  <a href="http://openid.net/">OpenID</a> |
+  <a href="http://hueniverse.com/2009/08/introducing-webfinger/">WebFinger</a> |
+  <a href="http://getwebid.org/">WebID</a>
+ </div>
+ <br clear="all" />
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  <em>Our dream is to champion the pursuit and creation of art and knowledge through the Web. We do this to move society toward a better future.</em><br /><br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+</div>
+
+<div class="slide">
+  <h1>The Problem</h1>
+
+  <ul>
+    <li>We have a universal identifier for phone, e-mail and websites.
+    </li>
+    <li>We don't have one for identifying people and their preferences on the Web.
+    </li>
+    <li>We are not in control of our own identity on the Web.</li>
+  </ul>
+
+</div>
+
+<div class="slide">
+  <h1>Potential Solutions</h1>
+
+  <ul>
+    <li>Universal identification on the Web - OpenID Connect, WebFinger, and WebID.
+    </li>
+    <li>All seem to be converging on a username/password-less way to log into websites.
+    </li>
+    <li>Many are concerned with transmitting name, address and friend information.
+    </li>
+  </ul>
+
+  <p style="margin: 50px; float:right"><a href="https://webid.digitalbazaar.com/manage/">WebID demo...</a></p>
+</div>
+
+<div class="slide">
+  <h1>WebID</h1>
+
+  <ul>
+    <li>Purpose: Web architecture-compliant identity and authentication protocol for the Social Web.</li>
+
+    <li>Description of <a href="http://esw.w3.org/Foaf%2Bssl#How_does_it_work.3F">how WebID works</a> vs. <a href="http://blogs.sun.com/bblfish/entry/the_openid_sequence_diagram">how OpenID works</a></li>
+
+    <li>Advantages <ul>
+      <li>Usability: No password or URL to remember, no need to repeatedly enter friends and contacts, potential for browser-integration, very high security (TLS)</li>
+      <li>Technical: wide support in desktop browsers, RESTful authentication, peer-to-peer identity, simplified identification protocol, supports digital signatures (X509), supports strong encryption of messages (TLS), extensibility via Linked Data (RDF, RDFa), syntax agnostic (easy to integrate w/ Portable Contacts, etc.)</li></ul></li>
+    <li>Disadvantages: <a href="http://code.google.com/p/chromium/issues/detail?id=29784">Inability to log out</a>, user-interfaces, uniform UI across all browsers, does not work on older cellphones - patchy support on newer ones</li>
+
+  </ul>
+  
+  <p style="margin: 50px; float:right">How W3C can help...</p>
+
+</div>
+
+<div class="slide"> 
+  <h1>Standardization Strategy</h1> 
+
+  <p style="font-weight: bold; font-style: italic;">
+   Potential ways forward...
+  </p>
+
+  <ul>
+    <li>OpenID Connect and WebID communities work together via W3C</li>
+
+    <li>Browser vendors involved via Web Identity Javascript API</li>
+
+    <li>Consider: Google, Facebook, PaySwarm, New York Times, Boston Globe, Universal Music, Sony Music, and Warner Music</li>
+  </ul>
+
+  <p style="margin: 50px; float:right">The W3C work...</p>
+
+</div>
+
+<div class="slide"> 
+  <h1>Web Identity Browser API</h1>
+
+  <p style="font-weight: bold; font-style: italic;">
+   Implementation issues that will lead to the Web Identity Browser API...
+  </p>
+
+  <ul>
+    <li>Cross-domain communication with WebID end point (Flash, Flash cross domain policies, Apache module)</li>
+    <li>Communication between Javascript and Flash (base64 encode strings to pass utf-16 data)</li>
+    <li>Lack of a raw socket interface  (Flash raw sockets)</li>
+    <li>Private Key/Certificate local storage (Flash, HTML5 Local Storage)</li>
+    <li>Cross-domain login communication (iframe, Flash, iframe data passing hacks)</li>
+    <li>TLS implementation in Javascript (pure Javascript/Flash)</li>
+    <li>Certificate/key export (Flash to save/load binary data)</li>
+  </ul>
+</div>
+
+<div class="slide"> 
+  <h1>Potential Impact</h1>
+
+  <ul>
+    <li>Federated Identity - universal identity and attribute discovery</li>
+    <li><a href="http://payswarm.com/">PaySwarm</a> - universal payment for the Web</li>
+    <li>Browser APIs for Crypto - strong support for digital signatures, encrypted communication, and financial transactions in the browser</li>
+  </ul>
+  
+</div>
+
+<div class="slide"> 
+  <h1>Learn More about Identity on the Web</h1>
+
+  <ul style="font-size: 75%;">
+    <li><a href="http://getwebid.org/">WebID</a> (<a href="http://esw.w3.org/foaf+ssl">Wiki</a>) - 
+        Decentralized Identity and Discovery for the Web.
+    </li>
+    <li><a href="http://openid.net/">OpenID</a> - 
+        Open identity for the Web.
+    </li>
+    <li><a href="http://openidconnect.com/">OpenID Connect</a> - 
+        The newest development work on OpenID - effectively OpenID 3.0.
+    </li>
+    <li><a href="http://oauth.net/">OAuth</a> - 
+        Authorization of Web Agents to operate on one's behalf.
+    </li>
+    <li><a href="http://xauth.org/info/">XAuth</a> - 
+        Cross-site preferences cookie jar - solves NASCAR problem.
+    </li>
+    <li><a href="http://hueniverse.com/2009/08/introducing-webfinger/">WebFinger</a> - 
+        Discovery of identity information via e-mail addresses
+    </li>
+    <li><a href="http://tools.ietf.org/html/rfc5785">/.well-known/ URIs</a> - 
+        Directory for well-known files such as robots.txt, icon files, avatar images, etc.
+    </li>
+    <li><a href="http://portablecontacts.net/">Portable Contacts</a> - 
+        Universal friends and contacts, remove friend entry repetition.
+    </li>
+    <li><a href="http://activitystrea.ms/">Activity Streams</a> - 
+        A format for syndicating social activities around the Web.
+    </li>
+    <li><a href="http://www.opensocial.org/">Open Social</a> - 
+        Open APIs for social network interoperability.
+    </li>
+  </ul>
+</div>
+
+<div class="slide end"> 
+ <h1>Comments and Concerns</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="../../images/openid.png" 
+   alt="" class="cover" />
+  <img style="width: 10%;" src="../../images/webfinger.png" 
+   alt="" class="cover" />
+  <img style="width: 25%;" src="../../images/webid.png" 
+   alt="" class="cover" /><br />
+   
+ <br clear="all" />
+ <br clear="all" />
+  <a href="http://openid.net/">OpenID</a> |
+  <a href="http://hueniverse.com/2009/08/introducing-webfinger/">WebFinger</a> |
+  <a href="http://getwebid.org/">WebID</a>
+ </div>
+ <br clear="all" />
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  <em>Our dream is to champion the pursuit and creation of art and knowledge through the Web. We do this to move society toward a better future.</em><br /><br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+</div>
+
+</body>
+</html>
+

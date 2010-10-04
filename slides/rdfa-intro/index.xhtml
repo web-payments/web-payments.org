@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"> 
+
+<head> 
+  <title>RDF and RDFa</title> 
+  <meta name="copyright" 
+   content="Copyright &#169; 2010 Digital Bazaar, Inc. Available under Creative Commons Attribution Share-Alike 3.0" /> 
+  <link rel="stylesheet" type="text/css" media="screen, projection, print" 
+   href="slidy.css" /> 
+  <script src="slidy.js" 
+   charset="utf-8" type="text/javascript"></script> 
+  <style type="text/css"> 
+    <!-- your custom style rules --> 
+  </style> 
+</head>
+<body>
+
+<div class="background">
+</div>
+
+<div class="slide cover"> 
+ <h1>RDF and RDFa Primer</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="http://www.w3.org/Icons/SW/sw-horz-w3c.png" 
+   alt="" class="cover" />
+  <img style="width: 7%;" src="http://www.w3.org/RDF/icons/rdf_w3c_icon.128" 
+   alt="" class="cover" />
+   
+ <br clear="all" />
+ <br clear="all" />
+  <a href="http://www.w3.org/">W3C</a> |
+  <a href="http://en.wikipedia.org/wiki/Resource_Description_Framework">RDF</a> |
+  <a href="http://www.w3.org/TR/xhtml-rdfa-primer/">RDFa</a>
+ </div>
+ <br clear="all" />
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  <em>Our dream is to champion the pursuit and creation of art and knowledge through the Web. We do this to move society toward a better future.</em><br /><br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+</div>
+
+<div class="slide">
+  <h1>The Problem</h1>
+
+  <p>Computers have a hard time understanding human concepts in Web pages.</p>
+  <div style="text-align: center;" >
+     <img src="presentation-vs-semantics.png" /><br />
+  </div>
+  <p>Why: Increase search engine accuracy/ranking, universal data interoperability, better interfaces for the Web.</p>
+
+  <p style="margin: 50px; float:right">Describing everything...</p>
+</div>
+
+<div class="slide">
+  <h1>The Resource Description Framework (RDF)</h1>
+
+  <ul>
+    <li>Purpose: A model to describe almost every human concept to computers.</li>
+    <li>Based on a simple concept - statement of fact: Subject Property Object.
+    </li>
+    <li>For example: article title "Man Walks on the Moon" .
+    </li>
+    <li>As RDF: &lt;http://example.org/article-1&gt; &lt;http://purl.org/dc/terms/title&gt; "Man Walks on the Moon" .
+    </li>
+  </ul>
+
+  <p style="margin: 50px; float:right">Serializing RDF...</p>
+</div>
+
+<div class="slide">
+  <h1>The Resource Description Framework in attributes (RDFa)</h1>
+
+  <ul>
+    <li>Purpose: A way to express human concepts in HTML so that machines can understand them.</li>
+
+    <li>RDFa uses HTML attributes like <code>about</code> and <code>property</code> to express RDF.</li>
+
+    <li>HTML+RDFa example: <code style="font-size: 0.7em"><br />
+&lt;p about="<span style="color: #bb0000; font-weight: bold;">http://example.org/article-1</span>"&gt;<br />
+&nbsp;&nbsp;&nbsp;&lt;span property="<span style="color: #0000bb; font-weight: bold;">http://purl.org/dc/terms/title</span>"&gt;<span style="color: #00bb00; font-weight: bold;">Man Walks on the Moon</span>&lt;span&gt;<br />
+&lt;p&gt;
+</code>
+    <li>Result: &lt;<span style="color: #bb0000; font-weight: bold;">http://example.org/article-1</span>&gt; &lt;<span style="color: #0000bb; font-weight: bold;">http://purl.org/dc/terms/title</span>&gt; "<span style="color: #00bb00; font-weight: bold;">Man Walks on the Moon</span>" .</li>
+    </li>
+
+  </ul>
+  
+  <p style="margin: 50px; float:right">Linking data together...</p>
+
+</div>
+
+<div class="slide">
+  <h1>Linked Data</h1>
+
+  <p>Using RDF, human concepts and data can link across webpages to other concepts/data...</p>
+
+  <div style="text-align: center;" >
+     <img src="linked-data.png" /><br />
+  </div>
+
+  <p style="margin: 50px; float:right">Linked data in the real-world...</p>
+
+</div>
+
+<div class="slide"> 
+  <h1>Google Rich Snippets</h1>
+
+  <p>Every major search engine now looks for RDFa data in web pages. Google extracts RDFa event information and displays the results in a search listing.</p>
+
+  <div style="text-align: center;" >
+     <img src="events-rich-snippets.png" /><br />
+  </div>
+
+  <p style="margin: 50px; float:right">Learn more...</p>
+
+</div>
+
+<div class="slide"> 
+  <h1>Learn More about Linked Data</h1>
+
+  <ul style="font-size: 75%;">
+    <li>RDF</li>
+    <li>RDFa</li>
+    <li>The RDFa API</li>
+    <li>Microformats</li>
+    <li>Microdata</li>
+  </ul>
+</div>
+
+<div class="slide end"> 
+ <h1>Comments and Concerns</h1> 
+ <div style="text-align: center;">
+  <img style="width: 25%;" src="http://www.w3.org/Icons/SW/sw-horz-w3c.png" 
+   alt="" class="cover" />
+  <img style="width: 7%;" src="http://www.w3.org/RDF/icons/rdf_w3c_icon.128" 
+   alt="" class="cover" />
+   
+ <br clear="all" />
+ <br clear="all" />
+  <a href="http://www.w3.org/">W3C</a> |
+  <a href="http://en.wikipedia.org/wiki/Resource_Description_Framework">RDF</a> |
+  <a href="http://www.w3.org/TR/xhtml-rdfa-primer/">RDFa</a>
+ </div>
+
+ <br clear="all" />
+ <br clear="all" />
+ <p>
+  <a href="http://linkedin.com/in/manusporny/">Manu Sporny</a>, Founder/CEO, Digital Bazaar, Inc.<br />
+  <em>Our dream is to champion the pursuit and creation of art and knowledge through the Web. We do this to move society toward a better future.</em><br /><br />
+  E-mail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a><br />
+  Twitter: <a href="http://twitter.com/manusporny">@manusporny</a><br />
+  Skype: msporny<br />
+ </p>
+</div>
+
+</body>
+</html>
+

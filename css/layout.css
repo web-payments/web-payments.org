@@ -150,9 +150,9 @@ color: #fff;
 border-bottom: 1px solid rgba(0,0,0,0.3);
 }
 
-.downloadbutton {
+.largebutton {
 text-align: center;
-background: #15b953 url(../img/buttonbgs.png);
+background: #15b953 url(../images/button-background.png);
 border: 1px solid #000;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
@@ -160,15 +160,15 @@ border-radius: 5px;
 margin-bottom: 24px;
 }
 
-.downloadbutton:hover {
+.largebutton:hover {
 background-position: 0px 160px;
 }
 
-.downloadbutton:active {
+.largebutton:active {
 background-position: 0px 80px;
 }
 
-.downloadbutton a {
+.largebutton a {
 border-bottom: none;
 color: #003120;
 display: block;
@@ -176,19 +176,11 @@ padding: 10px 10px;
 text-shadow:0px 1px 0px #75ff78;
 }
 
-.download {
+.buttontext {
 padding-bottom: 10px;
-background: url(../img/downarrow.png) no-repeat;
 padding-left: 40px;
 font-size: 20px;
 border: none;
-}
-
-.beta {
-font-family: Georgia, serif;
-font-size: 13px;
-font-style: italic;
-font-weight: 100;
 }
 
 .teal {

@@ -1,0 +1,284 @@
+/* Layout for desktop version */
+
+@font-face {
+font-family: "aller-bold";
+src: url("fonts/Aller_Bd.ttf");
+}
+
+body {
+background: url(http://i53.tinypic.com/im0bgl.jpg);
+}
+
+h1 {
+font-family: "aller-bold", Georgia, Serif;
+}
+
+h2 {
+font-family: "aller-bold", Georgia, Serif;
+}
+
+.largeprint {
+font-size: 16px;
+}
+
+.smallprint {
+font-size: 12px;
+}
+
+.titlebar {
+height: 100px;
+background: #1da551 url(../images/payswarm-title.png);
+background-repeat: no-repeat;
+vertical-align: middle;
+color: #fff;
+padding-left: 160px;
+}
+
+.titlebar h1
+{
+position: relative;
+font-size: 75px;
+vertical-align: bottom;
+top: 25px;
+}
+
+.center {
+margin-left:auto;
+margin-right:auto;
+width:75%;
+}
+
+.examplecolumn {
+height: 40px;
+background: #15b953 url(http://i52.tinypic.com/2gugmj5.jpg);
+}
+
+.examplecolumn2 {
+height: 400px;
+background: #15b953 url(http://i52.tinypic.com/2gugmj5.jpg);
+}
+
+.subhead {
+color: #15b953;
+}
+
+.vspacing {
+padding-top: 50px;
+padding-bottom: 30px;
+}
+
+.introsection {
+padding-bottom: 50px;
+}
+
+.onblack {
+background: #15b953 url(http://i52.tinypic.com/2gugmj5.jpg);
+color: #fff;
+padding-top: 50px;
+padding-bottom: 30px;
+}
+
+.onblack h2 {
+color: #fff;
+}
+
+.onblack a:link a:visited {
+color: #000;
+font-style: bold;
+}
+
+.onblack a:hover a:active {
+color: #000;
+font-style: bold;
+}
+
+.markup {
+padding-top: 50px;
+padding-bottom: 50px;
+}
+
+.onteal {
+background: #519194;
+color: #fff;
+padding-top: 50px;
+padding-bottom: 50px;
+}
+
+.ongrey {
+background: #313131;
+color: #fff;
+padding-top: 50px;
+padding-bottom: 50px;
+}
+
+.onwhite {
+background: #fff;
+color: #8c8c8c;
+padding-top: 50px;
+padding-bottom: 50px;
+}
+
+.post {
+border-top: 1px solid #747474;
+padding-bottom: 30px;
+margin-top: 60px;
+}
+
+.date {
+border-top: 3px solid #747474;
+padding-top: 15px;
+}
+
+.postcontent {
+padding-top: 18px;
+}
+
+.license {
+padding-top: 50px;
+padding-bottom: 30px;
+background: #e7e7e7 url(http://i52.tinypic.com/2gugmj5.jpg);
+color: #fff;
+}
+
+.license a {
+color: #fff;
+border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.ongreenlink {
+color: #fff;
+border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.downloadbutton {
+text-align: center;
+background: #15b953 url(../img/buttonbgs.png);
+border: 1px solid #000;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+margin-bottom: 24px;
+}
+
+.downloadbutton:hover {
+background-position: 0px 160px;
+}
+
+.downloadbutton:active {
+background-position: 0px 80px;
+}
+
+.downloadbutton a {
+border-bottom: none;
+color: #003120;
+display: block;
+padding: 10px 10px;
+text-shadow:0px 1px 0px #75ff78;
+}
+
+.download {
+padding-bottom: 10px;
+background: url(../img/downarrow.png) no-repeat;
+padding-left: 40px;
+font-size: 20px;
+border: none;
+}
+
+.beta {
+font-family: Georgia, serif;
+font-size: 13px;
+font-style: italic;
+font-weight: 100;
+}
+
+.teal {
+color: #0eaeb4;
+}
+
+.red {
+color: #e20000;
+}
+
+.purple {
+color: #8002d9;
+}
+
+.lightgrey {
+color: #868686;
+}
+
+.burntorange {
+color: #bc3e00;
+}
+
+.multicolumn {
+-moz-column-count: 3;
+-moz-column-gap: 3em;
+-webkit-column-count: 3;
+-webkit-column-gap: 3em;
+}
+
+.resizebanner {
+position: fixed;
+right:0px;
+bottom:0px;
+padding: 0px;
+margin: 0px;
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+}
+
+.twitter p {
+margin-bottom: 10px;
+}
+
+.contact {
+clear: both;
+}
+
+img[alt="Lily"] {
+-webkit-transition: -webkit-transform 0.3s ease-in-out;
+-moz-transition: -moz-transform 0.3s ease-in-out;
+-o-transition: -o-transform 0.3s ease-in-out;
+transition: transform 0.3s ease-in-out;
+}
+
+img[alt="Lily"]:hover {
+-webkit-transform: rotate(-3deg) scale(1.3) translate(-40px, -40px);
+-moz-transform: rotate(-3deg) scale(1.3) translate(-40px, -40px);
+-o-transform: rotate(-3deg) scale(1.3) translate(-40px, -40px);
+transform: rotate(-3deg) scale(1.3) translate(-40px, -40px);
+-webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.1);
+}
+
+/* Layout for mobile version */
+
+@media handheld, only screen and (max-width: 767px) {
+
+.examplecontainer, .examplecolumn2, .resizebanner, .onteal	 {
+display: none;
+}
+
+blockquote {
+border: none;
+font-style: italic;
+}
+
+.multicolumn {
+-moz-column-count: 1;
+-webkit-column-count: 1;
+}
+
+}
+
+/* Provide higher res assets for iPhone 4 */
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2) { 
+
+.download {
+background: url(../img/downarrow@2x.png) no-repeat;
+background-size: 27px 28px;
+}
+
+}

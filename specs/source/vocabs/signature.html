@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>PaySwarm Vocabulary</title> 
+    <title>Digital Signature Vocabulary</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -15,7 +15,7 @@
           specStatus:           "unofficial",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "payswarm-vocabulary",
+          shortName:            "signature-vocabulary",
  
           // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
@@ -26,7 +26,7 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://payswarm.com/specs/vocabs/payswarm",
+          edDraftURI:           "http://payswarm.com/specs/source/vocabs/signature.html",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -71,6 +71,7 @@
     </script> 
   </head> 
   <body> 
+
     <section id='abstract'> 
       <p> 
       </p> 
@@ -84,88 +85,29 @@
 
     <section>
       <h2>Classes</h2>
- ps:Asset
- ps:AssetSignature
--ps:Authority
--ps:BuyerSignature
- ps:Contract
-+ps:ContractSignature
--ps:File
--ps:Identity
--ps:License
--ps:LicenseSignature
--ps:Listing
--ps:NoAdditionalPayees
-+ps:ListingSignature
- ps:Payee
--ps:Role
--ps:SellerSignature
--ps:ValidFrom
--ps:ValidThrough
--ps:WebPage
+
+com:Signature (was ps:Signature)
+com:SignatureType (was ps:SignatureType)
+com:StandardSignature (was ps:StandardSignature)
+
+    </section>
+
+    <section>
+      <h2>Constants</h2>
+
     </section>
 
     <section>
       <h2>Properties</h2>
- ps:account
--ps:accountId
--ps:allowCustomPools
--ps:amountResolved
--ps:amountType
-+ps:actor
- ps:asset
- ps:assetAcquirer
- ps:assetHash
- ps:assetProvider
- ps:authority
--ps:buyer
--ps:buyerId
--ps:collectionId
--ps:collections
- ps:contentHash
--ps:contentUrl
--ps:cover
--ps:delegateId
- ps:deleted
- ps:disabled
--ps:distribution
--ps:expiration
- ps:forAsset
--ps:forMediaId
--ps:gid
- ps:grant
--ps:grantTemplate
--ps:grantTerms
--ps:groupId
- ps:identityHash
- ps:identitySalt
- ps:ipv
- ps:license
--ps:licenseAmount
- ps:licenseHash
--ps:licenseProvider
--ps:licenseTerms
--ps:licenseText
-+ps:licenseUrl
- ps:listing
--ps:mimeType
--ps:min
--ps:notValidAfter
--ps:notValidBefore
-+ps:listingHash
- ps:owner
--ps:ownerId
--ps:permission
- ps:privatePayees
--ps:profileId
--ps:prose
--ps:rightsHolder
--ps:role
--ps:roleId
--ps:seller
--ps:userId
--ps:validFrom
--ps:validThrough
+sig:signature (was ps:signature)
+sig:signatureFor (was ps:signatureFor)
+sig:signer (was ps:signer)
+sig:signatureValue (was ps:signatureValue)
+
+-ps:signatureAlgorithm
+-ps:signatureHashAlgorithm
+-ps:signatureSerializationAlgorithm
++ps:signedFor
 
     </section>
 

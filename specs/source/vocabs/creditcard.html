@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>PaySwarm Vocabulary</title> 
+    <title>Credit and Debit Card Vocabulary</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -12,10 +12,10 @@
     <script class='remove'> 
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "unofficial",
+          specStatus:     unofficial",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "payswarm-vocabulary",
+          shortName:      credit-card-vocabulary",
  
           // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
@@ -26,7 +26,7 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://payswarm.com/specs/vocabs/payswarm",
+          edDraftURI:     http://payswarm.com/specs/source/vocabs/credit-card.html",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -53,10 +53,10 @@
           additionalCopyrightHolders: "Copyright 2009-2010 &copy; Digital Bazaar, Inc.",
           
           // name of the WG
-          wg:           "Unofficial Payswarm Exploratory Group",
+          wg:     Unofficial Payswarm Exploratory Group",
           
           // URI of the public WG page
-          wgURI:        "http://payswarm.com/",
+          wgURI:  http://payswarm.com/",
           
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "---",
@@ -84,88 +84,35 @@
 
     <section>
       <h2>Classes</h2>
- ps:Asset
- ps:AssetSignature
--ps:Authority
--ps:BuyerSignature
- ps:Contract
-+ps:ContractSignature
--ps:File
--ps:Identity
--ps:License
--ps:LicenseSignature
--ps:Listing
--ps:NoAdditionalPayees
-+ps:ListingSignature
- ps:Payee
--ps:Role
--ps:SellerSignature
--ps:ValidFrom
--ps:ValidThrough
--ps:WebPage
+
+ccard:CreditCard
+ccard:DebitCard
+
+    </section>
+
+    <section>
+      <h2>Constants</h2>
+
+ccard:Visa
+ccard:Mastercard
+ccard:GenericCard
+
     </section>
 
     <section>
       <h2>Properties</h2>
- ps:account
--ps:accountId
--ps:allowCustomPools
--ps:amountResolved
--ps:amountType
-+ps:actor
- ps:asset
- ps:assetAcquirer
- ps:assetHash
- ps:assetProvider
- ps:authority
--ps:buyer
--ps:buyerId
--ps:collectionId
--ps:collections
- ps:contentHash
--ps:contentUrl
--ps:cover
--ps:delegateId
- ps:deleted
- ps:disabled
--ps:distribution
--ps:expiration
- ps:forAsset
--ps:forMediaId
--ps:gid
- ps:grant
--ps:grantTemplate
--ps:grantTerms
--ps:groupId
- ps:identityHash
- ps:identitySalt
- ps:ipv
- ps:license
--ps:licenseAmount
- ps:licenseHash
--ps:licenseProvider
--ps:licenseTerms
--ps:licenseText
-+ps:licenseUrl
- ps:listing
--ps:mimeType
--ps:min
--ps:notValidAfter
--ps:notValidBefore
-+ps:listingHash
- ps:owner
--ps:ownerId
--ps:permission
- ps:privatePayees
--ps:profileId
--ps:prose
--ps:rightsHolder
--ps:role
--ps:roleId
--ps:seller
--ps:userId
--ps:validFrom
--ps:validThrough
+
+ccard:number
+ccard:expMonth
+ccard:expYear
+ccard:cvm
+ccard:name
+ccard:firstName
+ccard:lastName
+ccard:address
+ccard:errors
+ccard:gateway
+ccard:approved
 
     </section>
 

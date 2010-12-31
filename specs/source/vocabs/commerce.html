@@ -85,41 +85,428 @@
     <section>
       <h2>Classes</h2>
 
--com:Deposit
- com:Payee
--com:PayeeRule
+      <section id="Deposit">
+        <h3 about="http://purl.org/commerce#Deposit"
+            typeof="owl:Class">Deposit (REMOVED - but should not be)</h3>
+          <p>
+A transfer of funds from a source account into a destination account typically
+performed as a means for storing monetary amounts in the destination account.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd>stable</dd>
+          <dt>Parent Class</dt>
+          <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
+          <dt>Properties</dt>
+          <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
+          </dl>
+<p>
+The following example describes a credit card deposit:
+<pre>
+{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
+   "a": ["com:Transaction", "com:Deposit"],
+   "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
+   "com:source":
+   {
+      "@": "&lt;http://mybank.example.com/accounts/3879279824>",
+      "a": "ccard:Visa",
+      "ccard:number": "3847573872837483",
+      "ccard:expMonth": "11",
+      "ccard:expYear": "2013",
+      "ccard:cvm": "372",
+      "ccard:name": "JOHN DOE",
+      "ccard:firstName": "JOHN",
+      "ccard:lastName": "DOE",
+      "ccard:address":
+      {
+         "a": "vcard:Address",
+         "vcard:street-address": "28 Rivertail Lane",
+         "vcard:locality": "Upsilanty",
+         "vcard:region": "New York",
+         "vcard:postal-code": "83748",
+         "vcard:country-name": "United States of America"
+      },
+      "ccard:errors": [],
+      "ccard:gateway": "&lt;http://example.org/payments/VeriPay",
+      "ccard:approved": true
+   },
+   "com:payee": [com:Payee*],
+   "com:transfer": [com:Transfer*],
+   "sig:signature":
+   {
+       "a": "com:DepositSignature",
+       "sig:signatureFor": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
+       "sig:signer": "&lt;http://dev.payswarm.com/person/john-doe#key-5>",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}
+</pre>
+</p>
+      </section>
 
+      <section id="DepositSignature">
+        <h3 about="http://purl.org/commerce#DepositSignature"
+            typeof="owl:Class">DepositSignature</h3>
+          <p>
+A signature verifying the details of a <a href="#Deposit">Deposit</a>.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd>stable</dd>
+          <dt>Parent Class</dt>
+          <dd><a href="http://purl.org/commerce#Transfer">sig:StandardSignature</a></dd>
+          <dt>Properties</dt>
+          <dd></dd>
+          </dl>
+<pre>
+{
+    "a": "com:DepositSignature",
+    "sig:signatureFor": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
+    "sig:signer": "&lt;http://dev.payswarm.com/person/john-doe#key-5>",
+    "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+}
+</pre>
+      </section>
+
+      <section id="Payee">
+        <h3 about="http://purl.org/commerce#Payee"
+            typeof="owl:Class">Payee</h3>
+          <p>
+An entity, including a destination account, that receives monetary funds 
+during a <a href="#Transaction">Transaction</a>.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd>stable</dd>
+          <dt>Parent Class</dt>
+          <dd></dd>
+          <dt>Properties</dt>
+          <dd>com:rate, com:rateType, com:currency, com:destination, 
+rdfs:comment, com:rateContext</dd>
+          </dl>
+<p>
+The following example expresses a flat payment of $0.05 USD.
+</p>
+<pre>
+{
+   "a": "com:Payee",
+   "com:rate": "0.05",
+   "com:rateType": "&lt;com:FlatAmount>",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://dev.payswarm.com/person/john-doe#account-3>",
+   "rdfs:comment": "Description about payment reason",
+}
+</pre>
+      </section>
+
+      <section id="PayeeRule">
+        <h3 about="http://purl.org/commerce#PayeeRule"
+            typeof="owl:Class">PayeeRule (REMOVED - but should not be)</h3>
+          <p>
+A Payee Rule is a mechanism that can describe limits and allowances on the 
+payees during a transaction. These rules are typically used to apply 
+algorithmic formulas to the final price of a particular good. For example,
+minimum and maximum prices, tax rates, when taxes are applied, and preventing
+additional payees are a few examples of the types of payee rules that can be
+specified using PayeeRules.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd>stable</dd>
+          <dt>Parent Class</dt>
+          <dd></dd>
+          <dt>Properties</dt>
+          <dd></dd>
+          </dl>
+          <p>
+The example below expresses a maximum payment rate of 10% to go to a
+PaySwarm Authority. This limits the amount of profit a PaySwarm Authority can
+make to 10% of the final sale price.
+          </p>
+          <pre>
+{
+    "a": "&lt;com:PayeeRule>",
+    "com:maximumRate": "10",
+    "com:rateType": "&lt;com:InclusivePercentage>",
+    "com:destinationOwnerType" : "&lt;ps:Authority>"
+}
+          </pre>
+          <p>
+The following example expresses that all rateTypes must be either flat
+rates or exclusive percentages. That is, inclusive percentages are not allowed.
+<div class="issue">Why would anyone ever need this? We need to explain.</div>
+          </p>
+          <pre>
+{
+    "a": "&lt;com:PayeeRule>",
+    "com:rateType": ["com:FlatRate", "com:ExclusivePercentage"]
+}
+          </pre>
+
+          <p>
+The example below specifies that no additional payees are allowed to be
+added to the list of payees for a transaction.
+          </p>
+          <pre>
+{
+    "a": "com:PayeeRule",
+    "com:limitation": "ps:NoAdditionalPayees"
+}
+          </pre>
+      </section>
+
+      <section id="Transfer">
+        <h3 about="http://purl.org/commerce#Transfer"
+            typeof="owl:Class">Transfer (was ps:Transfer)</h3>
+          <p>
+A record of the movement of monetary funds from a source account into a
+destination account.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd></dd>
+          <dt>Parent Class</dt>
+          <dd></dd>
+          <dt>Properties</dt>
+          <dd>com:forTransaction, com:source, com:destination, com:amount,
+com:currency, rdfs:comment</dd>
+          </dl>
+          <p>
+The example below shows a transaction processor can transfering funds from a
+local financial account to an external financial account.
+          </p>
+          <pre>
+{
+   "a": "com:Transfer",
+   "com:forTransaction": "<http://redbankexample.com/transactions/1.A.F23BC>";
+   "com:source": "<http://redbankexample.com/accounts/12345#account>",
+   "com:destination": "<http://greencardexample.com/accounts/54321#account>",
+   "com:amount": "8.00",
+   "com:currency": "USD",
+   "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+}
+          </pre>
+      </section>
+
+      <section id="Transaction">
+        <h3 about="http://purl.org/commerce#Transaction"
+            typeof="owl:Class">Transaction (was ps:Transaction)</h3>
+          <p>
+A record of a commercial exchange between two entities resulting in the 
+transfer of monetary funds from one or more source accounts to 
+one or more destination accounts.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd></dd>
+          <dt>Parent Class</dt>
+          <dd></dd>
+          <dt>Properties</dt>
+          <dd></dd>
+          </dl>
+          <p>
+The example below describes a commercial transaction that resulted in the
+transfer of $1.04 USD from a source account to two destination accounts. The
+transfers show part of the payment going to the retailer and the other going
+to a tax account.
+          </p>
+          <pre>
+{
+   "@": "&lt;http://example.com/transactions/1.A.F23BC>"
+   "a": "&lt;com:Transaction>",
+   "com:transfer": [com:Transfer+]
+   "com:amount": "1.04",
+   "com:currency": "USD",
+   "rdfs:comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
+   "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
+   "ps:ipv4Address": "10.113.15.142"
+}
+          </pre>
+      </section>
+
+      <section id="Withdrawal">
+        <h3 about="http://purl.org/commerce#Withdrawal"
+            typeof="rdfs:Class">Withdrawal (was ps:Withdrawal)</h3>
+          <p>
+A transfer of funds from a source account into a destination account typically
+performed as a means for retrieving previously stored monetary amounts.
+          </p>
+          <dl>
+          <dt>Status</dt>
+          <dd></dd>
+          <dt>Parent Class</dt>
+          <dd></dd>
+          <dt>Properties</dt>
+          <dd></dd>
+          </dl>
+          <p>
+The example below demonstrates the withdrawal of funds from an online account
+into a more traditional offline account.
+          </p>
+          <pre>
+{
+   "@": "<http://example.com/transactions/1.A.F23BC>"
+   "a": "&lt;com:Withdrawal>",
+   "com:destination": {PAYPAL INFO or similar},
+   "ps:transfer": [ps:Transfer*],
+   "com:amount": "14.34",
+   "com:currency": "USD",
+   "rdfs:comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
+   "ps:ipv4Address": "10.113.15.142"
+}
+          </pre>
+      </section>
+
+    </section>
+
+    <section>
       <h2>Constants</h2>
 
- com:Cumulative
- com:Deferred
- com:ExclusivePercentage
- com:FlatAmount
--com:FlatRate
- com:InclusivePercentage
- com:Tax
- com:TaxExempt
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">Cumulative</h3>
+      </section>
 
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">Deferred</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">ExclusivePercentage</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">FlatAmount</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">FlatRate  (REMOVED)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">InclusivePercentage</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">Tax</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">TaxExempt</h3>
+      </section>
     </section>
 
     <section>
       <h2>Properties</h2>
 
- com:amount
- com:currency
- com:date
- com:destination
--com:destinationOwnerType
--com:maximumRate
-+com:gateway
-+com:minimumAmount
- com:rate
- com:rateContext
- com:rateType
- com:source
-+com:total
- com:transfer
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">amount</h3>
+      </section>
 
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">currency</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">date</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">destination</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">destinationOwnerType (REMOVED)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">maximumRate (REMOVED)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">gateway (ADDED)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">forTransaction (was ps:forTransaction)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">limitation (REMOVED was ps:limitation)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">minimumAmount (ADDED)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">percentage (REMOVED, was: ps:percentage)
+</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">payeePosition (ADDED, was: ps:payeePosition)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">transfer (REMOVED, was ps:transfer)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">payee (was ps:payee)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">rate</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">rateContext</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">rateType</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">source</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">total (ADDED)</h3>
+      </section>
+
+      <section>
+        <h3 id="" about="http://purl.org/commerce#"
+            typeof="owl:">transfer</h3>
+      </section>
     </section>
 
   </body> 

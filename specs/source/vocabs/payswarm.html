@@ -84,88 +84,238 @@
 
     <section>
       <h2>Classes</h2>
- ps:Asset
- ps:AssetSignature
--ps:Authority
--ps:BuyerSignature
- ps:Contract
-+ps:ContractSignature
--ps:File
--ps:Identity
--ps:License
--ps:LicenseSignature
--ps:Listing
--ps:NoAdditionalPayees
-+ps:ListingSignature
- ps:Payee
--ps:Role
--ps:SellerSignature
--ps:ValidFrom
--ps:ValidThrough
--ps:WebPage
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>Asset</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>AssetSignature</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>Authority (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>BuyerSignature (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>Contract</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>ContractSignature (ADDED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>File (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>Identity (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>License (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>LicenseSignature (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>Listing (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>ListingSignature (ADDED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>Payee</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>SellerSignature (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>WebPage (REMOVED - but should not be)
+      </section>
+    </section>
+
+    <section>
+      <h2>Constants</h2>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>NoAdditionalPayees (REMOVED - but should not be)</h3>
+      </section>
     </section>
 
     <section>
       <h2>Properties</h2>
- ps:account
--ps:accountId
--ps:allowCustomPools
--ps:amountResolved
--ps:amountType
-+ps:actor
- ps:asset
- ps:assetAcquirer
- ps:assetHash
- ps:assetProvider
- ps:authority
--ps:buyer
--ps:buyerId
--ps:collectionId
--ps:collections
- ps:contentHash
--ps:contentUrl
--ps:cover
--ps:delegateId
- ps:deleted
- ps:disabled
--ps:distribution
--ps:expiration
- ps:forAsset
--ps:forMediaId
--ps:gid
- ps:grant
--ps:grantTemplate
--ps:grantTerms
--ps:groupId
- ps:identityHash
- ps:identitySalt
- ps:ipv
- ps:license
--ps:licenseAmount
- ps:licenseHash
--ps:licenseProvider
--ps:licenseTerms
--ps:licenseText
-+ps:licenseUrl
- ps:listing
--ps:mimeType
--ps:min
--ps:notValidAfter
--ps:notValidBefore
-+ps:listingHash
- ps:owner
--ps:ownerId
--ps:permission
- ps:privatePayees
--ps:profileId
--ps:prose
--ps:rightsHolder
--ps:role
--ps:roleId
--ps:seller
--ps:userId
--ps:validFrom
--ps:validThrough
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>account</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>accountId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>allowCustomPools (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>amountResolved (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>amountType (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>actor (ADDED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>asset</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>assetAcquirer</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>assetHash</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>assetProvider</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>authority</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>buyer (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>buyerId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>collectionId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>collections (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>contentHash</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>contentUrl (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>cover (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>delegateId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>deleted</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>disabled</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>distribution (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>expiration (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>forAsset</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>forMediaId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>gid (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>grant</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>grantTemplate (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>grantTerms (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>groupId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>identityHash</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>identitySalt</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>ipv</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>license</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>licenseAmount (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>licenseHash</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>licenseProvider (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>licenseTerms (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>licenseText (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>licenseUrl (ADDED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>listing</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>mimeType (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>min (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>notValidAfter (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>notValidBefore (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>listingHash (ADDED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>owner</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>ownerId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>permission (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>privatePayees</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>profileId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>prose (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>rightsHolder (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>role (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>roleId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>seller (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>userId (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>validFrom (REMOVED)</h3>
+      </section>
+      <section id="" about="http://purl.org/payswarm#" typeof="owl:">
+        <h3>validThrough (REMOVED)
 
     </section>
 

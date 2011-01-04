@@ -87,26 +87,34 @@
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
         <h3>CreditCard</h3>
+        <p>The example below shows a typical Credit Card transaction</p>
+        <pre>
+{
+   "a": "ccard:CreditCard",
+   "ccard:brand": "Visa",
+   "ccard:number": "3847573872837483",
+   "ccard:expirationMonth": "11",
+   "ccard:expirationYear": "2013",
+   "ccard:verificationCode": "372",
+   "ccard:name": "JOHN DOE",
+   "ccard:address":
+   {
+      "a": "vcard:Address",
+      "vcard:street-address": "28 Rivertail Lane",
+      "vcard:locality": "Upsilanty",
+      "vcard:region": "New York",
+      "vcard:postal-code": "883748",
+      "vcard:country-name": "US"
+   },
+   "com:gatewayError": [],
+   "com:paymentGateway": "VeriPay",
+   "com:gatewayApprovalCode": "748FG"
+}
+      </pre>
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
-        <h3>DebitCard
-      </section>
-    </section>
-
-    <section>
-      <h2>Constants</h2>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>Visa</h3>
-      </section>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>Mastercard</h3>
-      </section>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>GenericCard</h3>
+        <h3>DebitCard</h3>
       </section>
     </section>
 
@@ -114,19 +122,23 @@
       <h2>Properties</h2>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
-        <h3>number</h3>
+        <h3>brand</h3>
+        <p>
+Valid values include, but are not limited to: "Visa", "MasterCard", or 
+"Discover".
+        </p>
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
-        <h3>expMonth</h3>
+        <h3>expirationMonth</h3>
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
-        <h3>expYear</h3>
+        <h3>expirationYear</h3>
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
-        <h3>cvm</h3>
+        <h3>verificationCode</h3>
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
@@ -134,27 +146,11 @@
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
-        <h3>firstName</h3>
-      </section>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>lastName</h3>
+        <h3>number</h3>
       </section>
       <section id="" about="http://purl.org/commerce/creditcard#"
         typeof="owl:">
         <h3>address</h3>
-      </section>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>errors</h3>
-      </section>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>gateway</h3>
-      </section>
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
-        <h3>approved</h3>
       </section>
     </section>
 

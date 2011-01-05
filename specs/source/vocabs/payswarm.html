@@ -433,6 +433,12 @@ The following example TBD.
         "ps:authority": "&lt;http://payswarm.example.com/about#authority>",
         "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
         "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+        "ps:signature": 
+        {
+            "a": "sig:JsonldSignature",
+            "sig:signer": "<http://payswarm.example.com/people/john-doe#key-5>",
+            "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+        }
     },
     "ps:assetHash": "37b082b5c45a31d1c4b82da667f74e9b6686a95a"
 }

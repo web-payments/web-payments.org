@@ -347,8 +347,7 @@ into a more traditional offline account.
         typeof="rdf:Property">
         <h3>Cumulative</h3>
         <p>
-This constant term is used to specify a cumulative rate type in a PayeeRule.
-A cumulative rate type specifies that the FIXME: NEEDS EXPLANATION.
+This constant term is used to specify a cumulative rate context in a Payee. Normally a percentage-based Payee's amount would be calculated by applying its percentage rate to the total of all flat amount Payees from the Payee list. By specifying that a Payee uses cumulative rate context, the total amount will also include amounts calculated for other percentage-based Payees that appear in positions prior to the Payee with the cumulative rate context. Therefore, the more ExclusivePercentage Payees that appear before a cumulative Payee, the larger the total will be that the percentage is applied to in order to calculate its amount.
         </p>
         <dl>
           <dt>Status</dt>
@@ -363,10 +362,11 @@ The following example demonstrates how a cumulative rate type is specified:
 {
    "a": "&lt;com:Payee>",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:Cumulative>",
+   "com:rateType": "&lt;com:ExclusivePercentage>",
    "com:currency": "USD",
    "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
-   "rdfs:comment": "The explanation of the cumulative rule goes here."
+   "rdfs:comment": "The explanation of the cumulative rule goes here.",
+   "com:rateContext": "&lt;com:Cumulative>"
 }
         </pre>
       </section>
@@ -376,9 +376,7 @@ The following example demonstrates how a cumulative rate type is specified:
         <h3>Deferred</h3>
         <p>
 This constant term is used to specify a deferred rate context. A deferred
-rate context specifies that the PayeeRule must be calculated after all 
-non-deferred PayeeRules have been applied. This is most useful when a rule
-should be applied to the total cost of a good
+rate context specifies that the amount of a percentage-based Payee must be calculated after all non-deferred Payee amounts have already been calculated. This is most useful when a Payee should be applied to the total cost of a good or service. Whilst Payees that are Taxes are automatically deferred, if a Payee that is not a Tax wishes to behave like one, it should use this rate context.
         </p>
         <dl>
           <dt>Status</dt>
@@ -391,12 +389,12 @@ The following example demonstrates how a deferred rate context can be specified:
         </p>
         <pre class="example">
 {
-   "a": "&lt;com:PayeeRule>",
+   "a": "&lt;com:Payee>",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:Deferred>",
+   "com:rateType": "&lt;com:ExclusivePercentage>",
    "com:currency": "USD",
    "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
-   "rdfs:comment": "The explanation of the deferred rate goes here.",
+   "rdfs:comment": "The explanation of the deferred payee goes here.",
    "com:rateContext": "&lt;com:Deferred>"
 }
         </pre>
@@ -409,7 +407,7 @@ The following example demonstrates how a deferred rate context can be specified:
 This constant term is used to specify an exclusive percentage-based rate type.
 An exclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
-not exclusive percentages. FIXME: Longley needs to fix this explanation.
+not also percentage-based. There are some exceptions to this rule when using a cumulative rate context (see: Cumulative). The amount that results from this percentage will be added to the total amount calculated from all of the Payees. This behavior is the opposite of that of an InclusivePercentage, where the total would not be altered. Real world examples of ExclusivePercentages include most sales taxes in the United States.
         </p>
         <dl>
           <dt>Status</dt>
@@ -422,7 +420,7 @@ The following example demonstrates how an exclusive percentage can be specified:
         </p>
         <pre class="example">
 {
-   "a": "&lt;com:PayeeRule>",
+   "a": "&lt;com:Payee>",
    "com:rate": "0.05",
    "com:rateType": "&lt;com:ExclusivePercentage>",
    "com:currency": "USD",
@@ -457,7 +455,7 @@ Payee.
    "com:rateType": "&lt;com:FlatAmount>",
    "com:currency": "USD",
    "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
-   "rdfs:comment": "The explanation of the exclusive percentage goes here."
+   "rdfs:comment": "The explanation of the flat amount goes here."
 }
         </pre>
       </section>
@@ -469,7 +467,7 @@ Payee.
 This constant term is used to specify an inclusive percentage-based rate type.
 An inclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
-not inclusive percentages. FIXME: Longley needs to fix this explanation.
+not also percentage-based. There are some exceptions to this rule when using a cumulative rate context (see: Cumulative). The amount that results from this percentage will be evenly deducted from all other Payees, thus leaving the total the same. This behavior is the opposite of that of an ExclusivePercentage, where the amount would be added to the total and the other Payees would remain the same. Real world examples of InclusivePercentages include most income taxes in the United States.
         </p>
         <dl>
           <dt>Status</dt>
@@ -482,12 +480,12 @@ The following example describes an inclusive percentage.
         </p>
         <pre class="example">
 {
-   "a": "&lt;com:PayeeRule>",
+   "a": "&lt;com:Payee>",
    "com:rate": "0.05",
    "com:rateType": "&lt;com:InclusivePercentage>",
    "com:currency": "USD",
    "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
-   "rdfs:comment": "The explanation of the exclusive percentage goes here."
+   "rdfs:comment": "The explanation of the inclusive percentage goes here."
 }
         </pre>
       </section>

@@ -70,7 +70,10 @@
       };
     </script> 
   </head> 
-  <body> 
+  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+        xmlns:owl="http://www.w3.org/2002/07/owl#" 
+        xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"> 
     <section id='abstract'> 
       <p> 
       </p> 
@@ -86,23 +89,24 @@
       <h2>Classes</h2>
 
       <section id="Deposit" about="http://purl.org/commerce#Deposit"
-        typeof="owl:Class">
+        typeof="rdfs:Class">
         <h3>Deposit (was ps:Deposit)</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
 performed as a means for storing monetary amounts in the destination account.
           </p>
           <dl>
-          <dt>Status</dt>
-          <dd>stable</dd>
-          <dt>Parent Class</dt>
-          <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
-          <dt>Properties</dt>
-          <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
+            <dt>Properties</dt>
+            <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
           </dl>
-<p>
+          <p>
 The following example describes a credit card deposit:
-<pre>
+          </p>
+          <pre class="example">
 {
    "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
    "a": ["com:Transaction", "com:Deposit"],
@@ -110,11 +114,12 @@ The following example describes a credit card deposit:
    "com:source":
    {
       "@": "&lt;http://mybank.example.com/accounts/3879279824>",
-      "a": "ccard:Visa",
+      "a": "ccard:CreditCard",
+      "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
-      "ccard:expMonth": "11",
-      "ccard:expYear": "2013",
-      "ccard:cvm": "372",
+      "ccard:expirationMonth": "11",
+      "ccard:expirationYear": "2013",
+      "ccard:verificationCode": "372",
       "ccard:name": "JOHN DOE",
       "ccard:firstName": "JOHN",
       "ccard:lastName": "DOE",
@@ -126,69 +131,41 @@ The following example describes a credit card deposit:
          "vcard:region": "New York",
          "vcard:postal-code": "83748",
          "vcard:country-name": "United States of America"
-      },
-      "ccard:errors": [],
-      "ccard:gateway": "&lt;http://example.org/payments/VeriPay",
-      "ccard:approved": true
+      }
    },
-   "com:payee": [com:Payee*],
-   "com:transfer": [com:Transfer*],
+   "com:payee": [FIXME: com:Payee*],
+   "com:transfer": [FIXME: com:Transfer*],
    "sig:signature":
    {
-       "a": "com:DepositSignature",
+       "a": "sig:Signature",
        "sig:signatureFor": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
        "sig:signer": "&lt;http://dev.payswarm.com/person/john-doe#key-5>",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
-</pre>
-</p>
-      </section>
-
-      <section id="DepositSignature" about="http://purl.org/commerce#DepositSignature"
-        typeof="owl:Class">
-        <h3>DepositSignature (REVISIT, Signature discussion)</h3>
-          <p>
-A signature verifying the details of a <a href="#Deposit">Deposit</a>.
-          </p>
-          <dl>
-          <dt>Status</dt>
-          <dd>stable</dd>
-          <dt>Parent Class</dt>
-          <dd><a href="http://purl.org/commerce#Transfer">sig:StandardSignature</a></dd>
-          <dt>Properties</dt>
-          <dd></dd>
-          </dl>
-<pre>
-{
-    "a": "com:DepositSignature",
-    "sig:signatureFor": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
-    "sig:signer": "&lt;http://dev.payswarm.com/person/john-doe#key-5>",
-    "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
-}
-</pre>
+        </pre>
       </section>
 
       <section id="Payee" about="http://purl.org/commerce#Payee"
-        typeof="owl:Class">
+        typeof="rdfs:Class">
         <h3>Payee</h3>
           <p>
 An entity, including a destination account, that receives monetary funds 
 during a <a href="#Transaction">Transaction</a>.
           </p>
           <dl>
-          <dt>Status</dt>
-          <dd>stable</dd>
-          <dt>Parent Class</dt>
-          <dd></dd>
-          <dt>Properties</dt>
-          <dd>com:rate, com:rateType, com:currency, com:destination, 
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:rate, com:rateType, com:currency, com:destination, 
 rdfs:comment, com:rateContext</dd>
           </dl>
 <p>
 The following example expresses a flat payment of $0.05 USD.
 </p>
-<pre>
+<pre class="example">
 {
    "a": "com:Payee",
    "com:rate": "0.05",
@@ -201,7 +178,7 @@ The following example expresses a flat payment of $0.05 USD.
       </section>
 
       <section id="PayeeRule" about="http://purl.org/commerce#PayeeRule"
-        typeof="owl:Class">
+        typeof="rdfs:Class">
         <h3>PayeeRule</h3>
           <p>
 A Payee Rule is a mechanism that can describe limits and allowances on the 
@@ -212,19 +189,20 @@ additional payees are a few examples of the types of payee rules that can be
 specified using PayeeRules.
           </p>
           <dl>
-          <dt>Status</dt>
-          <dd>stable</dd>
-          <dt>Parent Class</dt>
-          <dd></dd>
-          <dt>Properties</dt>
-          <dd></dd>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:maximumRate, com:minimumRate, com:destinationOwnerType,
+com:rateType, com:limitation</dd>
           </dl>
           <p>
 The example below expresses a maximum payment rate of 10% to go to a
 PaySwarm Authority. This limits the amount of profit a PaySwarm Authority can
 make to 10% of the final sale price.
           </p>
-          <pre>
+          <pre class="example">
 {
     "a": "&lt;com:PayeeRule>",
     "com:maximumRate": "10",
@@ -237,7 +215,7 @@ The following example expresses that all rateTypes must be either flat
 rates or exclusive percentages. That is, inclusive percentages are not allowed.
 <div class="issue">Why would anyone ever need this? We need to explain.</div>
           </p>
-          <pre>
+          <pre class="example">
 {
     "a": "&lt;com:PayeeRule>",
     "com:rateType": ["com:FlatAmount", "com:ExclusivePercentage"]
@@ -248,7 +226,7 @@ rates or exclusive percentages. That is, inclusive percentages are not allowed.
 The example below specifies that no additional payees are allowed to be
 added to the list of payees for a transaction.
           </p>
-          <pre>
+          <pre class="example">
 {
     "a": "com:PayeeRule",
     "com:limitation": "ps:NoAdditionalPayees"
@@ -257,26 +235,26 @@ added to the list of payees for a transaction.
       </section>
 
       <section id="Transfer" about="http://purl.org/commerce#Transfer"
-        typeof="owl:Class">
+        typeof="rdfs:Class">
         <h3>Transfer (was ps:Transfer)</h3>
           <p>
 A record of the movement of monetary funds from a source account into a
 destination account.
           </p>
           <dl>
-          <dt>Status</dt>
-          <dd></dd>
-          <dt>Parent Class</dt>
-          <dd></dd>
-          <dt>Properties</dt>
-          <dd>com:forTransaction, com:source, com:destination, com:amount,
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:forTransaction, com:source, com:destination, com:amount,
 com:currency, rdfs:comment</dd>
           </dl>
           <p>
 The example below shows a transaction processor can transfering funds from a
 local financial account to an external financial account.
           </p>
-          <pre>
+          <pre class="example">
 {
    "a": "com:Transfer",
    "com:forTransaction": "<http://redbankexample.com/transactions/1.A.F23BC>";
@@ -290,7 +268,7 @@ local financial account to an external financial account.
       </section>
 
       <section id="Transaction" about="http://purl.org/commerce#Transaction"
-        typeof="owl:Class">
+        typeof="rdfs:Class">
         <h3>Transaction (was ps:Transaction)</h3>
           <p>
 A record of a commercial exchange between two entities resulting in the 
@@ -298,12 +276,13 @@ transfer of monetary funds from one or more source accounts to
 one or more destination accounts.
           </p>
           <dl>
-          <dt>Status</dt>
-          <dd></dd>
-          <dt>Parent Class</dt>
-          <dd></dd>
-          <dt>Properties</dt>
-          <dd></dd>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:transfer, com:amount, com:currency, rdfs:comment, 
+com:date, ps:originatingClient</dd>
           </dl>
           <p>
 The example below describes a commercial transaction that resulted in the
@@ -311,7 +290,7 @@ transfer of $1.04 USD from a source account to two destination accounts. The
 transfers show part of the payment going to the retailer and the other going
 to a tax account.
           </p>
-          <pre>
+          <pre class="example">
 {
    "@": "&lt;http://example.com/transactions/1.A.F23BC>"
    "a": "&lt;com:Transaction>",
@@ -320,7 +299,7 @@ to a tax account.
    "com:currency": "USD",
    "rdfs:comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
-   "ps:ipv4Address": "10.113.15.142"
+   "ps:originatingClient": "10.113.15.142^^iana:ipv4Address"
 }
           </pre>
       </section>
@@ -333,27 +312,28 @@ A transfer of funds from a source account into a destination account typically
 performed as a means for retrieving previously stored monetary amounts.
           </p>
           <dl>
-          <dt>Status</dt>
-          <dd></dd>
-          <dt>Parent Class</dt>
-          <dd></dd>
-          <dt>Properties</dt>
-          <dd></dd>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>com:Transaction</dd>
+            <dt>Properties</dt>
+            <dd>com:destination, ps:transfer, com:amount, com:currency, 
+rdfs:comment, ps:originatingClient</dd>
           </dl>
           <p>
 The example below demonstrates the withdrawal of funds from an online account
 into a more traditional offline account.
           </p>
-          <pre>
+          <pre class="example">
 {
    "@": "<http://example.com/transactions/1.A.F23BC>"
    "a": "&lt;com:Withdrawal>",
-   "com:destination": {PAYPAL INFO or similar},
-   "ps:transfer": [ps:Transfer*],
+   "com:destination": {FIXME: PAYPAL INFO or similar},
+   "com:transfer": [FIXME: ps:Transfer*],
    "com:amount": "14.34",
    "com:currency": "USD",
    "rdfs:comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
-   "ps:ipv4Address": "10.113.15.142"
+   "ps:originatingClient": "10.113.15.142^^iana:ipv4Address"
 }
           </pre>
       </section>
@@ -363,143 +343,641 @@ into a more traditional offline account.
     <section>
       <h2>Constants</h2>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="Cumulative" about="http://purl.org/commerce#Cumulative"
+        typeof="rdf:Property">
         <h3>Cumulative</h3>
+        <p>
+This constant term is used to specify a cumulative rate type in a PayeeRule.
+A cumulative rate type specifies that the FIXME: NEEDS EXPLANATION.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example demonstrates how a cumulative rate type is specified:
+        </p>
+        <pre class="example">
+{
+   "a": "com:Payee",
+   "com:rate": "0.05",
+   "com:rateType": "com:Cumulative",
+   "com:currency": "USD",
+   "com:destination": "<http://dev.payswarm.com/person/john-doe#account-3>",
+   "rdfs:comment": "The explanation of the cumulative rule goes here."
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="Deferred" about="http://purl.org/commerce#Deferred"
+        typeof="rdf:Property">
         <h3>Deferred</h3>
+        <p>
+This constant term is used to specify a deferred rate context. A deferred
+rate context specifies that the PayeeRule must be calculated after all 
+non-deferred PayeeRules have been applied. This is most useful when a rule
+should be applied to the total cost of a good
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateContext</dd>
+        </dl>
+        <p>
+The following example demonstrates how a deferred rate context can be specified:
+        </p>
+        <pre class="example">
+{
+   "a": "com:PayeeRule",
+   "com:rate": "0.05",
+   "com:rateType": "com:Cumulative",
+   "com:currency": "USD",
+   "com:destination": "<http://dev.payswarm.com/person/john-doe#account-3>",
+   "rdfs:comment": "The explanation of the deferred rate goes here.",
+   "com:rateContext": "com:Deferred"
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="ExclusivePercentage" about="http://purl.org/commerce#ExclusivePercentage"
+        typeof="rdf:Property">
         <h3>ExclusivePercentage</h3>
+        <p>
+This constant term is used to specify an exclusive percentage-based rate type.
+An exclusive percentage-based rate type specifies that the rate is a percentage
+and the percentage should be applied to the total price of all payees that are
+not exclusive percentages. FIXME: Longley needs to fix this explanation.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example demonstrates how an exclusive percentage can be specified:
+        </p>
+        <pre class="example">
+{
+   "a": "com:PayeeRule",
+   "com:rate": "0.05",
+   "com:rateType": "com:ExclusivePercentage",
+   "com:currency": "USD",
+   "com:destination": "<http://dev.payswarm.com/person/john-doe#account-3>",
+   "rdfs:comment": "The explanation of the exclusive percentage goes here.",
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="FlatAmount" about="http://purl.org/commerce#FlatAmount"
+        typeof="rdf:Property">
         <h3>FlatAmount</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="InclusivePercentage" about="http://purl.org/commerce#InclusivePercentage"
+        typeof="rdf:Property">
         <h3>InclusivePercentage</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="Tax" about="http://purl.org/commerce#Tax"
+        typeof="rdf:Property">
         <h3>Tax</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="TaxExempt" about="http://purl.org/commerce#TaxExempt"
+        typeof="rdf:Property">
         <h3>TaxExempt</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
     </section>
 
     <section>
       <h2>Properties</h2>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="amount" about="http://purl.org/commerce#amount"
+        typeof="rdf:Property">
         <h3>amount</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="currency" about="http://purl.org/commerce#currency"
+        typeof="rdf:Property">
         <h3>currency</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="date" about="http://purl.org/commerce#date"
+        typeof="rdf:Property">
         <h3>date</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="destination" about="http://purl.org/commerce#destination"
+        typeof="rdf:Property">
         <h3>destination</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="destinationOwnerType" about="http://purl.org/commerce#destinationOwnerType"
+        typeof="rdf:Property">
         <h3>destinationOwnerType (REVISIT)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
+      <section id="gatewayApprovalCode" about="http://purl.org/commerce#gatewayApprovalCode"
+        typeof="rdf:Property">
         <h3>gatewayApprovalCode</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
+      <section id="gatewayError" about="http://purl.org/commerce#gatewayError"
+        typeof="rdf:Property">
         <h3>gatewayError</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="maximumRate" about="http://purl.org/commerce#maximumRate"
+        typeof="rdf:Property">
         <h3>maximumRate</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="forTransaction" about="http://purl.org/commerce#forTransaction"
+        typeof="rdf:Property">
         <h3>forTransaction (was ps:forTransaction)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="limitation" about="http://purl.org/commerce#limitation"
+        typeof="rdf:Property">
         <h3>limitation (was ps:limitation)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="minimumAmount" about="http://purl.org/commerce#minimumAmount"
+        typeof="rdf:Property">
         <h3>minimumAmount (ADDED, REVISIT, minimumAmount or minimumRate?)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="payeePosition" about="http://purl.org/commerce#payeePosition"
+        typeof="rdf:Property">
         <h3>payeePosition (was: ps:payeePosition)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce/creditcard#"
-        typeof="owl:">
+      <section id="paymentGateway" about="http://purl.org/commerce#paymentGateway"
+        typeof="rdf:Property">
         <h3>paymentGateway</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="transfer" about="http://purl.org/commerce#transfer"
+        typeof="rdf:Property">
         <h3>transfer (was ps:transfer)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="payee" about="http://purl.org/commerce#payee"
+        typeof="rdf:Property">
         <h3>payee (was ps:payee)</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="rate" about="http://purl.org/commerce#rate"
+        typeof="rdf:Property">
         <h3>rate</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="rateContext" about="http://purl.org/commerce#rateContext"
+        typeof="rdf:Property">
         <h3>rateContext</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="rateType" about="http://purl.org/commerce#rateType"
+        typeof="rdf:Property">
         <h3>rateType</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="source" about="http://purl.org/commerce#source"
+        typeof="rdf:Property">
         <h3>source</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
 
-      <section id="" about="http://purl.org/commerce#"
-        typeof="owl:">
+      <section id="transfer" about="http://purl.org/commerce#transfer"
+        typeof="rdf:Property">
         <h3>transfer</h3>
+        <p>
+TBD
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example TBD.
+        </p>
+        <pre class="example">
+{
+}
+        </pre>
       </section>
     </section>
 

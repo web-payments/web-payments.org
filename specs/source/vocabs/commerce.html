@@ -97,7 +97,7 @@ performed as a means for storing monetary amounts in the destination account.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
             <dt>Properties</dt>
@@ -139,7 +139,7 @@ The following example describes a credit card deposit:
    {
        "a": "sig:Signature",
        "sig:signatureFor": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
-       "sig:signer": "&lt;http://dev.payswarm.com/person/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
@@ -155,7 +155,7 @@ during a <a href="#Transaction">Transaction</a>.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Properties</dt>
@@ -171,7 +171,7 @@ The following example expresses a flat payment of $0.05 USD.
    "com:rate": "0.05",
    "com:rateType": "&lt;com:FlatAmount>",
    "com:currency": "USD",
-   "com:destination": "&lt;http://dev.payswarm.com/person/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
    "rdfs:comment": "Description about payment reason",
 }
 </pre>
@@ -190,7 +190,7 @@ specified using PayeeRules.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Properties</dt>
@@ -243,7 +243,7 @@ destination account.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Properties</dt>
@@ -257,9 +257,9 @@ local financial account to an external financial account.
           <pre class="example">
 {
    "a": "com:Transfer",
-   "com:forTransaction": "<http://redbankexample.com/transactions/1.A.F23BC>";
-   "com:source": "<http://redbankexample.com/accounts/12345#account>",
-   "com:destination": "<http://greencardexample.com/accounts/54321#account>",
+   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982>";
+   "com:source": "&lt;http://redbankexample.com/accounts/12345#account>",
+   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
    "com:amount": "8.00",
    "com:currency": "USD",
    "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
@@ -277,7 +277,7 @@ one or more destination accounts.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Properties</dt>
@@ -313,7 +313,7 @@ performed as a means for retrieving previously stored monetary amounts.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">stable</dd>
+            <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>com:Transaction</dd>
             <dt>Properties</dt>
@@ -326,7 +326,7 @@ into a more traditional offline account.
           </p>
           <pre class="example">
 {
-   "@": "<http://example.com/transactions/1.A.F23BC>"
+   "@": "&lt;http://example.com/transactions/1.A.F23BC>"
    "a": "&lt;com:Withdrawal>",
    "com:destination": {FIXME: PAYPAL INFO or similar},
    "com:transfer": [FIXME: ps:Transfer*],
@@ -352,7 +352,7 @@ A cumulative rate type specifies that the FIXME: NEEDS EXPLANATION.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>com:rateType</dd>
         </dl>
@@ -361,11 +361,11 @@ The following example demonstrates how a cumulative rate type is specified:
         </p>
         <pre class="example">
 {
-   "a": "com:Payee",
+   "a": "&lt;com:Payee>",
    "com:rate": "0.05",
-   "com:rateType": "com:Cumulative",
+   "com:rateType": "&lt;com:Cumulative>",
    "com:currency": "USD",
-   "com:destination": "<http://dev.payswarm.com/person/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
    "rdfs:comment": "The explanation of the cumulative rule goes here."
 }
         </pre>
@@ -382,7 +382,7 @@ should be applied to the total cost of a good
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>com:rateContext</dd>
         </dl>
@@ -391,13 +391,13 @@ The following example demonstrates how a deferred rate context can be specified:
         </p>
         <pre class="example">
 {
-   "a": "com:PayeeRule",
+   "a": "&lt;com:PayeeRule>",
    "com:rate": "0.05",
-   "com:rateType": "com:Cumulative",
+   "com:rateType": "&lt;com:Deferred>",
    "com:currency": "USD",
-   "com:destination": "<http://dev.payswarm.com/person/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
    "rdfs:comment": "The explanation of the deferred rate goes here.",
-   "com:rateContext": "com:Deferred"
+   "com:rateContext": "&lt;com:Deferred>"
 }
         </pre>
       </section>
@@ -413,7 +413,7 @@ not exclusive percentages. FIXME: Longley needs to fix this explanation.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>com:rateType</dd>
         </dl>
@@ -422,12 +422,12 @@ The following example demonstrates how an exclusive percentage can be specified:
         </p>
         <pre class="example">
 {
-   "a": "com:PayeeRule",
+   "a": "&lt;com:PayeeRule>",
    "com:rate": "0.05",
-   "com:rateType": "com:ExclusivePercentage",
+   "com:rateType": "&lt;com:ExclusivePercentage>",
    "com:currency": "USD",
-   "com:destination": "<http://dev.payswarm.com/person/john-doe#account-3>",
-   "rdfs:comment": "The explanation of the exclusive percentage goes here.",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "rdfs:comment": "The explanation of the exclusive percentage goes here."
 }
         </pre>
       </section>
@@ -436,19 +436,28 @@ The following example demonstrates how an exclusive percentage can be specified:
         typeof="rdf:Property">
         <h3>FlatAmount</h3>
         <p>
-TBD
+A flat amount rate type expresses that a payment amount is a specific amount
+in a given currency. That is, the rate is to be interpreted as a fixed amount,
+not as a percentage.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:rateType</dd>
         </dl>
         <p>
-The following example TBD.
+The following example demonstrates a payment amount of $1.42 USD to a specified 
+Payee.
         </p>
         <pre class="example">
 {
+   "a": "&lt;com:Payee>",
+   "com:rate": "1.42",
+   "com:rateType": "&lt;com:FlatAmount>",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "rdfs:comment": "The explanation of the exclusive percentage goes here."
 }
         </pre>
       </section>
@@ -457,19 +466,28 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>InclusivePercentage</h3>
         <p>
-TBD
+This constant term is used to specify an inclusive percentage-based rate type.
+An inclusive percentage-based rate type specifies that the rate is a percentage
+and the percentage should be applied to the total price of all payees that are
+not inclusive percentages. FIXME: Longley needs to fix this explanation.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:rateType</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes an inclusive percentage.
         </p>
         <pre class="example">
 {
+   "a": "&lt;com:PayeeRule>",
+   "com:rate": "0.05",
+   "com:rateType": "&lt;com:InclusivePercentage>",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "rdfs:comment": "The explanation of the exclusive percentage goes here."
 }
         </pre>
       </section>
@@ -478,19 +496,27 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>Tax</h3>
         <p>
-TBD
+This constant specifies that the Payee's rate specified is a tax.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:rateContext</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes the payment of a sales tax to the state of
+Virginia of 5%.
         </p>
         <pre class="example">
 {
+   "a": "&lt;com:Payee>",
+   "com:rate": "5.0",
+   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/states/virginia#account-1>",
+   "rdfs:comment": "Virginia sales tax.",
+   "com:rateContext": "&lt;com:Tax>"
 }
         </pre>
       </section>
@@ -499,19 +525,30 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>TaxExempt</h3>
         <p>
-TBD
+This constant specifies that a payment to the Payee should not have any
+taxes collected for the transfer of funds. Typically, these Payees are 
+non-profit corporations or other organizations that are under a non-taxable
+status.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:rateContext</dd>
         </dl>
         <p>
-The following example TBD.
+The following example demonstrates a tax-exempt donation to the Red Cross
+for the amount of $5.00 USD.
         </p>
         <pre class="example">
 {
+   "a": "&lt;com:Payee>",
+   "com:rate": "5.00",
+   "com:rateType": "&lt;com:FlatAmount>",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/organizations/red-cross#account-6>",
+   "rdfs:comment": "Donation to the Red Cross",
+   "com:rateContext": "&lt;com:TaxExempt>"
 }
         </pre>
       </section>
@@ -524,21 +561,29 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>amount</h3>
         <p>
-TBD
+The amount property is used to specify the total financial value of a
+commercial exchange, such as a transaction or transfer.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, com:Transfer, com:Withdrawal, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:decimal</dd>
         </dl>
         <p>
-The following example TBD.
+The following example shows the use of the amount property in a Transfer.
         </p>
         <pre class="example">
 {
+   "a": "com:Transfer",
+   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982>";
+   "com:source": "&lt;http://redbankexample.com/accounts/12345#account>",
+   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
+   "com:amount": "8.00",
+   "com:currency": "USD",
+   "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
 }
         </pre>
       </section>
@@ -547,21 +592,32 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>currency</h3>
         <p>
-TBD
+The currency property is used to specify the monetary system that is used when
+specifying the financial amount of a commercial exchange. The value SHOULD 
+be an ISO-4217 currency or a dereference-able IRI to a monetary system that 
+is not specified in ISO-4217.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, com:Transfer, com:Withdrawal, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:string, xsd:anyURI</dd>
         </dl>
         <p>
-The following example TBD.
+The following example demonstrates how to use the currency property in a
+Transfer:
         </p>
         <pre class="example">
 {
+   "a": "com:Transfer",
+   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982>";
+   "com:source": "&lt;http://redbankexample.com/accounts/12345#account>",
+   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
+   "com:amount": "8.00",
+   "com:currency": "USD",
+   "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
 }
         </pre>
       </section>
@@ -574,7 +630,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -597,7 +653,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -620,7 +676,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -643,7 +699,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -666,7 +722,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -689,7 +745,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -712,7 +768,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -735,7 +791,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -758,7 +814,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -781,7 +837,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -804,7 +860,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -827,7 +883,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -850,7 +906,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -873,7 +929,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -896,7 +952,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -919,7 +975,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -942,7 +998,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -965,7 +1021,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>

@@ -50,7 +50,7 @@
           //    { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2009-2010 &copy; Digital Bazaar, Inc.",
+          additionalCopyrightHolders: "Copyright 2010-2011 &copy; Digital Bazaar, Inc. Shared under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution Share-Alike license</a>.",
           
           // name of the WG
           wg:           "Unofficial Payswarm Exploratory Group",
@@ -70,7 +70,11 @@
       };
     </script> 
   </head> 
-  <body> 
+  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+        xmlns:owl="http://www.w3.org/2002/07/owl#" 
+        xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
+        xmlns:sig="http://purl.org/signature#"> 
 
     <section id='abstract'> 
       <p> 
@@ -80,6 +84,14 @@
     <section>
       <h2>Introduction</h2>
       <p>
+This document describes a number of classes and properties that can be used to
+express <a href="http://en.wikipedia.org/wiki/Digital_signatures">
+digital signatures</a> on the Semantic Web.
+      </p>
+      <p class="issue">
+This entire document is a work in progress and is thus incredibly
+unstable. It MUST NOT be used for any production use. It may harm children
+and animals. It will probably set your house on fire. You have been warned.
       </p>
     </section>
 
@@ -87,51 +99,461 @@
       <h2>Classes</h2>
       <section id="Signature" about="http://purl.org/signature#Signature"
         typeof="rdfs:Class">
-        <h3>Signature (was ps:Signature)</h3>
-      </section>
-      <section id="SignatureAlgorithm" about="http://purl.org/signature#SignatureAlgorithm"
-        typeof="rdfs:Class">
-        <h3>SignatureAlgorithm</h3>
+        <h3>Signature</h3>
+          <p>
+This class represents a digital signature on serialized data. It is an abstract
+class and should not be used other than for Semantic reasoning purposes, such as
+by a Reasoning Agent. 
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>none</dd>
+          </dl>
+          <p class="note">
+A Signature class MUST NOT be used as an RDF type. It should instead be used 
+as the base class for all signature classes. For a signature sub-class to be of 
+use, it SHOULD express at least three signature algorithm properties:
+sig:canonicalizationMethod, sig:digestMethod, and sig:signingAlgorithm.
+          </p>
       </section>
       <section id="JsonldSignature" about="http://purl.org/signature#JsonldSignature"
         typeof="rdfs:Class">
         <h3>JsonldSignature</h3>
+          <p>
+A JSON-LD signature is used for digital signatures on RDF graphs expressed 
+in JSON-LD format. The default canonicalization mechanism is specified in the
+JSON-LD specification, which effectively resolves all CURIEs and eliminates all
+whitespace in the markup. The default digest method uses the SHA-1 algorithm.
+The default signature mechanism uses a SHA-1 digest and RSA to perform the
+digital signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>sig:Signature</dd>
+            <dt>Properties</dt>
+            <dd>sig:signer, sig:signatureValue</dd>
+            <dt>Signing Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Canonicalization Method</dt>
+                <dd>
+<a rel="sig:canonicalizationMethod" 
+  href="http://purl.org/jsonld#standard-canonicalization">
+http://purl.org/jsonld#standard-canonicalization</a>
+                </dd>
+                <dt>Default Digest Method</dt>
+                <dd>
+<a rel="sig:digestMethod" 
+  href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
+                  </dd>
+                <dt>Default Signing Algorithm</dt>
+                <dd>
+<a rel="sig:signingAlgorithm" 
+  href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The example below shows how a basic JSON-LD signature is expressed in a
+JSON-LD snippet. Note that the signature property is directly embedded in the
+object. The signing algorithm understands that in order to check the signature
+that the signature property must be removed and the text
+canonicalized using the standard canonicalization algorithm for JSON-LD.
+          </p>
+          <pre class="example">
+{
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Manu Sporny",
+    "foaf:homepage": "&lt;http://manu.sporny.org/>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:signer": "&lt;http://manu.sporny.org/webid#key-5>",
+        "sig:signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
+    }
+}
+          </pre>
       </section>
-    </section>
-
-    <section>
-      <h2>Constants</h2>
+      <section id="XmlSignature" about="http://purl.org/signature#XmlSignature"
+        typeof="rdfs:Class">
+        <h3>XmlSignature</h3>
+          <p>
+An XML signature is used for digital signatures in RDF graphs where the data
+is expressed in an XML format. The default canonicalization mechanism is 
+specifiedspecified in the XML Canonicalization specification. The default digest
+method uses the SHA-1 algorithm. The default signature mechanism uses a SHA-1 
+digest and RSA to perform the digital signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>sig:Signature</dd>
+            <dt>Properties</dt>
+            <dd>sig:signer, sig:signatureValue</dd>
+            <dt>Signing Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Canonicalization Method</dt>
+                <dd>
+<a rel="sig:canonicalizationMethod" 
+  href="http://www.w3.org/2006/12/xml-c14n11">
+http://www.w3.org/2006/12/xml-c14n11</a>
+                </dd>
+                <dt>Default Digest Method</dt>
+                <dd>
+<a rel="sig:digestMethod" 
+  href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
+                  </dd>
+                <dt>Default Signing Algorithm</dt>
+                <dd>
+<a rel="sig:signingAlgorithm" 
+  href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The signature example below demonstrates how XML data can be expressed and
+digitally signed in an RDF graph.
+          </p>
+          <pre class="example">
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sig: &lt;http://purl.org/signature#> .
+_:bnode1 rdf:type sig:XmlSignature ;
+         sig:data "&lt;mydata>Some data&lt;/mydata>" ;
+         sig:signer &lt;http://example.com/people/john-doe#key-5> ;
+         sig:signatureValue "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk=" .
+}
+          </pre>
+          <p>
+Signature defaults can be overridden by specifying the non-default values
+like so:
+          </p>
+          <pre class="example">
+@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sig: &lt;http://purl.org/signature#> .
+_:bnode1 rdf:type sig:XmlSignature ;
+         sig:data "&lt;mydata>Some data&lt;/mydata>" ;
+         sig:canonicalizationMethod &lt;http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments>;
+         sig:digestMethod &lt;http://example.org/digestMethods#sha1024>;
+         sig:signingAlgorithm &lt;http://example.org/signatureMethods#superSecretSignatureAlgorithm>;
+         sig:signer &lt;http://example.com/people/john-doe#key-5> ;
+         sig:signatureValue "3ODIyOWOGQzNGVkMzVmMmQM32MzQzNmExMgNjI4NTIyZTkoYzI4ZDY3=" .
+}
+          </pre>
+      </section>
     </section>
 
     <section>
       <h2>Properties</h2>
+      <section id="canonicalizationMethod" about="http://purl.org/signature#canonicalizationMethod"
+        typeof="rdf:Property">
+        <h3>canonicalizationMethod</h3>
+        <p>
+The canonicalization method is used to transform the target graph, or the
+sig:data property into a form that can be passed to a cryptographic digest 
+method. The digest is then digitally signed using a digital signature algorithm.
+Canonicalization ensures that a piece of software that is generating a digital
+signature is able to simplify the input graph or data to a form that is
+the same across all programs regardless of how much whitespace and 
+unnecessary formatting information is included in the input data.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+        <p>
+While the canonicalization method is usually associated with the digital 
+signature class defaults, it can also be specified in a signature to
+override the defaults:
+        </p>
+        <pre class="example">
+{
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Joe Bob",
+    "foaf:homepage": "&lt;http://example.org/joebob>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:canonicazationMethod": "&lt;http://example.com/vocab#fancy-canonicalization-method>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "Q3ODIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4NTIyZTkZDY="
+    }
+}
+        </pre>
+      </section>
+      <section id="data" about="http://purl.org/signature#data"
+        typeof="rdf:Property">
+        <h3>data</h3>
+        <p>
+Used to specify the data associated with a signature if the information 
+should not be gleaned from the containing graph.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:string, rdf:XMLLiteral</dd>
+        </dl>
+        <p>
+The following example demonstrates how the data property can be specified
+explicitly. This example is a bit strange as a JSON-LD signature would 
+typically be found in the same graph as the data that was signed, but the
+example below shows that signatures can be specified in a number of flexible
+ways:
+        </p>
+        <pre class="example">
+{
+    "a": "&lt;sig:JsonldSignature>",
+    "sig:data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"&lt;foaf:Person>\", \"foaf:name\": \"Joe Bob\" }",
+    "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+    "sig:signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
+}
+        </pre>
+      </section>
+      <section id="digestMethod" about="http://purl.org/signature#digestMethod"
+        typeof="rdf:Property">
+        <h3>digestMethod</h3>
+        <p>
+The digest method is used to specify the cryptographic function to use when
+generating the data to be digitally signed. Typically, text to be signed
+goes through three steps: 1) canonicalization, 2) digest, and 3) signature. 
+This property is used to specify the algorithm that should be used for step #2.
+A signature class typically specifies a default digest method, so this 
+property rarely needs to be used in practice.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the digest method can override the default
+digest method specified by the signature class:
+        </p>
+        <pre class="example">
+{
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:digestMethod": "&lt;http://example.com/digests#sha512>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}
+        </pre>
+      </section>
       <section id="signature" about="http://purl.org/signature#signature"
         typeof="rdf:Property">
-        <h3>signature (was ps:signature)</h3>
+        <h3>signature</h3>
+        <p>
+The signature property is used to associate a signature with a subject in a
+graph of information. The signature property is typically not included
+in the canonicalized graph that is then digested, and digitally signed.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>sig:Signature</dd>
+        </dl>
+        <p>
+The following example demonstrates how a signature on the graph identified by 
+the subject <code>http://example.com/people#jane</code> is expressed using
+a JSON-LD signature:
+        </p>
+        <pre class="example">
+{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}
+        </pre>
       </section>
       <section id="signatureFor" about="http://purl.org/signature#signatureFor"
         typeof="rdf:Property">
-        <h3>signatureFor (was ps:signatureFor)</h3>
+        <h3>signatureFor</h3>
+        <p>
+A signatureFor property can be used to express a digital signature of 
+a graph that is external to the local environment, or a sub-graph of the local 
+environment.
+        </p>
+        <p class="issue">
+Is this really that much different from sig:data? Can we collapse the two
+properties into one?
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, owl:Thing</dd>
+        </dl>
+        <p>
+
+        </p>
+        <pre class="example">
+{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane>",
+    "foaf:knows":
+    {
+        "@": "&lt;http://example.com/people#john",
+        "a": "&lt;foaf:Person>",
+        "foaf:name": "John Smith",
+        "foaf:homepage": "&lt;http://example.org/john>",
+    },
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:signatureFor" : "&lt;http://example.org/people#john>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
+    }
+}
+        </pre>
       </section>
       <section id="signer" about="http://purl.org/signature#signer"
         typeof="rdf:Property">
-        <h3>signer (was ps:signer)</h3>
+        <h3>signer</h3>
+        <p>
+The signer property specifies a location where you may retrieve information
+about the public key that created the digital signature in order to verify
+the authenticity of the signature, as well as any owner information related
+to the public key.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example expresses the location of the semantic information about
+the public key that can be used to verify the digital signature:
+        </p>
+        <pre class="example">
+{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}
+        </pre>
       </section>
       <section id="signatureValue" about="http://purl.org/signature#signatureValue"
         typeof="rdf:Property">
-        <h3>signatureValue (was ps:signatureValue)</h3>
+        <h3>signatureValue</h3>
+        <p>
+The signature value is used to express the output of the signature algorithm
+expressed in Base-64 format.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the output of the signature algorithm can be
+encoded in JSON-LD:
+        </p>
+        <pre class="example">
+{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}
+        </pre>
       </section>
       <section id="signatureAlgorithm" about="http://purl.org/signature#signatureAlgorithm"
         typeof="rdf:Property">
-        <h3>signatureAlgorithm</h3>
-      </section>
-      <section id="signatureHashAlgorithm" about="http://purl.org/signature#signatureHashAlgorithm"
-        typeof="rdf:Property">
-        <h3>signatureHashAlgorithm</h3>
-      </section>
-      <section id="signatureSerializationAlgorithm" about="http://purl.org/signature#signatureSerializationAlgorithm"
-        typeof="rdf:Property">
-        <h3>signatureSerializationAlgorithm</h3>
+        <h3>signingAlgorithm</h3>
+        <p>
+The signing algorithm is used to specify the cryptographic signature
+function to use when digitally signing the digest data. Typically, text to be 
+signed goes through three steps: 1) canonicalization, 2) digest, and 
+3) signature. This property is used to specify the algorithm that should be 
+used for step #3. A signature class typically specifies a default signing
+algorithm, so this property rarely needs to be used in practice.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+        <p>
+        </p>
+        <pre class="example">
+{
+    "a": "&lt;foaf:Person>",
+    "foaf:name": "Joe Bob",
+    "foaf:homepage": "&lt;http://example.org/joebob>",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature>",
+        "sig:signingAlgorithm": "&lt;http://example.com/vocab#special-signing-algorithm>",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
+        "sig:signatureValue": "P9fDIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4k3FJKs98f="
+    }
+}
+        </pre>
       </section>
     </section>
 

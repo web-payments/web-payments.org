@@ -390,9 +390,9 @@ berjon.respec.prototype = {
         latestVersion = "<a href='" + latestURI + "'>" + latestURI + "</a>";
         var header = 
             "<div class='head'>" + 
-            "<p><a href='http://www.w3.org/'><img width='72' height='48' src='http://www.w3.org/Icons/w3c_home' alt='W3C'/></a>" +
+            "<p>" +
             "<h1>" + this.title + "</h1>" +
-            "<h2>W3C " + this.status2text[this.specStatus] + " " + this._humanDate(this.publishDate) + "</h2><dl>";
+            "<h2>" + this.status2text[this.specStatus] + " " + this._humanDate(this.publishDate) + "</h2><dl>";
         if (!this.isNoTrack)
             header += "<dt>This Version:</dt><dd><a href='" + thisVersion + "'>" + thisVersion + "</a></dd>" + 
                       "<dt>Latest Published Version:</dt><dd>" + latestVersion + "</dd>" + 
@@ -413,12 +413,14 @@ berjon.respec.prototype = {
         header += this.showPeople("Editor", this.editors);
         header += this.showPeople("Author", this.authors);
 
-        header += 
-            "</dl><p class='copyright'><a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'>Copyright</a> © " + 
-            this.publishDate.getFullYear();
+        header += "</dl><p class='copyright'>";
+        /*
+        header += "</dl><p class='copyright'><a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'>Copyright</a> © " + 
+            this.publishDate.getFullYear(); */
         if (this.additionalCopyrightHolders) {
-            header += " " + this.additionalCopyrightHolders + " &amp;";
+            header += " " + this.additionalCopyrightHolders;
         }
+/*
         header += " <a href='http://www.w3.org/'><acronym title='World Wide Web Consortium'>W3C</acronym></a><sup>®</sup> " + 
             "(<a href='http://www.csail.mit.edu/'><acronym title='Massachusetts Institute of Technology'>MIT</acronym></a>, " +
             "<a href='http://www.ercim.eu/'><acronym title='European Research Consortium for Informatics and Mathematics'>ERCIM</acronym></a>, " +
@@ -426,6 +428,8 @@ berjon.respec.prototype = {
             "W3C <a href='http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer'>liability</a>, " + 
             "<a href='http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks'>trademark</a> and " +
             "<a href='http://www.w3.org/Consortium/Legal/copyright-documents'>document use</a> rules apply.</p><hr/></div>";
+*/
+        header += "</p><hr/></div>";
         
         var tmp = sn.element("div");
         tmp.innerHTML = header;
@@ -448,8 +452,8 @@ berjon.respec.prototype = {
         if (this.isNoTrack) {
             var mc = (this.specStatus == "MO") ? " member-confidential" : "";
             sotd = "<section id='sotd' class='introductory'><h2>Status of This Document</h2>" +
-                "<p>This document is merely a W3C-internal" + mc + " document. It has no "+
-                "official standing of any kind and does not represent consensus of the W3C Membership.</p></section>";
+                "<p>This document is merely a draft PaySwarm Exploratory Group" + mc + " document. It has no "+
+                "official standing of any kind and does not represent consensus of the Web community.</p></section>";
         }
         else {
             var art = "a ";

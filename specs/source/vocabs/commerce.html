@@ -50,7 +50,7 @@
           //    { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2009-2010 &copy; Digital Bazaar, Inc.",
+          additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc. Shared under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution Share-Alike license</a>.",
           
           // name of the WG
           wg:           "Unofficial Payswarm Exploratory Group",
@@ -82,15 +82,61 @@
     <section>
       <h2>Introduction</h2>
       <p>
+This document describes a number of classes and properties that can be used to
+express commercial transactions on the Semantic Web. These include things
+such as deposits, withdrawals, how entities should be paid for goods or
+services rendered, receipts, payment information, recording detailed 
+commercial transactions, and digital signatures on monetary transactions.
+Where GoodRelations provides a means for finding product offerings or
+expressing product needs, this vocabulary can be used for the next step:
+recording and expressing the commercial transaction.
+      </p>
+      <p class="issue">
+This entire document is a work in progress and is thus incredibly
+incomplete and unstable. Like Jello, it MUST NOT be used for any production 
+use. Like any unstable financial system, it may result in great financial 
+loss or great financial gain. With your luck, it will most probably be the 
+former. You have been warned.
       </p>
     </section>
 
     <section>
       <h2>Classes</h2>
 
+      <section id="Account" about="http://purl.org/commerce#Deposit"
+        typeof="rdfs:Class">
+        <h3>Account</h3>
+          <p>
+A financial device that can operate as a source or destination for funds 
+transfered during a commercial exchange.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:amount, com:currency, rdfs:label</dd>
+          </dl>
+          <p>
+The following example expresses an account belonging to a person named
+"John" with a balance of $50.40.
+          </p>
+          <pre class="example">
+{
+   "@": "&lt;http://payswarm.example.com/people/john-doe#account-3>"
+   "a": "&lt;com:Account>",
+   "rdfs:label": "John's Financial Account",
+   "com:amount": "50.40",
+   "com:currency": "USD"
+}
+        </pre>
+      </section>
+
+
       <section id="Deposit" about="http://purl.org/commerce#Deposit"
         typeof="rdfs:Class">
-        <h3>Deposit (was ps:Deposit)</h3>
+        <h3>Deposit</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
 performed as a means for storing monetary amounts in the destination account.
@@ -104,7 +150,7 @@ performed as a means for storing monetary amounts in the destination account.
             <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
           </dl>
           <p>
-The following example describes a credit card deposit:
+The following example describes a deposit made using a debit card:
           </p>
           <pre class="example">
 {
@@ -114,7 +160,7 @@ The following example describes a credit card deposit:
    "com:source":
    {
       "@": "&lt;http://mybank.example.com/accounts/3879279824>",
-      "a": "ccard:CreditCard",
+      "a": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
       "ccard:expirationMonth": "11",
@@ -133,8 +179,8 @@ The following example describes a credit card deposit:
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [FIXME: com:Payee*],
-   "com:transfer": [FIXME: com:Transfer*],
+   "com:payee": [<a href="#Payee">Payee</a>*],
+   "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
@@ -149,7 +195,9 @@ The following example describes a credit card deposit:
         typeof="rdfs:Class">
         <h3>Payee</h3>
           <p>
-An entity that defines how many monetary funds should be transferred to a destination account during a <a href="#Transaction">Transaction</a>. A list of Payees can be processed to produce a list of Transfers.
+An entity that defines how monetary funds should be transferred to a destination 
+account during a <a href="#Transaction">Transaction</a>. A list of Payees can be 
+processed to produce a list of Transfers.
           </p>
           <dl>
             <dt>Status</dt>
@@ -234,7 +282,7 @@ added to the list of payees for a transaction.
 
       <section id="Transfer" about="http://purl.org/commerce#Transfer"
         typeof="rdfs:Class">
-        <h3>Transfer (was ps:Transfer)</h3>
+        <h3>Transfer</h3>
           <p>
 A record of the movement of monetary funds from a source account into a
 destination account.
@@ -249,7 +297,7 @@ destination account.
 com:currency, rdfs:comment</dd>
           </dl>
           <p>
-The example below shows a transaction processor can transfering funds from a
+The example below shows a transaction processor transfering funds from a
 local financial account to an external financial account.
           </p>
           <pre class="example">
@@ -267,7 +315,7 @@ local financial account to an external financial account.
 
       <section id="Transaction" about="http://purl.org/commerce#Transaction"
         typeof="rdfs:Class">
-        <h3>Transaction (was ps:Transaction)</h3>
+        <h3>Transaction</h3>
           <p>
 A record of a commercial exchange between two entities resulting in the 
 transfer of monetary funds from one or more source accounts to 
@@ -292,7 +340,7 @@ to a tax account.
 {
    "@": "&lt;http://example.com/transactions/1.A.F23BC>"
    "a": "&lt;com:Transaction>",
-   "com:transfer": [com:Transfer+]
+   "com:transfer": [<a href="#Transfer">Transfer</a>+]
    "com:amount": "1.04",
    "com:currency": "USD",
    "rdfs:comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
@@ -304,7 +352,7 @@ to a tax account.
 
       <section id="Withdrawal" about="http://purl.org/commerce#Withdrawal"
         typeof="rdfs:Class">
-        <h3>Withdrawal (was ps:Withdrawal)</h3>
+        <h3>Withdrawal</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
 performed as a means for retrieving previously stored monetary amounts.
@@ -320,14 +368,22 @@ rdfs:comment, ps:originatingClient</dd>
           </dl>
           <p>
 The example below demonstrates the withdrawal of funds from an online account
-into a more traditional offline account.
+into a more traditional offline account. The example uses a fictionalized
+vocabulary called <code>bank</code>, which would be used for expressing
+bank account information.
           </p>
           <pre class="example">
 {
    "@": "&lt;http://example.com/transactions/1.A.F23BC>"
    "a": "&lt;com:Withdrawal>",
-   "com:destination": {FIXME: PAYPAL INFO or similar},
-   "com:transfer": [FIXME: ps:Transfer*],
+   "com:destination": 
+   {
+      "a": "bank:BankAccount",
+      "bank:routing": "102000076",
+      "bank:account": "5874523668972",
+      "bank:name": "Wells Fargo",
+   },
+   "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:amount": "14.34",
    "com:currency": "USD",
    "rdfs:comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
@@ -345,7 +401,15 @@ into a more traditional offline account.
         typeof="rdf:Property">
         <h3>Cumulative</h3>
         <p>
-This constant term is used to specify a cumulative rate context in a Payee. Normally a percentage-based Payee's amount would be calculated by applying its percentage rate to the total of all flat amount Payees from the Payee list. By specifying that a Payee uses cumulative rate context, the total amount will also include amounts calculated for other percentage-based Payees that appear in positions prior to the Payee with the cumulative rate context. Therefore, the more ExclusivePercentage Payees that appear before a cumulative Payee, the larger the total will be that the percentage is applied to in order to calculate its amount.
+This constant term is used to specify a cumulative rate context in a Payee. 
+Normally a percentage-based Payee's amount would be calculated by applying its 
+percentage rate to the total of all flat amount Payees from the Payee list. By 
+specifying that a Payee uses cumulative rate context, the total amount will also 
+include amounts calculated for other percentage-based Payees that appear in 
+positions prior to the Payee with the cumulative rate context. Therefore, the 
+more ExclusivePercentage Payees that appear before a cumulative Payee, the 
+larger the total will be that the percentage is applied to in order to calculate 
+its amount.
         </p>
         <dl>
           <dt>Status</dt>
@@ -374,7 +438,11 @@ The following example demonstrates how a cumulative rate type is specified:
         <h3>Deferred</h3>
         <p>
 This constant term is used to specify a deferred rate context. A deferred
-rate context specifies that the amount of a percentage-based Payee must be calculated after all non-deferred Payee amounts have already been calculated. This is most useful when a Payee should be applied to the total cost of a good or service. Whilst Payees that are Taxes are automatically deferred, if a Payee that is not a Tax wishes to behave like one, it should use this rate context.
+rate context specifies that the amount of a percentage-based Payee must be 
+calculated after all non-deferred Payee amounts have already been calculated. 
+This is most useful when a Payee should be applied to the total cost of a good 
+or service. Whilst Payees that are Taxes are automatically deferred, if a Payee 
+that is not a Tax wishes to behave like one, it should use this rate context.
         </p>
         <dl>
           <dt>Status</dt>
@@ -405,7 +473,12 @@ The following example demonstrates how a deferred rate context can be specified:
 This constant term is used to specify an exclusive percentage-based rate type.
 An exclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
-not also percentage-based. There are some exceptions to this rule when using a cumulative rate context (see: Cumulative). The amount that results from this percentage will be added to the total amount calculated from all of the Payees. This behavior is the opposite of that of an InclusivePercentage, where the total would not be altered. Real world examples of ExclusivePercentages include most sales taxes in the United States.
+not also percentage-based. There are some exceptions to this rule when using a 
+cumulative rate context (see: Cumulative). The amount that results from this 
+percentage will be added to the total amount calculated from all of the Payees. 
+This behavior is the opposite of that of an InclusivePercentage, where the total 
+would not be altered. Real world examples of ExclusivePercentages include most 
+sales taxes in the United States.
         </p>
         <dl>
           <dt>Status</dt>
@@ -465,7 +538,13 @@ Payee.
 This constant term is used to specify an inclusive percentage-based rate type.
 An inclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
-not also percentage-based. There are some exceptions to this rule when using a cumulative rate context (see: Cumulative). The amount that results from this percentage will be evenly deducted from all other Payees, thus leaving the total the same. This behavior is the opposite of that of an ExclusivePercentage, where the amount would be added to the total and the other Payees would remain the same. Real world examples of InclusivePercentages include most income taxes in the United States.
+not also percentage-based. There are some exceptions to this rule when using 
+a cumulative rate context (see: Cumulative). The amount that results from 
+this percentage will be evenly deducted from all other Payees, thus leaving 
+the total the same. This behavior is the opposite of that of an 
+ExclusivePercentage, where the amount would be added to the total and the 
+other Payees would remain the same. Real world examples of InclusivePercentages 
+include most income taxes in the United States.
         </p>
         <dl>
           <dt>Status</dt>
@@ -622,21 +701,31 @@ Transfer:
         typeof="rdf:Property">
         <h3>date</h3>
         <p>
-TBD
+The date property specifies the date and time on which a commercial transaction 
+occurred. The value MUST be expressed using an ISO-8601 date/time string.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transfer, com:Transaction, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:dateTime</dd>
         </dl>
         <p>
-The following example TBD.
+The example below states that the Transaction occurred on October 16th, 2010 at
+12:34 UTC.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://example.com/transactions/1.A.F23BC>"
+   "a": "&lt;com:Transaction>",
+   "com:transfer": [<a href="#Transfer">Transfer</a>+]
+   "com:amount": "1.04",
+   "com:currency": "USD",
+   "rdfs:comment": "Purchase of Bad Romance by Lady Gaga from Best Buy"
+   "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
+   "ps:originatingClient": "10.113.15.142^^iana:ipv4Address"
 }
         </pre>
       </section>
@@ -645,44 +734,60 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>destination</h3>
         <p>
-TBD
+This property is used to specify a destination account for a commercial 
+transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>com:Account, owl:Thing</dd>
         </dl>
         <p>
-The following example TBD.
+The following example expresses a Payee where an amount of $1 USD should be 
+placed into the destination account identified by
+<code>&lt;"&lt;http://payswarm.example.com/people/john-doe#account-3>"</code>.
         </p>
         <pre class="example">
 {
+   "a": "com:Payee",
+   "com:rate": "1.00",
+   "com:rateType": "&lt;com:FlatAmount>",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "rdfs:comment": "Description about payment reason",
 }
         </pre>
       </section>
 
       <section id="destinationOwnerType" about="http://purl.org/commerce#destinationOwnerType"
         typeof="rdf:Property">
-        <h3>destinationOwnerType (REVISIT)</h3>
+        <h3>destinationOwnerType</h3>
         <p>
-TBD
+Specifies the type of the destination account, typically used in a PayeeRule 
+where the type of destination account payment is to be restricted.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:PayeeRule, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>ps:PaySwarmAuthority, owl:Thing</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes a PayeeRule where the destination account owner 
+must be a PaySwarm Authority and the maximum rate that the PaySwarm authority
+can charge is 10%.
         </p>
         <pre class="example">
 {
+    "a": "com:PayeeRule",
+    "com:maximumRate": "10",
+    "com:rateType": "com:InclusivePercentage",
+    "com:destinationOwnerType" : ["ps:Authority"]
 }
         </pre>
       </section>
@@ -691,15 +796,17 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>gatewayApprovalCode</h3>
         <p>
-TBD
+The gateway approval code is typically used to express the result of a credit
+card processing gateway. These codes are typically a string that is specific to
+the processing gateway software.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:string</dd>
         </dl>
         <p>
 The following example TBD.
@@ -714,15 +821,17 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>gatewayError</h3>
         <p>
-TBD
+The gateway error is typically used to encode an error that occurred when
+processing a credit card or debit card. An error code is typically a string
+that is specific to the processing gateway software.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:string</dd>
         </dl>
         <p>
 The following example TBD.
@@ -737,15 +846,20 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>maximumRate</h3>
         <p>
-TBD
+This property is typically used in a PayeeRule to limit the maximum rate that
+a Payee can receive as a part of a transaction. These types of rules ensure that
+no single Payee can capture more of the final sale price than the asset owner 
+is willing to give up. Maximum rate limitations allow statements like the
+following: "I want to limit the amount of money that a payment gateway
+can collect to less than 4%".
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:PayeeRule, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:integer, xsd:string</dd>
         </dl>
         <p>
 The following example TBD.
@@ -758,17 +872,20 @@ The following example TBD.
 
       <section id="forTransaction" about="http://purl.org/commerce#forTransaction"
         typeof="rdf:Property">
-        <h3>forTransaction (was ps:forTransaction)</h3>
+        <h3>forTransaction</h3>
         <p>
-TBD
+This property is most often used to specify that a Transfer is for the
+specified Transaction. The relationship from Transaction to Transfer is 
+encoded using the <a href="#transfer">com:trasfer</a> property. The relationship 
+from Transfer to Transaction is encoded using this property.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transfer, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction</dd>
         </dl>
         <p>
 The following example TBD.
@@ -781,17 +898,20 @@ The following example TBD.
 
       <section id="limitation" about="http://purl.org/commerce#limitation"
         typeof="rdf:Property">
-        <h3>limitation (was ps:limitation)</h3>
+        <h3>limitation</h3>
         <p>
-TBD
+This property is often used with a PayeeRule and expresses a restriction on 
+a Payee. For example, a PayeeRule may provide restrictions on the type of a 
+Payee or the amounts that Payee may receive as a participant in a commercial 
+transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:PayeeRule, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:anyURI</dd>
         </dl>
         <p>
 The following example TBD.
@@ -804,17 +924,21 @@ The following example TBD.
 
       <section id="minimumAmount" about="http://purl.org/commerce#minimumAmount"
         typeof="rdf:Property">
-        <h3>minimumAmount (ADDED, REVISIT, minimumAmount or minimumRate?)</h3>
+        <h3>minimumAmount</h3>
         <p>
-TBD
+This property is typically used in a Payee to express a minimum amount that
+a Payee MUST receive as a part of a transaction. These types of rules ensure 
+that a floor is set for a particular percentage-based Payee. Minimum amount 
+claims enable statement like the following to be made: "I want 2% of the sale
+or $0.02 USD, whichever is greater".
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Payee, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:decimal, xsd:integer, xsd:string</dd>
         </dl>
         <p>
 The following example TBD.
@@ -827,9 +951,11 @@ The following example TBD.
 
       <section id="payeePosition" about="http://purl.org/commerce#payeePosition"
         typeof="rdf:Property">
-        <h3>payeePosition (was: ps:payeePosition)</h3>
+        <h3>payeePosition</h3>
         <p>
-TBD
+This property is used to coerce a set of Payees into an ordered list. The
+order in which Payees are evaluated is vital to the final amount and 
+Transfer list that is generated by processing the list of Payees.
         </p>
         <dl>
           <dt>Status</dt>
@@ -852,38 +978,17 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>paymentGateway</h3>
         <p>
-TBD
+This property is used to specify the payment gateway. The gateway is typically
+a string and is used by the transaction processing software to process payments
+via credit card or debit card. 
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Deposit</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
-        </dl>
-        <p>
-The following example TBD.
-        </p>
-        <pre class="example">
-{
-}
-        </pre>
-      </section>
-
-      <section id="transfer" about="http://purl.org/commerce#transfer"
-        typeof="rdf:Property">
-        <h3>transfer (was ps:transfer)</h3>
-        <p>
-TBD
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:anyURI, xsd:string</dd>
         </dl>
         <p>
 The following example TBD.
@@ -896,17 +1001,18 @@ The following example TBD.
 
       <section id="payee" about="http://purl.org/commerce#payee"
         typeof="rdf:Property">
-        <h3>payee (was ps:payee)</h3>
+        <h3>payee</h3>
         <p>
-TBD
+This property is used to specify an entity that either should be paid, or
+has been paid as a result of a commercial exchange. 
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>com:Payee, owl:Thing</dd>
         </dl>
         <p>
 The following example TBD.
@@ -921,21 +1027,45 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>rate</h3>
         <p>
-TBD
+This property can be used to specify the fixed amount or a percentage-based
+rate of a Payee. The rate specifies the amount that the Payee should be or
+has been paid as a result of a commercial exchange.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Payee</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:decimal, xsd:integer</dd>
         </dl>
         <p>
-The following example TBD.
+The following example shows a fixed amount of $0.05 USD specified using the
+rate property:
         </p>
         <pre class="example">
 {
+   "a": "com:Payee",
+   "com:rate": "0.05",
+   "com:rateType": "com:FlatAmount",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "rdfs:comment": "The",
+}
+        </pre>
+        <p>
+The rate property can also be used to specify percentage-based amounts. The
+example below specifies a 4% Virginia sales tax:
+        </p>
+        <pre class="example">
+{
+   "a": "com:Payee",
+   "com:rate": "4",
+   "com:rateType": "com:ExclusivePercentage",
+   "com:currency": "USD",
+   "com:destination": "&lt;http://payswarm.example.com/states/virginia#sales-tax>",
+   "rdfs:comment": "Virginia sales tax",
+   "com:rateContext": "com:Tax"
 }
         </pre>
       </section>
@@ -944,15 +1074,17 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>rateContext</h3>
         <p>
-TBD
+The rate context is used to specify at which point in a payment calculation 
+a rate should apply. It allows Payees to be deferred until the end of 
+payment calculation, or for Payees to be marked as Taxes or TaxDeferred.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Payee</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>com:Cumulative, com:Tax, com:Deferred, com:TaxExempt, rdfs:Class</dd>
         </dl>
         <p>
 The following example TBD.
@@ -967,7 +1099,11 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>rateType</h3>
         <p>
-TBD
+The rate type property is used to specify whether the rate property of a
+Payee is a fixed amount, an inclusive percentage or an exclusive percentage.
+The rateType coupled with the currency, and rate specifies the exact 
+monetary amount or calculation that must be employed during the final cost
+calculation among a list of Payees.
         </p>
         <dl>
           <dt>Status</dt>
@@ -990,15 +1126,16 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>source</h3>
         <p>
-TBD
+This property is used to specify a source account for a commercial 
+transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Account</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>com:Account, ccard:CreditCard, ccard:DebitCard, owl:Thing</dd>
         </dl>
         <p>
 The following example TBD.
@@ -1013,15 +1150,18 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>transfer</h3>
         <p>
-TBD
+This property is used to associate the commercial transfer of monetary funds 
+during a Transaction. A list of transfers associated with a Transaction is the
+complete record of the monetary funds, the source accounts and the destination
+accounts for a particular Transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Transaction, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>com:Transfer, owl:Thing</dd>
         </dl>
         <p>
 The following example TBD.

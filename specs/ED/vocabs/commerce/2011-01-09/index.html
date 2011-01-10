@@ -1,86 +1,454 @@
-<!DOCTYPE html> 
-<html> 
-  <head> 
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
+<html lang="en" dir="ltr">
+<head> 
     <title>Commerce Vocabulary</title> 
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
     <!-- 
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      --> 
-    <script src='../../respec/js/respec.js' class='remove'></script> 
-    <script class='remove'> 
-      var respecConfig = {
-          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "unofficial",
-          
-          // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "commerce-vocabulary",
- 
-          // if you wish the publication date to be other than today, set this
-          // publishDate:  "2009-08-06",
- 
-          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-          // and its maturity status
-          // previousPublishDate:  "1977-03-15",
-          // previousMaturity:  "WD",
- 
-          // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://payswarm.com/specs/source/vocabs/commerce.html",
- 
-          // if this is a LCWD, uncomment and set the end of its review period
-          // lcEnd: "2009-08-05",
- 
-          // if you want to have extra CSS, append them to this list
-          // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["../../respec/css/respec.css"],
- 
-          // editors, add as many as you like
-          // only "name" is required
-          editors:  [
-              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
-                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
-          ],
- 
-          // authors, add as many as you like. 
-          // This is optional, uncomment if you have authors as well as editors.
-          // only "name" is required. Same format as editors.
- 
-          //authors:  [
-          //    { name: "Your Name", url: "http://example.org/",
-          //      company: "Your Company", companyURL: "http://example.com/" },
-          //],
-          additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc. Shared under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution Share-Alike license</a>.",
-          
-          // name of the WG
-          wg:           "Unofficial Payswarm Exploratory Group",
-          
-          // URI of the public WG page
-          wgURI:        "http://payswarm.com/",
-          
-          // name (with the @w3c.org) of the public mailing to which comments are due
-          wgPublicList: "---",
-          
-          // URI of the patent status for this WG, for Rec-track documents
-          // !!!! IMPORTANT !!!!
-          // This is important for Rec-track documents, do not copy a patent URI from a random
-          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-          // Team Contact.
-          wgPatentURI:  "",
-      };
-    </script> 
-  </head> 
-  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
-        xmlns:owl="http://www.w3.org/2002/07/owl#" 
-        xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"> 
-    <section id='abstract'> 
+     
+     
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon <robin at berjon dot com>
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  medium solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  medium dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType {
+    color:  #005a9c;
+}
+.idlAttrName {
+    color:  #ff4500;
+}
+.idlAttrName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., <, >, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8"></head> 
+  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" style="display: inherit; "><div class="head"><p></p><h1>Commerce Vocabulary</h1><h2 id="unofficial-draft-09-january-2011">Unofficial Draft 09 January 2011</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd></dl><p class="copyright"> Copyright 2009-2011 © Digital Bazaar, Inc. Shared under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution Share-Alike license</a>.</p><hr></div> 
+    <div id="abstract" class="introductory section"><h2 id="abstract-1">Abstract</h2> 
       <p> 
       </p> 
-    </section> 
+    </div><div id="sotd" class="introductory section"><h2 id="status-of-this-document">Status of This Document</h2><p>This document is merely a draft PaySwarm Exploratory Group document. It has no official standing of any kind and does not represent consensus of the Web community.</p></div><div id="toc" class="section"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ul class="toc"><li><a href="#introduction"><span class="secno">1. </span>Introduction</a></li><li><a href="#classes"><span class="secno">2. </span>Classes</a></li><li><ul class="toc"><li><a href="#Account"><span class="secno">2.1 </span>Account</a></li><li><a href="#Deposit"><span class="secno">2.2 </span>Deposit</a></li><li><a href="#Payee"><span class="secno">2.3 </span>Payee</a></li><li><a href="#PayeeRule"><span class="secno">2.4 </span>PayeeRule</a></li><li><a href="#Transfer"><span class="secno">2.5 </span>Transfer</a></li><li><a href="#Transaction"><span class="secno">2.6 </span>Transaction</a></li><li><a href="#Withdrawal"><span class="secno">2.7 </span>Withdrawal</a></li></ul></li><li><a href="#constants"><span class="secno">3. </span>Constants</a></li><li><ul class="toc"><li><a href="#Cumulative"><span class="secno">3.1 </span>Cumulative</a></li><li><a href="#Deferred"><span class="secno">3.2 </span>Deferred</a></li><li><a href="#ExclusivePercentage"><span class="secno">3.3 </span>ExclusivePercentage</a></li><li><a href="#FlatAmount"><span class="secno">3.4 </span>FlatAmount</a></li><li><a href="#InclusivePercentage"><span class="secno">3.5 </span>InclusivePercentage</a></li><li><a href="#Tax"><span class="secno">3.6 </span>Tax</a></li><li><a href="#TaxExempt"><span class="secno">3.7 </span>TaxExempt</a></li></ul></li><li><a href="#properties"><span class="secno">4. </span>Properties</a></li><li><ul class="toc"><li><a href="#amount"><span class="secno">4.1 </span>amount</a></li><li><a href="#currency"><span class="secno">4.2 </span>currency</a></li><li><a href="#date"><span class="secno">4.3 </span>date</a></li><li><a href="#destination"><span class="secno">4.4 </span>destination</a></li><li><a href="#destinationOwnerType"><span class="secno">4.5 </span>destinationOwnerType</a></li><li><a href="#gatewayApprovalCode"><span class="secno">4.6 </span>gatewayApprovalCode</a></li><li><a href="#gatewayError"><span class="secno">4.7 </span>gatewayError</a></li><li><a href="#maximumRate"><span class="secno">4.8 </span>maximumRate</a></li><li><a href="#forTransaction"><span class="secno">4.9 </span>forTransaction</a></li><li><a href="#limitation"><span class="secno">4.10 </span>limitation</a></li><li><a href="#minimumAmount"><span class="secno">4.11 </span>minimumAmount</a></li><li><a href="#payeePosition"><span class="secno">4.12 </span>payeePosition</a></li><li><a href="#paymentGateway"><span class="secno">4.13 </span>paymentGateway</a></li><li><a href="#payee"><span class="secno">4.14 </span>payee</a></li><li><a href="#rate"><span class="secno">4.15 </span>rate</a></li><li><a href="#rateContext"><span class="secno">4.16 </span>rateContext</a></li><li><a href="#rateType"><span class="secno">4.17 </span>rateType</a></li><li><a href="#source"><span class="secno">4.18 </span>source</a></li><li><a href="#transfer"><span class="secno">4.19 </span>transfer</a></li></ul></li><li><a href="#references"><span class="secno">A. </span>References</a></li><li><ul class="toc"><li><a href="#normative-references"><span class="secno">A.1 </span>Normative references</a></li><li><a href="#informative-references"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
 
-    <section>
-      <h2>Introduction</h2>
+    <div id="introduction" class="section">
+      <h2 id="x1.-introduction"><span class="secno">1. </span>Introduction</h2>
       <p>
 This document describes a number of classes and properties that can be used to
 express commercial transactions on the Semantic Web. These include things
@@ -93,19 +461,18 @@ recording and expressing the commercial transaction.
       </p>
       <p class="issue">
 This entire document is a work in progress and is thus incredibly
-incomplete and unstable. Like Jello, it MUST NOT be used for any production 
+incomplete and unstable. Like Jello, it <em class="rfc2119" title="must not">must not</em> be used for any production 
 use. Like any unstable financial system, it may result in great financial 
 loss or great financial gain. With your luck, it will most probably be the 
 former. You have been warned.
       </p>
-    </section>
+    </div>
 
-    <section>
-      <h2>Classes</h2>
+    <div id="classes" class="section">
+      <h2 id="x2.-classes"><span class="secno">2. </span>Classes</h2>
 
-      <section id="Account" about="http://purl.org/commerce#Deposit"
-        typeof="rdfs:Class">
-        <h3>Account</h3>
+      <div id="Account" about="http://purl.org/commerce#Deposit" typeof="rdfs:Class" class="section">
+        <h3 id="x2.1-account"><span class="secno">2.1 </span>Account</h3>
           <p>
 A financial device that can operate as a source or destination for funds 
 transfered during a commercial exchange.
@@ -122,21 +489,18 @@ transfered during a commercial exchange.
 The following example expresses an account belonging to a person named
 "John" with a balance of $50.40.
           </p>
-          <pre class="example">
-{
-   "@": "&lt;http://payswarm.example.com/people/john-doe#account-3>"
-   "a": "&lt;com:Account>",
+          <pre class="example">{
+   "@": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;"
+   "a": "&lt;com:Account&gt;",
    "rdfs:label": "John's Financial Account",
    "com:amount": "50.40",
    "com:currency": "USD"
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
 
-      <section id="Deposit" about="http://purl.org/commerce#Deposit"
-        typeof="rdfs:Class">
-        <h3>Deposit</h3>
+      <div id="Deposit" about="http://purl.org/commerce#Deposit" typeof="rdfs:Class" class="section">
+        <h3 id="x2.2-deposit"><span class="secno">2.2 </span>Deposit</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
 performed as a means for storing monetary amounts in the destination account.
@@ -152,14 +516,13 @@ performed as a means for storing monetary amounts in the destination account.
           <p>
 The following example describes a deposit made using a debit card:
           </p>
-          <pre class="example">
-{
-   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
+          <pre class="example">{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit&gt;",
    "a": ["com:Transaction", "com:Deposit"],
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "com:source":
    {
-      "@": "&lt;http://mybank.example.com/accounts/3879279824>",
+      "@": "&lt;http://mybank.example.com/accounts/3879279824&gt;",
       "a": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -179,21 +542,19 @@ The following example describes a deposit made using a debit card:
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
+   "com:payee": [Payee*],
+   "com:transfer": [Transfer*],
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
-       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5&gt;",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="Payee" about="http://purl.org/commerce#Payee"
-        typeof="rdfs:Class">
-        <h3>Payee</h3>
+      <div id="Payee" about="http://purl.org/commerce#Payee" typeof="rdfs:Class" class="section">
+        <h3 id="x2.3-payee"><span class="secno">2.3 </span>Payee</h3>
           <p>
 An entity that defines how monetary funds should be transferred to a destination 
 account during a <a href="#Transaction">Transaction</a>. A list of Payees can be 
@@ -211,21 +572,18 @@ rdfs:comment, com:rateContext</dd>
 <p>
 The following example expresses a flat payment of $0.05 USD.
 </p>
-<pre class="example">
-{
+<pre class="example">{
    "a": "com:Payee",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:FlatAmount>",
+   "com:rateType": "&lt;com:FlatAmount&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "Description about payment reason",
-}
-</pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="PayeeRule" about="http://purl.org/commerce#PayeeRule"
-        typeof="rdfs:Class">
-        <h3>PayeeRule</h3>
+      <div id="PayeeRule" about="http://purl.org/commerce#PayeeRule" typeof="rdfs:Class" class="section">
+        <h3 id="x2.4-payeerule"><span class="secno">2.4 </span>PayeeRule</h3>
           <p>
 A Payee Rule is a mechanism that can describe limits and allowances on the 
 payees during a transaction. These rules are typically used to apply 
@@ -248,41 +606,34 @@ The example below expresses a maximum payment rate of 10% to go to a
 PaySwarm Authority. This limits the amount of profit a PaySwarm Authority can
 make to 10% of the final sale price.
           </p>
-          <pre class="example">
-{
-    "a": "&lt;com:PayeeRule>",
+          <pre class="example">{
+    "a": "&lt;com:PayeeRule&gt;",
     "com:maximumRate": "10",
-    "com:rateType": "&lt;com:InclusivePercentage>",
-    "com:destinationOwnerType" : "&lt;ps:Authority>"
-}
-          </pre>
+    "com:rateType": "&lt;com:InclusivePercentage&gt;",
+    "com:destinationOwnerType" : "&lt;ps:Authority&gt;"
+}</pre>
           <p>
 The following example expresses that all rateTypes must be either flat
 rates or exclusive percentages. That is, inclusive percentages are not allowed.
-<div class="issue">Why would anyone ever need this? We need to explain.</div>
-          </p>
-          <pre class="example">
-{
-    "a": "&lt;com:PayeeRule>",
+</p><div class="issue">Why would anyone ever need this? We need to explain.</div>
+          <p></p>
+          <pre class="example">{
+    "a": "&lt;com:PayeeRule&gt;",
     "com:rateType": ["com:FlatAmount", "com:ExclusivePercentage"]
-}
-          </pre>
+}</pre>
 
           <p>
 The example below specifies that no additional payees are allowed to be
 added to the list of payees for a transaction.
           </p>
-          <pre class="example">
-{
+          <pre class="example">{
     "a": "com:PayeeRule",
     "com:limitation": "ps:NoAdditionalPayees"
-}
-          </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="Transfer" about="http://purl.org/commerce#Transfer"
-        typeof="rdfs:Class">
-        <h3>Transfer</h3>
+      <div id="Transfer" about="http://purl.org/commerce#Transfer" typeof="rdfs:Class" class="section">
+        <h3 id="x2.5-transfer"><span class="secno">2.5 </span>Transfer</h3>
           <p>
 A record of the movement of monetary funds from a source account into a
 destination account.
@@ -300,22 +651,19 @@ com:currency, rdfs:comment</dd>
 The example below shows a transaction processor transfering funds from a
 local financial account to an external financial account.
           </p>
-          <pre class="example">
-{
+          <pre class="example">{
    "a": "com:Transfer",
-   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982>";
-   "com:source": "&lt;http://redbankexample.com/accounts/12345#account>",
-   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
+   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982&gt;";
+   "com:source": "&lt;http://redbankexample.com/accounts/12345#account&gt;",
+   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account&gt;",
    "com:amount": "8.00",
    "com:currency": "USD",
    "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
-}
-          </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="Transaction" about="http://purl.org/commerce#Transaction"
-        typeof="rdfs:Class">
-        <h3>Transaction</h3>
+      <div id="Transaction" about="http://purl.org/commerce#Transaction" typeof="rdfs:Class" class="section">
+        <h3 id="x2.6-transaction"><span class="secno">2.6 </span>Transaction</h3>
           <p>
 A record of a commercial exchange between two entities resulting in the 
 transfer of monetary funds from one or more source accounts to 
@@ -336,23 +684,20 @@ transfer of $1.04 USD from a source account to two destination accounts. The
 transfers show part of the payment going to the retailer and the other going
 to a tax account.
           </p>
-          <pre class="example">
-{
-   "@": "&lt;http://example.com/transactions/1.A.F23BC>"
-   "a": "&lt;com:Transaction>",
-   "com:transfer": [<a href="#Transfer">Transfer</a>+]
+          <pre class="example">{
+   "@": "&lt;http://example.com/transactions/1.A.F23BC&gt;"
+   "a": "&lt;com:Transaction&gt;",
+   "com:transfer": [Transfer+]
    "com:amount": "1.04",
    "com:currency": "USD",
    "rdfs:comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "ps:originatingClient": "10.113.15.142^^iana:ipv4Address"
-}
-          </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="Withdrawal" about="http://purl.org/commerce#Withdrawal"
-        typeof="rdfs:Class">
-        <h3>Withdrawal</h3>
+      <div id="Withdrawal" about="http://purl.org/commerce#Withdrawal" typeof="rdfs:Class" class="section">
+        <h3 id="x2.7-withdrawal"><span class="secno">2.7 </span>Withdrawal</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
 performed as a means for retrieving previously stored monetary amounts.
@@ -372,10 +717,9 @@ into a more traditional offline account. The example uses a fictionalized
 vocabulary called <code>bank</code>, which would be used for expressing
 bank account information.
           </p>
-          <pre class="example">
-{
-   "@": "&lt;http://example.com/transactions/1.A.F23BC>"
-   "a": "&lt;com:Withdrawal>",
+          <pre class="example">{
+   "@": "&lt;http://example.com/transactions/1.A.F23BC&gt;"
+   "a": "&lt;com:Withdrawal&gt;",
    "com:destination": 
    {
       "a": "bank:BankAccount",
@@ -383,23 +727,21 @@ bank account information.
       "bank:account": "5874523668972",
       "bank:name": "Wells Fargo",
    },
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
+   "com:transfer": [Transfer*],
    "com:amount": "14.34",
    "com:currency": "USD",
    "rdfs:comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
    "ps:originatingClient": "10.113.15.142^^iana:ipv4Address"
-}
-          </pre>
-      </section>
+}</pre>
+      </div>
 
-    </section>
+    </div>
 
-    <section>
-      <h2>Constants</h2>
+    <div id="constants" class="section">
+      <h2 id="x3.-constants"><span class="secno">3. </span>Constants</h2>
 
-      <section id="Cumulative" about="http://purl.org/commerce#Cumulative"
-        typeof="rdf:Property">
-        <h3>Cumulative</h3>
+      <div id="Cumulative" about="http://purl.org/commerce#Cumulative" typeof="rdf:Property" class="section">
+        <h3 id="x3.1-cumulative"><span class="secno">3.1 </span>Cumulative</h3>
         <p>
 This constant term is used to specify a cumulative rate context in a Payee. 
 Normally a percentage-based Payee's amount would be calculated by applying its 
@@ -420,22 +762,19 @@ its amount.
         <p>
 The following example demonstrates how a cumulative rate type is specified:
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:rateType": "&lt;com:ExclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The explanation of the cumulative rule goes here.",
-   "com:rateContext": "&lt;com:Cumulative>"
-}
-        </pre>
-      </section>
+   "com:rateContext": "&lt;com:Cumulative&gt;"
+}</pre>
+      </div>
 
-      <section id="Deferred" about="http://purl.org/commerce#Deferred"
-        typeof="rdf:Property">
-        <h3>Deferred</h3>
+      <div id="Deferred" about="http://purl.org/commerce#Deferred" typeof="rdf:Property" class="section">
+        <h3 id="x3.2-deferred"><span class="secno">3.2 </span>Deferred</h3>
         <p>
 This constant term is used to specify a deferred rate context. A deferred
 rate context specifies that the amount of a percentage-based Payee must be 
@@ -453,22 +792,19 @@ that is not a Tax wishes to behave like one, it should use this rate context.
         <p>
 The following example demonstrates how a deferred rate context can be specified:
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:rateType": "&lt;com:ExclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The explanation of the deferred payee goes here.",
-   "com:rateContext": "&lt;com:Deferred>"
-}
-        </pre>
-      </section>
+   "com:rateContext": "&lt;com:Deferred&gt;"
+}</pre>
+      </div>
 
-      <section id="ExclusivePercentage" about="http://purl.org/commerce#ExclusivePercentage"
-        typeof="rdf:Property">
-        <h3>ExclusivePercentage</h3>
+      <div id="ExclusivePercentage" about="http://purl.org/commerce#ExclusivePercentage" typeof="rdf:Property" class="section">
+        <h3 id="x3.3-exclusivepercentage"><span class="secno">3.3 </span>ExclusivePercentage</h3>
         <p>
 This constant term is used to specify an exclusive percentage-based rate type.
 An exclusive percentage-based rate type specifies that the rate is a percentage
@@ -489,21 +825,18 @@ sales taxes in the United States.
         <p>
 The following example demonstrates how an exclusive percentage can be specified:
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:rateType": "&lt;com:ExclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The explanation of the exclusive percentage goes here."
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="FlatAmount" about="http://purl.org/commerce#FlatAmount"
-        typeof="rdf:Property">
-        <h3>FlatAmount</h3>
+      <div id="FlatAmount" about="http://purl.org/commerce#FlatAmount" typeof="rdf:Property" class="section">
+        <h3 id="x3.4-flatamount"><span class="secno">3.4 </span>FlatAmount</h3>
         <p>
 A flat amount rate type expresses that a payment amount is a specific amount
 in a given currency. That is, the rate is to be interpreted as a fixed amount,
@@ -519,21 +852,18 @@ not as a percentage.
 The following example demonstrates a payment amount of $1.42 USD to a specified 
 Payee.
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "1.42",
-   "com:rateType": "&lt;com:FlatAmount>",
+   "com:rateType": "&lt;com:FlatAmount&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The explanation of the flat amount goes here."
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="InclusivePercentage" about="http://purl.org/commerce#InclusivePercentage"
-        typeof="rdf:Property">
-        <h3>InclusivePercentage</h3>
+      <div id="InclusivePercentage" about="http://purl.org/commerce#InclusivePercentage" typeof="rdf:Property" class="section">
+        <h3 id="x3.5-inclusivepercentage"><span class="secno">3.5 </span>InclusivePercentage</h3>
         <p>
 This constant term is used to specify an inclusive percentage-based rate type.
 An inclusive percentage-based rate type specifies that the rate is a percentage
@@ -555,21 +885,18 @@ include most income taxes in the United States.
         <p>
 The following example describes an inclusive percentage.
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:InclusivePercentage>",
+   "com:rateType": "&lt;com:InclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The explanation of the inclusive percentage goes here."
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="Tax" about="http://purl.org/commerce#Tax"
-        typeof="rdf:Property">
-        <h3>Tax</h3>
+      <div id="Tax" about="http://purl.org/commerce#Tax" typeof="rdf:Property" class="section">
+        <h3 id="x3.6-tax"><span class="secno">3.6 </span>Tax</h3>
         <p>
 This constant specifies that the Payee's rate specified is a tax.
         </p>
@@ -583,22 +910,19 @@ This constant specifies that the Payee's rate specified is a tax.
 The following example describes the payment of a sales tax to the state of
 Virginia of 5%.
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "5.0",
-   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:rateType": "&lt;com:ExclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/states/virginia#account-1>",
+   "com:destination": "&lt;http://payswarm.example.com/states/virginia#account-1&gt;",
    "rdfs:comment": "Virginia sales tax.",
-   "com:rateContext": "&lt;com:Tax>"
-}
-        </pre>
-      </section>
+   "com:rateContext": "&lt;com:Tax&gt;"
+}</pre>
+      </div>
 
-      <section id="TaxExempt" about="http://purl.org/commerce#TaxExempt"
-        typeof="rdf:Property">
-        <h3>TaxExempt</h3>
+      <div id="TaxExempt" about="http://purl.org/commerce#TaxExempt" typeof="rdf:Property" class="section">
+        <h3 id="x3.7-taxexempt"><span class="secno">3.7 </span>TaxExempt</h3>
         <p>
 This constant specifies that a payment to the Payee should not have any
 taxes collected for the transfer of funds. Typically, these Payees are 
@@ -615,26 +939,23 @@ status.
 The following example demonstrates a tax-exempt donation to the Red Cross
 for the amount of $5.00 USD.
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "5.00",
-   "com:rateType": "&lt;com:FlatAmount>",
+   "com:rateType": "&lt;com:FlatAmount&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/organizations/red-cross#account-6>",
+   "com:destination": "&lt;http://payswarm.example.com/organizations/red-cross#account-6&gt;",
    "rdfs:comment": "Donation to the Red Cross",
-   "com:rateContext": "&lt;com:TaxExempt>"
-}
-        </pre>
-      </section>
-    </section>
+   "com:rateContext": "&lt;com:TaxExempt&gt;"
+}</pre>
+      </div>
+    </div>
 
-    <section>
-      <h2>Properties</h2>
+    <div id="properties" class="section">
+      <h2 id="x4.-properties"><span class="secno">4. </span>Properties</h2>
 
-      <section id="amount" about="http://purl.org/commerce#amount"
-        typeof="rdf:Property">
-        <h3>amount</h3>
+      <div id="amount" about="http://purl.org/commerce#amount" typeof="rdf:Property" class="section">
+        <h3 id="x4.1-amount"><span class="secno">4.1 </span>amount</h3>
         <p>
 The amount property is used to specify the total financial value of a
 commercial exchange, such as a transaction or transfer.
@@ -650,25 +971,22 @@ commercial exchange, such as a transaction or transfer.
         <p>
 The following example shows the use of the amount property in a Transfer.
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
    "a": "com:Transfer",
-   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982>";
-   "com:source": "&lt;http://redbankexample.com/accounts/12345#account>",
-   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
+   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982&gt;";
+   "com:source": "&lt;http://redbankexample.com/accounts/12345#account&gt;",
+   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account&gt;",
    "com:amount": "8.00",
    "com:currency": "USD",
    "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="currency" about="http://purl.org/commerce#currency"
-        typeof="rdf:Property">
-        <h3>currency</h3>
+      <div id="currency" about="http://purl.org/commerce#currency" typeof="rdf:Property" class="section">
+        <h3 id="x4.2-currency"><span class="secno">4.2 </span>currency</h3>
         <p>
 The currency property is used to specify the monetary system that is used when
-specifying the financial amount of a commercial exchange. The value SHOULD 
+specifying the financial amount of a commercial exchange. The value <em class="rfc2119" title="should">should</em> 
 be an ISO-4217 currency or a dereference-able IRI to a monetary system that 
 is not specified in ISO-4217.
         </p>
@@ -684,25 +1002,22 @@ is not specified in ISO-4217.
 The following example demonstrates how to use the currency property in a
 Transfer:
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
    "a": "com:Transfer",
-   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982>";
-   "com:source": "&lt;http://redbankexample.com/accounts/12345#account>",
-   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
+   "com:forTransaction": "&lt;http://redbankexample.com/transactions/20110104#7827982&gt;";
+   "com:source": "&lt;http://redbankexample.com/accounts/12345#account&gt;",
+   "com:destination": "&lt;http://greencardexample.com/accounts/54321#account&gt;",
    "com:amount": "8.00",
    "com:currency": "USD",
    "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="date" about="http://purl.org/commerce#date"
-        typeof="rdf:Property">
-        <h3>date</h3>
+      <div id="date" about="http://purl.org/commerce#date" typeof="rdf:Property" class="section">
+        <h3 id="x4.3-date"><span class="secno">4.3 </span>date</h3>
         <p>
 The date property specifies the date and time on which a commercial transaction 
-occurred. The value MUST be expressed using an ISO-8601 date/time string.
+occurred. The value <em class="rfc2119" title="must">must</em> be expressed using an ISO-8601 date/time string.
         </p>
         <dl>
           <dt>Status</dt>
@@ -716,23 +1031,20 @@ occurred. The value MUST be expressed using an ISO-8601 date/time string.
 The example below states that the Transaction occurred on October 16th, 2010 at
 12:34 UTC.
         </p>
-        <pre class="example">
-{
-   "@": "&lt;http://example.com/transactions/1.A.F23BC>"
-   "a": "&lt;com:Transaction>",
-   "com:transfer": [<a href="#Transfer">Transfer</a>+]
+        <pre class="example">{
+   "@": "&lt;http://example.com/transactions/1.A.F23BC&gt;"
+   "a": "&lt;com:Transaction&gt;",
+   "com:transfer": [Transfer+]
    "com:amount": "1.04",
    "com:currency": "USD",
    "rdfs:comment": "Purchase of Bad Romance by Lady Gaga from Best Buy"
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "ps:originatingClient": "10.113.15.142^^iana:ipv4Address"
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="destination" about="http://purl.org/commerce#destination"
-        typeof="rdf:Property">
-        <h3>destination</h3>
+      <div id="destination" about="http://purl.org/commerce#destination" typeof="rdf:Property" class="section">
+        <h3 id="x4.4-destination"><span class="secno">4.4 </span>destination</h3>
         <p>
 This property is used to specify a destination account for a commercial 
 transaction.
@@ -748,23 +1060,20 @@ transaction.
         <p>
 The following example expresses a Payee where an amount of $1 USD should be 
 placed into the destination account identified by
-<code>&lt;"&lt;http://payswarm.example.com/people/john-doe#account-3>"</code>.
+<code>&lt;"&lt;http://payswarm.example.com/people/john-doe#account-3&gt;"</code>.
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
    "a": "com:Payee",
    "com:rate": "1.00",
-   "com:rateType": "&lt;com:FlatAmount>",
+   "com:rateType": "&lt;com:FlatAmount&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "Description about payment reason",
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="destinationOwnerType" about="http://purl.org/commerce#destinationOwnerType"
-        typeof="rdf:Property">
-        <h3>destinationOwnerType</h3>
+      <div id="destinationOwnerType" about="http://purl.org/commerce#destinationOwnerType" typeof="rdf:Property" class="section">
+        <h3 id="x4.5-destinationownertype"><span class="secno">4.5 </span>destinationOwnerType</h3>
         <p>
 Specifies the type of the destination account, typically used in a PayeeRule 
 where the type of destination account payment is to be restricted.
@@ -782,19 +1091,16 @@ The following example describes a PayeeRule where the destination account owner
 must be a PaySwarm Authority and the maximum rate that the PaySwarm authority
 can charge is 10%.
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
     "a": "com:PayeeRule",
     "com:maximumRate": "10",
     "com:rateType": "com:InclusivePercentage",
     "com:destinationOwnerType" : ["ps:Authority"]
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="gatewayApprovalCode" about="http://purl.org/commerce#gatewayApprovalCode"
-        typeof="rdf:Property">
-        <h3>gatewayApprovalCode</h3>
+      <div id="gatewayApprovalCode" about="http://purl.org/commerce#gatewayApprovalCode" typeof="rdf:Property" class="section">
+        <h3 id="x4.6-gatewayapprovalcode"><span class="secno">4.6 </span>gatewayApprovalCode</h3>
         <p>
 The gateway approval code is typically used to express the result of a credit
 card processing gateway. These codes are typically a string that is specific to
@@ -812,15 +1118,14 @@ the processing gateway software.
 The following example notes that the deposit was successful with a gateway
 approval code of <code>8FGk9347Bo2N83</code>.
         </p>
-        <pre class="example">
-{
-   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
-   "a": "&lt;com:Deposit>",
+        <pre class="example">{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit&gt;",
+   "a": "&lt;com:Deposit&gt;",
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "com:source":
    {
-      "@": "&lt;http://mybank.example.com/accounts/3879279824>",
-      "a": "&lt;ccard:DebitCard>",
+      "@": "&lt;http://mybank.example.com/accounts/3879279824&gt;",
+      "a": "&lt;ccard:DebitCard&gt;",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
       "ccard:expirationMonth": "11",
@@ -839,22 +1144,20 @@ approval code of <code>8FGk9347Bo2N83</code>.
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
+   "com:payee": [Payee*],
+   "com:transfer": [Transfer*],
    "com:gatewayApprovalCode": "8FGk9347Bo2N83",
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
-       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5&gt;",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="gatewayError" about="http://purl.org/commerce#gatewayError"
-        typeof="rdf:Property">
-        <h3>gatewayError</h3>
+      <div id="gatewayError" about="http://purl.org/commerce#gatewayError" typeof="rdf:Property" class="section">
+        <h3 id="x4.7-gatewayerror"><span class="secno">4.7 </span>gatewayError</h3>
         <p>
 The gateway error is typically used to encode an error that occurred when
 processing a credit card or debit card. An error code is typically a string
@@ -872,14 +1175,13 @@ that is specific to the processing gateway software.
 The following example demonstrates that the deposit was a failure and lists
 the reason in the gateway error code:
         </p>
-        <pre class="example">
-{
-   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
-   "a": "&lt;com:Deposit>",
+        <pre class="example">{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit&gt;",
+   "a": "&lt;com:Deposit&gt;",
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "com:source":
    {
-      "@": "&lt;http://mybank.example.com/accounts/3879279824>",
+      "@": "&lt;http://mybank.example.com/accounts/3879279824&gt;",
       "a": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -899,22 +1201,20 @@ the reason in the gateway error code:
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
+   "com:payee": [Payee*],
+   "com:transfer": [Transfer*],
    "com:gatewayError": "CREDIT_CARD_DECLINED",
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
-       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5&gt;",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="maximumRate" about="http://purl.org/commerce#maximumRate"
-        typeof="rdf:Property">
-        <h3>maximumRate</h3>
+      <div id="maximumRate" about="http://purl.org/commerce#maximumRate" typeof="rdf:Property" class="section">
+        <h3 id="x4.8-maximumrate"><span class="secno">4.8 </span>maximumRate</h3>
         <p>
 This property is typically used in a PayeeRule to limit the maximum rate that
 a Payee can receive as a part of a transaction. These types of rules ensure that
@@ -935,19 +1235,16 @@ can collect to less than 4%".
 The example below specifies a PayeeRule that limits the total amount that a
 PaySwarm Authority can collect in fees to 10% of the final price:
         </p>
-        <pre class="example">
-{
-    "a": "&lt;com:PayeeRule>",
+        <pre class="example">{
+    "a": "&lt;com:PayeeRule&gt;",
     "com:maximumRate": "10",
-    "com:rateType": "&lt;com:InclusivePercentage>",
-    "com:destinationOwnerType" : "&lt;ps:Authority>"
-}
-        </pre>
-      </section>
+    "com:rateType": "&lt;com:InclusivePercentage&gt;",
+    "com:destinationOwnerType" : "&lt;ps:Authority&gt;"
+}</pre>
+      </div>
 
-      <section id="forTransaction" about="http://purl.org/commerce#forTransaction"
-        typeof="rdf:Property">
-        <h3>forTransaction</h3>
+      <div id="forTransaction" about="http://purl.org/commerce#forTransaction" typeof="rdf:Property" class="section">
+        <h3 id="x4.9-fortransaction"><span class="secno">4.9 </span>forTransaction</h3>
         <p>
 This property is most often used to specify that a Transfer is for the
 specified Transaction. The relationship from Transaction to Transfer is 
@@ -965,24 +1262,21 @@ from Transfer to Transaction is encoded using this property.
         <p>
 The example below specifies that the Transfer is meant for the transaction
 identified by 
-<code>&lt;http://whitelabel.com/transactions/7f83fab44cd8d91#transaction></code>:
+<code>&lt;http://whitelabel.com/transactions/7f83fab44cd8d91#transaction&gt;</code>:
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
    "a": "ps:Transfer",
-   "ps:forTransaction": "&lt;http://whitelabel.com/transactions/7f83fab44cd8d91#transaction>";
-   "com:source": "&lt;http://whitelabel.payswarm.com/api/accounts/12345#account>",
-   "com:destination": "&lt;http://yellowlabel.payswarm.com/people/bob/54321#account>",
+   "ps:forTransaction": "&lt;http://whitelabel.com/transactions/7f83fab44cd8d91#transaction&gt;";
+   "com:source": "&lt;http://whitelabel.payswarm.com/api/accounts/12345#account&gt;",
+   "com:destination": "&lt;http://yellowlabel.payswarm.com/people/bob/54321#account&gt;",
    "com:amount": "8.00",
    "com:currency": "USD",
    "rdfs:comment": "Thanks for the memory card."
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="limitation" about="http://purl.org/commerce#limitation"
-        typeof="rdf:Property">
-        <h3>limitation</h3>
+      <div id="limitation" about="http://purl.org/commerce#limitation" typeof="rdf:Property" class="section">
+        <h3 id="x4.10-limitation"><span class="secno">4.10 </span>limitation</h3>
         <p>
 This property is often used with a PayeeRule and expresses a restriction on 
 a Payee. For example, a PayeeRule may provide restrictions on the type of a 
@@ -1006,20 +1300,17 @@ The example below specifies that no additional payees are allowed to be added
 to the list of payees. This mechanism is often used when asset owners do not
 want their content to be sold through affiliate relationships:
         </p>
-        <pre class="example">
-{
-         "a": "&lt;com:PayeeRule>",
-         "ps:limitation": "&lt;ps:NoAdditionalPayees>"
-}
-        </pre>
-      </section>
+        <pre class="example">{
+         "a": "&lt;com:PayeeRule&gt;",
+         "ps:limitation": "&lt;ps:NoAdditionalPayees&gt;"
+}</pre>
+      </div>
 
-      <section id="minimumAmount" about="http://purl.org/commerce#minimumAmount"
-        typeof="rdf:Property">
-        <h3>minimumAmount</h3>
+      <div id="minimumAmount" about="http://purl.org/commerce#minimumAmount" typeof="rdf:Property" class="section">
+        <h3 id="x4.11-minimumamount"><span class="secno">4.11 </span>minimumAmount</h3>
         <p>
 This property is typically used in a Payee to express a minimum amount that
-a Payee MUST receive as a part of a transaction. These types of rules ensure 
+a Payee <em class="rfc2119" title="must">must</em> receive as a part of a transaction. These types of rules ensure 
 that a floor is set for a particular percentage-based Payee. Minimum amount 
 claims enable statement like the following to be made: "I want 2% of the sale
 or $0.02 USD, whichever is greater".
@@ -1036,22 +1327,19 @@ or $0.02 USD, whichever is greater".
 The following example expresses a Payee that should receive 2% or $0.05 USD of
 the final amount of the transaction, whichever is higher.
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "2",
-   "com:rateType": "&lt;com:InclusivePercentage>",
+   "com:rateType": "&lt;com:InclusivePercentage&gt;",
    "com:minimumAmount": "0.05",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/organizations/zombo-com#account-1>",
+   "com:destination": "&lt;http://payswarm.example.com/organizations/zombo-com#account-1&gt;",
    "rdfs:comment": "Zombocom value-added fee",
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="payeePosition" about="http://purl.org/commerce#payeePosition"
-        typeof="rdf:Property">
-        <h3>payeePosition</h3>
+      <div id="payeePosition" about="http://purl.org/commerce#payeePosition" typeof="rdf:Property" class="section">
+        <h3 id="x4.12-payeeposition"><span class="secno">4.12 </span>payeePosition</h3>
         <p>
 This property is used to coerce a set of Payees into an ordered list. The
 order in which Payees are evaluated is vital to the final amount and 
@@ -1069,23 +1357,20 @@ Transfer list that is generated by processing the list of Payees.
 The following example shows a Payee that should, when accessed in a list format,
 be processed in the 4th position:
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:payeePosition": "4",
    "com:rate": "2",
-   "com:rateType": "&lt;com:InclusivePercentage>",
+   "com:rateType": "&lt;com:InclusivePercentage&gt;",
    "com:minimumAmount": "0.05",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/organizations/zombo-com#account-1>",
+   "com:destination": "&lt;http://payswarm.example.com/organizations/zombo-com#account-1&gt;",
    "rdfs:comment": "Zombocom value-added fee",
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="paymentGateway" about="http://purl.org/commerce#paymentGateway"
-        typeof="rdf:Property">
-        <h3>paymentGateway</h3>
+      <div id="paymentGateway" about="http://purl.org/commerce#paymentGateway" typeof="rdf:Property" class="section">
+        <h3 id="x4.13-paymentgateway"><span class="secno">4.13 </span>paymentGateway</h3>
         <p>
 This property is used to specify the payment gateway. The gateway is typically
 a string and is used by the transaction processing software to process payments
@@ -1104,14 +1389,13 @@ via credit card or debit card.
         <p>
 The example below expresses that the payment gateway is CyberSource:
         </p>
-        <pre class="example">
-{
-   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
-   "a": "&lt;com:Deposit>",
+        <pre class="example">{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit&gt;",
+   "a": "&lt;com:Deposit&gt;",
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "com:source":
    {
-      "@": "&lt;http://mybank.example.com/accounts/3879279824>",
+      "@": "&lt;http://mybank.example.com/accounts/3879279824&gt;",
       "a": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -1131,22 +1415,20 @@ The example below expresses that the payment gateway is CyberSource:
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
+   "com:payee": [Payee*],
+   "com:transfer": [Transfer*],
    "com:paymentGateway": "CyberSource",
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
-       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5&gt;",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="payee" about="http://purl.org/commerce#payee"
-        typeof="rdf:Property">
-        <h3>payee</h3>
+      <div id="payee" about="http://purl.org/commerce#payee" typeof="rdf:Property" class="section">
+        <h3 id="x4.14-payee"><span class="secno">4.14 </span>payee</h3>
         <p>
 This property is used to specify an entity that either should be paid, or
 has been paid as a result of a commercial exchange. 
@@ -1163,44 +1445,41 @@ has been paid as a result of a commercial exchange.
 The example below shows the sale listing for an electronic book called 
 "The Dawntreader". The listing has a single payee listed for $8.35 USD.
         </p>
-        <pre class="example">
-{
-    "@": "&lt;http://example.org/books/dawntreader#listing>",
-    "a": "&lt;ps:Listing>",
-    "ps:forAsset": "&lt;http://example.org/books/dawntreader#asset>",
+        <pre class="example">{
+    "@": "&lt;http://example.org/books/dawntreader#listing&gt;",
+    "a": "&lt;ps:Listing&gt;",
+    "ps:forAsset": "&lt;http://example.org/books/dawntreader#asset&gt;",
     "ps:assetHash": "85331e47eb55ea0a706675db9a9076688171ff86f78a",
-    "ps:license": "&lt;http://example.org/licenses#mylicense>",
+    "ps:license": "&lt;http://example.org/licenses#mylicense&gt;",
     "ps:licenseHash": "128e85bdac26cc838284c1e0180a4b34e182f94f",
     "ps:validFrom": "2010-11-15T21:34:01+0000^^xsd:dateTime",
     "ps:validThrough": "2010-11-16T21:34:01+0000^^xsd:dateTime",
     "ps:payee": 
     {
-        "a": "&lt;com:Payee>",
+        "a": "&lt;com:Payee&gt;",
         "com:rate": "8.35",
-        "com:rateType": "&lt;com:FlatAmount>",
+        "com:rateType": "&lt;com:FlatAmount&gt;",
         "com:currency": "USD",
-        "com:destination": "&lt;http://payswarm.example.com/people/seymour#account-9>",
+        "com:destination": "&lt;http://payswarm.example.com/people/seymour#account-9&gt;",
         "rdfs:comment": "Book: The Dawntreader - Awakening, Second Coming",
     },
     "ps:payeeRule":
     [{
-         "a": "&lt;com:PayeeRule>",
+         "a": "&lt;com:PayeeRule&gt;",
          "com:maximumRate": "10",
-         "com:rateType": "&lt;com:InclusivePercentage>",
-         "com:destinationOwnerType" : "&lt;ps:Authority>"
+         "com:rateType": "&lt;com:InclusivePercentage&gt;",
+         "com:destinationOwnerType" : "&lt;ps:Authority&gt;"
     },
     {
          "a": "com:PayeeRule",
          "ps:limitation": "ps:NoAdditionalPayees"
     }],
-    "ps:signature": [<a href="http://purl.org/signature#Signature">Signature</a>*]
-}
-        </pre>
-      </section>
+    "ps:signature": [Signature*]
+}</pre>
+      </div>
 
-      <section id="rate" about="http://purl.org/commerce#rate"
-        typeof="rdf:Property">
-        <h3>rate</h3>
+      <div id="rate" about="http://purl.org/commerce#rate" typeof="rdf:Property" class="section">
+        <h3 id="x4.15-rate"><span class="secno">4.15 </span>rate</h3>
         <p>
 This property can be used to specify the fixed amount or a percentage-based
 rate of a Payee. The rate specifies the amount that the Payee should be or
@@ -1218,36 +1497,31 @@ has been paid as a result of a commercial exchange.
 The following example shows a fixed amount of $0.05 USD specified using the
 rate property:
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
    "a": "com:Payee",
    "com:rate": "0.05",
    "com:rateType": "com:FlatAmount",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The",
-}
-        </pre>
+}</pre>
         <p>
 The rate property can also be used to specify percentage-based amounts. The
 example below specifies a 4% Virginia sales tax:
         </p>
-        <pre class="example">
-{
+        <pre class="example">{
    "a": "com:Payee",
    "com:rate": "4",
    "com:rateType": "com:ExclusivePercentage",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/states/virginia#sales-tax>",
+   "com:destination": "&lt;http://payswarm.example.com/states/virginia#sales-tax&gt;",
    "rdfs:comment": "Virginia sales tax",
    "com:rateContext": "com:Tax"
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="rateContext" about="http://purl.org/commerce#rateContext"
-        typeof="rdf:Property">
-        <h3>rateContext</h3>
+      <div id="rateContext" about="http://purl.org/commerce#rateContext" typeof="rdf:Property" class="section">
+        <h3 id="x4.16-ratecontext"><span class="secno">4.16 </span>rateContext</h3>
         <p>
 The rate context is used to specify at which point in a payment calculation 
 a rate should apply. It allows Payees to be deferred until the end of 
@@ -1265,22 +1539,19 @@ payment calculation, or for Payees to be marked as Tax or TaxDeferred.
 The following example uses the rate context property to expresses that a 
 Virginia sales tax of 5% should be collected:
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "5.0",
-   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:rateType": "&lt;com:ExclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/states/virginia#account-1>",
+   "com:destination": "&lt;http://payswarm.example.com/states/virginia#account-1&gt;",
    "rdfs:comment": "Virginia sales tax.",
-   "com:rateContext": "&lt;com:Tax>"
-}
-        </pre>
-      </section>
+   "com:rateContext": "&lt;com:Tax&gt;"
+}</pre>
+      </div>
 
-      <section id="rateType" about="http://purl.org/commerce#rateType"
-        typeof="rdf:Property">
-        <h3>rateType</h3>
+      <div id="rateType" about="http://purl.org/commerce#rateType" typeof="rdf:Property" class="section">
+        <h3 id="x4.17-ratetype"><span class="secno">4.17 </span>rateType</h3>
         <p>
 The rate type property is used to specify whether the rate property of a
 Payee is a fixed amount, an inclusive percentage or an exclusive percentage.
@@ -1299,21 +1570,18 @@ calculation among a list of Payees.
         <p>
 The example below specifies an exclusive percentage rate type
         </p>
-        <pre class="example">
-{
-   "a": "&lt;com:Payee>",
+        <pre class="example">{
+   "a": "&lt;com:Payee&gt;",
    "com:rate": "0.05",
-   "com:rateType": "&lt;com:ExclusivePercentage>",
+   "com:rateType": "&lt;com:ExclusivePercentage&gt;",
    "com:currency": "USD",
-   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3>",
+   "com:destination": "&lt;http://payswarm.example.com/people/john-doe#account-3&gt;",
    "rdfs:comment": "The explanation of the deferred payee goes here.",
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="source" about="http://purl.org/commerce#source"
-        typeof="rdf:Property">
-        <h3>source</h3>
+      <div id="source" about="http://purl.org/commerce#source" typeof="rdf:Property" class="section">
+        <h3 id="x4.18-source"><span class="secno">4.18 </span>source</h3>
         <p>
 This property is used to specify a source account for a commercial 
 transaction.
@@ -1329,14 +1597,13 @@ transaction.
         <p>
 The example below shows a source being expressed as a debit card.
         </p>
-        <pre class="example">
-{
-   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
+        <pre class="example">{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit&gt;",
    "a": ["com:Transaction", "com:Deposit"],
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "com:source":
    {
-      "@": "&lt;http://mybank.example.com/accounts/3879279824>",
+      "@": "&lt;http://mybank.example.com/accounts/3879279824&gt;",
       "a": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -1356,21 +1623,19 @@ The example below shows a source being expressed as a debit card.
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
+   "com:payee": [Payee*],
+   "com:transfer": [Transfer*],
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
-       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5&gt;",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
-}
-        </pre>
-      </section>
+}</pre>
+      </div>
 
-      <section id="transfer" about="http://purl.org/commerce#transfer"
-        typeof="rdf:Property">
-        <h3>transfer</h3>
+      <div id="transfer" about="http://purl.org/commerce#transfer" typeof="rdf:Property" class="section">
+        <h3 id="x4.19-transfer"><span class="secno">4.19 </span>transfer</h3>
         <p>
 This property is used to associate the commercial transfer of monetary funds 
 during a Transaction. A list of transfers associated with a Transaction is the
@@ -1389,14 +1654,13 @@ accounts for a particular Transaction.
 The example below shows the transfer information for a debit card deposit
 from the owner's bank into their PaySwarm account.
         </p>
-        <pre class="example">
-{
-   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit>",
-   "a": "&lt;com:Deposit>",
+        <pre class="example">{
+   "@": "&lt;http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit&gt;",
+   "a": "&lt;com:Deposit&gt;",
    "com:date": "2010-10-16T12:34:36.14532^^xsd:dateTime",
    "com:source":
    {
-      "@": "&lt;http://mybank.example.com/accounts/3879279824#account>",
+      "@": "&lt;http://mybank.example.com/accounts/3879279824#account&gt;",
       "a": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -1416,12 +1680,12 @@ from the owner's bank into their PaySwarm account.
          "vcard:country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
+   "com:payee": [Payee*],
    "com:transfer": 
    {
       "a": "com:Transfer",
-      "com:source": "&lt;http://mybank.example.com/accounts/3879279824#account>",
-      "com:destination": "&lt;http://greencardexample.com/accounts/54321#account>",
+      "com:source": "&lt;http://mybank.example.com/accounts/3879279824#account&gt;",
+      "com:destination": "&lt;http://greencardexample.com/accounts/54321#account&gt;",
       "com:amount": "20.00",
       "com:currency": "USD",
       "rdfs:comment": "Monthly entertainment budget deposit into PaySwarm account."
@@ -1429,14 +1693,14 @@ from the owner's bank into their PaySwarm account.
    "sig:signature":
    {
        "a": "sig:JsonldSignature",
-       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5&gt;",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
-}
-        </pre>
-      </section>
-    </section>
+}</pre>
+      </div>
+    </div>
 
-  </body> 
-</html>
+   
 
+
+<div id="references" class="appendix section"><h2 id="a.-references"><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3 id="a.1-normative-references"><span class="secno">A.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3 id="a.2-informative-references"><span class="secno">A.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>

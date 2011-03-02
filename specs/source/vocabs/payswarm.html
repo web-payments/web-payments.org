@@ -79,6 +79,15 @@
     <section>
       <h2>Introduction</h2>
       <p>
+This document describes a number of classes and properties that can be used to 
+express digital sales, rentals, contracts, licenses and micropayment-based
+exchanges on the Semantic Web. These include things such as micropayments for
+blog articles, video rentals, electronic magazine subscriptions, data vending, 
+provisioning of web services under legally enforceable contracts, 
+and other novel business models that are powered by micropayments and the Web.
+This vocabulary is a part of the 
+<a href="http://payswarm.com/">PaySwarm Universal Web Payments
+Specification</a>.
       </p>
     </section>
 
@@ -88,21 +97,47 @@
         typeof="rdf:Property">
         <h3>Asset</h3>
         <p>
-TBD
+An asset describes a particular item that is provided as a part of a commercial
+transaction. It is usually an item that can be accessed or acquired on the
+basis of a sale or rental under the terms of a particular license.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd>dc:title, dc:creator, ps:contentUrl, ps:assetProvider, 
+          ps:authority, ps:validFrom, ps:validUntil, ps:signature</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes a web page asset with the title "PaySwarm
+in Practice - Full Article #1". The article was created by "Digital Bazaar, 
+Inc." and the information in the asset is valid from November 28th, 2010 to
+November 28th, 2011. The asset is digitally signed by the person providing it
+and thus can be cached, stored and then presented to someone else in a manner
+that is verifiable by the receiving party.
         </p>
         <pre class="example">
 {
+   "@": "https://example.org/articles/1#asset",
+   "a": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:creator": 
+   {
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "&lt;https://example.org/articles/1>",
+   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
+   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
+   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:signature": 
+   {
+       "a": "sig:JsonldSignature",
+       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
 }
         </pre>
       </section>
@@ -110,21 +145,147 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>Contract</h3>
         <p>
-TBD
+A contract is the result of a commercial transaction in PaySwarm and contains
+information such as the Listing <a href="#Listing">Listing</a>, 
+the <a href="#Asset">Asset</a> that was purchased, the parties involved in the
+transaction, the <a href="#License">License</a> outlining the rights to the 
+Asset, and payment information associated with the transaction.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>com:Transaction</dd>
+          <dt>Properties</dt>
+          <dd>com:amount, com:currency, com:date, com:payee, com:transfer, dc:created, ps:asset, ps:assetProvider, ps:assetAcquirer, ps:assetProviderIdentity, ps:license, ps:listing, ps:signature</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes a purchase that occurred on March 2nd 2011
+for a Web-based article called "PaySwarm in Practice". The article was authored
+and listed for sale by Bob Smith and a personal use license was acquired by 
+Jane, who may now peruse the article.
         </p>
         <pre class="example">
 {
+   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
+   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "com:amount": "0.05",
+   "com:currency": "USD",
+   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "com:payee": 
+   [
+      {
+         "a": "&lt;com:Payee>",
+         "com:currency": "USD",
+         "com:destination": "&lt;https://payswarm.example.com/i/authority/accounts/main>",
+         "com:payeePosition": 0,
+         "com:rate": "10.00",
+         "com:rateContext": "&lt;com:TaxExempt>",
+         "com:rateType": "&lt;com:InclusivePercentage>",
+         "rdfs:comment": "PaySwarm Authority Transaction Processing"
+      }
+   ],
+   "com:transfer": 
+   [
+      {
+         "a": "&lt;com:Transfer>",
+         "com:amount": "0.045",
+         "com:currency": "USD",
+         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+         "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
+         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary",
+         "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
+      },
+      {
+         "a": "com:Transfer",
+         "com:amount": "0.005",
+         "com:currency": "USD",
+         "com:destination": "&lt;https://payswarm.example.com/i/authority/accounts/main>",
+         "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
+         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary>",
+         "rdfs:comment": "PaySwarm Authority Transaction Processing"
+      }
+   ],
+   "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "ps:asset": 
+   {
+      "@": "&lt;http://example.com/articles/1#asset>",
+      "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+      "dc:creator": 
+      {
+         "foaf:name": "Bob Smith"
+      },
+      "dc:title": "PaySwarm in Practice",
+      "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
+      "ps:authority": "&lt;https://payswarm.example.com/client-config>",
+      "ps:contentUrl": "&lt;http://example.com/articles/1>",
+      "ps:signature": 
+      {
+         "a": "ps:JsonldSignature",
+         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
+         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
+      }
+   },
+   "ps:assetAcquirer": "&lt;https://payswarm.example.com/i/jane>",
+   "ps:assetProviderIdentity": 
+   {
+      "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
+   },
+   "ps:license": 
+   {
+      "@": "&lt;http://payswarm.example.com/licenses/blogging>",
+      "a": "&lt;ps:License>",
+      "dc:format": "text/html",
+      "ps:licenseTemplate": "Personal Use License ..."
+   },
+   "ps:listing": 
+   {
+      "@": "&lt;http://example.com/articles/1#listing>",
+      "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+      "com:payee": 
+      [
+         {
+            "@": "&lt;http://example.com/articles/1#listing-payee>",
+            "a": "&lt;com:Payee>",
+            "com:currency": "USD",
+            "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+            "com:rate": "0.05",
+            "com:rateType": "&lt;com:FlatAmount>",
+            "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+         }
+      ],
+      "com:payeeRule": 
+      [
+         {
+            "a": "&lt;com:PayeeRule>",
+            "com:destinationOwnerType": "&lt;ps:Authority>",
+            "com:maximumRate": "10",
+            "com:rateType": "&lt;com:InclusivePercentage>"
+         }
+      ],
+      "ps:asset": "&lt;http://example.com/articles/1#asset>",
+      "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+      "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+      "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+      "ps:signature": 
+      {
+         "a": "&lt;ps:JsonldSignature>",
+         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
+         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      },
+      "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
+      "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+   },
+   "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
+   "ps:signature": 
+   {
+      "a": "&lt;ps:JsonldSignature>",
+      "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+      "dc:creator": "&lt;https://payswarm.example.com/i/authority/keys/1>",
+      "ps:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
+   }
 }
         </pre>
       </section>
@@ -136,33 +297,11 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
-        </dl>
-        <p>
-The following example TBD.
-        </p>
-        <pre class="example">
-{
-}
-        </pre>
-      </section>
-      <section id="Identity" about="http://purl.org/payswarm#Identity"
-        typeof="rdf:Property">
-        <h3>Identity (NOT IMPLEMENTED, need to discuss further, JSON-LD Structure discussion)</h3>
-        <p>
-TBD
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd></dd>
         </dl>
         <p>
 The following example TBD.
@@ -180,11 +319,11 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd></dd>
         </dl>
         <p>
 The following example TBD.
@@ -202,11 +341,11 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd></dd>
         </dl>
         <p>
 The following example TBD.
@@ -224,11 +363,11 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd></dd>
         </dl>
         <p>
 The following example TBD.
@@ -246,11 +385,11 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd></dd>
         </dl>
         <p>
 The following example TBD.
@@ -272,7 +411,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -298,29 +437,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
-        </dl>
-        <p>
-The following example TBD.
-        </p>
-        <pre class="example">
-{
-}
-        </pre>
-      </section>
-      <section id="actor" about="http://purl.org/payswarm#actor"
-        typeof="rdf:Property">
-        <h3>actor (ADDED, unknown use, Longley has to resolve)</h3>
-        <p>
-TBD
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -342,7 +459,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -364,7 +481,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -409,7 +526,7 @@ due to different Blank Node names.</li>
         </ul>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>ps:Asset</dd>
           <dt>Range</dt>
@@ -420,23 +537,26 @@ The following example TBD.
         </p>
         <pre class="example">
 {
-    "@": "&lt;http://example.org/articles/1#listing>",
+    "@": "&lt;https://example.org/articles/1#listing>",
     "a": "&lt;ps:Listing>",
     "ps:asset":
     {
-        "@": "http://example.org/articles/1#asset",
+        "@": "https://example.org/articles/1#asset",
         "a": ["ps:Asset", "ps:WebPage"],
-        "dc:title": "Payswarm Demo - Full Article #1",
-        "dc:creator": "Digital Bazaar, Inc.",
+        "dc:title": "PaySwarm in Practice - Full Article #1",
+        "dc:creator": 
+        {
+           "foaf:name": "Digital Bazaar, Inc.",
+        }
         "ps:contentUrl": "&lt;https://example.org/articles/1>",
-        "ps:assetProvider": "&lt;http://example.org/person/john-doe#me>",
-        "ps:authority": "&lt;http://payswarm.example.com/about#authority>",
+        "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
+        "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
         "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
         "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
         "ps:signature": 
         {
             "a": "sig:JsonldSignature",
-            "sig:signer": "&lt;http://payswarm.example.com/people/john-doe#key-5>",
+            "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
             "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
         }
     },
@@ -452,7 +572,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -474,7 +594,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -490,13 +610,13 @@ The following example TBD.
       </section>
       <section id="contentHash" about="http://purl.org/payswarm#contentHash"
         typeof="rdf:Property">
-        <h3>contentHash (NOT IMPLEMENTED, possibly remove, Signature discussion)</h3>
+        <h3>contentHash</h3>
         <p>
 TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -518,7 +638,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -534,13 +654,13 @@ The following example TBD.
       </section>
       <section id="licenseTemplate" about="http://purl.org/payswarm#licenseTemplate"
         typeof="rdf:Property">
-        <h3>licenseTemplate (was ps:grantTemplate)</h3>
+        <h3>licenseTemplate</h3>
         <p>
 TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -556,13 +676,13 @@ The following example TBD.
       </section>
       <section id="licenseTerms" about="http://purl.org/payswarm#licenseTerms"
         typeof="rdf:Property">
-        <h3>licenseTerms (was ps:grantTerms)</h3>
+        <h3>licenseTerms</h3>
         <p>
 TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -584,7 +704,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -606,7 +726,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -620,13 +740,7 @@ The following example TBD.
 }
         </pre>
       </section>
-      <section id="originatingClient" about="http://purl.org/payswarm#originatingClient"
-        typeof="rdf:Property">
-        <h3>originatingClient</h3>
-        <p>The originating address of a transaction, IPv4, IPv6, phone number, 
-etc.</p>
-      </section>
-      <section id="" about="http://purl.org/payswarm#"
+      <section id="license" about="http://purl.org/payswarm#license"
         typeof="rdf:Property">
         <h3>license</h3>
         <p>
@@ -634,7 +748,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -650,13 +764,13 @@ The following example TBD.
       </section>
       <section id="licenseHash" about="http://purl.org/payswarm#licenseHash"
         typeof="rdf:Property">
-        <h3>licenseHash (REVISIT, questionable)</h3>
+        <h3>licenseHash</h3>
         <p>
 TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -670,15 +784,15 @@ The following example TBD.
 }
         </pre>
       </section>
-      <section id="licenseUrl" about="http://purl.org/payswarm#licenseUrl"
+      <section id="license" about="http://purl.org/payswarm#license"
         typeof="rdf:Property">
-        <h3>licenseUrl (REVISIT, but not actually used anywhere)</h3>
+        <h3>license</h3>
         <p>
 TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -700,7 +814,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -716,13 +830,13 @@ The following example TBD.
       </section>
       <section id="listingHash" about="http://purl.org/payswarm#listingHash"
         typeof="rdf:Property">
-        <h3>listingHash (ADDED)</h3>
+        <h3>listingHash</h3>
         <p>
 TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -744,29 +858,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
-        </dl>
-        <p>
-The following example TBD.
-        </p>
-        <pre class="example">
-{
-}
-        </pre>
-      </section>
-      <section id="privatePayees" about="http://purl.org/payswarm#privatePayees"
-        typeof="rdf:Property">
-        <h3>privatePayees (REVISIT, is the name correct?)</h3>
-        <p>
-TBD
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -793,7 +885,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>
@@ -815,7 +907,7 @@ TBD
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">stable</dd>
+          <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
           <dd>TBD</dd>
           <dt>Range</dt>

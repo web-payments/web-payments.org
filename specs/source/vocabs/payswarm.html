@@ -293,7 +293,10 @@ Jane, who may now peruse the article.
         typeof="rdf:Property">
         <h3>Data</h3>
         <p>
-TBD
+The Data class is typically found as a decorator class for an Asset. That is
+the Data class is usually found as an rdf:type descriptor attached to an
+Asset. Data is used to specify that the asset is a pre-recorded or live 
+stream of bytes.
         </p>
         <dl>
           <dt>Status</dt>
@@ -304,10 +307,28 @@ TBD
           <dd></dd>
         </dl>
         <p>
-The following example TBD.
+The following example shows an asset for a byte stream for sale that is a 
+video with the title "Learning How Cells Divide" by John Doe. 
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://example.com/videos#cell-division>",
+   "a": ["&lt;ps:Asset>", "&lt;ps:Data>"],
+   "dc:creator": 
+   {
+      "foaf:name": "John Doe"
+   },
+   "dc:title": "Learning How Cells Divide",
+   "ps:assetProvider": "&lt;https://payswarm.example.com/i/john>",
+   "ps:authority": "&lt;https://payswarm.example.com/client-config>",
+   "ps:contentUrl": "&lt;http://example.com/video/cell-division.mpg>",
+   "ps:signature": 
+   {
+      "a": "ps:JsonldSignature",
+      "dc:created": "2011-03-12T00:00:00Z^^&lt;xsd:dateTime>",
+      "dc:creator": "&lt;https://payswarm.example.com/i/john/keys/2>",
+      "ps:signatureValue": "ne56Qsc5IXuLEGuq+Nic8="
+   }
 }
         </pre>
       </section>
@@ -315,7 +336,9 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>License</h3>
         <p>
-TBD
+A license is a legal description of a licensee's rights to a particular work
+or service. Licenses are usually included as a part of a contract to express
+what a buyer may do with the asset that has been purchased.
         </p>
         <dl>
           <dt>Status</dt>
@@ -326,10 +349,15 @@ TBD
           <dd></dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes an overly-simplified personal use license.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
+   "a": "&lt;ps:License>",
+   "dc:format": "text/html",
+   "ps:licenseTemplate": "This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment."
 }
         </pre>
       </section>
@@ -337,7 +365,10 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>Listing</h3>
         <p>
-TBD
+A Listing describes the combination of an Asset that is for sale under a 
+specific License and a set of payment terms that must be fulfilled in order 
+to access the Asset. Listings are often published on websites that sell assets
+via PaySwarm as a way to express wares for sale in a decentralized manner.
         </p>
         <dl>
           <dt>Status</dt>
@@ -345,13 +376,54 @@ TBD
           <dt>Parent Class</dt>
           <dd>owl:Thing</dd>
           <dt>Properties</dt>
-          <dd></dd>
+          <dd>com:payee, com:payeeRule, ps:asset, ps:assetHash, ps:license,
+          ps:licenseHash, ps:signature, ps:validFrom, ps:validUntil</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes an asset for sale for $0.05 USD under a license
+that covers acceptable use of blog posts. The offer is valid from March 2nd 
+2011 to March 3rd 2011. The only restriction on additional payees is that the 
+PaySwarm Authority (the organization processing the payment) may only take a 
+maximum of 10% of the final sale price to cover their fees.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://example.com/articles/1#listing>",
+   "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+   "com:payee": 
+   [
+      {
+         "@": "&lt;http://example.com/articles/1#listing-payee>",
+         "a": "&lt;com:Payee>",
+         "com:currency": "USD",
+         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+         "com:rate": "0.05",
+         "com:rateType": "&lt;com:FlatAmount>",
+         "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+      }
+   ],
+   "com:payeeRule": 
+   [
+      {
+         "a": "&lt;com:PayeeRule>",
+         "com:destinationOwnerType": "&lt;ps:Authority>",
+         "com:maximumRate": "10",
+         "com:rateType": "&lt;com:InclusivePercentage>"
+      }
+   ],
+   "ps:asset": "&lt;http://example.com/articles/1#asset>",
+   "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+   "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+   "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+   "ps:signature": 
+   {
+      "a": "&lt;ps:JsonldSignature>",
+      "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
+      "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+      "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+   },
+   "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
+   "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
 }
         </pre>
       </section>
@@ -359,7 +431,10 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>Payee</h3>
         <p>
-TBD
+A Payee is an entity that must be paid as a part of a PaySwarm transaction. The
+payee usually specifies the currency and rate as well as destination account
+for the payment. A description of the purpose of the payment is usually included
+in the Payee.
         </p>
         <dl>
           <dt>Status</dt>
@@ -367,13 +442,24 @@ TBD
           <dt>Parent Class</dt>
           <dd>owl:Thing</dd>
           <dt>Properties</dt>
-          <dd></dd>
+          <dd>com:currency, com:destination, com:rate, com:rateType, 
+          rdfs:comment</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes a Payee that should receive $0.05 USD as a
+result of a transaction. The rate is a flat amount, not a percentage. The
+description for the payment has the title of an article that is being purchased
+as well as the author.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://example.com/articles/1#listing-payee>",
+   "a": "&lt;com:Payee>",
+   "com:currency": "USD",
+   "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+   "com:rate": "0.05",
+   "com:rateType": "&lt;com:FlatAmount>",
+   "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
 }
         </pre>
       </section>
@@ -381,7 +467,10 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>WebPage</h3>
         <p>
-TBD
+The WebPage class is a decorator class for Assets. The decorator is usually
+found as an additional rdf:type of an Asset which denotes that the asset is a
+web page of some kind. This is opposed to an opaque byte stream that may or 
+may not be viewable in a web browser.
         </p>
         <dl>
           <dt>Status</dt>
@@ -389,13 +478,34 @@ TBD
           <dt>Parent Class</dt>
           <dd>owl:Thing</dd>
           <dt>Properties</dt>
-          <dd></dd>
+          <dd>dc:title, dc:creator, ps:contentUrl, ps:assetProvider, 
+          ps:authority, ps:validFrom, ps:validUntil, ps:signature</dd>
         </dl>
         <p>
-The following example TBD.
+The following example describes a web page titled "PaySwarm in Practice" that
+was created by "Digital Bazaar, Inc.". The asset is valid from November 28th
+2010 to November 28th 2011.
         </p>
         <pre class="example">
 {
+   "@": "https://example.org/articles/1#asset",
+   "a": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:creator": 
+   {
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "&lt;https://example.org/articles/1>",
+   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
+   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
+   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:signature": 
+   {
+       "a": "sig:JsonldSignature",
+       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
 }
         </pre>
       </section>

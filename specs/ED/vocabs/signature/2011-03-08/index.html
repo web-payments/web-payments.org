@@ -1,0 +1,998 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
+<html lang="en" dir="ltr">
+<head> 
+    <title>Digital Signature Vocabulary</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+     
+     
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon <robin at berjon dot com>
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  medium solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  medium dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType {
+    color:  #005a9c;
+}
+.idlAttrName {
+    color:  #ff4500;
+}
+.idlAttrName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., <, >, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8"></head> 
+  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" xmlns:sig="http://purl.org/signature#" style="display: inherit; "><div class="head"><p></p><h1>Digital Signature Vocabulary</h1><h2 id="unofficial-draft-08-march-2011">Unofficial Draft 08 March 2011</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd></dl><p class="copyright"> Copyright 2010-2011 © Digital Bazaar, Inc. Shared under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution Share-Alike license</a>.</p><hr></div> 
+
+    <div id="abstract" class="introductory section"><h2 id="abstract-1">Abstract</h2> 
+      <p> 
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2 id="status-of-this-document">Status of This Document</h2><p>This document is merely a draft PaySwarm Exploratory Group document. It has no official standing of any kind and does not represent consensus of the Web community.</p></div><div id="toc" class="section"><h2 class="introductory" id="table-of-contents">Table of Contents</h2><ul class="toc"><li><a href="#introduction"><span class="secno">1. </span>Introduction</a></li><li><a href="#classes"><span class="secno">2. </span>Classes</a></li><li><ul class="toc"><li><a href="#Key"><span class="secno">2.1 </span>Key</a></li><li><a href="#Signature"><span class="secno">2.2 </span>Signature</a></li><li><a href="#JsonldSignature"><span class="secno">2.3 </span>JsonldSignature</a></li><li><a href="#XmlSignature"><span class="secno">2.4 </span>XmlSignature</a></li></ul></li><li><a href="#properties"><span class="secno">3. </span>Properties</a></li><li><ul class="toc"><li><a href="#canonicalizationMethod"><span class="secno">3.1 </span>canonicalizationMethod</a></li><li><a href="#data"><span class="secno">3.2 </span>data</a></li><li><a href="#digestMethod"><span class="secno">3.3 </span>digestMethod</a></li><li><a href="#publicKey"><span class="secno">3.4 </span>publicKey</a></li><li><a href="#privateKeyPem"><span class="secno">3.5 </span>privateKeyPem</a></li><li><a href="#publicKeyPem"><span class="secno">3.6 </span>publicKeyPem</a></li><li><a href="#signature"><span class="secno">3.7 </span>signature</a></li><li><a href="#signatureFor"><span class="secno">3.8 </span>signatureFor</a></li><li><a href="#signer"><span class="secno">3.9 </span>signer</a></li><li><a href="#signatureValue"><span class="secno">3.10 </span>signatureValue</a></li><li><a href="#signatureAlgorithm"><span class="secno">3.11 </span>signingAlgorithm</a></li></ul></li><li><a href="#references"><span class="secno">A. </span>References</a></li><li><ul class="toc"><li><a href="#normative-references"><span class="secno">A.1 </span>Normative references</a></li><li><a href="#informative-references"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+
+    <div id="introduction" class="section">
+      <h2 id="x1.-introduction"><span class="secno">1. </span>Introduction</h2>
+      <p>
+This document describes a number of classes and properties that can be used to
+express <a href="http://en.wikipedia.org/wiki/Digital_signatures">
+digital signatures</a> on the Semantic Web.
+      </p>
+      <p class="issue">
+This entire document is a work in progress and is thus incredibly
+unstable. It <em class="rfc2119" title="must not">must not</em> be used for any production use. It may harm children
+and animals. It will probably set your house on fire. You have been warned.
+      </p>
+    </div>
+
+    <div id="classes" class="section">
+      <h2 id="x2.-classes"><span class="secno">2. </span>Classes</h2>
+      <div id="Key" about="http://purl.org/signature#Key" typeof="rdfs:Class" class="section">
+        <h3 id="x2.1-key"><span class="secno">2.1 </span>Key</h3>
+          <p>
+This class represents a cryptographic key that may be used for digital 
+signatures or cryptography.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>sig:publicKey, sig:privateKeyPem, sig:publicKeyPem</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic key that contains both the 
+public and private key as well as the owner of the key.
+        </p>
+<pre class="example">{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1&gt;",
+   "a": "&lt;sig:Key&gt;",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob&gt;",
+   "sig:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
+   "sig:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+}</pre>
+      </div>
+      <div id="Signature" about="http://purl.org/signature#Signature" typeof="rdfs:Class" class="section">
+        <h3 id="x2.2-signature"><span class="secno">2.2 </span>Signature</h3>
+          <p>
+This class represents a digital signature on serialized data. It is an abstract
+class and should not be used other than for Semantic reasoning purposes, such as
+by a Reasoning Agent. 
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>none</dd>
+          </dl>
+          <p class="note">
+A Signature class <em class="rfc2119" title="must not">must not</em> be used as an RDF type. It should instead be used 
+as the base class for all signature classes. For a signature sub-class to be of 
+use, it <em class="rfc2119" title="should">should</em> express at least three signature algorithm properties:
+sig:canonicalizationMethod, sig:digestMethod, and sig:signingAlgorithm.
+          </p>
+      </div>
+      <div id="JsonldSignature" about="http://purl.org/signature#JsonldSignature" typeof="rdfs:Class" class="section">
+        <h3 id="x2.3-jsonldsignature"><span class="secno">2.3 </span>JsonldSignature</h3>
+          <p>
+A JSON-LD signature is used for digital signatures on RDF graphs expressed 
+in JSON-LD format. The default canonicalization mechanism is specified in the
+JSON-LD specification, which effectively resolves all CURIEs and eliminates all
+whitespace in the markup. The default digest method uses the SHA-1 algorithm.
+The default signature mechanism uses a SHA-1 digest and RSA to perform the
+digital signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>sig:Signature</dd>
+            <dt>Properties</dt>
+            <dd>sig:signer, sig:signatureValue</dd>
+            <dt>Signing Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Canonicalization Method</dt>
+                <dd>
+<a rel="sig:canonicalizationMethod" href="http://purl.org/jsonld#standard-canonicalization">
+http://purl.org/jsonld#standard-canonicalization</a>
+                </dd>
+                <dt>Default Digest Method</dt>
+                <dd>
+<a rel="sig:digestMethod" href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
+                  </dd>
+                <dt>Default Signing Algorithm</dt>
+                <dd>
+<a rel="sig:signingAlgorithm" href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The example below shows how a basic JSON-LD signature is expressed in a
+JSON-LD snippet. Note that the signature property is directly embedded in the
+object. The signing algorithm understands that in order to check the signature
+that the signature property must be removed and the text
+canonicalized using the standard canonicalization algorithm for JSON-LD.
+          </p>
+          <pre class="example">{
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Manu Sporny",
+    "foaf:homepage": "&lt;http://manu.sporny.org/&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:signer": "&lt;http://manu.sporny.org/webid#key-5&gt;",
+        "sig:signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
+    }
+}</pre>
+      </div>
+      <div id="XmlSignature" about="http://purl.org/signature#XmlSignature" typeof="rdfs:Class" class="section">
+        <h3 id="x2.4-xmlsignature"><span class="secno">2.4 </span>XmlSignature</h3>
+          <p>
+An XML signature is used for digital signatures in RDF graphs where the data
+is expressed in an XML format. The default canonicalization mechanism is 
+specifiedspecified in the XML Canonicalization specification. The default digest
+method uses the SHA-1 algorithm. The default signature mechanism uses a SHA-1 
+digest and RSA to perform the digital signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>sig:Signature</dd>
+            <dt>Properties</dt>
+            <dd>sig:signer, sig:signatureValue</dd>
+            <dt>Signing Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Canonicalization Method</dt>
+                <dd>
+<a rel="sig:canonicalizationMethod" href="http://www.w3.org/2006/12/xml-c14n11">
+http://www.w3.org/2006/12/xml-c14n11</a>
+                </dd>
+                <dt>Default Digest Method</dt>
+                <dd>
+<a rel="sig:digestMethod" href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
+                  </dd>
+                <dt>Default Signing Algorithm</dt>
+                <dd>
+<a rel="sig:signingAlgorithm" href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The signature example below demonstrates how XML data can be expressed and
+digitally signed in an RDF graph.
+          </p>
+          <pre class="example">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix sig: &lt;http://purl.org/signature#&gt; .
+_:bnode1 rdf:type sig:XmlSignature ;
+         sig:data "&lt;mydata&gt;Some data&lt;/mydata&gt;" ;
+         sig:signer &lt;http://example.com/people/john-doe#key-5&gt; ;
+         sig:signatureValue "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk=" .
+}</pre>
+          <p>
+Signature defaults can be overridden by specifying the non-default values
+like so:
+          </p>
+          <pre class="example">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
+@prefix sig: &lt;http://purl.org/signature#&gt; .
+_:bnode1 rdf:type sig:XmlSignature ;
+         sig:data "&lt;mydata&gt;Some data&lt;/mydata&gt;" ;
+         sig:canonicalizationMethod &lt;http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments&gt;;
+         sig:digestMethod &lt;http://example.org/digestMethods#sha1024&gt;;
+         sig:signingAlgorithm &lt;http://example.org/signatureMethods#superSecretSignatureAlgorithm&gt;;
+         sig:signer &lt;http://example.com/people/john-doe#key-5&gt; ;
+         sig:signatureValue "3ODIyOWOGQzNGVkMzVmMmQM32MzQzNmExMgNjI4NTIyZTkoYzI4ZDY3=" .
+}</pre>
+      </div>
+    </div>
+
+    <div id="properties" class="section">
+      <h2 id="x3.-properties"><span class="secno">3. </span>Properties</h2>
+      <div id="canonicalizationMethod" about="http://purl.org/signature#canonicalizationMethod" typeof="rdf:Property" class="section">
+        <h3 id="x3.1-canonicalizationmethod"><span class="secno">3.1 </span>canonicalizationMethod</h3>
+        <p>
+The canonicalization method is used to transform the target graph, or the
+sig:data property into a form that can be passed to a cryptographic digest 
+method. The digest is then digitally signed using a digital signature algorithm.
+Canonicalization ensures that a piece of software that is generating a digital
+signature is able to simplify the input graph or data to a form that is
+the same across all programs regardless of how much whitespace and 
+unnecessary formatting information is included in the input data.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+        <p>
+While the canonicalization method is usually associated with the digital 
+signature class defaults, it can also be specified in a signature to
+override the defaults:
+        </p>
+        <pre class="example">{
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Joe Bob",
+    "foaf:homepage": "&lt;http://example.org/joebob&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:canonicazationMethod": "&lt;http://example.com/vocab#fancy-canonicalization-method&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "Q3ODIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4NTIyZTkZDY="
+    }
+}</pre>
+      </div>
+      <div id="data" about="http://purl.org/signature#data" typeof="rdf:Property" class="section">
+        <h3 id="x3.2-data"><span class="secno">3.2 </span>data</h3>
+        <p>
+Used to specify the data associated with a signature if the information 
+should not be gleaned from the containing graph.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:string, rdf:XMLLiteral</dd>
+        </dl>
+        <p>
+The following example demonstrates how the data property can be specified
+explicitly. This example is a bit strange as a JSON-LD signature would 
+typically be found in the same graph as the data that was signed, but the
+example below shows that signatures can be specified in a number of flexible
+ways:
+        </p>
+        <pre class="example">{
+    "a": "&lt;sig:JsonldSignature&gt;",
+    "sig:data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"&lt;foaf:Person&gt;\", \"foaf:name\": \"Joe Bob\" }",
+    "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+    "sig:signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
+}</pre>
+      </div>
+      <div id="digestMethod" about="http://purl.org/signature#digestMethod" typeof="rdf:Property" class="section">
+        <h3 id="x3.3-digestmethod"><span class="secno">3.3 </span>digestMethod</h3>
+        <p>
+The digest method is used to specify the cryptographic function to use when
+generating the data to be digitally signed. Typically, text to be signed
+goes through three steps: 1) canonicalization, 2) digest, and 3) signature. 
+This property is used to specify the algorithm that should be used for step #2.
+A signature class typically specifies a default digest method, so this 
+property rarely needs to be used in practice.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the digest method can override the default
+digest method specified by the signature class:
+        </p>
+        <pre class="example">{
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:digestMethod": "&lt;http://example.com/digests#sha512&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}</pre>
+      </div>
+      <div id="publicKey" about="http://purl.org/signature#publicKey" typeof="rdf:Property" class="section">
+        <h3 id="x3.4-publickey"><span class="secno">3.4 </span>publicKey</h3>
+        <p>
+A public key property refers to a URL that contains information about a public 
+key.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Key, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key belonging
+to the identity <code>&lt;https://payswarm.example.com/i/bob&gt;</code>.
+        </p>
+        <pre class="example">{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1&gt;",
+   "a": "&lt;sig:Key&gt;",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob&gt;",
+   "sig:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+}</pre>
+      </div>
+      <div id="privateKeyPem" about="http://purl.org/signature#privateKeyPem" typeof="rdf:Property" class="section">
+        <h3 id="x3.5-privatekeypem"><span class="secno">3.5 </span>privateKeyPem</h3>
+        <p>
+A private key PEM property is used to specify the PEM-encoded version of the
+private key. This encoding is compatible with almost every Secure Sockets Layer
+library implementation and typically plugs directly into functions intializing
+private keys.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Key, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a private key PEM. The
+elipsis ("...") in the middle of the string denotes more data that has been
+abbreviated for the sake of the readability of the example.
+        </p>
+        <pre class="example">{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1&gt;",
+   "a": "&lt;sig:Key&gt;",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob&gt;",
+   "sig:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
+   "sig:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+}</pre>
+      </div>
+      <div id="publicKeyPem" about="http://purl.org/signature#publicKeyPem" typeof="rdf:Property" class="section">
+        <h3 id="x3.6-publickeypem"><span class="secno">3.6 </span>publicKeyPem</h3>
+        <p>
+A public key PEM property is used to specify the PEM-encoded version of the
+public key. This encoding is compatible with almost every Secure Sockets Layer
+library implementation and typically plugs directly into functions intializing
+public keys.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Key, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key PEM. The
+elipsis ("...") in the middle of the string denotes more data that has been
+abbreviated for the sake of the readability of the example.
+        </p>
+        <pre class="example">{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1&gt;",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob&gt;",
+   "ps:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
+}</pre>
+      </div>
+      <div id="signature" about="http://purl.org/signature#signature" typeof="rdf:Property" class="section">
+        <h3 id="x3.7-signature"><span class="secno">3.7 </span>signature</h3>
+        <p>
+The signature property is used to associate a signature with a subject in a
+graph of information. The signature property is typically not included
+in the canonicalized graph that is then digested, and digitally signed.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>sig:Signature</dd>
+        </dl>
+        <p>
+The following example demonstrates how a signature on the graph identified by 
+the subject <code>http://example.com/people#jane</code> is expressed using
+a JSON-LD signature:
+        </p>
+        <pre class="example">{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}</pre>
+      </div>
+      <div id="signatureFor" about="http://purl.org/signature#signatureFor" typeof="rdf:Property" class="section">
+        <h3 id="x3.8-signaturefor"><span class="secno">3.8 </span>signatureFor</h3>
+        <p>
+A signatureFor property can be used to express a digital signature of 
+a graph that is external to the local environment, or a sub-graph of the local 
+environment.
+        </p>
+        <p class="issue">
+Is this really that much different from sig:data? Can we collapse the two
+properties into one?
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, owl:Thing</dd>
+        </dl>
+        <p>
+
+        </p>
+        <pre class="example">{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane&gt;",
+    "foaf:knows":
+    {
+        "@": "&lt;http://example.com/people#john",
+        "a": "&lt;foaf:Person&gt;",
+        "foaf:name": "John Smith",
+        "foaf:homepage": "&lt;http://example.org/john&gt;",
+    },
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:signatureFor" : "&lt;http://example.org/people#john&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
+    }
+}</pre>
+      </div>
+      <div id="signer" about="http://purl.org/signature#signer" typeof="rdf:Property" class="section">
+        <h3 id="x3.9-signer"><span class="secno">3.9 </span>signer</h3>
+        <p>
+The signer property specifies a location where you may retrieve information
+about the public key that created the digital signature in order to verify
+the authenticity of the signature, as well as any owner information related
+to the public key.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>TBD</dd>
+          <dt>Range</dt>
+          <dd>TBD</dd>
+        </dl>
+        <p>
+The following example expresses the location of the semantic information about
+the public key that can be used to verify the digital signature:
+        </p>
+        <pre class="example">{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}</pre>
+      </div>
+      <div id="signatureValue" about="http://purl.org/signature#signatureValue" typeof="rdf:Property" class="section">
+        <h3 id="x3.10-signaturevalue"><span class="secno">3.10 </span>signatureValue</h3>
+        <p>
+The signature value is used to express the output of the signature algorithm
+expressed in Base-64 format.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the output of the signature algorithm can be
+encoded in JSON-LD:
+        </p>
+        <pre class="example">{
+    "@": "&lt;http://example.com/people#jane",
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "&lt;http://example.org/jane&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}</pre>
+      </div>
+      <div id="signatureAlgorithm" about="http://purl.org/signature#signatureAlgorithm" typeof="rdf:Property" class="section">
+        <h3 id="x3.11-signingalgorithm"><span class="secno">3.11 </span>signingAlgorithm</h3>
+        <p>
+The signing algorithm is used to specify the cryptographic signature
+function to use when digitally signing the digest data. Typically, text to be 
+signed goes through three steps: 1) canonicalization, 2) digest, and 
+3) signature. This property is used to specify the algorithm that should be 
+used for step #3. A signature class typically specifies a default signing
+algorithm, so this property rarely needs to be used in practice.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+        <p>
+        </p>
+        <pre class="example">{
+    "a": "&lt;foaf:Person&gt;",
+    "foaf:name": "Joe Bob",
+    "foaf:homepage": "&lt;http://example.org/joebob&gt;",
+    "sig:signature: 
+    {
+        "a": "&lt;sig:JsonldSignature&gt;",
+        "sig:signingAlgorithm": "&lt;http://example.com/vocab#special-signing-algorithm&gt;",
+        "sig:signer": "&lt;http://example.com/people/john-doe#key-5&gt;",
+        "sig:signatureValue": "P9fDIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4k3FJKs98f="
+    }
+}</pre>
+      </div>
+    </div>
+
+   
+
+
+<div id="references" class="appendix section"><h2 id="a.-references"><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3 id="a.1-normative-references"><span class="secno">A.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3 id="a.2-informative-references"><span class="secno">A.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>

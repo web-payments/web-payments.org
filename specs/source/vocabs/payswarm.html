@@ -50,7 +50,7 @@
           //    { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2009-2010 &copy; Digital Bazaar, Inc.",
+          additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc.",
           
           // name of the WG
           wg:           "Unofficial Payswarm Exploratory Group",
@@ -304,7 +304,8 @@ stream of bytes.
           <dt>Parent Class</dt>
           <dd>owl:Thing</dd>
           <dt>Properties</dt>
-          <dd></dd>
+          <dd>dc:title, dc:creator, ps:contentUrl, ps:assetProvider, 
+          ps:authority, ps:validFrom, ps:validUntil, ps:signature</dd>
         </dl>
         <p>
 The following example shows an asset for a byte stream for sale that is a 
@@ -346,7 +347,7 @@ what a buyer may do with the asset that has been purchased.
           <dt>Parent Class</dt>
           <dd>owl:Thing</dd>
           <dt>Properties</dt>
-          <dd></dd>
+          <dd>dc:format, ps:licenseTemplate, ps:licenseTerms</dd>
         </dl>
         <p>
 The following example describes an overly-simplified personal use license.
@@ -357,7 +358,13 @@ The following example describes an overly-simplified personal use license.
    "a": "&lt;ps:License>",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
-      purchased item onto any device that you own for your personal enjoyment."
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+      copies of the work for personal use."
+   "ps:licenseTerms": 
+   {
+      "ex:physicalCopies": 5
+   }
 }
         </pre>
       </section>
@@ -425,42 +432,6 @@ maximum of 10% of the final sale price to cover their fees.
    },
    "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
    "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
-}
-        </pre>
-      </section>
-      <section id="Payee" about="http://purl.org/payswarm#Payee"
-        typeof="rdf:Property">
-        <h3>Payee</h3>
-        <p>
-A Payee is an entity that must be paid as a part of a PaySwarm transaction. The
-payee usually specifies the currency and rate as well as destination account
-for the payment. A description of the purpose of the payment is usually included
-in the Payee.
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Parent Class</dt>
-          <dd>owl:Thing</dd>
-          <dt>Properties</dt>
-          <dd>com:currency, com:destination, com:rate, com:rateType, 
-          rdfs:comment</dd>
-        </dl>
-        <p>
-The following example describes a Payee that should receive $0.05 USD as a
-result of a transaction. The rate is a flat amount, not a percentage. The
-description for the payment has the title of an article that is being purchased
-as well as the author.
-        </p>
-        <pre class="example">
-{
-   "@": "&lt;http://example.com/articles/1#listing-payee>",
-   "a": "&lt;com:Payee>",
-   "com:currency": "USD",
-   "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
-   "com:rate": "0.05",
-   "com:rateType": "&lt;com:FlatAmount>",
-   "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
 }
         </pre>
       </section>
@@ -788,9 +759,9 @@ process contracts containing a particular Listing or Asset.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>ps:Listing, ps:Asset, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:anyURI</dd>
         </dl>
         <p>
 The following example describes an asset that specifies that any purchase of
@@ -837,10 +808,29 @@ that is different from the location of the asset.
           <dd>xsd:anyURI</dd>
         </dl>
         <p>
-The following example TBD.
+The following example demonstrates an asset that has a content URL specified
+as <code>&lt;https://example.org/articles/1></code>.
         </p>
         <pre class="example">
 {
+   "@": "https://example.org/articles/1#asset",
+   "a": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:creator": 
+   {
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "&lt;https://example.org/articles/1>",
+   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
+   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
+   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:signature": 
+   {
+       "a": "sig:JsonldSignature",
+       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
 }
         </pre>
       </section>
@@ -867,10 +857,22 @@ combination with the ps:licenseTerms property.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example TBD.
+The following example shows how a license template is used in conjunction with
+a set of license terms.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
+   "a": "&lt;ps:License>",
+   "dc:format": "text/html",
+   "ps:licenseTemplate": "This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+      copies of the work for personal use.",
+   "ps:licenseTerms": 
+   {
+      "ex:physicalCopies": 5
+   }
 }
         </pre>
       </section>
@@ -892,10 +894,22 @@ template.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example TBD.
+The example below specifies a license with a single term that limits the number 
+of printed physical copies of a work to 5.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
+   "a": "&lt;ps:License>",
+   "dc:format": "text/html",
+   "ps:licenseTemplate": "This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+      copies of the work for personal use."
+   "ps:licenseTerms": 
+   {
+      "ex:physicalCopies": 5
+   }
 }
         </pre>
       </section>
@@ -912,7 +926,7 @@ The identity hash is generated by performing the following hashing algorithm:
 for the individual.</li>
 <li>Convert the information to lower-case if it is supported in the 
 character set for the language.</li>
-<li>Generate a random identity salt.</li>
+<li>Generate a random 6-byte identity salt.</li>
 <li>Concatenate the formatted name, address and identity salt together.</li>
 <li>Perform a SHA-1 hash of the information, the result is the identityHash
 value.</li>
@@ -981,10 +995,20 @@ exist or records of the purchase no longer exist.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example TBD.
+The following snippet of a contract contains the asset provider's identity 
+which is hashed to protect the physical location at which the asset provider 
+resides.
         </p>
         <pre class="example">
 {
+   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
+   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "ps:asset": { ... },
+   "ps:assetProviderIdentity": 
+   {
+      "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
+   },
+   ...
 }
         </pre>
       </section>
@@ -1008,10 +1032,29 @@ HTML+RDFa or other human-readable semantic web markup language.
           <dd>xsd:anyURI</dd>
         </dl>
         <p>
-The following example TBD.
+The following contract snippet below demonstrates how a license is expressed
+in a completed contract.
         </p>
         <pre class="example">
 {
+   "@": "&lthttp://payswarm.example.com/contracts/982378927357>",
+   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "ps:asset": { ... },
+   "ps:license":
+   {
+      "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
+      "a": "&lt;ps:License>",
+      "dc:format": "text/html",
+      "ps:licenseTemplate": "This personal use license allows you to save the 
+         purchased item onto any device that you own for your personal enjoyment
+         and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+         copies of the work for personal use."
+      "ps:licenseTerms": 
+      {
+         "ex:physicalCopies": 5
+      }
+   }
+   ...
 }
         </pre>
       </section>
@@ -1032,10 +1075,19 @@ hashing algorithm.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example TBD.
+The following listing snippet example below shows a license URL coupled with a
+licenseHash. A software agent working with the information may depend on a
+cache to determine whether or not the information associated with the 
+ps:license would need to be fetched from the Web based on the value of the
+license hash.
         </p>
         <pre class="example">
 {
+   "@": "&lt;http://example.com/articles/1#listing>",
+   "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+   "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+   "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad"
+   ...
 }
         </pre>
       </section>
@@ -1055,10 +1107,58 @@ a License that governs the post-purchase use of that asset.
           <dd>ps:Listing</dd>
         </dl>
         <p>
-The following example TBD.
+The following contract snippet shows the portion of the contract that 
+contains the listing information.
         </p>
         <pre class="example">
 {
+   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
+   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "com:amount": "0.05",
+   "com:currency": "USD",
+   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   ...
+   "ps:listing": 
+   {
+      "@": "&lt;http://example.com/articles/1#listing>",
+      "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+      "com:payee": 
+      [
+         {
+            "@": "&lt;http://example.com/articles/1#listing-payee>",
+            "a": "&lt;com:Payee>",
+            "com:currency": "USD",
+            "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+            "com:rate": "0.05",
+            "com:rateType": "&lt;com:FlatAmount>",
+            "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+         }
+      ],
+      "com:payeeRule": 
+      [
+         {
+            "a": "&lt;com:PayeeRule>",
+            "com:destinationOwnerType": "&lt;ps:Authority>",
+            "com:maximumRate": "10",
+            "com:rateType": "&lt;com:InclusivePercentage>"
+         }
+      ],
+      "ps:asset": "&lt;http://example.com/articles/1#asset>",
+      "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+      "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+      "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+      "ps:signature": 
+      {
+         "a": "&lt;ps:JsonldSignature>",
+         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
+         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      },
+      "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
+      "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+   },
+   "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
+   ...
 }
         </pre>
       </section>
@@ -1066,21 +1166,35 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>listingHash</h3>
         <p>
-TBD
+A listing hash is a checksum for the contents of a listing. Technically, it is
+a cryptographic hash of the graph information expressed in JSON-LD. To 
+calculate a listing hash, the entire ps:listing sub-tree without any
+ps:signature values is normalized via standard JSON-LD normalization rules and
+then the SHA-1 hashing algorithm is performed on the result.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>ps:Contract, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:string</dd>
         </dl>
         <p>
-The following example TBD.
+The contract snippet below shows the listing hash that is associated with the
+listing. A software agent working with the information may depend on a
+cache to determine whether or not the information associated with the 
+ps:listing would need to be fetched from the Web based on the value of the
+listing hash.
         </p>
         <pre class="example">
 {
+   "@": "&lthttp://payswarm.example.com/contracts/583272397238>",
+   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   ...
+   "ps:listing": "&lt;http://example.com/articles/1#listing>",
+   "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
+   ...
 }
         </pre>
       </section>
@@ -1088,48 +1202,73 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>owner</h3>
         <p>
-TBD
+An owner is typically an entity that fully or partially has rights or control
+over a particular resource. This property is most often used to express that
+a particular entity owns a public key, but may be used for other resources 
+such as claiming ownership over a financial com:Account resource.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>com:Account, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:anyURI</dd>
         </dl>
         <p>
-The following example TBD.
+The following example demonstrates the expression of a public key belonging
+to the identity <code>&lt;https://payswarm.example.com/i/bob></code>.
         </p>
         <pre class="example">
 {
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1>",
+   "a": "&lt;sig:Key>",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob>",
+   "sig:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
 }
         </pre>
       </section>
-      <section id="role" about="http://purl.org/payswarm#role"
-        typeof="rdf:Property">
-        <h3>role</h3>
-        <p>Can be any of "acquirer", "provider", "authority", etc.</p>
-      </section>
-      <section id="" about="http://purl.org/payswarm#"
+      <section id="validFrom" about="http://purl.org/payswarm#validFrom"
         typeof="rdf:Property">
         <h3>validFrom</h3>
         <p>
-TBD
+The valid from property specifies the point at which a piece of information
+becomes reliable. It is often used to specify when Assets or Listings
+start their validity period. The information can be used to determine caching
+metrics.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>ps:Listing, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:dateTime</dd>
         </dl>
         <p>
-The following example TBD.
+The following example is of an Asset that has a validity period starting 
+at midnight on November 28th, 2010.
         </p>
         <pre class="example">
 {
+   "@": "https://example.org/articles/1#asset",
+   "a": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:creator": 
+   {
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "&lt;https://example.org/articles/1>",
+   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
+   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
+   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:signature": 
+   {
+       "a": "sig:JsonldSignature",
+       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
 }
         </pre>
       </section>
@@ -1137,21 +1276,42 @@ The following example TBD.
         typeof="rdf:Property">
         <h3>validUntil</h3>
         <p>
-TBD
+The valid until property specifies the point at which a piece of information
+ceases to be reliable. It is often used to specify when Assets or Listings
+expire. The information can be used to determine caching metrics.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>TBD</dd>
+          <dd>ps:Listing, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>TBD</dd>
+          <dd>xsd:dateTime</dd>
         </dl>
         <p>
-The following example TBD.
+The following example is of an Asset that has a validity period ending at
+midnight on November 28th, 2011.
         </p>
         <pre class="example">
 {
+   "@": "https://example.org/articles/1#asset",
+   "a": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:creator": 
+   {
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "&lt;https://example.org/articles/1>",
+   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
+   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
+   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:signature": 
+   {
+       "a": "sig:JsonldSignature",
+       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
 }
         </pre>
       </section>

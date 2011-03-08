@@ -97,6 +97,35 @@ and animals. It will probably set your house on fire. You have been warned.
 
     <section>
       <h2>Classes</h2>
+      <section id="Key" about="http://purl.org/signature#Key"
+        typeof="rdfs:Class">
+        <h3>Key</h3>
+          <p>
+This class represents a cryptographic key that may be used for digital 
+signatures or cryptography.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>sig:publicKey, sig:privateKeyPem, sig:publicKeyPem</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic key that contains both the 
+public and private key as well as the owner of the key.
+        </p>
+<pre class="example">
+{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1>",
+   "a": "&lt;sig:Key>",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob>",
+   "sig:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
+   "sig:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+}
+</pre>
+      </section>
       <section id="Signature" about="http://purl.org/signature#Signature"
         typeof="rdfs:Class">
         <h3>Signature</h3>
@@ -364,6 +393,96 @@ digest method specified by the signature class:
         "sig:signer": "&lt;http://example.com/people/john-doe#key-5>",
         "sig:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
+}
+        </pre>
+      </section>
+      <section id="publicKey" about="http://purl.org/signature#publicKey"
+        typeof="rdf:Property">
+        <h3>publicKey</h3>
+        <p>
+A public key property refers to a URL that contains information about a public 
+key.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Key, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key belonging
+to the identity <code>&lt;https://payswarm.example.com/i/bob></code>.
+        </p>
+        <pre class="example">
+{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1>",
+   "a": "&lt;sig:Key>",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob>",
+   "sig:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+}
+        </pre>
+      </section>
+      <section id="privateKeyPem" about="http://purl.org/signature#privateKeyPem"
+        typeof="rdf:Property">
+        <h3>privateKeyPem</h3>
+        <p>
+A private key PEM property is used to specify the PEM-encoded version of the
+private key. This encoding is compatible with almost every Secure Sockets Layer
+library implementation and typically plugs directly into functions intializing
+private keys.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Key, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a private key PEM. The
+elipsis ("...") in the middle of the string denotes more data that has been
+abbreviated for the sake of the readability of the example.
+        </p>
+        <pre class="example">
+{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1>",
+   "a": "&lt;sig:Key>",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob>",
+   "sig:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
+   "sig:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+}
+        </pre>
+      </section>
+      <section id="publicKeyPem" about="http://purl.org/signature#publicKeyPem"
+        typeof="rdf:Property">
+        <h3>publicKeyPem</h3>
+        <p>
+A public key PEM property is used to specify the PEM-encoded version of the
+public key. This encoding is compatible with almost every Secure Sockets Layer
+library implementation and typically plugs directly into functions intializing
+public keys.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sig:Key, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key PEM. The
+elipsis ("...") in the middle of the string denotes more data that has been
+abbreviated for the sake of the readability of the example.
+        </p>
+        <pre class="example">
+{
+   "@": "&lt;https://payswarm.example.com/i/bob/keys/1>",
+   "ps:owner": "&lt;https://payswarm.example.com/i/bob>",
+   "ps:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
 }
         </pre>
       </section>

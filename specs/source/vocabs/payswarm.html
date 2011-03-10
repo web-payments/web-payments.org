@@ -99,7 +99,10 @@ Specification</a>.
         <p>
 An asset describes a particular item that is provided as a part of a commercial
 transaction. It is usually an item that can be accessed or acquired on the
-basis of a sale or rental under the terms of a particular license.
+basis of a sale or rental under the terms of a particular license. Examples
+of assets include web pages, music files, video streams, use of virtual
+machines by the hour, 3D printer files for on-demand manufacturing, radio 
+spectrum and many other items that are capable of being transacted.
         </p>
         <dl>
           <dt>Status</dt>
@@ -120,8 +123,8 @@ that is verifiable by the receiving party.
         </p>
         <pre class="example">
 {
-   "@": "https://example.org/articles/1#asset",
-   "a": ["ps:Asset", "ps:WebPage"],
+   "@": "&lt;https://example.org/articles/1#asset>",
+   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
@@ -130,13 +133,13 @@ that is verifiable by the receiving party.
    "ps:contentUrl": "&lt;https://example.org/articles/1>",
    "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
    "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
    "ps:signature": 
    {
-       "a": "sig:JsonldSignature",
+       "a": "&lt;sig:JsonldSignature>",
        "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -146,7 +149,7 @@ that is verifiable by the receiving party.
         <h3>Contract</h3>
         <p>
 A contract is the result of a commercial transaction in PaySwarm and contains
-information such as the Listing <a href="#Listing">Listing</a>, 
+information such as the <a href="#Listing">Listing</a>, 
 the <a href="#Asset">Asset</a> that was purchased, the parties involved in the
 transaction, the <a href="#License">License</a> outlining the rights to the 
 Asset, and payment information associated with the transaction.
@@ -193,7 +196,7 @@ Jane, who may now peruse the article.
          "com:currency": "USD",
          "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
          "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
-         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary",
+         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary>",
          "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
       },
       {
@@ -221,7 +224,7 @@ Jane, who may now peruse the article.
       "ps:contentUrl": "&lt;http://example.com/articles/1>",
       "ps:signature": 
       {
-         "a": "ps:JsonldSignature",
+         "a": "&lt;ps:JsonldSignature>",
          "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
          "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
          "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
@@ -237,7 +240,7 @@ Jane, who may now peruse the article.
       "@": "&lt;http://payswarm.example.com/licenses/blogging>",
       "a": "&lt;ps:License>",
       "dc:format": "text/html",
-      "ps:licenseTemplate": "Personal Use License ..."
+      "ps:licenseTemplate": "Personal Use <a href="#License">License</a> ..."
    },
    "ps:listing": 
    {
@@ -293,7 +296,7 @@ Jane, who may now peruse the article.
         typeof="rdf:Property">
         <h3>Data</h3>
         <p>
-The Data class is typically found as a decorator class for an Asset. That is
+The Data class is typically found as a decorator class for an Asset. That is,
 the Data class is usually found as an rdf:type descriptor attached to an
 Asset. Data is used to specify that the asset is a pre-recorded or live 
 stream of bytes.
@@ -308,7 +311,7 @@ stream of bytes.
           ps:authority, ps:validFrom, ps:validUntil, ps:signature</dd>
         </dl>
         <p>
-The following example shows an asset for a byte stream for sale that is a 
+The following example shows an Data Asset for a byte stream for sale that is a 
 video with the title "Learning How Cells Divide" by John Doe. 
         </p>
         <pre class="example">
@@ -325,7 +328,7 @@ video with the title "Learning How Cells Divide" by John Doe.
    "ps:contentUrl": "&lt;http://example.com/video/cell-division.mpg>",
    "ps:signature": 
    {
-      "a": "ps:JsonldSignature",
+      "a": "&lt;ps:JsonldSignature>",
       "dc:created": "2011-03-12T00:00:00Z^^&lt;xsd:dateTime>",
       "dc:creator": "&lt;https://payswarm.example.com/i/john/keys/2>",
       "ps:signatureValue": "ne56Qsc5IXuLEGuq+Nic8="
@@ -337,9 +340,9 @@ video with the title "Learning How Cells Divide" by John Doe.
         typeof="rdf:Property">
         <h3>License</h3>
         <p>
-A license is a legal description of a licensee's rights to a particular work
-or service. Licenses are usually included as a part of a contract to express
-what a buyer may do with the asset that has been purchased.
+A license is a legal description of a licensee's rights to a particular Asset.
+Licenses are usually included as a part of a contract to express what a buyer 
+may do with the asset that has been purchased.
         </p>
         <dl>
           <dt>Status</dt>
@@ -372,8 +375,8 @@ The following example describes an overly-simplified personal use license.
         typeof="rdf:Property">
         <h3>Listing</h3>
         <p>
-A Listing describes the combination of an Asset that is for sale under a 
-specific License and a set of payment terms that must be fulfilled in order 
+A <a href="#Listing">Listing</a> describes the combination of an <a href="#Asset">Asset</a> that is for sale under a 
+specific <a href="#License">License</a> and a set of payment terms that must be fulfilled in order 
 to access the Asset. Listings are often published on websites that sell assets
 via PaySwarm as a way to express wares for sale in a decentralized manner.
         </p>
@@ -440,7 +443,7 @@ maximum of 10% of the final sale price to cover their fees.
         <h3>WebPage</h3>
         <p>
 The WebPage class is a decorator class for Assets. The decorator is usually
-found as an additional rdf:type of an Asset which denotes that the asset is a
+found as an additional rdf:type of an <a href="#Asset">Asset</a> which denotes that the asset is a
 web page of some kind. This is opposed to an opaque byte stream that may or 
 may not be viewable in a web browser.
         </p>
@@ -460,8 +463,8 @@ was created by "Digital Bazaar, Inc.". The asset is valid from November 28th
         </p>
         <pre class="example">
 {
-   "@": "https://example.org/articles/1#asset",
-   "a": ["ps:Asset", "ps:WebPage"],
+   "@": "&lt;https://example.org/articles/1#asset>",
+   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
@@ -470,11 +473,11 @@ was created by "Digital Bazaar, Inc.". The asset is valid from November 28th
    "ps:contentUrl": "&lt;https://example.org/articles/1>",
    "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
    "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
    "ps:signature": 
    {
-       "a": "sig:JsonldSignature",
+       "a": "&lt;sig:JsonldSignature>",
        "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
@@ -521,7 +524,8 @@ asset or service.
         typeof="rdf:Property">
         <h3>asset</h3>
         <p>
-An asset specifies an item or service for sale via PaySwarm.
+An asset property is used to specify an <a href="#Asset">Asset</a> for sale via 
+PaySwarm. The asset property is typically found in a Listing or a Contract.
         </p>
         <dl>
           <dt>Status</dt>
@@ -533,7 +537,7 @@ An asset specifies an item or service for sale via PaySwarm.
         </dl>
         <p>
 The following example shows a portion of a contract containing the description 
-of an Asset that was a part of the purchase.
+of an <a href="#Asset">Asset</a> that was a part of the purchase.
         </p>
         <pre class="example">
 {
@@ -542,9 +546,7 @@ of an Asset that was a part of the purchase.
    "com:amount": "0.05",
    "com:currency": "USD",
    "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
-   "com:payee": [ ... ],
-   "com:transfer": [ ... ],
-   "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   ...
    "ps:asset": 
    {
       "@": "&lt;http://example.com/articles/1#asset>",
@@ -559,7 +561,7 @@ of an Asset that was a part of the purchase.
       "ps:contentUrl": "&lt;http://example.com/articles/1>",
       "ps:signature": 
       {
-         "a": "ps:JsonldSignature",
+         "a": "&lt;ps:JsonldSignature>",
          "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
          "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
          "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
@@ -578,8 +580,8 @@ of an Asset that was a part of the purchase.
         typeof="rdf:Property">
         <h3>assetAcquirer</h3>
         <p>
-An asset acquirer is an entity that has acquired the rights to a particular 
-asset via a PaySwarm transaction.
+An asset acquirer is an entity that is in the process of acquiring or has
+acquired the rights to a particular asset via a PaySwarm Contract.
         </p>
         <dl>
           <dt>Status</dt>
@@ -600,10 +602,7 @@ a value of <code>https://payswarm.example.com/i/jane</code>.
    "com:amount": "0.05",
    "com:currency": "USD",
    "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
-   "com:payee": [ ... ],
-   "com:transfer": [ ... ],
-   "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
-   "ps:asset": { ... },
+   ...
    "ps:assetAcquirer": "&lt;https://payswarm.example.com/i/jane>",
    "ps:assetProviderIdentity": 
    {
@@ -623,12 +622,12 @@ hash instead of having to re-transmit the entire asset when communicating with
 a PaySwarm Authority. The hashes also provide a checksum on asset information
 such that both the asset provider and PaySwarm Authority know that each is
 talking about the same asset when the hash is used in Web service calls. Asset
-hash information MAY be used to make Asset caching decisions by a PaySwarm
+hash information MAY be used to make <a href="#Asset">Asset</a> caching decisions by a PaySwarm
 Authority. The asset hash is generated by following this algorithm:
         </p>
         <ol>
           <li>
-Encode the Asset graph in JSON-LD normalized form.
+Encode the <a href="#Asset">Asset</a> sub-graph in JSON-LD normalized form.
           </li>
           <li>Generate a SHA-1 on the JSON-LD normalized form.</li>
         </ol>
@@ -639,8 +638,9 @@ Asset graph:
         <ul>
           <li>Graph cycles, which will result in non-deterministic 
 serialization of the graph.</li>
-          <li>Blank Nodes, which will result in non-deterministic serialization
-due to different Blank Node names.</li>
+          <li>Named Blank Nodes, such as <code>_:bn1</code>, which will result 
+in non-deterministic serialization due to the generation of potentially 
+different Blank Node names.</li>
         </ul>
         <dl>
           <dt>Status</dt>
@@ -660,8 +660,8 @@ ps:Asset as well as the ps:assetHash.
     "a": "&lt;ps:Listing>",
     "ps:asset":
     {
-        "@": "https://example.org/articles/1#asset",
-        "a": ["ps:Asset", "ps:WebPage"],
+        "@": "&lt;https://example.org/articles/1#asset>",
+        "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
         "dc:title": "PaySwarm in Practice - Full Article #1",
         "dc:creator": 
         {
@@ -670,11 +670,11 @@ ps:Asset as well as the ps:assetHash.
         "ps:contentUrl": "&lt;https://example.org/articles/1>",
         "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
         "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-        "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
-        "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+        "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
+        "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
         "ps:signature": 
         {
-            "a": "sig:JsonldSignature",
+            "a": "&lt;sig:JsonldSignature>",
             "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
             "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
         }
@@ -753,7 +753,7 @@ with a value of <code>https://payswarm.example.com/i/bob</code>.
         <h3>authority</h3>
         <p>
 An authority is used to specify a PaySwarm authority that should be used to
-process contracts containing a particular Listing or Asset.
+process contracts containing a particular <a href="#Listing">Listing</a> or Asset.
         </p>
         <dl>
           <dt>Status</dt>
@@ -782,7 +782,7 @@ the asset should be performed via the
    "ps:contentUrl": "&lt;http://example.com/video/cell-division.mpg>",
    "ps:signature": 
    {
-      "a": "ps:JsonldSignature",
+      "a": "&lt;ps:JsonldSignature>",
       "dc:created": "2011-03-12T00:00:00Z^^&lt;xsd:dateTime>",
       "dc:creator": "&lt;https://payswarm.example.com/i/john/keys/2>",
       "ps:signatureValue": "ne56Qsc5IXuLEGuq+Nic8="
@@ -813,8 +813,8 @@ as <code>&lt;https://example.org/articles/1></code>.
         </p>
         <pre class="example">
 {
-   "@": "https://example.org/articles/1#asset",
-   "a": ["ps:Asset", "ps:WebPage"],
+   "@": "&lt;https://example.org/articles/1#asset>",
+   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
@@ -823,11 +823,11 @@ as <code>&lt;https://example.org/articles/1></code>.
    "ps:contentUrl": "&lt;https://example.org/articles/1>",
    "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
    "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
    "ps:signature": 
    {
-       "a": "sig:JsonldSignature",
+       "a": "&lt;sig:JsonldSignature>",
        "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
@@ -1017,7 +1017,7 @@ resides.
         <h3>license</h3>
         <p>
 The license specifies a URL where the rights to an asset are described. 
-Licenses are typically included in a Listing to express the rights that 
+Licenses are typically included in a <a href="#Listing">Listing</a> to express the rights that 
 are conferred upon purchase. Licenses are also included in contracts to
 express the rights that govern the access and use of the asset. The value of
 this property is typically a URL which expresses a ps:licenseTemplate using
@@ -1095,8 +1095,8 @@ license hash.
         typeof="rdf:Property">
         <h3>listing</h3>
         <p>
-A listing encapsulates an offer for sale. It typically includes an Asset and
-a License that governs the post-purchase use of that asset.
+A listing encapsulates an offer for sale. It typically includes an <a href="#Asset">Asset</a> and
+a <a href="#License">License</a> that governs the post-purchase use of that asset.
         </p>
         <dl>
           <dt>Status</dt>
@@ -1246,13 +1246,13 @@ metrics.
           <dd>xsd:dateTime</dd>
         </dl>
         <p>
-The following example is of an Asset that has a validity period starting 
+The following example is of an <a href="#Asset">Asset</a> that has a validity period starting 
 at midnight on November 28th, 2010.
         </p>
         <pre class="example">
 {
-   "@": "https://example.org/articles/1#asset",
-   "a": ["ps:Asset", "ps:WebPage"],
+   "@": "&lt;https://example.org/articles/1#asset>",
+   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
@@ -1261,11 +1261,11 @@ at midnight on November 28th, 2010.
    "ps:contentUrl": "&lt;https://example.org/articles/1>",
    "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
    "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
    "ps:signature": 
    {
-       "a": "sig:JsonldSignature",
+       "a": "&lt;sig:JsonldSignature>",
        "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
@@ -1289,13 +1289,13 @@ expire. The information can be used to determine caching metrics.
           <dd>xsd:dateTime</dd>
         </dl>
         <p>
-The following example is of an Asset that has a validity period ending at
+The following example is of an <a href="#Asset">Asset</a> that has a validity period ending at
 midnight on November 28th, 2011.
         </p>
         <pre class="example">
 {
-   "@": "https://example.org/articles/1#asset",
-   "a": ["ps:Asset", "ps:WebPage"],
+   "@": "&lt;https://example.org/articles/1#asset>",
+   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
@@ -1304,11 +1304,11 @@ midnight on November 28th, 2011.
    "ps:contentUrl": "&lt;https://example.org/articles/1>",
    "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
    "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^xsd:dateTime",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^xsd:dateTime"
+   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
+   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
    "ps:signature": 
    {
-       "a": "sig:JsonldSignature",
+       "a": "&lt;sig:JsonldSignature>",
        "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }

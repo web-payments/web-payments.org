@@ -130,6 +130,22 @@ There are three primary participants in a PaySwarm transaction; the
 asset acquirer, the asset owner, and the PaySwarm Authority.
       </p>
       <section>
+        <h3>Identity and Identifiers</h3>
+        <p>
+In order for a universal payment system to work seamlessly, there must be a
+universal way of identifying <em>things</em> in the environment. This 
+specification uses Internationalized Resource Identifiers [[!IRI]] to 
+refer to <em>things</em> on the network. These things can be identity 
+information (<code>https://example.com/people/bob</code>), 
+financial account information 
+(<code>https://example.com/people/bob/accounts/42</code>), public cryptography
+keys (<code>https://example.com/people/bob/keys/14</code>), assets, licenses 
+and a variety of other long-lived information that exists on the Web. By naming 
+these things with long-lived unique identifiers, it becomes possible to create 
+a decentralized but stable universal payment architecture.
+        </p>
+      </section>
+      <section>
         <h3>Participants</h3>
         <section>
           <h4>Asset Acquirers</h3>
@@ -208,18 +224,26 @@ Asset, and payment information associated with the transaction.
     <section>
       <h2>Base Technologies</h2>
       <p>
+PaySwarm builds on a number of successful Internet and Web technologies. These
+technologies are introduced in this section.
       </p>
 
       <section>
-        <h3>REST</h3>
+        <h3>Representational State Transfer</h3>
         <p>
+REpresentational State Transfer (REST) is the architectural style that underpins
+the World Wide Web. It consists of a set of constraints to ensure that servers,
+gateways, proxies and clients may interact in a way that is predictable.
+Systems that are designed with this architecture in mind are called RESTful
+systems. PaySwarm is designed to be RESTful by ensuring that the constraints of
+REST are applied to all transactions performed via PaySwarm systems.
         </p>
       </section>
 
       <section>
-        <h3>JSON-LD</h3>
+        <h3>JavaScript Object Notation</h3>
         <p>
-JSON-LD (JavaScript Object Notation for Linked Data) is a lightweight Linked 
+JavaScript Object Notation for Linked Data (JSON-LD) is a lightweight Linked 
 Data format. It is easy for humans to read and write. It is easy for machines 
 to parse and generate. It is based on the already successful JSON format and 
 provides a way to help JSON data interoperate at Web-scale. If you are already 
@@ -231,14 +255,28 @@ JavaScript environments, Web services, and JSON document-based databases.
       </section>
 
       <section>
-        <h3>AES Cryptography Suite</h3>
+        <h3>The Advanced Encryption Standard</h3>
         <p>
+The Advanced Encryption Standard (AES) is a world standard adopted by the
+United States government and used to secure a vast majority of the
+commercial transactions over the Internet via OpenSSL. Since much of the data
+exchanged over PaySwarm participants is sensitive, it is important that a 
+strong cryptography suite is utilized to transfer the messages.
         </p>
       </section>
 
       <section>
-        <h3>RDFa</h3>
+        <h3>HTML+RDFa</h3>
         <p>
+Web sites are largely implemented on top of the HyperText Markup Language 
+(HTML). This format is known to be fairly easy to author and publish on the Web.
+In addition to being easy to publish, it is also important that data published
+via HTML can be easily read by machines without placing an undue burden on
+Web authors. Publishing structured data in a decentralized manner also 
+requires a language that is capable of being both expressive and deterministic. 
+The Resource Description Framework in attributes (RDFa) extends HTML to allow 
+structured data to be expressed via HTML, but in a way that is easy for
+Web developers to create.
         </p>
       </section>
     </section>
@@ -545,11 +583,47 @@ Jane, who may now peruse the article.
         <h3>Verifying a Purchase</h3>
 
       </section>
+    </section>
+
+    <section>
+      <h2>The PaySwarm API</h2>
+    </section>
+
+    <section>
+      <h2>Implementation Details</h2>
 
       <section>
-        <h3>Data Portability</h3>
+        <h3>Digital Signatures</h3>
+
+        <section>
+          <h4>Signing</h4>
+
+        </section>
+
+        <section>
+          <h4>Verifying</h4>
+
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <h2>Data Portability</h2>
+      <p>
+One of the freedoms that is ensured by this specification is the freedom to
+own your data and move it to a PaySwarm Authority of your choosing. That is,
+your transaction history is your property and therefore you must be able to
+move it to a location of your choosing at will. In order to ensure that this
+freedom is protected, data portability MUST be implemented by all conforming 
+implementations of this specification.
+      </p>
+
+      <section>
+        <h3>Transfering Purchase History</h3>
 
       </section>
+
+    </section>
 
     <section>
       <h2>Security Concerns</h2>

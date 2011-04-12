@@ -108,7 +108,7 @@ $wgSecretKey = "104902663fe8732ccf4cd6d083997e8604ef0fb4ec962952f9ed24b17bb9aa82
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
-$wgDefaultSkin = 'monobook';
+$wgDefaultSkin = 'payswarm';
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
@@ -125,3 +125,15 @@ $wgDiff3 = "/usr/bin/diff3";
 # When you make changes to this configuration file, this will make
 # sure that cached pages are cleared.
 $wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( __FILE__ ) ) );
+
+# Default Group permissions
+$wgGroupPermissions['*']['edit'] = false;
+
+# Default User permissions
+#$wgDefaultUserOptions ['editsection'] = false;
+
+# ConfirmEdit anti-SPAM extension
+require_once("$IP/extensions/ConfirmEdit/ConfirmEdit.php");
+require_once("$IP/extensions/ConfirmEdit/MathCaptcha.php");
+$wgCaptchaClass = 'SimpleCaptcha';
+

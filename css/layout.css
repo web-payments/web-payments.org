@@ -6,7 +6,7 @@ src: url("fonts/Aller_Bd.ttf");
 }
 
 body {
-background: url(http://i53.tinypic.com/im0bgl.jpg);
+background: #f9f9f9;
 }
 
 h1 {
@@ -27,7 +27,7 @@ font-size: 12px;
 
 .titlebar {
 height: 100px;
-background: #1da551 url(../images/payswarm-title.png);
+background: #070 url(../images/payswarm-title.png);
 background-repeat: no-repeat;
 vertical-align: middle;
 color: #fff;
@@ -50,16 +50,16 @@ width:55%;
 
 .examplecolumn {
 height: 40px;
-background: #15b953 url(http://i52.tinypic.com/2gugmj5.jpg);
+background: #444;
 }
 
 .examplecolumn2 {
 height: 400px;
-background: #15b953 url(http://i52.tinypic.com/2gugmj5.jpg);
+background: #444;
 }
 
 .subhead {
-color: #15b953;
+color: #070;
 }
 
 .vspacing {
@@ -72,7 +72,7 @@ padding-bottom: 50px;
 }
 
 .onblack {
-background: #15b953 url(http://i52.tinypic.com/2gugmj5.jpg);
+background: #444;
 color: #fff;
 padding-top: 50px;
 padding-bottom: 30px;

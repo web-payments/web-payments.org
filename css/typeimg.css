@@ -13,7 +13,7 @@ line-height: 24px;		/* Changing this will break the baseline grid. */
 
 a {
 text-decoration: none;
-color: #005698;
+color: #039;
 font-weight: bold;
 border-bottom: 1px solid #adadad;
 }
@@ -26,7 +26,7 @@ border-bottom: 1px solid #adadad;
 }
 
 a:hover {
-color: #000;
+color: #36f;
 border-bottom: none;
 }
 

@@ -38,7 +38,10 @@ $wgSitename         = "PaySwarm";
 ## defaults for all runtime URL paths are based off of this.
 ## For more information on customizing the URLs please see:
 ## http://www.mediawiki.org/wiki/Manual:Short_URL
-$wgScriptPath       = "/payswarm.com/wiki";
+$wgScriptPath = "/payswarm.com/mediawiki-1.16.2";         # Path to the actual f
+iles.
+$wgArticlePath = "/payswarm.com/wiki/$1";  # Virtual path. This directory MUST be different from the one used in $wgScriptPath
+$wgUsePathInfo = true;        # Enable use of pretty URLs
 $wgScriptExtension  = ".php";
 
 ## The relative URL path to the skins directory
@@ -68,7 +71,7 @@ $wgDBuser           = "wikiuser";
 $wgDBpassword       = "";
 
 # SQLite-specific settings
-$wgSQLiteDataDir    = "/mnt/work/source/payswarm.com/wiki/database";
+$wgSQLiteDataDir    = "$IP/database";
 
 ## Shared memory settings
 $wgMainCacheType = CACHE_NONE;
@@ -125,6 +128,7 @@ $wgDiff3 = "/usr/bin/diff3";
 # When you make changes to this configuration file, this will make
 # sure that cached pages are cleared.
 $wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( __FILE__ ) ) );
+
 
 # Default Group permissions
 $wgGroupPermissions['*']['edit'] = false;

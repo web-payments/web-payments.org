@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /mediawiki-1.16.2/
+Disallow: /wiki/Special:Search
+Disallow: /wiki/Special:Random

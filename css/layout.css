@@ -27,7 +27,8 @@ font-size: 12px;
 
 .titlebar {
 height: 100px;
-background: #070 url(../images/payswarm-title.png);
+background: #070 url(../images/swarm.png);
+background-position: 50px;
 background-repeat: no-repeat;
 vertical-align: middle;
 color: #fff;
@@ -152,20 +153,31 @@ border-bottom: 1px solid rgba(0,0,0,0.3);
 
 .largebutton {
 text-align: center;
-background: #15b953 url(../images/button-background.png);
-border: 1px solid #000;
+background: -moz-linear-gradient(90deg, #F3F3F3, #DDD);
+background: -webkit-gradient(linear, left top, left bottom, from(#F3F3F3), to(#DDD));
+background-image: linear-gradient(top, #F3F3F3, #DDD);
+background-color: #eee;
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDD', endColorstr='#F3F3F3');
+border: 1px solid #999;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;
 margin-bottom: 24px;
+-moz-box-shadow: 3px 3px 4px #444;
+-webkit-box-shadow: 3px 3px 4px #444;
+box-shadow: 3px 3px 10px #444;
 }
 
 .largebutton:hover {
-background-position: 0px 160px;
+-moz-box-shadow: 3px 3px 4px #444;
+-webkit-box-shadow: 3px 3px 4px #444;
+box-shadow: 3px 3px 10px #444;
 }
 
 .largebutton:active {
-background-position: 0px 80px;
+-moz-box-shadow: 1px 1px 4px #444;
+-webkit-box-shadow: 1px 1px 4px #444;
+box-shadow: 1px 1px 10px #444;
 }
 
 .largebutton a {
@@ -173,7 +185,7 @@ border-bottom: none;
 color: #003120;
 display: block;
 padding: 10px 10px;
-text-shadow:0px 1px 0px #75ff78;
+text-shadow:0px 1px 0px #999;
 }
 
 .buttontext {

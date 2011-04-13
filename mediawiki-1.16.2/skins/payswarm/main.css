@@ -241,7 +241,7 @@ h2
   top: 0; right: 0;
   width: 100% !important;
   height: 100px;
-  background: #1DA551 url(../../../images/payswarm-title-full.png);
+  background: #070 url(../../../images/payswarm-title.png);
   background-repeat: no-repeat;
   vertical-align: middle;
   padding-bottom: 3px;
@@ -264,14 +264,14 @@ h2
 #p-cactions li
 {
   display: inline;
-  background: #1EB357;
+  background: #181;
 }
 
 #p-cactions li a
 {
   display: inline;
   padding: 0.1em 0.3em 3px 0.3em;
-  border: 1px outset #41CC76;
+  border: 1px outset #5a5;
   border-bottom: none;
   text-decoration: none;
   color: MenuText;

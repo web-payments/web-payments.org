@@ -1,0 +1,8 @@
+<FilesMatch "blogging">
+   ForceType application/xhtml+xml
+   SetHandler default_handler
+   RewriteEngine on
+   RewriteCond %{HTTP_USER_AGENT} .*MSIE.*
+   RewriteRule .* - [T=text/html]
+</FilesMatch>
+

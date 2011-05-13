@@ -2,3 +2,9 @@
    ForceType text/html
    SetHandler default_handler
 </FilesMatch>
+
+<FilesMatch "(media|audio|video)">
+   ForceType application/xhtml+xml
+   SetHandler default_handler
+</FilesMatch>
+

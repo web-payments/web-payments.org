@@ -1,0 +1,722 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
+ "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+<html version="XHTML+RDFa 1.0" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:xsd="http://www.w3.org/2001/XMLSchema#" 
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
+      xmlns:owl="http://www.w3.org/2002/07/owl#" 
+      xmlns:dcterms="http://purl.org/dc/terms/"
+      xmlns:cc="http://creativecommons.org/ns#"
+      xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" xml:lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/vocabulary.css" />
+  <title>The Media RDF Vocabulary</title>
+</head>
+
+<body>
+  <h1 id="introduction">Easy Semantic Markup of Media Recordings on the Web</h1>
+
+  <p>It is difficult for a browser to extract semantic information about an
+  media recording described on a web page. Metadata such as performer,
+  creator, publisher,title of the work, release date, download link,
+  related artwork and tags provide relevant context for the media
+  recording, but are currently (2008) inaccessible to computers.</p>
+
+  <p>Having such information marked up in a semantic way can provide a number
+  of benefits to the viewer. If a web browser understands that a particular
+  web page contains a piece of media  performed by an artist, it can produce richer
+  interactions. For example, specific searches may be performed for performers
+  and media via general search services such as Google and Wikipedia.
+  Specific search services may also be queried such as DBPedia, IMDB, MusicBrainz, The
+  Internet Archive, FreeDB, or Bitmunk. Additionally, classification by
+  crawlers can become more accurate. If there are 20 media items found on a page
+  performed by the same performer, and that content consumes a significant
+  portion of the page, it can be assumed that the page is not only about
+  media, but also about a particular performer.</p>
+
+  <p>In order to enable and encourage the sharing, distribution, syndication,
+  and aggregation of media content, the authors propose the Media RDF
+  vocabulary, an open standard for distributed media metadata. The authors
+  have researched both numerous examples in the wild and earlier attempts at
+  media metadata formats, and have designed the Media RDF Vocabulary around a
+  simple minimal schema for audio content. Feedback is encouraged and open
+  participation is desired from all that are interested in contributing to
+  the open exchange of audio metadata on the Internet.</p>
+
+  <div about="http://purl.org/media" typeof="owl:Ontology">
+    <h1 property="dcterms:title">The Media Vocabulary</h1>
+
+    <p property="dcterms:description">The Media RDF vocabulary is not meant to be used by itself if you are marking up audio or video. If the media that you are marking up falls outside of audio/video, you should use the Media RDF Vocabulary if there is no other way to mark up the information. You may want to use the <a href="http://purl.org/media/audio">Audio RDF Vocabulary</a> or <a href="http://purl.org/media/video">Video RDF Vocabulary</a> if you are marking up audio or video.</p>
+
+    <h2 id="base-vocabularies">Base Vocabularies</h2>
+
+    <p>The Media RDF Vocabulary relies heavily on aggregating functionality
+    in previously defined vocabularies. Vocabulary term re-use is of primary
+    importance. What follows are the vocabularies on which the RDF Media
+    Vocabulary depends:</p>
+
+    <dl about="http://purl.org/media/audio">
+      <dt><a rel="owl:imports" href=
+      "http://www.w3.org/1999/xhtml/vocab#">xhv</a></dt>
+
+      <dd>The XHTML Vocabulary namespace which defines the <i>license</i>
+      keyword.</dd>
+
+      <dt><a rel="owl:imports" href=
+      "http://purl.org/dc/terms/">dcterms</a></dt>
+
+      <dd>The Dublin Core Terms Vocabulary is used for describing various 
+      aspects of the audio recording such as title, description and
+      contributors.</dd>
+
+    </dl>
+
+    <h2 id="classes">Classes</h2>
+
+    <dl id="Recording" about="http://purl.org/media#Recording" typeof=
+    "owl:Class">
+      <dt property="rdfs:label"><a href=
+      "http://purl.org/media#Recording">media:Recording</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A recording of an item of interest in any form.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Subclass of</td>
+
+            <td class="subclass"><a rel="rdfs:subClassOf" href=
+            "http://www.w3.org/2002/07/owl#Thing">owl:Thing</a></td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl id="Album" about="http://purl.org/media#Collection" typeof=
+    "owl:Class">
+      <dt property="rdfs:label"><a href=
+      "http://purl.org/media#Collection">media:Collection</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A collection of
+            one or more media recordings.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Subclass of</td>
+
+            <td class="subclass">
+              <ul>
+                <li><a rel="rdfs:subClassOf" href=
+                "http://purl.org/media/media#Recording">media:Recording</a></li>
+                <li><a rel="rdfs:subClassOf" href=
+                "http://purl.org/dc/terms/Collection">dcterms:Collection</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <h2 id="properties">Properties</h2>
+
+    <dl about="http://purl.org/dc/terms/title" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href="http://purl.org/dc/terms/title">dcterms:title</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">title of the
+            media recording</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">plain literal</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/dc/terms/creator" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href=
+      "http://purl.org/dc/terms/creator">dcterms:creator</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">The primary
+            creator or performer of the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype (pick one)</td>
+
+            <td class="datatype">
+              <ul>
+                <li>plain literal</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://xmlns.com/foaf/0.1/Agent">foaf:Agent</a> (including
+                <a href="http://xmlns.com/foaf/0.1/name">foaf:name</a> at a
+                minimum)</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://xmlns.com/foaf/0.1/Person">foaf:Person</a> (including
+                <a href="http://xmlns.com/foaf/0.1/name">foaf:name</a> at a
+                minimum)</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://www.w3.org/2001/vcard-rdf/3.0">vcard</a> (including
+                <a href=
+                "http://www.w3.org/2001/vcard-rdf/3.0#FN">vcard:FN</a> at a
+                minimum)</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/dc/terms/contributor" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href=
+      "http://purl.org/dc/terms/contributor">dcterms:contributor</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">An entity that
+            helped create the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype (pick one)</td>
+
+            <td class="datatype">
+              <ul>
+                <li>plain literal</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://xmlns.com/foaf/0.1/Agent">foaf:Agent</a> (including
+                <a href="http://xmlns.com/foaf/0.1/name">foaf:name</a> at a
+                minimum)</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://xmlns.com/foaf/0.1/Person">foaf:Person</a> (including
+                <a href="http://xmlns.com/foaf/0.1/name">foaf:name</a> at a
+                minimum)</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://www.w3.org/2001/vcard-rdf/3.0">vcard</a> (including
+                <a href=
+                "http://www.w3.org/2001/vcard-rdf/3.0#FN">vcard:FN</a> at a
+                minimum)</li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/dc/terms/date" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href="http://purl.org/dc/terms/published">dcterms:published</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">The date the
+            media recording was published.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype (pick one)</td>
+
+            <td class="datatype"><a rel="rdfs:range" href=
+            "http://www.w3.org/2001/XMLSchema#date">xsd:date</a> using
+            <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a></td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/dc/terms/description" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href=
+      "http://purl.org/dc/terms/description">dcterms:description</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">The description
+            associated with the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype (pick one)</td>
+
+            <td class="datatype">
+              <ul>
+                <li>plain literal</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral">rdf:XMLLiteral</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/media#position" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#position">media:position</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">The position of
+            the media recording in an album, LP, playlist, top 10 list,
+            podcast history or other ordered list of media recordings.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype (pick one)</td>
+
+            <td class="datatype">
+              <ul>
+                <li>plain literal</li>
+
+                <li><a rel="rdfs:range" href=
+                "http://www.w3.org/2001/XMLSchema#integer">xsd:integer</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/media#sample" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#sample">media:sample</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A link to a
+            sample file or stream of the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">URL</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/media#download" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#download">media:download</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A link to a
+            complete audio file representation of the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">URL</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/media#depiction" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#depiction">media:depiction</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">An image summary
+            of the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">URL</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/dc/terms/type" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href="http://purl.org/dc/terms/type">dcterms:type</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A genre that
+            should be associated with the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">plain literal</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl id="rating" about="http://purl.org/media#rating" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#rating">media:rating</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">testing</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A standards-body
+            rating such as PG-13, M, 18-SX, 15, AV15+, Explicit Lyrics, 
+            etc.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">plain literal</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://www.w3.org/1999/xhtml/vocab#license" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href=
+      "http://www.w3.org/1999/xhtml/vocab#license">xhv:license</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">The license under
+            which the media recording is distributed.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">URL via rel="license"</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/media#duration" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#duration">media:duration</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">The length of the
+            media recording encoded in ISO-8601 time duration format.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype"><a rel="rdfs:range" href=
+            "http://www.w3.org/2001/XMLSchema#duration">xsd:duration</a>
+            using <a href=
+            "http://en.wikipedia.org/wiki/ISO_8601">ISO-8601</a></td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/media#contains" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/media#contains">media:contains</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">Relationship for
+            linking singular media recordings to collections or media recordings. Also used to denote pieces of a media recording that constitute a larger media recording..</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">URI using rel="media:contains"</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/commerce#payment" typeof=
+    "owl:DatatypeProperty">
+      <dt><a href=
+      "http://purl.org/commerce#payment">commerce:payment</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A link to a
+            method of paying for a full version of the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype">URL using rel="commerce:payment"</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+
+    <dl about="http://purl.org/commerce#costs" typeof="owl:DatatypeProperty">
+      <dt><a href="http://purl.org/commerce#costs">commerce:costs</a></dt>
+
+      <dd class="details">
+        <table>
+          <tr>
+            <td class="detailtype">Status</td>
+
+            <td property="vs:term_status">stable</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Description</td>
+
+            <td class="description" property="rdfs:comment">A link to a
+            method of paying for a full version of the media recording.</td>
+          </tr>
+
+          <tr>
+            <td class="detailtype">Datatype</td>
+
+            <td class="datatype"><a href=
+            "http://purl.org/commerce#Price">commerce:Price</a> (containing
+            both <a href=
+            "http://purl.org/commerce#currency">commerce:currency</a> and
+            <a href=
+            "http://purl.org/commerce#amount">commerce:amount</a>)</td>
+          </tr>
+        </table>
+      </dd>
+    </dl>
+  </div>
+
+  <h3 id="scope">Scope</h3>
+
+  <p>Media content consistently share several common fields. Where possible
+  the Media RDF Vocabulary has been based on this minimal common subset.</p>
+
+  <h3>Out of scope</h3>
+
+  <p>Fields that are type-specific have been omitted from the Media RDF
+  Vocabulary. It is important that this vocabulary be kept simple and minimal
+  from the start. Additional features can be added as deemed necessary by
+  practical implementation experience.</p>
+
+  <p>The concept of a universal media identifier, that is, how to identify
+  the same piece of media across different media websites, though something 
+  very useful to have, is outside the scope of this format.</p>
+
+  <h1 id="extending">Extending the Vocabulary</h1>
+
+  <p>This vocabulary is the embodiment of a large group effort lead by <a href="http://digitalbazaar.com/">Digital Bazaar</a>, Inc. and pulls resources from the <a href="http://w3.org/">World Wide Web Consortium</a>, the <a href="http://rdfa.info/wiki">RDFa community</a> and the <a href="http://microformats.org/">Microformats</a> community. It is a world-wide effort in semantic metadata standardization.</p>
+
+  <p>If you would like to extend this particular vocabulary, we ask that you engage the community in doing so. History has shown that if there is a wide-spread need for a vocabulary extension, it will be discussed, and agreed upon by the larger community before making it's way into the vocabulary. This process can take as little as a week. Work with us before forging out on your own, the knowledge of the masses are your ally.</p>
+
+  <h1 id="license">Copyright and Patents</h1>
+
+  <p about="">This document is copyright 2008 <a rel="cc:attributionURL" href="http://digitalbazaar.com/" property="cc:attributionName">Digital Bazaar, Inc.</a> and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/publicdomain/">Creative Commons Public Domain Dedication</a>.</p>
+
+  <p>All ideas and patentable material outlined in the document are hereby dedicated to the public domain. It is our intent that all future additions, modifications and contributions will be dedicated to the public domain as well.</p>
+  
+  <p>We have released our copyright and control of this vocabulary for the good of the community and the betterment of the world in the name of open standards.</p>
+  <p>We kindly ask that proper credit is given when using the vocabulary. A line
+  like the following is sufficient:
+  </p>
+
+  <p><span style="font-style: italic">The Media RDF Vocabulary is an initiative lead by <a href="http://digitalbazaar.com/">Digital Bazaar</a>, Inc. and collaborated on by a number of people from the Web at large, the <a href="http://w3.org/">World Wide Web Consortium</a>, the <a href="http://rdfa.info/wiki">RDFa community</a> and the <a href="http://microformats.org/">Microformats</a> community.</span></p>
+
+  <h1 id="acknowledgements">Acknowledgements</h1>
+
+  <p>Many thanks to the various individuals that did research and proposed
+  ideas and discussion related to media info in general. Among
+  the many participants are RodBegbie, Dean Hudson, Tantek
+  &#199;elik, Mary Hodder, Joshua Kinberg, ChrisMessina, and Lisa
+  Rein. Others include Martin McEvoy, Alexandre Van De Sande, Michael
+  Johnson, Dave Longley, Brian Suda, Ben Wiley Sittler, Scott Reynen, Frances
+  Berriman, James Craig, David Janes, Andy Mabbett, Danny Ayers, Rudy
+  Desjardins, Edward O'Connor, Ryan King, Chris Griego, Brad Hafichuk, Colin
+  Barrett, and Joe Andrieu.</p>
+
+  <p>Many thanks as well to Mike Kaply, Ben Adida, Mark Birbeck, Ralph R.
+  Swick, Shane McCarron, Michael Hausenblas, Steven Pemberton, and Mike
+  Linksvayer for guidance with regards to RDFa.</p>
+
+  <h4 id="editor">Editor</h4>
+
+  <p>Manu Sporny, <a href="http://bitmunk.com">Bitmunk</a> - <a href=
+  "http://digitalbazaar.com/">Digital Bazaar, Inc.</a></p>
+
+  <h4 id="contributors">Vocabulary Contributors</h4>
+
+  <p>Manu Sporny, Martin McEvoy, Alexandre Van De Sande, Michael Johnson,
+  Dave Longley, Brian Suda, Ben Wiley Sittler, Scott Reynen, Frances
+  Berriman, James Craig, David Janes, Andy Mabbett, Danny Ayers, Rudy
+  Desjardins, Edward O'Connor, Ryan King, Chris Griego, Brad Hafichuk, Tantek
+  &#199;elik, Colin Barrett, Joe Andrieu, Michael Smethurst, Chris
+  Newell, Julian Stahnke, Justin Maxwell, Paul Wilkins, Toby A. Inkster
+  and David I. Lehn.</p>
+</body>
+</html>

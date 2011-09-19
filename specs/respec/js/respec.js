@@ -7,6 +7,14 @@
 //  License: http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231
 // ------------------------------------------------------------------------------------------ //
 
+// SUPPORT
+//  The official support channel for ReSpec is spec-prod@w3.org.
+//  The archives are available at http://lists.w3.org/Archives/Public/spec-prod/
+//  You can subscribe by sending email to spec-prod-request@w3.org with "subscribe" as the
+//  subject line.
+//  Please use that instead of emailing me (Robin) directly as the chances are that questions
+//  or enhancement ideas will be shared by others. Thanks!
+
 // XXX TODO
 //  - move to the top of dev. hierarchy
 //  - add autolinking to headers in the output (like WebIDL)
@@ -55,11 +63,12 @@ berjon.respec = function () {
 berjon.respec.prototype = {
     title:          null,
     additionalCopyrightHolders: null,
+    overrideCopyright: null,
     editors:        [],
     authors:        [],
 
     recTrackStatus: ["FPWD", "WD", "LC", "CR", "PR", "PER", "REC"],
-    noTrackStatus:  ["MO", "unofficial", "base"],
+    noTrackStatus:  ["MO", "unofficial", "base"], 
     status2text:    {
         NOTE:           "Note",
         "WG-NOTE":      "Working Group Note",
@@ -72,6 +81,9 @@ berjon.respec.prototype = {
         ED:             "Editor's Draft",
         FPWD:           "Working Draft",
         WD:             "Working Draft",
+		"FPWD-NOTE":    "Working Draft",
+        "WD-NOTE": 		"Working Draft", 
+		"LC-NOTE":      "Working Draft", 
         LC:             "Working Draft",
         CR:             "Candidate Recommendation",
         PR:             "Proposed Recommendation",
@@ -80,18 +92,26 @@ berjon.respec.prototype = {
         RSCND:          "Rescinded Recommendation",
         unofficial:     "Unofficial Draft",
         base:           "Document",
+        "draft-finding":    "Draft TAG Finding",
+        "finding":      "TAG Finding"
     },
     status2long:    {
         FPWD:           "First Public Working Draft",
+		"FPWD-NOTE": 	"First Public Working Draft", 
         LC:             "Last Call Working Draft",
+        "LC-NOTE": 		"Last Call Working Draft"
     },
     status2maturity:    {
         FPWD:       "WD",
         LC:         "WD",
-        "WG-NOTE":  "NOTE",
+		"FPWD-NOTE": "WD", 
+       	"WD-NOTE":  "WD", 
+		"LC-NOTE":  "LC",
+        "WG-NOTE":  "NOTE"
     },
     
     isLocal:    false,
+
     loadAndRun:    function () {
         var scripts = document.querySelectorAll("script[src]");
         var rs, base;
@@ -161,14 +181,32 @@ berjon.respec.prototype = {
             }
             this.makeTemplate();
 
+            // This is done REALLY early in case the transform ends up
+            // needing to include something
+            this.doTransforms() ;
+
+            // This is done early so that if other data gets embedded it will be 
+            // processed
+            this.includeFiles();
+
             this.dfn();
             this.inlines();
 
             this.webIDL();
             this.examples();
 
+            // only process best practices if element with class
+            // practicelab found, do not slow down non best-practice
+            // docs.
+            // doBestPractices must be called before makeTOC, fjh
+            // this might not work with old browsers like IE 8
+
+            var bpnode = document.getElementsByClassName("practicelab");
+            if(bpnode.length > 0) this.doBestPractices(); 
+
             this.informative();
             this.fixHeaders();
+
             this.makeTOC();
             this.idHeaders();
 
@@ -177,8 +215,9 @@ berjon.respec.prototype = {
             }
 
             // if (this.doMicroData) this.makeMicroData();
-            // if (this.doRDFa) this.makeRDFa();
-            this.unHTML5();
+            if (this.doRDFa) this.makeRDFa();
+            this.makeSectionRefs(); // allow references to sections using name for text, fjh
+           this.unHTML5();
             this.removeRespec();
 
             // shortcuts
@@ -190,9 +229,46 @@ berjon.respec.prototype = {
         }
         catch (e) {
             document.body.style.display = "inherit";
-            error(e);
+            error("Processing error: " + e);
+            if (typeof(console) != "undefined" && console.log) console.log(e);
         }
         document.body.style.display = "inherit";
+    },
+
+    makeRDFa:  function () {
+        var abs = document.getElementById("abstract");
+        if (abs) {
+            var rel = 'dcterms:abstract' ;
+            var ref = abs.getAttribute('property') ;
+            if (ref) {
+                rel = ref + ' ' + rel ;
+            }
+            abs.setAttribute('property', rel) ;
+            abs.setAttribute('datatype', '') ;
+        }
+        // annotate sections with Section data
+        var secs = document.querySelectorAll("section");
+        for (var i = 0; i < secs.length; i++) {
+            // if the section has an id, use that.  if not, look at the first child for an id
+            var about = '' ;
+            // the first child should be a header - that's what we will annotate
+            var fc = secs[i].firstElementChild;
+            var ref = secs[i].getAttribute('id') ;
+            if ( ref ) {
+                about = '#' + ref ;
+            } else {
+                if (fc) {
+                    ref = fc.getAttribute('id') ;
+                    if (ref) {
+                        about = '#' + ref;
+                    }
+                }
+            }
+            if (about != '') {
+                secs[i].setAttribute('typeof', 'bibo:Chapter') ;
+                secs[i].setAttribute('about', about) ;
+            }
+        }
     },
     
     saveMenu: null,
@@ -206,6 +282,15 @@ berjon.respec.prototype = {
         butH.onclick = function () { obj.hideSaveOptions(); obj.toHTML(); };
         var butS = sn.element("button", {}, this.saveMenu, "Save as HTML (Source)");
         butS.onclick = function () { obj.hideSaveOptions(); obj.toHTMLSource(); };
+        var butS = sn.element("button", {}, this.saveMenu, "Save as XHTML");
+        butS.onclick = function () { obj.hideSaveOptions(); obj.toXHTML(); };
+        var butS = sn.element("button", {}, this.saveMenu, "Save as XHTML (Source)");
+        butS.onclick = function () { obj.hideSaveOptions(); obj.toXHTMLSource(); };
+        if (this.diffTool && (this.previousDiffURI || this.previousURI) ) {
+            var butD = sn.element("button", {}, this.saveMenu, "Diffmark");
+            butD.onclick = function () { obj.hideSaveOptions(); obj.toDiffHTML(); };
+        }
+
     },
     
     hideSaveOptions:    function () {
@@ -225,15 +310,181 @@ berjon.respec.prototype = {
         str += ">\n";
         str += "<html";
         var ats = document.documentElement.attributes;
+        var prefixAtr = '' ;
+
         for (var i = 0; i < ats.length; i++) {
-            str += " " + ats[i].name + "=\"" + this._esc(ats[i].value) + "\"";
+            var an = ats[i].name;
+            if (an == "xmlns" || an == "xml:lang") continue;
+            if (an == "prefix") {
+                prefixAtr = ats[i].value;
+                continue;
+            }
+            str += " " + an + "=\"" + this._esc(ats[i].value) + "\"";
         }
+        if (this.doRDFa) {
+            if (prefixAtr != '') prefixAtr += ' ';
+            prefixAtr += "dcterms: http://purl.org/dc/terms/ bibo: http://purl.org/ontology/bibo/ foaf: http://xmlns.com/foaf/0.1/ xsd: http://www.w3.org/2001/XMLSchema#";
+            str += " prefix=\"" + this._esc(prefixAtr) + "\"";
+        }
+
         str += ">\n";
         str += document.documentElement.innerHTML;
         str += "</html>";
         return str;
     },
+
+    toXML:        function () {
+        var str = "<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html";
+        var dt = document.doctype;
+        if (dt && dt.publicId) {
+            str += " PUBLIC '" + dt.publicId + "' '" + dt.systemId + "'";
+        }
+        else { 
+            if (this.doRDFa) {
+                // use the standard RDFa doctype
+                str += " PUBLIC '-//W3C//DTD XHTML+RDFa 1.0//EN' 'http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd'";
+            } else {
+                str += " PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'";
+            }
+        }
+        str += ">\n";
+        str += "<html";
+        var ats = document.documentElement.attributes;
+        var prefixAtr = '' ;
+
+        var hasxmlns = 0 ;
+        for (var i = 0; i < ats.length; i++) {
+            var an = ats[i].name;
+            if (an == "lang" ) {
+                continue ;
+            }
+            if (an == "xmlns" ) {
+                hasxmlns = 1;
+            }
+            if (an == "prefix") {
+                prefixAtr = ats[i].value;
+                continue;
+            }
+            str += " " + an + "=\"" + this._esc(ats[i].value) + "\"";
+        }
+        if (!hasxmlns) {
+            str += ' xmlns="http://www.w3.org/1999/xhtml"';
+        }
+        if (this.doRDFa) {
+            str += " xmlns:dcterms='http://purl.org/dc/terms/' xmlns:bibo='http://purl.org/ontology/bibo/' xmlns:foaf='http://xmlns.com/foaf/0.1/' xmlns:xsd='http://www.w3.org/2001/XMLSchema#'";
+            if (prefixAtr != '') {
+                var list = prefixAtr.split(/\s+/) ;
+                for (var i = 0; i < list.length; i += 2) {
+                    var n = list[i] ;
+                    n = n.replace(/:$/,'');
+                    str += ' xmlns:'+n+'="' + list[i+1] + '"';
+                }
+            }
+        }
+
+        str += ">\n";
+        // walk the entire DOM tree grabbing nodes and emitting them - possibly modifying them
+        // if they need the funny closing tag
+        var pRef = this ;
+        var closers = [ "br", "img", "input", "area", "base", "basefont", "col", "isindex", "link", "meta", "param", "hr"] ;
+        var dumpNode = function(node) {
+            var out = '' ;
+            // if the node is the document node.. process the children
+            if ( node.nodeType == 9 || ( node.nodeType == 1 && node.nodeName.toLowerCase() == 'html' ) ) {
+                var children = node.childNodes;
+                var cLen = children.length ;
+                if (cLen) {
+                    for (var i = 0; i < cLen; i++) {
+                        out += dumpNode(children[i]) ;
+                    }
+                }
+            } else 
+            // if the node is an element, process it
+            if ( node.nodeType == 1 ) {
+                var ename = node.nodeName.toLowerCase() ;
+                var empty = 0 ;
+                for (var i = 0; i < closers.length; i++) {
+                    if (ename == closers[i]) {
+                        empty = 1;
+                    }
+                }
+                out += '<' + ename ;
+                var attrs = node.attributes;
+                var aLen = attrs.length ;
+                if (aLen) {
+                    for (var i = 0; i < aLen; i++) {
+                        out += " " + attrs[i].name + "=\"" + pRef._esc(attrs[i].value) + "\"";
+                    }
+                }
+                if (empty) {
+                    out += ' />';
+                } else {
+                    out += '>' ;
+                    if ( ename == 'pre' ) {
+                        out += "\n" + node.innerHTML;
+                    } else {
+                        var children = node.childNodes;
+                        var cLen = children.length ;
+                        if (cLen) {
+                            for (var i = 0; i < cLen; i++) {
+                                out += dumpNode(children[i]) ;
+                            }
+                        }
+                    }
+                    out += '</' + ename + '>' ;
+                }
+            } else if (node.nodeType == 8 ) {
+                out += "\n<!-- " + node.nodeValue + " -->\n";
+            } else {
+                // otherwise, return the content of the node as a string
+                out += node.nodeValue ;
+            }
+            return out ;
+        };
+        var node = document.documentElement;
+        str += dumpNode(document.documentElement) ;
+        str += "</html>";
+        return str;
+
+    },
     
+    toDiffHTMLSource:  function () {
+
+    },
+
+    toDiffHTML:  function () {
+        // create a diff marked version against the previousURI
+        // strategy - open a window in which there is a form with the
+        // data needed for diff marking - submit the form so that the response populates 
+        // page with the diff marked version
+        var base = window.location.href;
+        base = base.replace(/\/[^\/]*$/, "/");
+        var str = "<!DOCTYPE html>\n";
+        str += "<html";
+        var ats = document.documentElement.attributes;
+        for (var i = 0; i < ats.length; i++) {
+            str += " " + ats[i].name + "=\"" + this._esc(ats[i].value) + "\"";
+        }
+        str += ">\n";
+        str += "<head><title>diff form</title></head>\n";
+        str += "<body><form name='form' method='POST' action='" + this.diffTool + "'>\n";
+        str += "<input type='hidden' name='base' value='" + base + "'>\n";
+        if (this.previousDiffURI) {
+            str += "<input type='hidden' name='oldfile' value='" + this.previousDiffURI + "'>\n"; 
+        } else {
+            str += "<input type='hidden' name='oldfile' value='" + this.previousURI + "'>\n";
+        }
+        str += '<input type="hidden" name="newcontent" value="' + this._esc(this.toString()) + '">\n';
+        str += '<p>Please wait...</p>';
+        str += "</form></body></html>\n";
+
+
+        var x = window.open() ;
+        x.document.write(str) ;
+        x.document.close() ;
+        x.document.form.submit() ;
+    },
+
     toHTML:    function () {
         var x = window.open();
         x.document.write(this.toString());
@@ -246,6 +497,18 @@ berjon.respec.prototype = {
         x.document.close();
     },
     
+    toXHTML:    function () {
+        var x = window.open();
+        x.document.write(this.toXML()) ;
+        x.document.close();
+    },
+    
+    toXHTMLSource:    function () {
+        var x = window.open();
+        x.document.write("<pre>" + this._esc(this.toXML()) + "</pre>");
+        x.document.close();
+    },
+    
     // --- METADATA -------------------------------------------------------
     extractConfig:    function () {
         this.title = document.title;
@@ -254,20 +517,34 @@ berjon.respec.prototype = {
         else              cfg = {};
         // defaulting
         if (!cfg.specStatus) cfg.specStatus = "ED";
-        if (!cfg.publishDate) cfg.publishDate = new Date();
-        else cfg.publishDate = this._parseDate(cfg.publishDate);
+        // the below is experimental, use this if it fails:
+        // cfg.publishDate = new Date();
+        if (!cfg.publishDate) {
+            cfg.publishDate = this._parseLastModified(document.lastModified);
+        }
+        else {
+            cfg.publishDate = this._parseDate(cfg.publishDate);
+        }
         if (cfg.previousPublishDate) cfg.previousPublishDate = this._parseDate(cfg.previousPublishDate);
-        if (cfg.previousPublishDate && ! cfg.previousMaturity) error("Previous date is set, but not previousMaturity");
+        if (cfg.previousPublishDate && ! cfg.previousMaturity && cfg.specStatus.indexOf("finding") === -1) 
+            error("Previous date is set, but not previousMaturity");
         if (cfg.lcEnd) cfg.lcEnd = this._parseDate(cfg.lcEnd);
+        if (cfg.crEnd) cfg.crEnd = this._parseDate(cfg.crEnd);
         if (cfg.specStatus == "LC" && !cfg.lcEnd) error("If specStatus is set to LC, then lcEnd must be defined");
+        if (cfg.specStatus == "CR" && !cfg.crEnd) error("If specStatus is set to CR, then crEnd must be defined");
         if (!cfg.editors) cfg.editors = [];
         if (!cfg.authors) cfg.authors = [];
-        if (!cfg.inlineCSS) cfg.inlineCSS = true;
+        if (!cfg.alternateFormats) cfg.alternateFormats = [];
+        if (cfg.inlineCSS === undefined) cfg.inlineCSS = true;
         if (!cfg.noIDLSorting) cfg.noIDLSorting = false;
-        if (!cfg.noIDLIn) cfg.noIDLIn = false;
+        if (cfg.noIDLIn === undefined) cfg.noIDLIn = true;
+        if (cfg.tocIntroductory === undefined) cfg.tocIntroductory = false;
         if (!cfg.maxTocLevel) cfg.maxTocLevel = 0;
+        if (!cfg.diffTool) cfg.diffTool = 'http://www5.aptest.com/standards/htmldiff/htmldiff.pl';
+        if (!cfg.noRecTrack) cfg.noRecTrack = false;
+        if (!cfg.doRDFa) cfg.doRDFa = false;
         for (var k in cfg) this[k] = cfg[k];
-        this.isRecTrack = this.recTrackStatus.indexOf(this.specStatus) >= 0;
+        this.isRecTrack = cfg.noRecTrack ? false : this.recTrackStatus.indexOf(this.specStatus) >= 0;
         this.isNoTrack = this.noTrackStatus.indexOf(this.specStatus) >= 0;
         // this.specStatus = this._getMetaFor("http://berjon.com/prop/spec-status", "ED");
         // this.shortName = this._getMetaFor("http://berjon.com/prop/short-name", "xxx-xxx");
@@ -305,6 +582,11 @@ berjon.respec.prototype = {
     rootAttr:   function () {
         document.documentElement.setAttribute("lang", "en");
         document.documentElement.setAttribute("dir", "ltr");
+        if (this.doRDFa) {
+            document.documentElement.setAttribute("about", "");
+            document.documentElement.setAttribute("property", "dcterms:language");
+            document.documentElement.setAttribute("content", "en");
+        }
     },
     
     addCSS: function () {
@@ -312,7 +594,14 @@ berjon.respec.prototype = {
             for (var i = 0; i < this.extraCSS.length; i++) this._insertCSS(this.extraCSS[i], this.inlineCSS);
         }
         var statStyle = this.specStatus;
-        if (statStyle == "FPWD" || statStyle == "LC") statStyle = "WD";
+        if (statStyle == "FPWD" || statStyle == "LC" || statStyle == "WD-NOTE" || statStyle == "LC-NOTE" || statStyle == "FPWD-NOTE")  {
+            statStyle = "WD";
+        } 
+        else if (statStyle === "finding" || statStyle === "draft-finding") statStyle = "base";
+// else if ( statStyle == "WD-NOTE" || statStyle == "LC-NOTE"
+//        || statStyle == "FPWD-NOTE") {
+//            statStyle = "WG-NOTE";
+//        }
         var css;
         if (statStyle == "unofficial") {
             css = "http://www.w3.org/StyleSheets/TR/w3c-unofficial";
@@ -325,7 +614,57 @@ berjon.respec.prototype = {
         }
         this._insertCSS(css, false);
     },
-    
+
+    doTransforms: function() {
+        var divs = document.querySelectorAll("[data-transform]");
+        for (var i = 0; i < divs.length; i++) {
+            var div = divs[i];
+            var content = div.innerHTML ;
+            var flist = div.getAttribute('data-transform');
+            if (flist) {
+                var methods = flist.split(/\s+/) ;
+                for (var j = 0; j < methods.length; j++) {
+                    var call = 'content = ' + methods[j] + '(this,content)' ;
+                    try {
+                        eval(call) ;
+                    } catch (e) {
+                        warning('call to ' + call + ' failed with ' + e) ;
+                    }
+                }
+                div.removeAttribute('data-transform') ;
+            }
+            if (content) {
+                div.innerHTML = content ;
+            }
+        }
+    },
+
+    includeFiles: function() {
+        var divs = document.querySelectorAll("[data-include]");
+        for (var i = 0; i < divs.length; i++) {
+            var div = divs[i];
+            var URI = div.getAttribute('data-include');
+            var content = this._readFile(URI) ;
+            if (content) {
+                var flist = div.getAttribute('data-oninclude');
+                if (flist) {
+                    var methods = flist.split(/\s+/) ;
+                    for (var j = 0; j < methods.length; j++) {
+                        var call = 'content = ' + methods[j] + '(this,content,URI)' ;
+                        try {
+                            eval(call) ;
+                        } catch (e) {
+                            warning('call to ' + call + ' failed with ' + e) ;
+                        }
+                    }
+                    div.removeAttribute('data-oninclude') ;
+                }
+                div.removeAttribute('data-include') ;
+                div.innerHTML = content ;
+            }
+        }
+    },
+
     // single function used to display people information for editors,
     // authors, etc (fjh 2009-12-04)
 
@@ -333,42 +672,118 @@ berjon.respec.prototype = {
         var header = "";
 
         if (people.length == 0) return header;
+        var re = '' ;
+        var rp = '' ;
+        var rl = '' ;
+        var rt = '' ;
+        var rm = '' ;
+        var rn = '' ;
+        var rwu = '' ;
+        var rpu = '' ;
+        if ( this.doRDFa ) {
+            if ( name == 'Editor' ) {
+                re = " rel='bibo:editor'";
+                rn = " property='foaf:name'";
+                rm = " rel='foaf:mbox'";
+                rp = " typeof='foaf:Person'";
+                rwu = " rel='foaf:workplaceHomepage'";
+                rpu = " rel='foaf:homepage'";
+            } else if (name == 'Author' ) {
+                re = " rel='dcterms:contributor'";
+                rn = " property='foaf:name'";
+                rm = " rel='foaf:mbox'";
+                rp = " typeof='foaf:Person'";
+                rwu = " rel='foaf:workplaceHomepage'";
+                rpu = " rel='foaf:homepage'";
+            }
+        }
 
         if (people.length > 1) {
-            header += "<dt>" + name + "s:</dt>";
+            header += "<dt" + rl  + ">" + name + "s:</dt>";
         } else {
             header += "<dt>" + name + ":</dt>";
         }
 
+
         for (var i = 0; i < people.length; i++) {
             var pers = people[i];
-            header += "<dd>";
-            if (pers.url) {
-                header += "<a href='" + pers.url + "'>" + pers.name + "</a>";
+            if (this.doRDFa) {
+                header += "<dd" + re +"><span" + rp + ">";
             } else {
-                header += pers.name;
+                header += "<dd>";
+            }
+            if (pers.url) {
+                if (this.doRDFa) {
+                    header += "<a" + rpu + rn + " content='" + pers.name +  "' href='" + pers.url + "'>" + pers.name + "</a>";
+                } else {
+                    header += "<a href='" + pers.url + "'>"+ pers.name + "</a>";
+                }
+            } else {
+                header += "<span" + rn + ">" + pers.name + "</span>";
             }
             if (pers.company) {
                 header += ", ";
                 if (pers.companyURL) {
-                    header += "<a href='" + pers.companyURL + "'>" +
-            pers.company + "</a>";
+                    header += "<a" + rwu + " href='" + pers.companyURL + "'>" + pers.company + "</a>";
                 } else {
                     header += pers.company;
                 }
             }
             if (pers.mailto) {
-                header += " <a href='mailto:" + pers.mailto + "'>" + pers.mailto + "</a> ";
+                header += " <span class='ed_mailto'><a" + rm + " href='mailto:" + pers.mailto + "'>" + pers.mailto + "</a></span> ";
             }
             if (pers.note) {
                 header += " ( " + pers.note + " )";
             }
-            header += "</dd>";
+            if (this.doRDFa) {
+                header += "</span>\n";
+            }
+            header += "</dd>\n";
         }
         return header;
     },
+    
+    makeTAGHeaders:    function () {
+        var base = "http://www.w3.org/2001/tag/doc/",
+            latestVersion = base + this.shortName,
+            thisVersion = latestVersion + "-" + this._concatDate(this.publishDate, "-"),
+            header = "<div class='head'><p>" +
+                     "<a href='http://www.w3.org/'><img width='72' height='48' src='http://www.w3.org/Icons/w3c_home' alt='W3C'/></a>";
+        header += "<h1 class='title' id='title'>" + this.title + "</h1>";
+        if (this.subtitle) header += "<h2 id='subtitle'>" + this.subtitle + "</h2>";
+        header += "<h2>" + this.status2text[this.specStatus] + " " + this._humanDate(this.publishDate) + "</h2><dl>";
+        header += "<dt>This version:</dt><dd><a href='" + thisVersion + "'>" + thisVersion + "</a></dd>\n" + 
+                  "<dt>Latest published version:</dt><dd><a href='" + latestVersion + "'>" + latestVersion + "</a></dd>"; 
+        if (this.edDraftURI) {
+            header += "<dt>Latest editor's draft:</dt><dd><a href='" + this.edDraftURI + "'>" + this.edDraftURI + "</a></dd>";
+        }
+        if (this.previousPublishDate) {
+            var prevVersion = latestVersion + "-" + this._concatDate(this.previousPublishDate, "-");
+            header += "<dt>Previous version:</dt><dd><a href='" + prevVersion + "'>" + prevVersion + "</a></dd>"; 
+        }
+        if(this.editors.length == 0) {
+            header += "<dt>" + "Editor" + ":</dt>";
+            error("There must be at least one editor.");
+        }
+        header += this.showPeople("Editor", this.editors);
+        header += this.showPeople("Author", this.authors);
+        header += "</dl><p class='copyright'>";
+        header += 
+            "<a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'>Copyright</a> &copy; " ;
+        if (this.copyrightStart && this.copyrightStart != this.publishDate.getFullYear()) header += this.copyrightStart + '-';
+        header += this.publishDate.getFullYear();
+        header += " <a href='http://www.w3.org/'><acronym title='World Wide Web Consortium'>W3C</acronym></a><sup>&reg;</sup> " +
+            "(<a href='http://www.csail.mit.edu/'><acronym title='Massachusetts Institute of Technology'>MIT</acronym></a>, " +
+            "<a href='http://www.ercim.eu/'><acronym title='European Research Consortium for Informatics and Mathematics'>ERCIM</acronym></a>, " +
+            "<a href='http://www.keio.ac.jp/'>Keio</a>), All Rights Reserved. " +
+            "W3C <a href='http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer'>liability</a>, " + 
+            "<a href='http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks'>trademark</a> and " +
+            "<a href='http://www.w3.org/Consortium/Legal/copyright-documents'>document use</a> rules apply." +
+            "</p><hr/></div>";
+        return header;
+    },
 
-    makeHeaders:    function () {
+    makeNormalHeaders:    function () {
         var mat = (this.status2maturity[this.specStatus]) ? this.status2maturity[this.specStatus] : this.specStatus;
         var thisVersion = "http://www.w3.org/TR/" + this.publishDate.getFullYear() + "/" + mat + "-" +
                           this.shortName + "-" + this._concatDate(this.publishDate) + "/";
@@ -376,9 +791,14 @@ berjon.respec.prototype = {
         var latestVersion, prevVersion;
         if (this.previousPublishDate) {
             var pmat = (this.status2maturity[this.previousMaturity]) ? this.status2maturity[this.previousMaturity] : this.previousMaturity;
-            var prevURI = "http://www.w3.org/TR/" + this.previousPublishDate.getFullYear() + "/" + pmat + "-" +
-                          this.shortName + "-" + this._concatDate(this.previousPublishDate) + "/";
-            prevVersion = "<a href='" + prevURI + "'>" + prevURI + "</a>";
+            if (!this.previousURI) {
+                this.previousURI = "http://www.w3.org/TR/" + this.previousPublishDate.getFullYear() + "/" + pmat + "-" + this.shortName + "-" + this._concatDate(this.previousPublishDate) + "/";
+            }
+            if (this.doRDFa) {
+                prevVersion = "<a rel='dcterms:replaces' href='" + this.previousURI + "'>" + this.previousURI + "</a>";
+            } else {
+                prevVersion = "<a href='" + this.previousURI + "'>" + this.previousURI + "</a>";
+            }
             // var latestURI = "http://www.w3.org/TR/" + this.shortName + "/";
             // latestVersion = "<a href='" + latestURI + "'>" + latestURI + "</a>";
         }
@@ -388,21 +808,55 @@ berjon.respec.prototype = {
         }
         var latestURI = "http://www.w3.org/TR/" + this.shortName + "/";
         latestVersion = "<a href='" + latestURI + "'>" + latestURI + "</a>";
-        var header = 
-            "<div class='head'>" + 
-            "<p>" +
-            "<h1>" + this.title + "</h1>" +
-            "<h2>" + this.status2text[this.specStatus] + " " + this._humanDate(this.publishDate) + "</h2><dl>";
-        if (!this.isNoTrack)
-            header += "<dt>This Version:</dt><dd><a href='" + thisVersion + "'>" + thisVersion + "</a></dd>" + 
-                      "<dt>Latest Published Version:</dt><dd>" + latestVersion + "</dd>" + 
-                      "<dt>Latest Editor's Draft:</dt><dd><a href='" + this.edDraftURI + "'>" + this.edDraftURI + "</a></dd>";
-        if (this.specStatus != "FPWD" && !this.isNoTrack)
-            header += "<dt>Previous version:</dt><dd>" + prevVersion + "</dd>";
+        var header = "<div class='head'><p>";
+        if (this.specStatus != "unofficial")
+            header += "<a href='http://www.w3.org/'><img width='72' height='48' src='http://www.w3.org/Icons/w3c_home' alt='W3C'/></a>";
+        if (this.specStatus == 'XGR') 
+            header += "<a href='http://www.w3.org/2005/Incubator/XGR/'><img alt='W3C Incubator Report' src='http://www.w3.org/2005/Incubator/images/XGR' height='48' width='160'/></a>";
+        if ( this.doRDFa ) {
+            header +=
+                "<h1 property='dcterms:title' class='title' id='title'>" + this.title + "</h1>" ;
+            if (this.subtitle) {
+                header += "<h2 property='bibo:subtitle' id='subtitle'>" + this.subtitle + "</h2>" ;
+            }
+            header +=
+                "<h2 property='dcterms:issued' datatype='xsd:dateTime' content='" + this._ISODate(this.publishDate) + "'>" + (this.specStatus == "unofficial" ? "" : "W3C ") + 
+                this.status2text[this.specStatus] + " " + this._humanDate(this.publishDate) + "</h2><dl>";
+        } else {
+            header +=
+                "<h1 class='title' id='title'>" + this.title + "</h1>" ;
+            if (this.subtitle) {
+                header += "<h2 id='subtitle'>" + this.subtitle + "</h2>" ;
+            }
+            header +=
+                "<h2>" + (this.specStatus == "unofficial" ? "" : "W3C ") + 
+                this.status2text[this.specStatus] + " " + this._humanDate(this.publishDate) + "</h2><dl>";
+        }
+        if (!this.isNoTrack) {
+            header += "<dt>This version:</dt><dd><a href='" + thisVersion + "'>" + thisVersion + "</a></dd>" + 
+                      "<dt>Latest published version:</dt><dd>" + latestVersion + "</dd>"; 
+            if (this.edDraftURI) {
+                header += "<dt>Latest editor's draft:</dt><dd><a href='" + this.edDraftURI + "'>" + this.edDraftURI + "</a></dd>";
+            }
+        }
+        if (this.testSuiteURI) {
+        	header += "<dt>Test suite:</dt><dd><a href='" + this.testSuiteURI + "'>" + this.testSuiteURI + "</a></dd>";
+        }
+        if (this.implementationReportURI) {
+        	header += "<dt>Implementation report:</dt><dd><a href='" + this.implementationReportURI + "'>" + this.implementationReportURI + "</a></dd>";
+        }
+        if (this.specStatus != "FPWD" && this.specStatus != "FPWD-NOTE" &&
+            !this.isNoTrack) {
+            if (!this.prevED) {
+                header += "<dt>Previous version:</dt><dd>" + prevVersion + "</dd>";
+            } else {
+                header += "<dt>Previous editor's draft:</dt><dd>" + prevED + "</dd>";
+            }
+        }
 
         if (this.prevRecShortname) {
             var prevRecURI = "http://www.w3.org/TR/" + this.prevRecShortname + "/";
-            header += "<dt>Latest Recommendation:</dt><dd>" + 
+            header += "<dt>Latest recommendation:</dt><dd>" + 
                 '<a href="' + prevRecURI + '">' + prevRecURI + "</a></dd>";
         }
 
@@ -412,25 +866,86 @@ berjon.respec.prototype = {
         }
         header += this.showPeople("Editor", this.editors);
         header += this.showPeople("Author", this.authors);
+        header += "</dl>";
 
-        header += "</dl><p class='copyright'>";
-        /*
-        header += "</dl><p class='copyright'><a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'>Copyright</a> © " + 
-            this.publishDate.getFullYear(); */
-        if (this.additionalCopyrightHolders) {
-            header += " " + this.additionalCopyrightHolders;
+        if (this.errata) {
+            header += '<p>Please refer to the <a href="' + this.errata + '">errata</a> for this document, which may include some normative corrections.</p>';
         }
-/*
-        header += " <a href='http://www.w3.org/'><acronym title='World Wide Web Consortium'>W3C</acronym></a><sup>®</sup> " + 
-            "(<a href='http://www.csail.mit.edu/'><acronym title='Massachusetts Institute of Technology'>MIT</acronym></a>, " +
-            "<a href='http://www.ercim.eu/'><acronym title='European Research Consortium for Informatics and Mathematics'>ERCIM</acronym></a>, " +
-            "<a href='http://www.keio.ac.jp/'>Keio</a>), All Rights Reserved. " +
-            "W3C <a href='http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer'>liability</a>, " + 
-            "<a href='http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks'>trademark</a> and " +
-            "<a href='http://www.w3.org/Consortium/Legal/copyright-documents'>document use</a> rules apply.</p><hr/></div>";
-*/
-        header += "</p><hr/></div>";
-        
+
+        if (this.alternateFormats.length > 0) {
+            var len = this.alternateFormats.length ;
+            if (len == 1) {
+                header += '<p>This document is also available in this non-normative format: ';
+            } else {
+                header += '<p>This document is also available in these non-normative formats: ';
+            }
+            for (var f = 0; f < len; f++) {
+                if (f > 0) {
+                    if ( len == 2) {
+                        header += ' ';
+                    } else {
+                        header += ', ' ;
+                    }
+                    if (f == len - 1) {
+                        header += 'and ';
+                    }
+                }
+                var ref = this.alternateFormats[f] ;
+                header += "<a href='" + ref.uri + "'>" + ref.label + "</a>" ;
+            }
+            header += '.</p>';
+        }
+
+        if (this.specStatus == "REC")
+            header += '<p>The English version of this specification is the only normative version. Non-normative <a href="http://www.w3.org/Consortium/Translation/">translations</a> may also be available.</p>';
+
+        if (this.specStatus == "unofficial") {
+            var copyright;
+            if (this.additionalCopyrightHolders) copyright = "<p class='copyright'>" + this.additionalCopyrightHolders + "</p>";
+            else if (this.overrideCopyright) copyright = this.overrideCopyright;
+            else copyright = "<p class='copyright'>This document is licensed under a <a class='subfoot' href='http://creativecommons.org/licenses/by/3.0/' rel='license'>Creative Commons Attribution 3.0 License</a>.</p>";
+            header += copyright;
+        }
+        else {
+            if (this.overrideCopyright) {
+                header += this.overrideCopyright;
+            }
+            else {
+                header += "<p class='copyright'>";
+                if (this.doRDFa) {
+                    header += "<a rel='license' href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'>Copyright</a> &copy; ";
+                }
+                else {
+                    header += "<a href='http://www.w3.org/Consortium/Legal/ipr-notice#Copyright'>Copyright</a> &copy; ";
+                }
+                if (this.copyrightStart) {
+                    header += this.copyrightStart + '-';
+                }
+                header += this.publishDate.getFullYear();
+                if (this.additionalCopyrightHolders) header += " " + this.additionalCopyrightHolders + " &amp;";
+                if (this.doRDFa) {
+                    header += " <span rel='dcterms:publisher'><span typeof='foaf:Organization'><a rel='foaf:homepage' property='foaf:name' content='World Wide Web Consotrium' href='http://www.w3.org/'><acronym title='World Wide Web Consortium'>W3C</acronym></a><sup>&reg;</sup></span></span> ";
+                } else {
+                    header += " <a href='http://www.w3.org/'><acronym title='World Wide Web Consortium'>W3C</acronym></a><sup>&reg;</sup> ";
+                }
+                header +=
+                    "(<a href='http://www.csail.mit.edu/'><acronym title='Massachusetts Institute of Technology'>MIT</acronym></a>, " +
+                    "<a href='http://www.ercim.eu/'><acronym title='European Research Consortium for Informatics and Mathematics'>ERCIM</acronym></a>, " +
+                    "<a href='http://www.keio.ac.jp/'>Keio</a>), All Rights Reserved. " +
+                    "W3C <a href='http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer'>liability</a>, " + 
+                    "<a href='http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks'>trademark</a> and " +
+                    "<a href='http://www.w3.org/Consortium/Legal/copyright-documents'>document use</a> rules apply.</p>";
+
+            }
+        }
+        header += "<hr/></div>";
+        return header;
+    },
+    
+    makeHeaders:    function () {
+        var header;
+        if (this.specStatus === "finding" || this.specStatus === "draft-finding") header = this.makeTAGHeaders();
+        else header = this.makeNormalHeaders();
         var tmp = sn.element("div");
         tmp.innerHTML = header;
         document.body.insertBefore(tmp.firstChild, document.body.firstChild);
@@ -439,35 +954,47 @@ berjon.respec.prototype = {
     makeAbstract:    function () {
         var abs = document.getElementById("abstract");
         if (!abs) error("Document must have one element with ID 'abstract'");
-        // var div = sn.renameEl(abs, "div");
-        // div.setAttribute("class", "section");
         var h2 = sn.element("h2", {}, null, "Abstract");
         abs.insertBefore(h2, abs.firstChild);
-        // abs.setAttribute("class", "introductory");
         sn.addClass(abs, "introductory");
     },
     
     makeSotD:     function () {
         var sotd;
-        if (this.isNoTrack) {
+        var mat = (this.status2maturity[this.specStatus]) ? this.status2maturity[this.specStatus] : this.specStatus;
+        var custom = document.getElementById("sotd");
+
+        if (this.specStatus == "unofficial") {
+            sotd = "<section id='sotd' class='introductory'><h2>Status of This Document</h2>" +
+            "<p>This document is merely a public working draft of a potential specification. It has " +
+            "no official standing of any kind and does not represent the support or consensus of any " +
+            "standards organisation.</p>";
+            if (custom) sotd += custom.innerHTML;
+            sotd += "</section>";
+        }
+        else if (this.specStatus === "finding" || this.specStatus === "draft-finding") {
+            sotd = "<section id='sotd' class='introductory'><h2>Status of This Document</h2>";
+            if (custom) sotd += custom.innerHTML;
+            else sotd += "<p style='color: red'>ReSpec does not support automated SotD generation for TAG findings, please specify one using a &lt;section> element with ID=sotd.</p>";
+            sotd += "</section>";
+        }
+        else if (this.isNoTrack) {
             var mc = (this.specStatus == "MO") ? " member-confidential" : "";
             sotd = "<section id='sotd' class='introductory'><h2>Status of This Document</h2>" +
-                "<p>This document is merely a draft PaySwarm Exploratory Group" + mc + " document. It has no "+
-                "official standing of any kind and does not represent consensus of the Web community.</p></section>";
+                "<p>This document is merely a W3C-internal" + mc + " document. It has no "+
+                "official standing of any kind and does not represent consensus of the W3C Membership.</p>";
+            if (custom) sotd += custom.innerHTML;
+            sotd += "</section>";
         }
         else {
             var art = "a ";
-            var custom = document.getElementById("sotd");
             if (this.specStatus == "ED" || this.specStatus == "XGR" || this.specStatus == "IG-NOTE") art = "an ";
             sotd = "<section id='sotd' class='introductory'><h2>Status of This Document</h2>" +
                 "<p><em>This section describes the status of this document at the time of its publication. Other " +
                 "documents may supersede this document. A list of current W3C publications and the latest revision " +
                 "of this technical report can be found in the <a href='http://www.w3.org/TR/'>W3C technical reports " +
                 "index</a> at http://www.w3.org/TR/.</em></p>";
-            if (custom) {
-                sotd += custom.innerHTML;
-                custom.parentNode.removeChild(custom);
-            }
+            if (custom) sotd += custom.innerHTML;
             sotd +=
                 "<p>This document was published by the <a href='" + this.wgURI + "'>" + this.wg + "</a> as " + art + this.status2long[this.specStatus] + ".";
             if (this.isRecTrack && this.specStatus != "REC") sotd += " This document is intended to become a W3C Recommendation.";
@@ -476,6 +1003,10 @@ berjon.respec.prototype = {
                 this.wgPublicList + "@w3.org</a> (<a href='mailto:" + this.wgPublicList + "-request@w3.org?subject=subscribe'>subscribe</a>, " +
                 "<a href='http://lists.w3.org/Archives/Public/" + this.wgPublicList + "/'>archives</a>).";
             if (this.specStatus == "LC") sotd += " The Last Call period ends " + this._humanDate(this.lcEnd) + ".";
+            if (this.specStatus == "CR") sotd += " W3C publishes a Candidate Recommendation to indicate that the document is believed" +
+                                                 " to be stable and to encourage implementation by the developer community. This" +
+                                                 " Candidate Recommendation is expected to advance to Proposed Recommendation no earlier than " +
+                                                 this._humanDate(this.crEnd) + ".";
             sotd += " All feedback is welcome.</p>";
             if (this.specStatus != "REC") {
                 sotd += "<p>Publication as a " + this.status2text[this.specStatus] + " does not imply endorsement by the W3C Membership. " +
@@ -487,13 +1018,22 @@ berjon.respec.prototype = {
                         "relevant technical requirements and is sufficiently stable to advance through the Technical Recommendation process.</p>";
             sotd +=
                 "<p>This document was produced by a group operating under the <a href='http://www.w3.org/Consortium/Patent-Policy-20040205/'>5 February " +
-                "2004 W3C Patent Policy</a>. W3C maintains a <a href='" + this.wgPatentURI + "' rel='disclosure'>public list of any patent disclosures</a> " +
+                "2004 W3C Patent Policy</a>.";
+
+			if (!this.isRecTrack && mat == "WD")
+				sotd += " The group does not expect this document to become a W3C Recommendation.";
+			
+			sotd +=
+				" W3C maintains a <a href='" + this.wgPatentURI + "' rel='disclosure'>public list of any patent disclosures</a> " +
                 "made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An " +
                 "individual who has actual knowledge of a patent which the individual believes contains " +
                 "<a href='http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential'>Essential Claim(s)</a> must disclose the " +
                 "information in accordance with <a href='http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure'>section " +
-                "6 of the W3C Patent Policy</a>.</p></section>";
+                "6 of the W3C Patent Policy</a>.</p>";
+            if (this.addPatentNote) sotd += "<p>" + this.addPatentNote + "</p>";
+            sotd += "</section>";
         }
+        if (custom) custom.parentNode.removeChild(custom);
 
         var tmp = sn.element("div");
         tmp.innerHTML = sotd;
@@ -529,7 +1069,7 @@ berjon.respec.prototype = {
         var exes = document.querySelectorAll("pre.example");
         for (var i = 0; i < exes.length; i++) {
             var ex = exes[i];
-            var lines = ex.textContent.split("\n");
+            var lines = ex.innerHTML.split("\n");
             while (lines.length && /^\s*$/.test(lines[0])) lines.shift();
             while (/^\s*$/.test(lines[lines.length - 1])) lines.pop();
             var matches = /^(\s+)/.exec(lines[0]);
@@ -539,7 +1079,7 @@ berjon.respec.prototype = {
                     lines[j] = lines[j].replace(rep, "");
                 }
             }
-            ex.textContent = lines.join("\n");
+            ex.innerHTML = lines.join("\n");
         }
         // highlight
         sh_highlightDocument(this.base + "js/lang/", ".min.js");
@@ -569,11 +1109,14 @@ berjon.respec.prototype = {
     lastNonAppendix:    0,
     alphabet:   "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
     makeTOCAtLevel:    function (parent, current, level) {
-        var secs = sn.findNodes("./x:section[not(@class='introductory')]|./section[not(@class='introductory')]", parent);
+        var xpath = this.tocIntroductory ? "./x:section|./section" :
+                                           "./x:section[not(@class='introductory')]|./section[not(@class='introductory')]"
+        var secs = sn.findNodes(xpath, parent);
         if (secs.length == 0) return null;
         var ul = sn.element("ul", { "class": "toc" });
         for (var i = 0; i < secs.length; i++) {
-            var sec = secs[i];
+            var sec = secs[i],
+                isIntro = sn.hasClass(sec, "introductory");
             if (!sec.childNodes.length) continue;
             var h = sec.firstElementChild;
             var ln = h.localName.toLowerCase();
@@ -601,9 +1144,8 @@ berjon.respec.prototype = {
                 }
             }
             var id = sn.makeID(sec, null, title);
-            current[current.length-1]++;
+            if (!isIntro) current[current.length-1]++;
             var secnos = current.slice();
-            // if (sec.getAttribute("class") == "appendix" && current.length == 1 && !this.appendixMode) {
             if (sn.hasClass(sec, "appendix") && current.length == 1 && !this.appendixMode) {
                 this.lastNonAppendix = current[0];
                 this.appendixMode = true;
@@ -612,19 +1154,26 @@ berjon.respec.prototype = {
             var secno = secnos.join(".");
             if (!/\./.test(secno)) secno = secno + ".";
             var df = sn.documentFragment();
-            sn.element("span", { "class": "secno" }, df, secno + " ");
+            if (!isIntro) sn.element("span", { "class": "secno" }, df, secno + " ");
             // sn.text(" ", df);
             var df2 = df.cloneNode(true);
             h.insertBefore(df, h.firstChild);
+            // if this is a top level item, insert
+            // an OddPage comment so html2ps will correctly
+            // paginate the output
+            if (/\.$/.test(secno)) {
+                var com = document.createComment('OddPage') ;
+                h.parentNode.insertBefore(com, h) ;
+            }
             // sn.text(title, df2);
             df2.appendChild(hKids);
-            var a = sn.element("a", { href: "#" + id }, null, [df2]);
-            sn.element("li", {}, ul, [a]);
+            var a = sn.element("a", { href: "#" + id, 'class' : 'tocxref' }, null, [df2]);
+            var item = sn.element("li", { "class":"tocline" }, ul, [a]);
             
             if (this.maxTocLevel && level >= this.maxTocLevel) continue;
             current.push(0);
             var sub = this.makeTOCAtLevel(sec, current, level + 1);
-            if (sub) sn.element("li", {}, ul, [sub]);
+            if (sub) item.appendChild(sub) ;
             current.pop();
         }
         
@@ -637,7 +1186,7 @@ berjon.respec.prototype = {
             var h = heads[i];
             if (h.hasAttribute("id")) continue;
             var par = h.parentNode;
-            if (par.localName.toLowerCase() == "div" && par.hasAttribute("id") && !h.previousElementSibling) continue;
+            if (par.localName.toLowerCase() == "section" && par.hasAttribute("id") && !h.previousElementSibling) continue;
             sn.makeID(h, null);
         }
     },
@@ -661,16 +1210,15 @@ berjon.respec.prototype = {
             if (a.length < b.length) return 1;
             return 0;
         });
-        var abbrRx = "(?:\\b" + aKeys.join("\\b)|(?:\\b") + "\\b)";
-                
+        var abbrRx = aKeys.length ? "|(?:\\b" + aKeys.join("\\b)|(?:\\b") + "\\b)" : "";
+        var rx = new RegExp("(\\bMUST(?:\\s+NOT)?\\b|\\bSHOULD(?:\\s+NOT)?\\b|\\bSHALL(?:\\s+NOT)?\\b|" + 
+                            "\\bMAY\\b|\\b(?:NOT\\s+)?REQUIRED\\b|\\b(?:NOT\\s+)?RECOMMENDED\\b|\\bOPTIONAL\\b|" +
+                            "(?:\\[\\[(?:!)?[A-Za-z0-9-]+\\]\\])" +
+                            abbrRx + ")");
         // PROCESSING
         var txts = sn.findNodes(".//text()", document.body);
         for (var i = 0; i < txts.length; i++) {
             var txt = txts[i];
-            var rx = new RegExp("(\\bMUST(?:\\s+NOT)?\\b|\\bSHOULD(?:\\s+NOT)?\\b|\\bSHALL(?:\\s+NOT)?\\b|" + 
-                                "\\bMAY\\b|\\b(?:NOT\\s+)?REQUIRED\\b|\\b(?:NOT\\s+)?RECOMMENDED\\b|\\bOPTIONAL\\b|" +
-                                "(?:\\[\\[(?:!)?[A-Za-z0-9-]+\\]\\])|" +
-                                abbrRx + ")");
             var subtxt = txt.data.split(rx);
             var df = sn.documentFragment();
             while (subtxt.length) {
@@ -698,7 +1246,9 @@ berjon.respec.prototype = {
                             if (norm) norms[ref] = true;
                             else      informs[ref] = true;
                             sn.text("[", df);
-                            sn.element("a", { "class": "bibref", rel: "biblioentry", href: "#bib-" + ref }, df, ref);
+                            // embed a cite with an a inside of it
+                            var el = sn.element("cite", {} , df);
+                            sn.element("a", { "class": "bibref", rel: "biblioentry", href: "#bib-" + ref }, el, ref);
                             sn.text("]", df);
                         }
                         else {
@@ -712,11 +1262,14 @@ berjon.respec.prototype = {
                     }
                     // ABBR
                     else if (abbrMap[matched]) {
-                        sn.element("abbr", { title: abbrMap[matched] }, df, matched);
+                        if (sn.findNodes("ancestor::abbr", txt)) sn.text(matched, df);
+                        else sn.element("abbr", { title: abbrMap[matched] }, df, matched);
                     }
                     // ACRO
                     else if (acroMap[matched]) {
-                        sn.element("acronym", { title: acroMap[matched] }, df, matched);
+                        if (sn.findNodes("ancestor::acronym", txt)) sn.text(matched, df);
+                        else sn.element("acronym", { title: acroMap[matched] }, df, matched);
+                        // sn.element("acronym", { title: acroMap[matched] }, df, matched);
                     }
                     // FAIL
                     else {
@@ -729,12 +1282,12 @@ berjon.respec.prototype = {
         
         // POST-PROCESSING
         // bibref
-    if(badrefcount > 0) {
-        error("Got " + badrefcount + " tokens looking like a reference, not in biblio DB: ");
-        for (var item in badrefs) {
-            error("Bad ref" + item + ", count = " + badrefs[item]);
+        if(badrefcount > 0) {
+            error("Got " + badrefcount + " tokens looking like a reference, not in biblio DB: ");
+            for (var item in badrefs) {
+                error("Bad ref: " + item + ", count = " + badrefs[item]);
+            }
         }
-    }
 
         var del = [];
         for (var k in informs) {
@@ -742,12 +1295,13 @@ berjon.respec.prototype = {
         }
         for (var i = 0; i < del.length; i++) delete informs[del[i]];
 
-    var refsec = sn.element("section", { id: "references", "class": "appendix" }, document.body);
-    sn.element("h2", {}, refsec, "References");
-    if (this.refNote) { 
-        var refnote = sn.element("p", {}, refsec);
-        refnote.innerHTML= this.refNote;
-    }
+        var refsec = sn.element("section", { id: "references", "class": "appendix" }, document.body);
+        sn.element("h2", {}, refsec, "References");
+        if (this.refNote) { 
+            var refnote = sn.element("p", {}, refsec);
+            refnote.innerHTML= this.refNote;
+        }
+
         var types = ["Normative", "Informative"];
         for (var i = 0; i < types.length; i++) {
             var type = types[i];
@@ -760,11 +1314,21 @@ berjon.respec.prototype = {
             refs.sort();
             if (refs.length) {
                 var dl = sn.element("dl", { "class": "bibliography" }, sec);
+                if (this.doRDFa) {
+                    dl.setAttribute('about', '') ;
+                }
                 for (var j = 0; j < refs.length; j++) {
                     var ref = refs[j];
                     sn.element("dt", { id: "bib-" + ref }, dl, "[" + ref + "]");
                     var dd = sn.element("dd", {}, dl);
-                    if (berjon.biblio[ref]) dd.innerHTML = berjon.biblio[ref];
+                    if (this.doRDFa) {
+                        if (type == 'Normative') {
+                            dd.setAttribute('rel','dcterms:requires');
+                        } else {
+                            dd.setAttribute('rel','dcterms:references');
+                        }
+                    }
+                    if (berjon.biblio[ref]) dd.innerHTML = berjon.biblio[ref] + "\n";
                 }
             }
             else {
@@ -781,7 +1345,7 @@ berjon.respec.prototype = {
         for (var i = 0; i < dfns.length; i++) {
             var dfn = dfns[i];
             var title = this._getDfnTitle(dfn);
-            dfnMap[title] = sn.makeID(dfn, "dfn", title);
+            dfnMap[title.toLowerCase()] = sn.makeID(dfn, "dfn", title);
         }
         
         var ants = document.querySelectorAll("a:not([href])");
@@ -789,7 +1353,7 @@ berjon.respec.prototype = {
             var ant = ants[i];
             // if (ant.getAttribute("class") == "externalDFN") continue;
             if (sn.hasClass(ant, "externalDFN")) continue;
-            var title = this._getDfnTitle(ant);
+            var title = this._getDfnTitle(ant).toLowerCase();
             if (dfnMap[title] && !(dfnMap[title] instanceof Function)) {
                 ant.setAttribute("href", "#" + dfnMap[title]);
                 // ant.setAttribute("class", "internalDFN");
@@ -799,6 +1363,82 @@ berjon.respec.prototype = {
                 // we want to use these for other links too
                 // error("No definition for title: " + title);
             }
+        }
+    },
+
+    doBestPractices: function () {
+        this.practiceNum = 1;
+        var spans = document.querySelectorAll("span.practicelab");
+        var contents = "<h2>Best Practices Summary</h2><ul>"
+        // scan all the best practices to number them and add handle
+        // at same time generate summary section contents if section
+        // is provided in source, using links if possible
+        //
+        // probably not the most efficient here but only used for best
+        // practices document
+        for (var i = 0; i < spans.length; i++) {
+            var span = spans[i];
+            var label = span.innerHTML;
+            var ref = span.getAttribute("id");
+            var handle = "Best Practice " + this.practiceNum;
+            var content =  ": " + label;
+            var item = handle + content;
+            if(!ref) {
+                contents += "<li>" + handle + content + "</li>";
+            } else {
+                contents += "<li><a href='#" + ref + "'>" + handle +
+                    "</a>" + content + "</li>";
+            }
+            span.innerHTML = item;
+            this.practiceNum++;
+        }
+        contents += "</ul>";
+
+        var sec = document.getElementById("bp-summary");
+        if(!sec) {
+//             alert("no bp-summary section");
+            return;
+        }
+        sec.innerHTML = contents;
+    },
+    
+    //  <link href="section id" class="sectionRef" />
+
+//     returnObjById: function( id ) 
+//     { 
+//     if (document.getElementById) 
+//         var returnVar = document.getElementById(id); 
+//     else if (document.all) 
+//         var returnVar = document.all[id]; 
+//     else if (document.layers) 
+//         var returnVar = document.layers[id]; 
+//     return returnVar; 
+//     }, 
+
+    makeSectionRefs: function () {
+        var secrefs = document.querySelectorAll("a.sectionRef");
+        for (var i = 0; i < secrefs.length; i++) {
+            var secref = secrefs[i];
+
+            // get the link href and section title
+            var h = secref.getAttribute('href');
+            var id = h.substring(1);
+
+            var sec = document.getElementById(id);
+            var secno = "Not found"+ id;
+            
+            if(sec) {
+                var span = sec.firstElementChild;
+
+                if(span) {
+                    secno = span.textContent;
+                }
+            }
+
+            title = "section " + secno;
+
+            // create new a reference to section using section title
+            secref.innerHTML = title;
         }
     },
     
@@ -812,7 +1452,7 @@ berjon.respec.prototype = {
             var inf = w.definition(idl);
             var df = w.makeMarkup();
             idl.parentNode.replaceChild(df, idl);
-            if (inf.type == "interface" || inf.type == "exception") infNames.push(inf.id);
+            if (inf.type == "interface" || inf.type == "exception" || inf.type == "dictionary") infNames.push(inf.id);
         }
         document.normalize();
         var ants = document.querySelectorAll("a:not([href])");
@@ -869,7 +1509,7 @@ berjon.respec.prototype = {
                     sn.element("style", { type: "text/css" }, document.documentElement.firstElementChild, xhr.responseText);
                 }
                 else {
-                    error("There appear to have been a problem fetching the style sheet; status=" + xhr.status);
+                    error("There appears to have been a problem fetching the style sheet; status=" + xhr.status);
                 }
             }
             catch (e) {
@@ -886,20 +1526,48 @@ berjon.respec.prototype = {
             }, document.documentElement.firstElementChild);
         }
     },
-    
+
+    _readFile:    function (URI) {
+            try {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", URI, false);
+                xhr.send(null);
+                if (xhr.status == 200) {
+                    return xhr.responseText ;
+                } else {
+                    error("There appears to have been a problem fetching the file " + URI + "; status=" + xhr.status);
+                }
+            }
+            catch (e) {
+                warning("There was an error with the request to load " + URI + ", probably that you're working from disk.");
+            }
+    },
+
     _humanMonths:   ["January", "February", "March", "April", "May", "June", "July",
                      "August", "September", "October", "November", "December"],
     _humanDate:    function (date) {
         return this._lead0(date.getDate()) + " " + this._humanMonths[date.getMonth()] + " " + date.getFullYear();
     },
     
-    _concatDate:    function (date) {
-        return "" + date.getFullYear() + this._lead0(date.getMonth() + 1) + this._lead0(date.getDate());
+    _concatDate:    function (date, sep) {
+        if (!sep) sep = "";
+        return "" + date.getFullYear() + sep + this._lead0(date.getMonth() + 1) + sep + this._lead0(date.getDate());
+    },
+
+    _ISODate:       function (date) {
+        return "" + date.getUTCFullYear() +'-'+ this._lead0(date.getUTCMonth() + 1)+'-' + this._lead0(date.getUTCDate()) +'T'+this._lead0(date.getUTCHours())+':'+this._lead0(date.getUTCMinutes()) +":"+this._lead0(date.getUTCSeconds())+'+0000';
     },
     
     _parseDate:    function (str) {
         return new Date(str.substr(0, 4), (str.substr(5, 2) - 1), str.substr(8, 2));
     },
+
+    _parseLastModified:    function (str) {
+        if (!str) return new Date();
+        return new Date(Date.parse(str));
+        // return new Date(str.substr(6, 4), (str.substr(0, 2) - 1), str.substr(3, 2));
+    },
+    
     
     _lead0:    function (str) {
         str = "" + str;
@@ -928,7 +1596,7 @@ berjon.respec.prototype = {
         s = s.replace(/"/g,'&quot;');
         s = s.replace(/</g,'&lt;');
         return s;
-    },
+    }
 };
 
 berjon.WebIDLProcessor = function (cfg) {
@@ -941,8 +1609,9 @@ berjon.WebIDLProcessor.prototype = {
         var def = { children: [] };
         var str = idl.getAttribute("title");
         str = this.parseExtendedAttributes(str, def);
-        if      (str.indexOf("interface") == 0) this.interface(def, str, idl);
+        if      (str.indexOf("interface") == 0 || str.indexOf("partial") === 0) this.interface(def, str, idl);
         else if (str.indexOf("exception") == 0) this.exception(def, str, idl);
+        else if (str.indexOf("dictionary") == 0) this.dictionary(def, str, idl);
         else if (str.indexOf("typedef") == 0)   this.typedef(def, str, idl);
         else if (/\bimplements\b/.test(str))     this.implements(def, str, idl);
         else    error("Expected definition, got: " + str);
@@ -953,14 +1622,34 @@ berjon.WebIDLProcessor.prototype = {
     
     interface:  function (inf, str, idl) {
         inf.type = "interface";
-        var match = /^\s*interface\s+([A-Za-z][A-Za-z0-9]*)(?:\s+:\s*([^{]+)\s*)?/.exec(str);
+        var match = /^\s*(partial\s+)?interface\s+([A-Za-z][A-Za-z0-9]*)(?:\s+:\s*([^{]+)\s*)?/.exec(str);
+        if (match) {
+            inf.partial = !!match[1];
+            inf.id = match[2];
+            inf.refId = this._id(inf.id);
+            if (idl.getAttribute('data-merge')) {
+                inf.merge = [];
+                var merge = idl.getAttribute('data-merge').split(' ');
+                for (var i = 0; i < merge.length; i++) inf.merge.push(merge[i]);
+            }
+            if (match[3]) inf.superclasses = match[3].split(/\s*,\s*/);
+        }
+        else {
+            error("Expected interface, got: " + str);
+        }
+        return inf;
+    },
+    
+    dictionary:  function (inf, str, idl) {
+        inf.type = "dictionary";
+        var match = /^\s*dictionary\s+([A-Za-z][A-Za-z0-9]*)(?:\s+:\s*([^{]+)\s*)?/.exec(str);
         if (match) {
             inf.id = match[1];
             inf.refId = this._id(inf.id);
             if (match[2]) inf.superclasses = match[2].split(/\s*,\s*/);
         }
         else {
-            error("Expected interface, got: " + str);
+            error("Expected dictionary, got: " + str);
         }
         return inf;
     },
@@ -1028,10 +1717,107 @@ berjon.WebIDLProcessor.prototype = {
         for (var i = 0; i < dts.length; i++) {
             var dt = dts[i];
             var dd = dt.nextElementSibling; // we take a simple road
-            var mem = this.interfaceMember(dt, dd);
+            var mem;
+            if (obj.type == "exception") {
+                mem = this.exceptionMember(dt, dd);
+            }
+            else if (obj.type == "dictionary") {
+                mem = this.dictionaryMember(dt, dd);
+            }
+            else {
+                mem = this.interfaceMember(dt, dd);
+            }
             obj.children.push(mem);
         }
         this.parent = exParent;
+    },
+    
+    parseConst:    function (mem, str) {
+        // CONST
+        var match = /^\s*const\s+\b([^=]+\??)\s+([^=\s]+)\s*=\s*(.*)$/.exec(str);
+        if (match) {
+            mem.type = "constant";
+            var type = match[1];
+            mem.nullable = false;
+            if (/\?$/.test(type)) {
+                type = type.replace(/\?$/, "");
+                mem.nullable = true;
+            }
+            mem.datatype = type;
+            mem.id = match[2];
+            mem.refId = this._id(mem.id);
+            mem.value = match[3];
+            return true;
+        }
+        return false;
+    },
+    
+    exceptionMember:    function (dt, dd) {
+        var mem = { children: [] };
+        var str = this._norm(dt.textContent);
+        mem.description = sn.documentFragment();
+        sn.copyChildren(dd, mem.description);
+        str = this.parseExtendedAttributes(str, mem);
+    
+        if (this.parseConst(mem, str)) return mem;
+
+        // FIELD
+        var match = /^\s*(.*?)\s+(\S+)\s*$/.exec(str);
+        if (match) {
+            mem.type = "field";
+            var type = match[1];
+            mem.nullable = false;
+            if (/\?$/.test(type)) {
+                type = type.replace(/\?$/, "");
+                mem.nullable = true;
+            }
+            mem.array = false;
+            if (/\[\]$/.test(type)) {
+                type = type.replace(/\[\]$/, "");
+                mem.array = true;
+            }
+            mem.datatype = type;
+            mem.id = match[2];
+            mem.refId = this._id(mem.id);
+            return mem;
+        }
+
+        // NOTHING MATCHED
+        error("Expected exception member, got: " + str);
+    },
+    
+    dictionaryMember:    function (dt, dd) {
+        var mem = { children: [] };
+        var str = this._norm(dt.textContent);
+        mem.description = sn.documentFragment();
+        sn.copyChildren(dd, mem.description);
+        str = this.parseExtendedAttributes(str, mem);
+    
+        // MEMBER
+        var match = /^\s*([^=]+\??)\s+([^=\s]+)(?:\s*=\s*(.*))?$/.exec(str);
+        // var match = /^\s*(.*?)\s+(\S+)\s*$/.exec(str);
+        if (match) {
+            mem.type = "member";
+            var type = match[1];
+            mem.id = match[2];
+            mem.refId = this._id(mem.id);
+            mem.defaultValue = match[3];
+            mem.nullable = false;
+            if (/\?$/.test(type)) {
+                type = type.replace(/\?$/, "");
+                mem.nullable = true;
+            }
+            mem.array = false;
+            if (/\[\]$/.test(type)) {
+                type = type.replace(/\[\]$/, "");
+                mem.array = true;
+            }
+            mem.datatype = type;
+            return mem;
+        }
+
+        // NOTHING MATCHED
+        error("Expected dictionary member, got: " + str);
     },
     
     interfaceMember:    function (dt, dd) {
@@ -1107,22 +1893,7 @@ berjon.WebIDLProcessor.prototype = {
             return mem;
         }
             
-        // CONST
-        match = /^\s*const\s+\b([^=]+\??)\s+([^=\s]+)\s*=\s*(.*)$/.exec(str);
-        if (match) {
-            mem.type = "constant";
-            var type = match[1];
-            mem.nullable = false;
-            if (/\?$/.test(type)) {
-                type = type.replace(/\?$/, "");
-                mem.nullable = true;
-            }
-            mem.datatype = type;
-            mem.id = match[2];
-            mem.refId = this._id(mem.id);
-            mem.value = match[3];
-            return mem;
-        }
+        if (this.parseConst(mem, str)) return mem;
             
         // METHOD
         match = /^\s*\b(.*?)\s+\b(\S+)\s*\(\s*(.*)\s*\)\s*$/.exec(str);
@@ -1321,7 +2092,104 @@ berjon.WebIDLProcessor.prototype = {
             }
             return sn.element("div", { "class": "idlImplementsDesc" }, null, cnt);
         }
-        else if (obj.type == "interface" || obj.type == "exception") {
+
+        else if (obj.type == "exception") {
+            var df = sn.documentFragment();
+            var curLnk = "widl-" + obj.refId + "-";
+            var types = ["field", "constant"];
+            for (var i = 0; i < types.length; i++) {
+                var type = types[i];
+                var things = obj.children.filter(function (it) { return it.type == type });
+                if (things.length == 0) continue;
+                if (!this.noIDLSorting) {
+                    things.sort(function (a, b) {
+                        if (a.id < b.id) return -1;
+                        if (a.id > b.id) return 1;
+                          return 0;
+                    });
+                }
+                
+                var sec = sn.element("section", {}, df);
+                var secTitle = type;
+                secTitle = secTitle.substr(0, 1).toUpperCase() + secTitle.substr(1) + "s";
+                sn.element("h2", {}, sec, secTitle);
+                var dl = sn.element("dl", { "class": type + "s" }, sec);
+                for (var j = 0; j < things.length; j++) {
+                    var it = things[j];
+                    var dt = sn.element("dt", { id: curLnk + it.refId }, dl);
+                    sn.element("code", {}, dt, it.id);
+                    var desc = sn.element("dd", {}, dl, [it.description]);
+                    if (type == "field") {
+                        sn.text(" of type ", dt);
+                        if (it.array) sn.text("array of ", dt);
+                        var span = sn.element("span", { "class": "idlFieldType" }, dt);
+                        var matched = /^sequence<(.+)>$/.exec(it.datatype);
+                        if (matched) {
+                            sn.text("sequence<", span);
+                            sn.element("a", {}, span, matched[1]);
+                            sn.text(">", span);
+                        }
+                        else {
+                            sn.element("a", {}, span, it.datatype);
+                        }
+                        if (it.nullable) sn.text(", nullable", dt);
+                    }
+                    else if (type == "constant") {
+                        sn.text(" of type ", dt);
+                        sn.element("span", { "class": "idlConstType" }, dt, [sn.element("a", {}, null, it.datatype)]);
+                        if (it.nullable) sn.text(", nullable", dt);
+                    }
+                }
+            }
+            return df;
+        }
+
+        else if (obj.type == "dictionary") {
+            var df = sn.documentFragment();
+            var curLnk = "widl-" + obj.refId + "-";
+            var things = obj.children;
+            if (things.length == 0) return df;
+            if (!this.noIDLSorting) {
+                things.sort(function (a, b) {
+                    if (a.id < b.id) return -1;
+                    if (a.id > b.id) return 1;
+                      return 0;
+                });
+            }
+            
+            var sec = sn.element("section", {}, df);
+            cnt = [sn.text("Dictionary "),
+                   sn.element("a", { "class": "idlType" }, null, obj.id),
+                   sn.text(" Members")];
+            sn.element("h2", {}, sec, cnt);
+            var dl = sn.element("dl", { "class": "dictionary-members" }, sec);
+            for (var j = 0; j < things.length; j++) {
+                var it = things[j];
+                var dt = sn.element("dt", { id: curLnk + it.refId }, dl);
+                sn.element("code", {}, dt, it.id);
+                var desc = sn.element("dd", {}, dl, [it.description]);
+                sn.text(" of type ", dt);
+                if (it.array) sn.text("array of ", dt);
+                var span = sn.element("span", { "class": "idlMemberType" }, dt);
+                var matched = /^sequence<(.+)>$/.exec(it.datatype);
+                if (matched) {
+                    sn.text("sequence<", span);
+                    sn.element("a", {}, span, matched[1]);
+                    sn.text(">", span);
+                }
+                else {
+                    sn.element("a", {}, span, it.datatype);
+                }
+                if (it.nullable) sn.text(", nullable", dt);
+                if (it.defaultValue) {
+                    sn.text(", defaulting to ", dt);
+                    sn.element("code", {}, dt, [sn.text(it.defaultValue)]);
+                }
+            }
+            return df;
+        }
+
+        else if (obj.type == "interface") {
             var df = sn.documentFragment();
             var curLnk = "widl-" + obj.refId + "-";
             var types = ["attribute", "method", "constant"];
@@ -1344,7 +2212,8 @@ berjon.WebIDLProcessor.prototype = {
                 var dl = sn.element("dl", { "class": type + "s" }, sec);
                 for (var j = 0; j < things.length; j++) {
                     var it = things[j];
-                    var dt = sn.element("dt", { id: curLnk + it.refId }, dl);
+                    var id = (type == "method") ? this.makeMethodID(curLnk, it) : sn.idThatDoesNotExist(curLnk + it.refId);
+                    var dt = sn.element("dt", { id: id }, dl);
                     sn.element("code", {}, dt, it.id);
                     var desc = sn.element("dd", {}, dl, [it.description]);
                     if (type == "method") {
@@ -1474,8 +2343,32 @@ berjon.WebIDLProcessor.prototype = {
                     }
                 }
             }
+            if (typeof obj.merge !== "undefined" && obj.merge.length > 0) {
+                // hackish: delay the execution until the DOM has been initialized, then merge
+                setTimeout(function () {
+                    for (var i = 0; i < obj.merge.length; i++) {
+                        var idlInterface = document.querySelector("#idl-def-" + obj.refId),
+                            idlDictionary = document.querySelector("#idl-def-" + obj.merge[i]);
+                        idlDictionary.parentNode.parentNode.removeChild(idlDictionary.parentNode);
+                        idlInterface.appendChild(document.createElement("br"));
+                        idlInterface.appendChild(idlDictionary);
+                    }
+                }, 0);
+            }
             return df;
         }
+    },
+    
+    makeMethodID:    function (cur, obj) {
+        var id = cur + obj.refId + "-" + obj.datatype + "-";
+        var params = [];
+        for (var i = 0, n = obj.params.length; i < n; i++) {
+            var prm = obj.params[i];
+            params.push(prm.datatype + (prm.array ? "Array" : "") + "-" + prm.id)
+        }
+        id += params.join("-");
+        return sn.sanitiseID(id);
+        // return sn.idThatDoesNotExist(id);
     },
     
     writeAsWebIDL:    function (obj, indent) {
@@ -1507,7 +2400,9 @@ berjon.WebIDLProcessor.prototype = {
         else if (obj.type == "interface") {
             var str = "<span class='idlInterface' id='idl-def-" + obj.refId + "'>";
             if (obj.extendedAttributes) str += this._idn(indent) + "[<span class='extAttr'>" + obj.extendedAttributes + "</span>]\n";
-            str += this._idn(indent) + "interface <span class='idlInterfaceID'>" + obj.id + "</span>";
+            str += this._idn(indent);
+            if (obj.partial) str += "partial ";
+            str += "interface <span class='idlInterfaceID'>" + obj.id + "</span>";
             if (obj.superclasses && obj.superclasses.length) str += " : " +
                                                 obj.superclasses.map(function (it) {
                                                                         return "<span class='idlSuperclass'><a>" + it + "</a></span>"
@@ -1544,21 +2439,61 @@ berjon.WebIDLProcessor.prototype = {
                 var len = it.datatype.length;
                 if (it.nullable) len = len + 1;
                 if (it.array) len = len + 2;
-                if (it.type == "attribute")   maxAttr = (len > maxAttr) ? len : maxAttr;
+                if (it.type == "field")   maxAttr = (len > maxAttr) ? len : maxAttr;
                 else if (it.type == "constant") maxConst = (len > maxConst) ? len : maxConst;
-                if (it.type == "attribute" && it.readonly) hasRO = true;
             });
             var curLnk = "widl-" + obj.refId + "-";
             for (var i = 0; i < obj.children.length; i++) {
                 var ch = obj.children[i];
-                if (ch.type == "attribute") str += this.writeAttribute(ch, maxAttr, indent + 1, curLnk, hasRO);
+                if (ch.type == "field") str += this.writeField(ch, maxAttr, indent + 1, curLnk);
                 else if (ch.type == "constant") str += this.writeConst(ch, maxConst, indent + 1, curLnk);
+            }
+            str += this._idn(indent) + "};</span>\n";
+            return str;
+        }
+        else if (obj.type == "dictionary") {
+            var str = "<span class='idlDictionary' id='idl-def-" + obj.refId + "'>";
+            if (obj.extendedAttributes) str += this._idn(indent) + "[<span class='extAttr'>" + obj.extendedAttributes + "</span>]\n";
+            str += this._idn(indent) + "dictionary <span class='idlDictionaryID'>" + obj.id + "</span>";
+            if (obj.superclasses && obj.superclasses.length) str += " : " +
+                                                obj.superclasses.map(function (it) {
+                                                                        return "<span class='idlSuperclass'><a>" + it + "</a></span>"
+                                                                    })
+                                                                .join(", ");
+            str += " {\n";
+            var max = 0;
+            obj.children.forEach(function (it, idx) {
+                var len = it.datatype.length;
+                if (it.nullable) len = len + 1;
+                if (it.array) len = len + 2;
+                max = (len > max) ? len : max;
+            });
+            var curLnk = "widl-" + obj.refId + "-";
+            for (var i = 0; i < obj.children.length; i++) {
+                var ch = obj.children[i];
+                str += this.writeMember(ch, max, indent + 1, curLnk);
             }
             str += this._idn(indent) + "};</span>\n";
             return str;
         }
     },
     
+    writeField:    function (attr, max, indent, curLnk) {
+        var str = "<span class='idlField'>";
+        if (attr.extendedAttributes) str += this._idn(indent) + "[<span class='extAttr'>" + attr.extendedAttributes + "</span>]\n";
+        str += this._idn(indent);
+        var pad = max - attr.datatype.length;
+        if (attr.nullable) pad = pad - 1;
+        if (attr.array) pad = pad - 2;
+        var nullable = attr.nullable ? "?" : "";
+        var arr = attr.array ? "[]" : "";
+        str += "<span class='idlFieldType'>" + this.writeDatatype(attr.datatype) + arr + nullable + "</span> ";
+        for (var i = 0; i < pad; i++) str += " ";
+        str += "<span class='idlFieldName'><a href='#" + curLnk + attr.refId + "'>" + attr.id + "</a></span>";
+        str += ";</span>\n";
+        return str;
+    },
+
     writeAttribute:    function (attr, max, indent, curLnk, hasRO) {
         var sets = [], gets = [];
         if (attr.raises.length) {
@@ -1610,7 +2545,9 @@ berjon.WebIDLProcessor.prototype = {
         var arr = meth.array ? "[]" : "";
         str += "<span class='idlMethType'>" + this.writeDatatype(meth.datatype) + arr + nullable + "</span> ";
         for (var i = 0; i < pad; i++) str += " ";
-        str += "<span class='idlMethName'><a href='#" + curLnk + meth.refId + "'>" + meth.id + "</a></span> (";
+        var id = this.makeMethodID(curLnk, meth);
+        // str += "<span class='idlMethName'><a href='#" + curLnk + meth.refId + "'>" + meth.id + "</a></span> (";
+        str += "<span class='idlMethName'><a href='#" + id + "'>" + meth.id + "</a></span> (";
         var obj = this;
         str += meth.params.map(function (it) {
                                     var nullable = it.nullable ? "?" : "";
@@ -1650,6 +2587,20 @@ berjon.WebIDLProcessor.prototype = {
         return str;
     },
 
+    writeMember:    function (memb, max, indent, curLnk) {
+        var str = "<span class='idlMember'>";
+        str += this._idn(indent);
+        var pad = max - memb.datatype.length;
+        if (memb.nullable) pad = pad - 1;
+        var nullable = memb.nullable ? "?" : "";
+        str += "<span class='idlMemberType'><a>" + memb.datatype + "</a>" + nullable + "</span> ";
+        for (var i = 0; i < pad; i++) str += " ";
+        str += "<span class='idlMemberName'><a href='#" + curLnk + memb.refId + "'>" + memb.id + "</a></span>";
+        if (memb.defaultValue) str += " = <span class='idlMemberValue'>" + memb.defaultValue + "</span>"
+        str += ";</span>\n";
+        return str;
+    },
+
     writeDatatype:    function (dt) {
         var matched = /^sequence<(.+)>$/.exec(dt);
         if (matched) {
@@ -1674,7 +2625,7 @@ berjon.WebIDLProcessor.prototype = {
     
     _id:    function (id) {
         return id.replace(/[^a-zA-Z_-]/g, "");
-    },
+    }
 };
 
 // hackish, but who cares?

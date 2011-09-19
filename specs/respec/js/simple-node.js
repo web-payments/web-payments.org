@@ -112,18 +112,31 @@ berjon.simpleNode.prototype = {
         id += txt;
         id = id.toLowerCase();
         if (id.length == 0) id = "generatedID";
-        id = id.split(/[^-.0-9a-z_]/).join("-");
-        id = id.replace(/^-+/, "");
+        id = this.sanitiseID(id);
+        if (pfx) id = pfx + "-" + id;
+        id = this.idThatDoesNotExist(id);
+        el.setAttribute("id", id);
+        return id;
+    },
+    
+    sanitiseID:    function (id) {
+        id = id.split(/[^-.0-9a-zA-Z_]/).join("-");
+        id = id.replace(/^-+/g, "");
         id = id.replace(/-+$/, "");
         if (id.length > 0 && /^[^a-z]/.test(id)) id = "x" + id;
         if (id.length == 0) id = "generatedID";
-        if (pfx) id = pfx + "-" + id;
+        return id;
+    },
+    
+    idCache: {},
+    idThatDoesNotExist:    function (id) {
         var inc = 1;
-        if (this.doc.getElementById(id)) {
-            while (this.doc.getElementById(id + "-" + inc)) inc++;
+        if (this.doc.getElementById(id) || this.idCache[id]) {
+            while (this.doc.getElementById(id + "-" + inc) || this.idCache[id + "-" + inc]) inc++;
             id = id + "-" + inc;
         }
-        el.setAttribute("id", id);
+        // XXX disable caching for now
+        // this.idCache[id] = true;
         return id;
     },
     

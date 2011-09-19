@@ -1,7 +1,7 @@
 
 /*****************************************************************
  * ReSpec CSS
- * Robin Berjon <robin at berjon dot com>
+ * Robin Berjon (robin at berjon dot com)
  * v0.05 - 2009-07-31
  *****************************************************************/
 
@@ -25,13 +25,13 @@ dfn {
 
 a.internalDFN {
     color:  inherit;
-    border-bottom:  medium solid #99c;
+    border-bottom:  1px solid #99c;
     text-decoration:    none;
 }
 
 a.externalDFN {
     color:  inherit;
-    border-bottom:  medium dotted #ccc;
+    border-bottom:  1px dotted #ccc;
     text-decoration:    none;
 }
 
@@ -73,7 +73,7 @@ pre.idl::before {
 /*.idlModule*/
 /*.idlModuleID*/
 /*.idlInterface*/
-.idlInterfaceID {
+.idlInterfaceID, .idlDictionaryID {
     font-weight:    bold;
     color:  #005a9c;
 }
@@ -84,13 +84,13 @@ pre.idl::before {
 }
 
 /*.idlAttribute*/
-.idlAttrType {
+.idlAttrType, .idlFieldType, .idlMemberType {
     color:  #005a9c;
 }
-.idlAttrName {
+.idlAttrName, .idlFieldName, .idlMemberName {
     color:  #ff4500;
 }
-.idlAttrName a {
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
     color:  #ff4500;
     border-bottom:  1px dotted #ff4500;
     text-decoration: none;
@@ -168,25 +168,25 @@ pre.idl::before {
     font-weight:    bold;
 }
 
-dl.attributes, dl.methods, dl.constants {
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
     margin-left:    2em;
 }
 
-.attributes dt, .methods dt, .constants dt {
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
     font-weight:    normal;
 }
 
-.attributes dt code, .methods dt code, .constants dt code {
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
     font-weight:    bold;
     color:  #000;
     font-family:    monospace;
 }
 
-.attributes dt code {
+.attributes dt code, .fields dt code, .dictionary-members dt code {
     background:  #ffffd2;
 }
 
-.attributes dt .idlAttrType code {
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
     color:  #005a9c;
     background:  transparent;
     font-family:    inherit;
@@ -202,7 +202,7 @@ dl.attributes, dl.methods, dl.constants {
     background:  #ddffd2;
 }
 
-.attributes dd, .methods dd, .constants dd {
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
     margin-bottom:  1em;
 }
 
@@ -328,6 +328,7 @@ pre.example::before {
 /* --- EDITORIAL NOTES --- */
 .issue {
     padding:    1em;
+    margin: 1em 0em 0em;
     border: 1px solid #f00;
     background: #ffc;
 }
@@ -344,6 +345,7 @@ pre.example::before {
 }
 
 .note {
+    margin: 1em 0em 0em;
     padding:    1em;
     border: 2px solid #cff6d9;
     background: #e2fff0;
@@ -358,6 +360,39 @@ pre.example::before {
     border: 1px solid #cff6d9;
     background: #fff;
     padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
 }
 
 /* --- SYNTAX HIGHLIGHTING --- */
@@ -377,7 +412,7 @@ pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  
 pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
 pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
 pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
-pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., <, >, + */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
 pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
 pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
 pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */

@@ -9,7 +9,130 @@
       out in the same tree and use relative links so that they'll work offline,
      --> 
     <script src='../../respec/js/respec.js' class='remove'></script> 
-    <script class='remove'> 
+    <script type="text/javascript" class="remove">
+    var preProc = {
+          apply:  function(c) {
+                    // extend the bibliography entries
+                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a> ";
+                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a> ";
+                    berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
+                    berjon.biblio["FIPS-197"] = "Information Technology Laboratory. <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>";
+
+                    // process the document before anything else is done
+                    var refs = document.querySelectorAll('adef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'dfn' ) ;
+                        var tit = item.getAttribute('title') ;
+                        if (!tit) {
+                            tit = con;
+                        }
+                        sp.className = 'adef' ;
+                        sp.title=tit ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    refs = document.querySelectorAll('aref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'aref' ;
+                        sp.setAttribute('title', con);
+                        sp.innerHTML = '@'+con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // local datatype references
+                    refs = document.querySelectorAll('ldtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'datatype';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // external datatype references
+                    refs = document.querySelectorAll('dtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'externalDFN';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now do terms
+                    refs = document.querySelectorAll('tdef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'dfn' ) ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now term references
+                    refs = document.querySelectorAll('tref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+
+                        var sp = document.createElement( 'a' ) ;
+                        var id = item.textContent ;
+                        sp.className = 'tref' ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                }
+        } ;
+
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "unofficial",
@@ -67,6 +190,9 @@
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
           wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ preProc ],
+          //alternateFormats: [ {uri: "diff-20110808.html", label: "diff to previous version"} ],
       };
     </script> 
   </head> 
@@ -241,7 +367,7 @@ technologies are introduced in this section.
       <section>
         <h3>Representational State Transfer</h3>
         <p>
-REpresentational State Transfer (REST) is the architectural style that underpins
+REpresentational State Transfer [[REST]] is the architectural style that underpins
 the World Wide Web. It consists of a set of constraints to ensure that servers,
 gateways, proxies and clients may interact in a way that is predictable.
 Systems that are designed with this architecture in mind are called RESTful
@@ -253,7 +379,7 @@ REST are applied to all transactions performed via PaySwarm systems.
       <section>
         <h3>JavaScript Object Notation for Linking Data</h3>
         <p>
-JavaScript Object Notation for Linking Data (JSON-LD) is a lightweight Linked 
+JavaScript Object Notation for Linking Data [[!JSON-LD]] is a lightweight Linked 
 Data format. It is easy for humans to read and write. It is easy for machines 
 to parse and generate. It is based on the already successful JSON format and 
 provides a way to help JSON data interoperate at Web-scale. If you are already 
@@ -267,7 +393,8 @@ JavaScript environments, Web services, and JSON document-based databases.
       <section>
         <h3>The Advanced Encryption Standard</h3>
         <p>
-The Advanced Encryption Standard (AES) is a world standard adopted by the
+The Advanced Encryption Standard (AES) [[!FIPS-197]] is a world standard 
+adopted by the
 United States Government and used to secure a vast majority of the
 commercial transactions over the Internet via OpenSSL. Since much of the data
 exchanged over PaySwarm participants is sensitive, it is important that a 
@@ -285,11 +412,38 @@ In addition to being easy to publish, it is also important that data published
 via HTML can be easily read by machines without placing an undue burden on
 Web authors. Publishing structured data in a decentralized manner also 
 requires a language that is capable of being both expressive and deterministic. 
-The Resource Description Framework in attributes (RDFa) extends HTML to allow 
-structured data to be expressed via HTML, but in a way that is easy for
-Web developers to author.
+The Resource Description Framework in attributes [[!RDFA-CORE]] extends HTML 
+[[!HTML-RDFA]] to allow structured data to be expressed via HTML, but in a way 
+that is easy for Web developers to author.
         </p>
       </section>
+    </section>
+
+    <section>
+      <h2>The Registration Process</h2>
+      <p>
+      </p>
+
+      <section>
+        <h2>Asset Acquirer Registration</h2>
+        <p>
+        </p>
+        <ol>
+          <li>Create a financial account on a PaySwarm Authority.</li>
+          <li>Deposit funds into the financial account on the PaySwarm Authority.</li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Asset Provider Registration</h2>
+        <p>
+        </p>
+        <ol>
+          <li>Create a financial account on a PaySwarm Authority.</li>
+          <li>Register public key with PaySwarm Authority.</li>
+        </ol>
+      </section>
+
     </section>
 
     <section>

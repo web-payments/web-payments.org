@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>PaySwarm - Web API</title> 
+    <title>PaySwarm 1.0 - Web API</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -53,13 +53,13 @@
           additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc.",
           
           // name of the WG
-          wg:           "Unofficial Payswarm Exploratory Group",
+          wg:           "W3C Web Payments Community Group",
           
           // URI of the public WG page
           wgURI:        "http://payswarm.com/",
           
           // name (with the @w3c.org) of the public mailing to which comments are due
-          wgPublicList: "---",
+          wgPublicList: "public-webpayments@w3c.org",
           
           // URI of the patent status for this WG, for Rec-track documents
           // !!!! IMPORTANT !!!!
@@ -79,10 +79,11 @@ create digital content such as blog posts, music, film, episodic content,
 photos, virtual goods, and documents to distribute their creations through 
 their website and receive payment directly from their fans and customers. The 
 technology is designed to be integrated directly into blogging platforms, 
-content management systems and websites in general. The standard handles the
-entire content distribution lifecycle, from asset description, to product
-listings, to licenses, contracts and financial transactions. Support is
-provided for individual sales, subscriptions and micropayments.
+content management systems and general purpose websites. The standard can
+be applied to the entire content distribution lifecycle, from asset description, 
+to product listings, to licenses, contracts and financial transactions. 
+Features include the ability to exchange money, transact individual sales, 
+subscriptions and micropayments.
       </p> 
     </section> 
 
@@ -95,7 +96,7 @@ create digital content such as blog posts, music, film, episodic content,
 photos, virtual goods, and documents to distribute their creations through 
 their website and receive payment directly from their fans and customers. The 
 technology is designed to be integrated directly into blogging platforms, 
-content management systems and websites in general.      
+content management systems and general purpose websites.
       </p>
       <p>
 The technology is provided as an open web platform, which is a combination of 
@@ -135,14 +136,14 @@ asset acquirer, the asset owner, and the PaySwarm Authority.
 In order for a universal payment system to work seamlessly, there must be a
 universal way of identifying <em>things</em> in the environment. This 
 specification uses Internationalized Resource Identifiers [[!IRI]] to 
-refer to <em>things</em> on the network. These things can be identity 
-information (<code>https://example.com/people/bob</code>), 
+refer to <em>things</em> on the network. These things can be a personal identity 
+(<code>https://example.com/people/bob</code>), 
 financial account information 
 (<code>https://example.com/people/bob/accounts/42</code>), public cryptography
 keys (<code>https://example.com/people/bob/keys/14</code>), assets, licenses 
-and a variety of other long-lived information that exists on the Web. By naming 
-these things with long-lived unique identifiers, it becomes possible to create 
-a decentralized but stable universal payment architecture.
+and a variety of other pieces of long-lived information that exists on the Web. 
+By naming these things with long-lived unique identifiers, it becomes possible 
+to create a decentralized but stable universal payment architecture.
         </p>
       </section>
       <section>
@@ -150,7 +151,8 @@ a decentralized but stable universal payment architecture.
         <section>
           <h4>Asset Acquirers</h3>
           <p>
-An asset acquirer, more commonly known as a buyer, is an entity that is capable 
+An <tdef>asset acquirer</tdef>, more commonly known as a buyer, is an entity 
+that is capable 
 of acquiring the rights to a particular asset via a Contract. The entity is 
 typically a person or an organization that would like to view, copy or 
 otherwise utilize the asset that is being acquired.
@@ -159,20 +161,21 @@ otherwise utilize the asset that is being acquired.
         <section>
           <h4>Asset Providers</h3>
           <p>
-An asset provider, more commonly known as an owner, is the entity providing an 
-asset for sale. Typically, the asset provider is the legal owner of the asset 
-that is being listed for sale. Ownership of an asset can manifest in a variety 
-of different forms. Copyright ownership, physical ownership, and sub-leased 
-property or services are just a few of the types of ownership that apply to 
-asset providers.
+An <tdef>asset provider</tdef>, more commonly known as an owner, is the entity 
+providing an asset for sale. Typically, the asset provider is the legal owner 
+of the asset that is being listed for sale. Ownership of an asset can manifest 
+in a variety of different forms. Copyright ownership, physical ownership, and 
+sub-leased property or services are just a few of the types of ownership that 
+apply to asset providers.
           </p>
         </section>
         <section>
           <h4>PaySwarm Authorities</h3>
           <p>
-A PaySwarm authority is used to store money, process and store contracts, and 
-transfer monetary amounts between financial accounts. While PaySwarm 
-authorities may hold a great deal of financial data, they are built with
+A <tdef>PaySwarm Authority</tdef> is used to store money, process and store 
+contracts, and 
+transfer monetary amounts between financial accounts. While a PaySwarm 
+Authority may hold a great deal of financial data, they are built with
 data portability in mind. PaySwarm participants may move their money and
 purchase history from one authority to another. Data portability is a mandatory
 part of this specification.
@@ -183,11 +186,13 @@ part of this specification.
         <h3>Commerce Model</h3>
         <section>
           <h4>Assets</h3>
-An asset describes a particular item that is provided as a part of a commercial
+An <tdef>asset</tdef> describes a particular item that is provided as a part 
+of a commercial
 transaction. It is usually an item that can be accessed or acquired on the
 basis of a sale or rental under the terms of a particular license. Examples
-of assets include web pages, music files, video streams, use of virtual
-machines by the hour, 3D printer files for on-demand manufacturing, radio 
+of assets include web pages, crowd-funded loans or grants, music files, 
+video streams, use of virtual machines by the hour, 
+3D printer files for on-demand manufacturing, radio 
 spectrum and many other items that are capable of being transacted.
           <p>
           </p>
@@ -195,7 +200,8 @@ spectrum and many other items that are capable of being transacted.
         <section>
           <h4>Licenses</h3>
           <p>
-A license is a legal description of a licensee's rights to a particular Asset.
+A <tdef>license</tdef> is a legal description of a licensee's rights to a 
+particular <tref>asset</tref>.
 Licenses are usually included as a part of a contract to express what a buyer 
 may do with the asset that has been purchased.
           </p>
@@ -203,19 +209,23 @@ may do with the asset that has been purchased.
         <section>
           <h4>Listings</h3>
           <p>
-A Listing describes the combination of an Asset that is for sale under a 
-specific License and a set of payment terms that must be fulfilled in order 
-to access the Asset. Listings are often published on websites that sell assets
-via PaySwarm as a way to express wares for sale in a decentralized manner.
+A <tdef>listing</tdef> describes the combination of an <tref>asset</tref> that 
+is for sale under a specific <tref>license</tref> and a set of payment terms 
+that must be fulfilled in order 
+to access the <tref>asset</tref>. Listings are often published on websites that 
+sell <tref>assets</tref> via PaySwarm as a way to express wares for sale in a 
+decentralized manner.
           </p>
         </section>
         <section>
           <h4>Contracts</h3>
           <p>
-A contract is the result of a commercial transaction in PaySwarm and contains
-information such as the Listing, the Asset that was purchased, the parties 
-involved in the transaction, the License outlining the rights to the 
-Asset, and payment information associated with the transaction.
+A <tdef>contract</tdef> is the result of a commercial transaction in PaySwarm 
+and contains
+information such as the <tref>listing</tref>, the <tref>asset</tref> that was 
+purchased, the parties involved in the transaction, the <tref>license</tref> 
+outlining the rights to the <tref>asset</tref>, and payment information 
+associated with the transaction.
           </p>
         </section>
       </section>      
@@ -241,9 +251,9 @@ REST are applied to all transactions performed via PaySwarm systems.
       </section>
 
       <section>
-        <h3>JavaScript Object Notation</h3>
+        <h3>JavaScript Object Notation for Linking Data</h3>
         <p>
-JavaScript Object Notation for Linked Data (JSON-LD) is a lightweight Linked 
+JavaScript Object Notation for Linking Data (JSON-LD) is a lightweight Linked 
 Data format. It is easy for humans to read and write. It is easy for machines 
 to parse and generate. It is based on the already successful JSON format and 
 provides a way to help JSON data interoperate at Web-scale. If you are already 
@@ -258,10 +268,11 @@ JavaScript environments, Web services, and JSON document-based databases.
         <h3>The Advanced Encryption Standard</h3>
         <p>
 The Advanced Encryption Standard (AES) is a world standard adopted by the
-United States government and used to secure a vast majority of the
+United States Government and used to secure a vast majority of the
 commercial transactions over the Internet via OpenSSL. Since much of the data
 exchanged over PaySwarm participants is sensitive, it is important that a 
-strong cryptography suite is utilized to transfer the messages.
+strong cryptography suite is utilized to digitally sign and transfer the 
+messages.
         </p>
       </section>
 
@@ -276,7 +287,7 @@ Web authors. Publishing structured data in a decentralized manner also
 requires a language that is capable of being both expressive and deterministic. 
 The Resource Description Framework in attributes (RDFa) extends HTML to allow 
 structured data to be expressed via HTML, but in a way that is easy for
-Web developers to create.
+Web developers to author.
         </p>
       </section>
     </section>
@@ -289,40 +300,43 @@ Web developers to create.
       <section>
         <h3>Publishing an Asset</h3>
         <p>
-An asset describes a particular item that is provided as a part of a commercial
-transaction. It is usually an item that can be accessed or acquired on the
-basis of a sale or rental under the terms of a particular license. Examples
-of assets include web pages, music files, video streams, use of virtual
+An <tref>asset</tref> describes a particular item that is provided as a part 
+of a commercial transaction. It is usually an item that can be accessed or 
+acquired on the
+basis of a sale or rental under the terms of a particular <tref>license</tref>. 
+Examples of assets include web pages, music files, video streams, use of virtual
 machines by the hour, 3D printer files for on-demand manufacturing, radio 
-spectrum and many other items that are capable of being transacted.
+spectrum and crowd-funded loans and grants.
         </p>
 
         <p>
-The following example describes a web page asset with the title "PaySwarm
-in Practice - Full Article #1". The article was created by "Digital Bazaar, 
-Inc." and the information in the asset is valid from November 28th, 2010 to
-November 28th, 2011. The asset is digitally signed by the person providing it
+The following example describes a web page <tref>asset</tref> with the title 
+"PaySwarm in Practice - Full Article #1". The article was created by 
+"Digital Bazaar, Inc." and the information in the asset is valid from 
+November 28th, 2010 to November 28th, 2011. 
+The asset is digitally signed by the person providing it
 and thus can be cached, stored and then presented to someone else in a manner
 that is verifiable by the receiving party.
         </p>
         <pre class="example">
 {
-   "@": "&lt;https://example.org/articles/1#asset>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "&lt;https://example.org/articles/1>",
-   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
    "ps:signature": 
    {
-       "a": "&lt;sig:JsonldSignature>",
-       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "@type": "sig:JsonldSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
@@ -333,7 +347,8 @@ that is verifiable by the receiving party.
       <section>
         <h3>Publishing a License</h3>
         <p>
-A license is a legal description of a licensee's rights to a particular Asset.
+A <tref>license</tref> is a legal description of a licensee's rights to a 
+particular <tref>asset</tref>.
 Licenses are usually included as a part of a contract to express what a buyer 
 may do with the asset that has been purchased.
         </p>
@@ -343,8 +358,9 @@ The following example describes an overly-simplified personal use license.
         </p>
         <pre class="example">
 {
-   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
-   "a": "&lt;ps:License>",
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
       purchased item onto any device that you own for your personal enjoyment
@@ -363,59 +379,62 @@ The following example describes an overly-simplified personal use license.
         <h3>Publishing a Listing</h3>
 
         <p>
-A <a href="#Listing">Listing</a> describes the combination of an <a href="#Asset">Asset</a> that is for sale under a 
-specific <a href="#License">License</a> and a set of payment terms that must be fulfilled in order 
-to access the Asset. Listings are often published on websites that sell assets
-via PaySwarm as a way to express wares for sale in a decentralized manner.
+A <tref>listing</tref> describes the combination of an <tref>asset</tref> 
+that is for sale under a specific <tref>license</tref> and a set of payment 
+terms that must be fulfilled in order to access the asset. Listings are often 
+published on websites that sell assets via PaySwarm as a way to express things
+that are for sale, in a decentralized manner.
         </p>
 
         <p>
-The following example describes an asset for sale for $0.05 USD under a license
+The following example describes an <tref>asset</tref> for sale 
+for $0.05 USD under a <tref>license</tref>
 that covers acceptable use of blog posts. The offer is valid from March 2nd 
 2011 to March 3rd 2011. The only restriction on additional payees is that the 
-PaySwarm Authority (the organization processing the payment) may only take a 
-maximum of 10% of the final sale price to cover their fees.
+<tref>PaySwarm Authority</tref> (the organization processing the payment) 
+may only take a maximum of 10% of the final sale price to cover their fees.
         </p>
 
         <pre class="example">
 {
-   "@": "&lt;http://example.com/articles/1#listing>",
-   "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "http://example.com/articles/1#listing",
+   "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
    [
       {
-         "@": "&lt;http://example.com/articles/1#listing-payee>",
-         "a": "&lt;com:Payee>",
+         "@subject": "http://example.com/articles/1#listing-payee",
+         "@type": "com:Payee",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
          "com:rate": "0.05",
-         "com:rateType": "&lt;com:FlatAmount>",
+         "com:rateType": "com:FlatAmount",
          "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
       }
    ],
    "com:payeeRule": 
    [
       {
-         "a": "&lt;com:PayeeRule>",
-         "com:destinationOwnerType": "&lt;ps:Authority>",
+         "@type": "com:PayeeRule",
+         "com:destinationOwnerType": "ps:Authority",
          "com:maximumRate": "10",
-         "com:rateType": "&lt;com:InclusivePercentage>"
+         "com:rateType": "com:InclusivePercentage"
       }
    ],
-   "ps:asset": "&lt;http://example.com/articles/1#asset>",
+   "ps:asset": "http://example.com/articles/1#asset",
    "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-   "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
-   "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+   "ps:assetProvider": "https://payswarm.example.com/i/bob",
+   "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+      "@type": "ps:JsonldSignature",
+      "dc:created": "2011-03-02T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
       "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
    },
-   "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+   "ps:validFrom": "2011-03-02T00:00:00+0000",
+   "ps:validUntil": "2011-03-03T00:00:00+0000"
 }
         </pre>
 
@@ -439,11 +458,11 @@ maximum of 10% of the final sale price to cover their fees.
         <h3>The Contract</h3>
 
         <p>
-A contract is the result of a commercial transaction in PaySwarm and contains
-information such as the <a href="#Listing">Listing</a>, 
-the <a href="#Asset">Asset</a> that was purchased, the parties involved in the
-transaction, the <a href="#License">License</a> outlining the rights to the 
-Asset, and payment information associated with the transaction.
+A <tref>contract</tref> is the result of a commercial transaction in PaySwarm 
+and contains information such as the <tref>listing</tref>, 
+the <tref>asset</tref> that was purchased, the parties involved in the
+transaction, the <tref>license</tref> outlining the rights to the 
+asset, and payment information associated with the transaction.
         </p>
 
         <p>
@@ -455,123 +474,124 @@ Jane, who may now peruse the article.
 
         <pre class="example">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "&lthttp://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
-   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "com:date": "2011-03-02T03:00:53Z",
    "com:payee": 
    [
       {
-         "a": "&lt;com:Payee>",
+         "@type": "com:Payee",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/authority/accounts/main>",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
          "com:payeePosition": 0,
          "com:rate": "10.00",
-         "com:rateContext": "&lt;com:TaxExempt>",
-         "com:rateType": "&lt;com:InclusivePercentage>",
+         "com:rateContext": "com:TaxExempt",
+         "com:rateType": "com:InclusivePercentage",
          "rdfs:comment": "PaySwarm Authority Transaction Processing"
       }
    ],
    "com:transfer": 
    [
       {
-         "a": "&lt;com:Transfer>",
+         "@type": "com:Transfer",
          "com:amount": "0.045",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
-         "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
-         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
          "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
       },
       {
-         "a": "com:Transfer",
+         "@type": "com:Transfer",
          "com:amount": "0.005",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/authority/accounts/main>",
-         "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
-         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
          "rdfs:comment": "PaySwarm Authority Transaction Processing"
       }
    ],
-   "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "dc:created": "2011-03-02T03:00:53Z",
    "ps:asset": 
    {
-      "@": "&lt;http://example.com/articles/1#asset>",
-      "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+      "@subject": "http://example.com/articles/1#asset",
+      "@type": ["ps:Asset", "ps:WebPage"],
       "dc:creator": 
       {
          "foaf:name": "Bob Smith"
       },
       "dc:title": "PaySwarm in Practice",
-      "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
-      "ps:authority": "&lt;https://payswarm.example.com/client-config>",
-      "ps:contentUrl": "&lt;http://example.com/articles/1>",
+      "ps:assetProvider": "https://payswarm.example.com/i/bob",
+      "ps:authority": "https://payswarm.example.com/client-config",
+      "ps:contentUrl": "http://example.com/articles/1",
       "ps:signature": 
       {
-         "a": "&lt;ps:JsonldSignature>",
-         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "@type": "ps:JsonldSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
          "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
       }
    },
-   "ps:assetAcquirer": "&lt;https://payswarm.example.com/i/jane>",
+   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
    "ps:assetProviderIdentity": 
    {
       "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
    },
    "ps:license": 
    {
-      "@": "&lt;http://payswarm.example.com/licenses/blogging>",
-      "a": "&lt;ps:License>",
+      "@subject": "http://payswarm.example.com/licenses/blogging",
+      "@type": "ps:License",
       "dc:format": "text/html",
-      "ps:licenseTemplate": "Personal Use <a href="#License">License</a> ..."
+      "ps:licenseTemplate": "Personal Use License ..."
    },
    "ps:listing": 
    {
-      "@": "&lt;http://example.com/articles/1#listing>",
-      "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+      "@subject": "http://example.com/articles/1#listing",
+      "@type": ["gr:Offering", "ps:Listing"],
       "com:payee": 
       [
          {
-            "@": "&lt;http://example.com/articles/1#listing-payee>",
-            "a": "&lt;com:Payee>",
+            "@subject": "http://example.com/articles/1#listing-payee",
+            "@type": "com:Payee",
             "com:currency": "USD",
-            "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+            "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
             "com:rate": "0.05",
-            "com:rateType": "&lt;com:FlatAmount>",
+            "com:rateType": "com:FlatAmount",
             "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
          }
       ],
       "com:payeeRule": 
       [
          {
-            "a": "&lt;com:PayeeRule>",
-            "com:destinationOwnerType": "&lt;ps:Authority>",
+            "@type": "com:PayeeRule",
+            "com:destinationOwnerType": "ps:Authority",
             "com:maximumRate": "10",
-            "com:rateType": "&lt;com:InclusivePercentage>"
+            "com:rateType": "com:InclusivePercentage"
          }
       ],
-      "ps:asset": "&lt;http://example.com/articles/1#asset>",
+      "ps:asset": "http://example.com/articles/1#asset",
       "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-      "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+      "ps:license": "http://payswarm.example.com/licenses/blogging",
       "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
       "ps:signature": 
       {
-         "a": "&lt;ps:JsonldSignature>",
-         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "@type": "ps:JsonldSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
          "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
       },
-      "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
-      "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+      "ps:validFrom": "2011-03-02T00:00:00+0000",
+      "ps:validUntil": "2011-03-03T00:00:00+0000"
    },
    "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/authority/keys/1>",
+      "@type": "ps:JsonldSignature",
+      "dc:created": "2011-03-02T03:00:53Z",
+      "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
       "ps:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
    }
 }

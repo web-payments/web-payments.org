@@ -421,8 +421,44 @@ that is easy for Web developers to author.
 
     <section>
       <h2>The Registration Process</h2>
-      <p>
+      <p>The registration process is necessary in order to specify details about
+the participants in a PaySwarm transaction.
       </p>
+
+      <section>
+        <h2>Registration Terms</h2>
+        <p>
+There are a number of terms that are used during the course of the registration
+process.
+        <dl>
+        <dt><tdef>publishing agent</tdef></dt>
+        <dd>A software agent acting on behalf of the <tref>asset provider</tref>
+that publishes <tref>asset</tref>s for sale. Typically, this is blogging
+software, content distribution software, online merchant software or a
+game of some kind.</dd>
+        <dt><tdef>configuration service</tdef></dt>
+        <dd>A Web service that is used to publish the public Web service
+end-points and other public configuration information for a
+<tref>PaySwarm Authority</tref>. A <tref>PaySwarm Authority</tref> MUST
+publish this service at a top-level IRI named <code>payswarm-v1-config</code>. 
+The document MUST be available in JSON-LD compacted form and MUST use the
+<code>http://purl.org/payswarm/v1</code> JSON-LD context. The following
+keys MUST be present in the published document; 
+<code>public-key-service</code>, <code>license-service</code>, and
+<code>contracts-service</code>.</dd>
+        <dt><tdef>public key service</tdef></dt>
+        <dd>An interactive Web service used to register PEM-encoded 
+X.509 public keys with the <tref>PaySwarm Authority</tref>.</dd>
+        <dt><tdef>license service</tdef></dt>
+        <dd>A utility service is used by a <tref>publishing agent</tref>s 
+to retrieve license hashes, which are used when listing <tref>asset</tref>s 
+for sale.</dd>
+        <dt><tdef>contracts service</tdef></dt>
+        <dd>The contract service is used to process purchases by submitting
+and retrieving digital contracts.</dd>
+        </dl>
+        </p>
+      </section>
 
       <section>
         <h2>Asset Acquirer Registration</h2>
@@ -462,13 +498,13 @@ entity that is transacting. For example:
 <code>https://example.com/people/manu</code>.</li>
           <li>A <tdef>financial account</tdef> IRI that is associated with the 
 <tref>entity</tref> IRI above. For example:
-<code>https://example.com/people/manu/accounts/primary</code>.</li>
+<code>https://example.com/people/manu/accounts/article-sales</code>.</li>
         </ol>
         <p>
 Since all <tref>asset</tref>s and <tref>listing</tref>s are digitally signed,
 a public key MUST be registered for the 
 <tref>asset provider</tref> with the <tref>PaySwarm Authority</tref>.
-This is typically performed by the <tdef>publishing agent</tdef> software that 
+This is typically performed by the <tref>publishing agent</tref> software that 
 is publishing the 
 <tref>asset</tref>s and <tref>listing</tref>s for sale on behalf of the 
 <tref>asset provider</tref>. The registration is accomplished by executing
@@ -490,11 +526,11 @@ IRI: <code>https://example.com/payswarm-v1-config</code>.</li>
               <li>An HTTP GET is performed on the configuration IRI with the
 HTTP <code>Accept</code> header set to <code>application/ld+json</code>. The
 <tref>PaySwarm Authority</tref> MUST respond with a compacted JSON-LD document
-using the context specified at <tref>https://purl.org/payswarm/v1</tref></li>
+using the context specified at <code>http://purl.org/payswarm/v1</code></li>
               <li>The result MUST be a JSON-LD document containing a flat set of
 key-value pairs. The public-key registration IRI is identified by the
 <code>public-key-service</code> key in the JSON-LD document. The value will be 
-the <tdef>public key service</tdef> IRI.
+the <tref>public key service</tdef> IRI.
               </li>
             </ol>
           </li>

@@ -1,0 +1,1236 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+    <title>PaySwarm 1.0 - Web API</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+    
+<!--  
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+      -->
+ 
+     
+     
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon (robin at berjon dot com)
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    margin: 1em 0em 0em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    margin: 1em 0em 0em;
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
+  <body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">PaySwarm 1.0 - Web API</h1><h2 id="unofficial-draft-21-september-2011">Unofficial Draft 21 September 2011</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+</dl><p class="copyright">Copyright 2009-2011 © Digital Bazaar, Inc.</p><hr /></div> 
+    <div id="abstract" class="introductory section"><h2>Abstract</h2> 
+      <p>
+The PaySwarm Web platform is an open web standard that enables Web browsers and 
+Web devices to perform Universal Web Payment. PaySwarm enables the people that 
+create digital content such as blog posts, music, film, episodic content, 
+photos, virtual goods, and documents to distribute their creations through 
+their website and receive payment directly from their fans and customers. The 
+technology is designed to be integrated directly into blogging platforms, 
+content management systems and general purpose websites. The standard can
+be applied to the entire content distribution lifecycle, from asset description, 
+to product listings, to licenses, contracts and financial transactions. 
+Features include the ability to exchange money, transact individual sales, 
+subscriptions and micropayments.
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#the-conceptual-model" class="tocxref"><span class="secno">2. </span>The Conceptual Model</a><ul class="toc"><li class="tocline"><a href="#identity-and-identifiers" class="tocxref"><span class="secno">2.1 </span>Identity and Identifiers</a></li><li class="tocline"><a href="#participants" class="tocxref"><span class="secno">2.2 </span>Participants</a><ul class="toc"><li class="tocline"><a href="#asset-acquirers" class="tocxref"><span class="secno">2.2.1 </span>Asset Acquirers</a></li><li class="tocline"><a href="#asset-providers" class="tocxref"><span class="secno">2.2.2 </span>Asset Providers</a></li><li class="tocline"><a href="#payswarm-authorities" class="tocxref"><span class="secno">2.2.3 </span>PaySwarm Authorities</a></li></ul></li><li class="tocline"><a href="#commerce-model" class="tocxref"><span class="secno">2.3 </span>Commerce Model</a><ul class="toc"><li class="tocline"><a href="#assets" class="tocxref"><span class="secno">2.3.1 </span>Assets</a></li><li class="tocline"><a href="#licenses" class="tocxref"><span class="secno">2.3.2 </span>Licenses</a></li><li class="tocline"><a href="#listings" class="tocxref"><span class="secno">2.3.3 </span>Listings</a></li><li class="tocline"><a href="#contracts" class="tocxref"><span class="secno">2.3.4 </span>Contracts</a></li></ul></li></ul></li><li class="tocline"><a href="#base-technologies" class="tocxref"><span class="secno">3. </span>Base Technologies</a><ul class="toc"><li class="tocline"><a href="#representational-state-transfer" class="tocxref"><span class="secno">3.1 </span>Representational State Transfer</a></li><li class="tocline"><a href="#javascript-object-notation-for-linking-data" class="tocxref"><span class="secno">3.2 </span>JavaScript Object Notation for Linking Data</a></li><li class="tocline"><a href="#the-advanced-encryption-standard" class="tocxref"><span class="secno">3.3 </span>The Advanced Encryption Standard</a></li><li class="tocline"><a href="#html-rdfa" class="tocxref"><span class="secno">3.4 </span>HTML+RDFa</a></li></ul></li><li class="tocline"><a href="#the-registration-process" class="tocxref"><span class="secno">4. </span>The Registration Process</a><ul class="toc"><li class="tocline"><a href="#asset-acquirer-registration" class="tocxref"><span class="secno">4.1 </span>Asset Acquirer Registration</a></li><li class="tocline"><a href="#asset-provider-registration" class="tocxref"><span class="secno">4.2 </span>Asset Provider Registration</a></li></ul></li><li class="tocline"><a href="#the-purchase-process" class="tocxref"><span class="secno">5. </span>The Purchase Process</a><ul class="toc"><li class="tocline"><a href="#publishing-an-asset" class="tocxref"><span class="secno">5.1 </span>Publishing an Asset</a></li><li class="tocline"><a href="#publishing-a-license" class="tocxref"><span class="secno">5.2 </span>Publishing a License</a></li><li class="tocline"><a href="#publishing-a-listing" class="tocxref"><span class="secno">5.3 </span>Publishing a Listing</a></li><li class="tocline"><a href="#authorizing-a-payment-session" class="tocxref"><span class="secno">5.4 </span>Authorizing a Payment Session</a></li><li class="tocline"><a href="#performing-a-purchase" class="tocxref"><span class="secno">5.5 </span>Performing a Purchase</a></li><li class="tocline"><a href="#the-contract" class="tocxref"><span class="secno">5.6 </span>The Contract</a></li><li class="tocline"><a href="#verifying-a-purchase" class="tocxref"><span class="secno">5.7 </span>Verifying a Purchase</a></li></ul></li><li class="tocline"><a href="#the-payswarm-api" class="tocxref"><span class="secno">6. </span>The PaySwarm API</a></li><li class="tocline"><a href="#implementation-details" class="tocxref"><span class="secno">7. </span>Implementation Details</a><ul class="toc"><li class="tocline"><a href="#digital-signatures" class="tocxref"><span class="secno">7.1 </span>Digital Signatures</a><ul class="toc"><li class="tocline"><a href="#signing" class="tocxref"><span class="secno">7.1.1 </span>Signing</a></li><li class="tocline"><a href="#verifying" class="tocxref"><span class="secno">7.1.2 </span>Verifying</a></li></ul></li></ul></li><li class="tocline"><a href="#data-portability" class="tocxref"><span class="secno">8. </span>Data Portability</a><ul class="toc"><li class="tocline"><a href="#transfering-purchase-history" class="tocxref"><span class="secno">8.1 </span>Transfering Purchase History</a></li></ul></li><li class="tocline"><a href="#security-concerns" class="tocxref"><span class="secno">9. </span>Security Concerns</a><ul class="toc"><li class="tocline"><a href="#identity-management" class="tocxref"><span class="secno">9.1 </span>Identity Management</a></li><li class="tocline"><a href="#digital-signatures-1" class="tocxref"><span class="secno">9.2 </span>Digital Signatures</a></li><li class="tocline"><a href="#identifying-and-removing-troublemakers" class="tocxref"><span class="secno">9.3 </span>Identifying and Removing Troublemakers</a></li><li class="tocline"><a href="#halting-asset-distribution" class="tocxref"><span class="secno">9.4 </span>Halting Asset Distribution</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+
+    <div id="introduction" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">1. </span>Introduction</h2>
+      <p>
+The PaySwarm Web platform is an open web standard that enables Web browsers and 
+Web devices to perform Universal Web Payment. PaySwarm enables the people that 
+create digital content such as blog posts, music, film, episodic content, 
+photos, virtual goods, and documents to distribute their creations through 
+their website and receive payment directly from their fans and customers. The 
+technology is designed to be integrated directly into blogging platforms, 
+content management systems and general purpose websites.
+      </p>
+      <p>
+The technology is provided as an open web platform, which is a combination of 
+technology that is patent-free, royalty-free, published in a free 
+specification, using well-defined protocols and other open technologies. The 
+entire PaySwarm standard, like HTML, HTTP, and JavaScript, is an open web 
+platform. Almost every successful Web technology is built and released in 
+this way.
+      </p>      
+      <p>
+PaySwarm supports Micropayments. The standard assumes that customers do not
+want to be bothered to reach for their wallet every time they need to spend a 
+couple of cents, or even a couple of dollars. Micropayment in this case, 
+specifically refers to the ability to automatically distribute payments in 
+increments of up to 1/100,000th of a cent to anybody listed in PaySwarm 
+digital contracts.
+      </p>
+      <p>
+It is the goal of this specification to create an environment that is friendly
+to content creators and customers alike. Distribution of digital goods is
+becoming an increasing part of the Web and therefore compensation for these
+digital goods must be as easy to perform as downloading the digital goods. The
+PaySwarm specification works with the architecture of the Web to deliver a
+solution that is universal across websites, industries and countries.
+      </p>
+    </div>
+
+    <div id="the-conceptual-model" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">2. </span>The Conceptual Model</h2>
+      <p>
+There are three primary participants in a PaySwarm transaction; the 
+asset acquirer, the asset owner, and the PaySwarm Authority.
+      </p>
+      <div id="identity-and-identifiers" class="section">
+        <h3><span class="secno">2.1 </span>Identity and Identifiers</h3>
+        <p>
+In order for a universal payment system to work seamlessly, there must be a
+universal way of identifying <em>things</em> in the environment. This 
+specification uses Internationalized Resource Identifiers [<cite><a class="bibref" rel="biblioentry" href="#bib-IRI">IRI</a></cite>] to 
+refer to <em>things</em> on the network. These things can be a personal identity 
+(<code>https://example.com/people/bob</code>), 
+financial account information 
+(<code>https://example.com/people/bob/accounts/42</code>), public cryptography
+keys (<code>https://example.com/people/bob/keys/14</code>), assets, licenses 
+and a variety of other pieces of long-lived information that exists on the Web. 
+By naming these things with long-lived unique identifiers, it becomes possible 
+to create a decentralized but stable universal payment architecture.
+        </p>
+      </div>
+      <div id="participants" class="section">
+        <h3><span class="secno">2.2 </span>Participants</h3>
+        <div id="asset-acquirers" class="section">
+          <h4><span class="secno">2.2.1 </span>Asset Acquirers</h4>
+          <p>
+An <dfn title="asset_acquirer" id="dfn-asset_acquirer">asset acquirer</dfn>, more commonly known as a buyer, is an entity 
+that is capable 
+of acquiring the rights to a particular asset via a Contract. The entity is 
+typically a person or an organization that would like to view, copy or 
+otherwise utilize the asset that is being acquired.
+          </p>
+        </div>
+        <div id="asset-providers" class="section">
+          <h4><span class="secno">2.2.2 </span>Asset Providers</h4>
+          <p>
+An <dfn title="asset_provider" id="dfn-asset_provider">asset provider</dfn>, more commonly known as an owner, is the entity 
+providing an asset for sale. Typically, the asset provider is the legal owner 
+of the asset that is being listed for sale. Ownership of an asset can manifest 
+in a variety of different forms. Copyright ownership, physical ownership, and 
+sub-leased property or services are just a few of the types of ownership that 
+apply to asset providers.
+          </p>
+        </div>
+        <div id="payswarm-authorities" class="section">
+          <h4><span class="secno">2.2.3 </span>PaySwarm Authorities</h4>
+          <p>
+A <dfn title="PaySwarm_Authority" id="dfn-payswarm_authority">PaySwarm Authority</dfn> is used to store money, process and store 
+contracts, and 
+transfer monetary amounts between financial accounts. While a PaySwarm 
+Authority may hold a great deal of financial data, they are built with
+data portability in mind. PaySwarm participants may move their money and
+purchase history from one authority to another. Data portability is a mandatory
+part of this specification.
+          </p>
+        </div>
+      </div>
+      <div id="commerce-model" class="section">
+        <h3><span class="secno">2.3 </span>Commerce Model</h3>
+        <div id="assets" class="section">
+          <h4><span class="secno">2.3.1 </span>Assets</h4>
+An <dfn title="asset" id="dfn-asset">asset</dfn> describes a particular item that is provided as a part 
+of a commercial
+transaction. It is usually an item that can be accessed or acquired on the
+basis of a sale or rental under the terms of a particular license. Examples
+of assets include web pages, crowd-funded loans or grants, music files, 
+video streams, use of virtual machines by the hour, 
+3D printer files for on-demand manufacturing, radio 
+spectrum and many other items that are capable of being transacted.
+          <p>
+          </p>
+        </div>
+        <div id="licenses" class="section">
+          <h4><span class="secno">2.3.2 </span>Licenses</h4>
+          <p>
+A <dfn title="license" id="dfn-license">license</dfn> is a legal description of a licensee's rights to a 
+particular <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+Licenses are usually included as a part of a contract to express what a buyer 
+may do with the asset that has been purchased.
+          </p>
+        </div>
+        <div id="listings" class="section">
+          <h4><span class="secno">2.3.3 </span>Listings</h4>
+          <p>
+A <dfn title="listing" id="dfn-listing">listing</dfn> describes the combination of an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that 
+is for sale under a specific <a class="tref internalDFN" title="license" href="#dfn-license">license</a> and a set of payment terms 
+that must be fulfilled in order 
+to access the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>. Listings are often published on websites that 
+sell <a class="tref" title="assets">assets</a> via PaySwarm as a way to express wares for sale in a 
+decentralized manner.
+          </p>
+        </div>
+        <div id="contracts" class="section">
+          <h4><span class="secno">2.3.4 </span>Contracts</h4>
+          <p>
+A <dfn title="contract" id="dfn-contract">contract</dfn> is the result of a commercial transaction in PaySwarm 
+and contains
+information such as the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>, the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was 
+purchased, the parties involved in the transaction, the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> 
+outlining the rights to the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>, and payment information 
+associated with the transaction.
+          </p>
+        </div>
+      </div>      
+    </div>
+
+    <div id="base-technologies" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">3. </span>Base Technologies</h2>
+      <p>
+PaySwarm builds on a number of successful Internet and Web technologies. These
+technologies are introduced in this section.
+      </p>
+
+      <div id="representational-state-transfer" class="section">
+        <h3><span class="secno">3.1 </span>Representational State Transfer</h3>
+        <p>
+REpresentational State Transfer [<cite><a class="bibref" rel="biblioentry" href="#bib-REST">REST</a></cite>] is the architectural style that underpins
+the World Wide Web. It consists of a set of constraints to ensure that servers,
+gateways, proxies and clients may interact in a way that is predictable.
+Systems that are designed with this architecture in mind are called RESTful
+systems. PaySwarm is designed to be RESTful by ensuring that the constraints of
+REST are applied to all transactions performed via PaySwarm systems.
+        </p>
+      </div>
+
+      <div id="javascript-object-notation-for-linking-data" class="section">
+        <h3><span class="secno">3.2 </span>JavaScript Object Notation for Linking Data</h3>
+        <p>
+JavaScript Object Notation for Linking Data [<cite><a class="bibref" rel="biblioentry" href="#bib-JSON-LD">JSON-LD</a></cite>] is a lightweight Linked 
+Data format. It is easy for humans to read and write. It is easy for machines 
+to parse and generate. It is based on the already successful JSON format and 
+provides a way to help JSON data interoperate at Web-scale. If you are already 
+familiar with JSON, writing JSON-LD is very easy. There is a smooth migration 
+path from the JSON you use today, to the JSON-LD you will use in the future. 
+These properties make JSON-LD an ideal Linked Data interchange language for 
+JavaScript environments, Web services, and JSON document-based databases.
+        </p>
+      </div>
+
+      <div id="the-advanced-encryption-standard" class="section">
+        <h3><span class="secno">3.3 </span>The Advanced Encryption Standard</h3>
+        <p>
+The Advanced Encryption Standard (AES) [<cite><a class="bibref" rel="biblioentry" href="#bib-FIPS-197">FIPS-197</a></cite>] is a world standard 
+adopted by the
+United States Government and used to secure a vast majority of the
+commercial transactions over the Internet via OpenSSL. Since much of the data
+exchanged over PaySwarm participants is sensitive, it is important that a 
+strong cryptography suite is utilized to digitally sign and transfer the 
+messages.
+        </p>
+      </div>
+
+      <div id="html-rdfa" class="section">
+        <h3><span class="secno">3.4 </span>HTML+RDFa</h3>
+        <p>
+Web sites are largely implemented on top of the HyperText Markup Language 
+(HTML). This format is known to be fairly easy to author and publish on the Web.
+In addition to being easy to publish, it is also important that data published
+via HTML can be easily read by machines without placing an undue burden on
+Web authors. Publishing structured data in a decentralized manner also 
+requires a language that is capable of being both expressive and deterministic. 
+The Resource Description Framework in attributes [<cite><a class="bibref" rel="biblioentry" href="#bib-RDFA-CORE">RDFA-CORE</a></cite>] extends HTML 
+[<cite><a class="bibref" rel="biblioentry" href="#bib-HTML-RDFA">HTML-RDFA</a></cite>] to allow structured data to be expressed via HTML, but in a way 
+that is easy for Web developers to author.
+        </p>
+      </div>
+    </div>
+
+    <div id="the-registration-process" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">4. </span>The Registration Process</h2>
+      <p>
+      </p>
+
+      <div id="asset-acquirer-registration" class="section">
+        <h3><span class="secno">4.1 </span>Asset Acquirer Registration</h3>
+        <p>
+In order for an <a class="tref internalDFN" title="asset_acquirer" href="#dfn-asset_acquirer">asset acquirer</a> to transact, they must have an
+account on a <a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a>. Typically, this account must 
+also contain a positive amount of funds that may be used to acquire goods or 
+services. How this account is created and funds are deposited are outside of
+the scope of this specification. However, the end result of this sign up
+process <em class="rfc2119" title="must">must</em> result in the following items being created for the
+<a class="tref internalDFN" title="asset_acquirer" href="#dfn-asset_acquirer">asset acquirer</a>:
+        </p>
+        <ol>
+          <li>An <dfn title="entity" id="dfn-entity">entity</dfn> IRI that will be used to identify the 
+entity that is transacting. For example: 
+<code>https://example.com/people/jane</code>.</li>
+          <li>A <dfn title="financial_account" id="dfn-financial_account">financial account</dfn> IRI that is associated with the 
+<a class="tref internalDFN" title="entity" href="#dfn-entity-1">entity</a> IRI above. For example:
+<code>https://example.com/people/jane/accounts/primary</code>.</li>
+          <li>A positive amount of funds in the <a class="tref internalDFN" title="financial_account" href="#dfn-financial_account-1">financial account</a>
+mentioned above.
+        </li></ol>
+      </div>
+
+      <div id="asset-provider-registration" class="section">
+        <h3><span class="secno">4.2 </span>Asset Provider Registration</h3>
+        <p>
+In order for an <a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a> to transact, they must have an
+account on a PaySwarm Authority. How this account is created and managed is
+outside of the scope of this specification. However, the end result of this
+sign up process <em class="rfc2119" title="must">must</em> result in the following items being created for the 
+<a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a>:
+        </p>
+        <ol>
+          <li>An <dfn title="entity" id="dfn-entity-1">entity</dfn> IRI that will be used to identify the 
+entity that is transacting. For example: 
+<code>https://example.com/people/manu</code>.</li>
+          <li>A <dfn title="financial_account" id="dfn-financial_account-1">financial account</dfn> IRI that is associated with the 
+<a class="tref internalDFN" title="entity" href="#dfn-entity-1">entity</a> IRI above. For example:
+<code>https://example.com/people/manu/accounts/primary</code>.</li>
+        </ol>
+        <p>
+Since all <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>s and <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>s are digitally signed,
+a public key <em class="rfc2119" title="must">must</em> be registered for the 
+<a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a> with the <a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a>.
+This is typically performed by the <dfn title="publishing_agent" id="dfn-publishing_agent">publishing agent</dfn> software that 
+is publishing the 
+<a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>s and <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>s for sale on behalf of the 
+<a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a>. The registration is accomplished by executing
+the following algorithm:
+        </p><ol>
+          <li>The <a class="tref" title="publishing_agent_generates_and_stores_a__public/private_keypair_that_will_be_used_to_associate_the_publishing_agent_with_the_asset_provider.">publishing agent<tref> generates and stores a 
+public/private keypair that will be used to associate the
+<tref>publishing agent</tref> with the <tref>asset provider</tref>.</tref></a></li>
+          <li>The <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a> retrieves the 
+<a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a> configuration from a configuration IRI, given
+a base IRI to the <a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a>.
+            <ol>
+              <li>The configuration IRI is generated by concatenating a base 
+IRI, such as <code>https://example.com/</code> with the 
+<code>payswarm-v1-config</code> suffix. 
+For example, the previous base IRI concatenated with the configuration
+suffix would result in the following configuration
+IRI: <code>https://example.com/payswarm-v1-config</code>.</li>
+              <li>An HTTP GET is performed on the configuration IRI with the
+HTTP <code>Accept</code> header set to <code>application/ld+json</code>. The
+<a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a> <em class="rfc2119" title="must">must</em> respond with a compacted JSON-LD document
+using the context specified at <a class="tref" title="https://purl.org/payswarm/v1">https://purl.org/payswarm/v1</a></li>
+              <li>The result <em class="rfc2119" title="must">must</em> be a JSON-LD document containing a flat set of
+key-value pairs. The public-key registration IRI is identified by the
+<code>public-key-service</code> key in the JSON-LD document. The value will be 
+the <dfn title="public_key_service" id="dfn-public_key_service">public key service</dfn> IRI.
+              </li>
+            </ol>
+          </li>
+          <li>
+The <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a> initiates an HTTP redirect
+for the <a class="tref" title="user_agent">user agent</a>. An HTTP GET request is performed
+to the <a class="tref internalDFN" title="public_key_service" href="#dfn-public_key_service">public key service</a> IRI with the addition of two IRI query 
+parameters. The first parameter, <code>public-key</code>, is the X.509 
+PEM-encoded public key. The second parameter, 
+<code>registration-callback</code>,
+is the registration callback IRI for the <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a>.</li>
+          <li>
+The <a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a> associates the 
+<a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a> with the <a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a> based on the
+provided public key. Note that is process <em class="rfc2119" title="must">must</em> authenticate the 
+<a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a> via a login process if the 
+<a class="tref internalDFN" title="asset_provider" href="#dfn-asset_provider">asset provider</a> does not have an active login session. Other
+configuration steps may be performed at this stage, including the 
+specification of defaults for the particular <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a>.</li>
+          <li>
+The <a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a> specifies a set of 
+<a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a> configuration values and, using the provided
+public key, encrypts and base-64 encodes the value. The result is sent 
+back to the <code>registration-callback</code> IRI via an HTTP POST.
+            <ol>
+              <li>The following configuration values <em class="rfc2119" title="must">must</em> be included in the
+JSON-LD response data to the <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a>; ... FIXME ...</li>
+              <li>The JSON-LD response is compacted and encrypted using the
+public key associated with the registration request. The encrypted byte stream
+is then base-64 encoded.</li>
+              <li>The base-64 encoded byte stream is transmitted to the
+<code>registration callback</code> via an HTTP POST request that is initiatited
+by the <a class="tref" title="user_agent">user agent</a>. This is most commonly accomplished by having
+the <a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a> generate an HTML form that can be submitted
+to the <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a> when a form submission button is clicked
+via the <a class="tref" title="user_agent">user agent</a>.
+              </li><li>The <a class="tref internalDFN" title="publishing_agent" href="#dfn-publishing_agent">publishing agent</a> decrypts the base-64
+encoded byte stream, extracts the configuration values and stores each value
+for use during the latter parts of the publishing and purchase process.</li>
+            </ol>
+          </li>
+        </ol>
+
+        <p></p>
+      </div>
+
+    </div>
+
+    <div id="the-purchase-process" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">5. </span>The Purchase Process</h2>
+      <p>
+      </p>
+      
+      <div id="publishing-an-asset" class="section">
+        <h3><span class="secno">5.1 </span>Publishing an Asset</h3>
+        <p>
+An <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> describes a particular item that is provided as a part 
+of a commercial transaction. It is usually an item that can be accessed or 
+acquired on the
+basis of a sale or rental under the terms of a particular <a class="tref internalDFN" title="license" href="#dfn-license">license</a>. 
+Examples of assets include web pages, music files, video streams, use of virtual
+machines by the hour, 3D printer files for on-demand manufacturing, radio 
+spectrum and crowd-funded loans and grants.
+        </p>
+
+        <p>
+The following example describes a web page <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> with the title 
+"PaySwarm in Practice - Full Article #1". The article was created by 
+"Digital Bazaar, Inc." and the information in the asset is valid from 
+November 28th, 2010 to November 28th, 2011. 
+The asset is digitally signed by the person providing it
+and thus can be cached, stored and then presented to someone else in a manner
+that is verifiable by the receiving party.
+        </p>
+        <pre class="example">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:creator": 
+   {
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
+   "ps:signature": 
+   {
+       "@type": "sig:JsonldSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
+   }
+}</pre>
+        
+      </div>
+
+      <div id="publishing-a-license" class="section">
+        <h3><span class="secno">5.2 </span>Publishing a License</h3>
+        <p>
+A <a class="tref internalDFN" title="license" href="#dfn-license">license</a> is a legal description of a licensee's rights to a 
+particular <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+Licenses are usually included as a part of a contract to express what a buyer 
+may do with the asset that has been purchased.
+        </p>
+        
+        <p>
+The following example describes an overly-simplified personal use license.
+        </p>
+        <pre class="example">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@type": "ps:License",
+   "dc:format": "text/html",
+   "ps:licenseTemplate": "This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &lt;span property=\"ex:physicalCopies\" /&gt; printed
+      copies of the work for personal use."
+   "ps:licenseTerms": 
+   {
+      "ex:physicalCopies": 5
+   }
+}</pre>
+
+      </div>
+
+      <div id="publishing-a-listing" class="section">
+        <h3><span class="secno">5.3 </span>Publishing a Listing</h3>
+
+        <p>
+A <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> describes the combination of an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> 
+that is for sale under a specific <a class="tref internalDFN" title="license" href="#dfn-license">license</a> and a set of payment 
+terms that must be fulfilled in order to access the asset. Listings are often 
+published on websites that sell assets via PaySwarm as a way to express things
+that are for sale, in a decentralized manner.
+        </p>
+
+        <p>
+The following example describes an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> for sale 
+for $0.05 USD under a <a class="tref internalDFN" title="license" href="#dfn-license">license</a>
+that covers acceptable use of blog posts. The offer is valid from March 2nd 
+2011 to March 3rd 2011. The only restriction on additional payees is that the 
+<a class="tref internalDFN" title="PaySwarm_Authority" href="#dfn-payswarm_authority">PaySwarm Authority</a> (the organization processing the payment) 
+may only take a maximum of 10% of the final sale price to cover their fees.
+        </p>
+
+        <pre class="example">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "http://example.com/articles/1#listing",
+   "@type": ["gr:Offering", "ps:Listing"],
+   "com:payee": 
+   [
+      {
+         "@subject": "http://example.com/articles/1#listing-payee",
+         "@type": "com:Payee",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "com:rate": "0.05",
+         "com:rateType": "com:FlatAmount",
+         "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+      }
+   ],
+   "com:payeeRule": 
+   [
+      {
+         "@type": "com:PayeeRule",
+         "com:destinationOwnerType": "ps:Authority",
+         "com:maximumRate": "10",
+         "com:rateType": "com:InclusivePercentage"
+      }
+   ],
+   "ps:asset": "http://example.com/articles/1#asset",
+   "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+   "ps:assetProvider": "https://payswarm.example.com/i/bob",
+   "ps:license": "http://payswarm.example.com/licenses/blogging",
+   "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+   "ps:signature": 
+   {
+      "@type": "ps:JsonldSignature",
+      "dc:created": "2011-03-02T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
+      "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+   },
+   "ps:validFrom": "2011-03-02T00:00:00+0000",
+   "ps:validUntil": "2011-03-03T00:00:00+0000"
+}</pre>
+
+      </div>
+
+      <div id="authorizing-a-payment-session" class="section">
+        <h3><span class="secno">5.4 </span>Authorizing a Payment Session</h3>
+
+        <p></p>
+      </div>
+
+      <div id="performing-a-purchase" class="section">
+        <h3><span class="secno">5.5 </span>Performing a Purchase</h3>
+
+        <p></p>
+      </div>
+
+      <div id="the-contract" class="section">
+        <h3><span class="secno">5.6 </span>The Contract</h3>
+
+        <p>
+A <a class="tref internalDFN" title="contract" href="#dfn-contract">contract</a> is the result of a commercial transaction in PaySwarm 
+and contains information such as the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>, 
+the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was purchased, the parties involved in the
+transaction, the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> outlining the rights to the 
+asset, and payment information associated with the transaction.
+        </p>
+
+        <p>
+The following example describes a purchase that occurred on March 2nd 2011
+for a Web-based article called "PaySwarm in Practice". The article was authored
+and listed for sale by Bob Smith and a personal use license was acquired by 
+Jane, who may now peruse the article.
+        </p>
+
+        <pre class="example">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@subject": "&lt;http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
+   "com:amount": "0.05",
+   "com:currency": "USD",
+   "com:date": "2011-03-02T03:00:53Z",
+   "com:payee": 
+   [
+      {
+         "@type": "com:Payee",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "com:payeePosition": 0,
+         "com:rate": "10.00",
+         "com:rateContext": "com:TaxExempt",
+         "com:rateType": "com:InclusivePercentage",
+         "rdfs:comment": "PaySwarm Authority Transaction Processing"
+      }
+   ],
+   "com:transfer": 
+   [
+      {
+         "@type": "com:Transfer",
+         "com:amount": "0.045",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
+         "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
+      },
+      {
+         "@type": "com:Transfer",
+         "com:amount": "0.005",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
+         "rdfs:comment": "PaySwarm Authority Transaction Processing"
+      }
+   ],
+   "dc:created": "2011-03-02T03:00:53Z",
+   "ps:asset": 
+   {
+      "@subject": "http://example.com/articles/1#asset",
+      "@type": ["ps:Asset", "ps:WebPage"],
+      "dc:creator": 
+      {
+         "foaf:name": "Bob Smith"
+      },
+      "dc:title": "PaySwarm in Practice",
+      "ps:assetProvider": "https://payswarm.example.com/i/bob",
+      "ps:authority": "https://payswarm.example.com/client-config",
+      "ps:contentUrl": "http://example.com/articles/1",
+      "ps:signature": 
+      {
+         "@type": "ps:JsonldSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
+         "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
+      }
+   },
+   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
+   "ps:assetProviderIdentity": 
+   {
+      "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
+   },
+   "ps:license": 
+   {
+      "@subject": "http://payswarm.example.com/licenses/blogging",
+      "@type": "ps:License",
+      "dc:format": "text/html",
+      "ps:licenseTemplate": "Personal Use License ..."
+   },
+   "ps:listing": 
+   {
+      "@subject": "http://example.com/articles/1#listing",
+      "@type": ["gr:Offering", "ps:Listing"],
+      "com:payee": 
+      [
+         {
+            "@subject": "http://example.com/articles/1#listing-payee",
+            "@type": "com:Payee",
+            "com:currency": "USD",
+            "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+            "com:rate": "0.05",
+            "com:rateType": "com:FlatAmount",
+            "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+         }
+      ],
+      "com:payeeRule": 
+      [
+         {
+            "@type": "com:PayeeRule",
+            "com:destinationOwnerType": "ps:Authority",
+            "com:maximumRate": "10",
+            "com:rateType": "com:InclusivePercentage"
+         }
+      ],
+      "ps:asset": "http://example.com/articles/1#asset",
+      "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+      "ps:license": "http://payswarm.example.com/licenses/blogging",
+      "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+      "ps:signature": 
+      {
+         "@type": "ps:JsonldSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
+         "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      },
+      "ps:validFrom": "2011-03-02T00:00:00+0000",
+      "ps:validUntil": "2011-03-03T00:00:00+0000"
+   },
+   "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
+   "ps:signature": 
+   {
+      "@type": "ps:JsonldSignature",
+      "dc:created": "2011-03-02T03:00:53Z",
+      "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
+      "ps:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
+   }
+}</pre>
+
+      </div>
+
+      <div id="verifying-a-purchase" class="section">
+        <h3><span class="secno">5.7 </span>Verifying a Purchase</h3>
+
+      </div>
+    </div>
+
+    <div id="the-payswarm-api" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">6. </span>The PaySwarm API</h2>
+    </div>
+
+    <div id="implementation-details" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">7. </span>Implementation Details</h2>
+
+      <div id="digital-signatures" class="section">
+        <h3><span class="secno">7.1 </span>Digital Signatures</h3>
+
+        <div id="signing" class="section">
+          <h4><span class="secno">7.1.1 </span>Signing</h4>
+
+        </div>
+
+        <div id="verifying" class="section">
+          <h4><span class="secno">7.1.2 </span>Verifying</h4>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="data-portability" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">8. </span>Data Portability</h2>
+      <p>
+One of the freedoms that is ensured by this specification is the freedom to
+own your data and move it to a PaySwarm Authority of your choosing. That is,
+your transaction history is your property and therefore you must be able to
+move it to a location of your choosing at will. In order to ensure that this
+freedom is protected, data portability <em class="rfc2119" title="must">must</em> be implemented by all conforming 
+implementations of this specification.
+      </p>
+
+      <div id="transfering-purchase-history" class="section">
+        <h3><span class="secno">8.1 </span>Transfering Purchase History</h3>
+
+      </div>
+
+    </div>
+
+    <div id="security-concerns" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">9. </span>Security Concerns</h2>
+      <p>
+      </p>
+
+      <div id="identity-management" class="section">
+        <h3><span class="secno">9.1 </span>Identity Management</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="digital-signatures-1" class="section">
+        <h3><span class="secno">9.2 </span>Digital Signatures</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="identifying-and-removing-troublemakers" class="section">
+        <h3><span class="secno">9.3 </span>Identifying and Removing Troublemakers</h3>
+        <p>
+        </p>
+      </div>
+
+      <div id="halting-asset-distribution" class="section">
+        <h3><span class="secno">9.4 </span>Halting Asset Distribution</h3>
+        <p>
+        </p>
+      </div>
+    </div>
+
+   
+
+
+<div id="references" class="appendix section">
+<!-- OddPage -->
+<h2><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-FIPS-197">[FIPS-197]</dt><dd>Information Technology Laboratory. <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>
+</dd><dt id="bib-HTML-RDFA">[HTML-RDFA]</dt><dd>Manu Sporny; et al. <a href="http://www.w3.org/TR/rdfa-in-html/"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href="http://www.w3.org/TR/rdfa-in-html/">http://www.w3.org/TR/rdfa-in-html/</a> 
+</dd><dt id="bib-IRI">[IRI]</dt><dd>M. Duerst, M. Suignard. <a href="http://www.ietf.org/rfc/rfc3987.txt"><cite>Internationalized Resource Identifiers (IRI).</cite></a> January 2005. Internet RFC 3987. URL: <a href="http://www.ietf.org/rfc/rfc3986.txt">http://www.ietf.org/rfc/rfc3987.txt</a> 
+</dd><dt id="bib-JSON-LD">[JSON-LD]</dt><dd>Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href="http://json-ld.org/spec/latest/"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href="http://json-ld.org/spec/latest/">http://json-ld.org/spec/latest/</a> 
+</dd><dt id="bib-RDFA-CORE">[RDFA-CORE]</dt><dd>Shane McCarron; et al. <a href="http://www.w3.org/TR/2011/WD-rdfa-core-20110331"><cite>RDFa Core 1.1: Syntax and processing rules for embedding RDF through attributes.</cite></a> 31 March 2011. W3C Working Draft. URL: <a href="http://www.w3.org/TR/2011/WD-rdfa-core-20110331">http://www.w3.org/TR/2011/WD-rdfa-core-20110331</a> 
+</dd></dl></div><div id="informative-references" class="section"><h3><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-REST">[REST]</dt><dd>Fielding, Roy Thomas. <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>
+</dd></dl></div></div></body></html>

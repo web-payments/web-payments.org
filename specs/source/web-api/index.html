@@ -557,9 +557,10 @@ public key, encrypts and base-64 encodes the value. The result is sent
 back to the <code>registration-callback</code> IRI via an HTTP POST.
             <ol class="algorithm">
               <li>The following configuration values MUST be included in the
-JSON-LD response data to the <tref>publishing agent</tref>; 
-<code>public-key-service</code>, <code>license-service</code>, and
-<code>contracts-service</code>.
+JSON-LD response data to the <tref>currency</tref>; <code>com:currency</code>
+<code>com:minimumAmount</code>, <code>com:maximumRate</code>,
+<code>com:destination</code>, <code>sig:publicKey</code>, 
+<code>ps:license</code> and <code>ps:licenseHash</code>.
               </li>
               <li>The JSON-LD response is compacted and encrypted using the
 public key associated with the registration request. The encrypted byte stream
@@ -579,18 +580,59 @@ for use during the latter parts of the publishing and purchase process.</li>
         </p>
 
         <p>
-Step #2:
+The example below shows the full protcol-level exchange between the
+<tref>publishing agent</tref> and the <tref>PaySwarm Authority</tref>. For
+the sake of brevity, not every optional parameter is included, just the bare
+minimum necessary to perform the <tref>asset provider</tref> registration.
         </p>
 
 <pre class="example">
+--------------------------------- Step #1 -----------------------------------
+
+*** Request: user agent -> publishing agent
+
+POST /register-blog HTTP/1.1
+Host: publisher.example.org
+Content-Length: 47
+Content-Type: application/x-www-form-urlencoded
+
+payswarm-authority=http%3A%2F%2Fpayswarm.example.com%2F
+
+*** publishing agent generates and stores public/private keypair
+
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDptIkqrXhx7YVGsBZ5fY/Lz0il
+0LXJrhUY43V/lLWdRf7JXY6tcgA5AmwNGZtJRyH79QXCJn+BAHUtl6gX2gvjs8N2
+B5u4m0LtXyaFWtbQV9+hY3JRLOBiydPeXLgsnLwKiJ9v4CNXSNA5wT8vYGXiqq0B
+US89y0M909ZTj2zDQwIDAQAB
+-----END PUBLIC KEY-----
+
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDptIkqrXhx7YVGsBZ5fY/Lz0il0LXJrhUY43V/lLWdRf7JXY6t
+cgA5AmwNGZtJRyH79QXCJn+BAHUtl6gX2gvjs8N2B5u4m0LtXyaFWtbQV9+hY3JR
+LOBiydPeXLgsnLwKiJ9v4CNXSNA5wT8vYGXiqq0BUS89y0M909ZTj2zDQwIDAQAB
+AoGALNmBrVgHEk4T0qH+XihTjThlZ7Tq/h5TXChipy5BwEHriHdU50JGeqpVVBpC
+68gj5Hd8OGss8vPEiRBeqN0mhJlRaX5ijyFp2n8+7DhfOIVhCd1MXCGQPTrdXIo5
+OOQECSplnALZfKr0VC4TBeW+oUZGMoG4rRSM5DfyPFJtlzECQQD8DkWBkhRsP1An
+3qfZR8oUkvbaVg9jsCNvoBazYSS3OhsZ96ZSTyf9hJn28wGJmShuZA2eL5XjuTY4
+m0fQDhj5AkEA7VzAqKOx5zlFTWXMIzn29uB59m4yJ7UwCyc7tisQA16I8B2HzJzZ
+saipkpU2RUYaBrjtWaiVNtyXvZ7mccJpGwJBAMyE4/8bwfiHcwm2z+ktKBqDmUtW
+E0ynKkmz01ef1kPaIQ1z9f/JfMBnrOpFCZVVsgnIo4gcQnox2X4a+S0nkzkCQBre
+xCSTG2Gclx7S5lAakL2T3dqq0Nyz4zNwBo9xwodPHVtpTGU6YF5/RGsGnzUqYWnf
+Z2cd8X5bbIYXxeic5H8CQQCcBOtOdrq9FXsEnyhG5gQXvGdxEAmM2eUs1g8E8kgx
+KBTHOaBRQMgvjsdA/obrs7D0HrEbQqGOy7JBYGWZTsiI
+-----END RSA PRIVATE KEY-----
+
+--------------------------------- Step #2 -----------------------------------
+
 *** Request: publishing agent -> PaySwarm Authority
+
 GET /payswarm-v1-config HTTP/1.1
 Host: payswarm.example.com
 Accept: application/ld+json,*/*;q=0.1
 
------------------------------------------------------------------------------
-
 *** Response: publishing agent &lt;- PaySwarm Authority
+
 HTTP/1.1 200 OK
 Connection: close
 Content-Length: 6075
@@ -601,10 +643,100 @@ Server: Apache/2.2.19 (Debian)
 
 {
    "@context": "http://purl.org/payswarm/v1",
-   "public-key-service": "http://payswarm.example.com/v1/keys",
-   "license-service": "http://payswarm.example.com/v1/licenses",
-   "contracts-service": "http://payswarm.example.com/v1/contracts"
+   "public-key-service": "http://payswarm.example.com/api/v1/keys",
+   "license-service": "http://payswarm.example.com/api/v1/licenses",
+   "contracts-service": "http://payswarm.example.com/api/v1/contracts"
 }
+
+--------------------------------- Step #3 -----------------------------------
+
+*** Redirect: user agent &lt;- publishing agent
+
+HTTP/1.1 303 See Other
+Location: https://payswarm.example.com/api/v1/keys?public-key=↩
+-----BEGIN+PUBLIC+KEY-----%0A↩
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDptIkqrXhx7YVGsBZ5fY%2FLz0il%0A↩
+0LXJrhUY43V%2FlLWdRf7JXY6tcgA5AmwNGZtJRyH79QXCJn%2BBAHUtl6gX2gvjs8N2%0A↩
+B5u4m0LtXyaFWtbQV9%2BhY3JRLOBiydPeXLgsnLwKiJ9v4CNXSNA5wT8vYGXiqq0B%0A↩
+US89y0M909ZTj2zDQwIDAQAB%0A↩
+-----END+PUBLIC+KEY-----↩
+&amp;registration-callback=http%3A%2F%2Fpublisher.example.org%2Fregistration-complete?nonce=pn9sueh43jefa
+Content-Type: text/html
+Content-Length: 174
+
+&lt;html>
+ &lt;head>
+  &lt;title>Identity Registration&lt;/title>
+ &lt;/head>
+ &lt;body>
+  &lt;h1>Public Key Registration&lt;/h1>
+   &lt;p>You must now go to your PaySwarm Authority and 
+    &lt;a href="http://payswarm.example.com/api/v1/keys?public-key=↩
+-----BEGIN+PUBLIC+KEY-----%0A↩
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDptIkqrXhx7YVGsBZ5fY%2FLz0il%0A↩
+0LXJrhUY43V%2FlLWdRf7JXY6tcgA5AmwNGZtJRyH79QXCJn%2BBAHUtl6gX2gvjs8N2%0A↩
+B5u4m0LtXyaFWtbQV9%2BhY3JRLOBiydPeXLgsnLwKiJ9v4CNXSNA5wT8vYGXiqq0B%0A↩
+US89y0M909ZTj2zDQwIDAQAB%0A↩
+-----END+PUBLIC+KEY-----↩
+&amp;registration-callback=http%3A%2F%2Fpublisher.example.org%2Fregistration-complete?nonce=pn9sueh43jefa">
+    register your identification information&lt;/a> 
+    there.&lt;/p>
+ &lt;/body>
+&lt;/html>
+
+--------------------------------- Step #4 -----------------------------------
+
+*** This step consists of a series of UI interactions and is thus not
+*** specified in this specification.
+
+--------------------------------- Step #5 -----------------------------------
+
+*** The PaySwarm Authority creates a configuration object to return back
+*** to the publishing agent
+
+{
+   "@type": "ps:Preferences"
+   "com:currency": "USD",
+   "com:minimumAmount": "0.05",
+   "com:maximumRate": "10.0",
+   "com:destination": "https://example.com/people/manu/accounts/article-sales",
+   "sig:publicKey": "http://payswarm.example.com/i/manu/keys/23",
+   "ps:license": "http://purl.org/payswarm/licenses/blogging",
+   "ps:licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
+}
+
+*** The configuration object is then encrypted and sent to the 
+*** registration-callback specified in the registration request above.
+
+POST registration-complete?nonce=pn9sueh43jefa HTTP/1.1
+Host: publisher.example.org
+Content-Length: 47
+Content-Type: application/ld+json
+
+{
+   "@type": "sig:EncryptedMessage",
+   "sig:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
+   "sig:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=",
+   "sig:cipher": "aes-128-cbc"
+   "sig:publicKey": "http://payswarm.example.com/i/manu/keys/23"
+}
+
+   <section>
+     <h2>Security Concerns for Registration</h2>
+
+
+   </section>
 
 </pre>
 
@@ -653,7 +785,7 @@ that is verifiable by the receiving party.
    "ps:authority": "https://payswarm.example.com/about#authority",
    "ps:validFrom": "2010-11-28T00:00:00Z",
    "ps:validUntil": "2011-11-28T00:00:00Z"
-   "ps:signature": 
+   "sig:signature": 
    {
        "@type": "sig:JsonldSignature",
        "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
@@ -746,12 +878,12 @@ may only take a maximum of 10% of the final sale price to cover their fees.
    "ps:assetProvider": "https://payswarm.example.com/i/bob",
    "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-   "ps:signature": 
+   "sig:signature": 
    {
       "@type": "ps:JsonldSignature",
       "dc:created": "2011-03-02T00:00:00Z",
       "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-      "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      "sig:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
    },
    "ps:validFrom": "2011-03-02T00:00:00+0000",
    "ps:validUntil": "2011-03-03T00:00:00+0000"
@@ -845,12 +977,12 @@ Jane, who may now peruse the article.
       "ps:assetProvider": "https://payswarm.example.com/i/bob",
       "ps:authority": "https://payswarm.example.com/client-config",
       "ps:contentUrl": "http://example.com/articles/1",
-      "ps:signature": 
+      "sig:signature": 
       {
          "@type": "ps:JsonldSignature",
          "dc:created": "2011-03-02T00:00:00Z",
          "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-         "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
+         "sig:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
       }
    },
    "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
@@ -894,23 +1026,23 @@ Jane, who may now peruse the article.
       "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
       "ps:license": "http://payswarm.example.com/licenses/blogging",
       "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-      "ps:signature": 
+      "sig:signature": 
       {
          "@type": "ps:JsonldSignature",
          "dc:created": "2011-03-02T00:00:00Z",
          "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-         "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+         "sig:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
       },
       "ps:validFrom": "2011-03-02T00:00:00+0000",
       "ps:validUntil": "2011-03-03T00:00:00+0000"
    },
    "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
-   "ps:signature": 
+   "sig:signature": 
    {
       "@type": "ps:JsonldSignature",
       "dc:created": "2011-03-02T03:00:53Z",
       "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
-      "ps:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
+      "sig:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
    }
 }
         </pre>

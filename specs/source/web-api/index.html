@@ -195,6 +195,16 @@
           //alternateFormats: [ {uri: "diff-20110808.html", label: "diff to previous version"} ],
       };
     </script> 
+    <link href="prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
   </head> 
   <body> 
     <section id='abstract'> 
@@ -767,7 +777,7 @@ The asset is digitally signed by the person providing it
 and thus can be cached, stored and then presented to someone else in a manner
 that is verifiable by the receiving party.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
    "@subject": "https://example.org/articles/1#asset",
@@ -805,7 +815,7 @@ may do with the asset that has been purchased.
         <p>
 The following example describes an overly-simplified personal use license.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
    "@subject": "http://payswarm.example.com/licenses/personal-use",
@@ -844,7 +854,7 @@ that covers acceptable use of blog posts. The offer is valid from March 2nd
 may only take a maximum of 10% of the final sale price to cover their fees.
         </p>
 
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
    "@subject": "http://example.com/articles/1#listing",
@@ -919,7 +929,7 @@ and listed for sale by Bob Smith and a personal use license was acquired by
 Jane, who may now peruse the article.
         </p>
 
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
    "@subject": "http://payswarm.example.com/contracts/28394729347",

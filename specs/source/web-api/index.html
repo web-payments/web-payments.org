@@ -430,8 +430,118 @@ that is easy for Web developers to author.
     </section>
 
     <section>
+      <h2>Communication</h2>
+      <p>
+All communication between software operating under this specification is
+intended to perform according to REST [[REST]] principles. Additionally, since
+PaySwarm implements a financial system, the security of messages and data
+is of paramount importance. A security breach at certain points during the 
+algorithms described in the following sections may introduce attack vectors 
+that criminals could utilize to steal from or cause financial harm to the 
+systems or people involved. However, excellent security does not have to 
+come at a high cost. PaySwarm has been designed so that many parts of the 
+system can be implemented in a way that does not incur significant 
+effort, recurring costs, or financial outlay.
+      </p>
+
+      <section>
+        <h2>Requests and Responses</h2>
+        <p>
+This specification requires that a <tref>PaySwarm Authority</tref> 
+have a trusted security certificate and operate many of the API services over 
+Transport Layer Security version 1.0 or later. Unless otherwise 
+specified, all API requests
+MUST be made over HTTPS to the <tref>PaySwarm Authority</tref>.
+        </p>
+        <p>
+An invalid certificate or TLS error or any kind MUST result in the API 
+call exiting immediately and not performing the requested
+action. All API requests sent to the <tref>PaySwarm Authority</tref> on 
+behalf of a participant of the network that results in any modification 
+to an internal database MUST be digitally signed by the requestor using the
+steps provided in the <a href="request-signature-algorith">Request Signature
+Algorithm</a>. All responses to network participants from a
+<tref>PaySwarm Authority</tref> MUST be encrypted according to the steps
+provided in the
+<a href="request-signature-algorith">Response Encryption Algorithm</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Communication Terms</h2>
+        <p>
+The following terminology is used to describe concepts used to generate and 
+secure messages in the system. Many of these terms are borrowed from 
+public/private key cryptography. A more complete description of public/private 
+cryptography can be found in The Advanced Encryption Standard [[AES]].
+        </p>
+        
+        <dl>
+          <dt><tdef>message</tdef></dt>
+          <dd>
+A byte stream that is used to convey a request or a response in the system.
+          </dd>
+          <dt><tdef>public key</tdef></dt>
+          <dd>
+A cryptographic mechanism that can be used to verify digital signatures or
+encrypt small messages such that only the software with access to the
+corresponding <tref>private key</tref> can decrypt the small message.
+          </dd>
+          <dt><tdef>private key</tdef></dt>
+          <dd>
+A cryptographic mechanism that can be used to generate digital signatures and
+decrypt encrypted data.
+          </dd>
+          <dt><tdef>signed message</tdef></dt>
+          <dd>
+A type of message that has a digital signature attached to it, generated using
+a <tref>private key</tref>, that is verifiable and incredibly difficult to
+forge.
+          </dd>
+          <dt><tdef>encrypted message</tdef></dt>
+          <dd>
+A type of message that has been obfuscated using a <tref>public key</tref>,
+which is incredibly difficult to decode by any person except for the one
+that holds the associated <tref>private key</tref>.
+          </dd>
+        </dl>
+        
+      </section>
+
+      <section>
+        <h2>Request Signature Algorithm</h2>
+        <p>
+The following algorithm ensures that the originator of an API call can be
+verified as long as the public key can be retrieved by the receiver. An
+<tref>message</tref> is provided as input and, using a
+<tref>private key</tref> and a <tref>public key</tref> IRI, a
+<tref>signed message</tref> is produced as output.
+        </p>
+        
+        <ol class="algorithm">
+        </ol>
+      </section>
+
+      <section>
+        <h2>Response Encryption Algorithm</h2>
+        <p>
+The following algorithm ensures that a message intended for a particular
+recipient can be obfuscated such that only the intended recipient can read the
+message. A <tref>message</tref> is provided as input and, using a
+<tref>public key</tref> and a <tref>public key</tref> IRI, a 
+<tref>encrypted message</tref> is produced as output.
+        </p>
+        
+        <ol class="algorithm">
+        </ol>
+        
+      </section>
+    </section>
+
+    <section>
       <h2>The Registration Process</h2>
-      <p>The registration process is necessary in order to specify details about
+      <p>
+The registration process is necessary in order to specify details about
 the participants in a PaySwarm transaction.
       </p>
 
@@ -441,6 +551,11 @@ the participants in a PaySwarm transaction.
 There are a number of terms that are used during the course of the registration
 process.
         <dl>
+        <dt><tdef>user agent</tdef></dt>
+        <dd>The piece of software operating on behalf of the 
+<tref>asset acquirer</tref>. This is typically a Web Browser, but could be
+some other piece of Web-aware automated software acting on behalf of a 
+person.</dd>
         <dt><tdef>publishing agent</tdef></dt>
         <dd>A software agent acting on behalf of the <tref>asset provider</tref>
 that publishes <tref>asset</tref>s for sale. Typically, this is blogging
@@ -454,8 +569,8 @@ publish this service at a top-level IRI named <code>payswarm-v1-config</code>.
 The document MUST be available in JSON-LD compacted form and MUST use the
 <code>http://purl.org/payswarm/v1</code> JSON-LD context. The following
 keys MUST be present in the published document; 
-<code>public-key-service</code>, <code>license-service</code>, and
-<code>contracts-service</code>.</dd>
+<code>ps:publicKeyService</code>, <code>ps:licenseService</code>, and
+<code>ps:contractsService</code>.</dd>
         <dt><tdef>public key service</tdef></dt>
         <dd>An interactive Web service used to register PEM-encoded 
 X.509 public keys with the <tref>PaySwarm Authority</tref>.</dd>
@@ -524,34 +639,37 @@ the following algorithm:
 public/private keypair that will be used to associate the
 <tref>publishing agent</tref> with the <tref>asset provider</tref>.</li>
           <li>The <tref>publishing agent</tref> retrieves the 
-<tref>PaySwarm Authority</tref> configuration from a configuration IRI, given
-a base IRI to the <tref>PaySwarm Authority</tref>.
+<tref>PaySwarm Authority</tref> configuration from the 
+<tref>configuration service</tref> IRI</tref>.
             <ol class="algorithm">
-              <li>The configuration IRI is generated by concatenating a base 
-IRI, such as <code>https://example.com/</code> with the 
+              <li>The <tref>configuration service</tref> IRI is generated 
+by concatenating a base IRI for the <tref>PaySwarm Authority</tref>, 
+such as <code>https://example.com/</code> with the 
 <code>payswarm-v1-config</code> suffix. 
-For example, the previous base IRI concatenated with the configuration
-suffix would result in the following configuration
+For example, the previous <tref>PaySwarm Authority</tref> IRI concatenated 
+with the configuration suffix would result in the following 
+<tref>configuration service</tref>
 IRI: <code>https://example.com/payswarm-v1-config</code>.</li>
-              <li>An HTTP GET is performed on the configuration IRI with the
-HTTP <code>Accept</code> header set to <code>application/ld+json</code>. The
+              <li>An HTTP GET is performed on the 
+<tref>configuration service</tref> IRI with the
+HTTP <code>Accept</code> header set to 
+<code>application/ld+json; form=compacted</code>. The
 <tref>PaySwarm Authority</tref> MUST respond with a compacted JSON-LD document
-using the context specified at <code>http://purl.org/payswarm/v1</code></li>
+using the context specified at <code>http://purl.org/payswarm/v1</code>.</li>
               <li>The result MUST be a JSON-LD document containing a flat set of
-key-value pairs. The public-key registration IRI is identified by the
-<code>public-key-service</code> key in the JSON-LD document. The value will be 
-the <tref>public key service</tdef> IRI.
+key-value pairs defined in the <tref>configuration service</tref> section above.
               </li>
             </ol>
           </li>
           <li>
-The <tref>publishing agent</tref> initiates an HTTP redirect
+The <tref>publishing agent</tref> initiates an HTTP 302 redirect
 for the <tref>user agent</tref>. An HTTP GET request is performed
 to the <tref>public key service</tref> IRI with the addition of two IRI query 
-parameters. The first parameter, <code>public-key</code>, is the X.509 
-PEM-encoded public key. The second parameter, 
+parameters. The first parameter, <code>public-key</code>, is the 
+URL-encoded X.509 PEM-encoded public key. The second parameter, 
 <code>registration-callback</code>,
-is the registration callback IRI for the <tref>publishing agent</tref>.</li>
+is the URL-encoded <tref>registration callback service</tref> 
+IRI for the <tref>publishing agent</tref>.</li>
           <li>
 The <tref>PaySwarm Authority</tref> associates the 
 <tref>publishing agent</tref> with the <tref>asset provider</tref> based on the
@@ -564,18 +682,21 @@ specification of defaults for the particular <tref>publishing agent</tref>.</li>
 The <tref>PaySwarm Authority</tref> specifies a set of 
 <tref>publishing agent</tref> configuration values and, using the provided
 public key, encrypts and base-64 encodes the value. The result is sent 
-back to the <code>registration-callback</code> IRI via an HTTP POST.
+back to the <code>registration-callback</code> IRI via an HTTP POST 
+initiated by the <tref>user agent</tref>.
             <ol class="algorithm">
               <li>The following configuration values MUST be included in the
-JSON-LD response data to the <tref>currency</tref>; <code>com:currency</code>
-<code>com:minimumAmount</code>, <code>com:maximumRate</code>,
-<code>com:destination</code>, <code>sig:publicKey</code>, 
-<code>ps:license</code> and <code>ps:licenseHash</code>.
+JSON-LD response to the <tref>publishing agent</tref>; 
+<code>com:currency</code>, <code>com:minimumAmount</code>, 
+<code>com:maximumRate</code>, <code>com:destination</code>, 
+<code>sec:publicKey</code>, <code>ps:license</code> and 
+<code>ps:licenseHash</code>.
               </li>
               <li>The JSON-LD response is compacted and encrypted using the
-public key associated with the registration request. The encrypted byte stream
-is then base-64 encoded.</li>
-              <li>The base-64 encoded byte stream is transmitted to the
+public key associated with the registration request according to the
+algorithm defined in <a href="#response-encryption">Response Encryption</a>.
+              </li>
+              <li>The <tref>encrypted response</tref> is transmitted to the
 <code>registration-callback</code> via an HTTP POST request that is initiatited
 by the <tref>user agent</tref>. This is most commonly accomplished by having
 the <tref>PaySwarm Authority</tref> generate an HTML form that can be submitted
@@ -653,9 +774,9 @@ Server: Apache/2.2.19 (Debian)
 
 {
    "@context": "http://purl.org/payswarm/v1",
-   "public-key-service": "http://payswarm.example.com/api/v1/keys",
-   "license-service": "http://payswarm.example.com/api/v1/licenses",
-   "contracts-service": "http://payswarm.example.com/api/v1/contracts"
+   "ps:publicKeyService": "http://payswarm.example.com/api/v1/keys",
+   "ps:licenseService": "http://payswarm.example.com/api/v1/licenses",
+   "ps:contractsService": "http://payswarm.example.com/api/v1/contracts"
 }
 
 --------------------------------- Step #3 -----------------------------------
@@ -710,7 +831,7 @@ US89y0M909ZTj2zDQwIDAQAB%0A↩
    "com:minimumAmount": "0.05",
    "com:maximumRate": "10.0",
    "com:destination": "https://example.com/people/manu/accounts/article-sales",
-   "sig:publicKey": "http://payswarm.example.com/i/manu/keys/23",
+   "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23",
    "ps:license": "http://purl.org/payswarm/licenses/blogging",
    "ps:licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
 }
@@ -724,8 +845,8 @@ Content-Length: 47
 Content-Type: application/ld+json
 
 {
-   "@type": "sig:EncryptedMessage",
-   "sig:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+   "@type": "sec:EncryptedMessage",
+   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -735,11 +856,11 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sig:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sig:cipher": "aes-128-cbc"
-   "sig:publicKey": "http://payswarm.example.com/i/manu/keys/23"
+   "sec:cipher": "aes-128-cbc"
+   "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23"
 }
 </pre>
       </section>
@@ -747,6 +868,14 @@ z7u3IxpqNVcXHExjXQE=",
       <section>
         <h2>Security Concerns for Registration</h2>
 
+<ul>
+<li>All requests to the <tref>PaySwarm Authority</tref> MUST be made using HTTPS
+to ensure configuration data is not tampered with in transit.</li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
 
       </section>
     </section>
@@ -792,11 +921,11 @@ that is verifiable by the receiving party.
    "ps:authority": "https://payswarm.example.com/about#authority",
    "ps:validFrom": "2010-11-28T00:00:00Z",
    "ps:validUntil": "2011-11-28T00:00:00Z"
-   "sig:signature": 
+   "sec:signature": 
    {
-       "@type": "sig:JsonldSignature",
-       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonldSignature",
+       "sec:signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -885,12 +1014,12 @@ may only take a maximum of 10% of the final sale price to cover their fees.
    "ps:assetProvider": "https://payswarm.example.com/i/bob",
    "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-   "sig:signature": 
+   "sec:signature": 
    {
       "@type": "ps:JsonldSignature",
       "dc:created": "2011-03-02T00:00:00Z",
       "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-      "sig:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      "sec:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
    },
    "ps:validFrom": "2011-03-02T00:00:00+0000",
    "ps:validUntil": "2011-03-03T00:00:00+0000"
@@ -902,13 +1031,15 @@ may only take a maximum of 10% of the final sale price to cover their fees.
       <section>
         <h3>Authorizing a Payment Session</h3>
 
-        <p></p>
+        <p>
+        </p>
       </section>
 
       <section>
         <h3>Performing a Purchase</h3>
 
-        <p></p>
+        <p>
+        </p>
       </section>
 
       <section>
@@ -984,12 +1115,12 @@ Jane, who may now peruse the article.
       "ps:assetProvider": "https://payswarm.example.com/i/bob",
       "ps:authority": "https://payswarm.example.com/client-config",
       "ps:contentUrl": "http://example.com/articles/1",
-      "sig:signature": 
+      "sec:signature": 
       {
          "@type": "ps:JsonldSignature",
          "dc:created": "2011-03-02T00:00:00Z",
          "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-         "sig:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
+         "sec:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
       }
    },
    "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
@@ -1033,23 +1164,23 @@ Jane, who may now peruse the article.
       "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
       "ps:license": "http://payswarm.example.com/licenses/blogging",
       "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-      "sig:signature": 
+      "sec:signature": 
       {
          "@type": "ps:JsonldSignature",
          "dc:created": "2011-03-02T00:00:00Z",
          "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-         "sig:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+         "sec:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
       },
       "ps:validFrom": "2011-03-02T00:00:00+0000",
       "ps:validUntil": "2011-03-03T00:00:00+0000"
    },
    "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
-   "sig:signature": 
+   "sec:signature": 
    {
       "@type": "ps:JsonldSignature",
       "dc:created": "2011-03-02T03:00:53Z",
       "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
-      "sig:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
+      "sec:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
    }
 }
         </pre>

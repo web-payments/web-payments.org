@@ -1,4 +1,4 @@
-<FilesMatch "(commerce|payswarm|creditcard|signature)">
+<FilesMatch "(commerce|payswarm|creditcard|signature|security)">
    ForceType text/html
    SetHandler default_handler
 </FilesMatch>

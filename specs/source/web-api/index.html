@@ -669,22 +669,21 @@ message. A <tref>message</tref> is provided as input and, using a
         
         <ol class="algorithm">
           <li>
-Generate a <tdef>temporary password</tdef> that is greater than 11 bytes and
-less than or equal to 117 bytes.
+Generate a crypto-graphically strong <tdef>symmetric key</tdef> that is exactly 16 bytes in length.
           </li>
           <li>
-Generate an <tdef>initialization vector</tdef> that is exactly 8 bytes in 
+Generate an <tdef>initialization vector</tdef> that is exactly 16 bytes in 
 length.
           </li>
           <li>
 Generate the <tdef>encrypted data</tdef> by encrypting the <tref>message</tref>
 using the RSA with AES 128-bit Cyclic Block Chaining algorithm, using the
-<tref>temporary password</tref> and the <tref>initialization vector</tref>
+<tref>symmetric key</tref> and the <tref>initialization vector</tref>
 generated previously in this algorithm.
           </li>
           <li>
 Generate the <tdef>encrypted password</tdef> by using the 
-<tref>public key</tref> to encrypt the <tref>temporary password</tref>.
+<tref>public key</tref> to encrypt the <tref>symmetric key</tref>.
           </li>
 Generate the <tref>encrypted message</tref> by creating a JSON object
 containing the following key-value pairs:
@@ -710,7 +709,7 @@ The base-64 encoded value of the <tref>initialization vector</tref>.
               <dt><code>sec:publicKey</code><dt>
               <dd>
 The <tref>public key</tref> IRI associated with the <tref>public key</tref>
-that was used to encrypt the <tref>temporary password</tref> in this
+that was used to encrypt the <tref>symmetric key</tref> in this
 algorithm.
               </dd>
             </dl>

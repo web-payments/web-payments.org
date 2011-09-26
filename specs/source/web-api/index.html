@@ -669,16 +669,58 @@ message. A <tref>message</tref> is provided as input and, using a
         
         <ol class="algorithm">
           <li>
+Generate a <tdef>temporary password</tdef> that is greater than 11 bytes and
+less than or equal to 117 bytes.
           </li>
           <li>
+Generate an <tdef>initialization vector</tdef> that is exactly 8 bytes in 
+length.
           </li>
           <li>
+Generate the <tdef>encrypted data</tdef> by encrypting the <tref>message</tref>
+using the RSA with AES 128-bit Cyclic Block Chaining algorithm, using the
+<tref>temporary password</tref> and the <tref>initialization vector</tref>
+generated previously in this algorithm.
           </li>
           <li>
+Generate the <tdef>encrypted password</tdef> by using the 
+<tref>public key</tref> to encrypt the <tref>temporary password</tref>.
           </li>
-          <li>
+Generate the <tref>encrypted message</tref> by creating a JSON object
+containing the following key-value pairs:
+            <dl style="margin-left: 1em;">
+              <dt><code>@type</code><dt>
+              <dd><code>sec:EncryptedMessage</code></dd>
+              <dt><code>sec:data</code><dt>
+              <dd>
+The base-64 encoded value of the <tref>encrypted data</tref>.
+              </dd>
+              <dt><code>sec:encryptionKey</code><dt>
+              <dd>
+The base-64 encoded value of the <tref>encrypted password</tref>.
+              </dd>
+              <dt><code>sec:cipher</code><dt>
+              <dd>
+The value <code>rsa-aes-128-cbc</code>.
+              </dd>
+              <dt><code>sec:iv</code><dt>
+              <dd>
+The base-64 encoded value of the <tref>initialization vector</tref>.
+              </dd>
+              <dt><code>sec:publicKey</code><dt>
+              <dd>
+The <tref>public key</tref> IRI associated with the <tref>public key</tref>
+that was used to encrypt the <tref>temporary password</tref> in this
+algorithm.
+              </dd>
+            </dl>
           </li>
         </ol>
+
+        <p>
+The following example shows a typical input message and what an encrypted
+message looks like when generated using the algorithm above.
+        </p>
 
         <pre class="example">
 *** message
@@ -709,8 +751,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
    "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-   "sec:cipher": "aes-128-cbc",
+   "sec:cipher": "rsa-aes-128-cbc",
    "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
    "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23"
 }

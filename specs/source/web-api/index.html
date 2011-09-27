@@ -505,6 +505,11 @@ A value attached to <tref>signed message</tref>s and API callbacks,
 typically used to prevent 
 <a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
           </dd>
+          <dt><tdef>intermediate value</tdef></dt>
+          <dd>
+A cryptographic input to an encryption algorithm. This is typically a 16-byte
+value in AES.
+          </dd>
           <dt><tdef>encrypted message</tdef></dt>
           <dd>
 A type of message that has been obfuscated using a <tref>public key</tref>,
@@ -549,7 +554,7 @@ of a generated <tref>nonce</tref>. It is vital that the generated
               <li>
 Generate an ISO8601 <tdef>combined date and time string</tdef> containing the
 current date and time, accurate to at least one second, in Universal Time
-Code format. For example: <code>2011-09-23T20:21Z</code>. Append the
+Code format. For example: <code>2011-09-23T20:21:34Z</code>. Append the
 <tref>combined date and time string</tref> to the <tref>nonced message</tref>.
               </li>
               <li>
@@ -602,7 +607,7 @@ The following example shows an input <tref>message</tref> and the resulting
    "sec:signature":
    {
       "@type": "sec:JsonLdSignature",
-      "dc:created": "2011-09-23T20:21Z",
+      "dc:created": "2011-09-23T20:21:34Z",
       "sec:nonce": "23478923",
       "sec:signer": "http://payswarm.example.com/i/john/keys/5",
       "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
@@ -669,11 +674,18 @@ message. A <tref>message</tref> is provided as input and, using a
         
         <ol class="algorithm">
           <li>
-Generate a crypto-graphically strong <tdef>symmetric key</tdef> that is exactly 16 bytes in length.
+Generate a 
+<a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator">cryptographically secure</a> 
+<tdef>symmetric key</tdef> that is exactly 16 bytes in length.
           </li>
           <li>
-Generate an <tdef>initialization vector</tdef> that is exactly 16 bytes in 
-length.
+Generate a 
+<a href="http://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator">cryptographically secure</a>
+<tref>initialization vector</tref> that is exactly 16 bytes in length.
+          </li>
+          <li>
+Generate the <tdef>encrypted initialization vector</tdef> by using the
+<tref>public key</tref> to encrypt the <tref>initialization vector</tref>.
           </li>
           <li>
 Generate the <tdef>encrypted data</tdef> by encrypting the <tref>message</tref>
@@ -682,7 +694,7 @@ using the RSA with AES 128-bit Cyclic Block Chaining algorithm, using the
 generated previously in this algorithm.
           </li>
           <li>
-Generate the <tdef>encrypted password</tdef> by using the 
+Generate the <tdef>encrypted symmetric key</tdef> by using the 
 <tref>public key</tref> to encrypt the <tref>symmetric key</tref>.
           </li>
 Generate the <tref>encrypted message</tref> by creating a JSON object
@@ -696,7 +708,7 @@ The base-64 encoded value of the <tref>encrypted data</tref>.
               </dd>
               <dt><code>sec:encryptionKey</code><dt>
               <dd>
-The base-64 encoded value of the <tref>encrypted password</tref>.
+The base-64 encoded value of the <tref>encrypted key</tref>.
               </dd>
               <dt><code>sec:cipher</code><dt>
               <dd>
@@ -704,7 +716,7 @@ The value <code>rsa-aes-128-cbc</code>.
               </dd>
               <dt><code>sec:iv</code><dt>
               <dd>
-The base-64 encoded value of the <tref>initialization vector</tref>.
+The base-64 encoded value of the <tref>encrypted initialization vector</tref>.
               </dd>
               <dt><code>sec:publicKey</code><dt>
               <dd>
@@ -757,6 +769,63 @@ z7u3IxpqNVcXHExjXQE=",
         </pre>
         
       </section>
+      
+      <section>
+        <h2>Response Decryption Algorithm</h2>
+        <p>
+The following algorithm is used to decrypt an encrypted response. The input
+is an <tref>encrypted message</tref> and the result is the 
+<tdef>original unencrypted message</tdef>.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+Generate the <tdef>decryption key</tdef> by base-64 decoding the
+<code>sec:encryptionKey</code> value and using the <tref>private key</tref>
+associated with the <tref>public key</tref> IRI in
+<code>sec:publicKey</code> to decrypt the base-64 decoded value.
+<div class="issue">Refer to the exact algorithm that is used to do the
+decryption in the AES spec.</div>
+          </li>
+          <li>
+Generate the <tref>intermediate value</tref> by base-64 decoding the
+<code>sec:iv</code> value and then using the <tref>private key</tref>
+associated with the <tref>public key</tref> IRI in
+<code>sec:publicKey</code> to decrypt the base-64 decoded value.
+          </li>          
+          <li>
+Generate the <tdef>original unencrypted message</tdef> by applying the
+<code>sec:cipher</code> to the <code>sec:data</code> value. Use the
+<tref>decryption key</tref> and <tref>intermediate value</tref> generated in
+this algorithm as inputs to the cipher algorithm.
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Security Considerations</h2>
+        <p>
+Since this specificationd describes a financial system, the security of the
+communication in the system is of utmost importance. The following section
+describes security considerations that developers implementing this 
+specification should be aware of in order to create secure software.
+        </p>
+        
+        <ul>
+          <li>
+It is vital that all <tref>nonce</tref> values within a certain time period
+are tracked and enforced. A nonce value MUST NOT be accepted if it is used
+more than once during a specific time period. The <code>dc:created</code>
+value SHOULD be used to determine the time period that a <tref>nonce</tref> 
+value is accepted. For example, the date associated with a <tref>nonce</tref>
+plus or minus 15 minutes could establish the validity period of a nonce.
+That is, nonces only need to be tracked for a maximum of 30 minutes before
+they are purged from a database. This ensures software agent times don't 
+need to be exact on the network while also ensuring that a large database
+is not required for storing nonce values.
+          </li>
+        </ul>
+      
     </section>
 
     <section>
@@ -1081,7 +1150,6 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
    "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
    "sec:cipher": "aes-128-cbc",
    "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
    "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23"

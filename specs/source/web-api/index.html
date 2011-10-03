@@ -1024,7 +1024,7 @@ for use during the latter parts of the publishing and purchase process.</li>
         </p>
 
         <p>
-The example below shows the full protcol-level exchange between the
+The example below shows the full protocol-level exchange between the
 <tref>publishing agent</tref> and the <tref>PaySwarm Authority</tref>. For
 the sake of brevity, not every optional parameter is included, just the bare
 minimum necessary to perform the <tref>asset provider</tref> registration.
@@ -1087,6 +1087,7 @@ Server: Apache/2.2.19 (Debian)
 
 {
    "@context": "http://purl.org/payswarm/v1",
+   "@subject": "http://payswarm.example.com/i/authority",
    "ps:publicKeyService": "http://payswarm.example.com/api/v1/keys",
    "ps:licenseService": "http://payswarm.example.com/api/v1/licenses",
    "ps:contractsService": "http://payswarm.example.com/api/v1/contracts"
@@ -1348,17 +1349,66 @@ may only take a maximum of 10% of the final sale price to cover their fees.
       </section>
 
       <section>
-        <h3>Authorizing a Payment Session</h3>
+        <h3>Performing the Initial Purchase</h3>
 
         <p>
         </p>
+        
+        <ol class="algorithm">
+          <li>
+The <tref>publishing agent</tref> digitally signs a purchase request for a
+listing and the <tref>user agent</tref> POSTS the purchase request to the 
+<tref>PaySwarm Authority</tref>.
+          </li>
+          <li>
+The <tref>PaySwarm Authority</tref> processes the purchase request ending in
+a purchase result. The purchase result may be annotated with a flag that 
+determines if the <tref>publishing agent</tref> has been granted the ability
+to perform automatic purchases in the future. The purchase result is 
+digitally signed and encrypted using the <tref>publishing agent</tref>'s 
+public key. 
+          </li>
+          <li>
+The <tref>user agent</tref> POSTs the purchase result back to the 
+<tref>publishing agent</tref> callback URL. The <tref>publishing agent</tref>
+associates the current session ID with the IRI of the 
+<tref>asset acquirer</tref>.
+          </li>
+          <li>
+The <tref>publishing agent</tref> acts upon the callback by granting access
+to the article if the purchase was successful, or providing a page detailing
+why the purchase failed.
+          </li>
+        </ol>
       </section>
 
       <section>
-        <h3>Performing a Purchase</h3>
+        <h3>Performing Automatic Purchases</h3>
 
         <p>
+In order for automatic purchases to work, the <tref>publishing agent</tref>
+must have been notified via a previous purchase result that the 
+<tref>asset acquirer</tref> authorized them to make automatic purchases.
         </p>
+
+        <ol class="algorithm">
+          <li>
+The <tref>asset acquirer</tref>, via the <tref>user agent</tref>, selects an 
+asset to purchase. The <tref>publishing agent</tref> looks up the session ID 
+for the <tref>user agent</tref> and retrieves the <tref>asset acquirer</tref>
+associated with the session ID. The <tref>publishing agent</tref> 
+digitally signs a purchase request and sends it to the 
+<tref>PaySwarm Authority</tref>.
+          </li>
+          <li>
+The <tref>PaySwarm Authority</tref> checks to see if the 
+<tref>publishing agent</tref> is allowed to perform an automatic purchase 
+on behalf of the provided <tref>asset acquirer</tref>. If so, the purchase is
+performed and the result is sent in the HTTP response to the 
+<tref>publishing agent</tref>.
+          </li>
+        </ol>
+
       </section>
 
       <section>

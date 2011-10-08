@@ -1,0 +1,333 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Payment Links 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+    var preProc = {
+          apply:  function(c) {
+                    // extend the bibliography entries
+                    berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
+
+                    // process the document before anything else is done
+                    var refs = document.querySelectorAll('adef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'dfn' ) ;
+                        var tit = item.getAttribute('title') ;
+                        if (!tit) {
+                            tit = con;
+                        }
+                        sp.className = 'adef' ;
+                        sp.title=tit ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    refs = document.querySelectorAll('aref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'aref' ;
+                        sp.setAttribute('title', con);
+                        sp.innerHTML = '@'+con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // local datatype references
+                    refs = document.querySelectorAll('ldtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'datatype';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // external datatype references
+                    refs = document.querySelectorAll('dtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'externalDFN';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now do terms
+                    refs = document.querySelectorAll('tdef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'dfn' ) ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now term references
+                    refs = document.querySelectorAll('tref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+
+                        var sp = document.createElement( 'a' ) ;
+                        var id = item.textContent ;
+                        sp.className = 'tref' ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                }
+        } ;
+
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "unofficial",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "payment-links",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "http://payswarm.com/specs/source/payment-links/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["../../respec/css/respec.css", "spec.css"],
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          authors:  [
+              { name: "Pelle Braendgaard", url: "http://stakeventures.com/pages/whoami",
+                company: "Stake Ventures", companyURL: "http://stakeventures.com/" },
+          ],
+          //additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc.",
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.w3c.org/community/webpayments",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3c.org",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ preProc ],
+          //alternateFormats: [ {uri: "diff-20110920.html", label: "diff to previous version"} ],
+      };
+    </script> 
+  </head> 
+  <body> 
+    <section id='abstract'> 
+      <p>
+Online payments have traditionally been initiated in a variety of different 
+ways, but contain approximately the same parameters and result in roughly 
+the same outcome - the transfer of funds from a sending party to a receiving 
+party. The Payment Links specification outlines a standard set of IRI 
+parameters for the purposes of transmitting payment from a source to a 
+destination. The specification does not cover the method of transmission, but
+rather the initiation of the payment process. It is intended as a part of a
+family of open Internet Payment specifications.
+      </p> 
+    </section> 
+
+    <section>
+      <h2>Introduction</h2>
+      <p>
+A number of Web-based payment services exist that are capable of initiating
+and transmitting a payment from a sending party to a receiving party. While
+the details of how the transfer occurs often differ from provider to provider,
+the information necessary to initiate the transfer of funds are typically
+the same. There exists the mention of a receiving party, the amount, a
+currency, and usually a description of the payment.
+      </p>
+      <p>
+The following are all examples of valid Payment Links according to this
+specification:
+      </p>
+<ul>
+<li><code>http://usd.example.com/payments?to=john.doe@example.com&amp;amount=12.73&amp;currency=USD</code></li>
+<li><code>http://bitcoin.example.com/send?to=1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa&amp;amount=1.159487</code></li>
+<li><code>bitcoin:1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa?amount=2.85738&amp;description=Homemade+Blue+Striped+Socks</code></li>
+</ul>
+      <p>
+Additionally, the standardization of hyperlinks to initiate payment will aid 
+search engines, and web browsers to detect places of payment initiation on 
+websites.
+      </p>
+    </section>
+
+    <section>
+      <h2>Design Criteria</h2>
+      <p>
+The overarching goal for this specification is simplicity. While
+there is a tendency to add more advanced features to any specification, the
+design criteria for this specification revolved around describing a simple 
+set of common terms that can be used to describe the initiation of most 
+monetary transfers. Specifically, the transaction process, how payment is 
+sent and received, Web Services for transacting assets, payment exceptions, 
+payment notifications, digital contracts, and receipt handling are not covered 
+by this specification.
+      </p>
+      <p>
+Personal and commercial transactions can be broken into two broad categories. 
+The first is a one-way transfer - typically called a gift, donation or 
+implied agreement. The second is a two-way transfer - typically called a
+contract, grant or explicit agreement. This specification covers initiation of
+the simpler one-way transfers and leaves two-way transfers to another 
+specification.
+      </p>
+      <p>
+Since the Internationalized Resource Identifier (<tdef>IRI</tdef>) 
+[[!IRI]] is the most commonly used mechanism for initiating a payment on 
+the Internet, it was determined that the best carrier for payment parameters 
+was the IRI. This specification is not intended to be a Media Type or Internet
+protocol scheme specification, but rather a set of parameters that can be used
+with any Internet protocol scheme.
+      </p>
+    </section>
+
+    <section>
+      <h3>Payment Parameters</h3>
+      <p>
+All payment parameters and values MUST conform to the
+[[!IRI]] specification. The only parameter that is required
+to be included in the Payment Link is the <tref>amount</tref> parameter.
+      </p>
+      <dl>
+        <dt><tdef>amount</tdef></dt>
+        <dd>
+The number of currency units to transfer. The value of this item MUST be a
+whole integer value, for example <code>6</code>, or a decimal value, 
+for example <code>12.73</code>.
+        </dd>
+        <dt><tdef>asset</tdef></dt>
+        <dd>
+An IRI that SHOULD be dereferenceable describing the asset that is 
+being transacted. For example: <code>http://example.com/articles/1</code> or
+<code>http://example.com/livestock/chickens#organic</code>.
+        </dd>
+        <dt><tdef>count</tdef></dt>
+        <dd>
+The number of assets being transacted. The value of this item MUST be a
+whole integer value, for example <code>3</code>, or a decimal value, 
+for example <code>5.8</code>.
+        </dd>
+        <dt><tdef>currency</tdef></dt>
+        <dd>
+The monetary medium of exchange associated with the <tref>amount</tref>. This
+value SHOULD be either an ISO 4217 3 letter currency code, such as
+<code>USD</code>, or an IRI pointing to a human and machine-readable 
+description of the currency, such as 
+<code>http://purl.org/currencies/bitcoin</code>.
+        </dd>
+        <dt><tdef>description</tdef></dt>
+        <dd>
+A short, human-readable description outlining the purpose of the transfer.
+        </dd>
+        <dt><tdef>to</tdef></dt>
+        <dd>
+An identifier specifying the target person, organization or financial account
+that will be receiving the transfer. This value is dependent on the payment
+service implementation. Some examples include 
+<code>78384827-728472-3847</code>, <code>msporny@digitalbazaar.com</code>, or
+<code>1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</code>.
+        </dd>
+      </dl>
+    </section>
+    <section>
+      <h3>Link Relations</h3>
+      <p>
+If a set of Payment Link parameters are coupled with a mechanism, such as
+HTML or HTTP, that allows the expression of a link relationship, the 
+<code>payment</code> link relationship SHOULD be specified along side the
+IRI. For example:
+      <ul>
+        <li>
+<code>&lt;a rel="payment" href="http://example.com/donate/redcross?amount=10.00&amp;currency=USD">Donate $10 to the Red Cross&lt;/a></code>
+        </li>
+        <li>
+<code>Link: &lt;http://example.com/payment?amount=0.99&amp;currency=USD&amp;asset=http://example.com/songs/let-them-eat-cake>; rel="payment"</code>
+        </li>
+      </ul>
+      </p>
+    </section>
+  </body> 
+</html>
+

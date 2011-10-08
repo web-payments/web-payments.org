@@ -317,15 +317,14 @@ service implementation. Some examples include
 If a set of Payment Link parameters are coupled with a mechanism, such as
 HTML or HTTP, that allows the expression of a link relationship, the 
 <code>payment</code> link relationship SHOULD be specified along side the
-IRI. For example:
-      <ul>
-        <li>
+IRI. 
+<pre class="example" title="HTML Example">
+HTML:
 <code>&lt;a rel="payment" href="http://example.com/donate/redcross?amount=10.00&amp;currency=USD">Donate $10 to the Red Cross&lt;/a></code>
-        </li>
-        <li>
+
+HTTP Header:
 <code>Link: &lt;http://example.com/payment?amount=0.99&amp;currency=USD&amp;asset=http://example.com/songs/let-them-eat-cake>; rel="payment"</code>
-        </li>
-      </ul>
+</pre>
       </p>
     </section>
   </body> 

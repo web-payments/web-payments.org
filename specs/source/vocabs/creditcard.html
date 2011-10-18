@@ -69,6 +69,16 @@
           wgPatentURI:  "",
       };
     </script> 
+    <link href="prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
   </head> 
   <body> 
     <section id='abstract'> 
@@ -88,9 +98,9 @@
         typeof="owl:">
         <h3>CreditCard</h3>
         <p>The example below shows a typical Credit Card transaction</p>
-        <pre>
+        <pre class="example prettyprint language-jsonld">
 {
-   "a": "ccard:CreditCard",
+   "@type": "ccard:CreditCard",
    "ccard:brand": "Visa",
    "ccard:number": "3847573872837483",
    "ccard:expirationMonth": "11",
@@ -99,7 +109,7 @@
    "ccard:name": "JOHN DOE",
    "ccard:address":
    {
-      "a": "vcard:Address",
+      "@type": "vcard:Address",
       "vcard:street-address": "28 Rivertail Lane",
       "vcard:locality": "Upsilanty",
       "vcard:region": "New York",

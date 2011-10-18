@@ -238,9 +238,9 @@ sec:normalizationAlgorithm, sec:digestAlgorithm, and sec:signingAlgorithm.
           </p>
       </section>
 
-      <section id="JsonldSignature" about="http://purl.org/security#JsonldSignature"
+      <section id="JsonLdSignature" about="http://purl.org/security#JsonLdSignature"
         typeof="rdfs:Class">
-        <h3>JsonldSignature</h3>
+        <h3>JsonLdSignature</h3>
           <p>
 A JSON-LD signature is used for digital signatures on RDF graphs expressed 
 in JSON-LD format. The default normalization mechanism is specified in the
@@ -294,7 +294,7 @@ canonicalized using the standard normalization algorithm for JSON-LD.
     "foaf:homepage": "http://manu.sporny.org/",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://manu.sporny.org/webid#key-5",
         "sec:signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
     }
@@ -444,7 +444,7 @@ ways:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "sec:JsonldSignature",
+    "@type": "sec:JsonLdSignature",
     "sec:data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"foaf:Person>\", \"foaf:name\": \"Joe Bob\" }",
     "sec:signer": "http://example.com/people/john-doe#key-5",
     "sec:signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
@@ -481,7 +481,7 @@ digest method specified by the signature class:
     "foaf:homepage": "http://example.org/jane",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:digestAlgorithm": "http://example.com/digests#sha512",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
@@ -608,7 +608,7 @@ in order to protect against
     "ex:request": "DELETE foo.txt",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI=",
         "sec:nonce": "8495723045.84957"
@@ -649,7 +649,7 @@ override the defaults:
     "foaf:homepage": "http://example.org/joebob",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:normalizationAlgorithm": "http://example.com/vocab#fancy-normalization-method",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "Q3ODIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4NTIyZTkZDY="
@@ -823,7 +823,7 @@ a JSON-LD signature:
     "foaf:homepage": "http://example.org/jane",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
@@ -868,7 +868,7 @@ properties into one?
     },
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signatureFor" : "http://example.org/people#john",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
@@ -905,7 +905,7 @@ the public key that can be used to verify the digital signature:
     "foaf:homepage": "http://example.org/jane",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
@@ -939,7 +939,7 @@ encoded in JSON-LD:
     "foaf:homepage": "http://example.org/jane",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
@@ -974,7 +974,7 @@ algorithm, so this property rarely needs to be used in practice.
     "foaf:homepage": "http://example.org/joebob",
     "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signingAlgorithm": "http://example.com/vocab#special-signing-algorithm",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "P9fDIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4k3FJKs98f="

@@ -50,7 +50,7 @@
           //    { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2009-2010 &copy; Digital Bazaar, Inc.",
+          additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc.",
           
           // name of the WG
           wg:           "Unofficial PaySwarm Exploratory Group",
@@ -82,66 +82,42 @@ PaySwarm specification is designed to address.
     <section> 
       <h2>Introduction</h2> 
       <p>
-Digital content piracy has been a significant disruption to the
-operation of the Web for over a decade. While this is partially due to a
-number of factors that are outside of the control of standards bodies,
-there remains one key oversight that the standards organizations could
-address that would enable new business models via the Web while reducing
-the incentive to illegally disseminate digital files. If Alice has a MP3
-song that she would like to give Bob, there should be a simple mechanism to
-enable the legal duplication of that copyrighted work from Alice to Bob.
-There should be a standard mechanism for the legal exchange of commercially
-viable digital content.
-      </p> 
- 
+The Web continues to transform the way humankind communicates and builds
+our world. At the heart of most of these endeavors is the exchange of
+value. Gifts, attention, and payments each play a role in the ecosystem
+that we call the economy. Until now, there has been no open and
+universal way of sending and receiving payments on the Web through your
+browser. This is why people are still compelled to reach for their
+credit card or log into a payment site when purchasing something over
+the Web.
+      </p>
       <p>
-At present, digital media sales on the Web is largely a producer to
-consumer model. Typically, sites like Apple iTunes, Amazon Music, Netflix,
-the Microsoft Zune store and other digital retailers create proprietary,
-Web-based store fronts to sell digital products to their customers. During
-the product sale, the item is either wrapped in Digital Rights Management
-technologies in an attempt to curb piracy or restrictively licensed only to
-the individual purchasing the digital good. This is strictly a
-corporation-to-consumer experience.
-      </p> 
- 
+There are a number non-interoperable payment solutions today. This
+document outlines use cases that are supported by existing payment
+solutions today, and also outlines innovative use cases that could be
+supported in the future by a universal payment mechanism to enable next
+generation mobile payments, alternative currencies, crowd-sourced
+investing, next-generation banking, and electronic commerce.
+      </p>
       <p>
-There currently is no secondary market for digital content sales due to
-the nature of digital media - reproducing a digital file is incredibly
-fast, cheap and easy. This fact has lead to a great amount of digital
-piracy, notably by peer-to-peer network technology such as Napster,
-BearShare, Morpheus, Gnutella, Kazaa and BitTorrent. While iTunes has
-claimed to make as many as 435,164 video sales per day through their store,
-the number of video downloads per day over Mininova, one of the largest
-BitTorrent networks (2008), approach close to 4,975,075 downloads per day.
-Close to ten times as much video traffic is served through a single
-BitTorrent community versus the number two digital video sales service in
-the world.
-      </p> 
- 
-      <p>
-While it is still fairly unknown how much DRM, industry tactics, value
-proposition, platform access, file formats, convenience and digital
-kleptomania contribute to piracy - it can be said that each is a
-contributor to piracy in todays digital media ecosystem. By addressing some
-of the use cases outlined in this document, we may be able to address the
-following key areas that are currently overlooked by the major players:
-value proposition, platform access, file formats, and convenience. The
-end-goal is to create a standards-based peer-to-peer network, driven by
-open, flexible standards, that allow customers to help artists, production
-companies and creators of content to distribute digital goods in exchange
-for financial compensation. Just as physical storefronts help to distribute
-products on behalf of their manufacturers, digital storefronts can help to
-distribute content on behalf of their creators.
-      </p> 
- 
-      <p>
-Providing a standard mechanism for web browsers to exchange digital
-goods in exchange for monetary compensation would provide a much needed
-core feature of the Web that has been a demonstrated need for over a
-decade.
-      </p> 
+This specification outlines use cases that are enabled by universal
+payment for the Web. The goal of addressing the use cases as a whole is
+to create a safe, decentralized system and a set of open, patent and
+royalty-free specifications that allow people on the Web to send each
+other money as easily as they exchange instant messages and e-mail
+today. Addressing these scenarios will transform the way we reward each
+other on the Web as well as how we organize financial resources to
+enhance our personal lives and pursue endeavors that improve upon the
+human condition.
+      </p>
     </section>
+
+    <section>
+      <h2>PaySwarm 1.0 Use Cases</h2>
+      <p>
+The following use cases outline scenarios that are targeted to be supported
+in the set of PaySwarm 1.0 specifications.
+      </p>
     
     <section>
       <h2>For-Profit Content Blogging</h2>
@@ -183,41 +159,6 @@ overhead associated with managing content catalogs.</p>
   </section>
   
   <section> 
-    <h2>Crowd-Sourcing Digital Distribution</h2> 
- 
-<p>Jane, who is an independent film maker, has just finished her
-documentary and wishes to distribute it to a very large audience. She does
-not have the resources to provide High-Definition streaming of her content
-to her fans. She would also like to charge enough for the current
-documentary in order to cover the production costs of the next documentary.
-She could use BitTorrent to distribute her work, but it lacks the ability
-to collect payment on her behalf. She would like to give some of the
-proceeds of each sale to those that will help her distribute her
-documentary.</p> 
-
-<p>Ideally, Jane would register her work with a content clearinghouse. That
-clearinghouse would provide the reference file which would be used to seed
-the network. Once enough downloads have been performed, others on the
-network could distribute the file in exchange for monetary compensation for
-providing a download source.</p> 
-
-    <section> 
-      <h3>Requirements</h3>
- 
-      <ul> 
-        <li>The system must be able to swarm file downloads from multiple
-        sources.</li> 
-     
-        <li>Payment must be able to be divvied out among thousands of download
-        sources.</li> 
-     
-        <li>Payment must be allowed to be made to arbitrary accounts on the
-        network.</li> 
-      </ul> 
-    </section>
-  </section>
-
-  <section> 
     <h2>Streaming Content Payment</h2> 
  
 <p>Tellulah is a DJ and would like to setup a non-profit Internet radio
@@ -253,41 +194,31 @@ enabled.</p>
       </ul>
     </section>
   </section>
-  
-  <section>
-    <h2>Ad-Based Content Payment</h2> 
- 
-<p>Joss directs and produces a number of excellent television shows. Over
-the years, he has garnered a strong online following but doesn't have the
-required numbers for a long television production run. He would like to
-distribute his shows via the Web. Joss would like to partner with an
-advertising network to provide audio and video advertisements to cover the
-costs related to the production and distribution of his shows. In order to
-do this, the system that he uses must be able to credit and debit payment
-accounts accordingly whenever advertising is inserted into the content
-stream.</p> 
 
-<p>When a fan watches each episode, they can opt to pay for the episode in
-full, pay for reduced advertisements, or request that advertisers cover the
-entire cost of the show. Advertisers can choose to provide small payments
-for anonymous advertisements, or larger payments if customers provide
-advertising details and preferences to the advertisers.</p> 
+  <section> 
+    <h2>Crowd-funding Initiatives</h2> 
+ 
+    <p>
+Dione would like to raise $10,000 to design and build a solar powered,
+personal ground water pump and purifier for developing nations. He intends to
+publish all of the plans on the Web as open hardware and start taking orders
+from NGOs to install these pump-purifiers in villages around the world. Rather
+than go through the process of receiving a grant, he believes that he can
+raise the money faster through the Web. 
+    </p>
 
     <section> 
-      <h3>Requirements</h3>
+      <h3>Requirements</h3> 
  
       <ul> 
-        <li>Network participants should be allowed to credit other accounts on
-        the network. For example, buyers should be allowed to ask other network
-        participants (advertisers) to partially cover their costs in exchange
-        for the insertion of ads into the data stream.</li> 
-     
-        <li>Buyers should have the option of purchasing goods without
-        advertising.</li> 
-      </ul> 
+        <li>
+Support intent-based deposit contracts, which can be redeemed by the payee
+in one bulk transfer.
+        </li> 
+      </ul>
     </section>
   </section>
-
+ 
   <section> 
     <h2>Content and Payment Metadata</h2> 
  
@@ -320,36 +251,6 @@ needed to access content.</p>
     </section>
   </section>
  
-  <section>
-    <h2>Price Negotiation</h2> 
- 
-<p>Gregor runs a fairly active high-definition movie download site. His
-data transmission prices are high during peak hours and low during off-peak
-hours. He would like to give his customers the option to negotiate for
-lower download prices if they download their movies during the off-peak
-times. He would also like to reserve the right to refuse a contract
-re-negotiation attempt if he has not made a pre-set sales quota and even
-raise his prices if it would make sense for his business.</p> 
-
-<p>The ability to change prices based on market demand would enable a more
-dynamic marketplace, leading to more competition between download
-providers. Giving buyers the ability to re-negotiate terms of sale would
-not only give them a sense of empowerment, but could eliminate bad pricing
-behavior on the network, leading to overall market efficiencies.</p> 
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>The system should allow buyers and sellers to negotiate the data
-        download prices associated with a particular download.</li> 
-     
-        <li>The system could allow buyers to negotiate the license details as
-        well as the license price with a particular content creator.</li> 
-      </ul> 
-    </section>
-  </section>
-  
   <section> 
     <h2>Multicast License Acquisition</h2> 
 
@@ -357,9 +258,9 @@ behavior on the network, leading to overall market efficiencies.</p>
 a series of live keynotes by luminaries in their respective fields. The
 presentations would be open to conference attendees or those that pay for a
 virtual day pass for the conference. The license could be purchased
-separately and then could be used to access a number of multicast sources
-that play at different times. Remote access to journalists would be granted
-at a different payment rate than non-members.</p> 
+separately and then could be used to access a number of download sources. 
+Remote access to journalists would be granted at a different payment rate 
+than non-members.</p>
 
 <p>It is important that a separation is made between the content license
 and the download contract. The content license specifies usage and access
@@ -383,8 +284,6 @@ variables.</p>
         <li>Licenses should be used to get access to data streams. Payment for
         licenses and payment for data should be separate concerns.</li> 
      
-        <li>Accessing payment-based multicast streams should be possible with
-        whatever technology solution is created.</li> 
       </ul> 
     </section>
   </section>
@@ -445,41 +344,271 @@ initiative or cause to be made along-side the purchase.</p>
   </section>
  
   <section>
-    <h2>Customized Application Stores</h2> 
+    <h2>App Stores</h2> 
  
 <p>Werner owns an independent software development company. He would like
-to provide his software application to a broad audience while ensuring that
-it is uniquely tailored to each of his customers. He has experience writing
-code and would like every application package that is distributed to have a
-unique customer key embedded in the installation program for the purposes
-of providing customer support to those that have received software keys.
-The purchaser's information could also be filled out automatically in the
-software registration screen for the software at the time of purchase.</p> 
-
-<p>Having a binary stream processor would enable customized data files to
-be sold on the network. The most difficult aspect of the binary stream
-processor would be ensuring that the stream processor's ABI was compatible
-across major processing architectures as well as remotely executable. There
-are a number of security concerns that are also related with executing
-arbitrary code to mutate data streams. It may be required that binary
-stream processors must undergo a code-review before they are allowed on the
-network.</p> 
+to provide his software application to a broad audience through his website
+and accept payment from the same.</p>
 
     <section> 
       <h3>Requirements</h3> 
 
       <ul> 
-        <li>A binary stream processing component should be allowed as a part of
-        the purchase process in order to allow custom binaries to be transacted
-        on the network.</li> 
-     
-        <li>The binary stream processor should be able to be downloaded and
-        executed by all components of the PaySwarm network.</li> 
-     
-        <li>Digital signatures and binary verification may be required for binary
-        stream processors.</li> 
+        <li>
+All assets and listings for sale must be able to be listed in an ad-hoc manner.
+There must not be a centralized asset or listing service of any kind.
+        </li>
       </ul> 
     </section>
+  </section>
+
+  <section> 
+    <h2>Re-Sale Limitations</h2> 
+ 
+    <p>
+An independent medical researcher in the USA who produces a pdf report about 
+side-effects of a new prescription drug. They want a no resale limitation, and
+want to sell the article from their website.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Assets must be allowed to be only re-sold by the original creator of that
+asset.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Alternative Currencies</h2> 
+ 
+    <p>
+Rigo would like to create a local currency for his town, which is fairly poor
+but contains a moderate population that volunteers their time at a number of
+community-supported farms in the area. He would like to reward the area
+citizens with time-banked credits that can be redeemed for food at local
+businesses and restaurants.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Support alternative currencies and allow these currencies to be created
+dynamically.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Conditional Redistribution</h2> 
+ 
+    <p>
+Rosa wants to publis a complete novel in pdf, doc, html, and other text formats. 
+She specifies: authorship as pseudonym; no content modification; payment per 
+download; downstream commercializing allowed with constraints of: no 
+advertising (direct sale only); payment of 20% of gross per copy re-sold; any 
+additional commercial rights for other media must obtain agreement of the 
+original author.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Support redistribution based on the following conditions; limiting the
+down-stream profit and limiting advertising.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Payment Links</h2> 
+ 
+    <p>
+Lars wants to collect $100 from his friends to throw a joint party, he would
+like to send a simple link out to his friends that would work with whoever their
+favorite payment provider is at the time.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Support the creation of simple IRIs that can be used across the Web, and when
+clicked upon, auto-complete payment information to the recipient on the senders
+favorite payment provider.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Subscriptions</h2> 
+ 
+    <p>
+A digital game programmer with a new multi-player game for online and/or 
+offline use. He specifies: authorship; content modification allowed with 
+constraint of: no commercialization once modified; payment for online use by 
+subscription (monthly, yearly); or single payment for downloaded version; 
+downstream commercializing permitted for unmodified download version only, with 
+constraints of: 30% of gross sales receipts paid to original author, as well 
+as 10% of site advertising revenue (if any) from the downstream page selling 
+the game.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Support subscriptions and recurring payments.
+        </li> 
+      </ul>
+    </section>
+  </section>
+  
+  </section>
+
+    <section>
+      <h2>Future Use Cases</h2>
+      <p>
+The following use cases were identified as important use cases, but have been
+postponed until implementation lessons have been learned from the base 
+PaySwarm specification.
+      </p>
+
+  <section> 
+    <h2>Crowd-Sourcing Digital Distribution</h2> 
+ 
+<p>Jane, who is an independent film maker, has just finished her
+documentary and wishes to distribute it to a very large audience. She does
+not have the resources to provide High-Definition streaming of her content
+to her fans. She would also like to charge enough for the current
+documentary in order to cover the production costs of the next documentary.
+She could use BitTorrent to distribute her work, but it lacks the ability
+to collect payment on her behalf. She would like to give some of the
+proceeds of each sale to those that will help her distribute her
+documentary.</p> 
+
+<p>Ideally, Jane would register her work with a content clearinghouse. That
+clearinghouse would provide the reference file which would be used to seed
+the network. Once enough downloads have been performed, others on the
+network could distribute the file in exchange for monetary compensation for
+providing a download source.</p> 
+
+    <section> 
+      <h3>Requirements</h3>
+ 
+      <ul> 
+        <li>The system must be able to swarm file downloads from multiple
+        sources.</li> 
+     
+        <li>Payment must be able to be divvied out among thousands of download
+        sources.</li> 
+     
+        <li>Payment must be allowed to be made to arbitrary accounts on the
+        network.</li> 
+      </ul> 
+    </section>
+  </section>
+
+  <section>
+    <h2>Ad-Based Content Payment</h2> 
+ 
+<p>Joss directs and produces a number of excellent television shows. Over
+the years, he has garnered a strong online following but doesn't have the
+required numbers for a long television production run. He would like to
+distribute his shows via the Web. Joss would like to partner with an
+advertising network to provide audio and video advertisements to cover the
+costs related to the production and distribution of his shows. In order to
+do this, the system that he uses must be able to credit and debit payment
+accounts accordingly whenever advertising is inserted into the content
+stream.</p> 
+
+<p>When a fan watches each episode, they can opt to pay for the episode in
+full, pay for reduced advertisements, or request that advertisers cover the
+entire cost of the show. Advertisers can choose to provide small payments
+for anonymous advertisements, or larger payments if customers provide
+advertising details and preferences to the advertisers.</p> 
+
+    <section> 
+      <h3>Requirements</h3>
+ 
+      <ul> 
+        <li>Network participants should be allowed to credit other accounts on
+        the network. For example, buyers should be allowed to ask other network
+        participants (advertisers) to partially cover their costs in exchange
+        for the insertion of ads into the data stream.</li> 
+     
+        <li>Buyers should have the option of purchasing goods without
+        advertising.</li> 
+      </ul> 
+    </section>
+  </section>
+
+  <section>
+    <h2>Price Negotiation</h2> 
+ 
+<p>Gregor runs a fairly active high-definition movie download site. His
+data transmission prices are high during peak hours and low during off-peak
+hours. He would like to give his customers the option to negotiate for
+lower download prices if they download their movies during the off-peak
+times. He would also like to reserve the right to refuse a contract
+re-negotiation attempt if he has not made a pre-set sales quota and even
+raise his prices if it would make sense for his business.</p> 
+
+<p>The ability to change prices based on market demand would enable a more
+dynamic marketplace, leading to more competition between download
+providers. Giving buyers the ability to re-negotiate terms of sale would
+not only give them a sense of empowerment, but could eliminate bad pricing
+behavior on the network, leading to overall market efficiencies.</p> 
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>The system should allow buyers and sellers to negotiate the data
+        download prices associated with a particular download.</li> 
+     
+        <li>The system could allow buyers to negotiate the license details as
+        well as the license price with a particular content creator.</li> 
+      </ul> 
+    </section>
+  </section>
+
+  <section> 
+    <h2>Live Pricing Algorithms</h2> 
+ 
+    <p>
+A folk-musician in Siberia who records local throat-singing into mp3 or ogg 
+vorbis files. He specifies: authorship; no content modification; free streaming 
+of first 10% of content online; payment per download at sliding scale 
+proportional to user-country's average yearly income per person; no downstream 
+commercializing.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+
+
   </section>
 
   <section> 

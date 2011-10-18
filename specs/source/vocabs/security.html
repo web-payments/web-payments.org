@@ -185,6 +185,35 @@ public and private key as well as the owner of the key.
 }
 </pre>
       </section>
+
+      <section id="Digest" about="http://purl.org/security#Digest"
+        typeof="rdfs:Class">
+        <h3>Digest</h3>
+          <p>
+This class represents a message digest that may be used for data integrity
+verification. The digest algorithm used will determine the cryptographic
+properties of the digest.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>sec:digestAlgorithm, sec:digestValue</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic digest:
+        </p>
+<pre class="example prettyprint language-jsonld">
+{
+   "@type": "sec:Digest",
+   "sec:digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
+   "sec:digestValue": "981ec496092bf6ee18d6255d96069b528633268b"
+}
+</pre>
+      </section>
+
       <section id="Signature" about="http://purl.org/security#Signature"
         typeof="rdfs:Class">
         <h3>Signature</h3>
@@ -456,6 +485,45 @@ digest method specified by the signature class:
         "sec:digestAlgorithm": "http://example.com/digests#sha512",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}
+        </pre>
+      </section>
+
+      <section id="digestValue" about="http://purl.org/security#digestValue"
+        typeof="rdf:Property">
+        <h3>digestValue</h3>
+        <p>
+The digest value is used to express the output of the digest algorithm
+expressed in Base-16 format.
+        </p>
+        <p class="issue">
+Should sec:digest be defined or leave it up to specific applications to define
+special properties that semantically express what content the digest applies
+to?
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sec:Digest</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the output of the digest algorithm can be
+encoded in JSON-LD:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+    "@subject": "http://example.com/logo.jpg",
+    "@type": "foaf:Image",
+    "dc:title": "Example Logo",
+    "sec:digest":
+    {
+        "@type": "sec:Digest",
+        "sec:digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
+        "sec:digestValue": "981ec496092bf6ea18d6251d36068b52b633268b"
     }
 }
         </pre>

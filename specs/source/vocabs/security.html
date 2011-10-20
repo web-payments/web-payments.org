@@ -66,9 +66,19 @@
           // This is important for Rec-track documents, do not copy a patent URI from a random
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
-          wgPatentURI:  "",
+          wgPatentURI:  ""
       };
     </script> 
+    <link href="prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
   </head> 
   <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
@@ -98,6 +108,7 @@ and animals. It will probably set your house on fire. You have been warned.
 
     <section>
       <h2>Classes</h2>
+
       <section id="EncryptedMessage" 
         about="http://purl.org/security#EncryptedMessage"
         typeof="rdfs:Class">
@@ -121,7 +132,7 @@ sec:data, sec:encryptionKey, sec:password, sec:cipher, sec:iv, sec:publicKey
 The example below describes a cryptographic key that contains both the 
 public and private key as well as the owner of the key.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@type": "sec:EncryptedMessage",
    "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
@@ -164,16 +175,45 @@ signatures or cryptography.
 The example below describes a cryptographic key that contains both the 
 public and private key as well as the owner of the key.
         </p>
-<pre class="example">
+<pre class="example prettyprint language-jsonld">
 {
    "@subject": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sec:Key",
    "ps:owner": "https://payswarm.example.com/i/bob",
-   "sec:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
+   "sec:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n",
    "sec:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
 }
 </pre>
       </section>
+
+      <section id="Digest" about="http://purl.org/security#Digest"
+        typeof="rdfs:Class">
+        <h3>Digest</h3>
+          <p>
+This class represents a message digest that may be used for data integrity
+verification. The digest algorithm used will determine the cryptographic
+properties of the digest.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>sec:digestAlgorithm, sec:digestValue</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic digest:
+        </p>
+<pre class="example prettyprint language-jsonld">
+{
+   "@type": "sec:Digest",
+   "sec:digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
+   "sec:digestValue": "981ec496092bf6ee18d6255d96069b528633268b"
+}
+</pre>
+      </section>
+
       <section id="Signature" about="http://purl.org/security#Signature"
         typeof="rdfs:Class">
         <h3>Signature</h3>
@@ -197,9 +237,10 @@ use, it SHOULD express at least three signature algorithm properties:
 sec:normalizationAlgorithm, sec:digestAlgorithm, and sec:signingAlgorithm.
           </p>
       </section>
-      <section id="JsonldSignature" about="http://purl.org/security#JsonldSignature"
+
+      <section id="JsonLdSignature" about="http://purl.org/security#JsonLdSignature"
         typeof="rdfs:Class">
-        <h3>JsonldSignature</h3>
+        <h3>JsonLdSignature</h3>
           <p>
 A JSON-LD signature is used for digital signatures on RDF graphs expressed 
 in JSON-LD format. The default normalization mechanism is specified in the
@@ -246,20 +287,21 @@ object. The signing algorithm understands that in order to check the signature
 that the signature property must be removed and the text
 canonicalized using the standard normalization algorithm for JSON-LD.
           </p>
-          <pre class="example">
+          <pre class="example prettyprint language-jsonld">
 {
     "@type": "foaf:Person",
     "foaf:name": "Manu Sporny",
     "foaf:homepage": "http://manu.sporny.org/",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://manu.sporny.org/webid#key-5",
         "sec:signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
     }
 }
           </pre>
       </section>
+
       <section id="XmlSignature" about="http://purl.org/security#XmlSignature"
         typeof="rdfs:Class">
         <h3>XmlSignature</h3>
@@ -280,7 +322,7 @@ digest and RSA to perform the digital signature.
             <dt>Signing Properties</dt>
             <dd>
               <dl>
-                <dt>Default normalization Method</dt>
+                <dt>Default Normalization Method</dt>
                 <dd>
 <a rel="sec:normalizationAlgorithm" 
   href="http://www.w3.org/2006/12/xml-c14n11">
@@ -312,7 +354,6 @@ _:bnode1 rdf:type sec:XmlSignature ;
          sec:data "&lt;mydata>Some data&lt;/mydata>" ;
          sec:signer &lt;http://example.com/people/john-doe#key-5> ;
          sec:signatureValue "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk=" .
-}
           </pre>
           <p>
 Signature defaults can be overridden by specifying the non-default values
@@ -328,7 +369,6 @@ _:bnode1 rdf:type sec:XmlSignature ;
          sec:signingAlgorithm &lt;http://example.org/signatureMethods#superSecretSignatureAlgorithm>;
          sec:signer &lt;http://example.com/people/john-doe#key-5> ;
          sec:signatureValue "3ODIyOWOGQzNGVkMzVmMmQM32MzQzNmExMgNjI4NTIyZTkoYzI4ZDY3=" .
-}
           </pre>
       </section>
     </section>
@@ -356,7 +396,7 @@ cipher mechanism.
 The example below describes the cipher as The
 Advanced Cryptography Standard using 128 bits and cipher block chaining.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@type": "sec:EncryptedMessage",
    "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
@@ -402,9 +442,9 @@ typically be found in the same graph as the data that was signed, but the
 example below shows that signatures can be specified in a number of flexible
 ways:
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-    "@type": "sec:JsonldSignature",
+    "@type": "sec:JsonLdSignature",
     "sec:data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"foaf:Person>\", \"foaf:name\": \"Joe Bob\" }",
     "sec:signer": "http://example.com/people/john-doe#key-5",
     "sec:signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
@@ -434,17 +474,56 @@ property rarely needs to be used in practice.
 The following example shows how the digest method can override the default
 digest method specified by the signature class:
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:digestAlgorithm": "http://example.com/digests#sha512",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+    }
+}
+        </pre>
+      </section>
+
+      <section id="digestValue" about="http://purl.org/security#digestValue"
+        typeof="rdf:Property">
+        <h3>digestValue</h3>
+        <p>
+The digest value is used to express the output of the digest algorithm
+expressed in Base-16 format.
+        </p>
+        <p class="issue">
+Should sec:digest be defined or leave it up to specific applications to define
+special properties that semantically express what content the digest applies
+to?
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>sec:Digest</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the output of the digest algorithm can be
+encoded in JSON-LD:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+    "@subject": "http://example.com/logo.jpg",
+    "@type": "foaf:Image",
+    "dc:title": "Example Logo",
+    "sec:digest":
+    {
+        "@type": "sec:Digest",
+        "sec:digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
+        "sec:digestValue": "981ec496092bf6ea18d6251d36068b52b633268b"
     }
 }
         </pre>
@@ -474,7 +553,7 @@ decryption password is encrypted using the public key described in the message.
 Since the cipher is AES-128-CBC, an initialization vector along with the
 password and the public key is required in order to decrypt the data.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@type": "sec:EncryptedMessage",
    "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
@@ -524,12 +603,12 @@ but the value is typically included as input to the signature hashing function
 in order to protect against
 <a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "ex:request": "DELETE foo.txt",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI=",
         "sec:nonce": "8495723045.84957"
@@ -563,14 +642,14 @@ While the normalization method is usually associated with the digital
 signature class defaults, it can also be specified in a signature to
 override the defaults:
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@type": "foaf:Person",
     "foaf:name": "Joe Bob",
     "foaf:homepage": "http://example.org/joebob",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:normalizationAlgorithm": "http://example.com/vocab#fancy-normalization-method",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "Q3ODIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4NTIyZTkZDY="
@@ -599,7 +678,7 @@ the intended recipient may know the password.
 The password example below is a public-key encrypted string that has been
 base-64 encoded.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@type": "sec:EncryptedMessage",
    "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
@@ -645,7 +724,7 @@ The following example demonstrates the expression of a private key PEM. The
 elipsis ("...") in the middle of the string denotes more data that has been
 abbreviated for the sake of the readability of the example.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@subject": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sec:Key",
@@ -675,7 +754,7 @@ key.
 The following example demonstrates the expression of a public key belonging
 to the identity <code>https://payswarm.example.com/i/bob</code>.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@subject": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sec:Key",
@@ -707,7 +786,7 @@ The following example demonstrates the expression of a public key PEM. The
 elipsis ("...") in the middle of the string denotes more data that has been
 abbreviated for the sake of the readability of the example.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
    "@subject": "https://payswarm.example.com/i/bob/keys/1",
    "ps:owner": "https://payswarm.example.com/i/bob",
@@ -736,15 +815,15 @@ The following example demonstrates how a signature on the graph identified by
 the subject <code>http://example.com/people#jane</code> is expressed using
 a JSON-LD signature:
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@subject": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
@@ -774,7 +853,7 @@ properties into one?
         <p>
 
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@subject": "http://example.com/people#jane",
     "@type": "foaf:Person",
@@ -787,9 +866,9 @@ properties into one?
         "foaf:name": "John Smith",
         "foaf:homepage": "http://example.org/john",
     },
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signatureFor" : "http://example.org/people#john",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
@@ -818,15 +897,15 @@ to the public key.
 The following example expresses the location of the semantic information about
 the public key that can be used to verify the digital signature:
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@subject": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
@@ -852,15 +931,15 @@ expressed in Base-64 format.
 The following example shows how the output of the signature algorithm can be
 encoded in JSON-LD:
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@subject": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
     }
@@ -888,14 +967,14 @@ algorithm, so this property rarely needs to be used in practice.
         </dl>
         <p>
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
     "@type": "foaf:Person",
     "foaf:name": "Joe Bob",
     "foaf:homepage": "http://example.org/joebob",
-    "sec:signature: 
+    "sec:signature":
     {
-        "@type": "sec:JsonldSignature",
+        "@type": "sec:JsonLdSignature",
         "sec:signingAlgorithm": "http://example.com/vocab#special-signing-algorithm",
         "sec:signer": "http://example.com/people/john-doe#key-5",
         "sec:signatureValue": "P9fDIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4k3FJKs98f="

@@ -66,9 +66,19 @@
           // This is important for Rec-track documents, do not copy a patent URI from a random
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
-          wgPatentURI:  "",
+          wgPatentURI:  ""
       };
     </script> 
+    <link href="prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
   </head> 
   <body> 
     <section id='abstract'> 
@@ -121,24 +131,24 @@ November 28th, 2011. The asset is digitally signed by the person providing it
 and thus can be cached, stored and then presented to someone else in a manner
 that is verifiable by the receiving party.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;https://example.org/articles/1#asset>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "&lt;https://example.org/articles/1>",
-   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
    "ps:signature": 
    {
-       "a": "&lt;sig:JsonldSignature>",
-       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "@type": "sig:JsonLdSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
@@ -168,125 +178,125 @@ for a Web-based article called "PaySwarm in Practice". The article was authored
 and listed for sale by Bob Smith and a personal use license was acquired by 
 Jane, who may now peruse the article.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
-   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "com:date": "2011-03-02T03:00:53Z",
    "com:payee": 
    [
       {
-         "a": "&lt;com:Payee>",
+         "@type": "com:Payee",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/authority/accounts/main>",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
          "com:payeePosition": 0,
          "com:rate": "10.00",
-         "com:rateContext": "&lt;com:TaxExempt>",
-         "com:rateType": "&lt;com:InclusivePercentage>",
+         "com:rateContext": "com:TaxExempt",
+         "com:rateType": "com:InclusivePercentage",
          "rdfs:comment": "PaySwarm Authority Transaction Processing"
       }
    ],
    "com:transfer": 
    [
       {
-         "a": "&lt;com:Transfer>",
+         "@type": "com:Transfer",
          "com:amount": "0.045",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
-         "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
-         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
          "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
       },
       {
-         "a": "com:Transfer",
+         "@type": "com:Transfer",
          "com:amount": "0.005",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/authority/accounts/main>",
-         "com:forTransaction": "&lthttp://payswarm.example.com/contracts/28394729347>",
-         "com:source": "&lt;https://payswarm.example.com/i/jane/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
          "rdfs:comment": "PaySwarm Authority Transaction Processing"
       }
    ],
-   "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "dc:created": "2011-03-02T03:00:53Z",
    "ps:asset": 
    {
-      "@": "&lt;http://example.com/articles/1#asset>",
-      "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+      "@subject": "http://example.com/articles/1#asset",
+      "@type": ["ps:Asset", "ps:WebPage"],
       "dc:creator": 
       {
          "foaf:name": "Bob Smith"
       },
       "dc:title": "PaySwarm in Practice",
-      "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
-      "ps:authority": "&lt;https://payswarm.example.com/client-config>",
-      "ps:contentUrl": "&lt;http://example.com/articles/1>",
+      "ps:assetProvider": "https://payswarm.example.com/i/bob",
+      "ps:authority": "https://payswarm.example.com/client-config",
+      "ps:contentUrl": "http://example.com/articles/1",
       "ps:signature": 
       {
-         "a": "&lt;ps:JsonldSignature>",
-         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "@type": "ps:JsonLdSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
          "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
       }
    },
-   "ps:assetAcquirer": "&lt;https://payswarm.example.com/i/jane>",
+   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
    "ps:assetProviderIdentity": 
    {
       "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
    },
    "ps:license": 
    {
-      "@": "&lt;http://payswarm.example.com/licenses/blogging>",
-      "a": "&lt;ps:License>",
+      "@subject": "http://payswarm.example.com/licenses/blogging",
+      "@type": "ps:License",
       "dc:format": "text/html",
       "ps:licenseTemplate": "Personal Use <a href="#License">License</a> ..."
    },
    "ps:listing": 
    {
-      "@": "&lt;http://example.com/articles/1#listing>",
-      "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+      "@subject": "http://example.com/articles/1#listing",
+      "@type": ["gr:Offering", "ps:Listing"],
       "com:payee": 
       [
          {
-            "@": "&lt;http://example.com/articles/1#listing-payee>",
-            "a": "&lt;com:Payee>",
+            "@subject": "http://example.com/articles/1#listing-payee",
+            "@type": "com:Payee",
             "com:currency": "USD",
-            "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+            "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
             "com:rate": "0.05",
-            "com:rateType": "&lt;com:FlatAmount>",
+            "com:rateType": "com:FlatAmount",
             "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
          }
       ],
       "com:payeeRule": 
       [
          {
-            "a": "&lt;com:PayeeRule>",
-            "com:destinationOwnerType": "&lt;ps:Authority>",
+            "@type": "com:PayeeRule",
+            "com:destinationOwnerType": "ps:Authority",
             "com:maximumRate": "10",
-            "com:rateType": "&lt;com:InclusivePercentage>"
+            "com:rateType": "com:InclusivePercentage"
          }
       ],
-      "ps:asset": "&lt;http://example.com/articles/1#asset>",
+      "ps:asset": "http://example.com/articles/1#asset",
       "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-      "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+      "ps:license": "http://payswarm.example.com/licenses/blogging",
       "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
       "ps:signature": 
       {
-         "a": "&lt;ps:JsonldSignature>",
-         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "@type": "ps:JsonLdSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
          "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
       },
-      "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
-      "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+      "ps:validFrom": "2011-03-02T00:00:00+0000",
+      "ps:validUntil": "2011-03-03T00:00:00+0000"
    },
    "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/authority/keys/1>",
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-02T03:00:53Z",
+      "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
       "ps:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
    }
 }
@@ -314,23 +324,23 @@ stream of bytes.
 The following example shows an Data Asset for a byte stream for sale that is a 
 video with the title "Learning How Cells Divide" by John Doe. 
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://example.com/videos#cell-division>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:Data>"],
+   "@subject": "http://example.com/videos#cell-division",
+   "@type": ["ps:Asset", "ps:Data"],
    "dc:creator": 
    {
       "foaf:name": "John Doe"
    },
    "dc:title": "Learning How Cells Divide",
-   "ps:assetProvider": "&lt;https://payswarm.example.com/i/john>",
-   "ps:authority": "&lt;https://payswarm.example.com/client-config>",
-   "ps:contentUrl": "&lt;http://example.com/video/cell-division.mpg>",
+   "ps:assetProvider": "https://payswarm.example.com/i/john",
+   "ps:authority": "https://payswarm.example.com/client-config",
+   "ps:contentUrl": "http://example.com/video/cell-division.mpg",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-12T00:00:00Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/john/keys/2>",
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-12T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/john/keys/2",
       "ps:signatureValue": "ne56Qsc5IXuLEGuq+Nic8="
    }
 }
@@ -355,14 +365,14 @@ may do with the asset that has been purchased.
         <p>
 The following example describes an overly-simplified personal use license.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
-   "a": "&lt;ps:License>",
+   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
       purchased item onto any device that you own for your personal enjoyment
-      and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+      and make up to &lt;span property=\"ex:physicalCopies\" /> printed
       copies of the work for personal use."
    "ps:licenseTerms": 
    {
@@ -396,45 +406,45 @@ that covers acceptable use of blog posts. The offer is valid from March 2nd
 PaySwarm Authority (the organization processing the payment) may only take a 
 maximum of 10% of the final sale price to cover their fees.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://example.com/articles/1#listing>",
-   "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+   "@subject": "http://example.com/articles/1#listing",
+   "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
    [
       {
-         "@": "&lt;http://example.com/articles/1#listing-payee>",
-         "a": "&lt;com:Payee>",
+         "@subject": "http://example.com/articles/1#listing-payee",
+         "@type": "com:Payee",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
          "com:rate": "0.05",
-         "com:rateType": "&lt;com:FlatAmount>",
+         "com:rateType": "com:FlatAmount",
          "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
       }
    ],
    "com:payeeRule": 
    [
       {
-         "a": "&lt;com:PayeeRule>",
-         "com:destinationOwnerType": "&lt;ps:Authority>",
+         "@type": "com:PayeeRule",
+         "com:destinationOwnerType": "ps:Authority",
          "com:maximumRate": "10",
-         "com:rateType": "&lt;com:InclusivePercentage>"
+         "com:rateType": "com:InclusivePercentage"
       }
    ],
-   "ps:asset": "&lt;http://example.com/articles/1#asset>",
+   "ps:asset": "http://example.com/articles/1#asset",
    "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-   "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
-   "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+   "ps:assetProvider": "https://payswarm.example.com/i/bob",
+   "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-02T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
       "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
    },
-   "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+   "ps:validFrom": "2011-03-02T00:00:00+0000",
+   "ps:validUntil": "2011-03-03T00:00:00+0000"
 }
         </pre>
       </section>
@@ -461,24 +471,24 @@ The following example describes a web page titled "PaySwarm in Practice" that
 was created by "Digital Bazaar, Inc.". The asset is valid from November 28th
 2010 to November 28th 2011.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;https://example.org/articles/1#asset>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "&lt;https://example.org/articles/1>",
-   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
    "ps:signature": 
    {
-       "a": "&lt;sig:JsonldSignature>",
-       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "@type": "sig:JsonLdSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
@@ -509,10 +519,10 @@ The following example specifies that no additional non-PaySwarm Authority
 payees can be added to the list of payees as a result of the sale of an 
 asset or service.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-    "a": "&lt;com:PayeeRule>",
-    "com:rateType": "&lt;ps:NoAdditionalPayees>",
+    "@type": "com:PayeeRule",
+    "com:rateType": "ps:NoAdditionalPayees",
 }
         </pre>
       </section>
@@ -539,35 +549,35 @@ PaySwarm. The asset property is typically found in a Listing or a Contract.
 The following example shows a portion of a contract containing the description 
 of an <a href="#Asset">Asset</a> that was a part of the purchase.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
-   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "com:date": "2011-03-02T03:00:53Z",
    ...
    "ps:asset": 
    {
-      "@": "&lt;http://example.com/articles/1#asset>",
-      "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+      "@subject": "http://example.com/articles/1#asset",
+      "@type": ["ps:Asset", "ps:WebPage"],
       "dc:creator": 
       {
          "foaf:name": "Bob Smith"
       },
       "dc:title": "PaySwarm in Practice",
-      "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
-      "ps:authority": "&lt;https://payswarm.example.com/client-config>",
-      "ps:contentUrl": "&lt;http://example.com/articles/1>",
+      "ps:assetProvider": "https://payswarm.example.com/i/bob",
+      "ps:authority": "https://payswarm.example.com/client-config",
+      "ps:contentUrl": "http://example.com/articles/1",
       "ps:signature": 
       {
-         "a": "&lt;ps:JsonldSignature>",
-         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "@type": "ps:JsonLdSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
          "ps:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
       }
    },
-   "ps:assetAcquirer": "&lt;https://payswarm.example.com/i/jane>",
+   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
    "ps:assetProviderIdentity": 
    {
       "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
@@ -595,15 +605,15 @@ acquired the rights to a particular asset via a PaySwarm Contract.
 The following example shows a contract that specifies a ps:assetAcquirer with
 a value of <code>https://payswarm.example.com/i/jane</code>.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
-   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "com:date": "2011-03-02T03:00:53Z",
    ...
-   "ps:assetAcquirer": "&lt;https://payswarm.example.com/i/jane>",
+   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
    "ps:assetProviderIdentity": 
    {
       "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
@@ -654,28 +664,28 @@ different Blank Node names.</li>
 The following example describes a listing that contains information about an
 ps:Asset as well as the ps:assetHash.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-    "@": "&lt;https://example.org/articles/1#listing>",
-    "a": "&lt;ps:Listing>",
+    "@subject": "https://example.org/articles/1#listing",
+    "@type": "ps:Listing",
     "ps:asset":
     {
-        "@": "&lt;https://example.org/articles/1#asset>",
-        "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+        "@subject": "https://example.org/articles/1#asset",
+        "@type": ["ps:Asset", "ps:WebPage"],
         "dc:title": "PaySwarm in Practice - Full Article #1",
         "dc:creator": 
         {
            "foaf:name": "Digital Bazaar, Inc.",
         }
-        "ps:contentUrl": "&lt;https://example.org/articles/1>",
-        "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-        "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-        "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-        "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+        "ps:contentUrl": "https://example.org/articles/1",
+        "ps:assetProvider": "https://example.org/person/john-doe#me",
+        "ps:authority": "https://payswarm.example.com/about#authority",
+        "ps:validFrom": "2010-11-28T00:00:00Z",
+        "ps:validUntil": "2011-11-28T00:00:00Z"
         "ps:signature": 
         {
-            "a": "&lt;sig:JsonldSignature>",
-            "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+            "@type": "sig:JsonLdSignature",
+            "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
             "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
         }
     },
@@ -706,45 +716,45 @@ ps:assetProvider.
 The following example describes a ps:Listing that specifies a ps:assetProvider
 with a value of <code>https://payswarm.example.com/i/bob</code>.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://example.com/articles/1#listing>",
-   "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+   "@subject": "http://example.com/articles/1#listing",
+   "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
    [
       {
-         "@": "&lt;http://example.com/articles/1#listing-payee>",
-         "a": "&lt;com:Payee>",
+         "@subject": "http://example.com/articles/1#listing-payee",
+         "@type": "com:Payee",
          "com:currency": "USD",
-         "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
          "com:rate": "0.05",
-         "com:rateType": "&lt;com:FlatAmount>",
+         "com:rateType": "com:FlatAmount",
          "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
       }
    ],
    "com:payeeRule": 
    [
       {
-         "a": "&lt;com:PayeeRule>",
-         "com:destinationOwnerType": "&lt;ps:Authority>",
+         "@type": "com:PayeeRule",
+         "com:destinationOwnerType": "ps:Authority",
          "com:maximumRate": "10",
-         "com:rateType": "&lt;com:InclusivePercentage>"
+         "com:rateType": "com:InclusivePercentage"
       }
    ],
-   "ps:asset": "&lt;http://example.com/articles/1#asset>",
+   "ps:asset": "http://example.com/articles/1#asset",
    "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-   "ps:assetProvider": "&lt;https://payswarm.example.com/i/bob>",
-   "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+   "ps:assetProvider": "https://payswarm.example.com/i/bob",
+   "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-02T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
       "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
    },
-   "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+   "ps:validFrom": "2011-03-02T00:00:00+0000",
+   "ps:validUntil": "2011-03-03T00:00:00+0000"
 }
         </pre>
       </section>
@@ -768,23 +778,23 @@ The following example describes an asset that specifies that any purchase of
 the asset should be performed via the 
 <code>https://payswarm.example.com/client-config</code> PaySwarm Authority.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://example.com/videos#cell-division>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:Data>"],
+   "@subject": "http://example.com/videos#cell-division",
+   "@type": ["ps:Asset", "ps:Data"],
    "dc:creator": 
    {
       "foaf:name": "John Doe"
    },
    "dc:title": "Learning How Cells Divide",
-   "ps:assetProvider": "&lt;https://payswarm.example.com/i/john>",
-   "ps:authority": "&lt;https://payswarm.example.com/client-config>",
-   "ps:contentUrl": "&lt;http://example.com/video/cell-division.mpg>",
+   "ps:assetProvider": "https://payswarm.example.com/i/john",
+   "ps:authority": "https://payswarm.example.com/client-config",
+   "ps:contentUrl": "http://example.com/video/cell-division.mpg",
    "ps:signature": 
    {
-      "a": "&lt;ps:JsonldSignature>",
-      "dc:created": "2011-03-12T00:00:00Z^^&lt;xsd:dateTime>",
-      "dc:creator": "&lt;https://payswarm.example.com/i/john/keys/2>",
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-12T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/john/keys/2",
       "ps:signatureValue": "ne56Qsc5IXuLEGuq+Nic8="
    }
 }
@@ -809,26 +819,26 @@ that is different from the location of the asset.
         </dl>
         <p>
 The following example demonstrates an asset that has a content URL specified
-as <code>&lt;https://example.org/articles/1></code>.
+as <code>https://example.org/articles/1</code>.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;https://example.org/articles/1#asset>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "&lt;https://example.org/articles/1>",
-   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
    "ps:signature": 
    {
-       "a": "&lt;sig:JsonldSignature>",
-       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "@type": "sig:JsonLdSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
@@ -862,14 +872,14 @@ ps:licenseTerms property.
 The following example shows how a license template is used in conjunction with
 a set of license terms.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
-   "a": "&lt;ps:License>",
+   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
       purchased item onto any device that you own for your personal enjoyment
-      and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+      and make up to &lt;span property=\"ex:physicalCopies\" /> printed
       copies of the work for personal use.",
    "ps:licenseTerms": 
    {
@@ -899,14 +909,14 @@ template.
 The example below specifies a license with a single term that limits the number 
 of printed physical copies of a work to 5.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
-   "a": "&lt;ps:License>",
+   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
       purchased item onto any device that you own for your personal enjoyment
-      and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+      and make up to &lt;span property=\"ex:physicalCopies\" /> printed
       copies of the work for personal use."
    "ps:licenseTerms": 
    {
@@ -1013,10 +1023,10 @@ The following snippet of a contract contains the asset provider's identity
 which is hashed to protect the physical location at which the asset provider 
 resides.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "ps:asset": { ... },
    "ps:assetProviderIdentity": 
    {
@@ -1049,19 +1059,19 @@ HTML+RDFa or other human-readable semantic web markup language.
 The following contract snippet below demonstrates how a license is expressed
 in a completed contract.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/982378927357>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/982378927357",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "ps:asset": { ... },
    "ps:license":
    {
-      "@": "&lt;http://payswarm.example.com/licenses/personal-use>",
-      "a": "&lt;ps:License>",
+      "@subject": "http://payswarm.example.com/licenses/personal-use",
+      "@type": "ps:License",
       "dc:format": "text/html",
       "ps:licenseTemplate": "This personal use license allows you to save the 
          purchased item onto any device that you own for your personal enjoyment
-         and make up to &ltspan property=\"ex:physicalCopies\" /> printed
+         and make up to &lt;span property=\"ex:physicalCopies\" /> printed
          copies of the work for personal use."
       "ps:licenseTerms": 
       {
@@ -1095,11 +1105,11 @@ cache to determine whether or not the information associated with the
 ps:license would need to be fetched from the Web based on the value of the
 license hash.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;http://example.com/articles/1#listing>",
-   "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
-   "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+   "@subject": "http://example.com/articles/1#listing",
+   "@type": ["gr:Offering", "ps:Listing"],
+   "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad"
    ...
 }
@@ -1124,52 +1134,52 @@ a <a href="#License">License</a> that governs the post-purchase use of that asse
 The following contract snippet shows the portion of the contract that 
 contains the listing information.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/28394729347>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
-   "com:date": "2011-03-02T03:00:53Z^^&lt;xsd:dateTime>",
+   "com:date": "2011-03-02T03:00:53Z",
    ...
    "ps:listing": 
    {
-      "@": "&lt;http://example.com/articles/1#listing>",
-      "a": ["&lt;gr:Offering>", "&lt;ps:Listing>"],
+      "@subject": "http://example.com/articles/1#listing",
+      "@type": ["gr:Offering", "ps:Listing"],
       "com:payee": 
       [
          {
-            "@": "&lt;http://example.com/articles/1#listing-payee>",
-            "a": "&lt;com:Payee>",
+            "@subject": "http://example.com/articles/1#listing-payee",
+            "@type": "com:Payee",
             "com:currency": "USD",
-            "com:destination": "&lt;https://payswarm.example.com/i/bob/accounts/primary>",
+            "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
             "com:rate": "0.05",
-            "com:rateType": "&lt;com:FlatAmount>",
+            "com:rateType": "com:FlatAmount",
             "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
          }
       ],
       "com:payeeRule": 
       [
          {
-            "a": "&lt;com:PayeeRule>",
-            "com:destinationOwnerType": "&lt;ps:Authority>",
+            "@type": "com:PayeeRule",
+            "com:destinationOwnerType": "ps:Authority",
             "com:maximumRate": "10",
-            "com:rateType": "&lt;com:InclusivePercentage>"
+            "com:rateType": "com:InclusivePercentage"
          }
       ],
-      "ps:asset": "&lt;http://example.com/articles/1#asset>",
+      "ps:asset": "http://example.com/articles/1#asset",
       "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-      "ps:license": "&lt;http://payswarm.example.com/licenses/blogging>",
+      "ps:license": "http://payswarm.example.com/licenses/blogging",
       "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
       "ps:signature": 
       {
-         "a": "&lt;ps:JsonldSignature>",
-         "dc:created": "2011-03-02T00:00:00Z^^&lt;xsd:dateTime>",
-         "dc:creator": "&lt;https://payswarm.example.com/i/bob/keys/4>",
+         "@type": "ps:JsonLdSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
          "ps:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
       },
-      "ps:validFrom": "2011-03-02T00:00:00+0000^^&lt;xsd:dateTime>",
-      "ps:validUntil": "2011-03-03T00:00:00+0000^^&lt;xsd:dateTime>"
+      "ps:validFrom": "2011-03-02T00:00:00+0000",
+      "ps:validUntil": "2011-03-03T00:00:00+0000"
    },
    "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
    ...
@@ -1201,12 +1211,12 @@ cache to determine whether or not the information associated with the
 ps:listing would need to be fetched from the Web based on the value of the
 listing hash.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lthttp://payswarm.example.com/contracts/583272397238>",
-   "a": ["&lt;ps:Transaction>", "&lt;ps:Contract>"],
+   "@subject": "http://payswarm.example.com/contracts/583272397238",
+   "@type": ["ps:Transaction", "ps:Contract"],
    ...
-   "ps:listing": "&lt;http://example.com/articles/1#listing>",
+   "ps:listing": "http://example.com/articles/1#listing",
    "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
    ...
 }
@@ -1231,13 +1241,13 @@ such as claiming ownership over a financial com:Account resource.
         </dl>
         <p>
 The following example demonstrates the expression of a public key belonging
-to the identity <code>&lt;https://payswarm.example.com/i/bob></code>.
+to the identity <code>https://payswarm.example.com/i/bob</code>.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;https://payswarm.example.com/i/bob/keys/1>",
-   "a": "&lt;sig:Key>",
-   "ps:owner": "&lt;https://payswarm.example.com/i/bob>",
+   "@subject": "https://payswarm.example.com/i/bob/keys/1",
+   "@type": "sig:Key",
+   "ps:owner": "https://payswarm.example.com/i/bob",
    "sig:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
 }
         </pre>
@@ -1263,24 +1273,24 @@ metrics.
 The following example is of an <a href="#Asset">Asset</a> that has a validity period starting 
 at midnight on November 28th, 2010.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;https://example.org/articles/1#asset>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "&lt;https://example.org/articles/1>",
-   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
    "ps:signature": 
    {
-       "a": "&lt;sig:JsonldSignature>",
-       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "@type": "sig:JsonLdSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
@@ -1306,24 +1316,24 @@ expire. The information can be used to determine caching metrics.
 The following example is of an <a href="#Asset">Asset</a> that has a validity period ending at
 midnight on November 28th, 2011.
         </p>
-        <pre class="example">
+        <pre class="example prettyprint language-jsonld">
 {
-   "@": "&lt;https://example.org/articles/1#asset>",
-   "a": ["&lt;ps:Asset>", "&lt;ps:WebPage>"],
+   "@subject": "https://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
    {
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "&lt;https://example.org/articles/1>",
-   "ps:assetProvider": "&lt;https://example.org/person/john-doe#me>",
-   "ps:authority": "&lt;https://payswarm.example.com/about#authority>",
-   "ps:validFrom": "2010-11-28T00:00:00Z^^&lt;xsd:dateTime>",
-   "ps:validUntil": "2011-11-28T00:00:00Z^^&lt;xsd:dateTime>"
+   "ps:contentUrl": "https://example.org/articles/1",
+   "ps:assetProvider": "https://example.org/person/john-doe#me",
+   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
    "ps:signature": 
    {
-       "a": "&lt;sig:JsonldSignature>",
-       "sig:signer": "&lt;https://payswarm.example.com/people/john-doe#key-5>",
+       "@type": "sig:JsonLdSignature",
+       "sig:signer": "https://payswarm.example.com/people/john-doe#key-5",
        "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }

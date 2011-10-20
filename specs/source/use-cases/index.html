@@ -73,10 +73,14 @@
   <body> 
     <section id='abstract'> 
       <p> 
-The PaySwarm web platform is an open standard that enables web browsers and web 
-devices to perform micropayments and copyright-aware, peer-to-peer digital 
-media distribution. This document is a list of all use cases that the 
-PaySwarm specification is designed to address.
+The primary goal of the Web Payments work at the World Wide Web Consortium
+(W3C) is to create a safe, decentralized system and a set of
+open, patent and royalty-free specifications that allow people on the
+Web to send each other money as easily as they exchange instant messages
+and e-mail today. The following use cases focus on transforming the way we 
+reward each other on the Web as well as how we organize financial resources to
+enhance our personal lives and pursue endeavors that improve upon the
+human condition.
       </p> 
     </section> 
     <section> 
@@ -142,18 +146,26 @@ overhead associated with managing content catalogs.</p>
       <h3>Requirements</h3> 
  
       <ul> 
-        <li>The content distributor (blogger) can be a separate entity from
-        content owner (musician/label/production company).</li> 
+        <li>
+The asset provider (blogger) MAY be a separate entity from
+asset owner (musician/label/production company).
+        </li> 
      
-        <li>The content distributor must be able to distribute content without
-        the content owners knowledge as long as the distribution license and
-        royalty payments are respected.</li> 
+        <li>
+The asset provider MUST be able to distribute content without
+the asset owner direct permission as long as the asset license and
+royalty payments set by the asset creator is respected.</li> 
      
-        <li>The content distributor must be able to set distribution prices
-        independently of the content provider.</li> 
+        <li>
+The asset provider MUST be able to set distribution prices independently 
+of the asset owner.
+        </li> 
      
-        <li>The content owner must be able to set base royalties independently of
-        the content distributor.</li> 
+        <li>
+The asset owner MUST be able to set base royalties independently of
+the asset provider and those base royalties MUST be enforced by the transaction
+authority.
+        </li> 
       </ul> 
     </section>
   </section>
@@ -184,13 +196,16 @@ enabled.</p>
       <h3>Requirements</h3> 
  
       <ul> 
-        <li>Payment must be able to be associated with a section of a stream of
-        data. Payment should be allowed to be associated with a particular number
-        of bytes or temporal time frame.</li> 
+        <li>
+Payment MUST be able to be associated with a section of a stream of
+data. Payment SHOULD be allowed to be associated with a particular number
+of bytes or temporal time frame.
+        </li> 
      
-        <li>Small fractions of whole currency amounts should be allowed in order
-        to ensure accurate metering and payment recouping for content
-        streams.</li> 
+        <li>
+Small fractions of whole currency amounts SHOULD be allowed in order
+to ensure accurate metering and payment recouping for content streams.
+        </li> 
       </ul>
     </section>
   </section>
@@ -203,8 +218,9 @@ Dione would like to raise $10,000 to design and build a solar powered,
 personal ground water pump and purifier for developing nations. He intends to
 publish all of the plans on the Web as open hardware and start taking orders
 from NGOs to install these pump-purifiers in villages around the world. Rather
-than go through the process of receiving a grant, he believes that he can
-raise the money faster through the Web. 
+than go through the process of writing a grant and waiting up to a year to
+start on the work, he believes that he can raise the money faster through 
+the Web and start the project within 3 months. 
     </p>
 
     <section> 
@@ -212,8 +228,10 @@ raise the money faster through the Web.
  
       <ul> 
         <li>
-Support intent-based deposit contracts, which can be redeemed by the payee
-in one bulk transfer.
+Intent-based deposit contracts MUST be supported, which can be redeemed by the 
+payee in one bulk transfer. The entity raising the funds should be able to 
+hold on to deposit contracts for a number months and "cash them in" when a
+certain threshold has been reached.
         </li> 
       </ul>
     </section>
@@ -238,21 +256,24 @@ needed to access content.</p>
  
     <section>
       <h3>Requirements</h3> 
- 
+
       <ul> 
-        <li>Content details should be able to be expressed in a Web page such
-        that a user agent can extract the details for a piece of digital
-        content.</li> 
-     
-        <li>All relevant payment details should be expressed in a Web page such
-        that a user agent may purchase content after detecting the payment
-        processing details on a page.</li> 
+        <li>
+Asset details SHOULD be expressed in a Web page such that a Web User-Agent can 
+extract the details of a piece of digital content.
+        </li> 
+
+        <li>
+All relevant payment details SHOULD be expressed in a Web page such
+that a Web User-Agent may purchase content after detecting the payment
+processing details on a page.
+        </li> 
       </ul> 
     </section>
   </section>
- 
+
   <section> 
-    <h2>Multicast License Acquisition</h2> 
+    <h2>Separation of Content from Licenses</h2> 
 
 <p>The Association of Science Journalists Conference would like to present
 a series of live keynotes by luminaries in their respective fields. The
@@ -276,13 +297,21 @@ variables.</p>
       <h3>Requirements</h3> 
  
       <ul> 
-        <li>The system must be able to distinguish between licenses and contracts
-        for data delivery. One should be able to purchase the license and then
-        have the option of choosing their download source. Content licenses and
-        data delivery contract should be able to be negotiated separately.</li> 
-     
-        <li>Licenses should be used to get access to data streams. Payment for
-        licenses and payment for data should be separate concerns.</li> 
+        <li>
+The system MUST be able to distinguish between licenses and contracts
+for data delivery.
+        </li>
+        
+        <li>
+One SHOULD be able to purchase the license and then have the option of 
+choosing their download source separately. Content licenses and
+data delivery contracts SHOULD be able to be negotiated separately.
+        </li>
+
+        <li>
+Licenses MAY be used to get access to data streams on 3rd party provider
+sites. Payment for licenses and payment for data SHOULD be separate concerns.
+        </li> 
      
       </ul> 
     </section>
@@ -290,34 +319,42 @@ variables.</p>
 
   <section>
     <h2>Licensing Access to Extra Content</h2>
-    
+
 <p>Luciano has purchased a song from an online music store. The band that 
 created the song would like to give people that purchased any song from their
 last album the chance to view their latest music videos and behind-the-scenes
 footage.</p>
 
-<p>Since Luciano's browser was used to make the purchase, it has a digitally
-signed receipt of the sale. When he visits the band's website, it asks his
-browser for a receipt that proves that he has purchased a song from their
-latest album. The digital receipt is sent to the website, is verified, and
-Luciano is allowed into the special VIP section of the band's website.</p>
+<p>Since Luciano's browser was used to make the purchase, it has stored a
+digitally signed receipt of the sale. When he visits the band's website, it 
+asks his browser for a receipt that proves that he has purchased a song from 
+their latest album. The digital receipt is sent to the website, is verified, 
+and Luciano is allowed into the special VIP section of the band's website.</p>
     
     <section>
       <h3>Requirements</h3>
       <ul>
-        <li>The system should be able to express a digital receipt of 
-        sale or license that can be verified by a 3rd party.</li>
-        <li>The system must define a straight-forward mechanism for websites
-        to request digital receipts of sale and for web browsers to answer
-        with the proper receipt or license, after upload has been authorized 
-        by the customer.</li>
+        <li>
+The system MUST be able to express a digital receipt of sale or license 
+that can be verified by a 3rd party.
+        </li>
+        <li>
+The system MUST define a straight-forward mechanism for websites
+to request digital receipts of sale.
+        </li>
+        <li>
+The system MAY define a mechanism for web browsers to transmit a proper 
+receipt or license based upon information on a page, but after 
+transmission of the receipt has been authorized by the person or entity in
+posession of the receipt.
+        </li>
       </ul>
     </section>
   </section>
 
   <section> 
     <h2>Batching Micropayments</h2> 
- 
+
 <p>Penelope has completed her fourth book of photography. She would like to
 charge a very small amount for her travel expenses and supplies but doesn't
 want to make a living from the sale of her book. Penelope does, however,
@@ -334,11 +371,15 @@ initiative or cause to be made along-side the purchase.</p>
       <h3>Requirements</h3> 
  
       <ul> 
-        <li>Network participants must be allowed to add arbitrary accounts as
-        payees for transactions.</li> 
+        <li>
+Network participants MUST be allowed to add arbitrary accounts as
+payees for transactions if allowed by the original content owner.
+        </li> 
      
-        <li>A large number of payment accounts must be allowed to be batched with
-        content transactions.</li> 
+        <li>
+A large number of payee accounts MUST be allowed to be batched with
+content transactions. Lists of payees SHOULD be allowable up in the
+thousands of payees.</li> 
       </ul> 
     </section>
   </section>
@@ -366,9 +407,9 @@ There must not be a centralized asset or listing service of any kind.
     <h2>Re-Sale Limitations</h2> 
  
     <p>
-An independent medical researcher in the USA who produces a pdf report about 
-side-effects of a new prescription drug. They want a no resale limitation, and
-want to sell the article from their website.
+Quincy, a medical researcher in the USA, produces a PDF report about the
+side-effects of a new prescription drug. He wants to sell access to the
+full article from his website, but with a "no resale" limitation.
     </p>
 
     <section> 
@@ -376,8 +417,9 @@ want to sell the article from their website.
  
       <ul> 
         <li>
-Assets must be allowed to be only re-sold by the original creator of that
-asset.
+Assets MUST be allowed to be only re-sold by the original creator of that
+asset through some set of "resale permissions" that are expressed in the
+asset listing.
         </li> 
       </ul>
     </section>
@@ -390,8 +432,8 @@ asset.
 Rigo would like to create a local currency for his town, which is fairly poor
 but contains a moderate population that volunteers their time at a number of
 community-supported farms in the area. He would like to reward the area
-citizens with time-banked credits that can be redeemed for food at local
-businesses and restaurants.
+citizens with time-banked credits that can be redeemed for food or other
+services at local businesses and restaurants.
     </p>
 
     <section> 
@@ -399,9 +441,11 @@ businesses and restaurants.
  
       <ul> 
         <li>
-Support alternative currencies and allow these currencies to be created
-dynamically.
-        </li> 
+Alternative currencies MUST be supported.
+        </li>
+        <li>
+Alternative currencies MUST be allowed to be created dynamically in the system.
+        </li>
       </ul>
     </section>
   </section>
@@ -410,12 +454,13 @@ dynamically.
     <h2>Conditional Redistribution</h2> 
  
     <p>
-Rosa wants to publis a complete novel in pdf, doc, html, and other text formats. 
-She specifies: authorship as pseudonym; no content modification; payment per 
-download; downstream commercializing allowed with constraints of: no 
-advertising (direct sale only); payment of 20% of gross per copy re-sold; any 
-additional commercial rights for other media must obtain agreement of the 
-original author.
+Rosa wants to publish a complete novel in multiple text formats.
+When selling the novel, she wants to specify authorship as pseudonym; 
+no content modification; and payment per download. She would like
+downstream commercializing to be allowed, but with the following
+constraints; no advertising (direct sale only); payment of 20% of gross 
+per copy re-sold; any additional commercial rights for other media must 
+obtain agreement of the original author.
     </p>
 
     <section> 
@@ -423,9 +468,9 @@ original author.
  
       <ul> 
         <li>
-Support redistribution based on the following conditions; limiting the
+Redistribution rules MUST allow the following conditions; limiting the
 down-stream profit and limiting advertising.
-        </li> 
+        </li>
       </ul>
     </section>
   </section>
@@ -444,9 +489,14 @@ favorite payment provider is at the time.
  
       <ul> 
         <li>
-Support the creation of simple IRIs that can be used across the Web, and when
+Identity and financial account identifiers MUST be standardized, discoverable
+and unique. Dereferenceable IRIs may be the best mechanism to accomplish
+the previous three requirements.
+        </li>
+        <li>
+Simple IRIs MUST be supported that can be used across the Web, and when
 clicked upon, auto-complete payment information to the recipient on the senders
-favorite payment provider.
+favorite payment software/provider.
         </li> 
       </ul>
     </section>
@@ -456,14 +506,17 @@ favorite payment provider.
     <h2>Subscriptions</h2> 
  
     <p>
-A digital game programmer with a new multi-player game for online and/or 
-offline use. He specifies: authorship; content modification allowed with 
-constraint of: no commercialization once modified; payment for online use by 
-subscription (monthly, yearly); or single payment for downloaded version; 
-downstream commercializing permitted for unmodified download version only, with 
-constraints of: 30% of gross sales receipts paid to original author, as well 
-as 10% of site advertising revenue (if any) from the downstream page selling 
-the game.
+A game programmer creates a new multi-player game for online and/or 
+offline use. He would like to list the game for sale online noting him as
+the game creator. He also believes in player generated content, so would
+like to allow content modification. However, if the game is modified, it
+can no longer be commercialized. He would like to
+collect payment for online use by subscription (monthly, yearly); or collect
+a single payment for the downloaded version of the game. He also wants to
+allow downstream commercializing for the unmodified, downloaded version only.
+The downloaded version profit should be limited to 30% of gross sales 
+receipts paid to original author, as well as 10% of site advertising revenue 
+(if any) from the downstream page selling the game.
     </p>
 
     <section> 
@@ -471,8 +524,16 @@ the game.
  
       <ul> 
         <li>
-Support subscriptions and recurring payments.
+Subscription-based payments MUST be supported.
         </li> 
+
+        <li>
+Ad-hoc, recurring payments MUST be supported.
+        </li> 
+
+        <li>
+Complex rules MUST be allowed in the license. The rules MAY be machine-readable.
+        </li>
       </ul>
     </section>
   </section>
@@ -510,14 +571,17 @@ providing a download source.</p>
       <h3>Requirements</h3>
  
       <ul> 
-        <li>The system must be able to swarm file downloads from multiple
-        sources.</li> 
+        <li>
+The system MUST be able to swarm file downloads from multiple sources.
+        </li> 
      
-        <li>Payment must be able to be divvied out among thousands of download
-        sources.</li> 
+        <li>
+Payment MUST be able to be divvied out among thousands of download sources.
+        </li> 
      
-        <li>Payment must be allowed to be made to arbitrary accounts on the
-        network.</li> 
+        <li>
+Payment MUST be allowed to be made to arbitrary accounts on the network.
+        </li> 
       </ul> 
     </section>
   </section>
@@ -545,13 +609,16 @@ advertising details and preferences to the advertisers.</p>
       <h3>Requirements</h3>
  
       <ul> 
-        <li>Network participants should be allowed to credit other accounts on
-        the network. For example, buyers should be allowed to ask other network
-        participants (advertisers) to partially cover their costs in exchange
-        for the insertion of ads into the data stream.</li> 
+        <li>
+Network participants SHOULD be allowed to credit other accounts on
+the network. For example, asset acquirers should be allowed to ask other network
+participants (advertisers) to partially cover their costs in exchange
+for the insertion of ads into the data stream.
+        </li> 
      
-        <li>Buyers should have the option of purchasing goods without
-        advertising.</li> 
+        <li>
+Buyers SHOULD have the option of purchasing goods without advertising.
+        </li> 
       </ul> 
     </section>
   </section>
@@ -577,11 +644,15 @@ behavior on the network, leading to overall market efficiencies.</p>
       <h3>Requirements</h3> 
  
       <ul> 
-        <li>The system should allow buyers and sellers to negotiate the data
-        download prices associated with a particular download.</li> 
+        <li>
+The system SHOULD allow asset acquirers and asset providers to negotiate 
+the data download prices associated with a particular download.
+        </li> 
      
-        <li>The system could allow buyers to negotiate the license details as
-        well as the license price with a particular content creator.</li> 
+        <li>
+The system SHOULD allow buyers to negotiate the license details as
+well as the license price with a particular asset owner.
+        </li> 
       </ul> 
     </section>
   </section>
@@ -590,9 +661,11 @@ behavior on the network, leading to overall market efficiencies.</p>
     <h2>Live Pricing Algorithms</h2> 
  
     <p>
-A folk-musician in Siberia who records local throat-singing into mp3 or ogg 
-vorbis files. He specifies: authorship; no content modification; free streaming 
-of first 10% of content online; payment per download at sliding scale 
+Aiyana, a folk-musician in Siberia, records local throat-singing music. She
+would like to distribute the work via her website. She specifies 
+authorship but does not want anyone to modify the content. She allows anybody
+re-selling the song on her behalf to allow free streaming for the first 
+10% of the song. She also wants to charge on a per download, on a sliding scale 
 proportional to user-country's average yearly income per person; no downstream 
 commercializing.
     </p>
@@ -602,6 +675,8 @@ commercializing.
  
       <ul> 
         <li>
+Dynamic price calculation formulas SHOULD be allowed to be specified instead
+of a fixed price.
         </li> 
       </ul>
     </section>
@@ -618,10 +693,15 @@ commercializing.
     alphabetical order):</p> 
 
     <ul> 
+      <li>Pelle Brandengaard</li> 
+      <li>Jose "Manny" De Loera</li> 
       <li>Mike Johnson</li> 
       <li>David I. Lehn</li> 
       <li>Dave Longley</li> 
-      <li>Doug Schepers</li> 
+      <li>Steven Rowat</li> 
+      <li>Jeff Sayre</li> 
+      <li>Patrick Strateman</li> 
+      <li>Amir Taaki</li> 
     </ul> 
   </section>
 

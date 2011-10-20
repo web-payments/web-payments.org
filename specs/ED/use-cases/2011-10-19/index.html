@@ -1,0 +1,1114 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+    <title>PaySwarm - Use Cases</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+    
+<!--  
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+      -->
+ 
+     
+     
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon (robin at berjon dot com)
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    margin: 1em 0em 0em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    margin: 1em 0em 0em;
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
+  <body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">PaySwarm - Use Cases</h1><h2 id="unofficial-draft-20-october-2011">Unofficial Draft 20 October 2011</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+</dl><p class="copyright">Copyright 2009-2011 © Digital Bazaar, Inc.</p><hr /></div> 
+    <div id="abstract" class="introductory section"><h2>Abstract</h2> 
+      <p> 
+The primary goal of the Web Payments work at the World Wide Web Consortium
+(W3C) is to create a safe, decentralized system and a set of
+open, patent and royalty-free specifications that allow people on the
+Web to send each other money as easily as they exchange instant messages
+and e-mail today. The following use cases focus on transforming the way we 
+reward each other on the Web as well as how we organize financial resources to
+enhance our personal lives and pursue endeavors that improve upon the
+human condition.
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#payswarm-1.0-use-cases" class="tocxref"><span class="secno">2. </span>PaySwarm 1.0 Use Cases</a><ul class="toc"><li class="tocline"><a href="#simple-payment-links" class="tocxref"><span class="secno">2.1 </span>Simple Payment Links</a><ul class="toc"><li class="tocline"><a href="#requirements" class="tocxref"><span class="secno">2.1.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#independent-distribution-and-pricing" class="tocxref"><span class="secno">2.2 </span>Independent Distribution and Pricing</a><ul class="toc"><li class="tocline"><a href="#requirements-1" class="tocxref"><span class="secno">2.2.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#decentralized--machine-readable-metadata" class="tocxref"><span class="secno">2.3 </span>Decentralized, Machine-readable Metadata</a><ul class="toc"><li class="tocline"><a href="#requirements-2" class="tocxref"><span class="secno">2.3.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#separation-of-content-from-licenses" class="tocxref"><span class="secno">2.4 </span>Separation of Content from Licenses</a><ul class="toc"><li class="tocline"><a href="#requirements-3" class="tocxref"><span class="secno">2.4.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#micropayments-to-thousands-of-individuals" class="tocxref"><span class="secno">2.5 </span>Micropayments to Thousands of Individuals</a><ul class="toc"><li class="tocline"><a href="#requirements-4" class="tocxref"><span class="secno">2.5.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#re-sale-permissions" class="tocxref"><span class="secno">2.6 </span>Re-Sale Permissions</a><ul class="toc"><li class="tocline"><a href="#requirements-5" class="tocxref"><span class="secno">2.6.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#recurring-payments" class="tocxref"><span class="secno">2.7 </span>Recurring Payments</a><ul class="toc"><li class="tocline"><a href="#requirements-6" class="tocxref"><span class="secno">2.7.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#alternative-currencies" class="tocxref"><span class="secno">2.8 </span>Alternative Currencies</a><ul class="toc"><li class="tocline"><a href="#requirements-7" class="tocxref"><span class="secno">2.8.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#streaming-payments" class="tocxref"><span class="secno">2.9 </span>Streaming Payments</a><ul class="toc"><li class="tocline"><a href="#requirements-8" class="tocxref"><span class="secno">2.9.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#crowd-funding" class="tocxref"><span class="secno">2.10 </span>Crowd-funding</a><ul class="toc"><li class="tocline"><a href="#requirements-9" class="tocxref"><span class="secno">2.10.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#proof-of-purchase-and-verifiable-digital-receipts" class="tocxref"><span class="secno">2.11 </span>Proof-of-Purchase and Verifiable Digital Receipts</a><ul class="toc"><li class="tocline"><a href="#requirements-10" class="tocxref"><span class="secno">2.11.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#conditional-redistribution" class="tocxref"><span class="secno">2.12 </span>Conditional Redistribution</a><ul class="toc"><li class="tocline"><a href="#requirements-11" class="tocxref"><span class="secno">2.12.1 </span>Requirements</a></li></ul></li></ul></li><li class="tocline"><a href="#future-use-cases" class="tocxref"><span class="secno">3. </span>Future Use Cases</a><ul class="toc"><li class="tocline"><a href="#crowd-sourcing-digital-distribution" class="tocxref"><span class="secno">3.1 </span>Crowd-Sourcing Digital Distribution</a><ul class="toc"><li class="tocline"><a href="#requirements-12" class="tocxref"><span class="secno">3.1.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#ad-based-content-payment" class="tocxref"><span class="secno">3.2 </span>Ad-Based Content Payment</a><ul class="toc"><li class="tocline"><a href="#requirements-13" class="tocxref"><span class="secno">3.2.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#negotiation" class="tocxref"><span class="secno">3.3 </span>Negotiation</a><ul class="toc"><li class="tocline"><a href="#requirements-14" class="tocxref"><span class="secno">3.3.1 </span>Requirements</a></li></ul></li><li class="tocline"><a href="#live-pricing-algorithms" class="tocxref"><span class="secno">3.4 </span>Live Pricing Algorithms</a><ul class="toc"><li class="tocline"><a href="#requirements-15" class="tocxref"><span class="secno">3.4.1 </span>Requirements</a></li></ul></li></ul></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">4. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+    <div id="introduction" class="section"> 
+      
+<!-- OddPage -->
+<h2><span class="secno">1. </span>Introduction</h2> 
+      <p>
+The Web continues to transform the way humankind communicates and builds
+our world. At the heart of most of these endeavors is the exchange of
+value. Gifts, attention, and payments each play a role in the ecosystem
+that we call the economy. Until now, there has been no open and
+universal way of sending and receiving payments on the Web through your
+browser. This is why people are still compelled to reach for their
+credit card or log into a payment site when purchasing something over
+the Web.
+      </p>
+      <p>
+There are a number non-interoperable payment solutions today. This
+document outlines use cases that are supported by existing payment
+solutions today, and also outlines innovative use cases that could be
+supported in the future by a universal payment mechanism to enable next
+generation mobile payments, alternative currencies, crowd-sourced
+investing, next-generation banking, and electronic commerce.
+      </p>
+      <p>
+This specification outlines use cases that are enabled by universal
+payment for the Web. The goal of addressing the use cases as a whole is
+to create a safe, decentralized system and a set of open, patent and
+royalty-free specifications that allow people on the Web to send each
+other money as easily as they exchange instant messages and e-mail
+today. Addressing these scenarios will transform the way we reward each
+other on the Web as well as how we organize financial resources to
+enhance our personal lives and pursue endeavors that improve upon the
+human condition.
+      </p>
+    </div>
+
+    <div id="payswarm-1.0-use-cases" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">2. </span>PaySwarm 1.0 Use Cases</h2>
+      <p>
+The following use cases outline scenarios that are targeted to be supported
+in the set of PaySwarm 1.0 specifications.
+      </p>
+
+    <div id="simple-payment-links" class="section"> 
+      <h3><span class="secno">2.1 </span>Simple Payment Links</h3> 
+   
+      <p>
+  Lars wants to collect $100 from his friends to throw a joint party, he would
+  like to send a simple link out to his friends that would work with whoever their
+  favorite payment provider is at the time.
+      </p>
+
+      <div id="requirements" class="section"> 
+        <h4><span class="secno">2.1.1 </span>Requirements</h4> 
+   
+        <ul> 
+          <li>
+  Identity and financial account identifiers <em class="rfc2119" title="must">must</em> be standardized, discoverable
+  and unique. Dereferenceable IRIs may be the best mechanism to accomplish
+  the previous three requirements.
+          </li>
+          <li>
+  Simple IRIs <em class="rfc2119" title="must">must</em> be supported that can be used across the Web, and when
+  clicked upon, auto-complete payment information to the recipient on the senders
+  favorite payment software/provider.
+          </li> 
+        </ul>
+      </div>
+    </div>
+
+    <div id="independent-distribution-and-pricing" class="section">
+      <h3><span class="secno">2.2 </span>Independent Distribution and Pricing</h3>
+ 
+<p>Jude blogs about music and movies and has achieved a respectable
+following of people that read his blog. He would like to sell content that
+he writes about to his many readers, but doesn't have the music and movie
+industry connections to acquire content for distribution. Typically,
+content deals require an multi-million dollar, advance payment in return
+for the right to sell content. This high up-front cost removes many
+potential sellers, harming the overall incentive to distribute for people
+that run smaller music websites and blogs.</p> 
+
+<p>There are many existing clearing houses for content on the web today. If
+those clearing houses were able to manage artist content, content creators
+could use the clearing house to setup the distribution rights for their
+content. Smaller content distributors, like Jude, could then offer content
+to their site visitors without worrying about the high-cost or management
+overhead associated with managing content catalogs.</p> 
+    
+    <div id="requirements-1" class="section">
+      <h4><span class="secno">2.2.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+The asset provider (blogger) <em class="rfc2119" title="may">may</em> be a separate entity from
+asset owner (musician/label/production company).
+        </li> 
+     
+        <li>
+The asset provider <em class="rfc2119" title="must">must</em> be able to distribute content without
+the asset owner direct permission as long as the asset license and
+royalty payments set by the asset creator is respected.</li> 
+     
+        <li>
+The asset provider <em class="rfc2119" title="must">must</em> be able to set distribution prices independently 
+of the asset owner.
+        </li> 
+     
+        <li>
+The asset owner <em class="rfc2119" title="must">must</em> be able to set base royalties independently of
+the asset provider and those base royalties <em class="rfc2119" title="must">must</em> be enforced by the transaction
+authority.
+        </li> 
+      </ul> 
+    </div>
+  </div>
+
+  <div id="decentralized--machine-readable-metadata" class="section"> 
+    <h3><span class="secno">2.3 </span>Decentralized, Machine-readable Metadata</h3> 
+ 
+<p>Lars would like to ensure that the purchase process for a digital good
+is streamlined as much as possible into the web browser that he has
+created. When somebody uses the web browser, he would like to display a
+"Buy" button in the address bar. The media details such as the title of the
+work, the price and the details required to perform a swarming purchase
+would be lifted from the web page.</p> 
+
+<p>The purchase process would be as simple as the buyer clicking the Buy
+button and watching a download progress dialog appear on the screen.
+Account and payment details could be stored in the web browser to ease the
+purchase process. Not bothering the person browsing for payment details
+would be especially useful in scenarios where very small payments were
+needed to access content.</p> 
+ 
+    <div id="requirements-2" class="section">
+      <h4><span class="secno">2.3.1 </span>Requirements</h4> 
+
+      <ul> 
+        <li>
+Asset details <em class="rfc2119" title="should">should</em> be expressed in a Web page such that a Web User-Agent can 
+extract the details of a piece of digital content.
+        </li> 
+
+        <li>
+All relevant payment details <em class="rfc2119" title="should">should</em> be expressed in a Web page such
+that a Web User-Agent may purchase content after detecting the payment
+processing details on a page.
+        </li> 
+        <li>
+All assets and listings for sale <em class="rfc2119" title="must">must</em> be able to be listed in an ad-hoc manner.
+There must not be a centralized asset or listing service of any kind.
+        </li>
+      </ul> 
+    </div>
+  </div>
+
+  <div id="separation-of-content-from-licenses" class="section"> 
+    <h3><span class="secno">2.4 </span>Separation of Content from Licenses</h3> 
+
+<p>The Association of Science Journalists Conference would like to present
+a series of live keynotes by luminaries in their respective fields. The
+presentations would be open to conference attendees or those that pay for a
+virtual day pass for the conference. The license could be purchased
+separately and then could be used to access a number of download sources. 
+Remote access to journalists would be granted at a different payment rate 
+than non-members.</p>
+
+<p>It is important that a separation is made between the content license
+and the download contract. The content license specifies usage and access
+rights. The download contract specifies the download negotiables, such as
+payment rate, speed and other details associated with the data stream. By
+separating the two concerns, we can allow network specialization to occur
+between those that would grant licenses for digital content and those that
+would deliver digital content. Ensuring that both could operate
+semi-autonomously would allow semi-independent optimization of market
+variables.</p> 
+  
+    <div id="requirements-3" class="section">
+      <h4><span class="secno">2.4.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+The system <em class="rfc2119" title="must">must</em> be able to distinguish between licenses and contracts
+for data delivery.
+        </li>
+        
+        <li>
+One <em class="rfc2119" title="should">should</em> be able to purchase the license and then have the option of 
+choosing their download source separately. Content licenses and
+data delivery contracts <em class="rfc2119" title="should">should</em> be able to be negotiated separately.
+        </li>
+
+        <li>
+Licenses <em class="rfc2119" title="may">may</em> be used to get access to data streams on 3rd party provider
+sites. Payment for licenses and payment for data <em class="rfc2119" title="should">should</em> be separate concerns.
+        </li> 
+     
+      </ul> 
+    </div>
+  </div>
+
+  <div id="micropayments-to-thousands-of-individuals" class="section"> 
+    <h3><span class="secno">2.5 </span>Micropayments to Thousands of Individuals</h3> 
+
+<p>Penelope has completed her fourth book of photography. She would like to
+charge a very small amount for her travel expenses and supplies but doesn't
+want to make a living from the sale of her book. Penelope does, however,
+want to make a number of contributions to charities that she would like to
+support as well as give her fans the ability to contribute to their
+favorite charities.</p> 
+
+<p>Giving individuals on the network the ability to add optional payees to
+licenses and contracts would enable payment models such as online tipping
+for artists, donations to charity, and batched payments to a particular
+initiative or cause to be made along-side the purchase.</p> 
+
+    <div id="requirements-4" class="section"> 
+      <h4><span class="secno">2.5.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Network participants <em class="rfc2119" title="must">must</em> be allowed to add arbitrary accounts as
+payees for transactions if allowed by the original content owner.
+        </li> 
+     
+        <li>
+A large number of payee accounts <em class="rfc2119" title="must">must</em> be allowed to be batched with
+content transactions. Lists of payees <em class="rfc2119" title="should">should</em> be allowable up in the
+thousands of payees.</li> 
+      </ul> 
+    </div>
+  </div>
+ 
+  <div id="re-sale-permissions" class="section"> 
+    <h3><span class="secno">2.6 </span>Re-Sale Permissions</h3> 
+ 
+    <p>
+Quincy, a medical researcher in the USA, produces a PDF report about the
+side-effects of a new prescription drug. He wants to sell access to the
+full article from his website, but with a "no resale" limitation.
+    </p>
+
+    <div id="requirements-5" class="section"> 
+      <h4><span class="secno">2.6.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Assets <em class="rfc2119" title="must">must</em> be allowed to be only re-sold by the original creator of that
+asset through some set of "resale permissions" that are expressed in the
+asset listing.
+        </li> 
+      </ul>
+    </div>
+  </div>
+
+  <div id="recurring-payments" class="section"> 
+    <h3><span class="secno">2.7 </span>Recurring Payments</h3> 
+ 
+    <p>
+A game programmer creates a new multi-player game for online and/or 
+offline use. He would like to list the game for sale online noting him as
+the game creator. He also believes in player generated content, so would
+like to allow content modification. However, if the game is modified, it
+can no longer be commercialized. He would like to
+collect payment for online use by subscription (monthly, yearly); or collect
+a single payment for the downloaded version of the game. He also wants to
+allow downstream commercializing for the unmodified, downloaded version only.
+The downloaded version profit should be limited to 30% of gross sales 
+receipts paid to original author, as well as 10% of site advertising revenue 
+(if any) from the downstream page selling the game.
+    </p>
+
+    <div id="requirements-6" class="section"> 
+      <h4><span class="secno">2.7.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Subscription-based payments <em class="rfc2119" title="must">must</em> be supported.
+        </li> 
+
+        <li>
+Ad-hoc, recurring payments <em class="rfc2119" title="must">must</em> be supported.
+        </li> 
+
+        <li>
+Complex rules <em class="rfc2119" title="must">must</em> be allowed in the license. The rules <em class="rfc2119" title="may">may</em> be machine-readable.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="alternative-currencies" class="section"> 
+    <h3><span class="secno">2.8 </span>Alternative Currencies</h3> 
+ 
+    <p>
+Rigo would like to create a local currency for his town, which is fairly poor
+but contains a moderate population that volunteers their time at a number of
+community-supported farms in the area. He would like to reward the area
+citizens with time-banked credits that can be redeemed for food or other
+services at local businesses and restaurants.
+    </p>
+
+    <div id="requirements-7" class="section"> 
+      <h4><span class="secno">2.8.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Alternative currencies <em class="rfc2119" title="must">must</em> be supported.
+        </li>
+        <li>
+Alternative currencies <em class="rfc2119" title="must">must</em> be allowed to be created dynamically in the system.
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div id="streaming-payments" class="section"> 
+    <h3><span class="secno">2.9 </span>Streaming Payments</h3> 
+ 
+<p>Tellulah is a DJ and would like to setup a non-profit Internet radio
+station to stream Weekly Top 40 songs along with a mix of independent
+music. She would like to cover her expenses as well as the standard
+per-song ephemeral broadcasting fee set by the US Copyright Arbitration
+Panel to ensure she is legally compliant at all times. Registering and
+tracking royalties can be a very daunting and time consuming process. A
+mechanism that reduces the burden of legal compliance could drive more
+stations to come online.</p> 
+
+<p>Online radio broadcasters are also presently limited in their ability to
+grow their stations due to the ephemeral broadcasting royalties that must
+be paid on a per person/per song basis. Running these stations make it
+difficult to collect, track and distribute royalties in a way that makes it
+easy to integrate into the web browser. Often, donating or signing up to a
+single download provider can be more trouble than it is worth. If there was
+a universal mechanism to pay very small amounts for data streams on the
+Web, new legal avenues for distributing content legally would be
+enabled.</p> 
+
+    <div id="requirements-8" class="section"> 
+      <h4><span class="secno">2.9.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Payment <em class="rfc2119" title="must">must</em> be able to be associated with a section of a stream of
+data. Payment <em class="rfc2119" title="should">should</em> be allowed to be associated with a particular number
+of bytes or temporal time frame.
+        </li> 
+     
+        <li>
+Small fractions of whole currency amounts <em class="rfc2119" title="should">should</em> be allowed in order
+to ensure accurate metering and payment recouping for content streams.
+        </li> 
+      </ul>
+    </div>
+  </div>
+
+  <div id="crowd-funding" class="section"> 
+    <h3><span class="secno">2.10 </span>Crowd-funding</h3> 
+ 
+    <p>
+Dione would like to raise $10,000 to design and build a solar powered,
+personal ground water pump and purifier for developing nations. He intends to
+publish all of the plans on the Web as open hardware and start taking orders
+from NGOs to install these pump-purifiers in villages around the world. Rather
+than go through the process of writing a grant and waiting up to a year to
+start on the work, he believes that he can raise the money faster through 
+the Web and start the project within 3 months. 
+    </p>
+
+    <div id="requirements-9" class="section"> 
+      <h4><span class="secno">2.10.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Intent-based deposit contracts <em class="rfc2119" title="must">must</em> be supported, which can be redeemed by the 
+payee in one bulk transfer. The entity raising the funds should be able to 
+hold on to deposit contracts for a number months and "cash them in" when a
+certain threshold has been reached.
+        </li> 
+      </ul>
+    </div>
+  </div>
+
+  <div id="proof-of-purchase-and-verifiable-digital-receipts" class="section">
+    <h3><span class="secno">2.11 </span>Proof-of-Purchase and Verifiable Digital Receipts</h3>
+
+<p>Luciano has purchased a song from an online music store. The band that 
+created the song would like to give people that purchased any song from their
+last album the chance to view their latest music videos and behind-the-scenes
+footage.</p>
+
+<p>Since Luciano's browser was used to make the purchase, it has stored a
+digitally signed receipt of the sale. When he visits the band's website, it 
+asks his browser for a receipt that proves that he has purchased a song from 
+their latest album. The digital receipt is sent to the website, is verified, 
+and Luciano is allowed into the special VIP section of the band's website.</p>
+    
+    <div id="requirements-10" class="section">
+      <h4><span class="secno">2.11.1 </span>Requirements</h4>
+      <ul>
+        <li>
+The system <em class="rfc2119" title="must">must</em> be able to express a digital receipt of sale or license 
+that can be verified by a 3rd party.
+        </li>
+        <li>
+The system <em class="rfc2119" title="must">must</em> define a straight-forward mechanism for websites
+to request digital receipts of sale.
+        </li>
+        <li>
+The system <em class="rfc2119" title="may">may</em> define a mechanism for web browsers to transmit a proper 
+receipt or license based upon information on a page, but after 
+transmission of the receipt has been authorized by the person or entity in
+posession of the receipt.
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="conditional-redistribution" class="section"> 
+    <h3><span class="secno">2.12 </span>Conditional Redistribution</h3> 
+ 
+    <p>
+Rosa wants to publish a complete novel in multiple text formats.
+When selling the novel, she wants to specify authorship as pseudonym; 
+no content modification; and payment per download. She would like
+downstream commercializing to be allowed, but with the following
+constraints; no advertising (direct sale only); payment of 20% of gross 
+per copy re-sold; any additional commercial rights for other media must 
+obtain agreement of the original author.
+    </p>
+
+    <div id="requirements-11" class="section"> 
+      <h4><span class="secno">2.12.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Redistribution rules <em class="rfc2119" title="must">must</em> allow the following conditions; limiting the
+down-stream profit and limiting advertising.
+        </li>
+      </ul>
+    </div>
+  </div>
+    
+  </div>
+
+    <div id="future-use-cases" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">3. </span>Future Use Cases</h2>
+      <p>
+The following use cases were identified as important use cases, but have been
+postponed until implementation lessons have been learned from the base 
+PaySwarm specification.
+      </p>
+
+  <div id="crowd-sourcing-digital-distribution" class="section"> 
+    <h3><span class="secno">3.1 </span>Crowd-Sourcing Digital Distribution</h3> 
+ 
+<p>Jane, who is an independent film maker, has just finished her
+documentary and wishes to distribute it to a very large audience. She does
+not have the resources to provide High-Definition streaming of her content
+to her fans. She would also like to charge enough for the current
+documentary in order to cover the production costs of the next documentary.
+She could use BitTorrent to distribute her work, but it lacks the ability
+to collect payment on her behalf. She would like to give some of the
+proceeds of each sale to those that will help her distribute her
+documentary.</p> 
+
+<p>Ideally, Jane would register her work with a content clearinghouse. That
+clearinghouse would provide the reference file which would be used to seed
+the network. Once enough downloads have been performed, others on the
+network could distribute the file in exchange for monetary compensation for
+providing a download source.</p> 
+
+    <div id="requirements-12" class="section"> 
+      <h4><span class="secno">3.1.1 </span>Requirements</h4>
+ 
+      <ul> 
+        <li>
+The system <em class="rfc2119" title="must">must</em> be able to swarm file downloads from multiple sources.
+        </li> 
+     
+        <li>
+Payment <em class="rfc2119" title="must">must</em> be able to be divvied out among thousands of download sources.
+        </li> 
+     
+        <li>
+Payment <em class="rfc2119" title="must">must</em> be allowed to be made to arbitrary accounts on the network.
+        </li> 
+      </ul> 
+    </div>
+  </div>
+
+  <div id="ad-based-content-payment" class="section">
+    <h3><span class="secno">3.2 </span>Ad-Based Content Payment</h3> 
+ 
+<p>Joss directs and produces a number of excellent television shows. Over
+the years, he has garnered a strong online following but doesn't have the
+required numbers for a long television production run. He would like to
+distribute his shows via the Web. Joss would like to partner with an
+advertising network to provide audio and video advertisements to cover the
+costs related to the production and distribution of his shows. In order to
+do this, the system that he uses must be able to credit and debit payment
+accounts accordingly whenever advertising is inserted into the content
+stream.</p> 
+
+<p>When a fan watches each episode, they can opt to pay for the episode in
+full, pay for reduced advertisements, or request that advertisers cover the
+entire cost of the show. Advertisers can choose to provide small payments
+for anonymous advertisements, or larger payments if customers provide
+advertising details and preferences to the advertisers.</p> 
+
+    <div id="requirements-13" class="section"> 
+      <h4><span class="secno">3.2.1 </span>Requirements</h4>
+ 
+      <ul> 
+        <li>
+Network participants <em class="rfc2119" title="should">should</em> be allowed to credit other accounts on
+the network. For example, asset acquirers should be allowed to ask other network
+participants (advertisers) to partially cover their costs in exchange
+for the insertion of ads into the data stream.
+        </li> 
+     
+        <li>
+Buyers <em class="rfc2119" title="should">should</em> have the option of purchasing goods without advertising.
+        </li> 
+      </ul> 
+    </div>
+  </div>
+
+  <div id="negotiation" class="section">
+    <h3><span class="secno">3.3 </span>Negotiation</h3> 
+ 
+<p>Gregor runs a fairly active high-definition movie download site. His
+data transmission prices are high during peak hours and low during off-peak
+hours. He would like to give his customers the option to negotiate for
+lower download prices if they download their movies during the off-peak
+times. He would also like to reserve the right to refuse a contract
+re-negotiation attempt if he has not made a pre-set sales quota and even
+raise his prices if it would make sense for his business.</p> 
+
+<p>The ability to change prices based on market demand would enable a more
+dynamic marketplace, leading to more competition between download
+providers. Giving buyers the ability to re-negotiate terms of sale would
+not only give them a sense of empowerment, but could eliminate bad pricing
+behavior on the network, leading to overall market efficiencies.</p> 
+
+    <div id="requirements-14" class="section"> 
+      <h4><span class="secno">3.3.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+The system <em class="rfc2119" title="should">should</em> allow asset acquirers and asset providers to negotiate 
+the data download prices associated with a particular download.
+        </li> 
+     
+        <li>
+The system <em class="rfc2119" title="should">should</em> allow buyers to negotiate the license details as
+well as the license price with a particular asset owner.
+        </li> 
+      </ul> 
+    </div>
+  </div>
+
+  <div id="live-pricing-algorithms" class="section"> 
+    <h3><span class="secno">3.4 </span>Live Pricing Algorithms</h3> 
+ 
+    <p>
+Aiyana, a folk-musician in Siberia, records local throat-singing music. She
+would like to distribute the work via her website. She specifies 
+authorship but does not want anyone to modify the content. She allows anybody
+re-selling the song on her behalf to allow free streaming for the first 
+10% of the song. She also wants to charge on a per download, on a sliding scale 
+proportional to user-country's average yearly income per person; no downstream 
+commercializing.
+    </p>
+
+    <div id="requirements-15" class="section"> 
+      <h4><span class="secno">3.4.1 </span>Requirements</h4> 
+ 
+      <ul> 
+        <li>
+Dynamic price calculation formulas <em class="rfc2119" title="should">should</em> be allowed to be specified instead
+of a fixed price.
+        </li> 
+      </ul>
+    </div>
+  </div>
+
+  </div>
+
+  <div id="acknowledgements" class="section"> 
+    
+<!-- OddPage -->
+<h2><span class="secno">4. </span>Acknowledgements</h2>
+ 
+    <p>The editor is thankful for reviews and contributions from (in
+    alphabetical order):</p> 
+
+    <ul> 
+      <li>Pelle Brandengaard</li> 
+      <li>Jose "Manny" De Loera</li> 
+      <li>Mike Johnson</li> 
+      <li>David I. Lehn</li> 
+      <li>Dave Longley</li> 
+      <li>Steven Rowat</li> 
+      <li>Jeff Sayre</li> 
+      <li>Patrick Strateman</li> 
+      <li>Amir Taaki</li> 
+    </ul> 
+  </div>
+
+   
+
+
+<div id="references" class="appendix section">
+<!-- OddPage -->
+<h2><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">A.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3><span class="secno">A.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>

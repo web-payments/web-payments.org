@@ -122,9 +122,36 @@ human condition.
 The following use cases outline scenarios that are targeted to be supported
 in the set of PaySwarm 1.0 specifications.
       </p>
-    
+
+    <section> 
+      <h2>Simple Payment Links</h2> 
+   
+      <p>
+  Lars wants to collect $100 from his friends to throw a joint party, he would
+  like to send a simple link out to his friends that would work with whoever their
+  favorite payment provider is at the time.
+      </p>
+
+      <section> 
+        <h3>Requirements</h3> 
+   
+        <ul> 
+          <li>
+  Identity and financial account identifiers MUST be standardized, discoverable
+  and unique. Dereferenceable IRIs may be the best mechanism to accomplish
+  the previous three requirements.
+          </li>
+          <li>
+  Simple IRIs MUST be supported that can be used across the Web, and when
+  clicked upon, auto-complete payment information to the recipient on the senders
+  favorite payment software/provider.
+          </li> 
+        </ul>
+      </section>
+    </section>
+
     <section>
-      <h2>For-Profit Content Blogging</h2>
+      <h2>Independent Distribution and Pricing</h2>
  
 <p>Jude blogs about music and movies and has achieved a respectable
 following of people that read his blog. He would like to sell content that
@@ -169,76 +196,9 @@ authority.
       </ul> 
     </section>
   </section>
-  
-  <section> 
-    <h2>Streaming Content Payment</h2> 
- 
-<p>Tellulah is a DJ and would like to setup a non-profit Internet radio
-station to stream Weekly Top 40 songs along with a mix of independent
-music. She would like to cover her expenses as well as the standard
-per-song ephemeral broadcasting fee set by the US Copyright Arbitration
-Panel to ensure she is legally compliant at all times. Registering and
-tracking royalties can be a very daunting and time consuming process. A
-mechanism that reduces the burden of legal compliance could drive more
-stations to come online.</p> 
-
-<p>Online radio broadcasters are also presently limited in their ability to
-grow their stations due to the ephemeral broadcasting royalties that must
-be paid on a per person/per song basis. Running these stations make it
-difficult to collect, track and distribute royalties in a way that makes it
-easy to integrate into the web browser. Often, donating or signing up to a
-single download provider can be more trouble than it is worth. If there was
-a universal mechanism to pay very small amounts for data streams on the
-Web, new legal avenues for distributing content legally would be
-enabled.</p> 
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Payment MUST be able to be associated with a section of a stream of
-data. Payment SHOULD be allowed to be associated with a particular number
-of bytes or temporal time frame.
-        </li> 
-     
-        <li>
-Small fractions of whole currency amounts SHOULD be allowed in order
-to ensure accurate metering and payment recouping for content streams.
-        </li> 
-      </ul>
-    </section>
-  </section>
 
   <section> 
-    <h2>Crowd-funding Initiatives</h2> 
- 
-    <p>
-Dione would like to raise $10,000 to design and build a solar powered,
-personal ground water pump and purifier for developing nations. He intends to
-publish all of the plans on the Web as open hardware and start taking orders
-from NGOs to install these pump-purifiers in villages around the world. Rather
-than go through the process of writing a grant and waiting up to a year to
-start on the work, he believes that he can raise the money faster through 
-the Web and start the project within 3 months. 
-    </p>
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Intent-based deposit contracts MUST be supported, which can be redeemed by the 
-payee in one bulk transfer. The entity raising the funds should be able to 
-hold on to deposit contracts for a number months and "cash them in" when a
-certain threshold has been reached.
-        </li> 
-      </ul>
-    </section>
-  </section>
- 
-  <section> 
-    <h2>Content and Payment Metadata</h2> 
+    <h2>Decentralized, Machine-readable Metadata</h2> 
  
 <p>Lars would like to ensure that the purchase process for a digital good
 is streamlined as much as possible into the web browser that he has
@@ -268,6 +228,10 @@ All relevant payment details SHOULD be expressed in a Web page such
 that a Web User-Agent may purchase content after detecting the payment
 processing details on a page.
         </li> 
+        <li>
+All assets and listings for sale MUST be able to be listed in an ad-hoc manner.
+There must not be a centralized asset or listing service of any kind.
+        </li>
       </ul> 
     </section>
   </section>
@@ -317,8 +281,190 @@ sites. Payment for licenses and payment for data SHOULD be separate concerns.
     </section>
   </section>
 
+  <section> 
+    <h2>Micropayments to Thousands of Individuals</h2> 
+
+<p>Penelope has completed her fourth book of photography. She would like to
+charge a very small amount for her travel expenses and supplies but doesn't
+want to make a living from the sale of her book. Penelope does, however,
+want to make a number of contributions to charities that she would like to
+support as well as give her fans the ability to contribute to their
+favorite charities.</p> 
+
+<p>Giving individuals on the network the ability to add optional payees to
+licenses and contracts would enable payment models such as online tipping
+for artists, donations to charity, and batched payments to a particular
+initiative or cause to be made along-side the purchase.</p> 
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Network participants MUST be allowed to add arbitrary accounts as
+payees for transactions if allowed by the original content owner.
+        </li> 
+     
+        <li>
+A large number of payee accounts MUST be allowed to be batched with
+content transactions. Lists of payees SHOULD be allowable up in the
+thousands of payees.</li> 
+      </ul> 
+    </section>
+  </section>
+ 
+  <section> 
+    <h2>Re-Sale Permissions</h2> 
+ 
+    <p>
+Quincy, a medical researcher in the USA, produces a PDF report about the
+side-effects of a new prescription drug. He wants to sell access to the
+full article from his website, but with a "no resale" limitation.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Assets MUST be allowed to be only re-sold by the original creator of that
+asset through some set of "resale permissions" that are expressed in the
+asset listing.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Recurring Payments</h2> 
+ 
+    <p>
+A game programmer creates a new multi-player game for online and/or 
+offline use. He would like to list the game for sale online noting him as
+the game creator. He also believes in player generated content, so would
+like to allow content modification. However, if the game is modified, it
+can no longer be commercialized. He would like to
+collect payment for online use by subscription (monthly, yearly); or collect
+a single payment for the downloaded version of the game. He also wants to
+allow downstream commercializing for the unmodified, downloaded version only.
+The downloaded version profit should be limited to 30% of gross sales 
+receipts paid to original author, as well as 10% of site advertising revenue 
+(if any) from the downstream page selling the game.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Subscription-based payments MUST be supported.
+        </li> 
+
+        <li>
+Ad-hoc, recurring payments MUST be supported.
+        </li> 
+
+        <li>
+Complex rules MUST be allowed in the license. The rules MAY be machine-readable.
+        </li>
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Alternative Currencies</h2> 
+ 
+    <p>
+Rigo would like to create a local currency for his town, which is fairly poor
+but contains a moderate population that volunteers their time at a number of
+community-supported farms in the area. He would like to reward the area
+citizens with time-banked credits that can be redeemed for food or other
+services at local businesses and restaurants.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Alternative currencies MUST be supported.
+        </li>
+        <li>
+Alternative currencies MUST be allowed to be created dynamically in the system.
+        </li>
+      </ul>
+    </section>
+  </section>
+  
+  <section> 
+    <h2>Streaming Payments</h2> 
+ 
+<p>Tellulah is a DJ and would like to setup a non-profit Internet radio
+station to stream Weekly Top 40 songs along with a mix of independent
+music. She would like to cover her expenses as well as the standard
+per-song ephemeral broadcasting fee set by the US Copyright Arbitration
+Panel to ensure she is legally compliant at all times. Registering and
+tracking royalties can be a very daunting and time consuming process. A
+mechanism that reduces the burden of legal compliance could drive more
+stations to come online.</p> 
+
+<p>Online radio broadcasters are also presently limited in their ability to
+grow their stations due to the ephemeral broadcasting royalties that must
+be paid on a per person/per song basis. Running these stations make it
+difficult to collect, track and distribute royalties in a way that makes it
+easy to integrate into the web browser. Often, donating or signing up to a
+single download provider can be more trouble than it is worth. If there was
+a universal mechanism to pay very small amounts for data streams on the
+Web, new legal avenues for distributing content legally would be
+enabled.</p> 
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Payment MUST be able to be associated with a section of a stream of
+data. Payment SHOULD be allowed to be associated with a particular number
+of bytes or temporal time frame.
+        </li> 
+     
+        <li>
+Small fractions of whole currency amounts SHOULD be allowed in order
+to ensure accurate metering and payment recouping for content streams.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Crowd-funding</h2> 
+ 
+    <p>
+Dione would like to raise $10,000 to design and build a solar powered,
+personal ground water pump and purifier for developing nations. He intends to
+publish all of the plans on the Web as open hardware and start taking orders
+from NGOs to install these pump-purifiers in villages around the world. Rather
+than go through the process of writing a grant and waiting up to a year to
+start on the work, he believes that he can raise the money faster through 
+the Web and start the project within 3 months. 
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Intent-based deposit contracts MUST be supported, which can be redeemed by the 
+payee in one bulk transfer. The entity raising the funds should be able to 
+hold on to deposit contracts for a number months and "cash them in" when a
+certain threshold has been reached.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
   <section>
-    <h2>Licensing Access to Extra Content</h2>
+    <h2>Proof-of-Purchase and Verifiable Digital Receipts</h2>
 
 <p>Luciano has purchased a song from an online music store. The band that 
 created the song would like to give people that purchased any song from their
@@ -353,104 +499,6 @@ posession of the receipt.
   </section>
 
   <section> 
-    <h2>Batching Micropayments</h2> 
-
-<p>Penelope has completed her fourth book of photography. She would like to
-charge a very small amount for her travel expenses and supplies but doesn't
-want to make a living from the sale of her book. Penelope does, however,
-want to make a number of contributions to charities that she would like to
-support as well as give her fans the ability to contribute to their
-favorite charities.</p> 
-
-<p>Giving individuals on the network the ability to add optional payees to
-licenses and contracts would enable payment models such as online tipping
-for artists, donations to charity, and batched payments to a particular
-initiative or cause to be made along-side the purchase.</p> 
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Network participants MUST be allowed to add arbitrary accounts as
-payees for transactions if allowed by the original content owner.
-        </li> 
-     
-        <li>
-A large number of payee accounts MUST be allowed to be batched with
-content transactions. Lists of payees SHOULD be allowable up in the
-thousands of payees.</li> 
-      </ul> 
-    </section>
-  </section>
- 
-  <section>
-    <h2>App Stores</h2> 
- 
-<p>Werner owns an independent software development company. He would like
-to provide his software application to a broad audience through his website
-and accept payment from the same.</p>
-
-    <section> 
-      <h3>Requirements</h3> 
-
-      <ul> 
-        <li>
-All assets and listings for sale must be able to be listed in an ad-hoc manner.
-There must not be a centralized asset or listing service of any kind.
-        </li>
-      </ul> 
-    </section>
-  </section>
-
-  <section> 
-    <h2>Re-Sale Limitations</h2> 
- 
-    <p>
-Quincy, a medical researcher in the USA, produces a PDF report about the
-side-effects of a new prescription drug. He wants to sell access to the
-full article from his website, but with a "no resale" limitation.
-    </p>
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Assets MUST be allowed to be only re-sold by the original creator of that
-asset through some set of "resale permissions" that are expressed in the
-asset listing.
-        </li> 
-      </ul>
-    </section>
-  </section>
-
-  <section> 
-    <h2>Alternative Currencies</h2> 
- 
-    <p>
-Rigo would like to create a local currency for his town, which is fairly poor
-but contains a moderate population that volunteers their time at a number of
-community-supported farms in the area. He would like to reward the area
-citizens with time-banked credits that can be redeemed for food or other
-services at local businesses and restaurants.
-    </p>
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Alternative currencies MUST be supported.
-        </li>
-        <li>
-Alternative currencies MUST be allowed to be created dynamically in the system.
-        </li>
-      </ul>
-    </section>
-  </section>
-
-  <section> 
     <h2>Conditional Redistribution</h2> 
  
     <p>
@@ -474,70 +522,7 @@ down-stream profit and limiting advertising.
       </ul>
     </section>
   </section>
-
-  <section> 
-    <h2>Payment Links</h2> 
- 
-    <p>
-Lars wants to collect $100 from his friends to throw a joint party, he would
-like to send a simple link out to his friends that would work with whoever their
-favorite payment provider is at the time.
-    </p>
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Identity and financial account identifiers MUST be standardized, discoverable
-and unique. Dereferenceable IRIs may be the best mechanism to accomplish
-the previous three requirements.
-        </li>
-        <li>
-Simple IRIs MUST be supported that can be used across the Web, and when
-clicked upon, auto-complete payment information to the recipient on the senders
-favorite payment software/provider.
-        </li> 
-      </ul>
-    </section>
-  </section>
-
-  <section> 
-    <h2>Subscriptions</h2> 
- 
-    <p>
-A game programmer creates a new multi-player game for online and/or 
-offline use. He would like to list the game for sale online noting him as
-the game creator. He also believes in player generated content, so would
-like to allow content modification. However, if the game is modified, it
-can no longer be commercialized. He would like to
-collect payment for online use by subscription (monthly, yearly); or collect
-a single payment for the downloaded version of the game. He also wants to
-allow downstream commercializing for the unmodified, downloaded version only.
-The downloaded version profit should be limited to 30% of gross sales 
-receipts paid to original author, as well as 10% of site advertising revenue 
-(if any) from the downstream page selling the game.
-    </p>
-
-    <section> 
-      <h3>Requirements</h3> 
- 
-      <ul> 
-        <li>
-Subscription-based payments MUST be supported.
-        </li> 
-
-        <li>
-Ad-hoc, recurring payments MUST be supported.
-        </li> 
-
-        <li>
-Complex rules MUST be allowed in the license. The rules MAY be machine-readable.
-        </li>
-      </ul>
-    </section>
-  </section>
-  
+    
   </section>
 
     <section>
@@ -624,7 +609,7 @@ Buyers SHOULD have the option of purchasing goods without advertising.
   </section>
 
   <section>
-    <h2>Price Negotiation</h2> 
+    <h2>Negotiation</h2> 
  
 <p>Gregor runs a fairly active high-definition movie download site. His
 data transmission prices are high during peak hours and low during off-peak
@@ -681,8 +666,6 @@ of a fixed price.
       </ul>
     </section>
   </section>
-
-
 
   </section>
 

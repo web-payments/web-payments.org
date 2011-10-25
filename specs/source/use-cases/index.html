@@ -372,6 +372,123 @@ Complex rules MUST be allowed in the license. The rules MAY be machine-readable.
   </section>
 
   <section> 
+    <h2>Mobile Computing-based Purchase</h2> 
+ 
+    <p>
+Boris picks out a few items at a street vendor stand and wants to check out
+using his mobile device. The vendor tallys up all of the items that Boris 
+wants and points Boris at a nearby NFC reader. Boris waves his phone in front
+of the NFC reader, views the amount and clicks the Pay button. The vendor is
+notified and gives Boris his items.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3>
+
+      <ul> 
+        <li>
+A mobile device MUST be able to read a purchase suggestion from a non-Web
+based location containing all of the details of the purchase.
+        </li> 
+
+        <li>
+A purchase MUST be performed on an asset that does not exist on the Web, but
+for which all of the information describing the asset is communicated during
+the purchase suggestion.
+        </li> 
+
+        <li>
+A purchase response MUST be allowed to be sent back to the vendor via a
+non-Web communication channel.
+        </li>
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Point-of-Sale Device</h2> 
+ 
+    <p>
+Yavin owns a mobile food truck and allows his patrons to pay via any card with
+a magnetic stripe on it. Yavin uses the alternate payment network because it 
+charges lower per-transaction fees than the major payment network that most of 
+the surrounding businesses use. He accepts payments via a magnetic stripe 
+card reader that is attached to his cellphone. Each card swiped is tied to 
+a payment account, which is charged directly and he sees the result of the
+transaction on his mobile phone. This allows people to continue using their
+existing magnetic stripe cards, but allows Yavin to process transactions over
+alternate payment networks.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+Point-of-Sale devices MUST be able to initiate automatic transfers given an
+access PIN that is tied to a particular payment site and customer account.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Automated Vending</h2> 
+ 
+    <p>
+It is a hot day and Larson is thirsty. He spots a nearby refrigerated vending
+machine that is selling cold lemonade. He notices that the vending machine,
+while having no Internet connection to the outside world, allows him to
+use his mobile device to make a purchase using PaySwarm. He clicks the button,
+his phone activates and asks him if he wants to make the purchase, he clicks
+yes and the lemonade drops into the receiving bucket.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+A device MUST be able to route purchases through customer devices and receive
+a purchase receipt from the customer device.
+        </li> 
+
+        <li>
+A device MUST be able to verify a purchase receipt counter-signed by a trusted
+source other than the payment authority.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+  <section> 
+    <h2>Currency Exchange</h2> 
+ 
+    <p>
+Olaf would like to exchange 50 Euro into US Dollars through a simple online
+money exchange service. He would like his payment authority to be the
+initiator of the exchange and the final destination of the exchange to be a
+newly created account for US Dollars.
+    </p>
+
+    <section> 
+      <h3>Requirements</h3> 
+ 
+      <ul> 
+        <li>
+There MUST be a mechanism to translate one currency into another currency.
+        </li> 
+
+        <li>
+There MAY be a mechanism where one specifies a mint to create new units of
+currency and transfer those units into a payment authority.
+        </li> 
+      </ul>
+    </section>
+  </section>
+
+
+  <section> 
     <h2>Alternative Currencies</h2> 
  
     <p>

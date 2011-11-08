@@ -642,6 +642,40 @@ for the amount of $5.00 USD.
     <section>
       <h2>Properties</h2>
 
+      <section id="account" about="http://purl.org/commerce#account"
+        typeof="rdf:Property">
+        <h3>account</h3>
+        <p>
+The account property specifies a commercial account that is under the control
+of a particular entity.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>foaf:Agent, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Account</dd>
+        </dl>
+        <p>
+The following example demonstrates the proper use of the com:account property:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+   "@subject": "http://example.com/people/joe",
+   "@type": "foaf:Person",
+   "com:account":
+   {
+      "@subject": "http://redbankexample.com/accounts/vacation",
+      "@type": "com:Account",
+      "rdfs:label": "Vacation Savings Account",
+      "com:amount": "7563.00",
+      "com:currency": "USD",
+   }
+}
+        </pre>
+      </section>
+
       <section id="amount" about="http://purl.org/commerce#amount"
         typeof="rdf:Property">
         <h3>amount</h3>

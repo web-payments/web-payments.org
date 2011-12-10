@@ -264,7 +264,7 @@ solution that is universal across websites, industries and countries.
       <h2>The Conceptual Model</h2>
       <p>
 There are three primary participants in a PaySwarm transaction; the 
-asset acquirer, the asset owner, and the PaySwarm Authority.
+buyer, the vendor, and the PaySwarm Authority.
       </p>
       <section>
         <h3>Identity and Identifiers</h3>
@@ -285,24 +285,24 @@ to create a decentralized but stable universal payment architecture.
       <section>
         <h3>Participants</h3>
         <section>
-          <h4>Asset Acquirers</h4>
+          <h4>Buyers</h4>
           <p>
-An <tdef>asset acquirer</tdef>, more commonly known as a buyer, is an entity 
-that is capable 
-of acquiring the rights to a particular asset via a Contract. The entity is 
-typically a person or an organization that would like to view, copy or 
-otherwise utilize the asset that is being acquired.
+A <tdef>buyer</tdef> is an entity that is capable 
+of acquiring the rights to a particular <tref>asset</tref> via a 
+<tref>contract</tref>. The entity is typically a person or an organization 
+that would like to view, copy or otherwise utilize the asset that is being 
+acquired.
           </p>
         </section>
         <section>
-          <h4>Asset Providers</h4>
+          <h4>Vendors</h4>
           <p>
-An <tdef>asset provider</tdef>, more commonly known as an owner, is the entity 
-providing an asset for sale. Typically, the asset provider is the legal owner 
+A <tdef>vendor</tdef> is the entity providing an <tref>asset</tref> for sale. 
+Typically, the vendor is the legal owner 
 of the asset that is being listed for sale. Ownership of an asset can manifest 
 in a variety of different forms. Copyright ownership, physical ownership, and 
 sub-leased property or services are just a few of the types of ownership that 
-apply to asset providers.
+apply to vendors.
           </p>
         </section>
         <section>
@@ -863,11 +863,11 @@ process.
         <dl>
         <dt><tdef>user agent</tdef></dt>
         <dd>The piece of software operating on behalf of the 
-<tref>asset acquirer</tref>. This is typically a Web Browser, but could be
+<tref>buyer</tref>. This is typically a Web Browser, but could be
 some other piece of Web-aware automated software acting on behalf of a 
 person.</dd>
         <dt><tdef>publishing agent</tdef></dt>
-        <dd>A software agent acting on behalf of the <tref>asset provider</tref>
+        <dd>A software agent acting on behalf of the <tref>vendor</tref>
 that publishes <tref>asset</tref>s for sale. Typically, this is blogging
 software, content distribution software, online merchant software or a Web-based
 game.</dd>
@@ -896,22 +896,22 @@ and retrieving digital contracts.</dd>
       </section>
 
       <section>
-        <h2>Asset Acquirer Registration</h2>
+        <h2>Buyer Registration</h2>
         <p>
-In order for an <tref>asset acquirer</tref> to transact, they must have an
+In order for a <tref>buyer</tref> to transact, they must have an
 account on a <tref>PaySwarm Authority</tref>. Typically, this account must 
 also contain a positive amount of funds that may be used to acquire goods or 
 services. How this account is created and funds are deposited are outside of
 the scope of this specification. However, the end result of this sign up
 process MUST result in the following items being created for the
-<tref>asset acquirer</tref>:
+<tref>buyer</tref>:
         </p>
         <ol>
-          <li>An <tdef>entity</tdef> IRI that will be used to identify the 
+          <li>An <tdef>identity</tdef> IRI that will be used to identify the 
 entity that is transacting. For example: 
 <code>https://example.com/people/jane</code>.</li>
           <li>A <tdef>financial account</tdef> IRI that is associated with the 
-<tref>entity</tref> IRI above. For example:
+<tref>identity</tref> IRI above. For example:
 <code>https://example.com/people/jane/accounts/primary</code>.</li>
           <li>A positive amount of funds in the <tref>financial account</tref>
 mentioned above.
@@ -919,35 +919,35 @@ mentioned above.
       </section>
 
       <section>
-        <h2>Asset Provider Registration</h2>
+        <h2>Vendor Registration</h2>
         <p>
-In order for an <tref>asset provider</tref> to transact, they must have an
+In order for a <tref>vendor</tref> to transact, they must have an
 account on a PaySwarm Authority. How this account is created and managed is
 outside of the scope of this specification. However, the end result of this
 sign up process MUST result in the following items being created for the 
-<tref>asset provider</tref>:
+<tref>vendor</tref>:
         </p>
         <ol class="algorithm">
-          <li>An <tdef>entity</tdef> IRI that will be used to identify the 
+          <li>An <tdef>identity</tdef> IRI that will be used to identify the 
 entity that is transacting. For example: 
 <code>https://example.com/people/manu</code>.</li>
           <li>A <tdef>financial account</tdef> IRI that is associated with the 
-<tref>entity</tref> IRI above. For example:
+<tref>identity</tref> IRI above. For example:
 <code>https://example.com/people/manu/accounts/article-sales</code>.</li>
         </ol>
         <p>
 Since all <tref>asset</tref>s and <tref>listing</tref>s are digitally signed,
 a public key MUST be registered for the 
-<tref>asset provider</tref> with the <tref>PaySwarm Authority</tref>.
+<tref>vendor</tref> with the <tref>PaySwarm Authority</tref>.
 This is typically performed by the <tref>publishing agent</tref> software that 
 is publishing the 
 <tref>asset</tref>s and <tref>listing</tref>s for sale on behalf of the 
-<tref>asset provider</tref>. The registration is accomplished by executing
+<tref>vendor</tref>. The registration is accomplished by executing
 the following algorithm:
         <ol class="algorithm">
           <li>The <tref>publishing agent</tref> generates and stores a 
 public/private keypair that will be used to associate the
-<tref>publishing agent</tref> with the <tref>asset provider</tref>.</li>
+<tref>publishing agent</tref> with the <tref>vendor</tref>.</li>
           <li>The <tref>publishing agent</tref> retrieves the 
 <tref>PaySwarm Authority</tref> configuration from the 
 <tref>configuration service</tref> IRI</tref>.
@@ -982,10 +982,10 @@ is the URL-encoded <tref>registration callback service</tref>
 IRI for the <tref>publishing agent</tref>.</li>
           <li>
 The <tref>PaySwarm Authority</tref> associates the 
-<tref>publishing agent</tref> with the <tref>asset provider</tref> based on the
+<tref>publishing agent</tref> with the <tref>vendor</tref> based on the
 provided public key. Note that this process MUST authenticate the 
-<tref>asset provider</tref> via a login process if the 
-<tref>asset provider</tref> does not have an active login session. Other
+<tref>vendor</tref> via a login process if the 
+<tref>vendor</tref> does not have an active login session. Other
 configuration steps may be performed at this stage, including the 
 specification of defaults for the particular <tref>publishing agent</tref>.</li>
           <li>
@@ -1027,7 +1027,7 @@ for use during the latter parts of the publishing and purchase process.</li>
 The example below shows the full protocol-level exchange between the
 <tref>publishing agent</tref> and the <tref>PaySwarm Authority</tref>. For
 the sake of brevity, not every optional parameter is included, just the bare
-minimum necessary to perform the <tref>asset provider</tref> registration.
+minimum necessary to perform the <tref>vendor</tref> registration.
         </p>
 
 <pre class="example">
@@ -1344,12 +1344,17 @@ RDFa.
         <p>
 A <tref>license</tref> is a legal description of a licensee's rights to a 
 particular <tref>asset</tref>.
-Licenses are usually included as a part of a contract to express what a buyer 
-may do with the asset that has been purchased.
+Licenses are usually included as a part of a <tref>contract</tref> 
+to express what a buyer may do with an asset that has been purchased. A license
+can include a number of rights bestowed upon the licensesee as well as further
+limitations on those rights. For example, how an asset may be
+re-broadcast, how often a digital asset may be physically reproduced, what an 
+asset may specifically not be used for, and liability limitations when using the 
+asset are but a few of the rights and obligations expressible via a license.
         </p>
         
         <p>
-The following example describes an overly-simplified personal use license.
+The following example describes a very simple license for personal use.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -1358,7 +1363,7 @@ The following example describes an overly-simplified personal use license.
    "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
-      purchased item onto any device that you own for your personal enjoyment
+      purchased asset onto any device that you own for your personal enjoyment
       and make up to &lt;span property=\"ex:physicalCopies\" /&gt; printed
       copies of the work for personal use."
    "ps:licenseTerms": 
@@ -1367,6 +1372,12 @@ The following example describes an overly-simplified personal use license.
    }
 }
         </pre>
+
+        <p class="note">
+<tref>License</tref>s do not need to be created for each site on the Web. In
+many cases, common licenses can be placed on a website and re-used by a large
+number of sites that sell assets under similar license terms.
+        </p>
 
       </section>
 
@@ -1459,7 +1470,7 @@ public key.
 The <tref>user agent</tref> POSTs the purchase result back to the 
 <tref>publishing agent</tref> callback URL. The <tref>publishing agent</tref>
 associates the current session ID with the IRI of the 
-<tref>asset acquirer</tref>.
+<tref>buyer</tref>.
           </li>
           <li>
 The <tref>publishing agent</tref> acts upon the callback by granting access
@@ -1475,14 +1486,14 @@ why the purchase failed.
         <p>
 In order for automatic purchases to work, the <tref>publishing agent</tref>
 must have been notified via a previous purchase result that the 
-<tref>asset acquirer</tref> authorized them to make automatic purchases.
+<tref>buyer</tref> authorized them to make automatic purchases.
         </p>
 
         <ol class="algorithm">
           <li>
-The <tref>asset acquirer</tref>, via the <tref>user agent</tref>, selects an 
+The <tref>buyer</tref>, via the <tref>user agent</tref>, selects an 
 asset to purchase. The <tref>publishing agent</tref> looks up the session ID 
-for the <tref>user agent</tref> and retrieves the <tref>asset acquirer</tref>
+for the <tref>user agent</tref> and retrieves the <tref>buyer</tref>
 associated with the session ID. The <tref>publishing agent</tref> 
 digitally signs a purchase request and sends it to the 
 <tref>PaySwarm Authority</tref>.
@@ -1490,7 +1501,7 @@ digitally signs a purchase request and sends it to the
           <li>
 The <tref>PaySwarm Authority</tref> checks to see if the 
 <tref>publishing agent</tref> is allowed to perform an automatic purchase 
-on behalf of the provided <tref>asset acquirer</tref>. If so, the purchase is
+on behalf of the provided <tref>buyer</tref>. If so, the purchase is
 performed and the result is sent in the HTTP response to the 
 <tref>publishing agent</tref>.
           </li>

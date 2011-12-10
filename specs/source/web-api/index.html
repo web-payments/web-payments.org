@@ -1203,9 +1203,30 @@ for the <code>registration-callback</code> IRI to protect the
 
     <section>
       <h2>The Purchase Process</h2>
-      <p>
-      </p>
       
+      <p>
+The simplest purchase process includes four distinct steps; publishing an
+<tref>asset</tref>, publishing a <tref>license</tref>, publishing a 
+<tref>listing</tref> and performing the purchase. Typically, the 
+<tref>vendor</tref> publishes the <tref>asset</tref> description and the
+<tref>listing</tref>. Anyone may publish a <tref>license</tref> that is used in 
+a <tref>listing</tref>. The purchase is performed via a 
+<tref>PaySwarm Authority</tref>.
+      </p>
+
+        <p>
+While it is possible to express <tref>asset</tref>s, <tref>license</tref>s,
+and <tref>listing</tref>s on the Web in many different machine-readable 
+formats, to ensure that implementations do not become more complicated than 
+necessary, all <tref>asset</tref>s, <tref>license</tref>s and 
+<tref>listing</tref> MUST be expressed in HTML+RDFa [[!HTML-RDFA]] format. The
+example markup that is expressed in many of the following sections below
+will use [[!JSON-LD]] for the sake of brevity. In many cases, the information
+expressed via JSON-LD is expected to be express via RDFa on a Web page.
+There is a clear mapping from RDFa to JSON-LD, so the data expressed in the 
+sections below can be losslessly expressed via RDFa on an HTML Web page.
+        </p>
+
       <section>
         <h3>Publishing an Asset</h3>
         <p>
@@ -1213,43 +1234,108 @@ An <tref>asset</tref> describes a particular item that is provided as a part
 of a commercial transaction. It is usually an item that can be accessed or 
 acquired on the
 basis of a sale or rental under the terms of a particular <tref>license</tref>. 
-Examples of assets include web pages, music files, video streams, use of virtual
-machines by the hour, 3D printer files for on-demand manufacturing, radio 
-spectrum and crowd-funded loans and grants.
+Examples of assets include web pages, music files, video streams, virtual 
+machines intended to be paid for by the CPU-hour, 3D printer files for 
+on-demand manufacturing, radio spectrum and crowd-funded loans and grants.
         </p>
 
         <p>
 The following example describes a web page <tref>asset</tref> with the title 
-"PaySwarm in Practice - Full Article #1". The article was created by 
+"PaySwarm in Practice". The article was created by 
 "Digital Bazaar, Inc." and the information in the asset is valid from 
 November 28th, 2010 to November 28th, 2011. 
-The asset is digitally signed by the person providing it
+The asset is digitally signed by the organization providing it
 and thus can be cached, stored and then presented to someone else in a manner
 that is verifiable by the receiving party.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
-   "@subject": "https://example.org/articles/1#asset",
+   "@subject": "http://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
+   "dc:description": "This article covers how to use PaySwarm on your Website.",
    "dc:creator": 
    {
+      "@type": "foaf:Organization",
       "foaf:name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "https://example.org/articles/1",
-   "ps:assetProvider": "https://example.org/person/john-doe#me",
-   "ps:authority": "https://payswarm.example.com/about#authority",
+   "ps:contentUrl": "http://example.org/articles/1",
+   "ps:assetProvider": "https://payswarm.example.org/i/digital-bazaar",
+   "ps:authority": "https://payswarm.example.com/i/authority",
    "ps:validFrom": "2010-11-28T00:00:00Z",
    "ps:validUntil": "2011-11-28T00:00:00Z"
    "sec:signature": 
    {
        "@type": "sec:JsonLdSignature",
-       "sec:signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "dc:created": "2010-11-28T00:00:00Z",
+       "sec:signer": "https://payswarm.example.com/i/digital-bazaar#key-5",
        "sec:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
         </pre>
+        
+        <p>
+In order to publish this asset on a Web page, a <tref>vendor</tref> MUST 
+mark the data up in RDFa and place it into an HTML file. For example,
+assume that the following file is served from the 
+<code>http://example.org/articles/1-purchase</code> IRI:
+        </p>
+
+        <pre class="example prettyprint language-html">
+&lt;html>
+ &lt;head>
+   &lt;title>Buy: PaySwarm in Practice&lt;/title>
+ &lt;/head>
+ &lt;body prefix="dc: http://purl.org/dc/terms/ 
+               foaf: http://xmlns.com/foaf/0.1/ 
+               ps: http://purl.org/payswarm#
+               sec: http://purl.org/security#
+               xsd: http://www.w3.org/2001/XMLSchema#">
+
+   &lt;article about="http://example.org/articles/1#asset" typeof="ps:Asset ps:WebPage">
+     &lt;h1 property="dc:title">PaySwarm in Practice&lt;/h1>
+     by
+     &lt;h2 property="dc:creator" typeof="foaf:Organization">
+       &lt;span property="foaf:name">Digital Bazaar, Inc.&lt;/span>
+     &lt;/h2>
+
+     &lt;p property="dc:description">This article covers how to use PaySwarm on your Website.&lt;/p>
+     &lt;a property="ps:contentUrl" href="http://example.org/articles/1">permalink&lt;/a>
+     
+     &lt;input type="button" onclick="doPurchase();">Purchase Access to the Article&lt;/input>
+     
+     &lt;input type="button" onclick="toggleDetails();">Details&lt;/input>
+     &lt;div class="article-details hidden-by-default">
+       Provided by 
+       &lt;a property="ps:assetProvider" href="https://payswarm.example.org/i/digital-bazaar">Digital Bazaar&lt;/a>
+       via 
+       &lt;a property="ps:authority" href="https://payswarm.example.com/i/authority">ExampleSwarm&lt;/a>
+       from 
+       &lt;span property="ps:validFrom" content="2010-11-28T00:00:00Z" datatype="xsd:dateTime">today&lt;/span>
+       until a 
+       &lt;span property="ps:validTo" content="2011-11-28T00:00:00Z" datatype="xsd:dateTime">year from today&lt;/span>.
+       &lt;div property="sec:signature" typeof="sec:JsonLdSignature">
+         Signed on 
+         &lt;span property="dc:created" content="2010-11-28T00:00:00Z" datatype="xsd:dateTime">November 28th 2010&lt;/span>
+         by
+         &lt;a property="sec:signer" href="https://payswarm.example.com/i/digital-bazaar#key-5">Digital Bazaar&lt;/a>:
+         &lt;span property="sec:signatureValue">OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo=&lt;/span>
+       &lt;/div>
+      &lt;/div>
+   &lt;/article>
+ &lt;/body>
+&lt;/html>
+        </pre>
+
+        <p>
+The example above demonstrates how the information expressed as [[!JSON-LD]] 
+earlier in this section can be expressed as HTML+RDFa 
+[[!HTML-RDFA]]. The rest of this specification will not express information 
+using both mechanisms, but will use [[!JSON-LD]] markup for the sake of 
+brevity even if the information being expressed is meant to be expressed in
+RDFa.
+        </p>
         
       </section>
 

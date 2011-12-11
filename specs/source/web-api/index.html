@@ -1261,8 +1261,6 @@ that is verifiable by the receiving party.
       "foaf:name": "Digital Bazaar, Inc.",
    }
    "ps:contentUrl": "http://example.org/articles/1",
-   "ps:assetProvider": "https://payswarm.example.org/i/digital-bazaar",
-   "ps:authority": "https://payswarm.example.com/i/authority",
    "ps:validFrom": "2010-11-28T00:00:00Z",
    "ps:validUntil": "2011-11-28T00:00:00Z"
    "sec:signature": 
@@ -1307,11 +1305,7 @@ assume that the following file is served from the
      
      &lt;input type="button" onclick="toggleDetails();">Details&lt;/input>
      &lt;div class="article-details hidden-by-default">
-       Provided by 
-       &lt;a property="ps:assetProvider" href="https://payswarm.example.org/i/digital-bazaar">Digital Bazaar&lt;/a>
-       via 
-       &lt;a property="ps:authority" href="https://payswarm.example.com/i/authority">ExampleSwarm&lt;/a>
-       from 
+       This asset publication is valid from
        &lt;span property="ps:validFrom" content="2010-11-28T00:00:00Z" datatype="xsd:dateTime">today&lt;/span>
        until a 
        &lt;span property="ps:validTo" content="2011-11-28T00:00:00Z" datatype="xsd:dateTime">year from today&lt;/span>.
@@ -1327,6 +1321,17 @@ assume that the following file is served from the
  &lt;/body>
 &lt;/html>
         </pre>
+
+        <p>
+It may not initially be clear why an <tref>asset</tref> would need to be
+digitally signed. There are two major reasons that assets MUST be digitally
+signed in order to take part in a secure financial system. The first is to
+ensure, from a legal standpoint, that the person or organization claiming 
+ownership over the asset is clear. The second is to ensure that forgery 
+cannot occur on any of the asset information claimed by the owner of the asset.
+For example, if the asset were listed on an non-secure HTTP-based Web site, 
+the information could be easily modified in transit.
+        </p>
 
         <p>
 The example above demonstrates how the information expressed as [[!JSON-LD]] 
@@ -1429,7 +1434,6 @@ may only take a maximum of 10% of the final sale price to cover their fees.
    ],
    "ps:asset": "http://example.com/articles/1#asset",
    "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-   "ps:assetProvider": "https://payswarm.example.com/i/bob",
    "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
    "sec:signature": 
@@ -1447,20 +1451,133 @@ may only take a maximum of 10% of the final sale price to cover their fees.
       </section>
 
       <section>
-        <h3>Performing the Initial Purchase</h3>
+        <h3>Performing a Purchase</h3>
 
         <p>
+A normal purchase, as opposed to an automatic purchase, is typically performed
+via a Web browser-based <tref>user agent</tref> when the <tref>buyer</tref>
+has never performed a purchase with the <tref>vendor</tref>'s website. The 
+process consists of re-directing the Web browser to the buyer's PaySwarm
+Authority for the purposes of authorizing payment to the vendor for a
+particular <tref>listing</tref>. If a payment authorization is not approved,
+the user agent is re-directed back to the vendor's website with an error.
+If the payment authorization is approved, the user agent is re-directed bakc to
+the vendor's website with a short-form <tref>contract</tref>, which 
+is used as a proof-of-purchase for the vendor's listing.
+        </p>
+
+        <section>
+          <h2>Purchase Terms</h2>
+          <p>
+There are a number of terms that are used during the course of the purchase
+process.
+          <dl>
+            <dt><tdef>listing hash</tdef></dt>
+            <dd>
+An identifier created by processing a <tref>listing</tref> expressed as
+JSON-LD through the 
+<a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a> and then generating a
+SHA-1 hash of the result.
+            </dd>
+            <dt><tdef>purchase callback</tdef></dt>
+            <dd>
+An IRI that will be on the receiving end of an HTTP POST from the
+<tref>PaySwarm Authority</tref> with the result of a purchase request.
+            </dd>
+            <dt><tdef>reference identifier</tdef></dt>
+            <dd>
+A string value that MUST be greater than one character and less than 256
+characters used by the <tref>vendor</tref> to track purchases. These 
+identifiers can be used to ensure that <tref>asset</tref> that can be purchased 
+multiple times, like game tokens, can be tracked by the vendor.
+These identifiers also allow the vendor to protect against unintended
+double-purchasing due to network failures.
+            </dd>
+          </dl>
+          </p>
+        </section>
+
+        <section>
+        <h3>The Purchase Algorithm</h3>
+
+        <p>
+The normative algorithm for performing a purchase is expressed below.
         </p>
         
         <ol class="algorithm">
           <li>
-The <tref>publishing agent</tref> digitally signs a purchase request for a
-listing and the <tref>user agent</tref> POSTS the purchase request to the 
-<tref>PaySwarm Authority</tref>.
+The <tref>publishing agent</tref> initiates a purchase request for a specific
+listing by re-directing the <tref>user agent</tref> to the 
+<tref>contracts service</tref> endpoint:
+            <ol class="algorithm">
+              <li>
+Generate the <tdef>purchase request IRI</tdef> by concatenating the
+<tref>contracts service</tref> and the following IRI parameters:
+                <dl>
+                  <dt><code>listing</code></dt>
+                  <dd>
+The URL-encoded <tref>listing</tref> IRI.
+                  </dd>
+                  <dt><code>listing-hash</code></dt>
+                  <dd>
+A SHA-1 hash of the listing after being normalized using the 
+<a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>callback</code></dt>
+                  <dd>
+A de-referenceable IRI that MUST be able to process an HTTP POST request from
+the <tref>PaySwarm Authority</tref> with the result of a purchase request.
+                  </dd>
+                  <dt><code>reference</code></dt>
+                  <dd>
+An optional, internal reference identifier used by the 
+<tref>publishing agent</tref> to keep track of the purchase.
+                  </dd>
+                  <dt><code>nonce</code></dt>
+                  <dd>
+An optional cryptographic value that will be used in the encrypted response 
+to the vendor. The response nonce is utilized to prevent replay attacks on
+the vendor.
+                  </dd>
+                </dl>
+              </li>
+              <li>
+Perform an HTTP 303 redirect via the <tref>user agent</tref> to the 
+<tref>purchase request IRI</tref>.
+              </li>
+            </ol>
           </li>
           <li>
 The <tref>PaySwarm Authority</tref> processes the purchase request ending in
-a purchase result. The purchase result may be annotated with a flag that 
+either an error message or a short-form <tref>contract</tref>:
+            <ol class="algorithm">
+              <li>
+If the purchase was denied or failed for any reason, the PaySwarm Authority
+performs an HTTP POST via the <tref>user agent</tref> back to the callback
+IRI supplied by the <tref>vendor</tref> during the initiation of the purchase
+request.
+              </li>
+              <li>
+If the purchase was successful, then a short-form contract is generated and
+transmitted to the vendor:
+              <ol class="algorithm">
+                <li>To generate the <tdef>short-form contract</tdef> in
+JSON-LD format, the following pieces of information MUST be expressed:
+                <dl>
+                  <dt><code>TBD</code></dt>
+                  <dd>
+TBD
+                  </dd>
+                </dl>
+The PaySwarm Authority initiates an HTTP POST via the 
+<tref>user agent</tref> back to the <code>callback</code> IRI supplied by the 
+<tref>vendor</tref> during the initiation of the purchase request.
+              </li>
+            </ol>
+          </li>
+The purchase result may be annotated with a flag that 
 determines if the <tref>publishing agent</tref> has been granted the ability
 to perform automatic purchases in the future. The purchase result is 
 digitally signed and encrypted using the <tref>publishing agent</tref>'s 
@@ -1478,6 +1595,7 @@ to the article if the purchase was successful, or providing a page detailing
 why the purchase failed.
           </li>
         </ol>
+        </section>
       </section>
 
       <section>

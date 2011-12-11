@@ -1566,17 +1566,70 @@ transmitted to the vendor:
                 <li>To generate the <tdef>short-form contract</tdef> in
 JSON-LD format, the following pieces of information MUST be expressed:
                 <dl>
-                  <dt><code>TBD</code></dt>
+                  <dt><code>@context</code></dt>
                   <dd>
-TBD
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+                  </dd>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Contract</code>.
+                  </dd>
+                  <dt><code>ps:asset</code></dt>
+                  <dd>
+An IRI to the <tref>asset</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:assetHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>asset</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>com:reference</code></dt>
+                  <dd>
+The <tref>reference identifier</tref>, if one was suppied via the purchase 
+request.
+                  </dd>
+                  <dt><code>ps:license</code></dt>
+                  <dd>
+An IRI to the <tref>license</tref> describing the rights associated with the
+<tref>asset</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:licenseHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>license</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:listing</code></dt>
+                  <dd>
+An IRI to the <tref>listing</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:listingHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>listing</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:assetAcquirer</code></dt>
+                  <dd>
+An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
                   </dd>
                 </dl>
+              </li>
+              <li>
 The PaySwarm Authority initiates an HTTP POST via the 
 <tref>user agent</tref> back to the <code>callback</code> IRI supplied by the 
-<tref>vendor</tref> during the initiation of the purchase request.
+<tref>publishing agent</tref> during the initiation of the purchase request. 
+The POST data is encrypted according to the 
+<a href="#response-encryption-algorithm">Response Encryption Algorithm</a>, 
+using the <tref>public key</tref> associated with the <tref>private key</tref>
+that digitally signed the <tref>listing</tref>.
               </li>
             </ol>
           </li>
+          <li>
 The purchase result may be annotated with a flag that 
 determines if the <tref>publishing agent</tref> has been granted the ability
 to perform automatic purchases in the future. The purchase result is 

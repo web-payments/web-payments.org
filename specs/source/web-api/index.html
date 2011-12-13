@@ -1494,6 +1494,13 @@ multiple times, like game tokens, can be tracked by the vendor.
 These identifiers also allow the vendor to protect against unintended
 double-purchasing due to network failures.
             </dd>
+            <dt><tdef>receipt</tdef></dt>
+            <dd>
+The resulting value of a purchase request, typically sent from the
+<tref>PaySwarm Authority</tref> to the <tref>publishing agent</tref>. The 
+object typically contains a <tref>short-form contract</tref> as well as 
+other information that may be pertinent to the transaction.
+            </dd>
           </dl>
           </p>
         </section>
@@ -1560,10 +1567,10 @@ IRI supplied by the <tref>vendor</tref> during the initiation of the purchase
 request.
               </li>
               <li>
-If the purchase was successful, then a short-form contract is generated and
+If the purchase was successful, then a <tref>receipt</tref> is generated and
 transmitted to the vendor:
               <ol class="algorithm">
-                <li>To generate the <tdef>short-form contract</tdef> in
+                <li>To generate the <tdef>receipt</tdef> in
 JSON-LD format, the following pieces of information MUST be expressed:
                 <dl>
                   <dt><code>@context</code></dt>
@@ -1572,50 +1579,74 @@ A single value containing the string <code>http://purl.org/payswarm/v1</code>
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                   </dd>
-                  <dt><code>@type</code></dt>
+                    <dt><code>@type</code></dt>
+                    <dd>
+The value <code>ps:Receipt</code>.
+                    </dd>
+                  <dt><code>ps:preference</code></dt>
                   <dd>
+An array of preferences that are requested by either the 
+<tref>PaySwarm Authority</tref> or the <tref>buyer</tref>. All valid options
+are listed below:
+                    <div>
+<code>ps:preAuthorization</code> - The <tref>buyer</tref> has pre-authorized 
+future purchases for the <tref>vendor</tref> and thus the 
+<a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
+MAY be used for future purchases.
+                    </div>
+                  </dd>
+                  <dt><code>ps:contract</code></dt>
+The contract used in the receipt is a summary of the digital contract that was
+finalized via the <tref>PaySwarm Authority</tref>. It includes the minimum
+amount of information necessary for the <tref>publishing agent</tref> to 
+correctly identify the <tref>listing</tref> that was transacted:
+                  <dd>
+                    <dl>
+                    <dt><code>@type</code></dt>
+                    <dd>
 The value <code>ps:Contract</code>.
-                  </dd>
-                  <dt><code>ps:asset</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:asset</code></dt>
+                    <dd>
 An IRI to the <tref>asset</tref> that was purchased.
-                  </dd>
-                  <dt><code>ps:assetHash</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:assetHash</code></dt>
+                    <dd>
 The SHA-1 hash of the <tref>asset</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
-                  </dd>
-                  <dt><code>com:reference</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>com:reference</code></dt>
+                    <dd>
 The <tref>reference identifier</tref>, if one was suppied via the purchase 
 request.
-                  </dd>
-                  <dt><code>ps:license</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:license</code></dt>
+                    <dd>
 An IRI to the <tref>license</tref> describing the rights associated with the
 <tref>asset</tref> that was purchased.
-                  </dd>
-                  <dt><code>ps:licenseHash</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:licenseHash</code></dt>
+                    <dd>
 The SHA-1 hash of the <tref>license</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
-                  </dd>
-                  <dt><code>ps:listing</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:listing</code></dt>
+                    <dd>
 An IRI to the <tref>listing</tref> that was purchased.
-                  </dd>
-                  <dt><code>ps:listingHash</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:listingHash</code></dt>
+                    <dd>
 The SHA-1 hash of the <tref>listing</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
-                  </dd>
-                  <dt><code>ps:assetAcquirer</code></dt>
-                  <dd>
+                    </dd>
+                    <dt><code>ps:assetAcquirer</code></dt>
+                    <dd>
 An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
-                  </dd>
+                    </dd>
+                  </dl>
                 </dl>
               </li>
               <li>
@@ -1630,22 +1661,11 @@ that digitally signed the <tref>listing</tref>.
             </ol>
           </li>
           <li>
-The purchase result may be annotated with a flag that 
-determines if the <tref>publishing agent</tref> has been granted the ability
-to perform automatic purchases in the future. The purchase result is 
-digitally signed and encrypted using the <tref>publishing agent</tref>'s 
-public key. 
-          </li>
-          <li>
-The <tref>user agent</tref> POSTs the purchase result back to the 
-<tref>publishing agent</tref> callback URL. The <tref>publishing agent</tref>
-associates the current session ID with the IRI of the 
-<tref>buyer</tref>.
-          </li>
-          <li>
 The <tref>publishing agent</tref> acts upon the callback by granting access
 to the article if the purchase was successful, or providing a page detailing
-why the purchase failed.
+why the purchase failed. The <tref>publishing agent</tref> SHOULD note any
+preferences in the <tref>receipt</tref> and utilize those preferences when
+processing future purchases from the <tref>buyer</tref>.
           </li>
         </ol>
         </section>

@@ -1,0 +1,1861 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+    <title>Commerce Vocabulary</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+    
+<!--  
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+      -->
+ 
+     
+     
+    <link href="prettify.css" type="text/css" rel="stylesheet" />
+    
+    
+    
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon (robin at berjon dot com)
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    margin: 1em 0em 0em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    margin: 1em 0em 0em;
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
+  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">Commerce Vocabulary</h1><h2 id="unofficial-draft-13-december-2011">Unofficial Draft 13 December 2011</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+</dl><p class="copyright">Copyright 2009-2011 © Digital Bazaar, Inc. Shared under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution Share-Alike license</a>.</p><hr /></div> 
+    <div id="abstract" class="introductory section"><h2>Abstract</h2> 
+      <p> 
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#classes" class="tocxref"><span class="secno">2. </span>Classes</a><ul class="toc"><li class="tocline"><a href="#Account" class="tocxref"><span class="secno">2.1 </span>Account</a></li><li class="tocline"><a href="#Deposit" class="tocxref"><span class="secno">2.2 </span>Deposit</a></li><li class="tocline"><a href="#Payee" class="tocxref"><span class="secno">2.3 </span>Payee</a></li><li class="tocline"><a href="#PayeeRule" class="tocxref"><span class="secno">2.4 </span>PayeeRule</a></li><li class="tocline"><a href="#Transfer" class="tocxref"><span class="secno">2.5 </span>Transfer</a></li><li class="tocline"><a href="#Transaction" class="tocxref"><span class="secno">2.6 </span>Transaction</a></li><li class="tocline"><a href="#Withdrawal" class="tocxref"><span class="secno">2.7 </span>Withdrawal</a></li></ul></li><li class="tocline"><a href="#constants" class="tocxref"><span class="secno">3. </span>Constants</a><ul class="toc"><li class="tocline"><a href="#Cumulative" class="tocxref"><span class="secno">3.1 </span>Cumulative</a></li><li class="tocline"><a href="#Deferred" class="tocxref"><span class="secno">3.2 </span>Deferred</a></li><li class="tocline"><a href="#ExclusivePercentage" class="tocxref"><span class="secno">3.3 </span>ExclusivePercentage</a></li><li class="tocline"><a href="#FlatAmount" class="tocxref"><span class="secno">3.4 </span>FlatAmount</a></li><li class="tocline"><a href="#InclusivePercentage" class="tocxref"><span class="secno">3.5 </span>InclusivePercentage</a></li><li class="tocline"><a href="#Tax" class="tocxref"><span class="secno">3.6 </span>Tax</a></li><li class="tocline"><a href="#TaxExempt" class="tocxref"><span class="secno">3.7 </span>TaxExempt</a></li></ul></li><li class="tocline"><a href="#properties" class="tocxref"><span class="secno">4. </span>Properties</a><ul class="toc"><li class="tocline"><a href="#account" class="tocxref"><span class="secno">4.1 </span>account</a></li><li class="tocline"><a href="#amount" class="tocxref"><span class="secno">4.2 </span>amount</a></li><li class="tocline"><a href="#currency" class="tocxref"><span class="secno">4.3 </span>currency</a></li><li class="tocline"><a href="#date" class="tocxref"><span class="secno">4.4 </span>date</a></li><li class="tocline"><a href="#destination" class="tocxref"><span class="secno">4.5 </span>destination</a></li><li class="tocline"><a href="#destinationOwnerType" class="tocxref"><span class="secno">4.6 </span>destinationOwnerType</a></li><li class="tocline"><a href="#gatewayApprovalCode" class="tocxref"><span class="secno">4.7 </span>gatewayApprovalCode</a></li><li class="tocline"><a href="#gatewayError" class="tocxref"><span class="secno">4.8 </span>gatewayError</a></li><li class="tocline"><a href="#maximumRate" class="tocxref"><span class="secno">4.9 </span>maximumRate</a></li><li class="tocline"><a href="#forTransaction" class="tocxref"><span class="secno">4.10 </span>forTransaction</a></li><li class="tocline"><a href="#limitation" class="tocxref"><span class="secno">4.11 </span>limitation</a></li><li class="tocline"><a href="#minimumAmount" class="tocxref"><span class="secno">4.12 </span>minimumAmount</a></li><li class="tocline"><a href="#payeePosition" class="tocxref"><span class="secno">4.13 </span>payeePosition</a></li><li class="tocline"><a href="#paymentGateway" class="tocxref"><span class="secno">4.14 </span>paymentGateway</a></li><li class="tocline"><a href="#payee" class="tocxref"><span class="secno">4.15 </span>payee</a></li><li class="tocline"><a href="#rate" class="tocxref"><span class="secno">4.16 </span>rate</a></li><li class="tocline"><a href="#rateContext" class="tocxref"><span class="secno">4.17 </span>rateContext</a></li><li class="tocline"><a href="#rateType" class="tocxref"><span class="secno">4.18 </span>rateType</a></li><li class="tocline"><a href="#source" class="tocxref"><span class="secno">4.19 </span>source</a></li><li class="tocline"><a href="#transfer" class="tocxref"><span class="secno">4.20 </span>transfer</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+
+    <div id="introduction" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">1. </span>Introduction</h2>
+      <p>
+This document describes a number of classes and properties that can be used to
+express commercial transactions on the Semantic Web. These include things
+such as deposits, withdrawals, how entities should be paid for goods or
+services rendered, receipts, payment information, recording detailed 
+commercial transactions, and digital signatures on monetary transactions.
+Where GoodRelations provides a means for finding product offerings or
+expressing product needs, this vocabulary can be used for the next step:
+recording and expressing the commercial transaction.
+      </p>
+      <p class="issue">
+This entire document is a work in progress and is thus incredibly
+incomplete and unstable. Like Jello, it <em class="rfc2119" title="must not">must not</em> be used for any production 
+use. Like any unstable financial system, it may result in great financial 
+loss or great financial gain. With your luck, it will most probably be the 
+former. You have been warned.
+      </p>
+    </div>
+
+    <div id="classes" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">2. </span>Classes</h2>
+
+      <div id="Account" about="http://purl.org/commerce#Deposit" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.1 </span>Account</h3>
+          <p>
+A financial device that can operate as a source or destination for funds 
+transfered during a commercial exchange.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:amount, com:currency, rdfs:label</dd>
+          </dl>
+          <p>
+The following example expresses an account belonging to a person named
+"John" with a balance of $50.40.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">"
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:label</span><span class="pln">": "</span><span class="str">John's Financial Account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">50.40</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+
+      <div id="Deposit" about="http://purl.org/commerce#Deposit" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.2 </span>Deposit</h3>
+          <p>
+A transfer of funds from a source account into a destination account typically
+performed as a means for storing monetary amounts in the destination account.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
+            <dt>Properties</dt>
+            <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
+          </dl>
+          <p>
+The following example describes a deposit made using a debit card:
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">com:Transaction</span><span class="pln">", "</span><span class="tag jsonld-curie">com:Deposit</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ccard:DebitCard</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:brand</span><span class="pln">": "</span><span class="str">Visa</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:number</span><span class="pln">": "</span><span class="str">3847573872837483</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationMonth</span><span class="pln">": "</span><span class="str">11</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationYear</span><span class="pln">": "</span><span class="str">2013</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:verificationCode</span><span class="pln">": "</span><span class="str">372</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:name</span><span class="pln">": "</span><span class="str">JOHN DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:firstName</span><span class="pln">": "</span><span class="str">JOHN</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:lastName</span><span class="pln">": "</span><span class="str">DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:address</span><span class="pln">":
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">vcard:Address</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:street-address</span><span class="pln">": "</span><span class="str">28 Rivertail Lane</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:locality</span><span class="pln">": "</span><span class="str">Upsilanty</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:region</span><span class="pln">": "</span><span class="str">New York</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:postal-code</span><span class="pln">": "</span><span class="str">83748</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:country-name</span><span class="pln">": "</span><span class="str">United States of America</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": [</span><a href="#Payee"><span class="pln">Payee</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">sig:signature</span><span class="pln">":
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sig:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre>
+      </div>
+
+      <div id="Payee" about="http://purl.org/commerce#Payee" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.3 </span>Payee</h3>
+          <p>
+An entity that defines how monetary funds should be transferred to a destination 
+account during a <a href="#Transaction">Transaction</a>. A list of Payees can be 
+processed to produce a list of Transfers.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:rate, com:rateType, com:currency, com:destination, 
+rdfs:comment, com:rateContext</dd>
+          </dl>
+<p>
+The following example expresses a flat payment of $0.05 USD.
+</p>
+<pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Description about payment reason</span><span class="pln">",
+}</span></pre>
+      </div>
+
+      <div id="PayeeRule" about="http://purl.org/commerce#PayeeRule" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.4 </span>PayeeRule</h3>
+          <p>
+A Payee Rule is a mechanism that can describe limits and allowances on the 
+payees during a transaction. These rules are typically used to apply 
+algorithmic formulas to the final price of a particular good. For example,
+minimum and maximum prices, tax rates, when taxes are applied, and preventing
+additional payees are a few examples of the types of payee rules that can be
+specified using PayeeRules.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:maximumRate, com:minimumRate, com:destinationOwnerType,
+com:rateType, com:limitation</dd>
+          </dl>
+          <p>
+The example below expresses a maximum payment rate of 10% to go to a
+PaySwarm Authority. This limits the amount of profit a PaySwarm Authority can
+make to 10% of the final sale price.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">"
+}
+          </span></pre>
+          <p>
+The following example expresses that all rateTypes must be either flat
+rates or exclusive percentages. That is, inclusive percentages are not allowed.
+</p><div class="issue">Why would anyone ever need this? We need to explain.</div>
+          <p></p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": ["</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">", "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">"]
+}
+          </span></pre>
+
+          <p>
+The example below specifies that no additional payees are allowed to be
+added to the list of payees for a transaction.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:limitation</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:NoAdditionalPayees</span><span class="pln">"
+}
+          </span></pre>
+      </div>
+
+      <div id="Transfer" about="http://purl.org/commerce#Transfer" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.5 </span>Transfer</h3>
+          <p>
+A record of the movement of monetary funds from a source account into a
+destination account.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:forTransaction, com:source, com:destination, com:amount,
+com:currency, rdfs:comment</dd>
+          </dl>
+          <p>
+The example below shows a transaction processor transfering funds from a
+local financial account to an external financial account.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transfer</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:forTransaction</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/transactions/20110104#7827982</span><span class="pln">";
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/accounts/12345#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://greencardexample.com/accounts/54321#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday</span><span class="pln">"
+}
+          </span></pre>
+      </div>
+
+      <div id="Transaction" about="http://purl.org/commerce#Transaction" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.6 </span>Transaction</h3>
+          <p>
+A record of a commercial exchange between two entities resulting in the 
+transfer of monetary funds from one or more source accounts to 
+one or more destination accounts.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>com:transfer, com:amount, com:currency, rdfs:comment, 
+com:date, ps:originatingClient</dd>
+          </dl>
+          <p>
+The example below describes a commercial transaction that resulted in the
+transfer of $1.04 USD from a source account to two destination accounts. The
+transfers show part of the payment going to the retailer and the other going
+to a tax account.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/transactions/1.A.F23BC</span><span class="pln">"
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transaction</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">+]
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">1.04</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:originatingClient</span><span class="pln">": "</span><span class="str">10.113.15.142</span><span class="pln">"
+}
+          </span></pre>
+      </div>
+
+      <div id="Withdrawal" about="http://purl.org/commerce#Withdrawal" typeof="rdfs:Class" class="section">
+        <h3><span class="secno">2.7 </span>Withdrawal</h3>
+          <p>
+A transfer of funds from a source account into a destination account typically
+performed as a means for retrieving previously stored monetary amounts.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>com:Transaction</dd>
+            <dt>Properties</dt>
+            <dd>com:destination, ps:transfer, com:amount, com:currency, 
+rdfs:comment, ps:originatingClient</dd>
+          </dl>
+          <p>
+The example below demonstrates the withdrawal of funds from an online account
+into a more traditional offline account. The example uses a fictionalized
+vocabulary called <code>bank</code>, which would be used for expressing
+bank account information.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/transactions/1.A.F23BC</span><span class="pln">"
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Withdrawal</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">bank:BankAccount</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">bank:routing</span><span class="pln">": "</span><span class="str">102000076</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">bank:account</span><span class="pln">": "</span><span class="str">5874523668972</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">bank:name</span><span class="pln">": "</span><span class="str">Wells Fargo</span><span class="pln">",
+   },
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">14.34</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:originatingClient</span><span class="pln">": "</span><span class="str">10.113.15.142</span><span class="pln">"
+}
+          </span></pre>
+      </div>
+
+    </div>
+
+    <div id="constants" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">3. </span>Constants</h2>
+
+      <div id="Cumulative" about="http://purl.org/commerce#Cumulative" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.1 </span>Cumulative</h3>
+        <p>
+This constant term is used to specify a cumulative rate context in a Payee. 
+Normally a percentage-based Payee's amount would be calculated by applying its 
+percentage rate to the total of all flat amount Payees from the Payee list. By 
+specifying that a Payee uses cumulative rate context, the total amount will also 
+include amounts calculated for other percentage-based Payees that appear in 
+positions prior to the Payee with the cumulative rate context. Therefore, the 
+more ExclusivePercentage Payees that appear before a cumulative Payee, the 
+larger the total will be that the percentage is applied to in order to calculate 
+its amount.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example demonstrates how a cumulative rate type is specified:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the cumulative rule goes here.</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Cumulative</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="Deferred" about="http://purl.org/commerce#Deferred" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.2 </span>Deferred</h3>
+        <p>
+This constant term is used to specify a deferred rate context. A deferred
+rate context specifies that the amount of a percentage-based Payee must be 
+calculated after all non-deferred Payee amounts have already been calculated. 
+This is most useful when a Payee should be applied to the total cost of a good 
+or service. Whilst Payees that are Taxes are automatically deferred, if a Payee 
+that is not a Tax wishes to behave like one, it should use this rate context.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateContext</dd>
+        </dl>
+        <p>
+The following example demonstrates how a deferred rate context can be specified:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the deferred payee goes here.</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Deferred</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="ExclusivePercentage" about="http://purl.org/commerce#ExclusivePercentage" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.3 </span>ExclusivePercentage</h3>
+        <p>
+This constant term is used to specify an exclusive percentage-based rate type.
+An exclusive percentage-based rate type specifies that the rate is a percentage
+and the percentage should be applied to the total price of all payees that are
+not also percentage-based. There are some exceptions to this rule when using a 
+cumulative rate context (see: Cumulative). The amount that results from this 
+percentage will be added to the total amount calculated from all of the Payees. 
+This behavior is the opposite of that of an InclusivePercentage, where the total 
+would not be altered. Real world examples of ExclusivePercentages include most 
+sales taxes in the United States.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example demonstrates how an exclusive percentage can be specified:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the exclusive percentage goes here.</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="FlatAmount" about="http://purl.org/commerce#FlatAmount" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.4 </span>FlatAmount</h3>
+        <p>
+A flat amount rate type expresses that a payment amount is a specific amount
+in a given currency. That is, the rate is to be interpreted as a fixed amount,
+not as a percentage.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example demonstrates a payment amount of $1.42 USD to a specified 
+Payee.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">1.42</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the flat amount goes here.</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="InclusivePercentage" about="http://purl.org/commerce#InclusivePercentage" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.5 </span>InclusivePercentage</h3>
+        <p>
+This constant term is used to specify an inclusive percentage-based rate type.
+An inclusive percentage-based rate type specifies that the rate is a percentage
+and the percentage should be applied to the total price of all payees that are
+not also percentage-based. There are some exceptions to this rule when using 
+a cumulative rate context (see: Cumulative). The amount that results from 
+this percentage will be evenly deducted from all other Payees, thus leaving 
+the total the same. This behavior is the opposite of that of an 
+ExclusivePercentage, where the amount would be added to the total and the 
+other Payees would remain the same. Real world examples of InclusivePercentages 
+include most income taxes in the United States.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example describes an inclusive percentage.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the inclusive percentage goes here.</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="Tax" about="http://purl.org/commerce#Tax" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.6 </span>Tax</h3>
+        <p>
+This constant specifies that the Payee's rate specified is a tax.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateContext</dd>
+        </dl>
+        <p>
+The following example describes the payment of a sales tax to the state of
+Virginia of 5%.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">5.0</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/states/virginia#account-1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Virginia sales tax.</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Tax</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="TaxExempt" about="http://purl.org/commerce#TaxExempt" typeof="rdf:Property" class="section">
+        <h3><span class="secno">3.7 </span>TaxExempt</h3>
+        <p>
+This constant specifies that a payment to the Payee should not have any
+taxes collected for the transfer of funds. Typically, these Payees are 
+non-profit corporations or other organizations that are under a non-taxable
+status.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateContext</dd>
+        </dl>
+        <p>
+The following example demonstrates a tax-exempt donation to the Red Cross
+for the amount of $5.00 USD.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">5.00</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/organizations/red-cross#account-6</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Donation to the Red Cross</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:TaxExempt</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+    </div>
+
+    <div id="properties" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">4. </span>Properties</h2>
+
+      <div id="account" about="http://purl.org/commerce#account" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.1 </span>account</h3>
+        <p>
+The account property specifies a commercial account that is under the control
+of a particular entity.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>foaf:Agent, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Account</dd>
+        </dl>
+        <p>
+The following example demonstrates the proper use of the com:account property:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/joe</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">foaf:Person</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:account</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/accounts/vacation</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Account</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">rdfs:label</span><span class="pln">": "</span><span class="str">Vacation Savings Account</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">7563.00</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   }
+}
+        </span></pre>
+      </div>
+
+      <div id="amount" about="http://purl.org/commerce#amount" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.2 </span>amount</h3>
+        <p>
+The amount property is used to specify the total financial value of a
+commercial exchange, such as a transaction or transfer.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, com:Transfer, com:Withdrawal, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:decimal</dd>
+        </dl>
+        <p>
+The following example shows the use of the amount property in a Transfer.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transfer</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:forTransaction</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/transactions/20110104#7827982</span><span class="pln">";
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/accounts/12345#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://greencardexample.com/accounts/54321#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="currency" about="http://purl.org/commerce#currency" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.3 </span>currency</h3>
+        <p>
+The currency property is used to specify the monetary system that is used when
+specifying the financial amount of a commercial exchange. The value <em class="rfc2119" title="should">should</em> 
+be an ISO-4217 currency or a dereference-able IRI to a monetary system that 
+is not specified in ISO-4217.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, com:Transfer, com:Withdrawal, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string, xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example demonstrates how to use the currency property in a
+Transfer:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transfer</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:forTransaction</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/transactions/20110104#7827982</span><span class="pln">";
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">http://redbankexample.com/accounts/12345#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://greencardexample.com/accounts/54321#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="date" about="http://purl.org/commerce#date" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.4 </span>date</h3>
+        <p>
+The date property specifies the date and time on which a commercial transaction 
+occurred. The value <em class="rfc2119" title="must">must</em> be expressed using an ISO-8601 date/time string.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transfer, com:Transaction, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The example below states that the Transaction occurred on October 16th, 2010 at
+12:34 UTC.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/transactions/1.A.F23BC</span><span class="pln">"
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transaction</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">+]
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">1.04</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Purchase of Bad Romance by Lady Gaga from Best Buy</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:originatingClient</span><span class="pln">": "</span><span class="str">10.113.15.142</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="destination" about="http://purl.org/commerce#destination" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.5 </span>destination</h3>
+        <p>
+This property is used to specify a destination account for a commercial 
+transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Account, owl:Thing</dd>
+        </dl>
+        <p>
+The following example expresses a Payee where an amount of $1 USD should be 
+placed into the destination account identified by
+<code>http://payswarm.example.com/people/john-doe#account-3</code>.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">1.00</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Description about payment reason</span><span class="pln">",
+}
+        </span></pre>
+      </div>
+
+      <div id="destinationOwnerType" about="http://purl.org/commerce#destinationOwnerType" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.6 </span>destinationOwnerType</h3>
+        <p>
+Specifies the type of the destination account, typically used in a PayeeRule 
+where the type of destination account payment is to be restricted.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:PayeeRule, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>ps:PaySwarmAuthority, owl:Thing</dd>
+        </dl>
+        <p>
+The following example describes a PayeeRule where the destination account owner 
+must be a PaySwarm Authority and the maximum rate that the PaySwarm authority
+can charge is 10%.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": ["</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">"]
+}
+        </span></pre>
+      </div>
+
+      <div id="gatewayApprovalCode" about="http://purl.org/commerce#gatewayApprovalCode" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.7 </span>gatewayApprovalCode</h3>
+        <p>
+The gateway approval code is typically used to express the result of a credit
+card processing gateway. These codes are typically a string that is specific to
+the processing gateway software.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example notes that the deposit was successful with a gateway
+approval code of <code>8FGk9347Bo2N83</code>.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Deposit</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ccard:DebitCard</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:brand</span><span class="pln">": "</span><span class="str">Visa</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:number</span><span class="pln">": "</span><span class="str">3847573872837483</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationMonth</span><span class="pln">": "</span><span class="str">11</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationYear</span><span class="pln">": "</span><span class="str">2013</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:verificationCode</span><span class="pln">": "</span><span class="str">372</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:name</span><span class="pln">": "</span><span class="str">JOHN DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:firstName</span><span class="pln">": "</span><span class="str">JOHN</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:lastName</span><span class="pln">": "</span><span class="str">DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:address</span><span class="pln">":
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">vcard:Address</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:street-address</span><span class="pln">": "</span><span class="str">28 Rivertail Lane</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:locality</span><span class="pln">": "</span><span class="str">Upsilanty</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:region</span><span class="pln">": "</span><span class="str">New York</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:postal-code</span><span class="pln">": "</span><span class="str">83748</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:country-name</span><span class="pln">": "</span><span class="str">United States of America</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": [</span><a href="#Payee"><span class="pln">Payee</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:gatewayApprovalCode</span><span class="pln">": "</span><span class="str">8FGk9347Bo2N83</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">sig:signature</span><span class="pln">":
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sig:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre>
+      </div>
+
+      <div id="gatewayError" about="http://purl.org/commerce#gatewayError" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.8 </span>gatewayError</h3>
+        <p>
+The gateway error is typically used to encode an error that occurred when
+processing a credit card or debit card. An error code is typically a string
+that is specific to the processing gateway software.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates that the deposit was a failure and lists
+the reason in the gateway error code:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Deposit</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ccard:DebitCard</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:brand</span><span class="pln">": "</span><span class="str">Visa</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:number</span><span class="pln">": "</span><span class="str">3847573872837483</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationMonth</span><span class="pln">": "</span><span class="str">11</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationYear</span><span class="pln">": "</span><span class="str">2013</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:verificationCode</span><span class="pln">": "</span><span class="str">372</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:name</span><span class="pln">": "</span><span class="str">JOHN DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:firstName</span><span class="pln">": "</span><span class="str">JOHN</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:lastName</span><span class="pln">": "</span><span class="str">DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:address</span><span class="pln">":
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">vcard:Address</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:street-address</span><span class="pln">": "</span><span class="str">28 Rivertail Lane</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:locality</span><span class="pln">": "</span><span class="str">Upsilanty</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:region</span><span class="pln">": "</span><span class="str">New York</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:postal-code</span><span class="pln">": "</span><span class="str">83748</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:country-name</span><span class="pln">": "</span><span class="str">United States of America</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": [</span><a href="#Payee"><span class="pln">Payee</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:gatewayError</span><span class="pln">": "</span><span class="str">CREDIT_CARD_DECLINED</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">sig:signature</span><span class="pln">":
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sig:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre>
+      </div>
+
+      <div id="maximumRate" about="http://purl.org/commerce#maximumRate" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.9 </span>maximumRate</h3>
+        <p>
+This property is typically used in a PayeeRule to limit the maximum rate that
+a Payee can receive as a part of a transaction. These types of rules ensure that
+no single Payee can capture more of the final sale price than the asset owner 
+is willing to give up. Maximum rate limitations allow statements like the
+following: "I want to limit the amount of money that a payment gateway
+can collect to less than 4%".
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:PayeeRule, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:integer, xsd:string</dd>
+        </dl>
+        <p>
+The example below specifies a PayeeRule that limits the total amount that a
+PaySwarm Authority can collect in fees to 10% of the final price:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="forTransaction" about="http://purl.org/commerce#forTransaction" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.10 </span>forTransaction</h3>
+        <p>
+This property is most often used to specify that a Transfer is for the
+specified Transaction. The relationship from Transaction to Transfer is 
+encoded using the <a href="#transfer">com:trasfer</a> property. The relationship 
+from Transfer to Transaction is encoded using this property.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transfer, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Transaction</dd>
+        </dl>
+        <p>
+The example below specifies that the Transfer is meant for the transaction
+identified by 
+<code>http://whitelabel.com/transactions/7f83fab44cd8d91#transaction</code>:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Transfer</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:forTransaction</span><span class="pln">": "</span><span class="tag jsonld-uri">http://whitelabel.com/transactions/7f83fab44cd8d91#transaction</span><span class="pln">";
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">http://whitelabel.payswarm.com/api/accounts/12345#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://yellowlabel.payswarm.com/people/bob/54321#account</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Thanks for the memory card.</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="limitation" about="http://purl.org/commerce#limitation" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.11 </span>limitation</h3>
+        <p>
+This property is often used with a PayeeRule and expresses a restriction on 
+a Payee. For example, a PayeeRule may provide restrictions on the type of a 
+Payee or the amounts that Payee may receive as a participant in a commercial 
+transaction.
+        </p>
+        <p class="issue">
+Perhaps the limitation property should be applied to all limitations. Why
+doesn't it apply to com:destinationAccountType?
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:PayeeRule, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The example below specifies that no additional payees are allowed to be added
+to the list of payees. This mechanism is often used when asset owners do not
+want their content to be sold through affiliate relationships:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">ps:limitation</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:NoAdditionalPayees</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="minimumAmount" about="http://purl.org/commerce#minimumAmount" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.12 </span>minimumAmount</h3>
+        <p>
+This property is typically used in a Payee to express a minimum amount that
+a Payee <em class="rfc2119" title="must">must</em> receive as a part of a transaction. These types of rules ensure 
+that a floor is set for a particular percentage-based Payee. Minimum amount 
+claims enable statement like the following to be made: "I want 2% of the sale
+or $0.02 USD, whichever is greater".
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Payee, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:decimal, xsd:integer, xsd:string</dd>
+        </dl>
+        <p>
+The following example expresses a Payee that should receive 2% or $0.05 USD of
+the final amount of the transaction, whichever is higher.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">2</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:minimumAmount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/organizations/zombo-com#account-1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Zombocom value-added fee</span><span class="pln">",
+}
+        </span></pre>
+      </div>
+
+      <div id="payeePosition" about="http://purl.org/commerce#payeePosition" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.13 </span>payeePosition</h3>
+        <p>
+This property is used to coerce a set of Payees into an ordered list. The
+order in which Payees are evaluated is vital to the final amount and 
+Transfer list that is generated by processing the list of Payees.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Payee, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:integer, xsd:string</dd>
+        </dl>
+        <p>
+The following example shows a Payee that should, when accessed in a list format,
+be processed in the 4th position:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:payeePosition</span><span class="pln">": "</span><span class="str">4</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">2</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:minimumAmount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/organizations/zombo-com#account-1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Zombocom value-added fee</span><span class="pln">",
+}
+        </span></pre>
+      </div>
+
+      <div id="paymentGateway" about="http://purl.org/commerce#paymentGateway" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.14 </span>paymentGateway</h3>
+        <p>
+This property is used to specify the payment gateway. The gateway is typically
+a string and is used by the transaction processing software to process payments
+via credit card or debit card. 
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Deposit</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI, xsd:string</dd>
+        </dl>
+
+
+        <p>
+The example below expresses that the payment gateway is CyberSource:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Deposit</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ccard:DebitCard</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:brand</span><span class="pln">": "</span><span class="str">Visa</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:number</span><span class="pln">": "</span><span class="str">3847573872837483</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationMonth</span><span class="pln">": "</span><span class="str">11</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationYear</span><span class="pln">": "</span><span class="str">2013</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:verificationCode</span><span class="pln">": "</span><span class="str">372</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:name</span><span class="pln">": "</span><span class="str">JOHN DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:firstName</span><span class="pln">": "</span><span class="str">JOHN</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:lastName</span><span class="pln">": "</span><span class="str">DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:address</span><span class="pln">":
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">vcard:Address</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:street-address</span><span class="pln">": "</span><span class="str">28 Rivertail Lane</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:locality</span><span class="pln">": "</span><span class="str">Upsilanty</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:region</span><span class="pln">": "</span><span class="str">New York</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:postal-code</span><span class="pln">": "</span><span class="str">83748</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:country-name</span><span class="pln">": "</span><span class="str">United States of America</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": [</span><a href="#Payee"><span class="pln">Payee</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:paymentGateway</span><span class="pln">": "</span><span class="str">CyberSource</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">sig:signature</span><span class="pln">":
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sig:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre>
+      </div>
+
+      <div id="payee" about="http://purl.org/commerce#payee" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.15 </span>payee</h3>
+        <p>
+This property is used to specify an entity that either should be paid, or
+has been paid as a result of a commercial exchange. 
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Payee, owl:Thing</dd>
+        </dl>
+        <p>
+The example below shows the sale listing for an electronic book called 
+"The Dawntreader". The listing has a single payee listed for $8.35 USD.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+    "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/books/dawntreader#listing</span><span class="pln">",
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Listing</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:forAsset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/books/dawntreader#asset</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:assetHash</span><span class="pln">": "</span><span class="str">85331e47eb55ea0a706675db9a9076688171ff86f78a</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:license</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/licenses#mylicense</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:licenseHash</span><span class="pln">": "</span><span class="str">128e85bdac26cc838284c1e0180a4b34e182f94f</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-15T21:34:01+0000</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:validThrough</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-16T21:34:01+0000</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">ps:payee</span><span class="pln">": 
+    {
+        "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">8.35</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/seymour#account-9</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Book: The Dawntreader - Awakening, Second Coming</span><span class="pln">",
+    },
+    "</span><span class="atn jsonld-curie">ps:payeeRule</span><span class="pln">":
+    [{
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">"
+    },
+    {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">ps:limitation</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:NoAdditionalPayees</span><span class="pln">"
+    }],
+    "</span><span class="atn jsonld-curie">ps:signature</span><span class="pln">": [</span><a href="http://purl.org/signature#Signature"><span class="pln">Signature</span></a><span class="pln">*]
+}
+        </span></pre>
+      </div>
+
+      <div id="rate" about="http://purl.org/commerce#rate" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.16 </span>rate</h3>
+        <p>
+This property can be used to specify the fixed amount or a percentage-based
+rate of a Payee. The rate specifies the amount that the Payee should be or
+has been paid as a result of a commercial exchange.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Payee</dd>
+          <dt>Range</dt>
+          <dd>xsd:decimal, xsd:integer</dd>
+        </dl>
+        <p>
+The following example shows a fixed amount of $0.05 USD specified using the
+rate property:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The</span><span class="pln">",
+}
+        </span></pre>
+        <p>
+The rate property can also be used to specify percentage-based amounts. The
+example below specifies a 4% Virginia sales tax:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">4</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/states/virginia#sales-tax</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Virginia sales tax</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Tax</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="rateContext" about="http://purl.org/commerce#rateContext" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.17 </span>rateContext</h3>
+        <p>
+The rate context is used to specify at which point in a payment calculation 
+a rate should apply. It allows Payees to be deferred until the end of 
+payment calculation, or for Payees to be marked as Tax or TaxDeferred.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Payee</dd>
+          <dt>Range</dt>
+          <dd>com:Cumulative, com:Tax, com:Deferred, com:TaxExempt, rdfs:Class</dd>
+        </dl>
+        <p>
+The following example uses the rate context property to expresses that a 
+Virginia sales tax of 5% should be collected:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">5.0</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/states/virginia#account-1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Virginia sales tax.</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Tax</span><span class="pln">"
+}
+        </span></pre>
+      </div>
+
+      <div id="rateType" about="http://purl.org/commerce#rateType" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.18 </span>rateType</h3>
+        <p>
+The rate type property is used to specify whether the rate property of a
+Payee is a fixed amount, an inclusive percentage or an exclusive percentage.
+The rateType coupled with the currency, and rate specifies the exact 
+monetary amount or calculation that must be employed during the final cost
+calculation among a list of Payees.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Payee, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:InclusivePayee, com:ExclusivePayee, com:FlatAmount, rdfs:Class, xsd:string</dd>
+        </dl>
+        <p>
+The example below specifies an exclusive percentage rate type
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:ExclusivePercentage</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the deferred payee goes here.</span><span class="pln">",
+}
+        </span></pre>
+      </div>
+
+      <div id="source" about="http://purl.org/commerce#source" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.19 </span>source</h3>
+        <p>
+This property is used to specify a source account for a commercial 
+transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Account</dd>
+          <dt>Range</dt>
+          <dd>com:Account, ccard:CreditCard, ccard:DebitCard, owl:Thing</dd>
+        </dl>
+        <p>
+The example below shows a source being expressed as a debit card.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">com:Transaction</span><span class="pln">", "</span><span class="tag jsonld-curie">com:Deposit</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ccard:DebitCard</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:brand</span><span class="pln">": "</span><span class="str">Visa</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:number</span><span class="pln">": "</span><span class="str">3847573872837483</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationMonth</span><span class="pln">": "</span><span class="str">11</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationYear</span><span class="pln">": "</span><span class="str">2013</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:verificationCode</span><span class="pln">": "</span><span class="str">372</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:name</span><span class="pln">": "</span><span class="str">JOHN DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:firstName</span><span class="pln">": "</span><span class="str">JOHN</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:lastName</span><span class="pln">": "</span><span class="str">DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:address</span><span class="pln">":
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">vcard:Address</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:street-address</span><span class="pln">": "</span><span class="str">28 Rivertail Lane</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:locality</span><span class="pln">": "</span><span class="str">Upsilanty</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:region</span><span class="pln">": "</span><span class="str">New York</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:postal-code</span><span class="pln">": "</span><span class="str">83748</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:country-name</span><span class="pln">": "</span><span class="str">United States of America</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": [</span><a href="#Payee"><span class="pln">Payee</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": [</span><a href="#Transfer"><span class="pln">Transfer</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">sig:signature</span><span class="pln">":
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sig:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}</span></pre>
+      </div>
+
+      <div id="transfer" about="http://purl.org/commerce#transfer" typeof="rdf:Property" class="section">
+        <h3><span class="secno">4.20 </span>transfer</h3>
+        <p>
+This property is used to associate the commercial transfer of monetary funds 
+during a Transaction. A list of transfers associated with a Transaction is the
+complete record of the monetary funds, the source accounts and the destination
+accounts for a particular Transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Transaction, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Transfer, owl:Thing</dd>
+        </dl>
+        <p>
+The example below shows the transfer information for a debit card deposit
+from the owner's bank into their PaySwarm account.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Deposit</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:source</span><span class="pln">":
+   {
+      "</span><span class="kwd">@subject</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824#account</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ccard:DebitCard</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:brand</span><span class="pln">": "</span><span class="str">Visa</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:number</span><span class="pln">": "</span><span class="str">3847573872837483</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationMonth</span><span class="pln">": "</span><span class="str">11</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:expirationYear</span><span class="pln">": "</span><span class="str">2013</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:verificationCode</span><span class="pln">": "</span><span class="str">372</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:name</span><span class="pln">": "</span><span class="str">JOHN DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:firstName</span><span class="pln">": "</span><span class="str">JOHN</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:lastName</span><span class="pln">": "</span><span class="str">DOE</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ccard:address</span><span class="pln">":
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">vcard:Address</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:street-address</span><span class="pln">": "</span><span class="str">28 Rivertail Lane</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:locality</span><span class="pln">": "</span><span class="str">Upsilanty</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:region</span><span class="pln">": "</span><span class="str">New York</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:postal-code</span><span class="pln">": "</span><span class="str">83748</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">vcard:country-name</span><span class="pln">": "</span><span class="str">United States of America</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": [</span><a href="#Payee"><span class="pln">Payee</span></a><span class="pln">*],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transfer</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">http://mybank.example.com/accounts/3879279824#account</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://greencardexample.com/accounts/54321#account</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">20.00</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Monthly entertainment budget deposit into PaySwarm account.</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">sig:signature</span><span class="pln">":
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sig:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}</span></pre>
+      </div>
+    </div>
+
+   
+
+
+<div id="references" class="appendix section">
+<!-- OddPage -->
+<h2><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">A.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3><span class="secno">A.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>

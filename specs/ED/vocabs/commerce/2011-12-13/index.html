@@ -13,7 +13,6 @@
  
      
      
-    <link href="prettify.css" type="text/css" rel="stylesheet" />
     
     
     
@@ -482,6 +481,149 @@ pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
 pre.sh_sourceCode .sh_paren { color: red; }
 pre.sh_sourceCode .sh_attribute { color: #006400; }
 
+</style><style type="text/css">/*
+ * Derived from einaros's Sons of Obsidian theme at
+ * http://studiostyl.es/schemes/son-of-obsidian by
+ * and Alex Ford of CodeTunnel
+ * http://CodeTunnel.com/blog/post/71/google-code-prettify-obsidian-theme
+ */
+
+.str
+{
+    color: #93C763;
+}
+.kwd
+{
+    color: #EC7600;
+}
+.com
+{
+    color: #66747B;
+}
+.typ
+{
+    color: #678CB1;
+}
+.lit
+{
+    color: #FACD22;
+}
+.pun
+{
+    color: #F1F2F3;
+}
+.pln
+{
+    color: #F1F2F3;
+}
+.tag
+{
+    color: #8AC763;
+}
+.tag.jsonld-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-curie
+{
+    color: #AC84CB;
+}
+.atn
+{
+    color: #E0E2E4;
+}
+.atn.jsonld-curie
+{
+    color: #AC84CB;
+}
+.atn.turtle-curie
+{
+    color: #FACD22;
+}
+.atv
+{
+    color: #EC7600;
+}
+.dec
+{
+    color: purple;
+}
+pre.prettyprint
+{
+    border: 0px solid #888;
+}
+ol.linenums
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.prettyprint {
+    font: monospace;
+    /*font-size: 0.8em;*/
+    font-weight: bold;
+    background: #000;
+    color: #ddd;
+    /*overflow: auto;*/
+}
+li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9
+{
+    color: #555;
+}
+li.L1, li.L3, li.L5, li.L7, li.L9 {
+    background: #111;
+}
+@media print
+{
+    .str
+    {
+        color: #060;
+    }
+    .kwd
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .com
+    {
+        color: #600;
+        font-style: italic;
+    }
+    .typ
+    {
+        color: #404;
+        font-weight: bold;
+    }
+    .lit
+    {
+        color: #044;
+    }
+    .pun
+    {
+        color: #440;
+    }
+    .pln
+    {
+        color: #000;
+    }
+    .tag
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .atn
+    {
+        color: #404;
+    }
+    .atv
+    {
+        color: #060;
+    }
+}
 </style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
   <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#" style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">Commerce Vocabulary</h1><h2 id="unofficial-draft-13-december-2011">Unofficial Draft 13 December 2011</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
 </dl><p class="copyright">Copyright 2009-2011 © Digital Bazaar, Inc. Shared under a <a href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution Share-Alike license</a>.</p><hr /></div> 
@@ -967,8 +1109,7 @@ The following example describes an inclusive percentage.
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the inclusive percentage goes here.</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="Tax" about="http://purl.org/commerce#Tax" typeof="rdf:Property" class="section">
@@ -995,8 +1136,7 @@ Virginia of 5%.
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/states/virginia#account-1</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Virginia sales tax.</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Tax</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="TaxExempt" about="http://purl.org/commerce#TaxExempt" typeof="rdf:Property" class="section">
@@ -1026,8 +1166,7 @@ for the amount of $5.00 USD.
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/organizations/red-cross#account-6</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Donation to the Red Cross</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:TaxExempt</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
     </div>
 
@@ -1065,8 +1204,7 @@ The following example demonstrates the proper use of the com:account property:
       "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">7563.00</span><span class="pln">",
       "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    }
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="amount" about="http://purl.org/commerce#amount" typeof="rdf:Property" class="section">
@@ -1095,8 +1233,7 @@ The following example shows the use of the amount property in a Transfer.
    "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="currency" about="http://purl.org/commerce#currency" typeof="rdf:Property" class="section">
@@ -1128,8 +1265,7 @@ Transfer:
    "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="tag jsonld-curie">Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="date" about="http://purl.org/commerce#date" typeof="rdf:Property" class="section">
@@ -1160,8 +1296,7 @@ The example below states that the Transaction occurred on October 16th, 2010 at
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Purchase of Bad Romance by Lady Gaga from Best Buy</span><span class="pln">"
    "</span><span class="atn jsonld-curie">com:date</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-10-16T12:34:36.14532</span><span class="pln">",
    "</span><span class="atn jsonld-curie">ps:originatingClient</span><span class="pln">": "</span><span class="str">10.113.15.142</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="destination" about="http://purl.org/commerce#destination" typeof="rdf:Property" class="section">
@@ -1191,8 +1326,7 @@ placed into the destination account identified by
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Description about payment reason</span><span class="pln">",
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="destinationOwnerType" about="http://purl.org/commerce#destinationOwnerType" typeof="rdf:Property" class="section">
@@ -1220,8 +1354,7 @@ can charge is 10%.
     "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
     "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
     "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": ["</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">"]
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="gatewayApprovalCode" about="http://purl.org/commerce#gatewayApprovalCode" typeof="rdf:Property" class="section">
@@ -1279,8 +1412,7 @@ approval code of <code>8FGk9347Bo2N83</code>.
        "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
        "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
    }
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="gatewayError" about="http://purl.org/commerce#gatewayError" typeof="rdf:Property" class="section">
@@ -1338,8 +1470,7 @@ the reason in the gateway error code:
        "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
        "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
    }
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="maximumRate" about="http://purl.org/commerce#maximumRate" typeof="rdf:Property" class="section">
@@ -1370,8 +1501,7 @@ PaySwarm Authority can collect in fees to 10% of the final price:
     "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
     "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
     "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="forTransaction" about="http://purl.org/commerce#forTransaction" typeof="rdf:Property" class="section">
@@ -1404,8 +1534,7 @@ identified by
    "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">8.00</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Thanks for the memory card.</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="limitation" about="http://purl.org/commerce#limitation" typeof="rdf:Property" class="section">
@@ -1437,8 +1566,7 @@ want their content to be sold through affiliate relationships:
 <span class="pln">{
          "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
          "</span><span class="atn jsonld-curie">ps:limitation</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:NoAdditionalPayees</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="minimumAmount" about="http://purl.org/commerce#minimumAmount" typeof="rdf:Property" class="section">
@@ -1471,8 +1599,7 @@ the final amount of the transaction, whichever is higher.
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/organizations/zombo-com#account-1</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Zombocom value-added fee</span><span class="pln">",
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="payeePosition" about="http://purl.org/commerce#payeePosition" typeof="rdf:Property" class="section">
@@ -1504,8 +1631,7 @@ be processed in the 4th position:
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/organizations/zombo-com#account-1</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Zombocom value-added fee</span><span class="pln">",
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="paymentGateway" about="http://purl.org/commerce#paymentGateway" typeof="rdf:Property" class="section">
@@ -1564,8 +1690,7 @@ The example below expresses that the payment gateway is CyberSource:
        "</span><span class="atn jsonld-curie">sig:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
        "</span><span class="atn jsonld-curie">sig:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
    }
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="payee" about="http://purl.org/commerce#payee" typeof="rdf:Property" class="section">
@@ -1617,8 +1742,7 @@ The example below shows the sale listing for an electronic book called
          "</span><span class="atn jsonld-curie">ps:limitation</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:NoAdditionalPayees</span><span class="pln">"
     }],
     "</span><span class="atn jsonld-curie">ps:signature</span><span class="pln">": [</span><a href="http://purl.org/signature#Signature"><span class="pln">Signature</span></a><span class="pln">*]
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="rate" about="http://purl.org/commerce#rate" typeof="rdf:Property" class="section">
@@ -1648,8 +1772,7 @@ rate property:
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The</span><span class="pln">",
-}
-        </span></pre>
+}</span></pre>
         <p>
 The rate property can also be used to specify percentage-based amounts. The
 example below specifies a 4% Virginia sales tax:
@@ -1663,8 +1786,7 @@ example below specifies a 4% Virginia sales tax:
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/states/virginia#sales-tax</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Virginia sales tax</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Tax</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="rateContext" about="http://purl.org/commerce#rateContext" typeof="rdf:Property" class="section">
@@ -1695,8 +1817,7 @@ Virginia sales tax of 5% should be collected:
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/states/virginia#account-1</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Virginia sales tax.</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Tax</span><span class="pln">"
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="rateType" about="http://purl.org/commerce#rateType" typeof="rdf:Property" class="section">
@@ -1727,8 +1848,7 @@ The example below specifies an exclusive percentage rate type
    "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
    "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/people/john-doe#account-3</span><span class="pln">",
    "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">The explanation of the deferred payee goes here.</span><span class="pln">",
-}
-        </span></pre>
+}</span></pre>
       </div>
 
       <div id="source" about="http://purl.org/commerce#source" typeof="rdf:Property" class="section">

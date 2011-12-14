@@ -156,7 +156,7 @@
  
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["../../respec/css/respec.css", "spec.css"],
+          extraCSS:             ["../../respec/css/respec.css", "spec.css", "prettify.css"],
  
           // editors, add as many as you like
           // only "name" is required
@@ -191,11 +191,10 @@
           // Team Contact.
           wgPatentURI:  "",
           maxTocLevel: 4,
-          preProcess: [ preProc ]
-          //alternateFormats: [ {uri: "diff-20110920.html", label: "diff to previous version"} ],
+          preProcess: [ preProc ]//,
+          //alternateFormats: [ {uri: "diff-20110926.html", label: "diff to previous version"} ],
       };
     </script> 
-    <link href="prettify.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="prettify.js" class="remove"></script>
     <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
     <script type="text/javascript" class="remove">
@@ -1592,7 +1591,10 @@ are listed below:
 <code>ps:preAuthorization</code> - The <tref>buyer</tref> has pre-authorized 
 future purchases for the <tref>vendor</tref> and thus the 
 <a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
-MAY be used for future purchases.
+MAY be used for future purchases. If this preference setting is mentioned, the
+<tref>publishing agent</tref> SHOULD store the <tref>buyer</tref>'s information,
+including the <tref>PaySwarm Authority</tref> IRI, for use in future 
+automatic transactions.
                     </div>
                   </dd>
                   <dt><code>ps:contract</code></dt>
@@ -1653,18 +1655,17 @@ An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
 The PaySwarm Authority initiates an HTTP POST via the 
 <tref>user agent</tref> back to the <code>callback</code> IRI supplied by the 
 <tref>publishing agent</tref> during the initiation of the purchase request. 
-The POST data is encrypted according to the 
-<a href="#response-encryption-algorithm">Response Encryption Algorithm</a>, 
-using the <tref>public key</tref> associated with the <tref>private key</tref>
-that digitally signed the <tref>listing</tref>.
+The POST data is digitally signed according to the 
+<a href="#request-signature-algorithm">Request Signature Algorithm</a>, 
+using the <tref>public key</tref> of the <tref>PaySwarm Authority</tref>.
               </li>
             </ol>
           </li>
           <li>
 The <tref>publishing agent</tref> acts upon the callback by granting access
-to the article if the purchase was successful, or providing a page detailing
-why the purchase failed. The <tref>publishing agent</tref> SHOULD note any
-preferences in the <tref>receipt</tref> and utilize those preferences when
+to the <tref>asset</tref> if the purchase was successful, or providing a page 
+detailing why the purchase failed. The <tref>publishing agent</tref> SHOULD note 
+any preferences in the <tref>receipt</tref> and utilize those preferences when
 processing future purchases from the <tref>buyer</tref>.
           </li>
         </ol>
@@ -1675,29 +1676,184 @@ processing future purchases from the <tref>buyer</tref>.
         <h3>Performing Automatic Purchases</h3>
 
         <p>
-In order for automatic purchases to work, the <tref>publishing agent</tref>
-must have been notified via a previous purchase result that the 
-<tref>buyer</tref> authorized them to make automatic purchases.
+An automatic purchase is one where a <tref>vendor</tref> has been
+previously authorized by a <tref>buyer</tref> to perform purchases with
+the buyer's pre-authorized consent. This is typically used when the 
+<tref>vendor</tref> is trusted, or when the <tref>buyer</tref> has set a 
+spending limit with the <tref>vendor</tref> and does not want to be bothered
+unless that spending limit is reached. Automatic purchases are designed to 
+get out of the way of the <tref>buyer</tref> and make the transactional flow
+as friction-free as possible.
+        </p>
+
+        <section>
+          <h2>Purchase Terms</h2>
+          <p>
+There are a number of terms that are used during the course of the purchase
+process.
+          <dl>
+            <dt><tdef>purchase request</tdef></dt>
+            <dd>
+A message consisting of a <tref>listing</tref> IRI, 
+a <tref>listing hash</tref>, a <tref>buyer</tref> identity IRI, and
+an optional <tref>reference identifier</tref>. The message is typically sent
+by a <tref>publishing agent</tref> to a <tref>buyer</tref>'s 
+<tref>PaySwarm Authority</tref> for processing.
+            </dd>
+          </dl>
+        </section>
+        
+        <section>
+        <h3>The Automatic Purchase Algorithm</h3>
+        
+        <p>
+The automatic purchase algorithm is outlined below:
         </p>
 
         <ol class="algorithm">
           <li>
-The <tref>buyer</tref>, via the <tref>user agent</tref>, selects an 
-asset to purchase. The <tref>publishing agent</tref> looks up the session ID 
-for the <tref>user agent</tref> and retrieves the <tref>buyer</tref>
-associated with the session ID. The <tref>publishing agent</tref> 
-digitally signs a purchase request and sends it to the 
-<tref>PaySwarm Authority</tref>.
+The <tref>publishing agent</tref> prepares a <tref>purchase request</tref> by
+constructing a JSON-LD message. The following pieces of information
+MUST be expressed:
+            <dl>
+              <dt><code>@context</code></dt>
+              <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+              </dd>
+              <dt><code>@type</code></dt>
+              <dd>
+The value <code>ps:PurchaseRequest</code>.
+              </dd>
+              <dt><code>ps:listing</code></dt>
+              <dd>
+An IRI to the <tref>listing</tref> that was purchased.
+              </dd>
+              <dt><code>ps:listingHash</code></dt>
+              <dd>
+The SHA-1 hash of the <tref>listing</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+              </dd>
+              <dt><code>ps:assetAcquirer</code></dt>
+              <dd>
+An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
+              </dd>
+              <dt><code>com:reference</code></dt>
+              <dd>
+The <tref>reference identifier</tref>, if one was suppied via the purchase 
+request.
+              </dd>
+            </dl>
+          </li>        
+          <li>
+The <tref>purchase request</tref> is digitally signed by the 
+<tref>publishing agent</tref> according to the
+<a href="#request-signature-algorithm">Request Signature Algorithm</a> using
+the <tref>private key</tref> associated with the <tref>listing</tref> in the
+<tref>purchase request</tref>. The <tref>purchase request</tref> is
+sent to the <tref>PaySwarm Authority</tref> of the <tref>buyer</tref>
+via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
+of the request and retrieval of the response to prevent replay attacks.
           </li>
           <li>
-The <tref>PaySwarm Authority</tref> checks to see if the 
-<tref>publishing agent</tref> is allowed to perform an automatic purchase 
-on behalf of the provided <tref>buyer</tref>. If so, the purchase is
-performed and the result is sent in the HTTP response to the 
-<tref>publishing agent</tref>.
+The <tref>PaySwarm Authority</tref> checks to ensure that the
+<tref>publishing agent</tref> is authorized to perform an automatic purchase 
+on behalf of the provided <tref>buyer</tref> identity IRI and responds to the
+<tref>publishing agent</tref>:
+          <ol class="algorithm">
+            <li>
+If the transaction fails, the exception details are placed into a JSON-LD 
+message and sent to the <tref>publishing agent</tref>.
+              <div class="issue">
+Determine how PaySwarm will handle response exceptions.
+              </div>
+            </li>
+            <li>
+If the transaction is successful, a <tref>receipt</tref> is generated for
+the <tref>publishing agent</tref>. The following fields MUST be
+placed into the response:
+              <dl>
+                <dt><code>@context</code></dt>
+                <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+                </dd>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Receipt</code>.
+                  </dd>
+                <dt><code>ps:contract</code></dt>
+The contract used in the receipt is a summary of the digital contract that was
+finalized via the <tref>PaySwarm Authority</tref>. It includes the minimum
+amount of information necessary for the <tref>publishing agent</tref> to 
+correctly identify the <tref>listing</tref> that was transacted:
+                <dd>
+                  <dl>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Contract</code>.
+                  </dd>
+                  <dt><code>ps:asset</code></dt>
+                  <dd>
+An IRI to the <tref>asset</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:assetHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>asset</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>com:reference</code></dt>
+                  <dd>
+The <tref>reference identifier</tref>, if one was suppied via the purchase 
+request.
+                  </dd>
+                  <dt><code>ps:license</code></dt>
+                  <dd>
+An IRI to the <tref>license</tref> describing the rights associated with the
+<tref>asset</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:licenseHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>license</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:listing</code></dt>
+                  <dd>
+An IRI to the <tref>listing</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:listingHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>listing</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:assetAcquirer</code></dt>
+                  <dd>
+An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
+                  </dd>
+                </dl>
+              </dl>
+            </li>
+            <li>
+The <tref>receipt</tref> is encrypted according to the 
+<a href="#response-encryption-algorithm">Response Encryption Algorithm</a>, 
+using the <tref>public key</tref> associated with the <tref>private key</tref>
+that digitally signed the <tref>listing</tref>. The encrypted receipt is
+sent to the <tref>publishing agent</tref>.
+            </li>
+          </ol>
+          <li>
+The <tref>publishing agent</tref> receives the response, which will either be
+an exception or a receipt, and responds accordingly to the 
+<tref>user agent</tref>.
           </li>
         </ol>
-
+        </section>
       </section>
 
       <section>

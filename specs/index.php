@@ -1,4 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?php
+function dirContents($dir)
+{
+   $contents = scandir($dir);
+   rsort($contents);
+
+   print("      <li style='padding-left: 3em;'>Previous Drafts: ");
+   $items = array();
+   foreach($contents as $item)
+   {
+      if(preg_match("/201[0-9]-[0-9]{2,2}-[0-9]{2,2}/", $item))
+      {
+         array_push($items, "<a href=\"$dir/$item/\">$item $type</a>");
+      }
+   }
+   print(implode($items, ", "));
+   print("</li>");
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
@@ -43,24 +61,40 @@ specifications and inter-operate with one another without the express
 permission or consent of the group that created PaySwarm.
 </p>
 
-<p>
 <ul>
-<li><a href="payswarm-faq">PaySwarm FAQ</a> - covers a list of 
-frequently asked questions about the PaySwarm standardization work.</li>
-<li><a href="source/use-cases">PaySwarm Use Cases</a> - the core
+<li><a href="source/use-cases">PaySwarm Use Cases</a> - the primary
 scenarios that are the basis for the PaySwarm Web API and Payment and
-Transaction processing environment.</li>
-<li><a href="source/web-api">PaySwarm Web API</a> - The main PaySwarm specification
-that describes how to publish digital assets for sale and perform purchases
-on those digital assets in a standards-compliant manner.</li>
+Transaction processing environment.
+  <ul>
+    <?php dirContents("ED/use-cases"); ?>
+  </ul>
+</li>
+<li><a href="source/web-api">PaySwarm Web API</a> - the core PaySwarm 
+protocol - listing, buying and selling digital assets.
+  <ul>
+    <?php dirContents("ED/web-api"); ?>
+  </ul>
+</li>
 <li><a href="../vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 
-that is used to describe commercial transactions on a PaySwarm network.</li>
+that is used to describe commercial transactions.
+  <ul>
+    <?php dirContents("ED/vocabs/commerce"); ?>
+  </ul>
+</li>
 <li><a href="../vocabs/payswarm">PaySwarm Vocabulary</a> - the Web vocabulary 
 that is used to describe PaySwarm-specific concepts and properties on a 
-PaySwarm network.</li>
+PaySwarm network.
+  <ul>
+    <?php dirContents("ED/vocabs/payswarm"); ?>
+  </ul>
+</li>
 <li><a href="../vocabs/security">Security Vocabulary</a> - 
 the Web vocabulary that is used to describe mechanisms for expressing
-digital signatures and encrypting and decrypting messages.</li>
+digital signatures and encrypting and decrypting messages.
+  <ul>
+    <?php dirContents("ED/vocabs/security"); ?>
+  </ul>
+</li>
 </ul>
 
 </p>

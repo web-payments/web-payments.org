@@ -1340,6 +1340,40 @@ The <tref>transaction request</tref> is sent to the
 via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
 of the request and retrieval of the response to prevent replay attacks.
           </li>
+          <li>
+The <tref>PaySwarm Authority</tref> processes the 
+<tref>transaction request</tref>. Additional <tref>transfer</tref>s MAY be
+added to the finalized <tref>transaction request</tref> by the 
+<tref>PaySwarm Authority</tref>, such as transaction fees, pursuant to 
+existing agreements between the <tref>PaySwarm Authority</tref> and the
+entity operating the <tref>agent</tref>. The following properties MUST be added 
+to the <tref>transaction request</tref>:
+            <dl>
+              <dt><code>@id</code></dt>
+              <dd>
+The finalized <tref>transaction</tref> identifier IRI. The value MUST be
+dereferenceable and return at least the <tref>transaction</tref> information 
+returned at the end of this algorithm when accessed using a mechanism that
+proves authorization to access the resource.
+              </dd>
+              <dt><code>com:amount</code></dt>
+              <dd>
+The total amount of the transaction which is calculated by adding up all of
+the <tref>transfer</tref>s.
+              </dd>
+              <dt><code>com:currency</code></dt>
+              <dd>
+The currency associated with the total amount of the transaction. The value 
+MUST be an ISO-4217 currency or a dereference-able IRI to a monetary system 
+that is not specified in ISO-4217 but follows the specification of a 
+<a href="">Currency Mint</a>.
+              </dd>
+              <dt><code>com:date</code></dt>
+              <dd>
+The date and time at which the transaction was recorded in the system.
+              </dd>
+            </dl>
+          </li>
         </ol>
 
         <p>

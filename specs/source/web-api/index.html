@@ -284,6 +284,13 @@ to create a decentralized but stable universal payment architecture.
       <section>
         <h3>Participants</h3>
         <section>
+          <h4>agent</h4>
+          <p>
+An <tdef>agent</tdef> is any software that is capable of requesting an action
+to be performed in a way that is compliant with the PaySwarm specification.
+The software is usually controlled by a person or an organization 
+that would like to perform some action on a PaySwarm-conformant network.
+          </p>
           <h4>Buyers</h4>
           <p>
 A <tdef>buyer</tdef> is an entity that is capable 
@@ -879,7 +886,7 @@ The document MUST be available in JSON-LD compacted form and MUST use the
 <code>http://purl.org/payswarm/v1</code> JSON-LD context. The following
 keys MUST be present in the published document; 
 <code>ps:publicKeyService</code>, <code>ps:licenseService</code>, and
-<code>ps:contractsService</code>.</dd>
+<code>ps:transactionService</code>.</dd>
         <dt><tdef>public key registration service</tdef></dt>
         <dd>An interactive Web service used to register PEM-encoded 
 X.509 public keys with the <tref>PaySwarm Authority</tref>.</dd>
@@ -1086,11 +1093,11 @@ Server: Apache/2.2.19 (Debian)
 
 {
    "@context": "http://purl.org/payswarm/v1",
-   "@subject": "http://payswarm.example.com/i/authority",
+   "@id": "http://payswarm.example.com/i/authority",
    "ps:registrationService": "http://payswarm.example.com/api/v1/applications",
    "ps:publicKeyService": "http://payswarm.example.com/api/v1/keys",
    "ps:licenseService": "http://payswarm.example.com/api/v1/licenses",
-   "ps:contractsService": "http://payswarm.example.com/api/v1/contracts"
+   "ps:transactionService": "http://payswarm.example.com/api/v1/contracts"
 }
 
 --------------------------------- Step #3 -----------------------------------
@@ -1201,6 +1208,257 @@ for the <code>registration-callback</code> IRI to protect the
     </section>
 
     <section>
+      <h2>The Transaction Process</h2>
+
+      <p>
+The simplest exchange of value that can happen in the PaySwarm system is a
+transaction. A <tdef>transaction</tdef> is the exchange of value from 
+one or more source accounts into one or more destination accounts.
+      </p>
+      
+      <section>
+        <h3>Transaction Terms</h3>
+        <p>
+There are a number of terms that are used during the course of processing a
+transaction.
+        </p>
+
+        <dl>
+          <dt><tdef>transaction service</tdef></dt>
+          <dd>
+The service endpoint identified by the <code>ps:transactionService</code> key in
+the domain's PaySwarm configuration file. The configuration file can be fetched
+by performing an HTTP GET request on the <tref>configuration service</tref>
+IRI.
+          </dd>
+          <dt><tdef>transaction request</tdef></dt>
+          <dd>
+A JSON-LD formatted object that contains all of the necessary information
+required to initiate a <tref>transaction</tref> on a PaySwarm-conformant
+network.
+          </dd>
+          <dt><tdef>transfer</tdef></dt>
+          <dd>
+A JSON-LD formatted object that specifies the movement of value from a
+source account to a destination account.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h3>The Transaction Algorithm</h3>
+
+        <p>
+There are two ways in which a Transaction may be initiated via a 
+<tref>PaySwarm Authority</tref>; Payment Link initiated and <tref>agent</tref>
+initiated. The first approach is where a <tref>publishing agent</tref> may 
+initiate a transaction by constructing a URL targeted to the 
+<tref>PaySwarm Authority</tref>'s <tref>transaction service</tref> using the 
+<a href="http://payswarm.com/specs/source/payment-links/">Payment Links specification</a>. 
+The second approach is where an <tref>agent</tref> may initiate a transaction by
+performing an HTTPS POST of JSON-LD object expressing a
+<code>ps:Transaction</code>. The normative algorithm for performing this
+operation is detailed below. In both approaches, the 
+<tref>PaySwarm Authority</tref> processesing the request MUST note the 
+<code>ps:Transaction</code> entry in all of the accounts associated in the 
+<tref>transaction</tref> and ensure that all accounts external to the 
+<tref>PaySwarm Authority</tref> are notified via the 
+<a href="#decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
+        </p>
+
+        <p>
+The normative algorithm for performing an <tref>agent</tref>-initiated 
+transaction is expressed below.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+An <tref>agent</tref> MUST construct a <tref>transaction request</tref> in
+JSON-LD format containing at least the following:
+            <dl>
+              <dt><code>@context</code></dt>
+              <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+              </dd>
+              <dt><code>@type</code></dt>
+              <dd>
+The value <code>ps:Transaction</code>.
+              </dd>
+              <dt><code>com:transfer</code></dt>
+              <dd>
+One or more <tref>transfer</tref>s in JSON-LD format containing at least the 
+following:
+                <dl>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Transfer</code>.
+                  </dd>        
+                  <dt><code>com:amount</code></dt>
+                  <dd>
+A string value of the total amount of the transfer.
+                  </dd>        
+                  <dt><code>com:currency</code></dt>
+                  <dd>
+The currency associated with the amount of the transfer. The value MUST be an 
+ISO-4217 currency or a dereference-able IRI to a monetary system that is 
+not specified in ISO-4217 but follows the specification of a 
+<a href="">Currency Mint</a>.
+                  </dd>        
+                  <dt><code>com:source</code></dt>
+                  <dd>
+The source account from which the funds listed in <code>com:amount</code> will
+be withdrawn.
+                  </dd>        
+                  <dt><code>com:destination</code></dt>
+                  <dd>
+The destination account to which the funds listed in <code>com:amount</code> 
+will be deposited.
+                  </dd>        
+                  <dt><code>rdfs:comment</code></dt>
+                  <dd>
+A string specifying the purpose of the transfer as well as other details 
+intended to be read by a human.
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </li>
+          <li>
+The <tref>transaction request</tref> is digitally signed by the 
+<tref>agent</tref> according to the
+<a href="#request-signature-algorithm">Request Signature Algorithm</a> using
+a <tref>private key</tref> associated with the <tref>public key</tref>
+that was previously registered with the <tref>PaySwarm Authority</tref> 
+according to the 
+<a href="#vendor-registration">Vendor Registration Algorithm</a>.
+          </li>
+          <li>
+The <tref>transaction request</tref> is sent to the 
+<tref>PaySwarm Authority</tref> of the <tref>agent</tref>
+via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
+of the request and retrieval of the response to prevent replay attacks.
+          </li>
+        </ol>
+
+        <p>
+The example below shows the full protocol-level exchange between the
+<tref>agent</tref> and the <tref>PaySwarm Authority</tref> when performing a
+Transaction:
+        </p>
+
+<pre class="example">
+--------------------------------- Step #1 -----------------------------------
+
+*** Agent creates a Transaction object
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   }
+}
+
+--------------------------------- Step #2 -----------------------------------
+
+*** Agent signs the Transaction object
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   "sec:signature":
+   {
+      "@type": "sec:JsonLdSignature",
+      "dc:created": "2011-09-23T20:21:34Z",
+      "sec:signer": "http://payswarm.example.com/i/john/keys/5",
+      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+   }
+}
+
+
+---------------------------------- Step #3 ----------------------------------
+
+*** Agent HTTPS POSTs the Transaction object to the PaySwarm Authority
+
+POST transactions HTTP/1.1
+Host: bluebank.com
+Content-Length: 634
+Content-Type: application/ld+json
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   "sec:signature":
+   {
+      "@type": "sec:JsonLdSignature",
+      "dc:created": "2011-09-23T20:21:34Z",
+      "sec:signer": "http://bluebank.com/people/john/keys/5",
+      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+   }
+}
+
+---------------------------------- Step #4 ----------------------------------
+
+*** PaySwarm Authority processes the transaction and returns the finalized
+*** transaction to the Agent
+
+Cache-Control:no-cache, must-revalidate, max-age=0
+Content-Length: 728
+Content-Type: application/ld+json
+
+{
+   "@id": "https://bluebank.com/transactions/20110923f72b8ca3",
+   "@type": "ps:Transaction",
+   "com:amount": "7.65",
+   "com:currency": "USD",
+   "com:date": "2011-09-23T20:21:35Z",
+   "ps:transfer":
+   [{
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "0.15",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://bluebank.com/accounts/processing-fees",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   }]
+}
+</pre>
+
+      </section>
+    </section>
+
+    <section>
       <h2>The Purchase Process</h2>
       
       <p>
@@ -1250,7 +1508,7 @@ that is verifiable by the receiving party.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
-   "@subject": "http://example.org/articles/1#asset",
+   "@id": "http://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:description": "This article covers how to use PaySwarm on your Website.",
@@ -1363,7 +1621,7 @@ The following example describes a very simple license for personal use.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
-   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@id": "http://payswarm.example.com/licenses/personal-use",
    "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
@@ -1408,12 +1666,12 @@ may only take a maximum of 10% of the final sale price to cover their fees.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
-   "@subject": "http://example.com/articles/1#listing",
+   "@id": "http://example.com/articles/1#listing",
    "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
    [
       {
-         "@subject": "http://example.com/articles/1#listing-payee",
+         "@id": "http://example.com/articles/1#listing-payee",
          "@type": "com:Payee",
          "com:currency": "USD",
          "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
@@ -1877,7 +2135,7 @@ Jane, who may now peruse the article.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "http://purl.org/payswarm/v1",
-   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
@@ -1919,7 +2177,7 @@ Jane, who may now peruse the article.
    "dc:created": "2011-03-02T03:00:53Z",
    "ps:asset": 
    {
-      "@subject": "http://example.com/articles/1#asset",
+      "@id": "http://example.com/articles/1#asset",
       "@type": ["ps:Asset", "ps:WebPage"],
       "dc:creator": 
       {
@@ -1944,19 +2202,19 @@ Jane, who may now peruse the article.
    },
    "ps:license": 
    {
-      "@subject": "http://payswarm.example.com/licenses/blogging",
+      "@id": "http://payswarm.example.com/licenses/blogging",
       "@type": "ps:License",
       "dc:format": "text/html",
       "ps:licenseTemplate": "Personal Use License ..."
    },
    "ps:listing": 
    {
-      "@subject": "http://example.com/articles/1#listing",
+      "@id": "http://example.com/articles/1#listing",
       "@type": ["gr:Offering", "ps:Listing"],
       "com:payee": 
       [
          {
-            "@subject": "http://example.com/articles/1#listing-payee",
+            "@id": "http://example.com/articles/1#listing-payee",
             "@type": "com:Payee",
             "com:currency": "USD",
             "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",

@@ -263,7 +263,7 @@ solution that is universal across websites, industries and countries.
       <h2>The Conceptual Model</h2>
       <p>
 There are three primary participants in a PaySwarm transaction; the 
-buyer, the vendor, and the PaySwarm Authority.
+buyer, the vendor, and the authority.
       </p>
       <section>
         <h3>Identity and Identifiers</h3>
@@ -314,7 +314,7 @@ apply to vendors.
         <section>
           <h4>PaySwarm Authorities</h4>
           <p>
-A <tdef>PaySwarm Authority</tdef> is used to store money, process and store 
+A <tdef>authority</tdef> is used to store money, process and store 
 contracts, and 
 transfer monetary amounts between financial accounts. While a PaySwarm 
 Authority may hold a great deal of financial data, they are built with
@@ -453,21 +453,21 @@ effort, recurring costs, or financial outlay.
       <section>
         <h2>Requests and Responses</h2>
         <p>
-This specification requires that a <tref>PaySwarm Authority</tref> 
+This specification requires that a <tref>authority</tref> 
 have a trusted security certificate and operate many of the API services over 
 Transport Layer Security version 1.0 or later. Unless otherwise 
 specified, all API requests
-MUST be made over HTTPS to the <tref>PaySwarm Authority</tref>.
+MUST be made over HTTPS to the <tref>authority</tref>.
         </p>
         <p>
 An invalid certificate or TLS error or any kind MUST result in the API 
 call exiting immediately and not performing the requested
-action. All API requests sent to the <tref>PaySwarm Authority</tref> on 
+action. All API requests sent to the <tref>authority</tref> on 
 behalf of a participant of the network that results in any modification 
 to an internal database MUST be digitally signed by the requestor using the
 steps provided in the <a href="#request-signature-algorithm">Request Signature
 Algorithm</a>. All responses to network participants from a
-<tref>PaySwarm Authority</tref> MUST be encrypted according to the steps
+<tref>authority</tref> MUST be encrypted according to the steps
 provided in the
 <a href="#response-encryption-algorithm">Response Encryption Algorithm</a>.
         </p>
@@ -880,7 +880,7 @@ game.</dd>
         <dt><tdef>configuration service</tdef></dt>
         <dd>A Web service that is used to publish the public Web service
 end-points and other public configuration information for a
-<tref>PaySwarm Authority</tref>. A <tref>PaySwarm Authority</tref> MUST
+<tref>authority</tref>. An <tref>authority</tref> MUST
 publish this service at a top-level IRI named <code>payswarm-v1-config</code>. 
 The document MUST be available in JSON-LD compacted form and MUST use the
 <code>http://purl.org/payswarm/v1</code> JSON-LD context. The following
@@ -889,7 +889,7 @@ keys MUST be present in the published document;
 <code>ps:transactionService</code>.</dd>
         <dt><tdef>public key registration service</tdef></dt>
         <dd>An interactive Web service used to register PEM-encoded 
-X.509 public keys with the <tref>PaySwarm Authority</tref>.</dd>
+X.509 public keys with the <tref>authority</tref>.</dd>
         <dt><tdef>license service</tdef></dt>
         <dd>A utility service is used by a <tref>publishing agent</tref>s 
 to retrieve license hashes, which are used when listing <tref>asset</tref>s 
@@ -905,7 +905,7 @@ and retrieving digital contracts.</dd>
         <h2>Buyer Registration</h2>
         <p>
 In order for a <tref>buyer</tref> to transact, they must have an
-account on a <tref>PaySwarm Authority</tref>. Typically, this account must 
+account on a <tref>authority</tref>. Typically, this account must 
 also contain a positive amount of funds that may be used to acquire goods or 
 services. How this account is created and funds are deposited are outside of
 the scope of this specification. However, the end result of this sign up
@@ -928,7 +928,7 @@ mentioned above.
         <h2>Vendor Registration</h2>
         <p>
 In order for a <tref>vendor</tref> to transact, they must have an
-account on a PaySwarm Authority. How this account is created and managed is
+account on a authority. How this account is created and managed is
 outside of the scope of this specification. However, the end result of this
 sign up process MUST result in the following items being created for the 
 <tref>vendor</tref>:
@@ -944,7 +944,7 @@ entity that is transacting. For example:
         <p>
 Since all <tref>asset</tref>s and <tref>listing</tref>s are digitally signed,
 a public key MUST be registered for the 
-<tref>vendor</tref> with the <tref>PaySwarm Authority</tref>.
+<tref>vendor</tref> with the <tref>authority</tref>.
 This is typically performed by the <tref>publishing agent</tref> software that 
 is publishing the 
 <tref>asset</tref>s and <tref>listing</tref>s for sale on behalf of the 
@@ -955,14 +955,14 @@ the following algorithm:
 public/private keypair that will be used to associate the
 <tref>publishing agent</tref> with the <tref>vendor</tref>.</li>
           <li>The <tref>publishing agent</tref> retrieves the 
-<tref>PaySwarm Authority</tref> configuration from the 
+<tref>authority</tref> configuration from the 
 <tref>configuration service</tref> IRI</tref>.
             <ol class="algorithm">
               <li>The <tref>configuration service</tref> IRI is generated 
-by concatenating a base IRI for the <tref>PaySwarm Authority</tref>, 
+by concatenating a base IRI for the <tref>authority</tref>, 
 such as <code>https://example.com/</code> with the 
 <code>payswarm-v1-config</code> suffix. 
-For example, the previous <tref>PaySwarm Authority</tref> IRI concatenated 
+For example, the previous <tref>authority</tref> IRI concatenated 
 with the configuration suffix would result in the following 
 <tref>configuration service</tref>
 IRI: <code>https://example.com/payswarm-v1-config</code>.</li>
@@ -970,7 +970,7 @@ IRI: <code>https://example.com/payswarm-v1-config</code>.</li>
 <tref>configuration service</tref> IRI with the
 HTTP <code>Accept</code> header set to 
 <code>application/ld+json; form=compacted</code>. The
-<tref>PaySwarm Authority</tref> MUST respond with a compacted JSON-LD document
+<tref>authority</tref> MUST respond with a compacted JSON-LD document
 using the context specified at <code>http://purl.org/payswarm/v1</code>.</li>
               <li>The result MUST be a JSON-LD document containing a flat set of
 key-value pairs defined in the <tref>configuration service</tref> section above.
@@ -987,7 +987,7 @@ URL-encoded X.509 PEM-encoded public key. The second parameter,
 is the URL-encoded <tref>registration callback service</tref> 
 IRI for the <tref>publishing agent</tref>.</li>
           <li>
-The <tref>PaySwarm Authority</tref> associates the 
+The <tref>authority</tref> associates the 
 <tref>publishing agent</tref> with the <tref>vendor</tref> based on the
 provided public key. Note that this process MUST authenticate the 
 <tref>vendor</tref> via a login process if the 
@@ -995,7 +995,7 @@ provided public key. Note that this process MUST authenticate the
 configuration steps may be performed at this stage, including the 
 specification of defaults for the particular <tref>publishing agent</tref>.</li>
           <li>
-The <tref>PaySwarm Authority</tref> specifies a set of 
+The <tref>authority</tref> specifies a set of 
 <tref>publishing agent</tref> configuration values and encrypts the 
 <tref>message</tref> according to the steps outlined in
 the <a href="#response-encryption-algorithm">Response Encryption Algorithm</a>
@@ -1018,7 +1018,7 @@ algorithm defined in
               <li>The <tref>encrypted response</tref> is transmitted to the
 <code>registration-callback</code> via an HTTP POST request that is initiatited
 by the <tref>user agent</tref>. This is most commonly accomplished by having
-the <tref>PaySwarm Authority</tref> generate an HTML form that can be submitted
+the <tref>authority</tref> generate an HTML form that can be submitted
 to the <tref>publishing agent</tref> when a form submission button is clicked
 via the <tref>user agent</tref>.
               <li>The <tref>publishing agent</tref> decrypts the base-64
@@ -1031,7 +1031,7 @@ for use during the latter parts of the publishing and purchase process.</li>
 
         <p>
 The example below shows the full protocol-level exchange between the
-<tref>publishing agent</tref> and the <tref>PaySwarm Authority</tref>. For
+<tref>publishing agent</tref> and the <tref>authority</tref>. For
 the sake of brevity, not every optional parameter is included, just the bare
 minimum necessary to perform the <tref>vendor</tref> registration.
         </p>
@@ -1075,13 +1075,13 @@ KBTHOaBRQMgvjsdA/obrs7D0HrEbQqGOy7JBYGWZTsiI
 
 --------------------------------- Step #2 -----------------------------------
 
-*** Request: publishing agent -> PaySwarm Authority
+*** Request: publishing agent -> authority
 
 GET /payswarm-v1-config HTTP/1.1
 Host: payswarm.example.com
 Accept: application/ld+json,*/*;q=0.1
 
-*** Response: publishing agent &lt;- PaySwarm Authority
+*** Response: publishing agent &lt;- authority
 
 HTTP/1.1 200 OK
 Connection: close
@@ -1122,7 +1122,7 @@ Content-Length: 174
  &lt;/head>
  &lt;body>
   &lt;h1>Public Key Registration&lt;/h1>
-   &lt;p>You must now go to your PaySwarm Authority and 
+   &lt;p>You must now go to your authority and 
     &lt;a href="http://payswarm.example.com/api/v1/keys?public-key=↩
 -----BEGIN+PUBLIC+KEY-----%0A↩
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDptIkqrXhx7YVGsBZ5fY%2FLz0il%0A↩
@@ -1143,7 +1143,7 @@ US89y0M909ZTj2zDQwIDAQAB%0A↩
 
 --------------------------------- Step #5 -----------------------------------
 
-*** The PaySwarm Authority creates a configuration object to return back
+*** The authority creates a configuration object to return back
 *** to the publishing agent
 
 {
@@ -1192,12 +1192,12 @@ z7u3IxpqNVcXHExjXQE=",
 
         <ul>
           <li>
-All requests to the <tref>PaySwarm Authority</tref> MUST be made using HTTPS
+All requests to the <tref>authority</tref> MUST be made using HTTPS
 to ensure configuration data is not tampered with in transit.
           </li>
           <li>
 The registration request from the <tref>publishing agent</tref> to the
-<tref>PaySwarm Authority</tref> MUST contain a <tref>nonce</tref> value
+<tref>authority</tref> MUST contain a <tref>nonce</tref> value
 for the <code>registration-callback</code> IRI to protect the 
 <tref>publishing agent</tref> against 
 <a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
@@ -1250,19 +1250,19 @@ source account to a destination account.
 
         <p>
 There are two ways in which a Transaction may be initiated via a 
-<tref>PaySwarm Authority</tref>; Payment Link initiated and <tref>agent</tref>
+<tref>authority</tref>; Payment Link initiated and <tref>agent</tref>
 initiated. The first approach is where a <tref>publishing agent</tref> may 
 initiate a transaction by constructing a URL targeted to the 
-<tref>PaySwarm Authority</tref>'s <tref>transaction service</tref> using the 
+<tref>authority</tref>'s <tref>transaction service</tref> using the 
 <a href="http://payswarm.com/specs/source/payment-links/">Payment Links specification</a>. 
 The second approach is where an <tref>agent</tref> may initiate a transaction by
 performing an HTTPS POST of JSON-LD object expressing a
 <code>ps:Transaction</code>. The normative algorithm for performing this
 operation is detailed below. In both approaches, the 
-<tref>PaySwarm Authority</tref> processesing the request MUST note the 
+<tref>authority</tref> processesing the request MUST note the 
 <code>ps:Transaction</code> entry in all of the accounts associated in the 
 <tref>transaction</tref> and ensure that all accounts external to the 
-<tref>PaySwarm Authority</tref> are notified via the 
+<tref>authority</tref> are notified via the 
 <a href="#decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
         </p>
 
@@ -1330,22 +1330,22 @@ The <tref>transaction request</tref> is digitally signed by the
 <tref>agent</tref> according to the
 <a href="#request-signature-algorithm">Request Signature Algorithm</a> using
 a <tref>private key</tref> associated with the <tref>public key</tref>
-that was previously registered with the <tref>PaySwarm Authority</tref> 
+that was previously registered with the <tref>authority</tref> 
 according to the 
 <a href="#vendor-registration">Vendor Registration Algorithm</a>.
           </li>
           <li>
 The <tref>transaction request</tref> is sent to the 
-<tref>PaySwarm Authority</tref> of the <tref>agent</tref>
+<tref>authority</tref> of the <tref>agent</tref>
 via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
 of the request and retrieval of the response to prevent replay attacks.
           </li>
           <li>
-The <tref>PaySwarm Authority</tref> processes the 
+The <tref>authority</tref> processes the 
 <tref>transaction request</tref>. Additional <tref>transfer</tref>s MAY be
 added to the finalized <tref>transaction request</tref> by the 
-<tref>PaySwarm Authority</tref>, such as transaction fees, pursuant to 
-existing agreements between the <tref>PaySwarm Authority</tref> and the
+<tref>authority</tref>, such as transaction fees, pursuant to 
+existing agreements between the <tref>authority</tref> and the
 entity operating the <tref>agent</tref>. The following properties MUST be added 
 to the <tref>transaction request</tref>:
             <dl>
@@ -1378,7 +1378,7 @@ The date and time at which the transaction was recorded in the system.
 
         <p>
 The example below shows the full protocol-level exchange between the
-<tref>agent</tref> and the <tref>PaySwarm Authority</tref> when performing a
+<tref>agent</tref> and the <tref>authority</tref> when performing a
 Transaction:
         </p>
 
@@ -1427,7 +1427,7 @@ Transaction:
 
 ---------------------------------- Step #3 ----------------------------------
 
-*** Agent HTTPS POSTs the Transaction object to the PaySwarm Authority
+*** Agent HTTPS POSTs the Transaction object to the authority
 
 POST transactions HTTP/1.1
 Host: bluebank.com
@@ -1456,7 +1456,7 @@ Content-Type: application/ld+json
 
 ---------------------------------- Step #4 ----------------------------------
 
-*** PaySwarm Authority processes the transaction and returns the finalized
+*** authority processes the transaction and returns the finalized
 *** transaction to the Agent
 
 Cache-Control:no-cache, must-revalidate, max-age=0
@@ -1502,7 +1502,7 @@ The simplest purchase process includes four distinct steps; publishing an
 <tref>vendor</tref> publishes the <tref>asset</tref> description and the
 <tref>listing</tref>. Anyone may publish a <tref>license</tref> that is used in 
 a <tref>listing</tref>. The purchase is performed via a 
-<tref>PaySwarm Authority</tref>.
+<tref>authority</tref>.
       </p>
 
         <p>
@@ -1693,7 +1693,7 @@ The following example describes an <tref>asset</tref> for sale
 for $0.05 USD under a <tref>license</tref>
 that covers acceptable use of blog posts. The offer is valid from March 2nd 
 2011 to March 3rd 2011. The only restriction on additional payees is that the 
-<tref>PaySwarm Authority</tref> (the organization processing the payment) 
+<tref>authority</tref> (the organization processing the payment) 
 may only take a maximum of 10% of the final sale price to cover their fees.
         </p>
 
@@ -1774,7 +1774,7 @@ SHA-1 hash of the result.
             <dt><tdef>purchase callback</tdef></dt>
             <dd>
 An IRI that will be on the receiving end of an HTTP POST from the
-<tref>PaySwarm Authority</tref> with the result of a purchase request.
+<tref>authority</tref> with the result of a purchase request.
             </dd>
             <dt><tdef>reference identifier</tdef></dt>
             <dd>
@@ -1788,7 +1788,7 @@ double-purchasing due to network failures.
             <dt><tdef>receipt</tdef></dt>
             <dd>
 The resulting value of a purchase request, typically sent from the
-<tref>PaySwarm Authority</tref> to the <tref>publishing agent</tref>. The 
+<tref>authority</tref> to the <tref>publishing agent</tref>. The 
 object typically contains a <tref>short-form contract</tref> as well as 
 other information that may be pertinent to the transaction.
             </dd>
@@ -1826,7 +1826,7 @@ Universal Graph Normalization Algorithm (UGNA2011)</a>.
                   <dt><code>callback</code></dt>
                   <dd>
 A de-referenceable IRI that MUST be able to process an HTTP POST request from
-the <tref>PaySwarm Authority</tref> with the result of a purchase request.
+the <tref>authority</tref> with the result of a purchase request.
                   </dd>
                   <dt><code>reference</code></dt>
                   <dd>
@@ -1848,11 +1848,11 @@ Perform an HTTP 303 redirect via the <tref>user agent</tref> to the
             </ol>
           </li>
           <li>
-The <tref>PaySwarm Authority</tref> processes the purchase request ending in
+The <tref>authority</tref> processes the purchase request ending in
 either an error message or a short-form <tref>contract</tref>:
             <ol class="algorithm">
               <li>
-If the purchase was denied or failed for any reason, the PaySwarm Authority
+If the purchase was denied or failed for any reason, the authority
 performs an HTTP POST via the <tref>user agent</tref> back to the callback
 IRI supplied by the <tref>vendor</tref> during the initiation of the purchase
 request.
@@ -1877,7 +1877,7 @@ The value <code>ps:Receipt</code>.
                   <dt><code>ps:preference</code></dt>
                   <dd>
 An array of preferences that are requested by either the 
-<tref>PaySwarm Authority</tref> or the <tref>buyer</tref>. All valid options
+<tref>authority</tref> or the <tref>buyer</tref>. All valid options
 are listed below:
                     <div>
 <code>ps:preAuthorization</code> - The <tref>buyer</tref> has pre-authorized 
@@ -1885,13 +1885,13 @@ future purchases for the <tref>vendor</tref> and thus the
 <a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
 MAY be used for future purchases. If this preference setting is mentioned, the
 <tref>publishing agent</tref> SHOULD store the <tref>buyer</tref>'s information,
-including the <tref>PaySwarm Authority</tref> IRI, for use in future 
+including the <tref>authority</tref> IRI, for use in future 
 automatic transactions.
                     </div>
                   </dd>
                   <dt><code>ps:contract</code></dt>
 The contract used in the receipt is a summary of the digital contract that was
-finalized via the <tref>PaySwarm Authority</tref>. It includes the minimum
+finalized via the <tref>authority</tref>. It includes the minimum
 amount of information necessary for the <tref>publishing agent</tref> to 
 correctly identify the <tref>listing</tref> that was transacted:
                   <dd>
@@ -1944,12 +1944,12 @@ An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
                 </dl>
               </li>
               <li>
-The PaySwarm Authority initiates an HTTP POST via the 
+The authority initiates an HTTP POST via the 
 <tref>user agent</tref> back to the <code>callback</code> IRI supplied by the 
 <tref>publishing agent</tref> during the initiation of the purchase request. 
 The POST data is digitally signed according to the 
 <a href="#request-signature-algorithm">Request Signature Algorithm</a>, 
-using the <tref>public key</tref> of the <tref>PaySwarm Authority</tref>.
+using the <tref>public key</tref> of the <tref>authority</tref>.
               </li>
             </ol>
           </li>
@@ -1990,7 +1990,7 @@ A message consisting of a <tref>listing</tref> IRI,
 a <tref>listing hash</tref>, a <tref>buyer</tref> identity IRI, and
 an optional <tref>reference identifier</tref>. The message is typically sent
 by a <tref>publishing agent</tref> to a <tref>buyer</tref>'s 
-<tref>PaySwarm Authority</tref> for processing.
+<tref>authority</tref> for processing.
             </dd>
           </dl>
         </section>
@@ -2045,12 +2045,12 @@ The <tref>purchase request</tref> is digitally signed by the
 <a href="#request-signature-algorithm">Request Signature Algorithm</a> using
 the <tref>private key</tref> associated with the <tref>listing</tref> in the
 <tref>purchase request</tref>. The <tref>purchase request</tref> is
-sent to the <tref>PaySwarm Authority</tref> of the <tref>buyer</tref>
+sent to the <tref>authority</tref> of the <tref>buyer</tref>
 via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
 of the request and retrieval of the response to prevent replay attacks.
           </li>
           <li>
-The <tref>PaySwarm Authority</tref> checks to ensure that the
+The <tref>authority</tref> checks to ensure that the
 <tref>publishing agent</tref> is authorized to perform an automatic purchase 
 on behalf of the provided <tref>buyer</tref> identity IRI and responds to the
 <tref>publishing agent</tref>:
@@ -2079,7 +2079,7 @@ The value <code>ps:Receipt</code>.
                   </dd>
                 <dt><code>ps:contract</code></dt>
 The contract used in the receipt is a summary of the digital contract that was
-finalized via the <tref>PaySwarm Authority</tref>. It includes the minimum
+finalized via the <tref>authority</tref>. It includes the minimum
 amount of information necessary for the <tref>publishing agent</tref> to 
 correctly identify the <tref>listing</tref> that was transacted:
                 <dd>
@@ -2184,7 +2184,7 @@ Jane, who may now peruse the article.
          "com:rate": "10.00",
          "com:rateContext": "com:TaxExempt",
          "com:rateType": "com:InclusivePercentage",
-         "rdfs:comment": "PaySwarm Authority Transaction Processing"
+         "rdfs:comment": "authority Transaction Processing"
       }
    ],
    "com:transfer": 
@@ -2205,7 +2205,7 @@ Jane, who may now peruse the article.
          "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
          "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
          "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
-         "rdfs:comment": "PaySwarm Authority Transaction Processing"
+         "rdfs:comment": "authority Transaction Processing"
       }
    ],
    "dc:created": "2011-03-02T03:00:53Z",
@@ -2298,6 +2298,113 @@ Jane, who may now peruse the article.
 
       </section>
     </section>
+    
+    <section>
+      <h2>The Decentralized Settlement Process</h2>
+      
+      <p>
+The decentralized settlement process is used to ensure the immediate and 
+smooth transition of funds from an account on one 
+<tref>authority</tref> to an account on another 
+<tref>authority</tref>.
+      </p>
+
+      <section>
+        <h2>Decentralized Settlement Terms</h2>
+        <p>
+The following terminology is used to describe concepts used to perform the
+settling of accounts between multiple <tref>PaySwarm Authorities</tref>.
+        </p>
+        
+        <dl>
+          <dt><tdef>disbursing authority</tdef></dt>
+          <dd>
+An <tref>authority</tref> that is disbursing a set of funds to one or
+more receiving <tref title="authority">PaySwarm authorities</tref>.
+          </dd>
+          <dt><tdef>receiving authority</tdef></dt>
+          <dd>
+An <tref>authority</tref> that is receiving a set of funds from a
+<tref>disbursing authority</tref>.
+          </dd>
+          <dt><tdef>escrow transfer log</tdef></dt>
+          <dd>
+A log of <tref>transfer</tref>s that are either in the process of being
+disbursed or received for a particular particular 
+<tref>financial account</tref>. The log is used to ensure that double-entries
+are not accidentally recorded due to network errors or other fatal errors
+associated with hardware or software failures.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>The Decentralized Settlement Algorithm</h2>
+
+        <p>
+The following algorithm ensures that funds transferred as a part of a 
+<tref>transaction</tref> can be transmitted to one or more 
+<tref>authority</tref> payment processors in an interoperable 
+fashion such that there are no dangers that the value exchange is lost or
+mis-applied to the wrong accounts.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+The <tref>disbursing authority</tref> contacts each 
+<tref>receiving authority</tref> listed in the list of <tref>transfer</tref>s
+contained in the <tref>transaction</tref> being processed and retrieves the
+<code>ps:TransactionBackhaul</code> service from each 
+<tref>configuration service</tref> endpoint. If any
+<tref>receiving authority</tref> is not available now or at any point during
+this process, or if the <tref>receiving authority</tref> is blacklisted for
+any reason, the <tref>transaction</tref> MUST fail.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> processes <tref>transfer</tref>s
+intended for <tref>financial account</tref>s that are local to the system, 
+noting outgoing and incoming <tref>transfer</tref> amounts in each 
+<tref>financial account</tref>'s <tref>escrow transfer log</tref>.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> processes <tref>transfer</tref>s
+intended for <tref>financial account</tref>s that are on 
+<tref title="receiving authority">receiving authorities</tref>
+noting outgoing <tref>transfer</tref> amounts in each source
+<tref>financial account</tref>'s <tref>escrow transfer log</tref>.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> transmits the <tref>transaction</tref>
+to each <tref>receiving authority</tref>. The <tref>receiving authority</tref>
+processes <tref>transfer</tref>s intended for 
+<tref>financial account</tref>s that are on the
+<tref>receiving authority</tref> noting incoming 
+<tref>transfer</tref> amounts in each target
+<tref>financial account</tref>'s <tref>escrow transfer log</tref>. If all
+amounts were not successfully marked in escrow, the <tref>transaction</tref>
+MUST fail.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> moves all funds from escrow into all
+local <tref>financial account</tref>s. The <tref>disbursing authority</tref>
+contacts all <tref title="receiving authority">receiving authorities</tref> and
+instructs them to move all funds from escrow into all destination
+<tref>financial account</tref>s. This two-stage commit process ensures that
+in the event of a failure while contacting multiple 
+<tref title="receiving authority">receiving authorities</tref>, that 
+transactions can be backed out.
+            <div class="note">
+While this algorithm outlines how transfer records are transmitted and
+recorded in a decentralized fashion, it does not outline how each 
+<tref>authority</tref> ensures that currencies are exchanged between
+financial institutions. One such possibility is an ACH banking transfer, but
+such a transfer is not necessary if the banks adopt this protocol for clearing
+transactions across financial systems.
+            </div>
+          </li>
+        </ol>
+      </section>
+    </section>
 
     <section>
       <h2>The PaySwarm API</h2>
@@ -2325,7 +2432,7 @@ Jane, who may now peruse the article.
       <h2>Data Portability</h2>
       <p>
 One of the freedoms that is ensured by this specification is the freedom to
-own your data and move it to a PaySwarm Authority of your choosing. That is,
+own your data and move it to a authority of your choosing. That is,
 your transaction history is your property and therefore you must be able to
 move it to a location of your choosing at will. In order to ensure that this
 freedom is protected, data portability MUST be implemented by all conforming 

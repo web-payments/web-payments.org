@@ -284,20 +284,23 @@ to create a decentralized but stable universal payment architecture.
       <section>
         <h3>Participants</h3>
         <section>
-          <h4>agent</h4>
+          <h4>Agent</h4>
           <p>
 An <tdef>agent</tdef> is any software that is capable of requesting an action
 to be performed in a way that is compliant with the PaySwarm specification.
 The software is usually controlled by a person or an organization 
 that would like to perform some action on a PaySwarm-conformant network.
           </p>
-          <h4>Buyers</h4>
+        </section>
+        <section>
+          <h4>Participants</h4>
           <p>
-A <tdef>buyer</tdef> is an entity that is capable 
-of acquiring the rights to a particular <tref>asset</tref> via a 
-<tref>contract</tref>. The entity is typically a person or an organization 
-that would like to view, copy or otherwise utilize the asset that is being 
-acquired.
+A <tdef>participant</tdef> is an entity that is capable 
+of performing a transaction or acquiring the rights to a particular 
+<tref>asset</tref> via a <tref>contract</tref>. 
+The entity is typically a person or an organization that would like to 
+transact, view, copy or otherwise utilize an asset that is being 
+sold.
           </p>
         </section>
         <section>
@@ -326,6 +329,11 @@ part of this specification.
       </section>
       <section>
         <h3>Commerce Model</h3>
+        <section>
+          <h4>Transactions</h4>
+A <tdef>transaction</tdef> is the exchange of value from one or more 
+source accounts into one or more destination accounts.
+        </section>
         <section>
           <h4>Assets</h4>
 An <tdef>asset</tdef> describes a particular item that is provided as a part 
@@ -869,7 +877,7 @@ process.
         <dl>
         <dt><tdef>user agent</tdef></dt>
         <dd>The piece of software operating on behalf of the 
-<tref>buyer</tref>. This is typically a Web Browser, but could be
+<tref>participant</tref>. This is typically a Web Browser, but could be
 some other piece of Web-aware automated software acting on behalf of a 
 person.</dd>
         <dt><tdef>publishing agent</tdef></dt>
@@ -904,13 +912,13 @@ and retrieving digital contracts.</dd>
       <section>
         <h2>Buyer Registration</h2>
         <p>
-In order for a <tref>buyer</tref> to transact, they must have an
+In order for a <tref>participant</tref> to transact, they must have an
 account on a <tref>authority</tref>. Typically, this account must 
 also contain a positive amount of funds that may be used to acquire goods or 
 services. How this account is created and funds are deposited are outside of
 the scope of this specification. However, the end result of this sign up
 process MUST result in the following items being created for the
-<tref>buyer</tref>:
+<tref>participant</tref>:
         </p>
         <ol>
           <li>An <tdef>identity</tdef> IRI that will be used to identify the 
@@ -1212,8 +1220,7 @@ for the <code>registration-callback</code> IRI to protect the
 
       <p>
 The simplest exchange of value that can happen in the PaySwarm system is a
-transaction. A <tdef>transaction</tdef> is the exchange of value from 
-one or more source accounts into one or more destination accounts.
+<tref>transaction</tref>. 
       </p>
       
       <section>
@@ -1746,7 +1753,7 @@ may only take a maximum of 10% of the final sale price to cover their fees.
 
         <p>
 A normal purchase, as opposed to an automatic purchase, is typically performed
-via a Web browser-based <tref>user agent</tref> when the <tref>buyer</tref>
+via a Web browser-based <tref>user agent</tref> when the <tref>participant</tref>
 has never performed a purchase with the <tref>vendor</tref>'s website. The 
 process consists of re-directing the Web browser to the buyer's PaySwarm
 Authority for the purposes of authorizing payment to the vendor for a
@@ -1877,14 +1884,14 @@ The value <code>ps:Receipt</code>.
                   <dt><code>ps:preference</code></dt>
                   <dd>
 An array of preferences that are requested by either the 
-<tref>authority</tref> or the <tref>buyer</tref>. All valid options
+<tref>authority</tref> or the <tref>participant</tref>. All valid options
 are listed below:
                     <div>
-<code>ps:preAuthorization</code> - The <tref>buyer</tref> has pre-authorized 
+<code>ps:preAuthorization</code> - The <tref>participant</tref> has pre-authorized 
 future purchases for the <tref>vendor</tref> and thus the 
 <a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
 MAY be used for future purchases. If this preference setting is mentioned, the
-<tref>publishing agent</tref> SHOULD store the <tref>buyer</tref>'s information,
+<tref>publishing agent</tref> SHOULD store the <tref>participant</tref>'s information,
 including the <tref>authority</tref> IRI, for use in future 
 automatic transactions.
                     </div>
@@ -1958,7 +1965,7 @@ The <tref>publishing agent</tref> acts upon the callback by granting access
 to the <tref>asset</tref> if the purchase was successful, or providing a page 
 detailing why the purchase failed. The <tref>publishing agent</tref> SHOULD note 
 any preferences in the <tref>receipt</tref> and utilize those preferences when
-processing future purchases from the <tref>buyer</tref>.
+processing future purchases from the <tref>participant</tref>.
           </li>
         </ol>
         </section>
@@ -1969,12 +1976,12 @@ processing future purchases from the <tref>buyer</tref>.
 
         <p>
 An automatic purchase is one where a <tref>vendor</tref> has been
-previously authorized by a <tref>buyer</tref> to perform purchases with
+previously authorized by a <tref>participant</tref> to perform purchases with
 the buyer's pre-authorized consent. This is typically used when the 
-<tref>vendor</tref> is trusted, or when the <tref>buyer</tref> has set a 
+<tref>vendor</tref> is trusted, or when the <tref>participant</tref> has set a 
 spending limit with the <tref>vendor</tref> and does not want to be bothered
 unless that spending limit is reached. Automatic purchases are designed to 
-get out of the way of the <tref>buyer</tref> and make the transactional flow
+get out of the way of the <tref>participant</tref> and make the transactional flow
 as friction-free as possible.
         </p>
 
@@ -1987,9 +1994,9 @@ process.
             <dt><tdef>purchase request</tdef></dt>
             <dd>
 A message consisting of a <tref>listing</tref> IRI, 
-a <tref>listing hash</tref>, a <tref>buyer</tref> identity IRI, and
+a <tref>listing hash</tref>, a <tref>participant</tref> identity IRI, and
 an optional <tref>reference identifier</tref>. The message is typically sent
-by a <tref>publishing agent</tref> to a <tref>buyer</tref>'s 
+by a <tref>publishing agent</tref> to a <tref>participant</tref>'s 
 <tref>authority</tref> for processing.
             </dd>
           </dl>
@@ -2045,14 +2052,14 @@ The <tref>purchase request</tref> is digitally signed by the
 <a href="#request-signature-algorithm">Request Signature Algorithm</a> using
 the <tref>private key</tref> associated with the <tref>listing</tref> in the
 <tref>purchase request</tref>. The <tref>purchase request</tref> is
-sent to the <tref>authority</tref> of the <tref>buyer</tref>
+sent to the <tref>authority</tref> of the <tref>participant</tref>
 via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
 of the request and retrieval of the response to prevent replay attacks.
           </li>
           <li>
 The <tref>authority</tref> checks to ensure that the
 <tref>publishing agent</tref> is authorized to perform an automatic purchase 
-on behalf of the provided <tref>buyer</tref> identity IRI and responds to the
+on behalf of the provided <tref>participant</tref> identity IRI and responds to the
 <tref>publishing agent</tref>:
           <ol class="algorithm">
             <li>
@@ -2432,15 +2439,15 @@ transactions across financial systems.
       <h2>Data Portability</h2>
       <p>
 One of the freedoms that is ensured by this specification is the freedom to
-own your data and move it to a authority of your choosing. That is,
-your transaction history is your property and therefore you must be able to
-move it to a location of your choosing at will. In order to ensure that this
-freedom is protected, data portability MUST be implemented by all conforming 
-implementations of this specification.
+own your data and move it to an <tref>authority</tref> of your choosing. 
+That is, your transaction history is your property and therefore you must be 
+able to move it to a location of your choosing at will. In order to ensure 
+that this freedom is protected, data portability MUST be implemented by 
+all conforming implementations of this specification.
       </p>
 
       <section>
-        <h3>Transfering Purchase History</h3>
+        <h3>Authority Migration</h3>
 
         <p>
 In order to ensure data portability from one <tref>authority</tref> to 
@@ -2453,7 +2460,7 @@ another <tref>authority</tref>, the following objects MUST be transferred:
           <li>All <tref>financial account</tref>s</li>
           <li>All <tref>transaction</tref>s</li>
         </ul>
-        
+
         <p>
 Once the transfer is complete, the new <tref>authority</tref> MUST provide the
 old <tref>authority</tref> with new IRIs for each <tref>public key</tref>, 
@@ -2464,9 +2471,147 @@ old <tref>authority</tref> to the new <tref>authority</tref> MUST be honored
 and any request to purchase the item again MUST NOT result in a debit to any
 <tref>financial account</tref>.
         </p>
-
       </section>
 
+      <section>
+        <h2>Authority Migration Terms</h2>
+        <p>
+The following terminology is used to describe concepts used to transfer all
+accounts from an old <tref>authority</tref> to a new <tref>authority</tref>.
+        </p>
+        
+        <dl>
+          <dt><tdef>releasing authority</tdef></dt>
+          <dd>
+The <tref>authority</tref> that is the source for all of the data in the
+data portability transfer.
+          </dd>
+          <dt><tdef>acquiring authority</tdef></dt>
+          <dd>
+The <tref>authority</tref> that is the destination for all of the data in the
+data portability transfer.
+          </dd>
+          <dt><tdef>porting service</tdef></dt>
+          <dd>
+A Web service that is used to port data from a <tref>releasing authority</tref>
+to an <tref>acquiring authority</tref>. The service is used to initiate and
+finalize the transfer of all <tref>public key</tref>s, 
+<tref title="identity">identities</tref>, <tref>financial account</tref>s, and
+<tref>transaction</tref>s.
+          </dd>
+          <dt><tdef>porting token</tdef></dt>
+          <dd>
+A random string that must be at least 32 bytes long and no less than 
+128 bytes long. It serves as a temporary value that must be copied 
+from the <tref>releasing authority</tref> to the 
+<tref>acquiring authority</tref> for two reasons; 1) as a security measure 
+against automatic transferral of financial data and 2) as a temporary value 
+that is used to denote all identities being transferred as a part of the
+migration process.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h3>The Authority Migration Algorithm</h2>
+
+        <p>
+The following algorithm ensures that all <tref>public key</tref>s, 
+<tref title="identity">identities</tref>, <tref>financial account</tref>s, and
+<tref>transaction</tref>s are moved from a <tref>releasing authority</tref>
+to an <tref>acquiring authority</tref> such that a person or organization may
+start using the <tref>acquiring authority</tref> as their primary 
+<tref>authority</tref> without any major interruption in service. The algorithm
+is initiated when an <tref>agent</tref> marks their account on a
+<tref>authority</tref> for migration. A random <tref>porting token</tref> MUST 
+be created and displayed to the person or organization performing the port.
+A flag on all associated <tref title="identity">identities</tref>, 
+MUST be set to <strong>MIGRATION_STARTED</strong>.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+The <tref>acquiring authority</tref> utilizes the 
+<tref>configuration service</tref> of the <tref>releasing authority</tref> to
+discover the <tref>porting service</tref> IRI.
+          </li>
+          <li>
+The <tref>acquiring authority</tref> performs an HTTPS GET request
+to the <tref>acquiring authority</tref>'s <tref>porting service</tref>. The
+URL MUST include the <tref>porting token</tref> as a query parameter with
+the name <code>token</code>.
+          </li>
+          <li>
+The <tref>releasing authority</tref> MUST set a flag on all associated
+<tref title="identity">identities</tref> to
+<strong>MIGRATION_IN_PROGRESS</strong>. All <tref>transaction</tref>s 
+involving the previsouly flagged <tref title="identity">identities</tref>
+MUST be denied while the <strong>MIGRATION_IN_PROGRESS</strong> flag is active.
+          </li>
+          <li>
+The <tref>releasing authority</tref> builds a JSON-LD object containing
+a list of <code>@id</code> values for all 
+<tref title="identity">identities</tref>, <tref>financial account</tref>s,
+<tref>public key</tref>s, and <tref>transaction</tref>s, in that order. For
+each object, it MUST contain at least the following properties:
+            <dl style="margin-left: 1em;">
+              <dt><code>ps:Identity</code><dt>
+              <dd>
+<code>@id</code>, <code>@type</code>, <code>foaf:name</code>, 
+<code>rdfs:label</code>, <code>vcard:adr</code>
+              </dd>
+              <dt><code>com:Account</code><dt>
+              <dd>
+<code>@id</code>, <code>@type</code>, <code>rdfs:label</code>, 
+<code>rdfs:comment</code>,
+<code>com:amount</code>, <code>com:currency</code>, <code>ps:owner</code>
+              </dd>
+              <dt><code>sec:Key</code><dt>
+              <dd>
+<code>@id</code>, <code>@type</code>, <code>rdfs:label</code>, 
+<code>rdfs:comment</code>, <code>sec:publicKeyPem</code>, 
+<code>ps:owner</code>
+              </dd>
+              <dt><code>ps:Transaction</code><dt>
+              <dd>
+The entire object on record.
+              </dd>
+            </dl>
+            <div class="issue">
+This section needs to show examples of exactly what the array and details 
+should look like.
+            </div>
+          </li>
+          <li>
+The <tref>acquiring authority</tref> processes the array generated in the
+previous step and creates new IRIs for all 
+<tref title="identity">identities</tref>, <tref>financial account</tref>s, and
+<tref>public key</tref>s. Each <tref>identity</tref>, 
+<tref>financial account</tref>, and <tref>public key</tref> object is
+collected into an array and HTTPS POSTed back to the 
+<tref>releasing authority</tref> with a new property 
+(<code>rdfs:seeAlso</code>) set to the newly generate IRI for the object.
+The URL MUST include the <tref>porting token</tref> as a query parameter with
+the name <code>token</code>.
+          </li>
+          <li>
+A <tref>transaction</tref> MUST be performed from the 
+<tref>releasing authority</tref> to the <tref>acquiring authority</tref>
+transferring all remaining funds from all the old 
+<tref>financial account</tref>s to all of the new 
+<tref>financial accounts</tref>.
+          </li>
+          <li>
+The <tref>releasing authority</tref> MUST use the <code>rdfs:seeAlso</code>
+value to setup HTTP 301 response codes for all migrated 
+<tref title="identity">identities</tref>, <tref>financial account</tref>s, and
+<tref>public key</tref>s. At this point, any transactions that would result
+in the old IRIs being used MUST fail. The <tref>releasing authority</tref> 
+MUST set a flag on all associated <tref title="identity">identities</tref> to
+<strong>MIGRATION_COMPLETE</strong>.
+          </li>
+        </ol>
+      </section>
     </section>
 
     <section>

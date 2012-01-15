@@ -2442,6 +2442,28 @@ implementations of this specification.
       <section>
         <h3>Transfering Purchase History</h3>
 
+        <p>
+In order to ensure data portability from one <tref>authority</tref> to 
+another <tref>authority</tref>, the following objects MUST be transferred:
+        </p>
+
+        <ul>
+          <li>All <tref title="identity">identities</tref></li>
+          <li>All <tref>financial account</tref>s</li>
+          <li>All <tref>transaction</tref>s</li>
+        </ul>
+        
+        <p>
+Once the transfer is complete, the new <tref>authority</tref> MUST provide the
+old <tref>authority</tref> with new IRIs for each identity and financial
+account. The old <tref>authority</tref> MUST setup HTTP 301 redirects from the
+old identity IRI to the new identity IRI. The same must be done for 
+<tref>financial account</tref> IRIs. Any transaction migrated from the
+old <tref>authority</tref> to the new <tref>authority</tref> MUST be honored
+and any request to purchase the item again MUST NOT result in a debit to any
+<tref>financial account</tref>.
+        </p>
+
       </section>
 
     </section>

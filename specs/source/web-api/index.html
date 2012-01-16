@@ -2414,28 +2414,6 @@ transactions across financial systems.
     </section>
 
     <section>
-      <h2>The PaySwarm API</h2>
-    </section>
-
-    <section>
-      <h2>Implementation Details</h2>
-
-      <section>
-        <h3>Digital Signatures</h3>
-
-        <section>
-          <h4>Signing</h4>
-
-        </section>
-
-        <section>
-          <h4>Verifying</h4>
-
-        </section>
-      </section>
-    </section>
-
-    <section>
       <h2>Data Portability</h2>
       <p>
 One of the freedoms that is ensured by this specification is the freedom to
@@ -2611,6 +2589,194 @@ MUST set a flag on all associated <tref title="identity">identities</tref> to
 <strong>MIGRATION_COMPLETE</strong>.
           </li>
         </ol>
+      </section>
+    </section>
+
+    <section>
+      <h2>The Transaction Intent Process</h2>
+
+      <p>
+A <tdef>transaction intent</tdef> is the agreement to execute a 
+<tref>transaction</tref> once a pre-defined set of external parameters have been
+met. The most direct example of this is when a group of funders promises to 
+fund a project if the project can raise a minimum amount of capital by a 
+certain date.
+      </p>
+
+      <section>
+        <h2>Transaction Intent Terms</h2>
+        <p>
+The following terminology is used to describe concepts used when processing
+<tref>transaction intent</tref>s.
+        </p>
+        
+        <dl>
+          <dt><tdef>promisor</tdef></dt>
+          <dd>
+A <tref>participant</tref> that has created a parameterized 
+<tref>listing</tref> that will result in a 
+<tref>transaction intent</tref> if transacted.
+          </dd>
+          <dt><tdef>promisee</tdef></dt>
+          <dd>
+A <tref>participant</tref> that is making a promise to enter into a 
+<tref>contract</tref> if the terms of the parameterized <tref>listing</tref>
+are met before a certain date and time.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>The Transaction Intent Algorithm</h2>
+
+        <p>
+The following algorithm describes the <tref>transaction intent</tref> process,
+which consists of three distinct phases. The first phase is the publication of
+the parameterized <tref>listing</tref> by the <tref>promisor</tref>. The 
+second phase is the submission of transaction intents from 
+<tref>promisee</tref>s. The third phase is the finalization of transaction 
+intents into <tref>contract</tref>s.
+        </p>
+
+        <p class="issue">
+This section still needs a ton of work: specify the JSON-LD messages that are 
+transmitted in detail, examples, and cover error conditions and
+exceptions.
+        </p>
+
+        <ol class="algorithm">
+          <li>
+The <tref>promisor</tref> creates an <tref>asset</tref> describing the asset
+provided if the parameters in the parameterized <tref>listing</tref> are met.
+The <tref>promisor</tref> also creates a parameterized <tref>listing</tref>
+containing at least the following two fields:
+            <dl>
+              <dt><code>ps:constraint</code></dt>
+              <dd>
+A set of parameters that must be met in order to complete the 
+<tref>transaction</tref>.
+                <dl>
+                  <dt><code>com:minimumAmount</code></dt>
+                  <dd>
+The minimum amount necessary, in aggregate, to finalize all transaction intents
+before the deadline.
+                  </dd>
+                  <dt><code>com:currency</code></dt>
+                  <dd>
+The currency associated with the minimum amount field.
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </li>
+          <li>
+When an <tref>authority</tref> processes the parameterized <tref>listing</tref>,
+per <a href="#the-purchase-algorithm">The Purchase Algorithm</a>, a 
+<code>ps:Contract</code> and <code>ps:Receipt</code> are generated as 
+specified in the algorithm, but funds MUST NOT be disbursed at that time. 
+Instead of the <code>ps:Receipt</code>'s <code>ps:contract</code>'s property 
+being of <code>@type</code> <code>ps:Contract</code>, it MUST instead be of type 
+<code>ps:TransactionIntent</code>. All other fields must remain the same both
+in the short-form contract and the long-form contract. 
+The <tref>promisor</tref>'s <tref>publishing agent</tref> is notified of the
+intent in the same way as it would be notified of a purchase except that the
+resulting receipt will be the modified object as described in this step.
+          </li>
+          <li>
+The <tref>promisee</tref>'s <tref>authority</tref> then notifies the 
+<tref>promisor</tref>'s <tref>authority</tref> of the transaction intent by
+retrieving the <tref>transaction service</tref> IRI from the 
+<tref>configuration service</tref>. The <code>ps:TransactionIntent</code> is
+sent to the <tref>promisor</tref>'s <tref>authority</tref> via an HTTPS POST.
+          </li>
+          <li>
+The <tref>promisor</tref>'s <tref>authority</tref> keeps track of all
+<code>ps:TransactionIntent</code>'s for the parameterized <tref>listing</tref>
+until the end of the <code>ps:validUntil</code> date in the 
+<tref>listing</tref> or until the <code>com:minimumAmount</code> in the
+<code>ps:constraint</code> property in the <tref>listing</tref> has been met 
+in aggregate.
+          </li>
+          <li>
+If the <tref>authority</tref> detects that the <code>com:minimumAmount</code> 
+in the <code>ps:constraint</code> property in the <tref>listing</tref> 
+has been met in aggregate, it submits all <code>ps:TransactionIntent</code>s 
+for the parameterized <tref>listing</tref> to each <tref>promisee</tref>'s
+<tref>authority</tref>. That is, for every <code>com:source</code> 
+<tref>financial account</tref> intended to transfer money to the 
+<code>com:destination</code> in each <code>ps:TransactionIntent</code>s, the
+source <tref>financial account</tref>s <tref>authority</tref> is contacted.
+          </li>
+          <li>
+The <tref>promisor</tref>'s <tref>authority</tref> MUST determine if all
+<tref>promisee</tref>'s can meet their obligation. It does 
+so by contacting each <tref>promisee</tref>'s <tref>authority</tref> and
+performing an HTTP POST of all <code>ps:TransactionIntent</code>s intended
+for the <tref>authority</tref> to the <tref>transaction service</tref> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>query</code>. Each <tref>promisee</tref>'s 
+<tref>authority</tref> responds with a total amount of funds that are available
+to be committed.
+          </li>
+          <li>
+If the previous step is successful and there are enough funds to meet the
+<tref>com:minimumAmount</tref> constraint, then the 
+<tref>promisor</tref>'s <tref>authority</tref> MUST then place all amounts
+listed in all <code>ps:TransactionIntent</code> on hold. It does 
+this by contacting each <tref>promisee</tref>'s <tref>authority</tref> by
+performing an HTTP POST of all <code>ps:TransactionIntent</code>'s intended
+for the <tref>authority</tref> to the <tref>transaction service</tref> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>hold</code>. Each <tref>promisee</tref>'s 
+<tref>authority</tref> responds with a total amount of funds placed on hold. 
+          </li>
+          <li>
+If the previous step is successful and enough funds were placed on hold
+to meet the <tref>com:minimumAmount</tref> constraint, then the 
+<tref>promisor</tref>'s <tref>authority</tref> MUST then retrieve all amounts
+listed in all <code>ps:TransactionIntent</code>s. It does 
+this by contacting each <tref>promisee</tref>'s <tref>authority</tref> by
+performing an HTTP POST of all <code>ps:TransactionIntent</code>'s intended
+for the <tref>authority</tref> to the <tref>transaction service</tref> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>finalize</code>. Each <tref>promisee</tref>'s 
+<tref>authority</tref> responds with a finalized contract for each
+<code>ps:TransactionIntent</code> and disburses the funds according to the
+<a href="#the-decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
+          </li>
+          <li>
+The <tref>promisor</tref>'s <tref>authority</tref> marks the parameterized
+<tref>listing</tref> as being fulfilled and any further 
+<code>ps:TransactionIntent</code>s submitted before the 
+<code>ps:validUntil</code> date are automatically processed according to the
+previous step.
+          </li>
+        </ol>
+        
+      </section>
+
+    </section>
+
+
+    <section>
+      <h2>The PaySwarm API</h2>
+    </section>
+
+    <section>
+      <h2>Implementation Details</h2>
+
+      <section>
+        <h3>Digital Signatures</h3>
+
+        <section>
+          <h4>Signing</h4>
+
+        </section>
+
+        <section>
+          <h4>Verifying</h4>
+
+        </section>
       </section>
     </section>
 

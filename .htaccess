@@ -1,4 +1,4 @@
-DirectoryIndex index-sopa.xhtml index.xhtml index.php
+DirectoryIndex index-sopa.xhtml index.xhtml index.html index.php
 
 RewriteEngine on
 RewriteCond %{HTTP_USER_AGENT} .*MSIE.*

@@ -177,7 +177,7 @@ public and private key as well as the owner of the key.
         </p>
 <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://payswarm.example.com/i/bob/keys/1",
+   "@id": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sec:Key",
    "ps:owner": "https://payswarm.example.com/i/bob",
    "sec:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n",
@@ -516,7 +516,7 @@ encoded in JSON-LD:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "http://example.com/logo.jpg",
+    "@id": "http://example.com/logo.jpg",
     "@type": "foaf:Image",
     "dc:title": "Example Logo",
     "sec:digest":
@@ -726,7 +726,7 @@ abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://payswarm.example.com/i/bob/keys/1",
+   "@id": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sec:Key",
    "ps:owner": "https://payswarm.example.com/i/bob",
    "sec:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
@@ -756,7 +756,7 @@ to the identity <code>https://payswarm.example.com/i/bob</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://payswarm.example.com/i/bob/keys/1",
+   "@id": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sec:Key",
    "ps:owner": "https://payswarm.example.com/i/bob",
    "sec:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
@@ -788,7 +788,7 @@ abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://payswarm.example.com/i/bob/keys/1",
+   "@id": "https://payswarm.example.com/i/bob/keys/1",
    "ps:owner": "https://payswarm.example.com/i/bob",
    "ps:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
 }
@@ -817,7 +817,7 @@ a JSON-LD signature:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "http://example.com/people#jane",
+    "@id": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
@@ -855,13 +855,13 @@ properties into one?
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "http://example.com/people#jane",
+    "@id": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
     "foaf:knows":
     {
-        "@subject": "http://example.com/people#john",
+        "@id": "http://example.com/people#john",
         "@type": "foaf:Person",
         "foaf:name": "John Smith",
         "foaf:homepage": "http://example.org/john",
@@ -899,7 +899,7 @@ the public key that can be used to verify the digital signature:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "http://example.com/people#jane",
+    "@id": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",
@@ -933,7 +933,7 @@ encoded in JSON-LD:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "http://example.com/people#jane",
+    "@id": "http://example.com/people#jane",
     "@type": "foaf:Person",
     "foaf:name": "Jane Doe",
     "foaf:homepage": "http://example.org/jane",

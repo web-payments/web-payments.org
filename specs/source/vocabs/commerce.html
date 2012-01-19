@@ -156,7 +156,7 @@ performed as a means for storing monetary amounts in the destination account.
             <dt>Parent Class</dt>
             <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
             <dt>Properties</dt>
-            <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
+            <dd>com:date, com:source, com:payee, com:transfer, sec:signature</dd>
           </dl>
           <p>
 The following example describes a deposit made using a debit card:
@@ -190,11 +190,11 @@ The following example describes a deposit made using a debit card:
    },
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -885,11 +885,11 @@ approval code of <code>8FGk9347Bo2N83</code>.
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:gatewayApprovalCode": "8FGk9347Bo2N83",
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -945,11 +945,11 @@ the reason in the gateway error code:
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:gatewayError": "CREDIT_CARD_DECLINED",
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1177,11 +1177,11 @@ The example below expresses that the payment gateway is CyberSource:
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:paymentGateway": "CyberSource",
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1401,11 +1401,11 @@ The example below shows a source being expressed as a debit card.
    },
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1469,11 +1469,11 @@ from the owner's bank into their PaySwarm account.
       "com:currency": "USD",
       "rdfs:comment": "Monthly entertainment budget deposit into PaySwarm account."
    },
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>

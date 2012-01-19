@@ -132,7 +132,7 @@ that is verifiable by the receiving party.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://example.org/articles/1#asset",
+   "@id": "https://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
@@ -179,7 +179,7 @@ Jane, who may now peruse the article.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
@@ -221,7 +221,7 @@ Jane, who may now peruse the article.
    "dc:created": "2011-03-02T03:00:53Z",
    "ps:asset": 
    {
-      "@subject": "http://example.com/articles/1#asset",
+      "@id": "http://example.com/articles/1#asset",
       "@type": ["ps:Asset", "ps:WebPage"],
       "dc:creator": 
       {
@@ -246,19 +246,19 @@ Jane, who may now peruse the article.
    },
    "ps:license": 
    {
-      "@subject": "http://payswarm.example.com/licenses/blogging",
+      "@id": "http://payswarm.example.com/licenses/blogging",
       "@type": "ps:License",
       "dc:format": "text/html",
       "ps:licenseTemplate": "Personal Use <a href="#License">License</a> ..."
    },
    "ps:listing": 
    {
-      "@subject": "http://example.com/articles/1#listing",
+      "@id": "http://example.com/articles/1#listing",
       "@type": ["gr:Offering", "ps:Listing"],
       "com:payee": 
       [
          {
-            "@subject": "http://example.com/articles/1#listing-payee",
+            "@id": "http://example.com/articles/1#listing-payee",
             "@type": "com:Payee",
             "com:currency": "USD",
             "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
@@ -325,7 +325,7 @@ video with the title "Learning How Cells Divide" by John Doe.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/videos#cell-division",
+   "@id": "http://example.com/videos#cell-division",
    "@type": ["ps:Asset", "ps:Data"],
    "dc:creator": 
    {
@@ -366,7 +366,7 @@ The following example describes an overly-simplified personal use license.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@id": "http://payswarm.example.com/licenses/personal-use",
    "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
@@ -407,12 +407,12 @@ maximum of 10% of the final sale price to cover their fees.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/articles/1#listing",
+   "@id": "http://example.com/articles/1#listing",
    "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
    [
       {
-         "@subject": "http://example.com/articles/1#listing-payee",
+         "@id": "http://example.com/articles/1#listing-payee",
          "@type": "com:Payee",
          "com:currency": "USD",
          "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
@@ -472,7 +472,7 @@ was created by "Digital Bazaar, Inc.". The asset is valid from November 28th
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://example.org/articles/1#asset",
+   "@id": "https://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
@@ -550,7 +550,7 @@ of an <a href="#Asset">Asset</a> that was a part of the purchase.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
@@ -558,7 +558,7 @@ of an <a href="#Asset">Asset</a> that was a part of the purchase.
    ...
    "ps:asset": 
    {
-      "@subject": "http://example.com/articles/1#asset",
+      "@id": "http://example.com/articles/1#asset",
       "@type": ["ps:Asset", "ps:WebPage"],
       "dc:creator": 
       {
@@ -606,7 +606,7 @@ a value of <code>https://payswarm.example.com/i/jane</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
@@ -665,11 +665,11 @@ ps:Asset as well as the ps:assetHash.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "https://example.org/articles/1#listing",
+    "@id": "https://example.org/articles/1#listing",
     "@type": "ps:Listing",
     "ps:asset":
     {
-        "@subject": "https://example.org/articles/1#asset",
+        "@id": "https://example.org/articles/1#asset",
         "@type": ["ps:Asset", "ps:WebPage"],
         "dc:title": "PaySwarm in Practice - Full Article #1",
         "dc:creator": 
@@ -717,12 +717,12 @@ with a value of <code>https://payswarm.example.com/i/bob</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/articles/1#listing",
+   "@id": "http://example.com/articles/1#listing",
    "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
    [
       {
-         "@subject": "http://example.com/articles/1#listing-payee",
+         "@id": "http://example.com/articles/1#listing-payee",
          "@type": "com:Payee",
          "com:currency": "USD",
          "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
@@ -779,7 +779,7 @@ the asset should be performed via the
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/videos#cell-division",
+   "@id": "http://example.com/videos#cell-division",
    "@type": ["ps:Asset", "ps:Data"],
    "dc:creator": 
    {
@@ -822,7 +822,7 @@ as <code>https://example.org/articles/1</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://example.org/articles/1#asset",
+   "@id": "https://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
@@ -873,7 +873,7 @@ a set of license terms.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@id": "http://payswarm.example.com/licenses/personal-use",
    "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
@@ -910,7 +910,7 @@ of printed physical copies of a work to 5.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/licenses/personal-use",
+   "@id": "http://payswarm.example.com/licenses/personal-use",
    "@type": "ps:License",
    "dc:format": "text/html",
    "ps:licenseTemplate": "This personal use license allows you to save the 
@@ -1024,7 +1024,7 @@ resides.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "ps:asset": { ... },
    "ps:assetProviderIdentity": 
@@ -1060,12 +1060,12 @@ in a completed contract.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/982378927357",
+   "@id": "http://payswarm.example.com/contracts/982378927357",
    "@type": ["ps:Transaction", "ps:Contract"],
    "ps:asset": { ... },
    "ps:license":
    {
-      "@subject": "http://payswarm.example.com/licenses/personal-use",
+      "@id": "http://payswarm.example.com/licenses/personal-use",
       "@type": "ps:License",
       "dc:format": "text/html",
       "ps:licenseTemplate": "This personal use license allows you to save the 
@@ -1106,7 +1106,7 @@ license hash.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/articles/1#listing",
+   "@id": "http://example.com/articles/1#listing",
    "@type": ["gr:Offering", "ps:Listing"],
    "ps:license": "http://payswarm.example.com/licenses/blogging",
    "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad"
@@ -1135,7 +1135,7 @@ contains the listing information.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/28394729347",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",
    "com:currency": "USD",
@@ -1143,12 +1143,12 @@ contains the listing information.
    ...
    "ps:listing": 
    {
-      "@subject": "http://example.com/articles/1#listing",
+      "@id": "http://example.com/articles/1#listing",
       "@type": ["gr:Offering", "ps:Listing"],
       "com:payee": 
       [
          {
-            "@subject": "http://example.com/articles/1#listing-payee",
+            "@id": "http://example.com/articles/1#listing-payee",
             "@type": "com:Payee",
             "com:currency": "USD",
             "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
@@ -1212,7 +1212,7 @@ listing hash.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/contracts/583272397238",
+   "@id": "http://payswarm.example.com/contracts/583272397238",
    "@type": ["ps:Transaction", "ps:Contract"],
    ...
    "ps:listing": "http://example.com/articles/1#listing",
@@ -1244,7 +1244,7 @@ to the identity <code>https://payswarm.example.com/i/bob</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://payswarm.example.com/i/bob/keys/1",
+   "@id": "https://payswarm.example.com/i/bob/keys/1",
    "@type": "sig:Key",
    "ps:owner": "https://payswarm.example.com/i/bob",
    "sig:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
@@ -1274,7 +1274,7 @@ at midnight on November 28th, 2010.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://example.org/articles/1#asset",
+   "@id": "https://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 
@@ -1317,7 +1317,7 @@ midnight on November 28th, 2011.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "https://example.org/articles/1#asset",
+   "@id": "https://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
    "dc:creator": 

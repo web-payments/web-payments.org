@@ -75,6 +75,13 @@ protocol - listing, buying and selling digital assets.
     <?php dirContents("ED/web-api"); ?>
   </ul>
 </li>
+<li><a href="source/web-keys">Web Keys</a> - a secure and verifiable messaging
+mechanism built using Linked Data principles to produce a distributed
+Public Key Infrastructure for the Web.
+  <ul>
+    <?php dirContents("ED/web-keys"); ?>
+  </ul>
+</li>
 <li><a href="../vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 
 that is used to describe commercial transactions.
   <ul>

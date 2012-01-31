@@ -91,11 +91,11 @@ digitally verifiable receipt between the buyer and the vendor.
     <?php dirContents("ED/web-commerce"); ?>
   </ul>
 </li>
-<li><a href="source/transaction-intents">Transaction Intents</a> - the
+<li><a href="source/payment-intents">Payment Intents</a> - the
 parameterized transactions layer of the PaySwarm architecture; enables 
 decentralized crowd-funding for innovative initiatives and projects.
   <ul>
-    <?php dirContents("ED/transaction-intents"); ?>
+    <?php dirContents("ED/payment-intents"); ?>
   </ul>
 </li>
 <li><a href="../vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 

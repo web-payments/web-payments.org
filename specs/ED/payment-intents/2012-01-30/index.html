@@ -1,0 +1,823 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+    <title>Payment Intents 1.0</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+    
+<!--  
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+      -->
+ 
+     
+     
+    
+    
+    
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon (robin at berjon dot com)
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    margin: 1em 0em 0em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    margin: 1em 0em 0em;
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><style type="text/css">ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+</style><style type="text/css">/*
+ * Derived from einaros's Sons of Obsidian theme at
+ * http://studiostyl.es/schemes/son-of-obsidian by
+ * and Alex Ford of CodeTunnel
+ * http://CodeTunnel.com/blog/post/71/google-code-prettify-obsidian-theme
+ */
+
+.str
+{
+    color: #93C763;
+}
+.kwd
+{
+    color: #EC7600;
+}
+.com
+{
+    color: #66747B;
+}
+.typ
+{
+    color: #678CB1;
+}
+.lit
+{
+    color: #FACD22;
+}
+.pun
+{
+    color: #F1F2F3;
+}
+.pln
+{
+    color: #F1F2F3;
+}
+.tag
+{
+    color: #8AC763;
+}
+.tag.jsonld-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-curie
+{
+    color: #AC84CB;
+}
+.atn
+{
+    color: #E0E2E4;
+}
+.atn.jsonld-curie
+{
+    color: #AC84CB;
+}
+.atn.turtle-curie
+{
+    color: #FACD22;
+}
+.atv
+{
+    color: #EC7600;
+}
+.dec
+{
+    color: purple;
+}
+pre.prettyprint
+{
+    border: 0px solid #888;
+}
+ol.linenums
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.prettyprint {
+    font: monospace;
+    /*font-size: 0.8em;*/
+    font-weight: bold;
+    background: #000;
+    color: #ddd;
+    /*overflow: auto;*/
+}
+li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9
+{
+    color: #555;
+}
+li.L1, li.L3, li.L5, li.L7, li.L9 {
+    background: #111;
+}
+@media print
+{
+    .str
+    {
+        color: #060;
+    }
+    .kwd
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .com
+    {
+        color: #600;
+        font-style: italic;
+    }
+    .typ
+    {
+        color: #404;
+        font-weight: bold;
+    }
+    .lit
+    {
+        color: #044;
+    }
+    .pun
+    {
+        color: #440;
+    }
+    .pln
+    {
+        color: #000;
+    }
+    .tag
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .atn
+    {
+        color: #404;
+    }
+    .atv
+    {
+        color: #060;
+    }
+}
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
+  <body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">Payment Intents 1.0</h1><h2 id="unofficial-draft-31-january-2012">Unofficial Draft 31 January 2012</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+</dl><p class="copyright">Copyright 2009-2012 © Digital Bazaar, Inc.</p><hr /></div> 
+    <div id="abstract" class="introductory section"><h2>Abstract</h2> 
+      <p>
+The purpose of PaySwarm is to build payment into the core architecture of the 
+Web. This document details a mechanism called payment intents that can 
+enable decentralized crowd-funding for projects and innovative initiatives.
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#the-payment-intent-process" class="tocxref"><span class="secno">2. </span>The Payment Intent Process</a><ul class="toc"><li class="tocline"><a href="#payment-intent-terms" class="tocxref"><span class="secno">2.1 </span>Payment Intent Terms</a></li><li class="tocline"><a href="#the-payment-intent-algorithm" class="tocxref"><span class="secno">2.2 </span>The Payment Intent Algorithm</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+
+    <div id="introduction" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">1. </span>Introduction</h2>
+      <p class="issue">
+General introduction to crowd-funding and parameterized transactions.
+      </p>
+    </div>
+
+    <div id="the-payment-intent-process" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">2. </span>The Payment Intent Process</h2>
+
+      <p>
+A <dfn title="payment_intent" id="dfn-payment_intent">payment intent</dfn> is the agreement to execute a 
+<a class="tref" title="transaction">transaction</a> once a pre-defined set of external parameters have been
+met. The most direct example of this is when a group of funders promises to 
+fund a project if the project can raise a minimum amount of capital by a 
+certain date.
+      </p>
+
+      <div id="payment-intent-terms" class="section">
+        <h3><span class="secno">2.1 </span>Payment Intent Terms</h3>
+        <p>
+The following terminology is used to describe concepts used when processing
+<a class="tref internalDFN" title="payment_intent" href="#dfn-payment_intent">payment intent</a>s.
+        </p>
+        
+        <dl>
+          <dt><dfn title="promisor" id="dfn-promisor">promisor</dfn></dt>
+          <dd>
+A <a class="tref" title="participant">participant</a> that has created a parameterized 
+<a class="tref" title="listing">listing</a> that will result in a 
+<a class="tref internalDFN" title="payment_intent" href="#dfn-payment_intent">payment intent</a> if transacted.
+          </dd>
+          <dt><dfn title="promisee" id="dfn-promisee">promisee</dfn></dt>
+          <dd>
+A <a class="tref" title="participant">participant</a> that is making a promise to enter into a 
+<a class="tref" title="contract">contract</a> if the terms of the parameterized <a class="tref" title="listing">listing</a>
+are met before a certain date and time.
+          </dd>
+        </dl>
+      </div>
+
+      <div id="the-payment-intent-algorithm" class="section">
+        <h3><span class="secno">2.2 </span>The Payment Intent Algorithm</h3>
+
+        <p>
+The following algorithm describes the <a class="tref internalDFN" title="payment_intent" href="#dfn-payment_intent">payment intent</a> process,
+which consists of three distinct phases. The first phase is the publication of
+the parameterized <a class="tref" title="listing">listing</a> by the <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>. The 
+second phase is the submission of payment intents from 
+<a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>s. The third phase is the finalization of transaction 
+intents into <a class="tref" title="contract">contract</a>s.
+        </p>
+
+        <p class="issue">
+This section still needs a ton of work: specify the JSON-LD messages that are 
+transmitted in detail, examples, and cover error conditions and
+exceptions.
+        </p>
+
+        <ol class="algorithm">
+          <li>
+The <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a> creates an <a class="tref" title="asset">asset</a> describing the asset
+provided if the parameters in the parameterized <a class="tref" title="listing">listing</a> are met.
+The <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a> also creates a parameterized <a class="tref" title="listing">listing</a>
+containing at least the following two fields:
+            <dl>
+              <dt><code>ps:constraint</code></dt>
+              <dd>
+A set of parameters that must be met in order to complete the 
+<a class="tref" title="transaction">transaction</a>.
+                <dl>
+                  <dt><code>com:minimumAmount</code></dt>
+                  <dd>
+The minimum amount necessary, in aggregate, to finalize all payment intents
+before the deadline.
+                  </dd>
+                  <dt><code>com:currency</code></dt>
+                  <dd>
+The currency associated with the minimum amount field.
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </li>
+          <li>
+When an <a class="tref" title="authority">authority</a> processes the parameterized <a class="tref" title="listing">listing</a>,
+per <a href="#the-purchase-algorithm">The Purchase Algorithm</a>, a 
+<code>ps:Contract</code> and <code>ps:Receipt</code> are generated as 
+specified in the algorithm, but funds <em class="rfc2119" title="must not">must not</em> be disbursed at that time. 
+Instead of the <code>ps:Receipt</code>'s <code>ps:contract</code>'s property 
+being of <code>@type</code> <code>ps:Contract</code>, it <em class="rfc2119" title="must">must</em> instead be of type 
+<code>ps:PaymentIntent</code>. All other fields must remain the same both
+in the short-form contract and the long-form contract. 
+The <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="publishing_agent">publishing agent</a> is notified of the
+intent in the same way as it would be notified of a purchase except that the
+resulting receipt will be the modified object as described in this step.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s <a class="tref" title="authority">authority</a> then notifies the 
+<a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> of the payment intent by
+retrieving the <a class="tref" title="transaction_service">transaction service</a> IRI from the 
+<a class="tref" title="configuration_service">configuration service</a>. The <code>ps:PaymentIntent</code> is
+sent to the <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> via an HTTPS POST.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> keeps track of all
+<code>ps:PaymentIntent</code>'s for the parameterized <a class="tref" title="listing">listing</a>
+until the end of the <code>ps:validUntil</code> date in the 
+<a class="tref" title="listing">listing</a> or until the <code>com:minimumAmount</code> in the
+<code>ps:constraint</code> property in the <a class="tref" title="listing">listing</a> has been met 
+in aggregate.
+          </li>
+          <li>
+If the <a class="tref" title="authority">authority</a> detects that the <code>com:minimumAmount</code> 
+in the <code>ps:constraint</code> property in the <a class="tref" title="listing">listing</a> 
+has been met in aggregate, it submits all <code>ps:PaymentIntent</code>s 
+for the parameterized <a class="tref" title="listing">listing</a> to each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s
+<a class="tref" title="authority">authority</a>. That is, for every <code>com:source</code> 
+<a class="tref" title="financial_account">financial account</a> intended to transfer money to the 
+<code>com:destination</code> in each <code>ps:PaymentIntent</code>s, the
+source <a class="tref" title="financial_account">financial account</a>s <a class="tref" title="authority">authority</a> is contacted.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> <em class="rfc2119" title="must">must</em> determine if all
+<a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s can meet their obligation. It does 
+so by contacting each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s <a class="tref" title="authority">authority</a> and
+performing an HTTP POST of all <code>ps:PaymentIntent</code>s intended
+for the <a class="tref" title="authority">authority</a> to the <a class="tref" title="transaction_service">transaction service</a> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>query</code>. Each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s 
+<a class="tref" title="authority">authority</a> responds with a total amount of funds that are available
+to be committed.
+          </li>
+          <li>
+If the previous step is successful and there are enough funds to meet the
+<a class="tref" title="com:minimumAmount">com:minimumAmount</a> constraint, then the 
+<a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> <em class="rfc2119" title="must">must</em> then place all amounts
+listed in all <code>ps:PaymentIntent</code> on hold. It does 
+this by contacting each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s <a class="tref" title="authority">authority</a> by
+performing an HTTP POST of all <code>ps:PaymentIntent</code>'s intended
+for the <a class="tref" title="authority">authority</a> to the <a class="tref" title="transaction_service">transaction service</a> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>hold</code>. Each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s 
+<a class="tref" title="authority">authority</a> responds with a total amount of funds placed on hold. 
+          </li>
+          <li>
+If the previous step is successful and enough funds were placed on hold
+to meet the <a class="tref" title="com:minimumAmount">com:minimumAmount</a> constraint, then the 
+<a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> <em class="rfc2119" title="must">must</em> then retrieve all amounts
+listed in all <code>ps:PaymentIntent</code>s. It does 
+this by contacting each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s <a class="tref" title="authority">authority</a> by
+performing an HTTP POST of all <code>ps:PaymentIntent</code>'s intended
+for the <a class="tref" title="authority">authority</a> to the <a class="tref" title="transaction_service">transaction service</a> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>finalize</code>. Each <a class="tref internalDFN" title="promisee" href="#dfn-promisee">promisee</a>'s 
+<a class="tref" title="authority">authority</a> responds with a finalized contract for each
+<code>ps:PaymentIntent</code> and disburses the funds according to the
+<a href="#the-decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="promisor" href="#dfn-promisor">promisor</a>'s <a class="tref" title="authority">authority</a> marks the parameterized
+<a class="tref" title="listing">listing</a> as being fulfilled and any further 
+<code>ps:PaymentIntent</code>s submitted before the 
+<code>ps:validUntil</code> date are automatically processed according to the
+previous step.
+          </li>
+        </ol>
+        
+      </div>
+
+    </div>
+
+   
+
+
+<div id="references" class="appendix section">
+<!-- OddPage -->
+<h2><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">A.1 </span>Normative references</h3><p>No normative references.</p></div><div id="informative-references" class="section"><h3><span class="secno">A.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>

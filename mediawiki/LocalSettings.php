@@ -140,3 +140,4 @@ require_once("$IP/extensions/ConfirmEdit/ConfirmEdit.php");
 require_once("$IP/extensions/ConfirmEdit/MathCaptcha.php");
 $wgCaptchaClass = 'SimpleCaptcha';
 
+require_once("$IP/extensions/Nuke/Nuke.php");

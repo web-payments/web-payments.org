@@ -38,8 +38,7 @@ $wgSitename         = "PaySwarm";
 ## defaults for all runtime URL paths are based off of this.
 ## For more information on customizing the URLs please see:
 ## http://www.mediawiki.org/wiki/Manual:Short_URL
-$wgScriptPath = "/mediawiki-1.16.2";         # Path to the actual f
-iles.
+$wgScriptPath = "/mediawiki";         # Path to the actual files.
 $wgArticlePath = "/wiki/$1";  # Virtual path. This directory MUST be different from the one used in $wgScriptPath
 $wgUsePathInfo = true;        # Enable use of pretty URLs
 $wgScriptExtension  = ".php";

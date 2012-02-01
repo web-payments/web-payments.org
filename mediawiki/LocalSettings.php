@@ -106,7 +106,9 @@ $wgLocalInterwiki   = strtolower( $wgSitename );
 
 $wgLanguageCode = "en";
 
-$wgSecretKey = "104902663fe8732ccf4cd6d083997e8604ef0fb4ec962952f9ed24b17bb9aa82";
+# Keep private data kout of source control
+# $wgSecretKey = "...";
+include("$IP/LocalPrivate.php");
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':

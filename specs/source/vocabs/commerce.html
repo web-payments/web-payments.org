@@ -133,7 +133,7 @@ The following example expresses an account belonging to a person named
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://payswarm.example.com/people/john-doe#account-3"
+   "@id": "http://payswarm.example.com/people/john-doe#account-3"
    "@type": "com:Account",
    "rdfs:label": "John's Financial Account",
    "com:amount": "50.40",
@@ -156,19 +156,19 @@ performed as a means for storing monetary amounts in the destination account.
             <dt>Parent Class</dt>
             <dd><a href="http://purl.org/commerce#Transaction">com:Transaction</a></dd>
             <dt>Properties</dt>
-            <dd>com:date, com:source, com:payee, com:transfer, sig:signature</dd>
+            <dd>com:date, com:source, com:payee, com:transfer, sec:signature</dd>
           </dl>
           <p>
 The following example describes a deposit made using a debit card:
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
    "@type": ["com:Transaction", "com:Deposit"],
    "com:date": "2010-10-16T12:34:36.14532",
    "com:source":
    {
-      "@subject": "http://mybank.example.com/accounts/3879279824",
+      "@id": "http://mybank.example.com/accounts/3879279824",
       "@type": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -190,11 +190,11 @@ The following example describes a deposit made using a debit card:
    },
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -347,7 +347,7 @@ to a tax account.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/transactions/1.A.F23BC"
+   "@id": "http://example.com/transactions/1.A.F23BC"
    "@type": "com:Transaction",
    "com:transfer": [<a href="#Transfer">Transfer</a>+]
    "com:amount": "1.04",
@@ -383,7 +383,7 @@ bank account information.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/transactions/1.A.F23BC"
+   "@id": "http://example.com/transactions/1.A.F23BC"
    "@type": "com:Withdrawal",
    "com:destination": 
    {
@@ -661,11 +661,11 @@ The following example demonstrates the proper use of the com:account property:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/people/joe",
+   "@id": "http://example.com/people/joe",
    "@type": "foaf:Person",
    "com:account":
    {
-      "@subject": "http://redbankexample.com/accounts/vacation",
+      "@id": "http://redbankexample.com/accounts/vacation",
       "@type": "com:Account",
       "rdfs:label": "Vacation Savings Account",
       "com:amount": "7563.00",
@@ -761,7 +761,7 @@ The example below states that the Transaction occurred on October 16th, 2010 at
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://example.com/transactions/1.A.F23BC"
+   "@id": "http://example.com/transactions/1.A.F23BC"
    "@type": "com:Transaction",
    "com:transfer": [<a href="#Transfer">Transfer</a>+]
    "com:amount": "1.04",
@@ -857,12 +857,12 @@ approval code of <code>8FGk9347Bo2N83</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
    "@type": "com:Deposit",
    "com:date": "2010-10-16T12:34:36.14532",
    "com:source":
    {
-      "@subject": "http://mybank.example.com/accounts/3879279824",
+      "@id": "http://mybank.example.com/accounts/3879279824",
       "@type": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -885,11 +885,11 @@ approval code of <code>8FGk9347Bo2N83</code>.
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:gatewayApprovalCode": "8FGk9347Bo2N83",
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -917,12 +917,12 @@ the reason in the gateway error code:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
    "@type": "com:Deposit",
    "com:date": "2010-10-16T12:34:36.14532",
    "com:source":
    {
-      "@subject": "http://mybank.example.com/accounts/3879279824",
+      "@id": "http://mybank.example.com/accounts/3879279824",
       "@type": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -945,11 +945,11 @@ the reason in the gateway error code:
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:gatewayError": "CREDIT_CARD_DECLINED",
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1149,12 +1149,12 @@ The example below expresses that the payment gateway is CyberSource:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
    "@type": "com:Deposit",
    "com:date": "2010-10-16T12:34:36.14532",
    "com:source":
    {
-      "@subject": "http://mybank.example.com/accounts/3879279824",
+      "@id": "http://mybank.example.com/accounts/3879279824",
       "@type": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -1177,11 +1177,11 @@ The example below expresses that the payment gateway is CyberSource:
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
    "com:paymentGateway": "CyberSource",
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1208,7 +1208,7 @@ The example below shows the sale listing for an electronic book called
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@subject": "http://example.org/books/dawntreader#listing",
+    "@id": "http://example.org/books/dawntreader#listing",
     "@type": "ps:Listing",
     "ps:forAsset": "http://example.org/books/dawntreader#asset",
     "ps:assetHash": "85331e47eb55ea0a706675db9a9076688171ff86f78a",
@@ -1337,7 +1337,7 @@ calculation among a list of Payees.
           <dt>Domain</dt>
           <dd>com:Payee, owl:Thing</dd>
           <dt>Range</dt>
-          <dd>com:InclusivePayee, com:ExclusivePayee, com:FlatAmount, rdfs:Class, xsd:string</dd>
+          <dd>com:InclusivePercentage, com:ExclusivePercentage, com:FlatAmount, rdfs:Class, xsd:string</dd>
         </dl>
         <p>
 The example below specifies an exclusive percentage rate type
@@ -1374,12 +1374,12 @@ The example below shows a source being expressed as a debit card.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
    "@type": ["com:Transaction", "com:Deposit"],
    "com:date": "2010-10-16T12:34:36.14532",
    "com:source":
    {
-      "@subject": "http://mybank.example.com/accounts/3879279824",
+      "@id": "http://mybank.example.com/accounts/3879279824",
       "@type": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -1401,11 +1401,11 @@ The example below shows a source being expressed as a debit card.
    },
    "com:payee": [<a href="#Payee">Payee</a>*],
    "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1434,12 +1434,12 @@ from the owner's bank into their PaySwarm account.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@subject": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
    "@type": "com:Deposit",
    "com:date": "2010-10-16T12:34:36.14532",
    "com:source":
    {
-      "@subject": "http://mybank.example.com/accounts/3879279824#account",
+      "@id": "http://mybank.example.com/accounts/3879279824#account",
       "@type": "ccard:DebitCard",
       "ccard:brand": "Visa",
       "ccard:number": "3847573872837483",
@@ -1469,11 +1469,11 @@ from the owner's bank into their PaySwarm account.
       "com:currency": "USD",
       "rdfs:comment": "Monthly entertainment budget deposit into PaySwarm account."
    },
-   "sig:signature":
+   "sec:signature":
    {
-       "@type": "sig:JsonLdSignature",
-       "sig:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sig:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "@type": "sec:JsonLdSignature",
+       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>

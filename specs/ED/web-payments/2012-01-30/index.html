@@ -1,0 +1,1200 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+    <title>Web Payments 1.0</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+    
+<!--  
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+      -->
+ 
+     
+     
+    
+    
+    
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon (robin at berjon dot com)
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    margin: 1em 0em 0em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    margin: 1em 0em 0em;
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><style type="text/css">ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+</style><style type="text/css">/*
+ * Derived from einaros's Sons of Obsidian theme at
+ * http://studiostyl.es/schemes/son-of-obsidian by
+ * and Alex Ford of CodeTunnel
+ * http://CodeTunnel.com/blog/post/71/google-code-prettify-obsidian-theme
+ */
+
+.str
+{
+    color: #93C763;
+}
+.kwd
+{
+    color: #EC7600;
+}
+.com
+{
+    color: #66747B;
+}
+.typ
+{
+    color: #678CB1;
+}
+.lit
+{
+    color: #FACD22;
+}
+.pun
+{
+    color: #F1F2F3;
+}
+.pln
+{
+    color: #F1F2F3;
+}
+.tag
+{
+    color: #8AC763;
+}
+.tag.jsonld-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-curie
+{
+    color: #AC84CB;
+}
+.atn
+{
+    color: #E0E2E4;
+}
+.atn.jsonld-curie
+{
+    color: #AC84CB;
+}
+.atn.turtle-curie
+{
+    color: #FACD22;
+}
+.atv
+{
+    color: #EC7600;
+}
+.dec
+{
+    color: purple;
+}
+pre.prettyprint
+{
+    border: 0px solid #888;
+}
+ol.linenums
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.prettyprint {
+    font: monospace;
+    /*font-size: 0.8em;*/
+    font-weight: bold;
+    background: #000;
+    color: #ddd;
+    /*overflow: auto;*/
+}
+li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9
+{
+    color: #555;
+}
+li.L1, li.L3, li.L5, li.L7, li.L9 {
+    background: #111;
+}
+@media print
+{
+    .str
+    {
+        color: #060;
+    }
+    .kwd
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .com
+    {
+        color: #600;
+        font-style: italic;
+    }
+    .typ
+    {
+        color: #404;
+        font-weight: bold;
+    }
+    .lit
+    {
+        color: #044;
+    }
+    .pun
+    {
+        color: #440;
+    }
+    .pln
+    {
+        color: #000;
+    }
+    .tag
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .atn
+    {
+        color: #404;
+    }
+    .atv
+    {
+        color: #060;
+    }
+}
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
+  <body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">Web Payments 1.0</h1><h2 id="unofficial-draft-31-january-2012">Unofficial Draft 31 January 2012</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+</dl><p class="copyright">Copyright 2009-2012 © Digital Bazaar, Inc.</p><hr /></div> 
+    <div id="abstract" class="introductory section"><h2>Abstract</h2> 
+      <p>
+The purpose of PaySwarm is to build payment into the core architecture of the 
+Web. This document details the foundational layer of this architecture; 
+creating a monetary transaction between two participants on the
+Web. The document also ensures that the transactional system is decentralized
+in nature and that all data is portable between systems. The goal is to
+build a decentralized payment network, ensuring that power and control rest 
+with the participants in the network and not with any centralized authority.
+      </p>
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#the-conceptual-model" class="tocxref"><span class="secno">2. </span>The Conceptual Model</a><ul class="toc"><li class="tocline"><a href="#identity-and-identifiers" class="tocxref"><span class="secno">2.1 </span>Identity and Identifiers</a></li><li class="tocline"><a href="#terminology" class="tocxref"><span class="secno">2.2 </span>Terminology</a><ul class="toc"><li class="tocline"><a href="#agents" class="tocxref"><span class="secno">2.2.1 </span>Agents</a></li><li class="tocline"><a href="#participants" class="tocxref"><span class="secno">2.2.2 </span>Participants</a></li><li class="tocline"><a href="#authorities" class="tocxref"><span class="secno">2.2.3 </span>Authorities</a></li></ul></li><li class="tocline"><a href="#commerce-model" class="tocxref"><span class="secno">2.3 </span>Commerce Model</a><ul class="toc"><li class="tocline"><a href="#transactions" class="tocxref"><span class="secno">2.3.1 </span>Transactions</a></li></ul></li></ul></li><li class="tocline"><a href="#base-technologies" class="tocxref"><span class="secno">3. </span>Base Technologies</a><ul class="toc"><li class="tocline"><a href="#representational-state-transfer" class="tocxref"><span class="secno">3.1 </span>Representational State Transfer</a></li><li class="tocline"><a href="#javascript-object-notation-for-linking-data" class="tocxref"><span class="secno">3.2 </span>JavaScript Object Notation for Linking Data</a></li><li class="tocline"><a href="#the-advanced-encryption-standard" class="tocxref"><span class="secno">3.3 </span>The Advanced Encryption Standard</a></li><li class="tocline"><a href="#html-rdfa" class="tocxref"><span class="secno">3.4 </span>HTML+RDFa</a></li><li class="tocline"><a href="#web-keys" class="tocxref"><span class="secno">3.5 </span>Web Keys</a></li></ul></li><li class="tocline"><a href="#the-transaction-process" class="tocxref"><span class="secno">4. </span>The Transaction Process</a><ul class="toc"><li class="tocline"><a href="#transaction-terms" class="tocxref"><span class="secno">4.1 </span>Transaction Terms</a></li><li class="tocline"><a href="#the-transaction-algorithm" class="tocxref"><span class="secno">4.2 </span>The Transaction Algorithm</a></li></ul></li><li class="tocline"><a href="#the-decentralized-settlement-process" class="tocxref"><span class="secno">5. </span>The Decentralized Settlement Process</a><ul class="toc"><li class="tocline"><a href="#decentralized-settlement-terms" class="tocxref"><span class="secno">5.1 </span>Decentralized Settlement Terms</a></li><li class="tocline"><a href="#the-decentralized-settlement-algorithm" class="tocxref"><span class="secno">5.2 </span>The Decentralized Settlement Algorithm</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div>
+
+    <div id="introduction" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">1. </span>Introduction</h2>
+      <p class="issue">
+Explanation of how this is the base specification for the majority of the
+types of commerce that happen on PaySwarm.
+      </p>
+    </div>
+
+    <div id="the-conceptual-model" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">2. </span>The Conceptual Model</h2>
+      <p>
+The conceptual model for PaySwarm is relatively simple, and grounded in the
+way value exchange happens in the real world.
+      </p>
+      <div id="identity-and-identifiers" class="section">
+        <h3><span class="secno">2.1 </span>Identity and Identifiers</h3>
+        <p>
+In order for a universal payment system to work seamlessly, there must be a
+universal way of identifying <em>things</em> in the environment. This 
+specification uses Internationalized Resource Identifiers [<cite><a class="bibref" rel="biblioentry" href="#bib-IRI">IRI</a></cite>] to 
+refer to <em>things</em> on the network. These things can be a personal identity 
+(<code>https://example.com/people/bob</code>), 
+financial account information 
+(<code>https://example.com/people/bob/accounts/42</code>), public cryptography
+keys (<code>https://example.com/people/bob/keys/14</code>), assets, licenses 
+and a variety of other pieces of long-lived information that exists on the Web. 
+By naming these things with long-lived unique identifiers, it becomes possible 
+to create a decentralized but stable universal payment architecture.
+        </p>
+      </div>
+      <div id="terminology" class="section">
+        <h3><span class="secno">2.2 </span>Terminology</h3>
+        <div id="agents" class="section">
+          <h4><span class="secno">2.2.1 </span>Agents</h4>
+          <p>
+An <dfn title="agent" id="dfn-agent">agent</dfn> is any software that is capable of requesting an action
+to be performed in a way that is compliant with the PaySwarm specification.
+The software is usually controlled by a person or an organization 
+that would like to perform some action on a PaySwarm-conformant network.
+          </p>
+        </div>
+        <div id="participants" class="section">
+          <h4><span class="secno">2.2.2 </span>Participants</h4>
+          <p>
+A <dfn title="participant" id="dfn-participant">participant</dfn> is an entity that is capable of performing a 
+transaction on the network. The <a class="tref internalDFN" title="participant" href="#dfn-participant">participant</a> often employs
+<a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a>s to execute transactions on the payment network.
+          </p>
+        </div>
+        <div id="authorities" class="section">
+          <h4><span class="secno">2.2.3 </span>Authorities</h4>
+          <p>
+An <dfn title="authority" id="dfn-authority">authority</dfn> is used to store money, process and store 
+contracts, and 
+transfer monetary amounts between financial accounts. While a PaySwarm 
+Authority may hold a great deal of financial data, they are built with
+data portability in mind. PaySwarm participants may move their money and
+purchase history from one authority to another. Data portability is a mandatory
+part of this specification.
+          </p>
+        </div>
+      </div>
+      <div id="commerce-model" class="section">
+        <h3><span class="secno">2.3 </span>Commerce Model</h3>
+        <div id="transactions" class="section">
+          <h4><span class="secno">2.3.1 </span>Transactions</h4>
+A <dfn title="transaction" id="dfn-transaction">transaction</dfn> is the exchange of value from one or more 
+source accounts into one or more destination accounts.
+        </div>
+      </div>      
+    </div>
+
+    <div id="base-technologies" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">3. </span>Base Technologies</h2>
+      <p>
+PaySwarm builds on a number of successful Internet and Web technologies. These
+technologies are introduced in this section.
+      </p>
+
+      <div id="representational-state-transfer" class="section">
+        <h3><span class="secno">3.1 </span>Representational State Transfer</h3>
+        <p>
+REpresentational State Transfer [<cite><a class="bibref" rel="biblioentry" href="#bib-REST">REST</a></cite>] is the architectural style that underpins
+the World Wide Web. It consists of a set of constraints to ensure that servers,
+gateways, proxies and clients may interact in a way that is predictable.
+Systems that are designed with this architecture in mind are called RESTful
+systems. PaySwarm is designed to be RESTful by ensuring that the constraints of
+REST are applied to all transactions performed via PaySwarm systems.
+        </p>
+      </div>
+
+      <div id="javascript-object-notation-for-linking-data" class="section">
+        <h3><span class="secno">3.2 </span>JavaScript Object Notation for Linking Data</h3>
+        <p>
+JavaScript Object Notation for Linking Data [<cite><a class="bibref" rel="biblioentry" href="#bib-JSON-LD">JSON-LD</a></cite>] is a lightweight Linked 
+Data format. It is easy for humans to read and write. It is easy for machines 
+to parse and generate. It is based on the already successful JSON format and 
+provides a way to help JSON data interoperate at Web-scale. If you are already 
+familiar with JSON, writing JSON-LD is very easy. There is a smooth migration 
+path from the JSON you use today, to the JSON-LD you will use in the future. 
+These properties make JSON-LD an ideal Linked Data interchange language for 
+JavaScript environments, Web services, and JSON document-based databases.
+        </p>
+      </div>
+
+      <div id="the-advanced-encryption-standard" class="section">
+        <h3><span class="secno">3.3 </span>The Advanced Encryption Standard</h3>
+        <p>
+The Advanced Encryption Standard (AES) [<cite><a class="bibref" rel="biblioentry" href="#bib-FIPS-197">FIPS-197</a></cite>] is a world standard 
+adopted by the
+United States Government and used to secure a vast majority of the
+commercial transactions over the Internet via OpenSSL. Since much of the data
+exchanged over PaySwarm participants is sensitive, it is important that a 
+strong cryptography suite is utilized to digitally sign and transfer the 
+messages.
+        </p>
+      </div>
+
+      <div id="html-rdfa" class="section">
+        <h3><span class="secno">3.4 </span>HTML+RDFa</h3>
+        <p>
+Web sites are largely implemented on top of the HyperText Markup Language 
+(HTML). This format is known to be fairly easy to author and publish on the Web.
+In addition to being easy to publish, it is also important that data published
+via HTML can be easily read by machines without placing an undue burden on
+Web authors. Publishing structured data in a decentralized manner also 
+requires a language that is capable of being both expressive and deterministic. 
+The Resource Description Framework in attributes [<cite><a class="bibref" rel="biblioentry" href="#bib-RDFA-CORE">RDFA-CORE</a></cite>] extends HTML 
+[<cite><a class="bibref" rel="biblioentry" href="#bib-HTML-RDFA">HTML-RDFA</a></cite>] to allow structured data to be expressed via HTML, but in a way 
+that is easy for Web developers to author.
+        </p>
+      </div>
+
+      <div id="web-keys" class="section">
+        <h3><span class="secno">3.5 </span>Web Keys</h3>
+        <p class="issue">
+Describe the <a href="../web-keys/">Web Keys</a> specification.
+        </p>
+      </div>
+
+    </div>
+
+    <div id="the-transaction-process" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">4. </span>The Transaction Process</h2>
+
+      <p>
+The simplest exchange of value that can happen in the PaySwarm system is a
+<a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a>. 
+      </p>
+      
+      <div id="transaction-terms" class="section">
+        <h3><span class="secno">4.1 </span>Transaction Terms</h3>
+        <p>
+There are a number of terms that are used during the course of processing a
+transaction.
+        </p>
+
+        <dl>
+          <dt><dfn title="transaction_service" id="dfn-transaction_service">transaction service</dfn></dt>
+          <dd>
+The service endpoint identified by the <code>ps:transactionService</code> key in
+the domain's PaySwarm configuration file. The configuration file can be fetched
+by performing an HTTP GET request on the <a class="tref" title="configuration_service">configuration service</a>
+IRI.
+          </dd>
+          <dt><dfn title="transaction_request" id="dfn-transaction_request">transaction request</dfn></dt>
+          <dd>
+A JSON-LD formatted object that contains all of the necessary information
+required to initiate a <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> on a PaySwarm-conformant
+network.
+          </dd>
+          <dt><dfn title="transfer" id="dfn-transfer">transfer</dfn></dt>
+          <dd>
+A JSON-LD formatted object that specifies the movement of value from a
+source account to a destination account.
+          </dd>
+        </dl>
+      </div>
+
+      <div id="the-transaction-algorithm" class="section">
+        <h3><span class="secno">4.2 </span>The Transaction Algorithm</h3>
+
+        <p>
+There are two ways in which a Transaction may be initiated via a 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a>; Payment Link initiated and <a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a>
+initiated. The first approach is where a <a class="tref" title="publishing_agent">publishing agent</a> may 
+initiate a transaction by constructing a URL targeted to the 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a>'s <a class="tref internalDFN" title="transaction_service" href="#dfn-transaction_service">transaction service</a> using the 
+<a href="http://payswarm.com/specs/source/payment-links/">Payment Links specification</a>. 
+The second approach is where an <a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a> may initiate a transaction by
+performing an HTTPS POST of JSON-LD object expressing a
+<code>ps:Transaction</code>. The normative algorithm for performing this
+operation is detailed below. In both approaches, the 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> processesing the request <em class="rfc2119" title="must">must</em> note the 
+<code>ps:Transaction</code> entry in all of the accounts associated in the 
+<a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> and ensure that all accounts external to the 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> are notified via the 
+<a href="#decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
+        </p>
+
+        <p>
+The normative algorithm for performing an <a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a>-initiated 
+transaction is expressed below.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+An <a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a> <em class="rfc2119" title="must">must</em> construct a <a class="tref internalDFN" title="transaction_request" href="#dfn-transaction_request">transaction request</a> in
+JSON-LD format containing at least the following:
+            <dl>
+              <dt><code>@context</code></dt>
+              <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations <em class="rfc2119" title="must not">must not</em> override any values in the first member.
+              </dd>
+              <dt><code>@type</code></dt>
+              <dd>
+The value <code>ps:Transaction</code>.
+              </dd>
+              <dt><code>com:transfer</code></dt>
+              <dd>
+One or more <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s in JSON-LD format containing at least the 
+following:
+                <dl>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Transfer</code>.
+                  </dd>        
+                  <dt><code>com:amount</code></dt>
+                  <dd>
+A string value of the total amount of the transfer.
+                  </dd>        
+                  <dt><code>com:currency</code></dt>
+                  <dd>
+The currency associated with the amount of the transfer. The value <em class="rfc2119" title="must">must</em> be an 
+ISO-4217 currency or a dereference-able IRI to a monetary system that is 
+not specified in ISO-4217 but follows the specification of a 
+<a href="">Currency Mint</a>.
+                  </dd>        
+                  <dt><code>com:source</code></dt>
+                  <dd>
+The source account from which the funds listed in <code>com:amount</code> will
+be withdrawn.
+                  </dd>        
+                  <dt><code>com:destination</code></dt>
+                  <dd>
+The destination account to which the funds listed in <code>com:amount</code> 
+will be deposited.
+                  </dd>        
+                  <dt><code>rdfs:comment</code></dt>
+                  <dd>
+A string specifying the purpose of the transfer as well as other details 
+intended to be read by a human.
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </li>
+          <li>
+The <a class="tref internalDFN" title="transaction_request" href="#dfn-transaction_request">transaction request</a> is digitally signed by the 
+<a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a> according to the
+<a href="#request-signature-algorithm">Request Signature Algorithm</a> using
+a <a class="tref" title="private_key">private key</a> associated with the <a class="tref" title="public_key">public key</a>
+that was previously registered with the <a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> 
+according to the 
+<a href="#vendor-registration">Vendor Registration Algorithm</a>.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="transaction_request" href="#dfn-transaction_request">transaction request</a> is sent to the 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> of the <a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a>
+via an HTTPS connection. The HTTPS protocol <em class="rfc2119" title="must">must</em> be used for transmission 
+of the request and retrieval of the response to prevent replay attacks.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> processes the 
+<a class="tref internalDFN" title="transaction_request" href="#dfn-transaction_request">transaction request</a>. Additional <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s <em class="rfc2119" title="may">may</em> be
+added to the finalized <a class="tref internalDFN" title="transaction_request" href="#dfn-transaction_request">transaction request</a> by the 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a>, such as transaction fees, pursuant to 
+existing agreements between the <a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> and the
+entity operating the <a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a>. The following properties <em class="rfc2119" title="must">must</em> be added 
+to the <a class="tref internalDFN" title="transaction_request" href="#dfn-transaction_request">transaction request</a>:
+            <dl>
+              <dt><code>@id</code></dt>
+              <dd>
+The finalized <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> identifier IRI. The value <em class="rfc2119" title="must">must</em> be
+dereferenceable and return at least the <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> information 
+returned at the end of this algorithm when accessed using a mechanism that
+proves authorization to access the resource.
+              </dd>
+              <dt><code>com:amount</code></dt>
+              <dd>
+The total amount of the transaction which is calculated by adding up all of
+the <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s.
+              </dd>
+              <dt><code>com:currency</code></dt>
+              <dd>
+The currency associated with the total amount of the transaction. The value 
+<em class="rfc2119" title="must">must</em> be an ISO-4217 currency or a dereference-able IRI to a monetary system 
+that is not specified in ISO-4217 but follows the specification of a 
+<a href="">Currency Mint</a>.
+              </dd>
+              <dt><code>com:date</code></dt>
+              <dd>
+The date and time at which the transaction was recorded in the system.
+              </dd>
+            </dl>
+          </li>
+        </ol>
+
+        <p>
+The example below shows the full protocol-level exchange between the
+<a class="tref internalDFN" title="agent" href="#dfn-agent">agent</a> and the <a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> when performing a
+Transaction:
+        </p>
+
+<pre class="example">
+--------------------------------- Step #1 -----------------------------------
+
+*** Agent creates a Transaction object
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   }
+}
+
+--------------------------------- Step #2 -----------------------------------
+
+*** Agent signs the Transaction object
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   "sec:signature":
+   {
+      "@type": "sec:JsonLdSignature",
+      "dc:created": "2011-09-23T20:21:34Z",
+      "sec:signer": "http://payswarm.example.com/i/john/keys/5",
+      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+   }
+}
+
+
+---------------------------------- Step #3 ----------------------------------
+
+*** Agent HTTPS POSTs the Transaction object to the authority
+
+POST transactions HTTP/1.1
+Host: bluebank.com
+Content-Length: 634
+Content-Type: application/ld+json
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   "sec:signature":
+   {
+      "@type": "sec:JsonLdSignature",
+      "dc:created": "2011-09-23T20:21:34Z",
+      "sec:signer": "http://bluebank.com/people/john/keys/5",
+      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+   }
+}
+
+---------------------------------- Step #4 ----------------------------------
+
+*** authority processes the transaction and returns the finalized
+*** transaction to the Agent
+
+Cache-Control:no-cache, must-revalidate, max-age=0
+Content-Length: 728
+Content-Type: application/ld+json
+
+{
+   "@id": "https://bluebank.com/transactions/20110923f72b8ca3",
+   "@type": "ps:Transaction",
+   "com:amount": "7.65",
+   "com:currency": "USD",
+   "com:date": "2011-09-23T20:21:35Z",
+   "ps:transfer":
+   [{
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "0.15",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://bluebank.com/accounts/processing-fees",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   }]
+}</pre>
+
+      </div>
+    </div>
+    
+    <div id="the-decentralized-settlement-process" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">5. </span>The Decentralized Settlement Process</h2>
+      
+      <p>
+The decentralized settlement process is used to ensure the immediate and 
+smooth transition of funds from an account on one 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> to an account on another 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a>.
+      </p>
+
+      <div id="decentralized-settlement-terms" class="section">
+        <h3><span class="secno">5.1 </span>Decentralized Settlement Terms</h3>
+        <p>
+The following terminology is used to describe concepts used to perform the
+settling of accounts between multiple <a class="tref" title="PaySwarm_Authorities">PaySwarm Authorities</a>.
+        </p>
+        
+        <dl>
+          <dt><dfn title="disbursing_authority" id="dfn-disbursing_authority">disbursing authority</dfn></dt>
+          <dd>
+An <a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> that is disbursing a set of funds to one or
+more receiving <a class="tref internalDFN" title="authority" href="#dfn-authority">PaySwarm authorities</a>.
+          </dd>
+          <dt><dfn title="receiving_authority" id="dfn-receiving_authority">receiving authority</dfn></dt>
+          <dd>
+An <a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> that is receiving a set of funds from a
+<a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a>.
+          </dd>
+          <dt><dfn title="escrow_transfer_log" id="dfn-escrow_transfer_log">escrow transfer log</dfn></dt>
+          <dd>
+A log of <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s that are either in the process of being
+disbursed or received for a particular particular 
+<a class="tref" title="financial_account">financial account</a>. The log is used to ensure that double-entries
+are not accidentally recorded due to network errors or other fatal errors
+associated with hardware or software failures.
+          </dd>
+        </dl>
+      </div>
+
+      <div id="the-decentralized-settlement-algorithm" class="section">
+        <h3><span class="secno">5.2 </span>The Decentralized Settlement Algorithm</h3>
+
+        <p>
+The following algorithm ensures that funds transferred as a part of a 
+<a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> can be transmitted to one or more 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> payment processors in an interoperable 
+fashion such that there are no dangers that the value exchange is lost or
+mis-applied to the wrong accounts.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+The <a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a> contacts each 
+<a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authority</a> listed in the list of <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s
+contained in the <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> being processed and retrieves the
+<code>ps:TransactionBackhaul</code> service from each 
+<a class="tref" title="configuration_service">configuration service</a> endpoint. If any
+<a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authority</a> is not available now or at any point during
+this process, or if the <a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authority</a> is blacklisted for
+any reason, the <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a> <em class="rfc2119" title="must">must</em> fail.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a> processes <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s
+intended for <a class="tref" title="financial_account">financial account</a>s that are local to the system, 
+noting outgoing and incoming <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a> amounts in each 
+<a class="tref" title="financial_account">financial account</a>'s <a class="tref internalDFN" title="escrow_transfer_log" href="#dfn-escrow_transfer_log">escrow transfer log</a>.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a> processes <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s
+intended for <a class="tref" title="financial_account">financial account</a>s that are on 
+<a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authorities</a>
+noting outgoing <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a> amounts in each source
+<a class="tref" title="financial_account">financial account</a>'s <a class="tref internalDFN" title="escrow_transfer_log" href="#dfn-escrow_transfer_log">escrow transfer log</a>.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a> transmits the <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a>
+to each <a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authority</a>. The <a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authority</a>
+processes <a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a>s intended for 
+<a class="tref" title="financial_account">financial account</a>s that are on the
+<a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authority</a> noting incoming 
+<a class="tref internalDFN" title="transfer" href="#dfn-transfer">transfer</a> amounts in each target
+<a class="tref" title="financial_account">financial account</a>'s <a class="tref internalDFN" title="escrow_transfer_log" href="#dfn-escrow_transfer_log">escrow transfer log</a>. If all
+amounts were not successfully marked in escrow, the <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a>
+<em class="rfc2119" title="must">must</em> fail.
+          </li>
+          <li>
+The <a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a> moves all funds from escrow into all
+local <a class="tref" title="financial_account">financial account</a>s. The <a class="tref internalDFN" title="disbursing_authority" href="#dfn-disbursing_authority">disbursing authority</a>
+contacts all <a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authorities</a> and
+instructs them to move all funds from escrow into all destination
+<a class="tref" title="financial_account">financial account</a>s. This two-stage commit process ensures that
+in the event of a failure while contacting multiple 
+<a class="tref internalDFN" title="receiving_authority" href="#dfn-receiving_authority">receiving authorities</a>, that 
+transactions can be backed out.
+            <div class="note">
+While this algorithm outlines how transfer records are transmitted and
+recorded in a decentralized fashion, it does not outline how each 
+<a class="tref internalDFN" title="authority" href="#dfn-authority">authority</a> ensures that currencies are exchanged between
+financial institutions. One such possibility is an ACH banking transfer, but
+such a transfer is not necessary if the banks adopt this protocol for clearing
+transactions across financial systems.
+            </div>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+
+   
+
+
+<div id="references" class="appendix section">
+<!-- OddPage -->
+<h2><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-FIPS-197">[FIPS-197]</dt><dd>Information Technology Laboratory. <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>
+</dd><dt id="bib-HTML-RDFA">[HTML-RDFA]</dt><dd>Manu Sporny; et al. <a href="http://www.w3.org/TR/rdfa-in-html/"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href="http://www.w3.org/TR/rdfa-in-html/">http://www.w3.org/TR/rdfa-in-html/</a> 
+</dd><dt id="bib-IRI">[IRI]</dt><dd>M. Duerst, M. Suignard. <a href="http://www.ietf.org/rfc/rfc3987.txt"><cite>Internationalized Resource Identifiers (IRI).</cite></a> January 2005. Internet RFC 3987. URL: <a href="http://www.ietf.org/rfc/rfc3986.txt">http://www.ietf.org/rfc/rfc3987.txt</a> 
+</dd><dt id="bib-JSON-LD">[JSON-LD]</dt><dd>Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href="http://json-ld.org/spec/latest/"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href="http://json-ld.org/spec/latest/">http://json-ld.org/spec/latest/</a> 
+</dd><dt id="bib-RDFA-CORE">[RDFA-CORE]</dt><dd>Shane McCarron; et al. <a href="http://www.w3.org/TR/2011/WD-rdfa-core-20110331"><cite>RDFa Core 1.1: Syntax and processing rules for embedding RDF through attributes.</cite></a> 31 March 2011. W3C Working Draft. URL: <a href="http://www.w3.org/TR/2011/WD-rdfa-core-20110331">http://www.w3.org/TR/2011/WD-rdfa-core-20110331</a> 
+</dd></dl></div><div id="informative-references" class="section"><h3><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-REST">[REST]</dt><dd>Fielding, Roy Thomas. <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>
+</dd></dl></div></div></body></html>

@@ -1,0 +1,757 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Web Payments 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+    var preProc = {
+          apply:  function(c) {
+                    // extend the bibliography entries
+                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a> ";
+                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a> ";
+                    berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
+                    berjon.biblio["FIPS-197"] = "Information Technology Laboratory. <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>";
+
+                    // process the document before anything else is done
+                    var refs = document.querySelectorAll('adef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'dfn' ) ;
+                        var tit = item.getAttribute('title') ;
+                        if (!tit) {
+                            tit = con;
+                        }
+                        sp.className = 'adef' ;
+                        sp.title=tit ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    refs = document.querySelectorAll('aref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'aref' ;
+                        sp.setAttribute('title', con);
+                        sp.innerHTML = '@'+con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // local datatype references
+                    refs = document.querySelectorAll('ldtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'datatype';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // external datatype references
+                    refs = document.querySelectorAll('dtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'externalDFN';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now do terms
+                    refs = document.querySelectorAll('tdef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'dfn' ) ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now term references
+                    refs = document.querySelectorAll('tref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+
+                        var sp = document.createElement( 'a' ) ;
+                        var id = item.textContent ;
+                        sp.className = 'tref' ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                }
+        } ;
+
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "unofficial",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "web-payments",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "http://payswarm.com/specs/source/web-payments/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["../../respec/css/respec.css", "spec.css", "prettify.css"],
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          additionalCopyrightHolders: "Copyright 2009-2012 &copy; Digital Bazaar, Inc.",
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://payswarm.com/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3c.org",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ preProc ]/*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],*/
+      };
+    </script> 
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+  </head> 
+  <body> 
+    <section id='abstract'> 
+      <p>
+The purpose of PaySwarm is to build payment into the core architecture of the 
+Web. This document details the foundational layer of this architecture; 
+creating a monetary transaction between two participants on the
+Web. The document also ensures that the transactional system is decentralized
+in nature and that all data is portable between systems. The goal is to
+build a decentralized payment network, ensuring that power and control rest 
+with the participants in the network and not with any centralized authority.
+      </p>
+    </section>
+
+    <section>
+      <h2>Introduction</h2>
+      <p class="issue">
+Explanation of how this is the base specification for the majority of the
+types of commerce that happen on PaySwarm.
+      </p>
+    </section>
+
+    <section>
+      <h2>The Conceptual Model</h2>
+      <p>
+The conceptual model for PaySwarm is relatively simple, and grounded in the
+way value exchange happens in the real world.
+      </p>
+      <section>
+        <h3>Identity and Identifiers</h3>
+        <p>
+In order for a universal payment system to work seamlessly, there must be a
+universal way of identifying <em>things</em> in the environment. This 
+specification uses Internationalized Resource Identifiers [[!IRI]] to 
+refer to <em>things</em> on the network. These things can be a personal identity 
+(<code>https://example.com/people/bob</code>), 
+financial account information 
+(<code>https://example.com/people/bob/accounts/42</code>), public cryptography
+keys (<code>https://example.com/people/bob/keys/14</code>), assets, licenses 
+and a variety of other pieces of long-lived information that exists on the Web. 
+By naming these things with long-lived unique identifiers, it becomes possible 
+to create a decentralized but stable universal payment architecture.
+        </p>
+      </section>
+      <section>
+        <h3>Terminology</h3>
+        <section>
+          <h4>Agents</h4>
+          <p>
+An <tdef>agent</tdef> is any software that is capable of requesting an action
+to be performed in a way that is compliant with the PaySwarm specification.
+The software is usually controlled by a person or an organization 
+that would like to perform some action on a PaySwarm-conformant network.
+          </p>
+        </section>
+        <section>
+          <h4>Participants</h4>
+          <p>
+A <tdef>participant</tdef> is an entity that is capable of performing a 
+transaction on the network. The <tref>participant</tref> often employs
+<tref>agent</tref>s to execute transactions on the payment network.
+          </p>
+        </section>
+        <section>
+          <h4>Authorities</h4>
+          <p>
+An <tdef>authority</tdef> is used to store money, process and store 
+contracts, and 
+transfer monetary amounts between financial accounts. While a PaySwarm 
+Authority may hold a great deal of financial data, they are built with
+data portability in mind. PaySwarm participants may move their money and
+purchase history from one authority to another. Data portability is a mandatory
+part of this specification.
+          </p>
+        </section>
+      </section>
+      <section>
+        <h3>Commerce Model</h3>
+        <section>
+          <h4>Transactions</h4>
+A <tdef>transaction</tdef> is the exchange of value from one or more 
+source accounts into one or more destination accounts.
+        </section>
+      </section>      
+    </section>
+
+    <section>
+      <h2>Base Technologies</h2>
+      <p>
+PaySwarm builds on a number of successful Internet and Web technologies. These
+technologies are introduced in this section.
+      </p>
+
+      <section>
+        <h3>Representational State Transfer</h3>
+        <p>
+REpresentational State Transfer [[REST]] is the architectural style that underpins
+the World Wide Web. It consists of a set of constraints to ensure that servers,
+gateways, proxies and clients may interact in a way that is predictable.
+Systems that are designed with this architecture in mind are called RESTful
+systems. PaySwarm is designed to be RESTful by ensuring that the constraints of
+REST are applied to all transactions performed via PaySwarm systems.
+        </p>
+      </section>
+
+      <section>
+        <h3>JavaScript Object Notation for Linking Data</h3>
+        <p>
+JavaScript Object Notation for Linking Data [[!JSON-LD]] is a lightweight Linked 
+Data format. It is easy for humans to read and write. It is easy for machines 
+to parse and generate. It is based on the already successful JSON format and 
+provides a way to help JSON data interoperate at Web-scale. If you are already 
+familiar with JSON, writing JSON-LD is very easy. There is a smooth migration 
+path from the JSON you use today, to the JSON-LD you will use in the future. 
+These properties make JSON-LD an ideal Linked Data interchange language for 
+JavaScript environments, Web services, and JSON document-based databases.
+        </p>
+      </section>
+
+      <section>
+        <h3>The Advanced Encryption Standard</h3>
+        <p>
+The Advanced Encryption Standard (AES) [[!FIPS-197]] is a world standard 
+adopted by the
+United States Government and used to secure a vast majority of the
+commercial transactions over the Internet via OpenSSL. Since much of the data
+exchanged over PaySwarm participants is sensitive, it is important that a 
+strong cryptography suite is utilized to digitally sign and transfer the 
+messages.
+        </p>
+      </section>
+
+      <section>
+        <h3>HTML+RDFa</h3>
+        <p>
+Web sites are largely implemented on top of the HyperText Markup Language 
+(HTML). This format is known to be fairly easy to author and publish on the Web.
+In addition to being easy to publish, it is also important that data published
+via HTML can be easily read by machines without placing an undue burden on
+Web authors. Publishing structured data in a decentralized manner also 
+requires a language that is capable of being both expressive and deterministic. 
+The Resource Description Framework in attributes [[!RDFA-CORE]] extends HTML 
+[[!HTML-RDFA]] to allow structured data to be expressed via HTML, but in a way 
+that is easy for Web developers to author.
+        </p>
+      </section>
+
+      <section>
+        <h3>Web Keys</h3>
+        <p class="issue">
+Describe the <a href="../web-keys/">Web Keys</a> specification.
+        </p>
+      </section>
+
+    </section>
+
+    <section>
+      <h2>The Transaction Process</h2>
+
+      <p>
+The simplest exchange of value that can happen in the PaySwarm system is a
+<tref>transaction</tref>. 
+      </p>
+      
+      <section>
+        <h3>Transaction Terms</h3>
+        <p>
+There are a number of terms that are used during the course of processing a
+transaction.
+        </p>
+
+        <dl>
+          <dt><tdef>transaction service</tdef></dt>
+          <dd>
+The service endpoint identified by the <code>ps:transactionService</code> key in
+the domain's PaySwarm configuration file. The configuration file can be fetched
+by performing an HTTP GET request on the <tref>configuration service</tref>
+IRI.
+          </dd>
+          <dt><tdef>transaction request</tdef></dt>
+          <dd>
+A JSON-LD formatted object that contains all of the necessary information
+required to initiate a <tref>transaction</tref> on a PaySwarm-conformant
+network.
+          </dd>
+          <dt><tdef>transfer</tdef></dt>
+          <dd>
+A JSON-LD formatted object that specifies the movement of value from a
+source account to a destination account.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h3>The Transaction Algorithm</h3>
+
+        <p>
+There are two ways in which a Transaction may be initiated via a 
+<tref>authority</tref>; Payment Link initiated and <tref>agent</tref>
+initiated. The first approach is where a <tref>publishing agent</tref> may 
+initiate a transaction by constructing a URL targeted to the 
+<tref>authority</tref>'s <tref>transaction service</tref> using the 
+<a href="http://payswarm.com/specs/source/payment-links/">Payment Links specification</a>. 
+The second approach is where an <tref>agent</tref> may initiate a transaction by
+performing an HTTPS POST of JSON-LD object expressing a
+<code>ps:Transaction</code>. The normative algorithm for performing this
+operation is detailed below. In both approaches, the 
+<tref>authority</tref> processesing the request MUST note the 
+<code>ps:Transaction</code> entry in all of the accounts associated in the 
+<tref>transaction</tref> and ensure that all accounts external to the 
+<tref>authority</tref> are notified via the 
+<a href="#decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
+        </p>
+
+        <p>
+The normative algorithm for performing an <tref>agent</tref>-initiated 
+transaction is expressed below.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+An <tref>agent</tref> MUST construct a <tref>transaction request</tref> in
+JSON-LD format containing at least the following:
+            <dl>
+              <dt><code>@context</code></dt>
+              <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+              </dd>
+              <dt><code>@type</code></dt>
+              <dd>
+The value <code>ps:Transaction</code>.
+              </dd>
+              <dt><code>com:transfer</code></dt>
+              <dd>
+One or more <tref>transfer</tref>s in JSON-LD format containing at least the 
+following:
+                <dl>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Transfer</code>.
+                  </dd>        
+                  <dt><code>com:amount</code></dt>
+                  <dd>
+A string value of the total amount of the transfer.
+                  </dd>        
+                  <dt><code>com:currency</code></dt>
+                  <dd>
+The currency associated with the amount of the transfer. The value MUST be an 
+ISO-4217 currency or a dereference-able IRI to a monetary system that is 
+not specified in ISO-4217 but follows the specification of a 
+<a href="">Currency Mint</a>.
+                  </dd>        
+                  <dt><code>com:source</code></dt>
+                  <dd>
+The source account from which the funds listed in <code>com:amount</code> will
+be withdrawn.
+                  </dd>        
+                  <dt><code>com:destination</code></dt>
+                  <dd>
+The destination account to which the funds listed in <code>com:amount</code> 
+will be deposited.
+                  </dd>        
+                  <dt><code>rdfs:comment</code></dt>
+                  <dd>
+A string specifying the purpose of the transfer as well as other details 
+intended to be read by a human.
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </li>
+          <li>
+The <tref>transaction request</tref> is digitally signed by the 
+<tref>agent</tref> according to the
+<a href="#request-signature-algorithm">Request Signature Algorithm</a> using
+a <tref>private key</tref> associated with the <tref>public key</tref>
+that was previously registered with the <tref>authority</tref> 
+according to the 
+<a href="#vendor-registration">Vendor Registration Algorithm</a>.
+          </li>
+          <li>
+The <tref>transaction request</tref> is sent to the 
+<tref>authority</tref> of the <tref>agent</tref>
+via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
+of the request and retrieval of the response to prevent replay attacks.
+          </li>
+          <li>
+The <tref>authority</tref> processes the 
+<tref>transaction request</tref>. Additional <tref>transfer</tref>s MAY be
+added to the finalized <tref>transaction request</tref> by the 
+<tref>authority</tref>, such as transaction fees, pursuant to 
+existing agreements between the <tref>authority</tref> and the
+entity operating the <tref>agent</tref>. The following properties MUST be added 
+to the <tref>transaction request</tref>:
+            <dl>
+              <dt><code>@id</code></dt>
+              <dd>
+The finalized <tref>transaction</tref> identifier IRI. The value MUST be
+dereferenceable and return at least the <tref>transaction</tref> information 
+returned at the end of this algorithm when accessed using a mechanism that
+proves authorization to access the resource.
+              </dd>
+              <dt><code>com:amount</code></dt>
+              <dd>
+The total amount of the transaction which is calculated by adding up all of
+the <tref>transfer</tref>s.
+              </dd>
+              <dt><code>com:currency</code></dt>
+              <dd>
+The currency associated with the total amount of the transaction. The value 
+MUST be an ISO-4217 currency or a dereference-able IRI to a monetary system 
+that is not specified in ISO-4217 but follows the specification of a 
+<a href="">Currency Mint</a>.
+              </dd>
+              <dt><code>com:date</code></dt>
+              <dd>
+The date and time at which the transaction was recorded in the system.
+              </dd>
+            </dl>
+          </li>
+        </ol>
+
+        <p>
+The example below shows the full protocol-level exchange between the
+<tref>agent</tref> and the <tref>authority</tref> when performing a
+Transaction:
+        </p>
+
+<pre class="example">
+--------------------------------- Step #1 -----------------------------------
+
+*** Agent creates a Transaction object
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   }
+}
+
+--------------------------------- Step #2 -----------------------------------
+
+*** Agent signs the Transaction object
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   "sec:signature":
+   {
+      "@type": "sec:JsonLdSignature",
+      "dc:created": "2011-09-23T20:21:34Z",
+      "sec:signer": "http://payswarm.example.com/i/john/keys/5",
+      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+   }
+}
+
+
+---------------------------------- Step #3 ----------------------------------
+
+*** Agent HTTPS POSTs the Transaction object to the authority
+
+POST transactions HTTP/1.1
+Host: bluebank.com
+Content-Length: 634
+Content-Type: application/ld+json
+
+{
+   "@type": "ps:Transaction"
+   "ps:transfer":
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   "sec:signature":
+   {
+      "@type": "sec:JsonLdSignature",
+      "dc:created": "2011-09-23T20:21:34Z",
+      "sec:signer": "http://bluebank.com/people/john/keys/5",
+      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+   }
+}
+
+---------------------------------- Step #4 ----------------------------------
+
+*** authority processes the transaction and returns the finalized
+*** transaction to the Agent
+
+Cache-Control:no-cache, must-revalidate, max-age=0
+Content-Length: 728
+Content-Type: application/ld+json
+
+{
+   "@id": "https://bluebank.com/transactions/20110923f72b8ca3",
+   "@type": "ps:Transaction",
+   "com:amount": "7.65",
+   "com:currency": "USD",
+   "com:date": "2011-09-23T20:21:35Z",
+   "ps:transfer":
+   [{
+      "@type": "ps:Transfer",
+      "com:amount": "7.50",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   },
+   {
+      "@type": "ps:Transfer",
+      "com:amount": "0.15",
+      "com:currency": "USD",
+      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
+      "com:destination": "https://bluebank.com/accounts/processing-fees",
+      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+   }]
+}
+</pre>
+
+      </section>
+    </section>
+    
+    <section>
+      <h2>The Decentralized Settlement Process</h2>
+      
+      <p>
+The decentralized settlement process is used to ensure the immediate and 
+smooth transition of funds from an account on one 
+<tref>authority</tref> to an account on another 
+<tref>authority</tref>.
+      </p>
+
+      <section>
+        <h2>Decentralized Settlement Terms</h2>
+        <p>
+The following terminology is used to describe concepts used to perform the
+settling of accounts between multiple <tref>PaySwarm Authorities</tref>.
+        </p>
+        
+        <dl>
+          <dt><tdef>disbursing authority</tdef></dt>
+          <dd>
+An <tref>authority</tref> that is disbursing a set of funds to one or
+more receiving <tref title="authority">PaySwarm authorities</tref>.
+          </dd>
+          <dt><tdef>receiving authority</tdef></dt>
+          <dd>
+An <tref>authority</tref> that is receiving a set of funds from a
+<tref>disbursing authority</tref>.
+          </dd>
+          <dt><tdef>escrow transfer log</tdef></dt>
+          <dd>
+A log of <tref>transfer</tref>s that are either in the process of being
+disbursed or received for a particular particular 
+<tref>financial account</tref>. The log is used to ensure that double-entries
+are not accidentally recorded due to network errors or other fatal errors
+associated with hardware or software failures.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>The Decentralized Settlement Algorithm</h2>
+
+        <p>
+The following algorithm ensures that funds transferred as a part of a 
+<tref>transaction</tref> can be transmitted to one or more 
+<tref>authority</tref> payment processors in an interoperable 
+fashion such that there are no dangers that the value exchange is lost or
+mis-applied to the wrong accounts.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+The <tref>disbursing authority</tref> contacts each 
+<tref>receiving authority</tref> listed in the list of <tref>transfer</tref>s
+contained in the <tref>transaction</tref> being processed and retrieves the
+<code>ps:TransactionBackhaul</code> service from each 
+<tref>configuration service</tref> endpoint. If any
+<tref>receiving authority</tref> is not available now or at any point during
+this process, or if the <tref>receiving authority</tref> is blacklisted for
+any reason, the <tref>transaction</tref> MUST fail.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> processes <tref>transfer</tref>s
+intended for <tref>financial account</tref>s that are local to the system, 
+noting outgoing and incoming <tref>transfer</tref> amounts in each 
+<tref>financial account</tref>'s <tref>escrow transfer log</tref>.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> processes <tref>transfer</tref>s
+intended for <tref>financial account</tref>s that are on 
+<tref title="receiving authority">receiving authorities</tref>
+noting outgoing <tref>transfer</tref> amounts in each source
+<tref>financial account</tref>'s <tref>escrow transfer log</tref>.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> transmits the <tref>transaction</tref>
+to each <tref>receiving authority</tref>. The <tref>receiving authority</tref>
+processes <tref>transfer</tref>s intended for 
+<tref>financial account</tref>s that are on the
+<tref>receiving authority</tref> noting incoming 
+<tref>transfer</tref> amounts in each target
+<tref>financial account</tref>'s <tref>escrow transfer log</tref>. If all
+amounts were not successfully marked in escrow, the <tref>transaction</tref>
+MUST fail.
+          </li>
+          <li>
+The <tref>disbursing authority</tref> moves all funds from escrow into all
+local <tref>financial account</tref>s. The <tref>disbursing authority</tref>
+contacts all <tref title="receiving authority">receiving authorities</tref> and
+instructs them to move all funds from escrow into all destination
+<tref>financial account</tref>s. This two-stage commit process ensures that
+in the event of a failure while contacting multiple 
+<tref title="receiving authority">receiving authorities</tref>, that 
+transactions can be backed out.
+            <div class="note">
+While this algorithm outlines how transfer records are transmitted and
+recorded in a decentralized fashion, it does not outline how each 
+<tref>authority</tref> ensures that currencies are exchanged between
+financial institutions. One such possibility is an ACH banking transfer, but
+such a transfer is not necessary if the banks adopt this protocol for clearing
+transactions across financial systems.
+            </div>
+          </li>
+        </ol>
+      </section>
+
+    </section>
+
+  </body> 
+</html>
+

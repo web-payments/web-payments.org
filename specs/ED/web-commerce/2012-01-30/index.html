@@ -1,0 +1,1614 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+    <title>Web Commerce 1.0</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
+    
+<!--  
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+      -->
+ 
+     
+     
+    
+    
+    
+  <style type="text/css">
+/*****************************************************************
+ * ReSpec CSS
+ * Robin Berjon (robin at berjon dot com)
+ * v0.05 - 2009-07-31
+ *****************************************************************/
+
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- WEB IDL --- */
+pre.idl {
+    border-top: 1px solid #90b8de;
+    border-bottom: 1px solid #90b8de;
+    padding:    1em;
+    line-height:    120%;
+}
+
+pre.idl::before {
+    content:    "WebIDL";
+    display:    block;
+    width:      150px;
+    background: #90b8de;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+.idlType {
+    color:  #ff4500;
+    font-weight:    bold;
+    text-decoration:    none;
+}
+
+/*.idlModule*/
+/*.idlModuleID*/
+/*.idlInterface*/
+.idlInterfaceID, .idlDictionaryID {
+    font-weight:    bold;
+    color:  #005a9c;
+}
+
+.idlSuperclass {
+    font-style: italic;
+    color:  #005a9c;
+}
+
+/*.idlAttribute*/
+.idlAttrType, .idlFieldType, .idlMemberType {
+    color:  #005a9c;
+}
+.idlAttrName, .idlFieldName, .idlMemberName {
+    color:  #ff4500;
+}
+.idlAttrName a, .idlFieldName a, .idlMemberName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlMethod*/
+.idlMethType {
+    color:  #005a9c;
+}
+.idlMethName {
+    color:  #ff4500;
+}
+.idlMethName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlParam*/
+.idlParamType {
+    color:  #005a9c;
+}
+.idlParamName {
+    font-style: italic;
+}
+
+.extAttr {
+    color:  #666;
+}
+
+/*.idlConst*/
+.idlConstType {
+    color:  #005a9c;
+}
+.idlConstName {
+    color:  #ff4500;
+}
+.idlConstName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
+/*.idlException*/
+.idlExceptionID {
+    font-weight:    bold;
+    color:  #c00;
+}
+
+.idlTypedefID, .idlTypedefType {
+    color:  #005a9c;
+}
+
+.idlRaises, .idlRaises a.idlType, .idlRaises a.idlType code, .excName a, .excName a code {
+    color:  #c00;
+    font-weight:    normal;
+}
+
+.excName a {
+    font-family:    monospace;
+}
+
+.idlRaises a.idlType, .excName a.idlType {
+    border-bottom:  1px dotted #c00;
+}
+
+.excGetSetTrue, .excGetSetFalse, .prmNullTrue, .prmNullFalse, .prmOptTrue, .prmOptFalse {
+    width:  45px;
+    text-align: center;
+}
+.excGetSetTrue, .prmNullTrue, .prmOptTrue { color:  #0c0; }
+.excGetSetFalse, .prmNullFalse, .prmOptFalse { color:  #c00; }
+
+.idlImplements a {
+    font-weight:    bold;
+}
+
+dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+    margin-left:    2em;
+}
+
+.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+    font-weight:    normal;
+}
+
+.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+    font-weight:    bold;
+    color:  #000;
+    font-family:    monospace;
+}
+
+.attributes dt code, .fields dt code, .dictionary-members dt code {
+    background:  #ffffd2;
+}
+
+.attributes dt .idlAttrType code, .fields dt .idlFieldType code, .dictionary-members dt .idlMemberType code {
+    color:  #005a9c;
+    background:  transparent;
+    font-family:    inherit;
+    font-weight:    normal;
+    font-style: italic;
+}
+
+.methods dt code {
+    background:  #d9e6f8;
+}
+
+.constants dt code {
+    background:  #ddffd2;
+}
+
+.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+    margin-bottom:  1em;
+}
+
+table.parameters, table.exceptions {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    margin: 0.5em 0;
+    width:  100%;
+}
+table.parameters { border-bottom:  1px solid #90b8de; }
+table.exceptions { border-bottom:  1px solid #deb890; }
+
+.parameters th, .exceptions th {
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+    font-family:    initial;
+    font-weight:    normal;
+    text-shadow:    #666 1px 1px 0;
+}
+.parameters th { background: #90b8de; }
+.exceptions th { background: #deb890; }
+
+.parameters td, .exceptions td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+    vertical-align: top;
+}
+
+.parameters tr:first-child td, .exceptions tr:first-child td {
+    border-top: none;
+}
+
+.parameters td.prmName, .exceptions td.excName, .exceptions td.excCodeName {
+    width:  100px;
+}
+
+.parameters td.prmType {
+    width:  120px;
+}
+
+table.exceptions table {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    width:  100%;
+}
+
+/* --- TOC --- */
+.toc a {
+    text-decoration:    none;
+}
+
+a .secno {
+    color:  #000;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+/* --- EXAMPLES --- */
+pre.example {
+    border-top: 1px solid #ff4500;
+    border-bottom: 1px solid #ff4500;
+    padding:    1em;
+    margin-top: 1em;
+}
+
+pre.example::before {
+    content:    "Example";
+    display:    block;
+    width:      150px;
+    background: #ff4500;
+    color:  #fff;
+    font-family:    initial;
+    padding:    3px;
+    font-weight:    bold;
+    margin: -1em 0 1em -1em;
+}
+
+/* --- EDITORIAL NOTES --- */
+.issue {
+    padding:    1em;
+    margin: 1em 0em 0em;
+    border: 1px solid #f00;
+    background: #ffc;
+}
+
+.issue::before {
+    content:    "Issue";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #f00;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+.note {
+    margin: 1em 0em 0em;
+    padding:    1em;
+    border: 2px solid #cff6d9;
+    background: #e2fff0;
+}
+
+.note::before {
+    content:    "Note";
+    display:    block;
+    width:  150px;
+    margin: -1.5em 0 0.5em 0;
+    font-weight:    bold;
+    border: 1px solid #cff6d9;
+    background: #fff;
+    padding:    3px 1em;
+}
+
+/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
+}
+
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+span.practicelab   { background: #dfffff; }
+
+span.practicelab {
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
+}
+
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
+}
+
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
+}
+
+/* --- SYNTAX HIGHLIGHTING --- */
+pre.sh_sourceCode {
+  background-color: white;
+  color: black;
+  font-style: normal;
+  font-weight: normal;
+}
+
+pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
+pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
+pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
+pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
+pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
+pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
+pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
+pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
+pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
+pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
+pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
+pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
+pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
+
+/* Predefined variables and functions (for instance glsl) */
+pre.sh_sourceCode .sh_predef_var { color: #00008B; }
+pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
+
+/* for OOP */
+pre.sh_sourceCode .sh_classname { color: teal; }
+
+/* line numbers (not yet implemented) */
+pre.sh_sourceCode .sh_linenum { display: none; }
+
+/* Internet related */
+pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
+
+/* for ChangeLog and Log files */
+pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
+pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
+pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
+
+/* for Prolog, Perl... */
+pre.sh_sourceCode .sh_variable { color: #006400; }
+
+/* for LaTeX */
+pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
+pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
+pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
+pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
+pre.sh_sourceCode .sh_argument { color: #006400; }
+pre.sh_sourceCode .sh_optionalargument { color: purple; }
+pre.sh_sourceCode .sh_math { color: orange; }
+pre.sh_sourceCode .sh_bibtex { color: blue; }
+
+/* for diffs */
+pre.sh_sourceCode .sh_oldfile { color: orange; }
+pre.sh_sourceCode .sh_newfile { color: #006400; }
+pre.sh_sourceCode .sh_difflines { color: blue; }
+
+/* for css */
+pre.sh_sourceCode .sh_selector { color: purple; }
+pre.sh_sourceCode .sh_property { color: blue; }
+pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
+
+/* other */
+pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
+pre.sh_sourceCode .sh_paren { color: red; }
+pre.sh_sourceCode .sh_attribute { color: #006400; }
+
+</style><style type="text/css">ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+</style><style type="text/css">/*
+ * Derived from einaros's Sons of Obsidian theme at
+ * http://studiostyl.es/schemes/son-of-obsidian by
+ * and Alex Ford of CodeTunnel
+ * http://CodeTunnel.com/blog/post/71/google-code-prettify-obsidian-theme
+ */
+
+.str
+{
+    color: #93C763;
+}
+.kwd
+{
+    color: #EC7600;
+}
+.com
+{
+    color: #66747B;
+}
+.typ
+{
+    color: #678CB1;
+}
+.lit
+{
+    color: #FACD22;
+}
+.pun
+{
+    color: #F1F2F3;
+}
+.pln
+{
+    color: #F1F2F3;
+}
+.tag
+{
+    color: #8AC763;
+}
+.tag.jsonld-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-uri
+{
+    color: #8A93CD;
+}
+.tag.turtle-curie
+{
+    color: #AC84CB;
+}
+.atn
+{
+    color: #E0E2E4;
+}
+.atn.jsonld-curie
+{
+    color: #AC84CB;
+}
+.atn.turtle-curie
+{
+    color: #FACD22;
+}
+.atv
+{
+    color: #EC7600;
+}
+.dec
+{
+    color: purple;
+}
+pre.prettyprint
+{
+    border: 0px solid #888;
+}
+ol.linenums
+{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.prettyprint {
+    font: monospace;
+    /*font-size: 0.8em;*/
+    font-weight: bold;
+    background: #000;
+    color: #ddd;
+    /*overflow: auto;*/
+}
+li.L0, li.L1, li.L2, li.L3, li.L4, li.L5, li.L6, li.L7, li.L8, li.L9
+{
+    color: #555;
+}
+li.L1, li.L3, li.L5, li.L7, li.L9 {
+    background: #111;
+}
+@media print
+{
+    .str
+    {
+        color: #060;
+    }
+    .kwd
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .com
+    {
+        color: #600;
+        font-style: italic;
+    }
+    .typ
+    {
+        color: #404;
+        font-weight: bold;
+    }
+    .lit
+    {
+        color: #044;
+    }
+    .pun
+    {
+        color: #440;
+    }
+    .pln
+    {
+        color: #000;
+    }
+    .tag
+    {
+        color: #006;
+        font-weight: bold;
+    }
+    .atn
+    {
+        color: #404;
+    }
+    .atv
+    {
+        color: #060;
+    }
+}
+</style><link href="http://www.w3.org/StyleSheets/TR/w3c-unofficial" rel="stylesheet" type="text/css" charset="utf-8" /></head> 
+  <body style="display: inherit; "><div class="head"><p></p><h1 class="title" id="title">Web Commerce 1.0</h1><h2 id="unofficial-draft-31-january-2012">Unofficial Draft 31 January 2012</h2><dl><dt>Editor:</dt><dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+</dl><p class="copyright">Copyright 2009-2012 © Digital Bazaar, Inc.</p><hr /></div> 
+    <div id="abstract" class="introductory section"><h2>Abstract</h2> 
+      <p>
+The purpose of PaySwarm is to build payment into the core architecture of the 
+Web. This document details the electronic commerce portion of this architecture; 
+enabling the decentralized listing of assets for sale and the transaction of
+those assets resulting in a digitally verifiable receipt between the buyer 
+and the vendor.
+      </p> 
+    </div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p>This document is merely a public working draft of a potential specification. It has no official standing of any kind and does not represent the support or consensus of any standards organisation.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#the-conceptual-model" class="tocxref"><span class="secno">2. </span>The Conceptual Model</a><ul class="toc"><li class="tocline"><a href="#participants" class="tocxref"><span class="secno">2.1 </span>Participants</a><ul class="toc"><li class="tocline"><a href="#vendors" class="tocxref"><span class="secno">2.1.1 </span>Vendors</a></li></ul></li><li class="tocline"><a href="#commerce-model" class="tocxref"><span class="secno">2.2 </span>Commerce Model</a><ul class="toc"><li class="tocline"><a href="#transactions" class="tocxref"><span class="secno">2.2.1 </span>Transactions</a></li><li class="tocline"><a href="#assets" class="tocxref"><span class="secno">2.2.2 </span>Assets</a></li><li class="tocline"><a href="#licenses" class="tocxref"><span class="secno">2.2.3 </span>Licenses</a></li><li class="tocline"><a href="#listings" class="tocxref"><span class="secno">2.2.4 </span>Listings</a></li><li class="tocline"><a href="#contracts" class="tocxref"><span class="secno">2.2.5 </span>Contracts</a></li></ul></li></ul></li><li class="tocline"><a href="#base-technologies" class="tocxref"><span class="secno">3. </span>Base Technologies</a><ul class="toc"><li class="tocline"><a href="#representational-state-transfer" class="tocxref"><span class="secno">3.1 </span>Representational State Transfer</a></li><li class="tocline"><a href="#javascript-object-notation-for-linking-data" class="tocxref"><span class="secno">3.2 </span>JavaScript Object Notation for Linking Data</a></li><li class="tocline"><a href="#the-advanced-encryption-standard" class="tocxref"><span class="secno">3.3 </span>The Advanced Encryption Standard</a></li><li class="tocline"><a href="#html-rdfa" class="tocxref"><span class="secno">3.4 </span>HTML+RDFa</a></li></ul></li><li class="tocline"><a href="#the-purchase-process" class="tocxref"><span class="secno">4. </span>The Purchase Process</a><ul class="toc"><li class="tocline"><a href="#publishing-an-asset" class="tocxref"><span class="secno">4.1 </span>Publishing an Asset</a></li><li class="tocline"><a href="#publishing-a-license" class="tocxref"><span class="secno">4.2 </span>Publishing a License</a></li><li class="tocline"><a href="#publishing-a-listing" class="tocxref"><span class="secno">4.3 </span>Publishing a Listing</a></li><li class="tocline"><a href="#performing-a-purchase" class="tocxref"><span class="secno">4.4 </span>Performing a Purchase</a><ul class="toc"><li class="tocline"><a href="#purchase-terms" class="tocxref"><span class="secno">4.4.1 </span>Purchase Terms</a></li><li class="tocline"><a href="#the-purchase-algorithm" class="tocxref"><span class="secno">4.4.2 </span>The Purchase Algorithm</a></li></ul></li><li class="tocline"><a href="#performing-automatic-purchases" class="tocxref"><span class="secno">4.5 </span>Performing Automatic Purchases</a><ul class="toc"><li class="tocline"><a href="#purchase-terms-1" class="tocxref"><span class="secno">4.5.1 </span>Purchase Terms</a></li><li class="tocline"><a href="#the-automatic-purchase-algorithm" class="tocxref"><span class="secno">4.5.2 </span>The Automatic Purchase Algorithm</a></li></ul></li><li class="tocline"><a href="#the-contract" class="tocxref"><span class="secno">4.6 </span>The Contract</a></li><li class="tocline"><a href="#verifying-a-purchase" class="tocxref"><span class="secno">4.7 </span>Verifying a Purchase</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">A.2 </span>Informative references</a></li></ul></li></ul></div> 
+
+    <div id="introduction" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">1. </span>Introduction</h2>
+      <p class="issue">
+Add introductory text about the need for a simple electronic commerce standard
+for the Web.
+      </p>
+    </div>
+
+    <div id="the-conceptual-model" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">2. </span>The Conceptual Model</h2>
+      <p>
+There are three primary participants in a PaySwarm transaction; the 
+buyer, the vendor, and the authority.
+      </p>
+      <div id="participants" class="section">
+        <h3><span class="secno">2.1 </span>Participants</h3>
+        <div id="vendors" class="section">
+          <h4><span class="secno">2.1.1 </span>Vendors</h4>
+          <p>
+A <dfn title="vendor" id="dfn-vendor">vendor</dfn> is the entity providing an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> for sale. 
+Typically, the vendor is the legal owner 
+of the asset that is being listed for sale. Ownership of an asset can manifest 
+in a variety of different forms. Copyright ownership, physical ownership, and 
+sub-leased property or services are just a few of the types of ownership that 
+apply to vendors.
+          </p>
+        </div>
+      </div>
+      <div id="commerce-model" class="section">
+        <h3><span class="secno">2.2 </span>Commerce Model</h3>
+        <div id="transactions" class="section">
+          <h4><span class="secno">2.2.1 </span>Transactions</h4>
+A <dfn title="transaction" id="dfn-transaction">transaction</dfn> is the exchange of value from one or more 
+source accounts into one or more destination accounts.
+        </div>
+        <div id="assets" class="section">
+          <h4><span class="secno">2.2.2 </span>Assets</h4>
+An <dfn title="asset" id="dfn-asset">asset</dfn> describes a particular item that is provided as a part 
+of a commercial
+transaction. It is usually an item that can be accessed or acquired on the
+basis of a sale or rental under the terms of a particular license. Examples
+of assets include web pages, crowd-funded loans or grants, music files, 
+video streams, use of virtual machines by the hour, 
+3D printer files for on-demand manufacturing, radio 
+spectrum and many other items that are capable of being transacted.
+          <p>
+          </p>
+        </div>
+        <div id="licenses" class="section">
+          <h4><span class="secno">2.2.3 </span>Licenses</h4>
+          <p>
+A <dfn title="license" id="dfn-license">license</dfn> is a legal description of a licensee's rights to a 
+particular <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+Licenses are usually included as a part of a contract to express what a buyer 
+may do with the asset that has been purchased.
+          </p>
+        </div>
+        <div id="listings" class="section">
+          <h4><span class="secno">2.2.4 </span>Listings</h4>
+          <p>
+A <dfn title="listing" id="dfn-listing">listing</dfn> describes the combination of an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that 
+is for sale under a specific <a class="tref internalDFN" title="license" href="#dfn-license">license</a> and a set of payment terms 
+that must be fulfilled in order 
+to access the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>. Listings are often published on websites that 
+sell <a class="tref" title="assets">assets</a> via PaySwarm as a way to express wares for sale in a 
+decentralized manner.
+          </p>
+        </div>
+        <div id="contracts" class="section">
+          <h4><span class="secno">2.2.5 </span>Contracts</h4>
+          <p>
+A <dfn title="contract" id="dfn-contract">contract</dfn> is the result of a commercial transaction in PaySwarm 
+and contains
+information such as the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>, the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was 
+purchased, the parties involved in the transaction, the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> 
+outlining the rights to the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>, and payment information 
+associated with the transaction.
+          </p>
+        </div>
+      </div>      
+    </div>
+
+    <div id="base-technologies" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">3. </span>Base Technologies</h2>
+      <p>
+PaySwarm builds on a number of successful Internet and Web technologies. These
+technologies are introduced in this section.
+      </p>
+
+      <div id="representational-state-transfer" class="section">
+        <h3><span class="secno">3.1 </span>Representational State Transfer</h3>
+        <p>
+REpresentational State Transfer [<cite><a class="bibref" rel="biblioentry" href="#bib-REST">REST</a></cite>] is the architectural style that underpins
+the World Wide Web. It consists of a set of constraints to ensure that servers,
+gateways, proxies and clients may interact in a way that is predictable.
+Systems that are designed with this architecture in mind are called RESTful
+systems. PaySwarm is designed to be RESTful by ensuring that the constraints of
+REST are applied to all transactions performed via PaySwarm systems.
+        </p>
+      </div>
+
+      <div id="javascript-object-notation-for-linking-data" class="section">
+        <h3><span class="secno">3.2 </span>JavaScript Object Notation for Linking Data</h3>
+        <p>
+JavaScript Object Notation for Linking Data [<cite><a class="bibref" rel="biblioentry" href="#bib-JSON-LD">JSON-LD</a></cite>] is a lightweight Linked 
+Data format. It is easy for humans to read and write. It is easy for machines 
+to parse and generate. It is based on the already successful JSON format and 
+provides a way to help JSON data interoperate at Web-scale. If you are already 
+familiar with JSON, writing JSON-LD is very easy. There is a smooth migration 
+path from the JSON you use today, to the JSON-LD you will use in the future. 
+These properties make JSON-LD an ideal Linked Data interchange language for 
+JavaScript environments, Web services, and JSON document-based databases.
+        </p>
+      </div>
+
+      <div id="the-advanced-encryption-standard" class="section">
+        <h3><span class="secno">3.3 </span>The Advanced Encryption Standard</h3>
+        <p>
+The Advanced Encryption Standard (AES) [<cite><a class="bibref" rel="biblioentry" href="#bib-FIPS-197">FIPS-197</a></cite>] is a world standard 
+adopted by the
+United States Government and used to secure a vast majority of the
+commercial transactions over the Internet via OpenSSL. Since much of the data
+exchanged over PaySwarm participants is sensitive, it is important that a 
+strong cryptography suite is utilized to digitally sign and transfer the 
+messages.
+        </p>
+      </div>
+
+      <div id="html-rdfa" class="section">
+        <h3><span class="secno">3.4 </span>HTML+RDFa</h3>
+        <p>
+Web sites are largely implemented on top of the HyperText Markup Language 
+(HTML). This format is known to be fairly easy to author and publish on the Web.
+In addition to being easy to publish, it is also important that data published
+via HTML can be easily read by machines without placing an undue burden on
+Web authors. Publishing structured data in a decentralized manner also 
+requires a language that is capable of being both expressive and deterministic. 
+The Resource Description Framework in attributes [<cite><a class="bibref" rel="biblioentry" href="#bib-RDFA-CORE">RDFA-CORE</a></cite>] extends HTML 
+[<cite><a class="bibref" rel="biblioentry" href="#bib-HTML-RDFA">HTML-RDFA</a></cite>] to allow structured data to be expressed via HTML, but in a way 
+that is easy for Web developers to author.
+        </p>
+      </div>
+    </div>
+
+    <div id="the-purchase-process" class="section">
+      
+<!-- OddPage -->
+<h2><span class="secno">4. </span>The Purchase Process</h2>
+      
+      <p>
+The simplest purchase process includes four distinct steps; publishing an
+<a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>, publishing a <a class="tref internalDFN" title="license" href="#dfn-license">license</a>, publishing a 
+<a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> and performing the purchase. Typically, the 
+<a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> publishes the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> description and the
+<a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>. Anyone may publish a <a class="tref internalDFN" title="license" href="#dfn-license">license</a> that is used in 
+a <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>. The purchase is performed via a 
+<a class="tref" title="authority">authority</a>.
+      </p>
+
+        <p>
+While it is possible to express <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>s, <a class="tref internalDFN" title="license" href="#dfn-license">license</a>s,
+and <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>s on the Web in many different machine-readable 
+formats, to ensure that implementations do not become more complicated than 
+necessary, all <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>s, <a class="tref internalDFN" title="license" href="#dfn-license">license</a>s and 
+<a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> <em class="rfc2119" title="must">must</em> be expressed in HTML+RDFa [<cite><a class="bibref" rel="biblioentry" href="#bib-HTML-RDFA">HTML-RDFA</a></cite>] format. The
+example markup that is expressed in many of the following sections below
+will use [<cite><a class="bibref" rel="biblioentry" href="#bib-JSON-LD">JSON-LD</a></cite>] for the sake of brevity. In many cases, the information
+expressed via JSON-LD is expected to be express via RDFa on a Web page.
+There is a clear mapping from RDFa to JSON-LD, so the data expressed in the 
+sections below can be losslessly expressed via RDFa on an HTML Web page.
+        </p>
+
+      <div id="publishing-an-asset" class="section">
+        <h3><span class="secno">4.1 </span>Publishing an Asset</h3>
+        <p>
+An <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> describes a particular item that is provided as a part 
+of a commercial transaction. It is usually an item that can be accessed or 
+acquired on the
+basis of a sale or rental under the terms of a particular <a class="tref internalDFN" title="license" href="#dfn-license">license</a>. 
+Examples of assets include web pages, music files, video streams, virtual 
+machines intended to be paid for by the CPU-hour, 3D printer files for 
+on-demand manufacturing, radio spectrum and crowd-funded loans and grants.
+        </p>
+
+        <p>
+The following example describes a web page <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> with the title 
+"PaySwarm in Practice". The article was created by 
+"Digital Bazaar, Inc." and the information in the asset is valid from 
+November 28th, 2010 to November 28th, 2011. 
+The asset is digitally signed by the organization providing it
+and thus can be cached, stored and then presented to someone else in a manner
+that is verifiable by the receiving party.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">http://purl.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/articles/1#asset</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">ps:Asset</span><span class="pln">", "</span><span class="tag jsonld-curie">ps:WebPage</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">dc:title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">dc:description</span><span class="pln">": "</span><span class="str">This article covers how to use PaySwarm on your Website.</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">dc:creator</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">foaf:Organization</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">foaf:name</span><span class="pln">": "</span><span class="str">Digital Bazaar, Inc.</span><span class="pln">",
+   }
+   "</span><span class="atn jsonld-curie">ps:contentUrl</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/articles/1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-11-28T00:00:00Z</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">sec:signature</span><span class="pln">": 
+   {
+       "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">sec:JsonLdSignature</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sec:signer</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/digital-bazaar#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">sec:signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre>
+        
+        <p>
+In order to publish this asset on a Web page, a <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> <em class="rfc2119" title="must">must</em> 
+mark the data up in RDFa and place it into an HTML file. For example,
+assume that the following file is served from the 
+<code>http://example.org/articles/1-purchase</code> IRI:
+        </p>
+
+        <pre class="example prettyprint language-html">
+<span class="tag">&lt;html&gt;</span><span class="pln">
+ </span><span class="tag">&lt;head&gt;</span><span class="pln">
+   </span><span class="tag">&lt;title&gt;</span><span class="pln">Buy: PaySwarm in Practice</span><span class="tag">&lt;/title&gt;</span><span class="pln">
+ </span><span class="tag">&lt;/head&gt;</span><span class="pln">
+ </span><span class="tag">&lt;body</span><span class="pln"> </span><span class="atn">prefix</span><span class="pun">=</span><span class="atv">"dc: http://purl.org/dc/terms/ 
+               foaf: http://xmlns.com/foaf/0.1/ 
+               ps: http://purl.org/payswarm#
+               sec: http://purl.org/security#
+               xsd: http://www.w3.org/2001/XMLSchema#"</span><span class="tag">&gt;</span><span class="pln">
+
+   </span><span class="tag">&lt;article</span><span class="pln"> </span><span class="atn">about</span><span class="pun">=</span><span class="atv">"http://example.org/articles/1#asset"</span><span class="pln"> </span><span class="atn">typeof</span><span class="pun">=</span><span class="atv">"ps:Asset ps:WebPage"</span><span class="tag">&gt;</span><span class="pln">
+     </span><span class="tag">&lt;h1</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"dc:title"</span><span class="tag">&gt;</span><span class="pln">PaySwarm in Practice</span><span class="tag">&lt;/h1&gt;</span><span class="pln">
+     by
+     </span><span class="tag">&lt;h2</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"dc:creator"</span><span class="pln"> </span><span class="atn">typeof</span><span class="pun">=</span><span class="atv">"foaf:Organization"</span><span class="tag">&gt;</span><span class="pln">
+       </span><span class="tag">&lt;span</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"foaf:name"</span><span class="tag">&gt;</span><span class="pln">Digital Bazaar, Inc.</span><span class="tag">&lt;/span&gt;</span><span class="pln">
+     </span><span class="tag">&lt;/h2&gt;</span><span class="pln">
+
+     </span><span class="tag">&lt;p</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"dc:description"</span><span class="tag">&gt;</span><span class="pln">This article covers how to use PaySwarm on your Website.</span><span class="tag">&lt;/p&gt;</span><span class="pln">
+     </span><span class="tag">&lt;a</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"ps:contentUrl"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"http://example.org/articles/1"</span><span class="tag">&gt;</span><span class="pln">permalink</span><span class="tag">&lt;/a&gt;</span><span class="pln">
+     
+     </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"button"</span><span class="pln"> </span><span class="atn">onclick</span><span class="pun">=</span><span class="atv">"</span><span class="pln">doPurchase</span><span class="pun">();</span><span class="atv">"</span><span class="tag">&gt;</span><span class="pln">Purchase Access to the Article</span><span class="tag">&lt;/input&gt;</span><span class="pln">
+     
+     </span><span class="tag">&lt;input</span><span class="pln"> </span><span class="atn">type</span><span class="pun">=</span><span class="atv">"button"</span><span class="pln"> </span><span class="atn">onclick</span><span class="pun">=</span><span class="atv">"</span><span class="pln">toggleDetails</span><span class="pun">();</span><span class="atv">"</span><span class="tag">&gt;</span><span class="pln">Details</span><span class="tag">&lt;/input&gt;</span><span class="pln">
+     </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">class</span><span class="pun">=</span><span class="atv">"article-details hidden-by-default"</span><span class="tag">&gt;</span><span class="pln">
+       This asset publication is valid from
+       </span><span class="tag">&lt;span</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"ps:validFrom"</span><span class="pln"> </span><span class="atn">content</span><span class="pun">=</span><span class="atv">"2010-11-28T00:00:00Z"</span><span class="pln"> </span><span class="atn">datatype</span><span class="pun">=</span><span class="atv">"xsd:dateTime"</span><span class="tag">&gt;</span><span class="pln">today</span><span class="tag">&lt;/span&gt;</span><span class="pln">
+       until a 
+       </span><span class="tag">&lt;span</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"ps:validTo"</span><span class="pln"> </span><span class="atn">content</span><span class="pun">=</span><span class="atv">"2011-11-28T00:00:00Z"</span><span class="pln"> </span><span class="atn">datatype</span><span class="pun">=</span><span class="atv">"xsd:dateTime"</span><span class="tag">&gt;</span><span class="pln">year from today</span><span class="tag">&lt;/span&gt;</span><span class="pln">.
+       </span><span class="tag">&lt;div</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"sec:signature"</span><span class="pln"> </span><span class="atn">typeof</span><span class="pun">=</span><span class="atv">"sec:JsonLdSignature"</span><span class="tag">&gt;</span><span class="pln">
+         Signed on 
+         </span><span class="tag">&lt;span</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"dc:created"</span><span class="pln"> </span><span class="atn">content</span><span class="pun">=</span><span class="atv">"2010-11-28T00:00:00Z"</span><span class="pln"> </span><span class="atn">datatype</span><span class="pun">=</span><span class="atv">"xsd:dateTime"</span><span class="tag">&gt;</span><span class="pln">November 28th 2010</span><span class="tag">&lt;/span&gt;</span><span class="pln">
+         by
+         </span><span class="tag">&lt;a</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"sec:signer"</span><span class="pln"> </span><span class="atn">href</span><span class="pun">=</span><span class="atv">"https://payswarm.example.com/i/digital-bazaar#key-5"</span><span class="tag">&gt;</span><span class="pln">Digital Bazaar</span><span class="tag">&lt;/a&gt;</span><span class="pln">:
+         </span><span class="tag">&lt;span</span><span class="pln"> </span><span class="atn">property</span><span class="pun">=</span><span class="atv">"sec:signatureValue"</span><span class="tag">&gt;</span><span class="pln">OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo=</span><span class="tag">&lt;/span&gt;</span><span class="pln">
+       </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+      </span><span class="tag">&lt;/div&gt;</span><span class="pln">
+   </span><span class="tag">&lt;/article&gt;</span><span class="pln">
+ </span><span class="tag">&lt;/body&gt;</span><span class="pln">
+</span><span class="tag">&lt;/html&gt;</span><span class="pln">
+        </span></pre>
+
+        <p>
+It may not initially be clear why an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> would need to be
+digitally signed. There are two major reasons that assets <em class="rfc2119" title="must">must</em> be digitally
+signed in order to take part in a secure financial system. The first is to
+ensure, from a legal standpoint, that the person or organization claiming 
+ownership over the asset is clear. The second is to ensure that forgery 
+cannot occur on any of the asset information claimed by the owner of the asset.
+For example, if the asset were listed on an non-secure HTTP-based Web site, 
+the information could be easily modified in transit.
+        </p>
+
+        <p>
+The example above demonstrates how the information expressed as [<cite><a class="bibref" rel="biblioentry" href="#bib-JSON-LD">JSON-LD</a></cite>] 
+earlier in this section can be expressed as HTML+RDFa 
+[<cite><a class="bibref" rel="biblioentry" href="#bib-HTML-RDFA">HTML-RDFA</a></cite>]. The rest of this specification will not express information 
+using both mechanisms, but will use [<cite><a class="bibref" rel="biblioentry" href="#bib-JSON-LD">JSON-LD</a></cite>] markup for the sake of 
+brevity even if the information being expressed is meant to be expressed in
+RDFa.
+        </p>
+        
+      </div>
+
+      <div id="publishing-a-license" class="section">
+        <h3><span class="secno">4.2 </span>Publishing a License</h3>
+        <p>
+A <a class="tref internalDFN" title="license" href="#dfn-license">license</a> is a legal description of a licensee's rights to a 
+particular <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+Licenses are usually included as a part of a <a class="tref internalDFN" title="contract" href="#dfn-contract">contract</a> 
+to express what a buyer may do with an asset that has been purchased. A license
+can include a number of rights bestowed upon the licensesee as well as further
+limitations on those rights. For example, how an asset may be
+re-broadcast, how often a digital asset may be physically reproduced, what an 
+asset may specifically not be used for, and liability limitations when using the 
+asset are but a few of the rights and obligations expressible via a license.
+        </p>
+        
+        <p>
+The following example describes a very simple license for personal use.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">http://purl.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/personal-use</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:License</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">dc:format</span><span class="pln">": "</span><span class="str">text/html</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:licenseTemplate</span><span class="pln">": "</span><span class="str">This personal use license allows you to save the 
+      purchased asset onto any device that you own for your personal enjoyment
+      and make up to &lt;span property=\</span><span class="pln">"ex:physicalCopies\"</span><span class="str"> /&gt; printed
+      copies of the work for personal use.</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">ps:licenseTerms</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">ex:physicalCopies</span><span class="pln">": </span><span class="lit">5</span><span class="pln">
+   }
+}
+        </span></pre>
+
+        <p class="note">
+<a class="tref internalDFN" title="License" href="#dfn-license">License</a>s do not need to be created for each site on the Web. In
+many cases, common licenses can be placed on a website and re-used by a large
+number of sites that sell assets under similar license terms.
+        </p>
+
+      </div>
+
+      <div id="publishing-a-listing" class="section">
+        <h3><span class="secno">4.3 </span>Publishing a Listing</h3>
+
+        <p>
+A <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> describes the combination of an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> 
+that is for sale under a specific <a class="tref internalDFN" title="license" href="#dfn-license">license</a> and a set of payment 
+terms that must be fulfilled in order to access the asset. Listings are often 
+published on websites that sell assets via PaySwarm as a way to express things
+that are for sale, in a decentralized manner.
+        </p>
+
+        <p>
+The following example describes an <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> for sale 
+for $0.05 USD under a <a class="tref internalDFN" title="license" href="#dfn-license">license</a>
+that covers acceptable use of blog posts. The offer is valid from March 2nd 
+2011 to March 3rd 2011. The only restriction on additional payees is that the 
+<a class="tref" title="authority">authority</a> (the organization processing the payment) 
+may only take a maximum of 10% of the final sale price to cover their fees.
+        </p>
+
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">http://purl.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">gr:Offering</span><span class="pln">", "</span><span class="tag jsonld-curie">ps:Listing</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": 
+   [
+      {
+         "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing-payee</span><span class="pln">",
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/accounts/primary</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Payment for PaySwarm in Practice by Digital Bazaar.</span><span class="pln">"
+      }
+   ],
+   "</span><span class="atn jsonld-curie">com:payeeRule</span><span class="pln">": 
+   [
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">"
+      }
+   ],
+   "</span><span class="atn jsonld-curie">ps:asset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#asset</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:assetHash</span><span class="pln">": "</span><span class="str">14618b56ff597a2fed560db9aa0610fe442106a4</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:license</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/blogging</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:licenseHash</span><span class="pln">": "</span><span class="str">0d8866836917f8ef58af44accb6efab9a10610ad</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">sec:signature</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:JsonLdSignature</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00Z</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">dc:creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/4</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">sec:signatureValue</span><span class="pln">": "</span><span class="str">KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10=</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">ps:validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00+0000</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-03T00:00:00+0000</span><span class="pln">"
+}
+        </span></pre>
+
+      </div>
+
+      <div id="performing-a-purchase" class="section">
+        <h3><span class="secno">4.4 </span>Performing a Purchase</h3>
+
+        <p>
+A normal purchase, as opposed to an automatic purchase, is typically performed
+via a Web browser-based <a class="tref" title="user_agent">user agent</a> when the <a class="tref" title="participant">participant</a>
+has never performed a purchase with the <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a>'s website. The 
+process consists of re-directing the Web browser to the buyer's PaySwarm
+Authority for the purposes of authorizing payment to the vendor for a
+particular <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>. If a payment authorization is not approved,
+the user agent is re-directed back to the vendor's website with an error.
+If the payment authorization is approved, the user agent is re-directed bakc to
+the vendor's website with a short-form <a class="tref internalDFN" title="contract" href="#dfn-contract">contract</a>, which 
+is used as a proof-of-purchase for the vendor's listing.
+        </p>
+
+        <div id="purchase-terms" class="section">
+          <h4><span class="secno">4.4.1 </span>Purchase Terms</h4>
+          <p>
+There are a number of terms that are used during the course of the purchase
+process.
+          </p><dl>
+            <dt><dfn title="listing_hash" id="dfn-listing_hash">listing hash</dfn></dt>
+            <dd>
+An identifier created by processing a <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> expressed as
+JSON-LD through the 
+<a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a> and then generating a
+SHA-1 hash of the result.
+            </dd>
+            <dt><dfn title="purchase_callback" id="dfn-purchase_callback">purchase callback</dfn></dt>
+            <dd>
+An IRI that will be on the receiving end of an HTTP POST from the
+<a class="tref" title="authority">authority</a> with the result of a purchase request.
+            </dd>
+            <dt><dfn title="reference_identifier" id="dfn-reference_identifier">reference identifier</dfn></dt>
+            <dd>
+A string value that <em class="rfc2119" title="must">must</em> be greater than one character and less than 256
+characters used by the <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> to track purchases. These 
+identifiers can be used to ensure that <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that can be purchased 
+multiple times, like game tokens, can be tracked by the vendor.
+These identifiers also allow the vendor to protect against unintended
+double-purchasing due to network failures.
+            </dd>
+            <dt><dfn title="receipt" id="dfn-receipt">receipt</dfn></dt>
+            <dd>
+The resulting value of a purchase request, typically sent from the
+<a class="tref" title="authority">authority</a> to the <a class="tref" title="publishing_agent">publishing agent</a>. The 
+object typically contains a <a class="tref" title="short-form_contract">short-form contract</a> as well as 
+other information that may be pertinent to the transaction.
+            </dd>
+          </dl>
+          <p></p>
+        </div>
+
+        <div id="the-purchase-algorithm" class="section">
+        <h4><span class="secno">4.4.2 </span>The Purchase Algorithm</h4>
+
+        <p>
+The normative algorithm for performing a purchase is expressed below.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+The <a class="tref" title="publishing_agent">publishing agent</a> initiates a purchase request for a specific
+listing by re-directing the <a class="tref" title="user_agent">user agent</a> to the 
+<a class="tref" title="contracts_service">contracts service</a> endpoint:
+            <ol class="algorithm">
+              <li>
+Generate the <dfn title="purchase_request_IRI" id="dfn-purchase_request_iri">purchase request IRI</dfn> by concatenating the
+<a class="tref" title="contracts_service">contracts service</a> and the following IRI parameters:
+                <dl>
+                  <dt><code>listing</code></dt>
+                  <dd>
+The URL-encoded <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> IRI.
+                  </dd>
+                  <dt><code>listing-hash</code></dt>
+                  <dd>
+A SHA-1 hash of the listing after being normalized using the 
+<a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>callback</code></dt>
+                  <dd>
+A de-referenceable IRI that <em class="rfc2119" title="must">must</em> be able to process an HTTP POST request from
+the <a class="tref" title="authority">authority</a> with the result of a purchase request.
+                  </dd>
+                  <dt><code>reference</code></dt>
+                  <dd>
+An optional, internal reference identifier used by the 
+<a class="tref" title="publishing_agent">publishing agent</a> to keep track of the purchase.
+                  </dd>
+                  <dt><code>nonce</code></dt>
+                  <dd>
+An optional cryptographic value that will be used in the encrypted response 
+to the vendor. The response nonce is utilized to prevent replay attacks on
+the vendor.
+                  </dd>
+                </dl>
+              </li>
+              <li>
+Perform an HTTP 303 redirect via the <a class="tref" title="user_agent">user agent</a> to the 
+<a class="tref internalDFN" title="purchase_request_IRI" href="#dfn-purchase_request_iri">purchase request IRI</a>.
+              </li>
+            </ol>
+          </li>
+          <li>
+The <a class="tref" title="authority">authority</a> processes the purchase request ending in
+either an error message or a short-form <a class="tref internalDFN" title="contract" href="#dfn-contract">contract</a>:
+            <ol class="algorithm">
+              <li>
+If the purchase was denied or failed for any reason, the authority
+performs an HTTP POST via the <a class="tref" title="user_agent">user agent</a> back to the callback
+IRI supplied by the <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> during the initiation of the purchase
+request.
+              </li>
+              <li>
+If the purchase was successful, then a <a class="tref internalDFN" title="receipt" href="#dfn-receipt-1">receipt</a> is generated and
+transmitted to the vendor:
+              <ol class="algorithm">
+                <li>To generate the <dfn title="receipt" id="dfn-receipt-1">receipt</dfn> in
+JSON-LD format, the following pieces of information <em class="rfc2119" title="must">must</em> be expressed:
+                <dl>
+                  <dt><code>@context</code></dt>
+                  <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations <em class="rfc2119" title="must not">must not</em> override any values in the first member.
+                  </dd>
+                    <dt><code>@type</code></dt>
+                    <dd>
+The value <code>ps:Receipt</code>.
+                    </dd>
+                  <dt><code>ps:preference</code></dt>
+                  <dd>
+An array of preferences that are requested by either the 
+<a class="tref" title="authority">authority</a> or the <a class="tref" title="participant">participant</a>. All valid options
+are listed below:
+                    <div>
+<code>ps:preAuthorization</code> - The <a class="tref" title="participant">participant</a> has pre-authorized 
+future purchases for the <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> and thus the 
+<a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
+<em class="rfc2119" title="may">may</em> be used for future purchases. If this preference setting is mentioned, the
+<a class="tref" title="publishing_agent">publishing agent</a> <em class="rfc2119" title="should">should</em> store the <a class="tref" title="participant">participant</a>'s information,
+including the <a class="tref" title="authority">authority</a> IRI, for use in future 
+automatic transactions.
+                    </div>
+                  </dd>
+                  <dt><code>ps:contract</code></dt>
+The contract used in the receipt is a summary of the digital contract that was
+finalized via the <a class="tref" title="authority">authority</a>. It includes the minimum
+amount of information necessary for the <a class="tref" title="publishing_agent">publishing agent</a> to 
+correctly identify the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> that was transacted:
+                  <dd>
+                    <dl>
+                    <dt><code>@type</code></dt>
+                    <dd>
+The value <code>ps:Contract</code>.
+                    </dd>
+                    <dt><code>ps:asset</code></dt>
+                    <dd>
+An IRI to the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was purchased.
+                    </dd>
+                    <dt><code>ps:assetHash</code></dt>
+                    <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                    </dd>
+                    <dt><code>com:reference</code></dt>
+                    <dd>
+The <a class="tref internalDFN" title="reference_identifier" href="#dfn-reference_identifier">reference identifier</a>, if one was suppied via the purchase 
+request.
+                    </dd>
+                    <dt><code>ps:license</code></dt>
+                    <dd>
+An IRI to the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> describing the rights associated with the
+<a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was purchased.
+                    </dd>
+                    <dt><code>ps:licenseHash</code></dt>
+                    <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                    </dd>
+                    <dt><code>ps:listing</code></dt>
+                    <dd>
+An IRI to the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> that was purchased.
+                    </dd>
+                    <dt><code>ps:listingHash</code></dt>
+                    <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                    </dd>
+                    <dt><code>ps:assetAcquirer</code></dt>
+                    <dd>
+An IRI to the <a class="tref" title="identity">identity</a> that acquired the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+                    </dd>
+                  </dl>
+                </dd></dl>
+              </li>
+              <li>
+The authority initiates an HTTP POST via the 
+<a class="tref" title="user_agent">user agent</a> back to the <code>callback</code> IRI supplied by the 
+<a class="tref" title="publishing_agent">publishing agent</a> during the initiation of the purchase request. 
+The POST data is digitally signed according to the 
+<a href="#request-signature-algorithm">Request Signature Algorithm</a>, 
+using the <a class="tref" title="public_key">public key</a> of the <a class="tref" title="authority">authority</a>.
+              </li>
+            </ol>
+          </li>
+          <li>
+The <a class="tref" title="publishing_agent">publishing agent</a> acts upon the callback by granting access
+to the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> if the purchase was successful, or providing a page 
+detailing why the purchase failed. The <a class="tref" title="publishing_agent">publishing agent</a> <em class="rfc2119" title="should">should</em> note 
+any preferences in the <a class="tref internalDFN" title="receipt" href="#dfn-receipt-1">receipt</a> and utilize those preferences when
+processing future purchases from the <a class="tref" title="participant">participant</a>.
+          </li>
+        </ol>
+        </li></ol></div>
+      </div>
+
+      <div id="performing-automatic-purchases" class="section">
+        <h3><span class="secno">4.5 </span>Performing Automatic Purchases</h3>
+
+        <p>
+An automatic purchase is one where a <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> has been
+previously authorized by a <a class="tref" title="participant">participant</a> to perform purchases with
+the buyer's pre-authorized consent. This is typically used when the 
+<a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> is trusted, or when the <a class="tref" title="participant">participant</a> has set a 
+spending limit with the <a class="tref internalDFN" title="vendor" href="#dfn-vendor">vendor</a> and does not want to be bothered
+unless that spending limit is reached. Automatic purchases are designed to 
+get out of the way of the <a class="tref" title="participant">participant</a> and make the transactional flow
+as friction-free as possible.
+        </p>
+
+        <div id="purchase-terms-1" class="section">
+          <h4><span class="secno">4.5.1 </span>Purchase Terms</h4>
+          <p>
+There are a number of terms that are used during the course of the purchase
+process.
+          </p><dl>
+            <dt><dfn title="purchase_request" id="dfn-purchase_request">purchase request</dfn></dt>
+            <dd>
+A message consisting of a <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> IRI, 
+a <a class="tref internalDFN" title="listing_hash" href="#dfn-listing_hash">listing hash</a>, a <a class="tref" title="participant">participant</a> identity IRI, and
+an optional <a class="tref internalDFN" title="reference_identifier" href="#dfn-reference_identifier">reference identifier</a>. The message is typically sent
+by a <a class="tref" title="publishing_agent">publishing agent</a> to a <a class="tref" title="participant">participant</a>'s 
+<a class="tref" title="authority">authority</a> for processing.
+            </dd>
+          </dl>
+        </div>
+        
+        <div id="the-automatic-purchase-algorithm" class="section">
+        <h4><span class="secno">4.5.2 </span>The Automatic Purchase Algorithm</h4>
+        
+        <p>
+The automatic purchase algorithm is outlined below:
+        </p>
+
+        <ol class="algorithm">
+          <li>
+The <a class="tref" title="publishing_agent">publishing agent</a> prepares a <a class="tref internalDFN" title="purchase_request" href="#dfn-purchase_request">purchase request</a> by
+constructing a JSON-LD message. The following pieces of information
+<em class="rfc2119" title="must">must</em> be expressed:
+            <dl>
+              <dt><code>@context</code></dt>
+              <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations <em class="rfc2119" title="must not">must not</em> override any values in the first member.
+              </dd>
+              <dt><code>@type</code></dt>
+              <dd>
+The value <code>ps:PurchaseRequest</code>.
+              </dd>
+              <dt><code>ps:listing</code></dt>
+              <dd>
+An IRI to the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> that was purchased.
+              </dd>
+              <dt><code>ps:listingHash</code></dt>
+              <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+              </dd>
+              <dt><code>ps:assetAcquirer</code></dt>
+              <dd>
+An IRI to the <a class="tref" title="identity">identity</a> that acquired the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+              </dd>
+              <dt><code>com:reference</code></dt>
+              <dd>
+The <a class="tref internalDFN" title="reference_identifier" href="#dfn-reference_identifier">reference identifier</a>, if one was suppied via the purchase 
+request.
+              </dd>
+            </dl>
+          </li>        
+          <li>
+The <a class="tref internalDFN" title="purchase_request" href="#dfn-purchase_request">purchase request</a> is digitally signed by the 
+<a class="tref" title="publishing_agent">publishing agent</a> according to the
+<a href="#request-signature-algorithm">Request Signature Algorithm</a> using
+the <a class="tref" title="private_key">private key</a> associated with the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> in the
+<a class="tref internalDFN" title="purchase_request" href="#dfn-purchase_request">purchase request</a>. The <a class="tref internalDFN" title="purchase_request" href="#dfn-purchase_request">purchase request</a> is
+sent to the <a class="tref" title="authority">authority</a> of the <a class="tref" title="participant">participant</a>
+via an HTTPS connection. The HTTPS protocol <em class="rfc2119" title="must">must</em> be used for transmission 
+of the request and retrieval of the response to prevent replay attacks.
+          </li>
+          <li>
+The <a class="tref" title="authority">authority</a> checks to ensure that the
+<a class="tref" title="publishing_agent">publishing agent</a> is authorized to perform an automatic purchase 
+on behalf of the provided <a class="tref" title="participant">participant</a> identity IRI and responds to the
+<a class="tref" title="publishing_agent">publishing agent</a>:
+          <ol class="algorithm">
+            <li>
+If the transaction fails, the exception details are placed into a JSON-LD 
+message and sent to the <a class="tref" title="publishing_agent">publishing agent</a>.
+              <div class="issue">
+Determine how PaySwarm will handle response exceptions.
+              </div>
+            </li>
+            <li>
+If the transaction is successful, a <a class="tref internalDFN" title="receipt" href="#dfn-receipt-1">receipt</a> is generated for
+the <a class="tref" title="publishing_agent">publishing agent</a>. The following fields <em class="rfc2119" title="must">must</em> be
+placed into the response:
+              <dl>
+                <dt><code>@context</code></dt>
+                <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations <em class="rfc2119" title="must not">must not</em> override any values in the first member.
+                </dd>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Receipt</code>.
+                  </dd>
+                <dt><code>ps:contract</code></dt>
+The contract used in the receipt is a summary of the digital contract that was
+finalized via the <a class="tref" title="authority">authority</a>. It includes the minimum
+amount of information necessary for the <a class="tref" title="publishing_agent">publishing agent</a> to 
+correctly identify the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> that was transacted:
+                <dd>
+                  <dl>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Contract</code>.
+                  </dd>
+                  <dt><code>ps:asset</code></dt>
+                  <dd>
+An IRI to the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was purchased.
+                  </dd>
+                  <dt><code>ps:assetHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>com:reference</code></dt>
+                  <dd>
+The <a class="tref internalDFN" title="reference_identifier" href="#dfn-reference_identifier">reference identifier</a>, if one was suppied via the purchase 
+request.
+                  </dd>
+                  <dt><code>ps:license</code></dt>
+                  <dd>
+An IRI to the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> describing the rights associated with the
+<a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was purchased.
+                  </dd>
+                  <dt><code>ps:licenseHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:listing</code></dt>
+                  <dd>
+An IRI to the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> that was purchased.
+                  </dd>
+                  <dt><code>ps:listingHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:assetAcquirer</code></dt>
+                  <dd>
+An IRI to the <a class="tref" title="identity">identity</a> that acquired the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a>.
+                  </dd>
+                </dl>
+              </dd></dl>
+            </li>
+            <li>
+The <a class="tref internalDFN" title="receipt" href="#dfn-receipt-1">receipt</a> is encrypted according to the 
+<a href="#response-encryption-algorithm">Response Encryption Algorithm</a>, 
+using the <a class="tref" title="public_key">public key</a> associated with the <a class="tref" title="private_key">private key</a>
+that digitally signed the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>. The encrypted receipt is
+sent to the <a class="tref" title="publishing_agent">publishing agent</a>.
+            </li>
+          </ol>
+          </li><li>
+The <a class="tref" title="publishing_agent">publishing agent</a> receives the response, which will either be
+an exception or a receipt, and responds accordingly to the 
+<a class="tref" title="user_agent">user agent</a>.
+          </li>
+        </ol>
+        </div>
+      </div>
+
+      <div id="the-contract" class="section">
+        <h3><span class="secno">4.6 </span>The Contract</h3>
+
+        <p>
+A <a class="tref internalDFN" title="contract" href="#dfn-contract">contract</a> is the result of a commercial transaction in PaySwarm 
+and contains information such as the <a class="tref internalDFN" title="listing" href="#dfn-listing">listing</a>, 
+the <a class="tref internalDFN" title="asset" href="#dfn-asset">asset</a> that was purchased, the parties involved in the
+transaction, the <a class="tref internalDFN" title="license" href="#dfn-license">license</a> outlining the rights to the 
+asset, and payment information associated with the transaction.
+        </p>
+
+        <p>
+The following example describes a purchase that occurred on March 2nd 2011
+for a Web-based article called "PaySwarm in Practice". The article was authored
+and listed for sale by Bob Smith and a personal use license was acquired by 
+Jane, who may now peruse the article.
+        </p>
+
+        <pre class="example prettyprint language-jsonld">
+<span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">http://purl.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/28394729347</span><span class="pln">",
+   "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">ps:Transaction</span><span class="pln">", "</span><span class="tag jsonld-curie">ps:Contract</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T03:00:53Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": 
+   [
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/authority/accounts/main</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:payeePosition</span><span class="pln">": </span><span class="lit">0</span><span class="pln">,
+         "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">10.00</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:rateContext</span><span class="pln">": "</span><span class="tag jsonld-curie">com:TaxExempt</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">authority Transaction Processing</span><span class="pln">"
+      }
+   ],
+   "</span><span class="atn jsonld-curie">com:transfer</span><span class="pln">": 
+   [
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transfer</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">0.045</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/accounts/primary</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:forTransaction</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/28394729347</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/jane/accounts/primary</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Payment for PaySwarm in Practice by Bob Smith.</span><span class="pln">"
+      },
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Transfer</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:amount</span><span class="pln">": "</span><span class="str">0.005</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/authority/accounts/main</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:forTransaction</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/28394729347</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">com:source</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/jane/accounts/primary</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">authority Transaction Processing</span><span class="pln">"
+      }
+   ],
+   "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T03:00:53Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:asset</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#asset</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">ps:Asset</span><span class="pln">", "</span><span class="tag jsonld-curie">ps:WebPage</span><span class="pln">"],
+      "</span><span class="atn jsonld-curie">dc:creator</span><span class="pln">": 
+      {
+         "</span><span class="atn jsonld-curie">foaf:name</span><span class="pln">": "</span><span class="str">Bob Smith</span><span class="pln">"
+      },
+      "</span><span class="atn jsonld-curie">dc:title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:authority</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/client-config</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:contentUrl</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">sec:signature</span><span class="pln">": 
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:JsonLdSignature</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00Z</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">dc:creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/4</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">sec:signatureValue</span><span class="pln">": "</span><span class="str">XuLEGuq+ne56Qsc5Nic8I=</span><span class="pln">"
+      }
+   },
+   "</span><span class="atn jsonld-curie">ps:assetAcquirer</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/jane</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">ps:assetProviderIdentity</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">ps:identityHash</span><span class="pln">": "</span><span class="str">df913752be56fe0d37dcedc2d7f44708373d2a68</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">ps:license</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/blogging</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:License</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">dc:format</span><span class="pln">": "</span><span class="str">text/html</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:licenseTemplate</span><span class="pln">": "</span><span class="str">Personal Use License ...</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">ps:listing</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing</span><span class="pln">",
+      "</span><span class="kwd">@type</span><span class="pln">": ["</span><span class="tag jsonld-curie">gr:Offering</span><span class="pln">", "</span><span class="tag jsonld-curie">ps:Listing</span><span class="pln">"],
+      "</span><span class="atn jsonld-curie">com:payee</span><span class="pln">": 
+      [
+         {
+            "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing-payee</span><span class="pln">",
+            "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:Payee</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/accounts/primary</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:FlatAmount</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">rdfs:comment</span><span class="pln">": "</span><span class="str">Payment for PaySwarm in Practice by Digital Bazaar.</span><span class="pln">"
+         }
+      ],
+      "</span><span class="atn jsonld-curie">com:payeeRule</span><span class="pln">": 
+      [
+         {
+            "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">com:PayeeRule</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:destinationOwnerType</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:Authority</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">com:rateType</span><span class="pln">": "</span><span class="tag jsonld-curie">com:InclusivePercentage</span><span class="pln">"
+         }
+      ],
+      "</span><span class="atn jsonld-curie">ps:asset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#asset</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:assetHash</span><span class="pln">": "</span><span class="str">14618b56ff597a2fed560db9aa0610fe442106a4</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:license</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/blogging</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:licenseHash</span><span class="pln">": "</span><span class="str">0d8866836917f8ef58af44accb6efab9a10610ad</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">sec:signature</span><span class="pln">": 
+      {
+         "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:JsonLdSignature</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00Z</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">dc:creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/4</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">sec:signatureValue</span><span class="pln">": "</span><span class="str">KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10=</span><span class="pln">"
+      },
+      "</span><span class="atn jsonld-curie">ps:validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00+0000</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">ps:validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-03T00:00:00+0000</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">ps:listingHash</span><span class="pln">": "</span><span class="str">1acbd23c3a7d8827270a959a2760f7c4ded98022</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">sec:signature</span><span class="pln">": 
+   {
+      "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:JsonLdSignature</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">dc:created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T03:00:53Z</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">dc:creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/authority/keys/1</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">sec:signatureValue</span><span class="pln">": "</span><span class="str">ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ==</span><span class="pln">"
+   }
+}
+        </span></pre>
+
+      </div>
+
+      <div id="verifying-a-purchase" class="section">
+        <h3><span class="secno">4.7 </span>Verifying a Purchase</h3>
+
+      </div>
+
+    </div>
+
+   
+
+
+<div id="references" class="appendix section">
+<!-- OddPage -->
+<h2><span class="secno">A. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-FIPS-197">[FIPS-197]</dt><dd>Information Technology Laboratory. <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>
+</dd><dt id="bib-HTML-RDFA">[HTML-RDFA]</dt><dd>Manu Sporny; et al. <a href="http://www.w3.org/TR/rdfa-in-html/"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href="http://www.w3.org/TR/rdfa-in-html/">http://www.w3.org/TR/rdfa-in-html/</a> 
+</dd><dt id="bib-JSON-LD">[JSON-LD]</dt><dd>Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href="http://json-ld.org/spec/latest/"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href="http://json-ld.org/spec/latest/">http://json-ld.org/spec/latest/</a> 
+</dd><dt id="bib-RDFA-CORE">[RDFA-CORE]</dt><dd>Shane McCarron; et al. <a href="http://www.w3.org/TR/2011/WD-rdfa-core-20110331"><cite>RDFa Core 1.1: Syntax and processing rules for embedding RDF through attributes.</cite></a> 31 March 2011. W3C Working Draft. URL: <a href="http://www.w3.org/TR/2011/WD-rdfa-core-20110331">http://www.w3.org/TR/2011/WD-rdfa-core-20110331</a> 
+</dd></dl></div><div id="informative-references" class="section"><h3><span class="secno">A.2 </span>Informative references</h3><dl class="bibliography"><dt id="bib-REST">[REST]</dt><dd>Fielding, Roy Thomas. <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>
+</dd></dl></div></div></body></html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Payment Intents 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+    var preProc = {
+          apply:  function(c) {
+                    // extend the bibliography entries
+                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a> ";
+                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a> ";
+                    berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
+                    berjon.biblio["FIPS-197"] = "Information Technology Laboratory. <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>";
+
+                    // process the document before anything else is done
+                    var refs = document.querySelectorAll('adef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'dfn' ) ;
+                        var tit = item.getAttribute('title') ;
+                        if (!tit) {
+                            tit = con;
+                        }
+                        sp.className = 'adef' ;
+                        sp.title=tit ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    refs = document.querySelectorAll('aref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'aref' ;
+                        sp.setAttribute('title', con);
+                        sp.innerHTML = '@'+con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // local datatype references
+                    refs = document.querySelectorAll('ldtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'datatype';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // external datatype references
+                    refs = document.querySelectorAll('dtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'externalDFN';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now do terms
+                    refs = document.querySelectorAll('tdef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'dfn' ) ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now term references
+                    refs = document.querySelectorAll('tref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+
+                        var sp = document.createElement( 'a' ) ;
+                        var id = item.textContent ;
+                        sp.className = 'tref' ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                }
+        } ;
+
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "unofficial",
+
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "payment-intents",
+
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "http://payswarm.com/specs/source/payment-intents/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["../../respec/css/respec.css", "spec.css", "prettify.css"],
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          additionalCopyrightHolders: "Copyright 2009-2012 &copy; Digital Bazaar, Inc.",
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://payswarm.com/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3c.org",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ preProc ]/*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],*/
+      };
+    </script> 
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+  </head> 
+  <body> 
+    <section id='abstract'> 
+      <p>
+The purpose of PaySwarm is to build payment into the core architecture of the 
+Web. This document details a mechanism called payment intents that can 
+enable decentralized crowd-funding for projects and innovative initiatives.
+      </p> 
+    </section> 
+
+    <section>
+      <h2>Introduction</h2>
+      <p class="issue">
+General introduction to crowd-funding and parameterized transactions.
+      </p>
+    </section>
+
+    <section>
+      <h2>The Payment Intent Process</h2>
+
+      <p>
+A <tdef>payment intent</tdef> is the agreement to execute a 
+<tref>transaction</tref> once a pre-defined set of external parameters have been
+met. The most direct example of this is when a group of funders promises to 
+fund a project if the project can raise a minimum amount of capital by a 
+certain date.
+      </p>
+
+      <section>
+        <h2>Payment Intent Terms</h2>
+        <p>
+The following terminology is used to describe concepts used when processing
+<tref>payment intent</tref>s.
+        </p>
+        
+        <dl>
+          <dt><tdef>promisor</tdef></dt>
+          <dd>
+A <tref>participant</tref> that has created a parameterized 
+<tref>listing</tref> that will result in a 
+<tref>payment intent</tref> if transacted.
+          </dd>
+          <dt><tdef>promisee</tdef></dt>
+          <dd>
+A <tref>participant</tref> that is making a promise to enter into a 
+<tref>contract</tref> if the terms of the parameterized <tref>listing</tref>
+are met before a certain date and time.
+          </dd>
+        </dl>
+      </section>
+
+      <section>
+        <h2>The Payment Intent Algorithm</h2>
+
+        <p>
+The following algorithm describes the <tref>payment intent</tref> process,
+which consists of three distinct phases. The first phase is the publication of
+the parameterized <tref>listing</tref> by the <tref>promisor</tref>. The 
+second phase is the submission of payment intents from 
+<tref>promisee</tref>s. The third phase is the finalization of transaction 
+intents into <tref>contract</tref>s.
+        </p>
+
+        <p class="issue">
+This section still needs a ton of work: specify the JSON-LD messages that are 
+transmitted in detail, examples, and cover error conditions and
+exceptions.
+        </p>
+
+        <ol class="algorithm">
+          <li>
+The <tref>promisor</tref> creates an <tref>asset</tref> describing the asset
+provided if the parameters in the parameterized <tref>listing</tref> are met.
+The <tref>promisor</tref> also creates a parameterized <tref>listing</tref>
+containing at least the following two fields:
+            <dl>
+              <dt><code>ps:constraint</code></dt>
+              <dd>
+A set of parameters that must be met in order to complete the 
+<tref>transaction</tref>.
+                <dl>
+                  <dt><code>com:minimumAmount</code></dt>
+                  <dd>
+The minimum amount necessary, in aggregate, to finalize all payment intents
+before the deadline.
+                  </dd>
+                  <dt><code>com:currency</code></dt>
+                  <dd>
+The currency associated with the minimum amount field.
+                  </dd>
+                </dl>
+              </dd>
+            </dl>
+          </li>
+          <li>
+When an <tref>authority</tref> processes the parameterized <tref>listing</tref>,
+per <a href="#the-purchase-algorithm">The Purchase Algorithm</a>, a 
+<code>ps:Contract</code> and <code>ps:Receipt</code> are generated as 
+specified in the algorithm, but funds MUST NOT be disbursed at that time. 
+Instead of the <code>ps:Receipt</code>'s <code>ps:contract</code>'s property 
+being of <code>@type</code> <code>ps:Contract</code>, it MUST instead be of type 
+<code>ps:PaymentIntent</code>. All other fields must remain the same both
+in the short-form contract and the long-form contract. 
+The <tref>promisor</tref>'s <tref>publishing agent</tref> is notified of the
+intent in the same way as it would be notified of a purchase except that the
+resulting receipt will be the modified object as described in this step.
+          </li>
+          <li>
+The <tref>promisee</tref>'s <tref>authority</tref> then notifies the 
+<tref>promisor</tref>'s <tref>authority</tref> of the payment intent by
+retrieving the <tref>transaction service</tref> IRI from the 
+<tref>configuration service</tref>. The <code>ps:PaymentIntent</code> is
+sent to the <tref>promisor</tref>'s <tref>authority</tref> via an HTTPS POST.
+          </li>
+          <li>
+The <tref>promisor</tref>'s <tref>authority</tref> keeps track of all
+<code>ps:PaymentIntent</code>'s for the parameterized <tref>listing</tref>
+until the end of the <code>ps:validUntil</code> date in the 
+<tref>listing</tref> or until the <code>com:minimumAmount</code> in the
+<code>ps:constraint</code> property in the <tref>listing</tref> has been met 
+in aggregate.
+          </li>
+          <li>
+If the <tref>authority</tref> detects that the <code>com:minimumAmount</code> 
+in the <code>ps:constraint</code> property in the <tref>listing</tref> 
+has been met in aggregate, it submits all <code>ps:PaymentIntent</code>s 
+for the parameterized <tref>listing</tref> to each <tref>promisee</tref>'s
+<tref>authority</tref>. That is, for every <code>com:source</code> 
+<tref>financial account</tref> intended to transfer money to the 
+<code>com:destination</code> in each <code>ps:PaymentIntent</code>s, the
+source <tref>financial account</tref>s <tref>authority</tref> is contacted.
+          </li>
+          <li>
+The <tref>promisor</tref>'s <tref>authority</tref> MUST determine if all
+<tref>promisee</tref>'s can meet their obligation. It does 
+so by contacting each <tref>promisee</tref>'s <tref>authority</tref> and
+performing an HTTP POST of all <code>ps:PaymentIntent</code>s intended
+for the <tref>authority</tref> to the <tref>transaction service</tref> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>query</code>. Each <tref>promisee</tref>'s 
+<tref>authority</tref> responds with a total amount of funds that are available
+to be committed.
+          </li>
+          <li>
+If the previous step is successful and there are enough funds to meet the
+<tref>com:minimumAmount</tref> constraint, then the 
+<tref>promisor</tref>'s <tref>authority</tref> MUST then place all amounts
+listed in all <code>ps:PaymentIntent</code> on hold. It does 
+this by contacting each <tref>promisee</tref>'s <tref>authority</tref> by
+performing an HTTP POST of all <code>ps:PaymentIntent</code>'s intended
+for the <tref>authority</tref> to the <tref>transaction service</tref> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>hold</code>. Each <tref>promisee</tref>'s 
+<tref>authority</tref> responds with a total amount of funds placed on hold. 
+          </li>
+          <li>
+If the previous step is successful and enough funds were placed on hold
+to meet the <tref>com:minimumAmount</tref> constraint, then the 
+<tref>promisor</tref>'s <tref>authority</tref> MUST then retrieve all amounts
+listed in all <code>ps:PaymentIntent</code>s. It does 
+this by contacting each <tref>promisee</tref>'s <tref>authority</tref> by
+performing an HTTP POST of all <code>ps:PaymentIntent</code>'s intended
+for the <tref>authority</tref> to the <tref>transaction service</tref> with
+an additional query parameter where the key is <code>mode</code> and the
+value is <code>finalize</code>. Each <tref>promisee</tref>'s 
+<tref>authority</tref> responds with a finalized contract for each
+<code>ps:PaymentIntent</code> and disburses the funds according to the
+<a href="#the-decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
+          </li>
+          <li>
+The <tref>promisor</tref>'s <tref>authority</tref> marks the parameterized
+<tref>listing</tref> as being fulfilled and any further 
+<code>ps:PaymentIntent</code>s submitted before the 
+<code>ps:validUntil</code> date are automatically processed according to the
+previous step.
+          </li>
+        </ol>
+        
+      </section>
+
+    </section>
+
+  </body> 
+</html>
+

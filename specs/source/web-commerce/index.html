@@ -1,0 +1,1173 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Web Commerce 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+    var preProc = {
+          apply:  function(c) {
+                    // extend the bibliography entries
+                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a> ";
+                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a> ";
+                    berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
+                    berjon.biblio["FIPS-197"] = "Information Technology Laboratory. <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>";
+
+                    // process the document before anything else is done
+                    var refs = document.querySelectorAll('adef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'dfn' ) ;
+                        var tit = item.getAttribute('title') ;
+                        if (!tit) {
+                            tit = con;
+                        }
+                        sp.className = 'adef' ;
+                        sp.title=tit ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    refs = document.querySelectorAll('aref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'aref' ;
+                        sp.setAttribute('title', con);
+                        sp.innerHTML = '@'+con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // local datatype references
+                    refs = document.querySelectorAll('ldtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'datatype';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // external datatype references
+                    refs = document.querySelectorAll('dtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'externalDFN';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now do terms
+                    refs = document.querySelectorAll('tdef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'dfn' ) ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now term references
+                    refs = document.querySelectorAll('tref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+
+                        var sp = document.createElement( 'a' ) ;
+                        var id = item.textContent ;
+                        sp.className = 'tref' ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                }
+        } ;
+
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "unofficial",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "web-commerce",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "http://payswarm.com/specs/source/web-commerce/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["../../respec/css/respec.css", "spec.css", "prettify.css"],
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          additionalCopyrightHolders: "Copyright 2009-2012 &copy; Digital Bazaar, Inc.",
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://payswarm.com/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3c.org",
+          
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ preProc ]/*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],*/
+      };
+    </script> 
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+  </head> 
+  <body> 
+    <section id='abstract'> 
+      <p>
+The purpose of PaySwarm is to build payment into the core architecture of the 
+Web. This document details the electronic commerce portion of this architecture; 
+enabling the decentralized listing of assets for sale and the transaction of
+those assets resulting in a digitally verifiable receipt between the buyer 
+and the vendor.
+      </p> 
+    </section> 
+
+    <section>
+      <h2>Introduction</h2>
+      <p class="issue">
+Add introductory text about the need for a simple electronic commerce standard
+for the Web.
+      </p>
+    </section>
+
+    <section>
+      <h2>The Conceptual Model</h2>
+      <p>
+There are three primary participants in a PaySwarm transaction; the 
+buyer, the vendor, and the authority.
+      </p>
+      <section>
+        <h3>Participants</h3>
+        <section>
+          <h4>Vendors</h4>
+          <p>
+A <tdef>vendor</tdef> is the entity providing an <tref>asset</tref> for sale. 
+Typically, the vendor is the legal owner 
+of the asset that is being listed for sale. Ownership of an asset can manifest 
+in a variety of different forms. Copyright ownership, physical ownership, and 
+sub-leased property or services are just a few of the types of ownership that 
+apply to vendors.
+          </p>
+        </section>
+      </section>
+      <section>
+        <h3>Commerce Model</h3>
+        <section>
+          <h4>Transactions</h4>
+A <tdef>transaction</tdef> is the exchange of value from one or more 
+source accounts into one or more destination accounts.
+        </section>
+        <section>
+          <h4>Assets</h4>
+An <tdef>asset</tdef> describes a particular item that is provided as a part 
+of a commercial
+transaction. It is usually an item that can be accessed or acquired on the
+basis of a sale or rental under the terms of a particular license. Examples
+of assets include web pages, crowd-funded loans or grants, music files, 
+video streams, use of virtual machines by the hour, 
+3D printer files for on-demand manufacturing, radio 
+spectrum and many other items that are capable of being transacted.
+          <p>
+          </p>
+        </section>
+        <section>
+          <h4>Licenses</h4>
+          <p>
+A <tdef>license</tdef> is a legal description of a licensee's rights to a 
+particular <tref>asset</tref>.
+Licenses are usually included as a part of a contract to express what a buyer 
+may do with the asset that has been purchased.
+          </p>
+        </section>
+        <section>
+          <h4>Listings</h4>
+          <p>
+A <tdef>listing</tdef> describes the combination of an <tref>asset</tref> that 
+is for sale under a specific <tref>license</tref> and a set of payment terms 
+that must be fulfilled in order 
+to access the <tref>asset</tref>. Listings are often published on websites that 
+sell <tref>assets</tref> via PaySwarm as a way to express wares for sale in a 
+decentralized manner.
+          </p>
+        </section>
+        <section>
+          <h4>Contracts</h4>
+          <p>
+A <tdef>contract</tdef> is the result of a commercial transaction in PaySwarm 
+and contains
+information such as the <tref>listing</tref>, the <tref>asset</tref> that was 
+purchased, the parties involved in the transaction, the <tref>license</tref> 
+outlining the rights to the <tref>asset</tref>, and payment information 
+associated with the transaction.
+          </p>
+        </section>
+      </section>      
+    </section>
+
+    <section>
+      <h2>Base Technologies</h2>
+      <p>
+PaySwarm builds on a number of successful Internet and Web technologies. These
+technologies are introduced in this section.
+      </p>
+
+      <section>
+        <h3>Representational State Transfer</h3>
+        <p>
+REpresentational State Transfer [[REST]] is the architectural style that underpins
+the World Wide Web. It consists of a set of constraints to ensure that servers,
+gateways, proxies and clients may interact in a way that is predictable.
+Systems that are designed with this architecture in mind are called RESTful
+systems. PaySwarm is designed to be RESTful by ensuring that the constraints of
+REST are applied to all transactions performed via PaySwarm systems.
+        </p>
+      </section>
+
+      <section>
+        <h3>JavaScript Object Notation for Linking Data</h3>
+        <p>
+JavaScript Object Notation for Linking Data [[!JSON-LD]] is a lightweight Linked 
+Data format. It is easy for humans to read and write. It is easy for machines 
+to parse and generate. It is based on the already successful JSON format and 
+provides a way to help JSON data interoperate at Web-scale. If you are already 
+familiar with JSON, writing JSON-LD is very easy. There is a smooth migration 
+path from the JSON you use today, to the JSON-LD you will use in the future. 
+These properties make JSON-LD an ideal Linked Data interchange language for 
+JavaScript environments, Web services, and JSON document-based databases.
+        </p>
+      </section>
+
+      <section>
+        <h3>The Advanced Encryption Standard</h3>
+        <p>
+The Advanced Encryption Standard (AES) [[!FIPS-197]] is a world standard 
+adopted by the
+United States Government and used to secure a vast majority of the
+commercial transactions over the Internet via OpenSSL. Since much of the data
+exchanged over PaySwarm participants is sensitive, it is important that a 
+strong cryptography suite is utilized to digitally sign and transfer the 
+messages.
+        </p>
+      </section>
+
+      <section>
+        <h3>HTML+RDFa</h3>
+        <p>
+Web sites are largely implemented on top of the HyperText Markup Language 
+(HTML). This format is known to be fairly easy to author and publish on the Web.
+In addition to being easy to publish, it is also important that data published
+via HTML can be easily read by machines without placing an undue burden on
+Web authors. Publishing structured data in a decentralized manner also 
+requires a language that is capable of being both expressive and deterministic. 
+The Resource Description Framework in attributes [[!RDFA-CORE]] extends HTML 
+[[!HTML-RDFA]] to allow structured data to be expressed via HTML, but in a way 
+that is easy for Web developers to author.
+        </p>
+      </section>
+    </section>
+
+    <section>
+      <h2>The Purchase Process</h2>
+      
+      <p>
+The simplest purchase process includes four distinct steps; publishing an
+<tref>asset</tref>, publishing a <tref>license</tref>, publishing a 
+<tref>listing</tref> and performing the purchase. Typically, the 
+<tref>vendor</tref> publishes the <tref>asset</tref> description and the
+<tref>listing</tref>. Anyone may publish a <tref>license</tref> that is used in 
+a <tref>listing</tref>. The purchase is performed via a 
+<tref>authority</tref>.
+      </p>
+
+        <p>
+While it is possible to express <tref>asset</tref>s, <tref>license</tref>s,
+and <tref>listing</tref>s on the Web in many different machine-readable 
+formats, to ensure that implementations do not become more complicated than 
+necessary, all <tref>asset</tref>s, <tref>license</tref>s and 
+<tref>listing</tref> MUST be expressed in HTML+RDFa [[!HTML-RDFA]] format. The
+example markup that is expressed in many of the following sections below
+will use [[!JSON-LD]] for the sake of brevity. In many cases, the information
+expressed via JSON-LD is expected to be express via RDFa on a Web page.
+There is a clear mapping from RDFa to JSON-LD, so the data expressed in the 
+sections below can be losslessly expressed via RDFa on an HTML Web page.
+        </p>
+
+      <section>
+        <h3>Publishing an Asset</h3>
+        <p>
+An <tref>asset</tref> describes a particular item that is provided as a part 
+of a commercial transaction. It is usually an item that can be accessed or 
+acquired on the
+basis of a sale or rental under the terms of a particular <tref>license</tref>. 
+Examples of assets include web pages, music files, video streams, virtual 
+machines intended to be paid for by the CPU-hour, 3D printer files for 
+on-demand manufacturing, radio spectrum and crowd-funded loans and grants.
+        </p>
+
+        <p>
+The following example describes a web page <tref>asset</tref> with the title 
+"PaySwarm in Practice". The article was created by 
+"Digital Bazaar, Inc." and the information in the asset is valid from 
+November 28th, 2010 to November 28th, 2011. 
+The asset is digitally signed by the organization providing it
+and thus can be cached, stored and then presented to someone else in a manner
+that is verifiable by the receiving party.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@id": "http://example.org/articles/1#asset",
+   "@type": ["ps:Asset", "ps:WebPage"],
+   "dc:title": "PaySwarm in Practice",
+   "dc:description": "This article covers how to use PaySwarm on your Website.",
+   "dc:creator": 
+   {
+      "@type": "foaf:Organization",
+      "foaf:name": "Digital Bazaar, Inc.",
+   }
+   "ps:contentUrl": "http://example.org/articles/1",
+   "ps:validFrom": "2010-11-28T00:00:00Z",
+   "ps:validUntil": "2011-11-28T00:00:00Z"
+   "sec:signature": 
+   {
+       "@type": "sec:JsonLdSignature",
+       "dc:created": "2010-11-28T00:00:00Z",
+       "sec:signer": "https://payswarm.example.com/i/digital-bazaar#key-5",
+       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
+   }
+}
+        </pre>
+        
+        <p>
+In order to publish this asset on a Web page, a <tref>vendor</tref> MUST 
+mark the data up in RDFa and place it into an HTML file. For example,
+assume that the following file is served from the 
+<code>http://example.org/articles/1-purchase</code> IRI:
+        </p>
+
+        <pre class="example prettyprint language-html">
+&lt;html>
+ &lt;head>
+   &lt;title>Buy: PaySwarm in Practice&lt;/title>
+ &lt;/head>
+ &lt;body prefix="dc: http://purl.org/dc/terms/ 
+               foaf: http://xmlns.com/foaf/0.1/ 
+               ps: http://purl.org/payswarm#
+               sec: http://purl.org/security#
+               xsd: http://www.w3.org/2001/XMLSchema#">
+
+   &lt;article about="http://example.org/articles/1#asset" typeof="ps:Asset ps:WebPage">
+     &lt;h1 property="dc:title">PaySwarm in Practice&lt;/h1>
+     by
+     &lt;h2 property="dc:creator" typeof="foaf:Organization">
+       &lt;span property="foaf:name">Digital Bazaar, Inc.&lt;/span>
+     &lt;/h2>
+
+     &lt;p property="dc:description">This article covers how to use PaySwarm on your Website.&lt;/p>
+     &lt;a property="ps:contentUrl" href="http://example.org/articles/1">permalink&lt;/a>
+     
+     &lt;input type="button" onclick="doPurchase();">Purchase Access to the Article&lt;/input>
+     
+     &lt;input type="button" onclick="toggleDetails();">Details&lt;/input>
+     &lt;div class="article-details hidden-by-default">
+       This asset publication is valid from
+       &lt;span property="ps:validFrom" content="2010-11-28T00:00:00Z" datatype="xsd:dateTime">today&lt;/span>
+       until a 
+       &lt;span property="ps:validTo" content="2011-11-28T00:00:00Z" datatype="xsd:dateTime">year from today&lt;/span>.
+       &lt;div property="sec:signature" typeof="sec:JsonLdSignature">
+         Signed on 
+         &lt;span property="dc:created" content="2010-11-28T00:00:00Z" datatype="xsd:dateTime">November 28th 2010&lt;/span>
+         by
+         &lt;a property="sec:signer" href="https://payswarm.example.com/i/digital-bazaar#key-5">Digital Bazaar&lt;/a>:
+         &lt;span property="sec:signatureValue">OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo=&lt;/span>
+       &lt;/div>
+      &lt;/div>
+   &lt;/article>
+ &lt;/body>
+&lt;/html>
+        </pre>
+
+        <p>
+It may not initially be clear why an <tref>asset</tref> would need to be
+digitally signed. There are two major reasons that assets MUST be digitally
+signed in order to take part in a secure financial system. The first is to
+ensure, from a legal standpoint, that the person or organization claiming 
+ownership over the asset is clear. The second is to ensure that forgery 
+cannot occur on any of the asset information claimed by the owner of the asset.
+For example, if the asset were listed on an non-secure HTTP-based Web site, 
+the information could be easily modified in transit.
+        </p>
+
+        <p>
+The example above demonstrates how the information expressed as [[!JSON-LD]] 
+earlier in this section can be expressed as HTML+RDFa 
+[[!HTML-RDFA]]. The rest of this specification will not express information 
+using both mechanisms, but will use [[!JSON-LD]] markup for the sake of 
+brevity even if the information being expressed is meant to be expressed in
+RDFa.
+        </p>
+        
+      </section>
+
+      <section>
+        <h3>Publishing a License</h3>
+        <p>
+A <tref>license</tref> is a legal description of a licensee's rights to a 
+particular <tref>asset</tref>.
+Licenses are usually included as a part of a <tref>contract</tref> 
+to express what a buyer may do with an asset that has been purchased. A license
+can include a number of rights bestowed upon the licensesee as well as further
+limitations on those rights. For example, how an asset may be
+re-broadcast, how often a digital asset may be physically reproduced, what an 
+asset may specifically not be used for, and liability limitations when using the 
+asset are but a few of the rights and obligations expressible via a license.
+        </p>
+        
+        <p>
+The following example describes a very simple license for personal use.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@id": "http://payswarm.example.com/licenses/personal-use",
+   "@type": "ps:License",
+   "dc:format": "text/html",
+   "ps:licenseTemplate": "This personal use license allows you to save the 
+      purchased asset onto any device that you own for your personal enjoyment
+      and make up to &lt;span property=\"ex:physicalCopies\" /&gt; printed
+      copies of the work for personal use."
+   "ps:licenseTerms": 
+   {
+      "ex:physicalCopies": 5
+   }
+}
+        </pre>
+
+        <p class="note">
+<tref>License</tref>s do not need to be created for each site on the Web. In
+many cases, common licenses can be placed on a website and re-used by a large
+number of sites that sell assets under similar license terms.
+        </p>
+
+      </section>
+
+      <section>
+        <h3>Publishing a Listing</h3>
+
+        <p>
+A <tref>listing</tref> describes the combination of an <tref>asset</tref> 
+that is for sale under a specific <tref>license</tref> and a set of payment 
+terms that must be fulfilled in order to access the asset. Listings are often 
+published on websites that sell assets via PaySwarm as a way to express things
+that are for sale, in a decentralized manner.
+        </p>
+
+        <p>
+The following example describes an <tref>asset</tref> for sale 
+for $0.05 USD under a <tref>license</tref>
+that covers acceptable use of blog posts. The offer is valid from March 2nd 
+2011 to March 3rd 2011. The only restriction on additional payees is that the 
+<tref>authority</tref> (the organization processing the payment) 
+may only take a maximum of 10% of the final sale price to cover their fees.
+        </p>
+
+        <pre class="example prettyprint language-jsonld">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@id": "http://example.com/articles/1#listing",
+   "@type": ["gr:Offering", "ps:Listing"],
+   "com:payee": 
+   [
+      {
+         "@id": "http://example.com/articles/1#listing-payee",
+         "@type": "com:Payee",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "com:rate": "0.05",
+         "com:rateType": "com:FlatAmount",
+         "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+      }
+   ],
+   "com:payeeRule": 
+   [
+      {
+         "@type": "com:PayeeRule",
+         "com:destinationOwnerType": "ps:Authority",
+         "com:maximumRate": "10",
+         "com:rateType": "com:InclusivePercentage"
+      }
+   ],
+   "ps:asset": "http://example.com/articles/1#asset",
+   "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+   "ps:license": "http://payswarm.example.com/licenses/blogging",
+   "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+   "sec:signature": 
+   {
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-02T00:00:00Z",
+      "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
+      "sec:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+   },
+   "ps:validFrom": "2011-03-02T00:00:00+0000",
+   "ps:validUntil": "2011-03-03T00:00:00+0000"
+}
+        </pre>
+
+      </section>
+
+      <section>
+        <h3>Performing a Purchase</h3>
+
+        <p>
+A normal purchase, as opposed to an automatic purchase, is typically performed
+via a Web browser-based <tref>user agent</tref> when the <tref>participant</tref>
+has never performed a purchase with the <tref>vendor</tref>'s website. The 
+process consists of re-directing the Web browser to the buyer's PaySwarm
+Authority for the purposes of authorizing payment to the vendor for a
+particular <tref>listing</tref>. If a payment authorization is not approved,
+the user agent is re-directed back to the vendor's website with an error.
+If the payment authorization is approved, the user agent is re-directed bakc to
+the vendor's website with a short-form <tref>contract</tref>, which 
+is used as a proof-of-purchase for the vendor's listing.
+        </p>
+
+        <section>
+          <h2>Purchase Terms</h2>
+          <p>
+There are a number of terms that are used during the course of the purchase
+process.
+          <dl>
+            <dt><tdef>listing hash</tdef></dt>
+            <dd>
+An identifier created by processing a <tref>listing</tref> expressed as
+JSON-LD through the 
+<a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a> and then generating a
+SHA-1 hash of the result.
+            </dd>
+            <dt><tdef>purchase callback</tdef></dt>
+            <dd>
+An IRI that will be on the receiving end of an HTTP POST from the
+<tref>authority</tref> with the result of a purchase request.
+            </dd>
+            <dt><tdef>reference identifier</tdef></dt>
+            <dd>
+A string value that MUST be greater than one character and less than 256
+characters used by the <tref>vendor</tref> to track purchases. These 
+identifiers can be used to ensure that <tref>asset</tref> that can be purchased 
+multiple times, like game tokens, can be tracked by the vendor.
+These identifiers also allow the vendor to protect against unintended
+double-purchasing due to network failures.
+            </dd>
+            <dt><tdef>receipt</tdef></dt>
+            <dd>
+The resulting value of a purchase request, typically sent from the
+<tref>authority</tref> to the <tref>publishing agent</tref>. The 
+object typically contains a <tref>short-form contract</tref> as well as 
+other information that may be pertinent to the transaction.
+            </dd>
+          </dl>
+          </p>
+        </section>
+
+        <section>
+        <h3>The Purchase Algorithm</h3>
+
+        <p>
+The normative algorithm for performing a purchase is expressed below.
+        </p>
+        
+        <ol class="algorithm">
+          <li>
+The <tref>publishing agent</tref> initiates a purchase request for a specific
+listing by re-directing the <tref>user agent</tref> to the 
+<tref>contracts service</tref> endpoint:
+            <ol class="algorithm">
+              <li>
+Generate the <tdef>purchase request IRI</tdef> by concatenating the
+<tref>contracts service</tref> and the following IRI parameters:
+                <dl>
+                  <dt><code>listing</code></dt>
+                  <dd>
+The URL-encoded <tref>listing</tref> IRI.
+                  </dd>
+                  <dt><code>listing-hash</code></dt>
+                  <dd>
+A SHA-1 hash of the listing after being normalized using the 
+<a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>callback</code></dt>
+                  <dd>
+A de-referenceable IRI that MUST be able to process an HTTP POST request from
+the <tref>authority</tref> with the result of a purchase request.
+                  </dd>
+                  <dt><code>reference</code></dt>
+                  <dd>
+An optional, internal reference identifier used by the 
+<tref>publishing agent</tref> to keep track of the purchase.
+                  </dd>
+                  <dt><code>nonce</code></dt>
+                  <dd>
+An optional cryptographic value that will be used in the encrypted response 
+to the vendor. The response nonce is utilized to prevent replay attacks on
+the vendor.
+                  </dd>
+                </dl>
+              </li>
+              <li>
+Perform an HTTP 303 redirect via the <tref>user agent</tref> to the 
+<tref>purchase request IRI</tref>.
+              </li>
+            </ol>
+          </li>
+          <li>
+The <tref>authority</tref> processes the purchase request ending in
+either an error message or a short-form <tref>contract</tref>:
+            <ol class="algorithm">
+              <li>
+If the purchase was denied or failed for any reason, the authority
+performs an HTTP POST via the <tref>user agent</tref> back to the callback
+IRI supplied by the <tref>vendor</tref> during the initiation of the purchase
+request.
+              </li>
+              <li>
+If the purchase was successful, then a <tref>receipt</tref> is generated and
+transmitted to the vendor:
+              <ol class="algorithm">
+                <li>To generate the <tdef>receipt</tdef> in
+JSON-LD format, the following pieces of information MUST be expressed:
+                <dl>
+                  <dt><code>@context</code></dt>
+                  <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+                  </dd>
+                    <dt><code>@type</code></dt>
+                    <dd>
+The value <code>ps:Receipt</code>.
+                    </dd>
+                  <dt><code>ps:preference</code></dt>
+                  <dd>
+An array of preferences that are requested by either the 
+<tref>authority</tref> or the <tref>participant</tref>. All valid options
+are listed below:
+                    <div>
+<code>ps:preAuthorization</code> - The <tref>participant</tref> has pre-authorized 
+future purchases for the <tref>vendor</tref> and thus the 
+<a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
+MAY be used for future purchases. If this preference setting is mentioned, the
+<tref>publishing agent</tref> SHOULD store the <tref>participant</tref>'s information,
+including the <tref>authority</tref> IRI, for use in future 
+automatic transactions.
+                    </div>
+                  </dd>
+                  <dt><code>ps:contract</code></dt>
+The contract used in the receipt is a summary of the digital contract that was
+finalized via the <tref>authority</tref>. It includes the minimum
+amount of information necessary for the <tref>publishing agent</tref> to 
+correctly identify the <tref>listing</tref> that was transacted:
+                  <dd>
+                    <dl>
+                    <dt><code>@type</code></dt>
+                    <dd>
+The value <code>ps:Contract</code>.
+                    </dd>
+                    <dt><code>ps:asset</code></dt>
+                    <dd>
+An IRI to the <tref>asset</tref> that was purchased.
+                    </dd>
+                    <dt><code>ps:assetHash</code></dt>
+                    <dd>
+The SHA-1 hash of the <tref>asset</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                    </dd>
+                    <dt><code>com:reference</code></dt>
+                    <dd>
+The <tref>reference identifier</tref>, if one was suppied via the purchase 
+request.
+                    </dd>
+                    <dt><code>ps:license</code></dt>
+                    <dd>
+An IRI to the <tref>license</tref> describing the rights associated with the
+<tref>asset</tref> that was purchased.
+                    </dd>
+                    <dt><code>ps:licenseHash</code></dt>
+                    <dd>
+The SHA-1 hash of the <tref>license</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                    </dd>
+                    <dt><code>ps:listing</code></dt>
+                    <dd>
+An IRI to the <tref>listing</tref> that was purchased.
+                    </dd>
+                    <dt><code>ps:listingHash</code></dt>
+                    <dd>
+The SHA-1 hash of the <tref>listing</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                    </dd>
+                    <dt><code>ps:assetAcquirer</code></dt>
+                    <dd>
+An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
+                    </dd>
+                  </dl>
+                </dl>
+              </li>
+              <li>
+The authority initiates an HTTP POST via the 
+<tref>user agent</tref> back to the <code>callback</code> IRI supplied by the 
+<tref>publishing agent</tref> during the initiation of the purchase request. 
+The POST data is digitally signed according to the 
+<a href="#request-signature-algorithm">Request Signature Algorithm</a>, 
+using the <tref>public key</tref> of the <tref>authority</tref>.
+              </li>
+            </ol>
+          </li>
+          <li>
+The <tref>publishing agent</tref> acts upon the callback by granting access
+to the <tref>asset</tref> if the purchase was successful, or providing a page 
+detailing why the purchase failed. The <tref>publishing agent</tref> SHOULD note 
+any preferences in the <tref>receipt</tref> and utilize those preferences when
+processing future purchases from the <tref>participant</tref>.
+          </li>
+        </ol>
+        </section>
+      </section>
+
+      <section>
+        <h3>Performing Automatic Purchases</h3>
+
+        <p>
+An automatic purchase is one where a <tref>vendor</tref> has been
+previously authorized by a <tref>participant</tref> to perform purchases with
+the buyer's pre-authorized consent. This is typically used when the 
+<tref>vendor</tref> is trusted, or when the <tref>participant</tref> has set a 
+spending limit with the <tref>vendor</tref> and does not want to be bothered
+unless that spending limit is reached. Automatic purchases are designed to 
+get out of the way of the <tref>participant</tref> and make the transactional flow
+as friction-free as possible.
+        </p>
+
+        <section>
+          <h2>Purchase Terms</h2>
+          <p>
+There are a number of terms that are used during the course of the purchase
+process.
+          <dl>
+            <dt><tdef>purchase request</tdef></dt>
+            <dd>
+A message consisting of a <tref>listing</tref> IRI, 
+a <tref>listing hash</tref>, a <tref>participant</tref> identity IRI, and
+an optional <tref>reference identifier</tref>. The message is typically sent
+by a <tref>publishing agent</tref> to a <tref>participant</tref>'s 
+<tref>authority</tref> for processing.
+            </dd>
+          </dl>
+        </section>
+        
+        <section>
+        <h3>The Automatic Purchase Algorithm</h3>
+        
+        <p>
+The automatic purchase algorithm is outlined below:
+        </p>
+
+        <ol class="algorithm">
+          <li>
+The <tref>publishing agent</tref> prepares a <tref>purchase request</tref> by
+constructing a JSON-LD message. The following pieces of information
+MUST be expressed:
+            <dl>
+              <dt><code>@context</code></dt>
+              <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+              </dd>
+              <dt><code>@type</code></dt>
+              <dd>
+The value <code>ps:PurchaseRequest</code>.
+              </dd>
+              <dt><code>ps:listing</code></dt>
+              <dd>
+An IRI to the <tref>listing</tref> that was purchased.
+              </dd>
+              <dt><code>ps:listingHash</code></dt>
+              <dd>
+The SHA-1 hash of the <tref>listing</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+              </dd>
+              <dt><code>ps:assetAcquirer</code></dt>
+              <dd>
+An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
+              </dd>
+              <dt><code>com:reference</code></dt>
+              <dd>
+The <tref>reference identifier</tref>, if one was suppied via the purchase 
+request.
+              </dd>
+            </dl>
+          </li>        
+          <li>
+The <tref>purchase request</tref> is digitally signed by the 
+<tref>publishing agent</tref> according to the
+<a href="#request-signature-algorithm">Request Signature Algorithm</a> using
+the <tref>private key</tref> associated with the <tref>listing</tref> in the
+<tref>purchase request</tref>. The <tref>purchase request</tref> is
+sent to the <tref>authority</tref> of the <tref>participant</tref>
+via an HTTPS connection. The HTTPS protocol MUST be used for transmission 
+of the request and retrieval of the response to prevent replay attacks.
+          </li>
+          <li>
+The <tref>authority</tref> checks to ensure that the
+<tref>publishing agent</tref> is authorized to perform an automatic purchase 
+on behalf of the provided <tref>participant</tref> identity IRI and responds to the
+<tref>publishing agent</tref>:
+          <ol class="algorithm">
+            <li>
+If the transaction fails, the exception details are placed into a JSON-LD 
+message and sent to the <tref>publishing agent</tref>.
+              <div class="issue">
+Determine how PaySwarm will handle response exceptions.
+              </div>
+            </li>
+            <li>
+If the transaction is successful, a <tref>receipt</tref> is generated for
+the <tref>publishing agent</tref>. The following fields MUST be
+placed into the response:
+              <dl>
+                <dt><code>@context</code></dt>
+                <dd>
+A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+or a list containing that context IRI as the first member, where subsequent 
+context declarations MUST NOT override any values in the first member.
+                </dd>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Receipt</code>.
+                  </dd>
+                <dt><code>ps:contract</code></dt>
+The contract used in the receipt is a summary of the digital contract that was
+finalized via the <tref>authority</tref>. It includes the minimum
+amount of information necessary for the <tref>publishing agent</tref> to 
+correctly identify the <tref>listing</tref> that was transacted:
+                <dd>
+                  <dl>
+                  <dt><code>@type</code></dt>
+                  <dd>
+The value <code>ps:Contract</code>.
+                  </dd>
+                  <dt><code>ps:asset</code></dt>
+                  <dd>
+An IRI to the <tref>asset</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:assetHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>asset</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>com:reference</code></dt>
+                  <dd>
+The <tref>reference identifier</tref>, if one was suppied via the purchase 
+request.
+                  </dd>
+                  <dt><code>ps:license</code></dt>
+                  <dd>
+An IRI to the <tref>license</tref> describing the rights associated with the
+<tref>asset</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:licenseHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>license</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:listing</code></dt>
+                  <dd>
+An IRI to the <tref>listing</tref> that was purchased.
+                  </dd>
+                  <dt><code>ps:listingHash</code></dt>
+                  <dd>
+The SHA-1 hash of the <tref>listing</tref> information after being normalized 
+using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
+Universal Graph Normalization Algorithm (UGNA2011)</a>.
+                  </dd>
+                  <dt><code>ps:assetAcquirer</code></dt>
+                  <dd>
+An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
+                  </dd>
+                </dl>
+              </dl>
+            </li>
+            <li>
+The <tref>receipt</tref> is encrypted according to the 
+<a href="#response-encryption-algorithm">Response Encryption Algorithm</a>, 
+using the <tref>public key</tref> associated with the <tref>private key</tref>
+that digitally signed the <tref>listing</tref>. The encrypted receipt is
+sent to the <tref>publishing agent</tref>.
+            </li>
+          </ol>
+          <li>
+The <tref>publishing agent</tref> receives the response, which will either be
+an exception or a receipt, and responds accordingly to the 
+<tref>user agent</tref>.
+          </li>
+        </ol>
+        </section>
+      </section>
+
+      <section>
+        <h3>The Contract</h3>
+
+        <p>
+A <tref>contract</tref> is the result of a commercial transaction in PaySwarm 
+and contains information such as the <tref>listing</tref>, 
+the <tref>asset</tref> that was purchased, the parties involved in the
+transaction, the <tref>license</tref> outlining the rights to the 
+asset, and payment information associated with the transaction.
+        </p>
+
+        <p>
+The following example describes a purchase that occurred on March 2nd 2011
+for a Web-based article called "PaySwarm in Practice". The article was authored
+and listed for sale by Bob Smith and a personal use license was acquired by 
+Jane, who may now peruse the article.
+        </p>
+
+        <pre class="example prettyprint language-jsonld">
+{
+   "@context": "http://purl.org/payswarm/v1",
+   "@id": "http://payswarm.example.com/contracts/28394729347",
+   "@type": ["ps:Transaction", "ps:Contract"],
+   "com:amount": "0.05",
+   "com:currency": "USD",
+   "dc:created": "2011-03-02T03:00:53Z",
+   "com:payee": 
+   [
+      {
+         "@type": "com:Payee",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "com:payeePosition": 0,
+         "com:rate": "10.00",
+         "com:rateContext": "com:TaxExempt",
+         "com:rateType": "com:InclusivePercentage",
+         "rdfs:comment": "authority Transaction Processing"
+      }
+   ],
+   "com:transfer": 
+   [
+      {
+         "@type": "com:Transfer",
+         "com:amount": "0.045",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
+         "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
+      },
+      {
+         "@type": "com:Transfer",
+         "com:amount": "0.005",
+         "com:currency": "USD",
+         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
+         "rdfs:comment": "authority Transaction Processing"
+      }
+   ],
+   "dc:created": "2011-03-02T03:00:53Z",
+   "ps:asset": 
+   {
+      "@id": "http://example.com/articles/1#asset",
+      "@type": ["ps:Asset", "ps:WebPage"],
+      "dc:creator": 
+      {
+         "foaf:name": "Bob Smith"
+      },
+      "dc:title": "PaySwarm in Practice",
+      "ps:assetProvider": "https://payswarm.example.com/i/bob",
+      "ps:authority": "https://payswarm.example.com/client-config",
+      "ps:contentUrl": "http://example.com/articles/1",
+      "sec:signature": 
+      {
+         "@type": "ps:JsonLdSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
+         "sec:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
+      }
+   },
+   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
+   "ps:assetProviderIdentity": 
+   {
+      "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
+   },
+   "ps:license": 
+   {
+      "@id": "http://payswarm.example.com/licenses/blogging",
+      "@type": "ps:License",
+      "dc:format": "text/html",
+      "ps:licenseTemplate": "Personal Use License ..."
+   },
+   "ps:listing": 
+   {
+      "@id": "http://example.com/articles/1#listing",
+      "@type": ["gr:Offering", "ps:Listing"],
+      "com:payee": 
+      [
+         {
+            "@id": "http://example.com/articles/1#listing-payee",
+            "@type": "com:Payee",
+            "com:currency": "USD",
+            "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
+            "com:rate": "0.05",
+            "com:rateType": "com:FlatAmount",
+            "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+         }
+      ],
+      "com:payeeRule": 
+      [
+         {
+            "@type": "com:PayeeRule",
+            "com:destinationOwnerType": "ps:Authority",
+            "com:maximumRate": "10",
+            "com:rateType": "com:InclusivePercentage"
+         }
+      ],
+      "ps:asset": "http://example.com/articles/1#asset",
+      "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+      "ps:license": "http://payswarm.example.com/licenses/blogging",
+      "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+      "sec:signature": 
+      {
+         "@type": "ps:JsonLdSignature",
+         "dc:created": "2011-03-02T00:00:00Z",
+         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
+         "sec:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      },
+      "ps:validFrom": "2011-03-02T00:00:00+0000",
+      "ps:validUntil": "2011-03-03T00:00:00+0000"
+   },
+   "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
+   "sec:signature": 
+   {
+      "@type": "ps:JsonLdSignature",
+      "dc:created": "2011-03-02T03:00:53Z",
+      "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
+      "sec:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
+   }
+}
+        </pre>
+
+      </section>
+
+      <section>
+        <h3>Verifying a Purchase</h3>
+
+      </section>
+
+    </section>
+
+  </body> 
+</html>
+

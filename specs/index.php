@@ -69,10 +69,33 @@ Transaction processing environment.
     <?php dirContents("ED/use-cases"); ?>
   </ul>
 </li>
-<li><a href="source/web-api">PaySwarm Web API</a> - the core PaySwarm 
-protocol - listing, buying and selling digital assets.
+<li><a href="source/web-keys">Web Keys</a> - a secure and verifiable messaging
+mechanism built using Linked Data principles to produce a distributed
+Public Key Infrastructure for the Web.
   <ul>
-    <?php dirContents("ED/web-api"); ?>
+    <?php dirContents("ED/web-keys"); ?>
+  </ul>
+</li>
+<li><a href="source/web-payments">Web Payments</a> - the base layer of the
+PaySwarm architecture; enables the creation of a monetary transaction between 
+two participants on the Web.
+  <ul>
+    <?php dirContents("ED/web-payments"); ?>
+  </ul>
+</li>
+<li><a href="source/web-commerce">Web Commerce</a> - the electronic 
+commerce portion of the PaySwarm architecture; enabling the decentralized 
+listing of assets for sale and the transaction of those assets resulting in a 
+digitally verifiable receipt between the buyer and the vendor.
+  <ul>
+    <?php dirContents("ED/web-commerce"); ?>
+  </ul>
+</li>
+<li><a href="source/payment-intents">Payment Intents</a> - the
+parameterized transactions layer of the PaySwarm architecture; enables 
+decentralized crowd-funding for innovative initiatives and projects.
+  <ul>
+    <?php dirContents("ED/payment-intents"); ?>
   </ul>
 </li>
 <li><a href="../vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 
@@ -98,6 +121,18 @@ digital signatures and encrypting and decrypting messages.
 </ul>
 
 </p>
+
+<h2>Obsolete Specifications</h2>
+
+<ul>
+<li><a href="source/web-api">PaySwarm Web API</a> - the core PaySwarm 
+protocol - listing, buying and selling digital assets.
+  <ul>
+    <?php dirContents("ED/web-api"); ?>
+  </ul>
+</li>
+</ul>
+
     </div>
   </div>
 </div>

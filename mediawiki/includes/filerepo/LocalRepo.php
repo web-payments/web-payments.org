@@ -1,15 +1,30 @@
 <?php
 /**
+ * Local repository that stores files in the local filesystem and registers them
+ * in the wiki's own database.
+ *
+ * @file
+ * @ingroup FileRepo
+ */
+
+/**
  * A repository that stores files in the local filesystem and registers them
  * in the wiki's own database. This is the most commonly used repository class.
  * @ingroup FileRepo
  */
 class LocalRepo extends FSRepo {
 	var $fileFactory = array( 'LocalFile', 'newFromTitle' );
+	var $fileFactoryKey = array( 'LocalFile', 'newFromKey' );
 	var $oldFileFactory = array( 'OldLocalFile', 'newFromTitle' );
+	var $oldFileFactoryKey = array( 'OldLocalFile', 'newFromKey' );
 	var $fileFromRowFactory = array( 'LocalFile', 'newFromRow' );
 	var $oldFileFromRowFactory = array( 'OldLocalFile', 'newFromRow' );
 
+	/**
+	 * @throws MWException
+	 * @param  $row
+	 * @return File
+	 */
 	function newFileFromRow( $row ) {
 		if ( isset( $row->img_name ) ) {
 			return call_user_func( $this->fileFromRowFactory, $row, $this );
@@ -20,6 +35,11 @@ class LocalRepo extends FSRepo {
 		}
 	}
 
+	/**
+	 * @param $title
+	 * @param $archiveName
+	 * @return OldLocalFile
+	 */
 	function newFromArchiveName( $title, $archiveName ) {
 		return OldLocalFile::newFromArchiveName( $title, $this, $archiveName );
 	}
@@ -29,13 +49,16 @@ class LocalRepo extends FSRepo {
 	 * filearchive table. This needs to be done in the repo because it needs to
 	 * interleave database locks with file operations, which is potentially a
 	 * remote operation.
+	 *
+	 * @param $storageKeys array
+	 *
 	 * @return FileRepoStatus
 	 */
 	function cleanupDeletedBatch( $storageKeys ) {
 		$root = $this->getZonePath( 'deleted' );
 		$dbw = $this->getMasterDB();
 		$status = $this->newGood();
-		$storageKeys = array_unique($storageKeys);
+		$storageKeys = array_unique( $storageKeys );
 		foreach ( $storageKeys as $key ) {
 			$hashPath = $this->getDeletedHashPath( $key );
 			$path = "$root/$hashPath$key";
@@ -44,8 +67,8 @@ class LocalRepo extends FSRepo {
 				array( 'fa_storage_group' => 'deleted', 'fa_storage_key' => $key ),
 				__METHOD__, array( 'FOR UPDATE' ) );
 			if( !$inuse ) {
-				$sha1 = substr( $key, 0, strcspn( $key, '.' ) );
-				$ext = substr( $key, strcspn($key,'.') + 1 );
+				$sha1 = self::getHashFromKey( $key );
+				$ext = substr( $key, strcspn( $key, '.' ) + 1 );
 				$ext = File::normalizeExtension($ext);
 				$inuse = $dbw->selectField( 'oldimage', '1',
 					array( 'oi_sha1' => $sha1,
@@ -55,7 +78,10 @@ class LocalRepo extends FSRepo {
 			}
 			if ( !$inuse ) {
 				wfDebug( __METHOD__ . ": deleting $key\n" );
-				if ( !@unlink( $path ) ) {
+				wfSuppressWarnings();
+				$unlink = unlink( $path );
+				wfRestoreWarnings();
+				if ( !$unlink ) {
 					$status->error( 'undelete-cleanup-error', $path );
 					$status->failCount++;
 				}
@@ -67,17 +93,27 @@ class LocalRepo extends FSRepo {
 		}
 		return $status;
 	}
+
+	/**
+	 * Gets the SHA1 hash from a storage key
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public static function getHashFromKey( $key ) {
+		return strtok( $key, '.' );
+	}
 	
 	/**
 	 * Checks if there is a redirect named as $title
 	 *
-	 * @param Title $title Title of image
+	 * @param $title Title of file
 	 */
 	function checkRedirect( $title ) {
 		global $wgMemc;
 
 		if( is_string( $title ) ) {
-			$title = Title::newFromTitle( $title );
+			$title = Title::newFromText( $title );
 		}
 		if( $title instanceof Title && $title->getNamespace() == NS_MEDIA ) {
 			$title = Title::makeTitle( NS_FILE, $title->getText() );
@@ -125,6 +161,7 @@ class LocalRepo extends FSRepo {
 	/**
 	 * Function link Title::getArticleID().
 	 * We can't say Title object, what database it should use, so we duplicate that function here.
+	 * @param $title Title
 	 */
 	protected function getArticleID( $title ) {
 		if( !$title instanceof Title ) {
@@ -156,9 +193,11 @@ class LocalRepo extends FSRepo {
 		);
 		
 		$result = array();
-		while ( $row = $res->fetchObject() )
+		foreach ( $res as $row ) {
 			$result[] = $this->newFileFromRow( $row );
+		}
 		$res->free();
+
 		return $result;
 	}
 
@@ -189,8 +228,8 @@ class LocalRepo extends FSRepo {
 	/**
 	 * Invalidates image redirect cache related to that image
 	 *
-	 * @param Title $title Title of image
-	 */	
+	 * @param $title Title of page
+	 */
 	function invalidateImageRedirect( $title ) {
 		global $wgMemc;
 		$memcKey = $this->getSharedCacheKey( 'image_redirect', md5( $title->getDBkey() ) );

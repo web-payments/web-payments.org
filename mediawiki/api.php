@@ -17,7 +17,7 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
@@ -34,34 +34,36 @@
  * in the URL.
  */
 
-// Initialise common code
-require ( dirname( __FILE__ ) . '/includes/WebStart.php' );
+// So extensions (and other code) can check whether they're running in API mode
+define( 'MW_API', true );
+
+// Bail if PHP is too low
+if ( !function_exists( 'version_compare' ) || version_compare( phpversion(), '5.2.3' ) < 0 ) {
+	require( dirname( __FILE__ ) . '/includes/PHPVersionError.php' );
+	wfPHPVersionError( 'api.php' );
+}
+
+// Initialise common code.
+if ( isset( $_SERVER['MW_COMPILED'] ) ) {
+	require ( 'phase3/includes/WebStart.php' );
+} else {
+	require ( dirname( __FILE__ ) . '/includes/WebStart.php' );
+}
 
 wfProfileIn( 'api.php' );
 $starttime = microtime( true );
 
 // URL safety checks
-//
-// See RawPage.php for details; summary is that MSIE can override the
-// Content-Type if it sees a recognized extension on the URL, such as
-// might be appended via PATH_INFO after 'api.php'.
-//
-// Some data formats can end up containing unfiltered user-provided data
-// which will end up triggering HTML detection and execution, hence
-// XSS injection and all that entails.
-//
-if ( $wgRequest->isPathInfoBad() ) {
-	wfHttpError( 403, 'Forbidden',
-		'Invalid file extension found in PATH_INFO. ' .
-		'The API must be accessed through the primary script entry point.' );
+if ( !$wgRequest->checkUrlExtension() ) {
 	return;
 }
 
 // Verify that the API has not been disabled
 if ( !$wgEnableAPI ) {
-	echo 'MediaWiki API is not enabled for this site. Add the following line to your LocalSettings.php';
-	echo '<pre><b>$wgEnableAPI=true;</b></pre>';
-	die( 1 );
+	header( $_SERVER['SERVER_PROTOCOL'] . ' 500 MediaWiki configuration Error', true, 500 );
+	echo( 'MediaWiki API is not enabled for this site. Add the following line to your LocalSettings.php'
+		. '<pre><b>$wgEnableAPI=true;</b></pre>' );
+	die(1);
 }
 
 // Selectively allow cross-site AJAX
@@ -99,9 +101,6 @@ if ( $wgCrossSiteAJAXdomains && isset( $_SERVER['HTTP_ORIGIN'] ) ) {
 	}
 }
 
-// So extensions can check whether they're running in API mode
-define( 'MW_API', true );
-
 // Set a dummy $wgTitle, because $wgTitle == null breaks various things
 // In a perfect world this wouldn't be necessary
 $wgTitle = Title::makeTitle( NS_MAIN, 'API' );
@@ -132,7 +131,8 @@ if ( $wgAPIRequestLog ) {
 			$_SERVER['HTTP_USER_AGENT']
 	);
 	$items[] = $wgRequest->wasPosted() ? 'POST' : 'GET';
-	if ( $processor->getModule()->mustBePosted() ) {
+	$module = $processor->getModule();
+	if ( $module->mustBePosted() ) {
 		$items[] = "action=" . $wgRequest->getVal( 'action' );
 	} else {
 		$items[] = wfArrayToCGI( $wgRequest->getValues() );
@@ -141,6 +141,8 @@ if ( $wgAPIRequestLog ) {
 	wfDebug( "Logged API request to $wgAPIRequestLog\n" );
 }
 
-// Shut down the database
-wfGetLBFactory()->shutdown();
+// Shut down the database.  foo()->bar() syntax is not supported in PHP4: we won't ever actually
+// get here to worry about whether this should be = or =&, but the file has to parse properly.
+$lb = wfGetLBFactory();
+$lb->shutdown();
 

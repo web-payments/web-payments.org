@@ -1,5 +1,22 @@
 <?php
 /**
+ * Helper class for userOptions.php script.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Maintenance
  */
@@ -8,7 +25,7 @@
 $options = array( 'list', 'nowarn', 'quiet', 'usage', 'dry' );
 $optionsWithArgs = array( 'old', 'new' );
 
-require_once( dirname(__FILE__) . '/commandLine.inc' );
+require_once( dirname( __FILE__ ) . '/commandLine.inc' );
 
 /**
  * @ingroup Maintenance
@@ -25,7 +42,7 @@ class userOptions {
 
 	/** Constructor. Will show usage and exit if script options are not correct */
 	function __construct( $opts, $args ) {
-		if( !$this->checkOpts( $opts, $args ) ) {
+		if ( !$this->checkOpts( $opts, $args ) ) {
 			userOptions::showUsageAndExit();
 		} else {
 			$this->mReady = $this->initializeOpts( $opts, $args );
@@ -37,11 +54,11 @@ class userOptions {
 	private function checkOpts( $opts, $args ) {
 		// The three possible ways to run the script:
 		$list   = isset( $opts['list'] );
-		$usage  = isset( $opts['usage'] ) && (count($args) <= 1);
-		$change = isset( $opts['old']) && isset($opts['new']) && (count($args) <= 1) ;
+		$usage  = isset( $opts['usage'] ) && ( count( $args ) <= 1 );
+		$change = isset( $opts['old'] ) && isset( $opts['new'] ) && ( count( $args ) <= 1 ) ;
 
 		// We want only one of them
-		$isValid = (($list + $usage + $change) == 1);
+		$isValid = ( ( $list + $usage + $change ) == 1 );
 
 		return $isValid;
 	}
@@ -54,18 +71,18 @@ class userOptions {
 		$this->mDry   = isset( $opts['dry'] );
 
 		// Set object properties, specially 'mMode' used by run()
-		if( isset($opts['list']) ) {
+		if ( isset( $opts['list'] ) ) {
 			$this->mMode = 'LISTER' ;
-		} elseif( isset($opts['usage']) ) {
+		} elseif ( isset( $opts['usage'] ) ) {
 			$this->mMode = 'USAGER' ;
-			$this->mAnOption = isset($args[0]) ? $args[0] : false ;
-		} elseif( isset($opts['old']) && isset($opts['new']) ) {
+			$this->mAnOption = isset( $args[0] ) ? $args[0] : false ;
+		} elseif ( isset( $opts['old'] ) && isset( $opts['new'] ) ) {
 			$this->mMode = 'CHANGER' ;
 			$this->mOldValue = $opts['old'] ;
 			$this->mNewValue = $opts['new'] ;
 			$this->mAnOption = $args[0];
 		} else {
-			die("There is a bug in the software, this should never happen\n");
+			die( "There is a bug in the software, this should never happen\n" );
 		}
 
 		return true;
@@ -73,27 +90,27 @@ class userOptions {
 
 	// Dumb stuff to run a mode.
 	public function run() {
-		if(!$this->mReady ) {
+		if ( !$this->mReady ) {
 			return false;
 		}
 
-		$this->{$this->mMode}( );
+		$this-> { $this->mMode } ( );
 
 	}
 
 	#
 	# Modes.
-	# 
+	#
 
 	/** List default options and their value */
 	private function LISTER( ) {
 		$def = User::getDefaultOptions();
-		ksort($def);
+		ksort( $def );
 		$maxOpt = 0;
-		foreach( $def as $opt => $value ) {
-			$maxOpt = max( $maxOpt, strlen($opt) );
+		foreach ( $def as $opt => $value ) {
+			$maxOpt = max( $maxOpt, strlen( $opt ) );
 		}
-		foreach( $def as $opt => $value ) {
+		foreach ( $def as $opt => $value ) {
 			printf( "%-{$maxOpt}s: %s\n", $opt, $value );
 		}
 	}
@@ -111,37 +128,37 @@ class userOptions {
 			__METHOD__
 			);
 
-		while( $id = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $id ) {
 
 			$user = User::newFromId( $id->user_id );
 
 			// Get the options and update stats
-			if( $this->mAnOption ) {
+			if ( $this->mAnOption ) {
 
-				if(!array_key_exists( $this->mAnOption, $defaultOptions ) ) {
+				if ( !array_key_exists( $this->mAnOption, $defaultOptions ) ) {
 					print "Invalid user option. Use --list to see valid choices\n";
 					exit;
 				}
 
 				$userValue = $user->getOption( $this->mAnOption );
-				if( $userValue <> $defaultOptions[$this->mAnOption] ) {
+				if ( $userValue <> $defaultOptions[$this->mAnOption] ) {
 					@$ret[$this->mAnOption][$userValue]++;
 				}
 
 			} else {
 
-				foreach( $defaultOptions as $name => $defaultValue ) {
+				foreach ( $defaultOptions as $name => $defaultValue ) {
 					$userValue = $user->getOption( $name );
-					if( $userValue <> $defaultValue ) {
+					if ( $userValue <> $defaultValue ) {
 						@$ret[$name][$userValue]++;
 					}
 				}
 			}
 		}
 
-		foreach( $ret as $optionName => $usageStats ) {
+		foreach ( $ret as $optionName => $usageStats ) {
 			print "Usage for <$optionName> (default: '{$defaultOptions[$optionName]}'):\n";
-			foreach( $usageStats as $value => $count ) {
+			foreach ( $usageStats as $value => $count ) {
 				print " $count user(s): '$value'\n";
 			}
 			print "\n";
@@ -161,29 +178,29 @@ class userOptions {
 			__METHOD__
 			);
 
-		while( $id = $dbr->fetchObject( $result ) ) {
+		foreach ( $result as $id ) {
 
 			$user = User::newFromId( $id->user_id );
 
 			$curValue = $user->getOption( $this->mAnOption );
 			$username = $user->getName();
 
-			if( $curValue == $this->mOldValue ) {
+			if ( $curValue == $this->mOldValue ) {
 
-				if(!$this->mQuiet) {
+				if ( !$this->mQuiet ) {
 					print "Setting {$this->mAnOption} for $username from '{$this->mOldValue}' to '{$this->mNewValue}'): ";
 				}
 
-				// Change value 
+				// Change value
 				$user->setOption( $this->mAnOption, $this->mNewValue );
 
 				// Will not save the settings if run with --dry
-				if(!$this->mDry) {
+				if ( !$this->mDry ) {
 					$user->saveSettings();
 				}
-				if( !$this->mQuiet) { print " OK\n"; }
+				if ( !$this->mQuiet ) { print " OK\n"; }
 
-			} elseif( !$this->mQuiet ) {
+			} elseif ( !$this->mQuiet ) {
 				print "Not changing '$username' using <{$this->mAnOption}> = '$curValue'\n";
 			}
 		}
@@ -194,7 +211,7 @@ class userOptions {
 	public static function getDefaultOptionsNames() {
 		$def = User::getDefaultOptions();
 		$ret = array();
-		foreach( $def as $optname => $defaultValue) {
+		foreach ( $def as $optname => $defaultValue ) {
 			array_push( $ret, $optname );
 		}
 		return $ret;
@@ -212,31 +229,31 @@ This script pass through all users and change one of their options.
 The new option is NOT validated.
 
 Usage:
-    php userOptions.php --list
-    php userOptions.php [user option] --usage
-    php userOptions.php [options] <user option> --old <old value> --new <new value>
+	php userOptions.php --list
+	php userOptions.php [user option] --usage
+	php userOptions.php [options] <user option> --old <old value> --new <new value>
 
 Switchs:
-    --list : list available user options and their default value
+	--list : list available user options and their default value
 
-    --usage : report all options statistics or just one if you specify it.
+	--usage : report all options statistics or just one if you specify it.
 
-    --old <old value> : the value to look for
-    --new <new value> : new value to update users with
+	--old <old value> : the value to look for
+	--new <new value> : new value to update users with
 
 Options:
-    --nowarn: hides the 5 seconds warning
-    --quiet : do not print what is happening
-    --dry   : do not save user settings back to database
+	--nowarn: hides the 5 seconds warning
+	--quiet : do not print what is happening
+	--dry   : do not save user settings back to database
 
 USAGE;
-    exit(0);
+	exit( 0 );
 	}
 
 	/** The warning message and countdown */
 	public function warn() {
 
-		if( $this->mQuick ) {
+		if ( $this->mQuick ) {
 			return true;
 		}
 

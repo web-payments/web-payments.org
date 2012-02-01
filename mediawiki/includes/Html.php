@@ -1,21 +1,27 @@
 <?php
-# Copyright (C) 2009 Aryeh Gregor
-# http://www.mediawiki.org/
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
-# http://www.gnu.org/copyleft/gpl.html
+/**
+ * Collection of methods to generate HTML content
+ *
+ * Copyright © 2009 Aryeh Gregor
+ * http://www.mediawiki.org/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
 
 /**
  * This class is a collection of static functions that serve two purposes:
@@ -38,6 +44,8 @@
  * This class is meant to be confined to utility functions that are called from
  * trusted code paths.  It does not do enforcement of policy like not allowing
  * <a> elements.
+ *
+ * @since 1.16
  */
 class Html {
 	# List of void elements from HTML5, section 9.1.2 as of 2009-08-10
@@ -59,10 +67,9 @@ class Html {
 	);
 
 	# Boolean attributes, which may have the value omitted entirely.  Manually
-	# collected from the HTML5 spec as of 2009-08-10.
+	# collected from the HTML5 spec as of 2010-06-07.
 	private static $boolAttribs = array(
 		'async',
-		'autobuffer',
 		'autofocus',
 		'autoplay',
 		'checked',
@@ -72,15 +79,18 @@ class Html {
 		'formnovalidate',
 		'hidden',
 		'ismap',
+		'itemscope',
 		'loop',
 		'multiple',
 		'novalidate',
 		'open',
+		'pubdate',
 		'readonly',
 		'required',
 		'reversed',
 		'scoped',
 		'seamless',
+		'selected',
 	);
 
 	/**
@@ -97,8 +107,8 @@ class Html {
 	 * features might be added, like allowing arrays for the values of
 	 * attributes like class= and media=.
 	 *
-	 * @param $element  string The element's name, e.g., 'a'
-	 * @param $attribs  array  Associative array of attributes, e.g., array(
+	 * @param $element string The element's name, e.g., 'a'
+	 * @param $attribs array  Associative array of attributes, e.g., array(
 	 *   'href' => 'http://www.mediawiki.org/' ).  See expandAttributes() for
 	 *   further documentation.
 	 * @param $contents string The raw HTML contents of the element: *not*
@@ -115,13 +125,19 @@ class Html {
 			}
 			return $start;
 		} else {
-			return "$start$contents</$element>";
+			return "$start$contents" . self::closeElement( $element );
 		}
 	}
 
 	/**
 	 * Identical to rawElement(), but HTML-escapes $contents (like
 	 * Xml::element()).
+	 *
+	 * @param $element string
+	 * @param $attribs array
+	 * @param $contents string
+	 *
+	 * @return string
 	 */
 	public static function element( $element, $attribs = array(), $contents = '' ) {
 		return self::rawElement( $element, $attribs, strtr( $contents, array(
@@ -134,14 +150,27 @@ class Html {
 
 	/**
 	 * Identical to rawElement(), but has no third parameter and omits the end
-	 * tag (and the self-closing / in XML mode for empty elements).
+	 * tag (and the self-closing '/' in XML mode for empty elements).
+	 *
+	 * @param $element string
+	 * @param $attribs array
+	 *
+	 * @return string
 	 */
 	public static function openElement( $element, $attribs = array() ) {
-		global $wgHtml5;
+		global $wgHtml5, $wgWellFormedXml;
 		$attribs = (array)$attribs;
 		# This is not required in HTML5, but let's do it anyway, for
 		# consistency and better compression.
 		$element = strtolower( $element );
+
+		# In text/html, initial <html> and <head> tags can be omitted under
+		# pretty much any sane circumstances, if they have no attributes.  See:
+		# <http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#optional-tags>
+		if ( !$wgWellFormedXml && !$attribs
+		&& in_array( $element, array( 'html', 'head' ) ) ) {
+			return '';
+		}
 
 		# Remove HTML5-only attributes if we aren't doing HTML5, and disable
 		# form validation regardless (see bug 23769 and the more detailed
@@ -162,37 +191,55 @@ class Html {
 				'button',
 				'search',
 			);
+
 			if ( isset( $attribs['type'] )
 			&& !in_array( $attribs['type'], $validTypes ) ) {
 				unset( $attribs['type'] );
 			}
+
 			if ( isset( $attribs['type'] ) && $attribs['type'] == 'search'
 			&& !$wgHtml5 ) {
 				unset( $attribs['type'] );
 			}
-			# Here we're blacklisting some HTML5-only attributes...
-			$html5attribs = array(
-				'autocomplete',
-				'autofocus',
-				'max',
-				'min',
-				'multiple',
-				'pattern',
-				'placeholder',
-				'required',
-				'step',
-				'spellcheck',
-			);
-			foreach ( $html5attribs as $badAttr ) {
-				unset( $attribs[$badAttr] );
-			}
 		}
+
 		if ( !$wgHtml5 && $element == 'textarea' && isset( $attribs['maxlength'] ) ) {
 			unset( $attribs['maxlength'] );
 		}
 
 		return "<$element" . self::expandAttributes(
 			self::dropDefaults( $element, $attribs ) ) . '>';
+	}
+
+	/**
+	 * Returns "</$element>", except if $wgWellFormedXml is off, in which case
+	 * it returns the empty string when that's guaranteed to be safe.
+	 *
+	 * @since 1.17
+	 * @param $element string Name of the element, e.g., 'a'
+	 * @return string A closing tag, if required
+	 */
+	public static function closeElement( $element ) {
+		global $wgWellFormedXml;
+
+		$element = strtolower( $element );
+
+		# Reference:
+		# http://www.whatwg.org/specs/web-apps/current-work/multipage/syntax.html#optional-tags
+		if ( !$wgWellFormedXml && in_array( $element, array(
+			'html',
+			'head',
+			'body',
+			'li',
+			'dt',
+			'dd',
+			'tr',
+			'td',
+			'th',
+		) ) ) {
+			return '';
+		}
+		return "</$element>";
 	}
 
 	/**
@@ -319,7 +366,7 @@ class Html {
 		$ret = '';
 		$attribs = (array)$attribs;
 		foreach ( $attribs as $key => $value ) {
-			if ( $value === false ) {
+			if ( $value === false || is_null( $value ) ) {
 				continue;
 			}
 
@@ -341,6 +388,22 @@ class Html {
 			# this time, and has ugly UI, so just kill the feature entirely until
 			# we have at least one good implementation.
 			if ( in_array( $key, array( 'max', 'min', 'pattern', 'required', 'step' ) ) ) {
+				continue;
+			}
+
+			# Here we're blacklisting some HTML5-only attributes...
+			if ( !$wgHtml5 && in_array( $key, array(
+					'autocomplete',
+					'autofocus',
+					'max',
+					'min',
+					'multiple',
+					'pattern',
+					'placeholder',
+					'required',
+					'step',
+					'spellcheck',
+			) ) ) {
 				continue;
 			}
 
@@ -377,7 +440,8 @@ class Html {
 				# Apparently we need to entity-encode \n, \r, \t, although the
 				# spec doesn't mention that.  Since we're doing strtr() anyway,
 				# and we don't need <> escaped here, we may as well not call
-				# htmlspecialchars().  FIXME: verify that we actually need to
+				# htmlspecialchars().
+				# @todo FIXME: Verify that we actually need to
 				# escape \n\r\t here, and explain why, exactly.
 				#
 				# We could call Sanitizer::encodeAttribute() for this, but we
@@ -392,8 +456,8 @@ class Html {
 				);
 				if ( $wgWellFormedXml ) {
 					# This is allowed per spec: <http://www.w3.org/TR/xml/#NT-AttValue>
-					# But reportedly it breaks some XML tools?  FIXME: is this
-					# really true?
+					# But reportedly it breaks some XML tools?
+					# @todo FIXME: Is this really true?
 					$map['<'] = '&lt;';
 				}
 				$ret .= " $key=$quote" . strtr( $value, $map ) . $quote;
@@ -414,12 +478,15 @@ class Html {
 		global $wgHtml5, $wgJsMimeType, $wgWellFormedXml;
 
 		$attrs = array();
+
 		if ( !$wgHtml5 ) {
 			$attrs['type'] = $wgJsMimeType;
 		}
+
 		if ( $wgWellFormedXml && preg_match( '/[<&]/', $contents ) ) {
 			$contents = "/*<![CDATA[*/$contents/*]]>*/";
 		}
+
 		return self::rawElement( 'script', $attrs, $contents );
 	}
 
@@ -434,9 +501,11 @@ class Html {
 		global $wgHtml5, $wgJsMimeType;
 
 		$attrs = array( 'src' => $url );
+
 		if ( !$wgHtml5 ) {
 			$attrs['type'] = $wgJsMimeType;
 		}
+
 		return self::element( 'script', $attrs );
 	}
 
@@ -455,6 +524,7 @@ class Html {
 		if ( $wgWellFormedXml && preg_match( '/[<&]/', $contents ) ) {
 			$contents = "/*<![CDATA[*/$contents/*]]>*/";
 		}
+
 		return self::rawElement( 'style', array(
 			'type' => 'text/css',
 			'media' => $media,
@@ -499,8 +569,7 @@ class Html {
 	}
 
 	/**
-	 * Convenience function to produce an input element with type=hidden, like
-	 * Xml::hidden.
+	 * Convenience function to produce an input element with type=hidden
 	 *
 	 * @param $name    string name attribute
 	 * @param $value   string value attribute
@@ -527,13 +596,132 @@ class Html {
 	 */
 	public static function textarea( $name, $value = '', $attribs = array() ) {
 		global $wgHtml5;
+
 		$attribs['name'] = $name;
+
 		if ( !$wgHtml5 ) {
-			if ( !isset( $attribs['cols'] ) )
+			if ( !isset( $attribs['cols'] ) ) {
 				$attribs['cols'] = "";
-			if ( !isset( $attribs['rows'] ) )
+			}
+
+			if ( !isset( $attribs['rows'] ) ) {
 				$attribs['rows'] = "";
+			}
 		}
-		return self::element( 'textarea', $attribs, $value );
+
+		if (substr($value, 0, 1) == "\n") {
+			// Workaround for bug 12130: browsers eat the initial newline
+			// assuming that it's just for show, but they do keep the later
+			// newlines, which we may want to preserve during editing.
+			// Prepending a single newline
+			$spacedValue = "\n" . $value;
+		} else {
+			$spacedValue = $value;
+		}
+		return self::element( 'textarea', $attribs, $spacedValue );
+	}
+
+	/**
+	 * Constructs the opening html-tag with necessary doctypes depending on
+	 * global variables.
+	 *
+	 * @param $attribs array  Associative array of miscellaneous extra
+	 *   attributes, passed to Html::element() of html tag.
+	 * @return string  Raw HTML
+	 */
+	public static function htmlHeader( $attribs = array() ) {
+		$ret = '';
+
+		global $wgMimeType;
+
+		if ( self::isXmlMimeType( $wgMimeType ) ) {
+			$ret .= "<?xml version=\"1.0\" encoding=\"UTF-8\" ?" . ">\n";
+		}
+
+		global $wgHtml5, $wgHtml5Version, $wgDocType, $wgDTD;
+		global $wgXhtmlNamespaces, $wgXhtmlDefaultNamespace;
+
+		if ( $wgHtml5 ) {
+			$ret .= "<!DOCTYPE html>\n";
+
+			if ( $wgHtml5Version ) {
+				$attribs['version'] = $wgHtml5Version;
+			}
+		} else {
+			$ret .= "<!DOCTYPE html PUBLIC \"$wgDocType\" \"$wgDTD\">\n";
+			$attribs['xmlns'] = $wgXhtmlDefaultNamespace;
+
+			foreach ( $wgXhtmlNamespaces as $tag => $ns ) {
+				$attribs["xmlns:$tag"] = $ns;
+			}
+		}
+
+		$html = Html::openElement( 'html', $attribs );
+
+		if ( $html ) {
+			$html .= "\n";
+		}
+
+		$ret .= $html;
+
+		return $ret;
+	}
+
+	/**
+	 * Determines if the given mime type is xml.
+	 *
+	 * @param $mimetype    string MimeType
+	 * @return Boolean
+	 */
+	public static function isXmlMimeType( $mimetype ) {
+		switch ( $mimetype ) {
+			case 'text/xml':
+			case 'application/xhtml+xml':
+			case 'application/xml':
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * Get HTML for an info box with an icon.
+	 *
+	 * @param $text String: wikitext, get this with wfMsgNoTrans()
+	 * @param $icon String: icon name, file in skins/common/images
+	 * @param $alt String: alternate text for the icon
+	 * @param $class String: additional class name to add to the wrapper div
+	 * @param $useStylePath
+	 *
+	 * @return string
+	 */
+	static function infoBox( $text, $icon, $alt, $class = false, $useStylePath = true ) {
+		global $wgStylePath;
+
+		if ( $useStylePath ) {
+			$icon = $wgStylePath.'/common/images/'.$icon;
+		}
+
+		$s  = Html::openElement( 'div', array( 'class' => "mw-infobox $class") );
+
+		$s .= Html::openElement( 'div', array( 'class' => 'mw-infobox-left' ) ).
+				Html::element( 'img',
+					array(
+						'src' => $icon,
+						'alt' => $alt,
+					)
+				).
+				Html::closeElement( 'div' );
+
+		$s .= Html::openElement( 'div', array( 'class' => 'mw-infobox-right' ) ).
+				$text.
+				Html::closeElement( 'div' );
+		$s .= Html::element( 'div', array( 'style' => 'clear: left;' ), ' ' );
+
+		$s .= Html::closeElement( 'div' );
+
+		$s .= Html::element( 'div', array( 'style' => 'clear: left;' ), ' ' );
+
+		return $s;
 	}
 }

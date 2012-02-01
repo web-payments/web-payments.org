@@ -1,8 +1,15 @@
 <?php
+/**
+ * Base code for file repositories.
+ *
+ * @file
+ * @ingroup FileRepo
+ */
 
 /**
- * Base class for file repositories
+ * Base class for file repositories.
  * Do not instantiate, use a derived class.
+ *
  * @ingroup FileRepo
  */
 abstract class FileRepo {
@@ -10,9 +17,11 @@ abstract class FileRepo {
 	const DELETE_SOURCE = 1;
 	const OVERWRITE = 2;
 	const OVERWRITE_SAME = 4;
+	const SKIP_VALIDATION = 8;
 
 	var $thumbScriptUrl, $transformVia404;
-	var $descBaseUrl, $scriptDirUrl, $articleUrl, $fetchDescription, $initialCapital;
+	var $descBaseUrl, $scriptDirUrl, $scriptExtension, $articleUrl;
+	var $fetchDescription, $initialCapital;
 	var $pathDisclosureProtection = 'paranoid';
 	var $descriptionCacheExpiry, $hashLevels, $url, $thumbUrl;
 
@@ -31,7 +40,8 @@ abstract class FileRepo {
 		$this->initialCapital = MWNamespace::isCapitalized( NS_FILE );
 		foreach ( array( 'descBaseUrl', 'scriptDirUrl', 'articleUrl', 'fetchDescription',
 			'thumbScriptUrl', 'initialCapital', 'pathDisclosureProtection',
-			'descriptionCacheExpiry', 'hashLevels', 'url', 'thumbUrl' ) as $var )
+			'descriptionCacheExpiry', 'hashLevels', 'url', 'thumbUrl', 'scriptExtension' )
+			as $var )
 		{
 			if ( isset( $info[$var] ) ) {
 				$this->$var = $info[$var];
@@ -42,6 +52,10 @@ abstract class FileRepo {
 
 	/**
 	 * Determine if a string is an mwrepo:// URL
+	 *
+	 * @param $url string
+	 *
+	 * @return bool
 	 */
 	static function isVirtualUrl( $url ) {
 		return substr( $url, 0, 9 ) == 'mwrepo://';
@@ -49,15 +63,18 @@ abstract class FileRepo {
 
 	/**
 	 * Create a new File object from the local repository
-	 * @param mixed $title Title object or string
-	 * @param mixed $time Time at which the image was uploaded.
-	 *                    If this is specified, the returned object will be an
-	 *                    instance of the repository's old file class instead of
-	 *                    a current file. Repositories not supporting version
-	 *                    control should return false if this parameter is set.
+	 *
+	 * @param $title Mixed: Title object or string
+	 * @param $time Mixed: Time at which the image was uploaded.
+	 *              If this is specified, the returned object will be an
+	 *              instance of the repository's old file class instead of a
+	 *              current file. Repositories not supporting version control
+	 *              should return false if this parameter is set.
+	 *
+	 * @return File
 	 */
 	function newFile( $title, $time = false ) {
-		if ( !($title instanceof Title) ) {
+		if ( !( $title instanceof Title ) ) {
 			$title = Title::makeTitleSafe( NS_FILE, $title );
 			if ( !is_object( $title ) ) {
 				return null;
@@ -79,8 +96,8 @@ abstract class FileRepo {
 	 * Returns false if the file does not exist. Repositories not supporting
 	 * version control should return false if the time is specified.
 	 *
-	 * @param mixed $title Title object or string
-	 * @param $options Associative array of options:
+	 * @param $title Mixed: Title object or string
+	 * @param $options array Associative array of options:
 	 *     time:           requested time for an archived image, or false for the
 	 *                     current version. An image object will be returned which was
 	 *                     created at the specified time.
@@ -90,14 +107,11 @@ abstract class FileRepo {
 	 *     private:        If true, return restricted (deleted) files if the current
 	 *                     user is allowed to view them. Otherwise, such files will not
 	 *                     be found.
+	 *
+	 * @return File|false
 	 */
 	function findFile( $title, $options = array() ) {
-		if ( !is_array( $options ) ) {
-			// MW 1.15 compat
-			$time = $options;
-		} else {
-			$time = isset( $options['time'] ) ? $options['time'] : false;
-		}
+		$time = isset( $options['time'] ) ? $options['time'] : false;
 		if ( !($title instanceof Title) ) {
 			$title = Title::makeTitleSafe( NS_FILE, $title );
 			if ( !is_object( $title ) ) {
@@ -116,9 +130,9 @@ abstract class FileRepo {
 		if ( $time !== false ) {
 			$img = $this->newFile( $title, $time );
 			if ( $img && $img->exists() ) {
-				if ( !$img->isDeleted(File::DELETED_FILE) ) {
-					return $img;
-				} else if ( !empty( $options['private'] )  && $img->userCan(File::DELETED_FILE) ) {
+				if ( !$img->isDeleted( File::DELETED_FILE ) ) {
+					return $img; // always OK
+				} elseif ( !empty( $options['private'] ) && $img->userCan( File::DELETED_FILE ) ) {
 					return $img;
 				}
 			}
@@ -129,7 +143,7 @@ abstract class FileRepo {
 			return false;
 		}
 		$redir = $this->checkRedirect( $title );
-		if( $redir && $redir->getNamespace() == NS_FILE) {
+		if( $redir && $title->getNamespace() == NS_FILE) {
 			$img = $this->newFile( $redir );
 			if( !$img ) {
 				return false;
@@ -142,9 +156,9 @@ abstract class FileRepo {
 		return false;
 	}
 
-	/*
+	/**
 	 * Find many files at once.
-	 * @param array $items, an array of titles, or an array of findFile() options with
+	 * @param $items An array of titles, or an array of findFile() options with
 	 *    the "title" option giving the title. Example:
 	 *
 	 *     $findItem = array( 'title' => $title, 'private' => true );
@@ -153,7 +167,7 @@ abstract class FileRepo {
 	 */
 	function findFiles( $items ) {
 		$result = array();
-		foreach ( $items as $index => $item ) {
+		foreach ( $items as $item ) {
 			if ( is_array( $item ) ) {
 				$title = $item['title'];
 				$options = $item;
@@ -163,31 +177,11 @@ abstract class FileRepo {
 				$options = array();
 			}
 			$file = $this->findFile( $title, $options );
-			if ( $file )
+			if ( $file ) {
 				$result[$file->getTitle()->getDBkey()] = $file;
+			}
 		}
 		return $result;
-	}
-
-	/**
-	 * Create a new File object from the local repository
-	 * @param mixed $sha1 SHA-1 key
-	 * @param mixed $time Time at which the image was uploaded.
-	 *                    If this is specified, the returned object will be an
-	 *                    instance of the repository's old file class instead of
-	 *                    a current file. Repositories not supporting version
-	 *                    control should return false if this parameter is set.
-	 */
-	function newFileFromKey( $sha1, $time = false ) {
-		if ( $time ) {
-			if ( $this->oldFileFactoryKey ) {
-				return call_user_func( $this->oldFileFactoryKey, $sha1, $this, $time );
-			} else {
-				return false;
-			}
-		} else {
-			return call_user_func( $this->fileFactoryKey, $sha1, $this );
-		}
 	}
 
 	/**
@@ -195,32 +189,28 @@ abstract class FileRepo {
 	 * Returns false if the file does not exist. Repositories not supporting
 	 * version control should return false if the time is specified.
 	 *
-	 * @param string $sha1 string
-	 * @param array $options Option array, same as findFile().
+	 * @param $sha1 String base 36 SHA-1 hash
+	 * @param $options Option array, same as findFile().
 	 */
 	function findFileFromKey( $sha1, $options = array() ) {
-		if ( !is_array( $options ) ) {
-			# MW 1.15 compat
-			$time = $options;
-		} else {
-			$time = isset( $options['time'] ) ? $options['time'] : false;
-		}
+		$time = isset( $options['time'] ) ? $options['time'] : false;
 
-		# First try the current version of the file to see if it precedes the timestamp
-		$img = $this->newFileFromKey( $sha1 );
-		if ( !$img ) {
-			return false;
+		# First try to find a matching current version of a file...
+		if ( $this->fileFactoryKey ) {
+			$img = call_user_func( $this->fileFactoryKey, $sha1, $this, $time );
+		} else {
+			return false; // find-by-sha1 not supported
 		}
-		if ( $img->exists() && ( !$time || $img->getTimestamp() == $time ) ) {
+		if ( $img && $img->exists() ) {
 			return $img;
 		}
-		# Now try an old version of the file
-		if ( $time !== false ) {
-			$img = $this->newFileFromKey( $sha1, $time );
-			if ( $img->exists() ) {
-				if ( !$img->isDeleted(File::DELETED_FILE) ) {
-					return $img;
-				} else if ( !empty( $options['private'] ) && $img->userCan(File::DELETED_FILE) ) {
+		# Now try to find a matching old version of a file...
+		if ( $time !== false && $this->oldFileFactoryKey ) { // find-by-sha1 supported?
+			$img = call_user_func( $this->oldFileFactoryKey, $sha1, $this, $time );
+			if ( $img && $img->exists() ) {
+				if ( !$img->isDeleted( File::DELETED_FILE ) ) {
+					return $img; // always OK
+				} elseif ( !empty( $options['private'] ) && $img->userCan( File::DELETED_FILE ) ) {
 					return $img;
 				}
 			}
@@ -237,7 +227,7 @@ abstract class FileRepo {
 
 	/**
 	 * Get the URL corresponding to one of the four basic zones
-	 * @param String $zone One of: public, deleted, temp, thumb
+	 * @param $zone String: one of: public, deleted, temp, thumb
 	 * @return String or false
 	 */
 	function getZoneUrl( $zone ) {
@@ -253,9 +243,9 @@ abstract class FileRepo {
 
 	/**
 	 * Get the name of an image from its title object
+	 * @param $title Title
 	 */
 	function getNameFromTitle( $title ) {
-		global $wgCapitalLinks;
 		if ( $this->initialCapital != MWNamespace::isCapitalized( NS_FILE ) ) {
 			global $wgContLang;
 			$name = $title->getUserCaseDBKey();
@@ -297,6 +287,18 @@ abstract class FileRepo {
 	}
 
 	/**
+	 * Make an url to this repo
+	 *
+	 * @param $query mixed Query string to append
+	 * @param $entry string Entry point; defaults to index
+	 * @return string
+	 */
+	function makeUrl( $query = '', $entry = 'index' ) {
+		$ext = isset( $this->scriptExtension ) ? $this->scriptExtension : '.php';
+		return wfAppendQuery( "{$this->scriptDirUrl}/{$entry}{$ext}", $query );
+	}
+
+	/**
 	 * Get the URL of an image description page. May return false if it is
 	 * unknown or not applicable. In general this should only be called by the
 	 * File class, since it may return invalid results for certain kinds of
@@ -325,8 +327,7 @@ abstract class FileRepo {
 			# We use "Image:" as the canonical namespace for
 			# compatibility across all MediaWiki versions,
 			# and just sort of hope index.php is right. ;)
-			return $this->scriptDirUrl .
-				"/index.php?title=Image:$encName";
+			return $this->makeUrl( "title=Image:$encName" );
 		}
 		return false;
 	}
@@ -336,8 +337,8 @@ abstract class FileRepo {
 	 * MediaWiki this means action=render. This should only be called by the
 	 * repository's file class, since it may return invalid results. User code
 	 * should use File::getDescriptionText().
-	 * @param string $name Name of image to fetch
-	 * @param string $lang Language to fetch it in, if any.
+	 * @param $name String: name of image to fetch
+	 * @param $lang String: language to fetch it in, if any.
 	 */
 	function getDescriptionRenderUrl( $name, $lang = null ) {
 		$query = 'action=render';
@@ -345,9 +346,10 @@ abstract class FileRepo {
 			$query .= '&uselang=' . $lang;
 		}
 		if ( isset( $this->scriptDirUrl ) ) {
-			return $this->scriptDirUrl . '/index.php?title=' .
+			return $this->makeUrl(
+				'title=' .
 				wfUrlencode( 'Image:' . $name ) .
-				"&$query";
+				"&$query" );
 		} else {
 			$descUrl = $this->getDescriptionUrl( $name );
 			if ( $descUrl ) {
@@ -359,12 +361,23 @@ abstract class FileRepo {
 	}
 
 	/**
+	 * Get the URL of the stylesheet to apply to description pages
+	 * @return string
+	 */
+	function getDescriptionStylesheetUrl() {
+		if ( $this->scriptDirUrl ) {
+			return $this->makeUrl( 'title=MediaWiki:Filepage.css&' .
+				wfArrayToCGI( Skin::getDynamicStylesheetQuery() ) );
+		}
+	}
+
+	/**
 	 * Store a file to a given destination.
 	 *
-	 * @param string $srcPath Source path or virtual URL
-	 * @param string $dstZone Destination zone
-	 * @param string $dstRel Destination relative path
-	 * @param integer $flags Bitwise combination of the following flags:
+	 * @param $srcPath String: source path or virtual URL
+	 * @param $dstZone String: destination zone
+	 * @param $dstRel String: destination relative path
+	 * @param $flags Integer: bitwise combination of the following flags:
 	 *     self::DELETE_SOURCE     Delete the source file after upload
 	 *     self::OVERWRITE         Overwrite an existing destination file instead of failing
 	 *     self::OVERWRITE_SAME    Overwrite the file if the destination exists and has the
@@ -382,8 +395,8 @@ abstract class FileRepo {
 	/**
 	 * Store a batch of files
 	 *
-	 * @param array $triplets (src,zone,dest) triplets as per store()
-	 * @param integer $flags Flags as per store
+	 * @param $triplets Array: (src,zone,dest) triplets as per store()
+	 * @param $flags Integer: flags as per store
 	 */
 	abstract function storeBatch( $triplets, $flags = 0 );
 
@@ -391,27 +404,35 @@ abstract class FileRepo {
 	 * Pick a random name in the temp zone and store a file to it.
 	 * Returns a FileRepoStatus object with the URL in the value.
 	 *
-	 * @param string $originalName The base name of the file as specified
+	 * @param $originalName String: the base name of the file as specified
 	 *     by the user. The file extension will be maintained.
-	 * @param string $srcPath The current location of the file.
+	 * @param $srcPath String: the current location of the file.
 	 */
 	abstract function storeTemp( $originalName, $srcPath );
 
 
 	/**
-	 * Append the contents of the source path to the given file.
-	 * @param $srcPath string location of the source file
-	 * @param $toAppendPath string path to append to.
-	 * @param $flags Bitfield, may be FileRepo::DELETE_SOURCE to indicate
+	 * Append the contents of the source path to the given file, OR queue
+	 * the appending operation in anticipation of a later appendFinish() call.
+	 * @param $srcPath String: location of the source file
+	 * @param $toAppendPath String: path to append to.
+	 * @param $flags Integer: bitfield, may be FileRepo::DELETE_SOURCE to indicate
 	 *        that the source file should be deleted if possible
 	 * @return mixed Status or false
 	 */
 	abstract function append( $srcPath, $toAppendPath, $flags = 0 );
 
 	/**
+	 * Finish the append operation.
+	 * @param $toAppendPath String: path to append to.
+	 * @return mixed Status or false
+	 */
+	abstract function appendFinish( $toAppendPath );
+
+	/**
 	 * Remove a temporary file or mark it for garbage collection
-	 * @param string $virtualUrl The virtual URL returned by storeTemp
-	 * @return boolean True on success, false on failure
+	 * @param $virtualUrl String: the virtual URL returned by storeTemp
+	 * @return Boolean: true on success, false on failure
 	 * STUB
 	 */
 	function freeTemp( $virtualUrl ) {
@@ -425,11 +446,11 @@ abstract class FileRepo {
 	 * Returns a FileRepoStatus object. On success, the value contains "new" or
 	 * "archived", to indicate whether the file was new with that name.
 	 *
-	 * @param string $srcPath The source path or URL
-	 * @param string $dstRel The destination relative path
-	 * @param string $archiveRel The relative path where the existing file is to
+	 * @param $srcPath String: the source path or URL
+	 * @param $dstRel String: the destination relative path
+	 * @param $archiveRel String: rhe relative path where the existing file is to
 	 *        be archived, if there is one. Relative to the public zone root.
-	 * @param integer $flags Bitfield, may be FileRepo::DELETE_SOURCE to indicate
+	 * @param $flags Integer: bitfield, may be FileRepo::DELETE_SOURCE to indicate
 	 *        that the source file should be deleted if possible
 	 */
 	function publish( $srcPath, $dstRel, $archiveRel, $flags = 0 ) {
@@ -447,8 +468,8 @@ abstract class FileRepo {
 
 	/**
 	 * Publish a batch of files
-	 * @param array $triplets (source,dest,archive) triplets as per publish()
-	 * @param integer $flags Bitfield, may be FileRepo::DELETE_SOURCE to indicate
+	 * @param $triplets Array: (source,dest,archive) triplets as per publish()
+	 * @param $flags Integer: bitfield, may be FileRepo::DELETE_SOURCE to indicate
 	 *        that the source files should be deleted if possible
 	 */
 	abstract function publishBatch( $triplets, $flags = 0 );
@@ -461,8 +482,8 @@ abstract class FileRepo {
 	/**
 	 * Checks existence of an array of files.
 	 *
-	 * @param array $files URLs (or paths) of files to check
-	 * @param integer $flags Bitwise combination of the following flags:
+	 * @param $files Array: URLs (or paths) of files to check
+	 * @param $flags Integer: bitwise combination of the following flags:
 	 *     self::FILES_ONLY     Mark file as existing only if it is a file (not directory)
 	 * @return Either array of files and existence flags, or false
 	 */
@@ -478,7 +499,7 @@ abstract class FileRepo {
 	 * assumes a naming scheme in the deleted zone based on content hash, as
 	 * opposed to the public zone which is assumed to be unique.
 	 *
-	 * @param array $sourceDestPairs Array of source/destination pairs. Each element
+	 * @param $sourceDestPairs Array of source/destination pairs. Each element
 	 *        is a two-element array containing the source file path relative to the
 	 *        public root in the first element, and the archive file path relative
 	 *        to the deleted zone root in the second element.
@@ -490,10 +511,10 @@ abstract class FileRepo {
 	 * Move a file to the deletion archive.
 	 * If no valid deletion archive exists, this may either delete the file
 	 * or throw an exception, depending on the preference of the repository
-	 * @param mixed $srcRel Relative path for the file to be deleted
-	 * @param mixed $archiveRel Relative path for the archive location.
+	 * @param $srcRel Mixed: relative path for the file to be deleted
+	 * @param $archiveRel Mixed: relative path for the archive location.
 	 *        Relative to a private archive directory.
-	 * @return WikiError object (wikitext-formatted), or true for success
+	 * @return FileRepoStatus object
 	 */
 	function delete( $srcRel, $archiveRel ) {
 		return $this->deleteBatch( array( array( $srcRel, $archiveRel ) ) );
@@ -568,7 +589,7 @@ abstract class FileRepo {
 	function newFatal( $message /*, parameters...*/ ) {
 		$params = func_get_args();
 		array_unshift( $params, $this );
-		return call_user_func_array( array( 'FileRepoStatus', 'newFatal' ), $params );
+		return MWInit::callStaticMethod( 'FileRepoStatus', 'newFatal', $params );
 	}
 
 	/**
@@ -589,7 +610,8 @@ abstract class FileRepo {
 	 * title object. If not, return false.
 	 * STUB
 	 *
-	 * @param Title $title Title of image
+	 * @param $title Title of image
+	 * @return Bool
 	 */
 	function checkRedirect( $title ) {
 		return false;
@@ -600,7 +622,7 @@ abstract class FileRepo {
 	 * Doesn't do anything for repositories that don't support image redirects.
 	 *
 	 * STUB
-	 * @param Title $title Title of image
+	 * @param $title Title of image
 	 */
 	function invalidateImageRedirect( $title ) {}
 
@@ -620,16 +642,22 @@ abstract class FileRepo {
 	 */
 	public function getDisplayName() {
 		// We don't name our own repo, return nothing
-		if ( $this->name == 'local' ) {
+		if ( $this->isLocal() ) {
 			return null;
 		}
 		// 'shared-repo-name-wikimediacommons' is used when $wgUseInstantCommons = true
-		$repoName = wfMsg( 'shared-repo-name-' . $this->name );
-		if ( !wfEmptyMsg( 'shared-repo-name-' . $this->name, $repoName ) ) {
-			return $repoName;
-		}
-		return wfMsg( 'shared-repo' );
+		return wfMessageFallback( 'shared-repo-name-' . $this->name, 'shared-repo' )->text();
 	}
+
+	/**
+	 * Returns true if this the local file repository.
+	 *
+	 * @return bool
+	 */
+	function isLocal() {
+		return $this->getName() == 'local';
+	}
+
 
 	/**
 	 * Get a key on the primary cache for this repository.
@@ -651,5 +679,14 @@ abstract class FileRepo {
 		$args = func_get_args();
 		array_unshift( $args, 'filerepo', $this->getName() );
 		return call_user_func_array( 'wfMemcKey', $args );
+	}
+
+	/**
+	 * Get an UploadStash associated with this repo.
+	 *
+	 * @return UploadStash
+	 */
+	function getUploadStash() {
+		return new UploadStash( $this );
 	}
 }

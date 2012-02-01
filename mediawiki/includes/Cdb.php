@@ -1,4 +1,9 @@
 <?php
+/**
+ * Native CDB file reader and writer
+ *
+ * @file
+ */
 
 /**
  * Read from a CDB file.
@@ -8,6 +13,10 @@
 abstract class CdbReader {
 	/**
 	 * Open a file and return a subclass instance
+	 *
+	 * @param $fileName string
+	 *
+	 * @return CdbReader
 	 */
 	public static function open( $fileName ) {
 		if ( self::haveExtension() ) {
@@ -20,6 +29,8 @@ abstract class CdbReader {
 
 	/**
 	 * Returns true if the native extension is available
+	 *
+	 * @return bool
 	 */
 	public static function haveExtension() {
 		if ( !function_exists( 'dba_handlers' ) ) {
@@ -44,6 +55,8 @@ abstract class CdbReader {
 
 	/**
 	 * Get a value with a given key. Only string values are supported.
+	 *
+	 * @param $key string
 	 */
 	abstract public function get( $key );
 }
@@ -56,6 +69,10 @@ abstract class CdbWriter {
 	/**
 	 * Open a writer and return a subclass instance.
 	 * The user must have write access to the directory, for temporary file creation.
+	 *
+	 * @param $fileName string
+	 *
+	 * @return bool
 	 */
 	public static function open( $fileName ) {
 		if ( CdbReader::haveExtension() ) {
@@ -93,7 +110,7 @@ class CdbReader_DBA {
 	function __construct( $fileName ) {
 		$this->handle = dba_open( $fileName, 'r-', 'cdb' );
 		if ( !$this->handle ) {
-			throw new MWException( 'Unable to open DB file "' . $fileName . '"' );
+			throw new MWException( 'Unable to open CDB file "' . $fileName . '"' );
 		}
 	}
 
@@ -120,7 +137,7 @@ class CdbWriter_DBA {
 		$this->tmpFileName = $fileName . '.tmp.' . mt_rand( 0, 0x7fffffff );
 		$this->handle = dba_open( $this->tmpFileName, 'n', 'cdb_make' );
 		if ( !$this->handle ) {
-			throw new MWException( 'Unable to open DB file for write "' . $fileName . '"' );
+			throw new MWException( 'Unable to open CDB file for write "' . $fileName . '"' );
 		}
 	}
 

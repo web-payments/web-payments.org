@@ -1,5 +1,5 @@
 <?php
-/** Megleno-Romanian (Latin) (Vlăheşte (Latin))
+/** Megleno-Romanian (Latin script) (Vlăheşte)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -155,8 +155,6 @@ $messages = array(
 'extlink_tip'     => 'Legătul ķsternul (vec prefiks http://)',
 'headline_sample' => "Eskrire s'titlus",
 'headline_tip'    => 'Titlu de nivel 2',
-'math_sample'     => 'Introduca formula isi',
-'math_tip'        => "Formula s'matematiks (LaTeX)",
 'nowiki_sample'   => 'Intorduca no-Wiki isi',
 'nowiki_tip'      => 'No-Wiki klaşu',
 'image_tip'       => 'Santigul inserat',
@@ -255,11 +253,10 @@ $3',
 'allpagessubmit' => 'Treme',
 
 # Watchlist
-'watchlist'    => 'Maj klăaeru',
-'mywatchlist'  => 'Maj klăaere',
-'watchlistfor' => "(pentru '''$1''')",
-'watch'        => 'klăaere',
-'unwatch'      => 'Deklăaera',
+'watchlist'   => 'Maj klăaeru',
+'mywatchlist' => 'Maj klăaere',
+'watch'       => 'klăaere',
+'unwatch'     => 'Deklăaera',
 
 # Displayed when you click the "watch" button and it is in the process of watching
 'watching'   => 'O klăaere...',

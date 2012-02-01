@@ -1,10 +1,12 @@
 <?php
 
 /**
- * Experimental captcha plugin framework.
- * Not intended as a real production captcha system; derived classes
- * can extend the base to produce their fancy images in place of the
- * text-based test output here.
+ * ConfirmEdit MediaWiki extension.
+ *
+ * This is a framework that holds a variety of CAPTCHA tools. The
+ * default one, 'SimpleCaptcha', is not intended as a production-
+ * level CAPTCHA system, and another one of the options provided
+ * should be used in its place for any real usages.
  *
  * Copyright (C) 2005-2007 Brion Vibber <brion@wikimedia.org>
  * http://www.mediawiki.org/
@@ -21,10 +23,11 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
- * @addtogroup Extensions
+ * @file
+ * @ingroup Extensions
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -37,9 +40,9 @@ $wgExtensionFunctions[] = 'confirmEditSetup';
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'ConfirmEdit',
-	'author' => 'Brion Vibber',
+	'author' => array( 'Brion Vibber', '...' ),
 	'url' => 'http://www.mediawiki.org/wiki/Extension:ConfirmEdit',
-	'description' => 'Simple captcha implementation',
+	'version' => '1.0',
 	'descriptionmsg' => 'captcha-desc',
 );
 
@@ -89,6 +92,7 @@ $wgCaptchaClass = 'SimpleCaptcha';
 $wgCaptchaTriggers = array();
 $wgCaptchaTriggers['edit']          = false; // Would check on every edit
 $wgCaptchaTriggers['create']		= false; // Check on page creation.
+$wgCaptchaTriggers['sendemail']     = false; // Special:Emailuser
 $wgCaptchaTriggers['addurl']        = true;  // Check on edits that add URLs
 $wgCaptchaTriggers['createaccount'] = true;  // Special:Userlogin&type=signup
 $wgCaptchaTriggers['badlogin']      = true;  // Special:Userlogin after failure
@@ -175,7 +179,7 @@ $wgCaptchaWhitelist = false;
 $wgCaptchaRegexes = array();
 
 /** Register special page */
-$wgSpecialPages['Captcha'] = array( /*class*/'CaptchaSpecialPage', /*name*/'Captcha' );
+$wgSpecialPages['Captcha'] = 'CaptchaSpecialPage';
 
 $wgConfirmEditIP = dirname( __FILE__ );
 $wgExtensionMessagesFiles['ConfirmEdit'] = "$wgConfirmEditIP/ConfirmEdit.i18n.php";
@@ -191,15 +195,19 @@ $wgHooks['AbortNewAccount'][] = 'ConfirmEditHooks::confirmUserCreate';
 $wgHooks['LoginAuthenticateAudit'][] = 'ConfirmEditHooks::triggerUserLogin';
 $wgHooks['UserLoginForm'][] = 'ConfirmEditHooks::injectUserLogin';
 $wgHooks['AbortLogin'][] = 'ConfirmEditHooks::confirmUserLogin';
+$wgHooks['EmailUserForm'][] = 'ConfirmEditHooks::injectEmailUser';
+$wgHooks['EmailUser'][] = 'ConfirmEditHooks::confirmEmailUser';
 # Register API hook
 $wgHooks['APIEditBeforeSave'][] = 'ConfirmEditHooks::confirmEditAPI';
 
-$wgAutoloadClasses['ConfirmEditHooks']
-	= $wgAutoloadClasses['SimpleCaptcha']
-	= $wgAutoloadClasses['CaptchaSessionStore']
-	= $wgAutoloadClasses['CaptchaCacheStore']
-	= $wgAutoloadClasses['CaptchaSpecialPage']
-	= "$wgConfirmEditIP/ConfirmEdit_body.php";
+$wgAutoloadClasses['ConfirmEditHooks'] = "$wgConfirmEditIP/ConfirmEditHooks.php";
+$wgAutoloadClasses['Captcha']= "$wgConfirmEditIP/Captcha.php";
+$wgAutoloadClasses['SimpleCaptcha']= "$wgConfirmEditIP/Captcha.php";
+$wgAutoloadClasses['CaptchaStore']= "$wgConfirmEditIP/CaptchaStore.php";
+$wgAutoloadClasses['CaptchaSessionStore']= "$wgConfirmEditIP/CaptchaStore.php";
+$wgAutoloadClasses['CaptchaCacheStore']= "$wgConfirmEditIP/CaptchaStore.php";
+$wgAutoloadClasses['CaptchaSpecialPage'] = "$wgConfirmEditIP/ConfirmEditHooks.php";
+$wgAutoloadClasses['HTMLCaptchaField']= "$wgConfirmEditIP/HTMLCaptchaField.php";
 
 /**
  * Set up $wgWhitelistRead
@@ -211,8 +219,8 @@ function confirmEditSetup() {
 		// so that unauthenticated users can actually get in after a
 		// mistaken password typing.
 		global $wgWhitelistRead;
-		$image = Title::makeTitle( NS_SPECIAL, 'Captcha/image' );
-		$help = Title::makeTitle( NS_SPECIAL, 'Captcha/help' );
+		$image = SpecialPage::getTitleFor( 'Captcha', 'image' );
+		$help = SpecialPage::getTitleFor( 'Captcha', 'help' );
 		$wgWhitelistRead[] = $image->getPrefixedText();
 		$wgWhitelistRead[] = $help->getPrefixedText();
 	}

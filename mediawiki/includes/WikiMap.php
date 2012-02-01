@@ -12,13 +12,13 @@ class WikiMap {
 	 * @return WikiReference object or null if the wiki was not found
 	 */
 	public static function getWiki( $wikiID ) {
-		global $wgConf, $IP;
+		global $wgConf;
 
 		$wgConf->loadFullData();
 
 		list( $major, $minor ) = $wgConf->siteFromDB( $wikiID );
 		if( isset( $major ) ) {
-			$server = $wgConf->get( 'wgServer', $wikiID, $major,
+			$server = $wgConf->get( 'wgCanonicalServer', $wikiID, $major,
 				array( 'lang' => $minor, 'site' => $major ) );
 			$path = $wgConf->get( 'wgArticlePath', $wikiID, $major,
 				array( 'lang' => $minor, 'site' => $major ) );
@@ -65,17 +65,16 @@ class WikiMap {
 	 * @return String: HTML link or false if the wiki was not found
 	 */
 	public static function makeForeignLink( $wikiID, $page, $text=null ) {
-		global $wgUser;
-		$sk = $wgUser->getSkin();
-
-		if ( !$text )
+		if ( !$text ) {
 			$text = $page;
+		}
 
 		$url = self::getForeignURL( $wikiID, $page );
-		if ( $url === false )
+		if ( $url === false ) {
 			return false;
+		}
 
-		return $sk->makeExternalLink( $url, $text );
+		return Linker::makeExternalLink( $url, $text );
 	}
 
 	/**
@@ -88,8 +87,9 @@ class WikiMap {
 	public static function getForeignURL( $wikiID, $page ) {
 		$wiki = WikiMap::getWiki( $wikiID );
 		
-		if ( $wiki )
+		if ( $wiki ) {
 			return $wiki->getUrl( $page );
+		}
 			
 		return false;
 	}
@@ -129,17 +129,19 @@ class WikiReference {
 	 */
 	public function getDisplayName() {
 		$url = $this->getUrl( '' );
-		$url = preg_replace( '!^https?://!', '', $url );
-		$url = preg_replace( '!/index\.php(\?title=|/)$!', '/', $url );
-		$url = preg_replace( '!/wiki/$!', '/', $url );
-		$url = preg_replace( '!/$!', '', $url );
-		return $url;
+		$parsed = wfParseUrl( $url );
+		if ( $parsed ) {
+			return $parsed['host'];
+		} else {
+			// Invalid URL. There's no sane thing to do here, so just return it
+			return $url;
+		}
 	}
 
 	/**
 	 * Helper function for getUrl()
 	 *
-	 * @todo FIXME: this may be generalized...
+	 * @todo FIXME: This may be generalized...
 	 * @param $page String: page name (must be normalised before calling this function!)
 	 * @return String: Url fragment
 	 */

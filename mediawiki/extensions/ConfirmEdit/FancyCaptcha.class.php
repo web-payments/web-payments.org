@@ -31,7 +31,7 @@ class FancyCaptcha extends SimpleCaptcha {
 			return;
 		}
 		$index = $this->storeCaptcha( $info );
-		$title = Title::makeTitle( NS_SPECIAL, 'Captcha/image' );
+		$title = SpecialPage::getTitleFor( 'Captcha', 'image' );
 		$resultArr['captcha']['type'] = 'image';
 		$resultArr['captcha']['mime'] = 'image/png';
 		$resultArr['captcha']['id'] = $index;
@@ -44,7 +44,7 @@ class FancyCaptcha extends SimpleCaptcha {
 	function getForm() {
 		$info = $this->pickImage();
 		if ( !$info ) {
-			die( "out of captcha images; this shouldn't happen" );
+			throw new MWException( "Ran out of captcha images" );
 		}
 
 		// Generate a random key for use of this captcha image in this session.
@@ -54,7 +54,7 @@ class FancyCaptcha extends SimpleCaptcha {
 
 		wfDebug( "Captcha id $index using hash ${info['hash']}, salt ${info['salt']}.\n" );
 
-		$title = Title::makeTitle( NS_SPECIAL, 'Captcha/image' );
+		$title = SpecialPage::getTitleFor( 'Captcha', 'image' );
 
 		return "<p>" .
 			Xml::element( 'img', array(
@@ -72,6 +72,9 @@ class FancyCaptcha extends SimpleCaptcha {
 			Xml::element( 'input', array(
 				'name' => 'wpCaptchaWord',
 				'id'   => 'wpCaptchaWord',
+				'autocorrect' => 'off',
+				'autocapitalize' => 'off',
+				'required',
 				'tabindex' => 1 ) ) . // tab in before the edit textarea
 			"</p>\n";
 	}
@@ -166,7 +169,7 @@ class FancyCaptcha extends SimpleCaptcha {
 	}
 
 	function showImage() {
-		global $wgOut, $wgRequest;
+		global $wgOut;
 
 		$wgOut->disable();
 
@@ -226,5 +229,24 @@ class FancyCaptcha extends SimpleCaptcha {
 		# Obtain a more tailored message, if possible, otherwise, fall back to
 		# the default for edits
 		return wfEmptyMsg( $name, $text ) ? wfMsg( 'fancycaptcha-edit' ) : $text;
+	}
+
+	/**
+	 * Delete a solved captcha image, if $wgCaptchaDeleteOnSolve is true.
+	 */
+	function passCaptcha() {
+		global $wgCaptchaDeleteOnSolve;
+
+		$info = $this->retrieveCaptcha(); // get the captcha info before it gets deleted
+		$pass = parent::passCaptcha();
+
+		if ( $pass && $wgCaptchaDeleteOnSolve ) {
+			$filename = $this->imagePath( $info['salt'], $info['hash'] );
+			if ( file_exists( $filename ) ) {
+				unlink( $filename );
+			}
+		}
+
+		return $pass;
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-/**  ()
+/** Eastern Canadian (Latin script) (inuktitut)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -11,7 +11,7 @@
 
 $messages = array(
 # User preference toggles
-'tog-rememberpassword' => 'Iqtuu uikipitia atiq qakugiq atuinnasivuq uvalumaq qaritaujaq',
+'tog-rememberpassword' => 'Iqtuu uikipitia atiq qakugiq atuinnasivuq uvalumaq qaritaujaq (for a maximum of $1 {{PLURAL:$1|day|days}})',
 
 # Dates
 'sunday'       => 'sanattaili',
@@ -61,6 +61,9 @@ $messages = array(
 # Cologne Blue skin
 'qbspecialpages' => 'piji mappitaq',
 
+# Vector skin
+'vector-view-edit' => 'Suqusiqpaa',
+
 'help'              => 'qajalippaa',
 'search'            => 'ivaaqpuq',
 'searchbutton'      => 'ivaaqpuq',
@@ -103,11 +106,12 @@ $messages = array(
 'newmessagesdifflink' => 'annitujuq asiaNngutuq',
 'editsection'         => 'suqusiqpaa',
 'editold'             => 'suqusiqpaa',
+'editlink'            => 'suqusiqpaa',
 'editsectionhint'     => 'suqusiqpaa ilangiutititsiguti: $1',
-'site-rss-feed'       => '$1 ᕐᔅᔅ ᒥᐊᓂᕆᕚ',
-'site-atom-feed'      => '$1 ᐊᑐᒻ ᒥᐊᓂᕆᕚ',
-'page-rss-feed'       => '"$1" ᕐᔅᔅ ᒥᐊᓂᕆᕚ',
-'page-atom-feed'      => '"$1" ᐊᑐᒻ ᒥᐊᓂᕆᕚ',
+'site-rss-feed'       => '$1 rss mianirivaa',
+'site-atom-feed'      => '$1 atum mianirivaa',
+'page-rss-feed'       => '"$1" rss mianirivaa',
+'page-atom-feed'      => '"$1" atum mianirivaa',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'mappitaq',
@@ -128,7 +132,7 @@ pigivuq qatannguti uikipitia kiinaujaqutiqarvik isuillingaitjapaa. iqtuu suqusiq
 'yourname'           => 'uikipitia atiq',
 'yourpassword'       => 'uikipitia palanngasauti',
 'yourpasswordagain'  => 'tamatumaniiqpaa iksigaqtuq uikipitia palanngasauti',
-'remembermypassword' => 'iqtuu uikipitia atiq qakakuq atuinnasivuq uvalumajuq qaritaujaq',
+'remembermypassword' => 'iqtuu uikipitia atiq qakakuq atuinnasivuq uvalumajuq qaritaujaq (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'              => 'akunnapuq',
 'loginprompt'        => 'pigialik imatuaq qaritaujaq quukiis (Cookies) pirqaati akunnapuq {{SITENAME}}.',
 'userlogin'          => 'akunnapuq / pirqaapaa kiinaijakkuvingmi tuqkuqsivik',
@@ -272,6 +276,7 @@ pigivuq qatannguti uikipitia kiinaujaqutiqarvik isuillingaitjapaa. iqtuu suqusiq
 'protect-level-sysop' => 'sirlak titiraqsimajunik tuqquqtiriji',
 
 # Restrictions (nouns)
+'restriction-edit' => 'Suqusiqpaa',
 'restriction-move' => 'uajuq',
 
 # Undelete
@@ -328,10 +333,6 @@ pigivuq qatannguti uikipitia kiinaujaqutiqarvik isuillingaitjapaa. iqtuu suqusiq
 # Attribution
 'anonymous' => 'ilisarnanngitittuq qatannguti nakit {{SITENAME}}',
 
-# Math errors
-'math_unknown_error'    => 'tusaumajaunngituq tammanaqtuq',
-'math_unknown_function' => 'tusaumajaunngituq iliurniq',
-
 # Image deletion
 'deletedrevision' => 'nipaq utuqaq titiraqtaugiarngarut $1',
 
@@ -342,6 +343,11 @@ pigivuq qatannguti uikipitia kiinaujaqutiqarvik isuillingaitjapaa. iqtuu suqusiq
 # Special:NewFiles
 'ilsubmit' => 'ivaaqpuq',
 'bydate'   => 'pitaaruttuq inuulirvik',
+
+# Variants for Inuktitut language
+'variantname-ike-cans' => 'ᑎᑎᕋᐅᓯᖅ ᓄᑖᖅ',
+'variantname-ike-latn' => 'ilisautik',
+'variantname-iu'       => 'disable',
 
 # EXIF tags
 'exif-imagelength'         => 'qutsingniq',
@@ -372,5 +378,8 @@ pigivuq qatannguti uikipitia kiinaujaqutiqarvik isuillingaitjapaa. iqtuu suqusiq
 
 # Special:SpecialPages
 'specialpages' => 'piji mappitaq',
+
+# Special:Tags
+'tags-edit' => 'suqusiqpaa',
 
 );

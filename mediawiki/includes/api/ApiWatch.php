@@ -1,11 +1,10 @@
 <?php
-
-/*
+/**
+ *
+ *
  * Created on Jan 4, 2008
  *
- * API for MediaWiki 1.8+
- *
- * Copyright (C) 2008 Yuri Astrakhan <Firstname><Lastname>@gmail.com,
+ * Copyright © 2008 Yuri Astrakhan <Firstname><Lastname>@gmail.com,
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +18,15 @@
  *
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
 	// Eclipse helper - will be ignored in production
-	require_once ( 'ApiBase.php' );
+	require_once( 'ApiBase.php' );
 }
 
 /**
@@ -36,62 +37,79 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 class ApiWatch extends ApiBase {
 
 	public function __construct( $main, $action ) {
-		parent :: __construct( $main, $action );
+		parent::__construct( $main, $action );
 	}
 
 	public function execute() {
 		global $wgUser;
-		if ( !$wgUser->isLoggedIn() )
+		if ( !$wgUser->isLoggedIn() ) {
 			$this->dieUsage( 'You must be logged-in to have a watchlist', 'notloggedin' );
+		}
 
 		$params = $this->extractRequestParams();
 		$title = Title::newFromText( $params['title'] );
 
-		if ( !$title )
+		if ( !$title || $title->getNamespace() < 0 ) {
 			$this->dieUsageMsg( array( 'invalidtitle', $params['title'] ) );
+		}
 
-		$article = new Article( $title );
+		$article = new Article( $title, 0 );
 		$res = array( 'title' => $title->getPrefixedText() );
 
-		if ( $params['unwatch'] )
-		{
+		if ( $params['unwatch'] ) {
 			$res['unwatched'] = '';
-			$success = $article->doUnwatch();
-		}
-		else
-		{
+			$res['message'] = wfMsgExt( 'removedwatchtext', array( 'parse' ), $title->getPrefixedText() );
+			$success = WatchAction::doUnwatch( $title, $wgUser );
+		} else {
 			$res['watched'] = '';
-			$success = $article->doWatch();
+			$res['message'] = wfMsgExt( 'addedwatchtext', array( 'parse' ), $title->getPrefixedText() );
+			$success = UnwatchAction::doWatch( $title, $wgUser );
 		}
-		if ( !$success )
-			$this->dieUsageMsg( array( 'hookaborted' ) );
+		if ( !$success ) {
+			$this->dieUsageMsg( 'hookaborted' );
+		}
 		$this->getResult()->addValue( null, $this->getModuleName(), $res );
+	}
+
+	public function mustBePosted() {
+		return true;
 	}
 
 	public function isWriteMode() {
 		return true;
 	}
 
+	public function needsToken() {
+		return true;
+	}
+
+	public function getTokenSalt() {
+		return 'watch';
+	}
+
 	public function getAllowedParams() {
-		return array (
-			'title' => null,
+		return array(
+			'title' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'unwatch' => false,
+			'token' => null,
 		);
 	}
 
 	public function getParamDescription() {
-		return array (
+		return array(
 			'title' => 'The page to (un)watch',
 			'unwatch' => 'If set the page will be unwatched rather than watched',
+			'token' => 'A token previously acquired via prop=info',
 		);
 	}
 
 	public function getDescription() {
-		return array (
-			'Add or remove a page from/to the current user\'s watchlist'
-		);
+		return 'Add or remove a page from/to the current user\'s watchlist';
 	}
-	
+
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'code' => 'notloggedin', 'info' => 'You must be logged-in to have a watchlist' ),
@@ -103,11 +121,15 @@ class ApiWatch extends ApiBase {
 	protected function getExamples() {
 		return array(
 			'api.php?action=watch&title=Main_Page',
-			'api.php?action=watch&title=Main_Page&unwatch',
+			'api.php?action=watch&title=Main_Page&unwatch=',
 		);
 	}
 
+	public function getHelpUrls() {
+		return 'https://www.mediawiki.org/wiki/API:Watch';
+	}
+
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiWatch.php 69578 2010-07-20 02:46:20Z tstarling $';
+		return __CLASS__ . ': $Id: ApiWatch.php 104449 2011-11-28 15:52:04Z reedy $';
 	}
 }

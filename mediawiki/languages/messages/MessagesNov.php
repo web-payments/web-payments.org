@@ -90,6 +90,11 @@ $messages = array(
 'qbmyoptions'    => 'Men pagines',
 'qbspecialpages' => 'Spesial pagines',
 
+# Vector skin
+'vector-action-delete' => 'Ekarta',
+'vector-view-edit'     => 'Modifika',
+'vector-view-view'     => 'Lekte',
+
 'returnto'         => 'Rivada a $1.',
 'tagline'          => 'Fro {{SITENAME}}',
 'help'             => 'Helpo',
@@ -99,7 +104,6 @@ $messages = array(
 'searcharticle'    => 'Vada',
 'history'          => 'Historie del pagine',
 'history_short'    => 'Historie',
-'info_short'       => 'Informatione',
 'printableversion' => 'Printindi versione',
 'permalink'        => 'Permananti linke',
 'print'            => 'Printa',
@@ -146,6 +150,7 @@ $messages = array(
 'youhavenewmessagesmulti' => 'Vu have novi mesajes pri $1',
 'editsection'             => 'modifika',
 'editold'                 => 'modifika',
+'editlink'                => 'modifika',
 'restorelink'             => '{{PLURAL:$1|unu ekartati modifiko|$1 ekartati modifikos}}',
 'red-link-title'          => '$1 (pagine non exista)',
 
@@ -170,7 +175,7 @@ $messages = array(
 Vu pove kontinua usa {{SITENAME}} anonimim, o vu pove riensignata kom li sami o altri usere.",
 'yourname'                   => 'Usere-nome:',
 'yourpassword'               => 'Pasa-vorde:',
-'remembermypassword'         => 'Memora men pasa-vorde (kun kuke)',
+'remembermypassword'         => 'Memora men pasa-vorde (kun kuke) (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'login'                      => 'Ensignata',
 'loginprompt'                => 'Vu mus lasa cookies de ensignata en {{SITENAME}}.',
 'userlogin'                  => 'Ensignata / krea usere-registre',
@@ -241,7 +246,7 @@ Proba [[Special:Search|sercho sur li wiki]] por relatet pagines.',
 'preferences'           => 'Preferos',
 'mypreferences'         => 'Men preferos',
 'prefsnologin'          => 'Non ensignatat',
-'prefsnologintext'      => 'Vu mus es [[Special:UserLogin|ensignatat]] por determina useren preferos.',
+'prefsnologintext'      => 'Vu mus es <span class="plainlinks">[{{fullurl:{{#Special:UserLogin}}|returnto=$1}} ensignatat] por determina useren preferos.',
 'prefs-rc'              => 'Resenti chanjos',
 'searchresultshead'     => 'Sercha',
 'timezoneregion-africa' => 'Afrika',
@@ -249,7 +254,7 @@ Proba [[Special:Search|sercho sur li wiki]] por relatet pagines.',
 # Recent changes
 'nchanges'        => '$1 {{PLURAL:$1|chanjo|chanjos}}',
 'recentchanges'   => 'Resenti chanjos',
-'rcnote'          => "Subu es {{PLURAL:$1| '''1''' chanje|li lasti '''$1''' chanjes}} in li lasti {{PLURAL:$2|die|'''$2''' dies}}, fro $3.",
+'rcnote'          => "Subu es {{PLURAL:$1| '''1''' chanje|li lasti '''$1''' chanjes}} in li lasti {{PLURAL:$2|die|'''$2''' dies}}, fro $4, $5.",
 'rcshowhideminor' => '$1 minori modifikos',
 'rcshowhideanons' => '$1 anonimi useres',
 'rcshowhidemine'  => '$1 men modifikos',
@@ -331,7 +336,7 @@ Proba [[Special:Search|sercho sur li wiki]] por relatet pagines.',
 
 # Special:Categories
 'categories'         => 'Kategories',
-'categoriespagetext' => 'Li sekuenti kategories exista in li wiki.
+'categoriespagetext' => 'Li sekuenti {{PLURAL:$1|kategorie|kategories}} exista in li wiki.
 [[Special:UnusedCategories|Unused categories]] are not shown here.
 Also see [[Special:WantedCategories|wanted categories]].',
 
@@ -343,7 +348,6 @@ Also see [[Special:WantedCategories|wanted categories]].',
 'mywatchlist'     => 'Men liste de observos',
 'nowatchlist'     => 'Vu have nuli koses in vun liste de observos.',
 'watchnologin'    => 'Non ensignatat',
-'addedwatch'      => 'Adit a observa-liste',
 'addedwatchtext'  => "Li pagine \"[[:\$1]]\" ha bli adi a vun [[Special:Watchlist|observa-liste]].
 Futuri chanjos a disi pagine e lun asosiati Parla-pagine sal bli lista tilok, e li pagine sal apari '''diki''' in li [[Special:RecentChanges|liste de resenti chanjos]] por ke on trova lu plu fasilim.
 
@@ -423,9 +427,6 @@ Si vu voli plu tardim ekarta li pagine fro vun observa-liste, klikta \"Desobserv
 'tooltip-pt-logout'      => 'Eksignata',
 'tooltip-p-logo'         => 'Chefi pagine',
 
-# Info page
-'infosubtitle' => 'Informatione pri pagine',
-
 # Special:NewFiles
 'ilsubmit' => 'Sercha',
 'bydate'   => 'segun date',
@@ -435,9 +436,6 @@ Si vu voli plu tardim ekarta li pagine fro vun observa-liste, klikta \"Desobserv
 'exif-imagelength'      => 'Alteso',
 'exif-imagedescription' => 'Title de imaje',
 'exif-imageuniqueid'    => 'Unik imaje ID',
-
-# 'all' in various places, this might be different for inflected languages
-'imagelistall' => 'omnes',
 
 # Auto-summaries
 'autosumm-replace' => "Remplasant pagine kun '$1'",

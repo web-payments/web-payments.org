@@ -34,7 +34,7 @@ $namespaceNames = array(
 	NS_CATEGORY         => 'Turkum',
 	NS_CATEGORY_TALK    => 'Turkum_munozarasi',
 );
-	
+
 $namespaceAliases = array(
 	'Mediya'                => NS_MEDIA,
 	'MediyaViki'            => NS_MEDIAWIKI,
@@ -109,15 +109,7 @@ $messages = array(
 'category-article-count' => '{{PLURAL:$2|Ushbu turkumda faqat bitta sahifa mavjud.|Ushbu turkumda quyidagi {{PLURAL:$1|sahifa|$1 sahifalar}}, hammasi boʻlib $2 ta sahifa mavjud.}}',
 'listingcontinuesabbrev' => 'davomi',
 
-'linkprefix'        => '/^(.*?)([a-zA-Z\\x80-\\xffʻʼ«„]+)$/sDu',
-'mainpagetext'      => "'''MediaWiki muvaffaqiyatli o'rnatildi.'''",
-'mainpagedocfooter' => "Wiki dasturini ishlatish haqida ma'lumot olish uchun  [http://meta.wikimedia.org/wiki/Help:Contents Foydalanuvchi qo'llanmasi] sahifasiga murojaat qiling.
-
-== Dastlabki qadamlar ==
-
-* [http://www.mediawiki.org/wiki/Manual:Configuration_settings Moslamalar ro'yxati]
-* [http://www.mediawiki.org/wiki/Manual:FAQ MediaWiki haqida ko'p so'raladigan savollar]
-* [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce MediaWiki yangi versiyasi chiqqanda xabar berish ro'yxati]",
+'linkprefix' => '/^(.*?)([a-zA-Z\\x80-\\xffʻʼ«„]+)$/sDu',
 
 'about'      => 'Haqida',
 'newwindow'  => '(yangi oynada ochiladi)',
@@ -131,6 +123,13 @@ $messages = array(
 'qbedit'         => 'Tahrirlash',
 'qbspecialpages' => 'Maxsus sahifalar',
 
+# Vector skin
+'vector-view-create'     => 'Yarat',
+'vector-view-edit'       => 'Tahrirla',
+'vector-view-history'    => 'Tarix',
+'vector-view-view'       => 'Mutolaa',
+'vector-view-viewsource' => 'Manbasini koʻrsat',
+
 'errorpagetitle'   => 'Xato',
 'returnto'         => '$1 sahifasiga qaytish.',
 'tagline'          => '{{SITENAME}} dan',
@@ -143,9 +142,12 @@ $messages = array(
 'history_short'    => 'Tarix',
 'printableversion' => 'Bosma uchun versiya',
 'permalink'        => "Doimiy bog'",
+'print'            => 'Chop et',
+'view'             => 'Koʻrish',
 'edit'             => 'Tahrirlash',
 'create'           => 'Yarat',
 'editthispage'     => 'Sahifani tahrirla',
+'create-this-page' => 'Bu sahifani yarat',
 'delete'           => "O'chirish",
 'protect'          => 'Himoyalash',
 'protectthispage'  => 'Bu sahifani himoyala',
@@ -155,14 +157,18 @@ $messages = array(
 'talkpagelinktext' => 'Munozara',
 'specialpage'      => 'Maxsus sahifa',
 'personaltools'    => 'Shaxsiy uskunalar',
+'postcomment'      => 'Yangi boʻlim',
 'talk'             => 'Munozara',
 'views'            => "Ko'rinishlar",
 'toolbox'          => 'Asboblar',
+'categorypage'     => 'Turkum sahifasi',
+'viewtalkpage'     => 'Munozara',
 'otherlanguages'   => 'Boshqa tillarda',
 'redirectedfrom'   => '($1dan yoʻnaltirildi)',
 'redirectpagesub'  => 'Yoʻnaltiruvchi sahifa',
 'lastmodifiedat'   => 'Bu sahifa oxirgi marta $2, $1 sanasida tahrirlangan.',
 'viewcount'        => 'Bu sahifaga {{PLURAL:$1|bir marta|$1 marta}} murojaat qilingan.',
+'protectedpage'    => 'Himoyalangan sahifa',
 'jumpto'           => 'Oʻtish:',
 'jumptonavigation' => 'foydalanish',
 'jumptosearch'     => 'Qidir',
@@ -185,18 +191,20 @@ $messages = array(
 'privacy'              => 'Konfidensiallik siyosati',
 'privacypage'          => 'Project:Konfidensiallik siyosati',
 
-'retrievedfrom'       => ' "$1" dan olindi',
-'youhavenewmessages'  => 'Sizga $1 keldi ($2).',
-'newmessageslink'     => 'yangi xabarlar',
-'newmessagesdifflink' => 'soʻnggi oʻzgarish',
-'editsection'         => 'tahrirlash',
-'editold'             => 'tahrir',
-'viewsourcelink'      => 'manbasini koʻr',
-'editsectionhint'     => 'Boʻlimni tahrirlash: $1',
-'toc'                 => 'Mundarija',
-'showtoc'             => "Ko'rsatish",
-'hidetoc'             => 'yashirish',
-'red-link-title'      => '$1 (sahifa yaratilmagan)',
+'retrievedfrom'        => ' "$1" dan olindi',
+'youhavenewmessages'   => 'Sizga $1 keldi ($2).',
+'newmessageslink'      => 'yangi xabarlar',
+'newmessagesdifflink'  => 'soʻnggi oʻzgarish',
+'editsection'          => 'tahrirlash',
+'editold'              => 'tahrir',
+'viewsourcelink'       => 'manbasini koʻr',
+'editsectionhint'      => 'Boʻlimni tahrirlash: $1',
+'toc'                  => 'Mundarija',
+'showtoc'              => "Ko'rsatish",
+'hidetoc'              => 'yashirish',
+'collapsible-collapse' => 'Yashir',
+'collapsible-expand'   => 'Koʻrsat',
+'red-link-title'       => '$1 (sahifa yaratilmagan)',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'     => 'Maqola',
@@ -209,6 +217,7 @@ $messages = array(
 'nstab-category' => 'Turkum',
 
 # General errors
+'error'             => 'Xato',
 'badtitle'          => 'Notoʻgʻri sarlavha',
 'viewsource'        => "Ko'rib chiqish",
 'viewsourcefor'     => '$1 uchun',
@@ -223,7 +232,7 @@ Shuni e'tiborga olingki, ayrim sahifalar siz brauzeringiz keshini tozalamaguning
 'yourname'                => 'Foydalanuvchi nomi',
 'yourpassword'            => "Maxfiy so'z",
 'yourpasswordagain'       => "Maxfiy so'zni qayta kiriting",
-'remembermypassword'      => "Hisob ma'lumotlarini shu kompyuterda eslab qolish",
+'remembermypassword'      => "Hisob ma'lumotlarini shu kompyuterda eslab qolish (for a maximum of $1 {{PLURAL:$1|day|days}})",
 'login'                   => 'Kirish',
 'nav-login-createaccount' => 'Kirish / Hisob yaratish',
 'loginprompt'             => "{{SITENAME}}ga kirish uchun kukilar yoqilgan bo'lishi kerak.",
@@ -239,7 +248,7 @@ Shuni e'tiborga olingki, ayrim sahifalar siz brauzeringiz keshini tozalamaguning
 'loginsuccess'            => "'''{{SITENAME}}ga \"\$1\" foydalanuvchi nomi bilan kirdingiz.'''",
 'wrongpassword'           => 'Kiritgan mahfiy soʻzingiz notoʻgʻri. Iltimos, qaytadan kiritib koʻring.',
 
-# Password reset dialog
+# Change password dialog
 'retypenew' => 'Yangi mahfiy soʻzni qayta tering:',
 
 # Edit page toolbar
@@ -252,8 +261,6 @@ Shuni e'tiborga olingki, ayrim sahifalar siz brauzeringiz keshini tozalamaguning
 'extlink_sample'  => 'http://www.example.com ishorat nomi',
 'extlink_tip'     => 'Tashqi ishorat (http:// prefiksini unutmang)',
 'headline_sample' => 'Sarlavha',
-'math_sample'     => 'Formula qoʻying',
-'math_tip'        => 'Matematik formula (LaTeX)',
 'image_tip'       => 'Qoʻshilgan tasvir',
 'media_tip'       => 'Faylga ishorat',
 'sig_tip'         => 'Imzoingiz va sana',
@@ -293,8 +300,6 @@ Siz shuningdek bu yozganlaringiz sizniki yoki erkin litsenziya ostida ekanligini
 'copyrightwarning2'          => "Iltimos, shuni esda tutingki, {{SITENAME}} sahifalaridagi barcha matnlar boshqa foydalanuvchilar tomonidan tahrirlanishi, almashtirilishi yoki o'chirilishi mumkin. Agar siz yozgan ma'lumotlaringizni bunday tartibda tahrirlanishiga rozi bo'lmasangiz, unda uni bu yerga joylashtirmang.<br />
 Bundan tashqari, siz ushbu ma'lumotlarni o'zingiz yozgan bo'lishingiz yoki ruxsat berilgan internet manzilidan yoki shu kabi erkin resursdan nusxa olgan bo'lishingiz lozim (Qo'shimcha ma'lumotlar ushun $1 sahifasiga murojaat qiling).
 '''MUALLIFLIK HUQUQI QO'YILGAN ISHLARNI RUXSATSIZ BU YERGA JOYLASHTIRMANG!'''",
-'longpagewarning'            => "'''DIQQAT: Ushbu sahifa hajmi $1 kilobaytdir; ayrim browser'lar 32 kb dan oshiq hajmli sahifalarni tahrirlashda muammolarga duch kelishi mumkin.
-Agar sizda shunday muammolar yuzaga kelsa, iltimos, sahifani butunlay emas, qismlab tahrirlang.'''",
 'templatesused'              => 'Ushbu sahifada ishlatilgan andozalar:',
 'template-protected'         => '(himoyalangan)',
 'template-semiprotected'     => '(yarim-himoyalangan)',
@@ -359,7 +364,6 @@ Bu yerda: (joriy) = hozirgi koʻrinish bilan farq,
 'preferences'       => 'Moslamalar',
 'mypreferences'     => 'Moslamalarim',
 'prefs-skin'        => "Tashqi ko'rinish",
-'prefs-math'        => 'Formulalar',
 'prefs-datetime'    => 'Sana va vaqt',
 'prefs-personal'    => "Shaxsiy ma'lumotlar",
 'prefs-rc'          => "Yangi o'zgartirishlar",
@@ -488,13 +492,10 @@ Also see [[Special:WantedCategories|wanted categories]].',
 # Watchlist
 'watchlist'        => 'Kuzatuv roʻyxatim',
 'mywatchlist'      => 'Kuzatuv roʻyxatim',
-'watchlistfor'     => "('''$1''' uchun)",
 'nowatchlist'      => "Kuzatuv ro'yxatingizda hech narsa yo'q.",
-'addedwatch'       => "Kuzatuv ro'yxatiga qo'shildi",
 'addedwatchtext'   => "\"[[:\$1]]\" sahifasi sizning [[Special:Watchlist|kuzatuv ro'yxatingizga]] qo'shildi. Bu sahifada va unga mos munozara sahifasida bo'ladigan kelajakdagi o'zgarishlar bu yerda ro'yxatga olinadi, hamda bu sahifa topish qulay bo'lishi uchun [[Special:RecentChanges|yangi o'zgarishlar ro'yxati]]da '''qalin''' harflar bilan ko'rsatiladi.
 
 Agar siz bu sahifani kuzatuv ro'yxatingizdan o'chirmoqchi bo'lsangiz \"Kuzatmaslik\" yozuvini bosing.",
-'removedwatch'     => "Kuzatuv ro'yxatidan o'chirildi",
 'removedwatchtext' => '"[[:$1]]" sahifasi kuzatuv ro\'yxatingizdan o\'chirildi.',
 'watch'            => 'kuzatish',
 'watchthispage'    => 'Sahifani kuzatish',
@@ -504,7 +505,7 @@ Agar siz bu sahifani kuzatuv ro'yxatingizdan o'chirmoqchi bo'lsangiz \"Kuzatmasl
 
 # Delete
 'actioncomplete'        => 'Bajarildi',
-'deletedtext'           => '"<nowiki>$1</nowiki>" yoʻqotildi.
+'deletedtext'           => '"$1" yoʻqotildi.
 Yaqinda sodir etilgan yoʻqotishlar uchun $2ni koʻring.',
 'deletedarticle'        => '"[[$1]]" yoʻqotildi',
 'dellogpage'            => 'Yoʻqotish qaydlari',
@@ -638,13 +639,12 @@ Yaqinda sodir etilgan yoʻqotishlar uchun $2ni koʻring.',
 'nextdiff'     => 'Keyingi tahrir →',
 
 # Media information
-'imagemaxsize'         => "Tasvir ta'rifi sahifasidagi tasvirning kattaligi:",
-'thumbsize'            => 'Tasvirning kichiklashtirilgan versiyasining kattaligi:',
-'file-info-size'       => '($1 × $2 piksel, fayl hajmi: $3, MIME tipi: $4)',
-'file-nohires'         => '<small>Bundan kattaroq tasvir yoʻq.</small>',
-'svg-long-desc'        => '(SVG fayl, asl oʻlchamlari $1 × $2 piksel, fayl hajmi: $3)',
-'show-big-image'       => 'Asl hajmdagi tasvir',
-'show-big-image-thumb' => '<small>Ushbu koʻrinish oʻlchamlari: $1 × $2 piksel</small>',
+'imagemaxsize'   => "Tasvir ta'rifi sahifasidagi tasvirning kattaligi:",
+'thumbsize'      => 'Tasvirning kichiklashtirilgan versiyasining kattaligi:',
+'file-info-size' => '$1 × $2 piksel, fayl hajmi: $3, MIME tipi: $4',
+'file-nohires'   => '<small>Bundan kattaroq tasvir yoʻq.</small>',
+'svg-long-desc'  => 'SVG fayl, asl oʻlchamlari $1 × $2 piksel, fayl hajmi: $3',
+'show-big-image' => 'Asl hajmdagi tasvir',
 
 # Special:NewFiles
 'ilsubmit' => 'Qidirish',
@@ -655,13 +655,11 @@ Yaqinda sodir etilgan yoʻqotishlar uchun $2ni koʻring.',
 
 # External editor support
 'edit-externally'      => 'Bu faylni tashqi dasturiy ilovalar yordamida tahrirla',
-'edit-externally-help' => "(Batafsil ma'lumotlar uchun [http://www.mediawiki.org/wiki/Manual:External_editors bu yerga] qarang)",
+'edit-externally-help' => "(Batafsil ma'lumotlar uchun [//www.mediawiki.org/wiki/Manual:External_editors bu yerga] qarang)",
 
 # 'all' in various places, this might be different for inflected languages
-'recentchangesall' => 'Barchasi',
-'imagelistall'     => 'Barchasi',
-'watchlistall2'    => 'Barcha',
-'namespacesall'    => 'Barchasi',
+'watchlistall2' => 'Barcha',
+'namespacesall' => 'Barchasi',
 
 'unit-pixel' => 'piksel',
 

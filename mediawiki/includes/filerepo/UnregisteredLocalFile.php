@@ -1,4 +1,10 @@
 <?php
+/**
+ * File without associated database record
+ *
+ * @file
+ * @ingroup FileRepo
+ */
 
 /**
  * A file object referring to either a standalone local file, or a file in a
@@ -13,16 +19,38 @@
  * @ingroup FileRepo
  */
 class UnregisteredLocalFile extends File {
-	var $title, $path, $mime, $handler, $dims;
+	var $title, $path, $mime, $dims;
 
+	/**
+	 * @var MediaHandler
+	 */
+	var $handler;
+
+	/**
+	 * @param $path
+	 * @param $mime
+	 * @return UnregisteredLocalFile
+	 */
 	static function newFromPath( $path, $mime ) {
 		return new UnregisteredLocalFile( false, false, $path, $mime );
 	}
 
+	/**
+	 * @param $title
+	 * @param $repo
+	 * @return UnregisteredLocalFile
+	 */
 	static function newFromTitle( $title, $repo ) {
 		return new UnregisteredLocalFile( $title, $repo, false, false );
 	}
 
+	/**
+	 * @throws MWException
+	 * @param $title string
+	 * @param $repo FSRepo
+	 * @param $path string
+	 * @param $mime string
+	 */
 	function __construct( $title = false, $repo = false, $path = false, $mime = false ) {
 		if ( !( $title && $repo ) && !$path ) {
 			throw new MWException( __METHOD__.': not enough parameters, must specify title and repo, or a full path' );
@@ -94,7 +122,7 @@ class UnregisteredLocalFile extends File {
 
 	function getURL() {
 		if ( $this->repo ) {
-			return $this->repo->getZoneUrl( 'public' ) . '/' . $this->repo->getHashPath( $this->name ) . urlencode( $this->name );
+			return $this->repo->getZoneUrl( 'public' ) . '/' . $this->repo->getHashPath( $this->name ) . rawurlencode( $this->name );
 		} else {
 			return false;
 		}

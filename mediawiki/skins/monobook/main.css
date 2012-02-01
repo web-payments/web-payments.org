@@ -9,22 +9,22 @@
 ** All you guys rock :)
 */
 
-#column-content {
+div#column-content {
 	width: 100%;
 	float: right;
 	margin: 0 0 .6em -12.2em;
 	padding: 0;
 }
-#content {
+div#content {
 	margin: 2.8em 0 0 12.2em;
 	padding: 0 1em 1em 1em;
 	position: relative;
 	z-index: 2;
 }
-#column-one {
+div#column-one {
 	padding-top: 160px;
 }
-#content {
+div#content {
 	background: white;
 	color: black;
 	border: 1px solid #aaa;
@@ -41,14 +41,17 @@
 
 body {
 	font: x-small sans-serif;
+	/* @embed */
 	background: #f9f9f9 url(headbg.jpg) 0 0 no-repeat;
 	color: black;
 	margin: 0;
 	padding: 0;
+	direction: ltr; /* Needed for RTL flipping */
+	unicode-bidi: embed;
 }
 
 /* scale back up to a sane default */
-#globalWrapper {
+div#globalWrapper {
 	font-size: 127%;
 	width: 100%;
 	margin: 0;
@@ -59,14 +62,6 @@ body {
 
 table {
 	font-size: 100%;
-	color: black;
-	/* we don't want the bottom borders of <h2>s to be visible through
-	   floated tables */
-	background-color: white;
-}
-fieldset table {
-	/* but keep table layouts in forms clean... */
-	background: none;
 }
 a {
 	text-decoration: none;
@@ -86,7 +81,7 @@ a.stub {
 	color: #772233;
 }
 a.new, #p-personal a.new {
-	color: #ba0000;
+	color: #cc2200;
 }
 a.new:visited, #p-personal a.new:visited {
 	color: #a55858;
@@ -117,6 +112,7 @@ h1, h2, h3, h4, h5, h6 {
 	background: none;
 	font-weight: normal;
 	margin: 0;
+	overflow: hidden;
 	padding-top: .5em;
 	padding-bottom: .17em;
 	border-bottom: 1px solid #aaa;
@@ -135,7 +131,7 @@ h4 { font-size: 116%; }
 h4 .editsection { font-size: 86%; font-weight: normal; }
 h5 { font-size: 100%; }
 h5 .editsection { font-weight: normal; }
-h6 { font-size: 80%;  }
+h6 { font-size: 80%; }
 h6 .editsection { font-size: 125%; font-weight: normal; }
 
 ul {
@@ -143,6 +139,7 @@ ul {
 	list-style-type: square;
 	margin: .3em 0 0 1.5em;
 	padding: 0;
+	/* @embed */
 	list-style-image: url(bullet.gif);
 }
 ol {
@@ -201,12 +198,6 @@ input.historysubmit {
 }
 select {
 	vertical-align: top;
-}
-abbr, acronym, .explain {
-	border-bottom: 1px dotted black;
-	color: black;
-	background: none;
-	cursor: help;
 }
 q {
 	font-family: Times, "Times New Roman", serif;
@@ -276,6 +267,7 @@ span.subpages {
 	vertical-align: middle;
 }
 #siteNotice {
+	position: relative;
 	text-align: center;
 	font-size: 95%;
 	padding: 0 0.9em;
@@ -319,7 +311,7 @@ in the bottom-right corner of the content area */
 	margin-right: auto;
 }
 /* small for tables and similar */
-.small, .small * {
+.small {
 	font-size: 94%;
 }
 table.small {
@@ -357,7 +349,7 @@ table.small {
 	list-style-type: none;
 	list-style-image: none;
 	margin-left: 0;
-	padding-left: 0;
+	padding: 0;
 	text-align: left;
 }
 #toc ul ul,
@@ -376,10 +368,7 @@ table.small {
 }
 
 /* images */
-div.floatright, table.floatright {
-	clear: right;
-	float: right;
-	position: relative;
+/* @noflip */div.floatright, table.floatright {
 	margin: 0 0 .5em .5em;
 	border: 0;
 /*
@@ -388,10 +377,7 @@ div.floatright, table.floatright {
 */
 }
 div.floatright p { font-style: italic; }
-div.floatleft, table.floatleft {
-	float: left;
-	clear: left;
-	position: relative;
+/* @noflip */div.floatleft, table.floatleft {
 	margin: 0 .5em .5em 0;
 	border: 0;
 /*
@@ -404,8 +390,6 @@ div.floatleft p { font-style: italic; }
 /* thumbnails */
 div.thumb {
 	margin-bottom: .5em;
-	border-style: solid;
-	border-color: white;
 	width: auto;
 }
 div.thumbinner {
@@ -436,22 +420,14 @@ div.magnify a, div.magnify img {
 	border: none !important;
 	background: none !important;
 }
-div.tright {
-	clear: right;
-	float: right;
-	border-width: .5em 0 .8em 1.4em;
+/* @noflip */div.tright {
+	margin: .5em 0 1.3em 1.4em;
 }
-div.tleft {
-	float: left;
-	clear: left;
-	margin-right: .5em;
-	border-width: .5em 1.4em .8em 0;
+/* @noflip */div.tleft {
+	margin: .5em 1.4em 1.3em 0;
 }
 img.thumbborder {
 	border: 1px solid #dddddd;
-}
-.hiddenStructure {
-	display: none;
 }
 
 /*
@@ -492,36 +468,39 @@ table.rimage {
 */
 #bodyContent a.external,
 #bodyContent a.external[href ^="gopher://"] {
-	background: url(external.png) center right no-repeat;
-	padding: 0 13px;
-}
-.rtl #bodyContent a.external,
-.rtl #bodyContent a.external[href ^="gopher://"] {
-	background-image: url(external-rtl.png);
+	/* @embed */
+	background: url(external-ltr.png) center right no-repeat;
+	padding-right: 13px;
 }
 #bodyContent a.external[href ^="https://"],
 .link-https {
+	/* @embed */
 	background: url(lock_icon.gif) center right no-repeat;
-	padding: 0 16px;
+	padding-right: 16px;
 }
 #bodyContent a.external[href ^="mailto:"],
 .link-mailto {
+	/* @embed */
 	background: url(mail_icon.gif) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href ^="news://"] {
+	/* @embed */
 	background: url(news_icon.png) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href ^="ftp://"],
 .link-ftp {
+	/* @embed */
 	background: url(file_icon.gif) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href ^="irc://"],
+#bodyContent a.external[href ^="ircs://"],
 .link-irc {
+	/* @embed */
 	background: url(discussionitem_icon.gif) center right no-repeat;
-	padding: 0 18px;
+	padding-right: 18px;
 }
 #bodyContent a.external[href $=".ogg"], #bodyContent a.external[href $=".OGG"],
 #bodyContent a.external[href $=".mid"], #bodyContent a.external[href $=".MID"],
@@ -530,49 +509,54 @@ table.rimage {
 #bodyContent a.external[href $=".wav"], #bodyContent a.external[href $=".WAV"],
 #bodyContent a.external[href $=".wma"], #bodyContent a.external[href $=".WMA"],
 .link-audio {
+	/* @embed */
 	background: url("audio.png") center right no-repeat;
-	padding: 0 13px;
+	padding-right: 13px;
 }
 #bodyContent a.external[href $=".ogm"], #bodyContent a.external[href $=".OGM"],
 #bodyContent a.external[href $=".avi"], #bodyContent a.external[href $=".AVI"],
 #bodyContent a.external[href $=".mpeg"], #bodyContent a.external[href $=".MPEG"],
 #bodyContent a.external[href $=".mpg"], #bodyContent a.external[href $=".MPG"],
 .link-video {
+	/* @embed */
 	background: url("video.png") center right no-repeat;
-	padding: 0 13px;
+	padding-right: 13px;
 }
 #bodyContent a.external[href $=".pdf"], #bodyContent a.external[href $=".PDF"],
 #bodyContent a.external[href *=".pdf#"], #bodyContent a.external[href *=".PDF#"],
 #bodyContent a.external[href *=".pdf?"], #bodyContent a.external[href *=".PDF?"],
 .link-document {
+	/* @embed */
 	background: url("document.png") center right no-repeat;
-	padding: 0 12px;
+	padding-right: 12px;
 }
-
-/* for rtl wikis */
-.rtl #bodyContent a.external {
-	background-position: left;
-	padding-right: 0;
-}
-.rtl a.feedlink {
-	background-position: right;
-	padding-right: 16px;
-	padding-left: 0;
-}
-
-/* correction for ltr wikis */
-.ltr #bodyContent a.external {
-	padding-left: 0;
-}
-
-/* disable interwiki styling */
+ 
+/* Interwiki Styling */
 #bodyContent a.extiw,
 #bodyContent a.extiw:active {
 	color: #36b;
+	/* Don't show icons for interwiki links */
+	background: none;
+	padding: 0;
 }
+#bodyContent a.extiw:visited {
+	color: #636;
+}
+#bodyContent a.extiw:active {
+	color: #b63;
+}
+
+/* External links */
 #bodyContent a.external {
 	color: #36b;
 }
+#bodyContent a.external:visited {
+	color: #636; /* bug 3112 */
+}
+#bodyContent a.external:active {
+	color: #b63;
+}
+
 /*
 ** Structural Elements
 */
@@ -633,6 +617,7 @@ table.rimage {
 .portlet ul {
 	line-height: 1.5em;
 	list-style-type: square;
+	/* @embed */
 	list-style-image: url(bullet.gif);
 	font-size: 95%;
 }
@@ -769,6 +754,7 @@ in bg url to hide it from iemac */
 li#pt-userpage,
 li#pt-anonuserpage,
 li#pt-login {
+	/* @embed */
 	background: url(user.gif) top left no-repeat;
 	padding-left: 20px;
 	text-transform: none;
@@ -826,7 +812,6 @@ li#pt-login {
 }
 #p-cactions li.selected a {
 	z-index: 3;
-	padding: 0 1em .2em!important;
 	background-color: white;
 }
 #p-cactions .new a {
@@ -865,9 +850,6 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 	border: 0;
 	padding: 0;
 }
-#p-cactions .hiddenStructure {
-	display: none;
-}
 #p-cactions li a {
 	text-transform: lowercase;
 }
@@ -894,7 +876,7 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 /*
 ** footer
 */
-#footer {
+div#footer {
 	background-color: white;
 	border-top: 1px solid #fabd23;
 	border-bottom: 1px solid #fabd23;
@@ -903,7 +885,7 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 	text-align: center;
 	font-size: 90%;
 }
-#footer li {
+div#footer li {
 	display: inline;
 	margin: 0 1.3em;
 }
@@ -991,7 +973,7 @@ li#ca-watch, li#ca-unwatch, li#ca-varlang-0, li#ca-print {
 }
 
 .prefsection legend {
-	font-weight: bold;   
+	font-weight: bold;
 }
 .prefsection table, .prefsection legend {
 	background-color: #F9F9F9;
@@ -1023,10 +1005,6 @@ div#userlogin form#userlogin2 {
 	padding: 1.5em 2em;
 	background-color: #f9f9f9;
 	float: left;
-}
-.rtl div#userloginForm form,
-.rtl div#userlogin form#userlogin2 {
-	float: right;
 }
 
 div#userloginForm table,
@@ -1092,24 +1070,23 @@ div#userloginForm .captcha {
 
 /* more IE fixes */
 /* float/negative margin brokenness */
-* html #footer {margin-top: 0;}
-* html #column-content {
+* html div#footer {margin-top: 0;}
+* html div#column-content {
 	display: inline;
 	margin-bottom: 0;
 }
-* html div.editsection { font-size: smaller; }
 #pagehistory li.selected { position: relative; }
 
 /* Mac IE 5.0 fix; floated content turns invisible */
-* > html #column-content {
+* > html div#column-content {
 	float: none;
 }
-* > html #column-one {
+* > html div#column-one {
 	position: absolute;
 	left: 0;
 	top: 0;
 }
-* > html #footer {
+* > html div#footer {
 	margin-left: 13.2em;
 }
 .redirectText {
@@ -1120,7 +1097,6 @@ div#userloginForm .captcha {
 .printfooter {
 	display: none;
 }
-
 
 div.patrollink {
 	clear: both;
@@ -1133,16 +1109,6 @@ div.patrollink {
 span.updatedmarker {
 	color: black;
 	background-color: #0f0;
-}
-
-.previewnote {
-	color: #c00;
-	margin-bottom: 1em;
-}
-
-.previewnote p {
-	text-indent: 3em;
-	margin: 0.8em 0;
 }
 
 .editExternally {
@@ -1164,10 +1130,6 @@ span.updatedmarker {
 	text-indent: -2em;
 }
 
-input#wpSummary {
-	width: 80%;
-}
-
 /* @bug 1714 */
 input#wpSave, input#wpDiff {
 	margin-right: 0.33em;
@@ -1175,30 +1137,6 @@ input#wpSave, input#wpDiff {
 
 #wpSave {
 	font-weight: bold;
-}
-
-/* Classes for article validation */
-
-table.revisionform_default {
-	border: 1px solid #000000;
-}
-
-table.revisionform_focus {
-	border: 1px solid #000000;
-	background-color:#00BBFF;
-}
-
-tr.revision_tr_default {
-	background-color:#EEEEEE;
-}
-
-tr.revision_tr_first {
-	background-color:#DDDDDD;
-}
-
-p.revision_saved {
-	color: green;
-	font-weight:bold;
 }
 
 /* noarticletext */
@@ -1244,24 +1182,24 @@ div#searchTargetHide {
 }
 
 div.multipageimagenavbox {
-   border: solid 1px silver;
-   padding: 4px;
-   margin: 1em;
-   background: #f0f0f0;
+	border: solid 1px silver;
+	padding: 4px;
+	margin: 1em;
+	background: #f0f0f0;
 }
 
 div.multipageimagenavbox div.thumb {
-   border: none;
-   margin-left: 2em;
-   margin-right: 2em;
+	border: none;
+	margin-left: 2em;
+	margin-right: 2em;
 }
 
 div.multipageimagenavbox hr {
-   margin: 6px;
+	margin: 6px;
 }
 
 table.multipageimage td {
-   text-align: center;
+	text-align: center;
 }
 
 .templatesUsed { margin-top: 1.5em; }
@@ -1305,4 +1243,9 @@ div.mw-lag-warn-high {
 /* Sometimes people don't want personal tools to be lowercase! */
 .no-text-transform {
 	text-transform: none;
+}
+
+/* Tooltips are outside of the normal body code, so this helps make the size of the text sensible */
+.tipsy {
+	font-size: 127%;
 }

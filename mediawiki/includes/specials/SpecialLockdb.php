@@ -1,104 +1,119 @@
 <?php
 /**
+ * Implements Special:Lockdb
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup SpecialPage
  */
 
 /**
- * Constructor
- */
-function wfSpecialLockdb() {
-	global $wgUser, $wgOut, $wgRequest;
-
-	if( !$wgUser->isAllowed( 'siteadmin' ) ) {
-		$wgOut->permissionRequired( 'siteadmin' );
-		return;
-	}
-
-	# If the lock file isn't writable, we can do sweet bugger all
-	global $wgReadOnlyFile;
-	if( !is_writable( dirname( $wgReadOnlyFile ) ) ) {
-		DBLockForm::notWritable();
-		return;
-	}
-
-	$action = $wgRequest->getVal( 'action' );
-	$f = new DBLockForm();
-
-	if ( 'success' == $action ) {
-		$f->showSuccess();
-	} else if ( 'submit' == $action && $wgRequest->wasPosted() &&
-		$wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) ) ) {
-		$f->doSubmit();
-	} else {
-		$f->showForm( '' );
-	}
-}
-
-/**
  * A form to make the database readonly (eg for maintenance purposes).
+ *
  * @ingroup SpecialPage
  */
-class DBLockForm {
+class SpecialLockdb extends SpecialPage {
 	var $reason = '';
 
-	function DBLockForm() {
-		global $wgRequest;
-		$this->reason = $wgRequest->getText( 'wpLockReason' );
+	public function __construct() {
+		parent::__construct( 'Lockdb', 'siteadmin' );
 	}
 
-	function showForm( $err ) {
+	public function execute( $par ) {
+		global $wgUser, $wgRequest;
+
+		$this->setHeaders();
+
+		# Permission check
+		if( !$this->userCanExecute( $wgUser ) ) {
+			$this->displayRestrictionError();
+			return;
+		}
+
+		$this->outputHeader();
+
+		# If the lock file isn't writable, we can do sweet bugger all
+		global $wgReadOnlyFile;
+		if( !is_writable( dirname( $wgReadOnlyFile ) ) ) {
+			self::notWritable();
+			return;
+		}
+
+		$action = $wgRequest->getVal( 'action' );
+		$this->reason = $wgRequest->getVal( 'wpLockReason', '' );
+
+		if ( $action == 'success' ) {
+			$this->showSuccess();
+		} elseif ( $action == 'submit' && $wgRequest->wasPosted() &&
+			$wgUser->matchEditToken( $wgRequest->getVal( 'wpEditToken' ) ) ) {
+			$this->doSubmit();
+		} else {
+			$this->showForm();
+		}
+	}
+
+	private function showForm( $err = '' ) {
 		global $wgOut, $wgUser;
 
-		$wgOut->setPagetitle( wfMsg( 'lockdb' ) );
 		$wgOut->addWikiMsg( 'lockdbtext' );
 
-		if ( $err != "" ) {
+		if ( $err != '' ) {
 			$wgOut->setSubtitle( wfMsg( 'formerror' ) );
 			$wgOut->addHTML( '<p class="error">' . htmlspecialchars( $err ) . "</p>\n" );
 		}
-		$lc = htmlspecialchars( wfMsg( 'lockconfirm' ) );
-		$lb = htmlspecialchars( wfMsg( 'lockbtn' ) );
-		$elr = htmlspecialchars( wfMsg( 'enterlockreason' ) );
-		$titleObj = SpecialPage::getTitleFor( 'Lockdb' );
-		$action = $titleObj->escapeLocalURL( 'action=submit' );
-		$reason = htmlspecialchars( $this->reason );
-		$token = htmlspecialchars( $wgUser->editToken() );
 
-		$wgOut->addHTML( <<<HTML
-<form id="lockdb" method="post" action="{$action}">
-{$elr}:
-<textarea name="wpLockReason" rows="10" cols="60" wrap="virtual">{$reason}</textarea>
-<table border="0">
+		$wgOut->addHTML(
+			Html::openElement( 'form', array( 'id' => 'lockdb', 'method' => 'POST',
+				'action' => $this->getTitle()->getLocalURL( 'action=submit' ) ) ). "\n" .
+			wfMsgHtml( 'enterlockreason' ) . ":\n" .
+			Html::textarea( 'wpLockReason', $this->reason, array( 'rows' => 4 ) ). "
+<table>
 	<tr>
-		<td align="right">
-			<input type="checkbox" name="wpLockConfirm" />
+		" . Html::openElement( 'td', array( 'style' => 'text-align:right' ) ) . "
+			" . Html::input( 'wpLockConfirm', null, 'checkbox' ) . "
 		</td>
-		<td align="left">{$lc}</td>
+		" . Html::openElement( 'td', array( 'style' => 'text-align:left' ) ) .
+			wfMsgHtml( 'lockconfirm' ) . "</td>
 	</tr>
 	<tr>
-		<td>&nbsp;</td>
-		<td align="left">
-			<input type="submit" name="wpLock" value="{$lb}" />
+		<td>&#160;</td>
+		" . Html::openElement( 'td', array( 'style' => 'text-align:left' ) ) . "
+			" . Html::input( 'wpLock', wfMsg( 'lockbtn' ), 'submit' ) . "
 		</td>
 	</tr>
-</table>
-<input type="hidden" name="wpEditToken" value="{$token}" />
-</form>
-HTML
-);
+</table>\n" .
+			Html::hidden( 'wpEditToken', $wgUser->editToken() ) . "\n" .
+			Html::closeElement( 'form' )
+		);
 
 	}
 
-	function doSubmit() {
-		global $wgOut, $wgUser, $wgLang, $wgRequest;
+	private function doSubmit() {
+		global $wgOut, $wgUser, $wgContLang, $wgRequest;
 		global $wgReadOnlyFile;
 
 		if ( ! $wgRequest->getCheck( 'wpLockConfirm' ) ) {
 			$this->showForm( wfMsg( 'locknoconfirm' ) );
 			return;
 		}
-		$fp = @fopen( $wgReadOnlyFile, 'w' );
+
+		wfSuppressWarnings();
+		$fp = fopen( $wgReadOnlyFile, 'w' );
+		wfRestoreWarnings();
 
 		if ( false === $fp ) {
 			# This used to show a file not found error, but the likeliest reason for fopen()
@@ -108,15 +123,20 @@ HTML
 			return;
 		}
 		fwrite( $fp, $this->reason );
-		fwrite( $fp, "\n<p>(by " . $wgUser->getName() . " at " .
-		  $wgLang->timeanddate( wfTimestampNow() ) . ")</p>\n" );
+		$timestamp = wfTimestampNow();
+		fwrite( $fp, "\n<p>" . wfMsgExt(
+			'lockedbyandtime',
+			array( 'content', 'parsemag' ),
+			$wgUser->getName(),
+			$wgContLang->date( $timestamp ),
+			$wgContLang->time( $timestamp )
+		) . "</p>\n" );
 		fclose( $fp );
 
-		$titleObj = SpecialPage::getTitleFor( 'Lockdb' );
-		$wgOut->redirect( $titleObj->getFullURL( 'action=success' ) );
+		$wgOut->redirect( $this->getTitle()->getFullURL( 'action=success' ) );
 	}
 
-	function showSuccess() {
+	private function showSuccess() {
 		global $wgOut;
 
 		$wgOut->setPagetitle( wfMsg( 'lockdb' ) );

@@ -14,18 +14,18 @@
  */
 
 $specialPageAliases = array(
+	'Confirmemail'              => array( 'Orait long imel' ),
+	'Contributions'             => array( 'Ol senis bilong yusa' ),
+	'CreateAccount'             => array( 'Mekim nupela login' ),
+	'Emailuser'                 => array( 'Imel yusa' ),
+	'Preferences'               => array( 'Ol laik bilong mi' ),
+	'Randompage'                => array( 'Soim wanpela pes' ),
+	'Recentchanges'             => array( 'Nupela senis' ),
+	'Specialpages'              => array( 'Sipesol pes' ),
+	'Upload'                    => array( 'Salim media fail' ),
 	'Userlogin'                 => array( 'Yusa login' ),
 	'Userlogout'                => array( 'Yusa logaut' ),
-	'CreateAccount'             => array( 'Mekim nupela login' ),
-	'Preferences'               => array( 'Ol laik bilong mi' ),
 	'Watchlist'                 => array( 'Lukautbuk' ),
-	'Recentchanges'             => array( 'Nupela senis' ),
-	'Upload'                    => array( 'Salim media fail' ),
-	'Randompage'                => array( 'Soim wanpela pes' ),
-	'Specialpages'              => array( 'Sipesol pes' ),
-	'Contributions'             => array( 'Ol senis bilong yusa' ),
-	'Emailuser'                 => array( 'Imel yusa' ),
-	'Confirmemail'              => array( 'Orait long imel' ),
 	'Whatlinkshere'             => array( 'Ol link ikam long hia' ),
 );
 
@@ -45,8 +45,7 @@ $messages = array(
 'tog-editsection'             => 'Soim ol [senisim] link long wanwan hap bilong ol pes',
 'tog-editsectiononrightclick' => 'Senisim ol hap bilong pes taim yu paitim nem bilong hap<br />wantaim raithan-klik (i nidim Javascript)',
 'tog-showtoc'                 => 'Soim ol nem bilong hap insait long liklik bokis, taim igat antap long 3 hap long pes',
-'tog-rememberpassword'        => 'Holim nem bilong yusa bilong mi long dispela kompiuta',
-'tog-editwidth'               => 'Larim bokis bilong senisim igo bikpela olgeta',
+'tog-rememberpassword'        => 'Holim nem bilong yusa bilong mi long dispela kompiuta (for a maximum of $1 {{PLURAL:$1|day|days}})',
 'tog-watchcreations'          => 'Putim ol nupela pes mi wokim long lukautbuk',
 'tog-watchdefault'            => 'Putim ol pes mi senisim long lukautbuk bilong mi',
 'tog-watchmoves'              => 'Putim ol pes mi surikim long lukautbuk bilong mi',
@@ -152,20 +151,14 @@ $messages = array(
 'qbspecialpages' => 'Ol sipesol pes',
 
 # Vector skin
-'vector-action-delete'       => 'Rausim',
-'vector-action-move'         => 'Surikim',
-'vector-action-protect'      => 'Tambuim',
-'vector-namespace-category'  => 'Grup',
-'vector-namespace-image'     => 'Fail',
-'vector-namespace-mediawiki' => 'Mesej',
-'vector-namespace-special'   => 'Sipesol pes',
-'vector-namespace-talk'      => 'Toktok',
-'vector-namespace-template'  => 'Templet',
-'vector-view-create'         => 'Kirapim',
-'vector-view-edit'           => 'Senisim',
-'vector-view-history'        => 'Ol senis',
-'vector-view-view'           => 'Rit',
-'vector-view-viewsource'     => 'Lukim as tok',
+'vector-action-delete'   => 'Rausim',
+'vector-action-move'     => 'Surikim',
+'vector-action-protect'  => 'Tambuim',
+'vector-view-create'     => 'Kirapim',
+'vector-view-edit'       => 'Senisim',
+'vector-view-history'    => 'Ol senis',
+'vector-view-view'       => 'Rit',
+'vector-view-viewsource' => 'Lukim as tok',
 
 'errorpagetitle'   => 'Samting i kranki',
 'returnto'         => 'Go bek long $1',
@@ -177,7 +170,6 @@ $messages = array(
 'searcharticle'    => 'Go',
 'history'          => 'Ol senis long dispela pes',
 'history_short'    => 'Ol senis',
-'info_short'       => 'Infomesen',
 'print'            => 'Prinim',
 'edit'             => 'Senisim',
 'create'           => 'Kirapim',
@@ -271,19 +263,19 @@ $messages = array(
 'viewsourcefor' => 'bilong $1',
 
 # Login and logout pages
-'yourname'           => 'Yusanem:',
-'yourpassword'       => 'Paswot:',
-'logout'             => 'Logaut',
-'userlogout'         => 'Logaut',
-'gotaccountlink'     => 'Log in',
-'createaccountmail'  => 'Long e-mel',
-'mailmypassword'     => 'E-mel nupela paswot',
-'loginlanguagelabel' => 'Tokples: $1',
+'yourname'            => 'Yusanem:',
+'yourpassword'        => 'Paswot:',
+'logout'              => 'Logaut',
+'userlogout'          => 'Logaut',
+'gotaccountlink'      => 'Log in',
+'createaccountmail'   => 'Long e-mel',
+'createaccountreason' => 'As bilong en:',
+'mailmypassword'      => 'E-mel nupela paswot',
+'loginlanguagelabel'  => 'Tokples: $1',
 
 # Edit page toolbar
 'link_sample'    => 'Link taitel',
 'extlink_sample' => 'http://www.example.com link taitel',
-'math_tip'       => 'Matematik formula (LaTeX)',
 'media_tip'      => 'Link bilong fail',
 
 # Edit pages
@@ -385,7 +377,6 @@ Na tu yu tok tru nau olsem yu raitim dispela yu yet, o yu kisim long wanpela hap
 'changepassword'            => 'Senis paswot',
 'prefs-skin'                => 'Skin',
 'skin-preview'              => 'pes mi senisim, pastaim long raitim',
-'prefs-math'                => 'Matematiks',
 'datedefault'               => 'Nogat laik',
 'prefs-rc'                  => 'Nupela senis',
 'prefs-watchlist'           => 'Lukautbuk',
@@ -607,18 +598,16 @@ Also see [[Special:WantedCategories|wanted categories]].',
 # Watchlist
 'watchlist'            => 'Lukautbuk bilong mi',
 'mywatchlist'          => 'Lukautbuk bilong mi',
-'watchlistfor'         => "(bilong '''$1''')",
+'watchlistfor2'        => 'Bilong $1 $2',
 'nowatchlist'          => 'Nogat wanpela samting istap long lukautbuk bilong yu.',
 'watchlistanontext'    => 'Yu mas $1 long lukim o senisim ol samting long lukautbuk bilong yu.',
 'watchnologintext'     => 'Yu mas [[Special:UserLogin|login]] long senisim lukautbuk bilong yu.',
-'addedwatch'           => 'Igo insait long lukautbuk',
 'addedwatchtext'       => "Pes \"[[:\$1]]\" igo insait long [[Special:Watchlist|lukautbuk]] bilong yu nau.
 Bai yu lukim ol nupela senis long dispela pes, na pes toktok bilong en, long lukautbuk,
 na dispela pes bai kamap '''strongpela''' long [[Special:RecentChanges|pes bilong ol nupela senis]]
 na olsem bai isi long lukim em.
 
 Sapos yu laik rausim dispela pes long lukautbuk bilong yu bihain, paitim \"Pinis long lukautim\" taim yu lukim pes.",
-'removedwatch'         => 'Raus pinis long lukautbuk',
 'removedwatchtext'     => 'Pes "[[:$1]]" i raus pinis long [[Special:Watchlist|lukautbuk bilong yu]].',
 'watch'                => 'Lukautim',
 'watchthispage'        => 'Lukautim dispela pes',
@@ -668,6 +657,7 @@ Sapos yu laik rausim dispela pes long lukautbuk bilong yu bihain, paitim \"Pinis
 
 # Undelete
 'undeletelink'              => 'soim/restore',
+'undeleteviewlink'          => 'lukim',
 'undeletecomment'           => 'As bilong en:',
 'undelete-search-submit'    => 'Painim',
 'undelete-show-file-submit' => 'Yes',
@@ -700,7 +690,6 @@ Sapos yu laik rausim dispela pes long lukautbuk bilong yu bihain, paitim \"Pinis
 
 # Block/unblock
 'blockip'            => 'Pasim yusa (Block user)',
-'ipaddress'          => 'IP adres:',
 'ipboptions'         => '2 awa:2 hours,1 de:1 day,3 de:3 days,1 wik:1 week,2 wik:2 weeks,1 mun:1 month,3 mun:3 months,6 mun:6 months,1 yia:1 year,oltaim:infinite',
 'ipbotheroption'     => 'narapela',
 'ipblocklist'        => 'Ol IP adres na yusanem i pas',
@@ -757,6 +746,7 @@ Yu inap lukim as tok bilong em',
 'tooltip-ca-unwatch'             => 'Rausim dispela pes long lukautbuk bilong yu (Remove this page from your watchlist)',
 'tooltip-search'                 => 'Painim long {{SITENAME}}',
 'tooltip-search-fulltext'        => 'Painim dispela hap tok insait long olgeta pes',
+'tooltip-p-logo'                 => 'Lukim fran pes (Visit the main page)',
 'tooltip-n-mainpage'             => 'Lukim fran pes (Visit the main page)',
 'tooltip-n-mainpage-description' => 'Lukim fran pes (Visit the main page)',
 'tooltip-n-help'                 => 'Ples long painim halivim',
@@ -797,12 +787,10 @@ Yu inap lukim as tok bilong em',
 'exif-meteringmode-255' => 'Narapela',
 
 # 'all' in various places, this might be different for inflected languages
-'recentchangesall' => 'olgeta',
-'imagelistall'     => 'olgeta',
-'watchlistall2'    => 'olgeta',
-'namespacesall'    => 'ol',
-'monthsall'        => 'olgeta',
-'limitall'         => 'olgeta',
+'watchlistall2' => 'olgeta',
+'namespacesall' => 'ol',
+'monthsall'     => 'olgeta',
+'limitall'      => 'olgeta',
 
 # Scary transclusion
 'scarytranscludetoolong' => '[URL i longpela tumas]',
@@ -824,7 +812,7 @@ Yu inap lukim as tok bilong em',
 'watchlistedit-noitems'        => 'Nogat wanpela samting long lukautbuk bilong yu.',
 'watchlistedit-normal-title'   => 'Senisim lukautbuk',
 'watchlistedit-normal-legend'  => 'Rausim ol samting long lukautbuk',
-'watchlistedit-normal-explain' => 'Ananit yu lukim ol samting long lukautbuk. Long rausim wanpela samting, makim liklik boxis long sait bilong en, na paitim "Rausim ol samting".  Na tu yu inap [[Special:Watchlist/raw|senisim lukautbuk long wanpela bokis]].',
+'watchlistedit-normal-explain' => 'Ananit yu lukim ol samting long lukautbuk. Long rausim wanpela samting, makim liklik boxis long sait bilong en, na paitim "Rausim ol samting".  Na tu yu inap [[Special:EditWatchlist/raw|senisim lukautbuk long wanpela bokis]].',
 'watchlistedit-normal-submit'  => 'Rausim ol samting',
 'watchlistedit-normal-done'    => '{{PLURAL:$1|Wanpela|$1}} samting i raus pinis long lukautbuk bilong yu:',
 'watchlistedit-raw-title'      => 'Senisim lukautbuk long wanpela bokis',
@@ -832,7 +820,7 @@ Yu inap lukim as tok bilong em',
 'watchlistedit-raw-explain'    => 'Ananit yu lukim ol samting long lukautbuk bilong yu insait long wanpela bokis.
 	Yu inap putim sampela moa samting igo insait, o rausim sampela ol samting. Putim
 	wanpela samting i go long wanwan lain.  Taim yu pinisim ol senis, paitim "Senisim lukautbuk".
-	Na tu yu inap [[Special:Watchlist/edit|senisim lukautbuk long planti liklik bokis]].',
+	Na tu yu inap [[Special:EditWatchlist|senisim lukautbuk long planti liklik bokis]].',
 'watchlistedit-raw-titles'     => 'Ol samting:',
 'watchlistedit-raw-submit'     => 'Senisim lukautbuk',
 'watchlistedit-raw-done'       => 'Lukautbuk bilong yu i senis pinis.',
@@ -845,8 +833,9 @@ Yu inap lukim as tok bilong em',
 'watchlisttools-raw'  => 'Senisim lukautbuk insait long wanpela bokis',
 
 # Special:Version
-'version-other'   => 'Narapela',
-'version-license' => 'Laisens',
+'version-other'            => 'Narapela',
+'version-license'          => 'Laisens',
+'version-poweredby-others' => 'ol narapela',
 
 # Special:FilePath
 'filepath-page'   => 'Fail:',
@@ -864,6 +853,10 @@ Yu inap lukim as tok bilong em',
 
 # Special:Tags
 'tags-edit' => 'senisim',
+
+# Special:ComparePages
+'compare-page1' => 'Pes 1',
+'compare-page2' => 'Pes 2',
 
 # HTML forms
 'htmlform-selectorother-other' => 'Narapela',

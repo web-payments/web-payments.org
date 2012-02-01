@@ -1,13 +1,40 @@
 /**
  * CSS in this file is used by *all* skins (that have any CSS at all).  Be
  * careful what you put in here, since what looks good in one skin may not in
- * another, but don't ignore the poor non-Monobook users either.
+ * another, but don't ignore the poor pre-Monobook users either.
  */
+
+/* GENERAL CLASSES FOR DIRECTIONALITY SUPPORT */
+/* These classes should be used for text depending on the content direction.
+Content stuff like editsection, ul/ol and TOC depend on this. */
+ /* @noflip */.mw-content-ltr { direction: ltr; }
+/* @noflip */.mw-content-rtl { direction: rtl; }
+/* Most input fields should be in site direction */
+/* @noflip */.sitedir-ltr textarea, .sitedir-ltr input { direction: ltr; }
+/* @noflip */.sitedir-rtl textarea, .sitedir-rtl input { direction: rtl; }
+/* Input types that should follow user direction, like buttons */
+input[type="submit"], input[type="button"], input[type="reset"], input[type="file"] { direction: ltr; }
+/* Override default values */
+/* @noflip */textarea[dir="ltr"], input[dir="ltr"] { direction: ltr; }
+/* @noflip */textarea[dir="rtl"], input[dir="rtl"] { direction: rtl; }
+
+/* Default style for semantic tags */
+abbr, acronym, .explain {
+	border-bottom: 1px dotted black;
+	cursor: help;
+}
 
 /* Colored watchlist and recent changes numbers */
 .mw-plusminus-pos { color: #006400; } /* dark green */
 .mw-plusminus-neg { color: #8b0000; } /* dark red */
 .mw-plusminus-null { color: #aaa; } /* gray */
+
+/* Links to redirects appear italicized on [[Special:AllPages]], [[Special:PrefixIndex]],
+   [[Special:Watchlist/edit]] and in category listings */
+.allpagesredirect, .redirect-in-category, .watchlistredir {
+	font-style: italic;
+}
+
 
 /* Comment and username portions of RC entries */
 span.comment {
@@ -19,7 +46,10 @@ span.changedby {
 }
 
 /* Math */
-.texvc { direction: ltr; unicode-bidi: embed; }
+.texvc {
+	direction: ltr;
+	unicode-bidi: embed;
+}
 img.tex { vertical-align: middle; }
 span.texhtml { font-family: serif; }
 
@@ -28,8 +58,12 @@ span.texhtml { font-family: serif; }
 #wikiPreview.ontop { margin-bottom: 1em; }
 
 /* Stop floats from intruding into edit area in previews */
-#editform, #toolbar, #wpTextbox1 { clear: both; }
-
+#editform, #toolbar, #wpTextbox1 {
+	clear: both;
+}
+#toolbar img {
+	cursor: pointer;
+}
 div#mw-js-message {
 	margin: 1em 5%;
 	padding: 0.5em 2.5%;
@@ -42,7 +76,9 @@ div#mw-js-message {
 	float: right;
 	margin-left: 5px;
 }
-
+/* Correct directionality when page dir is different from site/user dir */
+/* @noflip */.mw-content-ltr .editsection, .mw-content-rtl .mw-content-ltr .editsection { float: right; }
+/* @noflip */.mw-content-rtl .editsection, .mw-content-ltr .mw-content-rtl .editsection { float: left; }
 /**
  * File histories
  */
@@ -52,14 +88,14 @@ h2#filehistory {
 
 table.filehistory th,
 table.filehistory td {
-	vertical-align:top;
+	vertical-align: top;
 }
 table.filehistory th {
 	text-align: left;
 }
 table.filehistory td.mw-imagepage-filesize,
 table.filehistory th.mw-imagepage-filesize {
-	white-space:nowrap;
+	white-space: nowrap;
 }
 
 table.filehistory td.filehistory-selected {
@@ -95,29 +131,76 @@ div.patrollink {
 /**
  * Forms
  */
-body.ltr td.mw-label { text-align: right; }
-body.ltr td.mw-input { text-align: left; }
-body.ltr td.mw-submit { text-align: left; }
-body.rtl td.mw-label { text-align: left; }
-body.rtl td.mw-input { text-align: right; }
-body.rtl td.mw-submit { text-align: right; }
+td.mw-label { text-align: right; }
+td.mw-input { text-align: left; }
+td.mw-submit { text-align: left; }
 
 td.mw-label { vertical-align: top; }
 .prefsection td.mw-label { width: 20%; }
 .prefsection table { width: 100%; }
 td.mw-submit { white-space: nowrap; }
 
-table.mw-htmlform-nolabel td.mw-label { width: 0 !important; }
+table.mw-htmlform-nolabel td.mw-label {
+	width: 0 !important;
+}
+
+tr.mw-htmlform-vertical-label td.mw-label {
+	text-align: left !important;
+}
+
+.mw-htmlform-invalid-input td.mw-input input {
+	border-color: red;
+}
+.mw-htmlform-multiselect-flatlist div.mw-htmlform-multiselect-item {
+	display: inline;
+	margin-right: 1em;
+	white-space: nowrap;
+}
+
+input#wpSummary {
+	width: 80%;
+}
 
 /**
  * Image captions
  */
-body.rtl .thumbcaption { text-align:right; }
-body.rtl .magnify { float:left; }
+.thumbcaption { text-align: left; }
+.magnify { float: right; }
 
-body.ltr .thumbcaption { text-align:left; }
-body.ltr .magnify { float:right; }
+/**
+ * Categories
+ */
+#catlinks {
+	/**
+	 * Overrides text justification (user preference)
+	 * See bug 31990
+	 */
+	text-align: left;
+}
+#catlinks ul {
+	display:inline;
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	list-style-type: none;
+	list-style-image: none;
+	vertical-align: middle !ie;
+}
 
+#catlinks li {
+	display:inline-block;
+	line-height: 1.35em;
+	padding: 0 .7em;
+	border-left: 1px solid #AAA;
+	margin: 0.3em 0;
+	zoom: 1;
+	display:inline !ie;
+}
+
+#catlinks li:first-child {
+	padding-left: .4em;
+	border-left: none;
+}
 /**
  * Hidden categories
  */
@@ -129,250 +212,7 @@ p.mw-ipb-conveniencelinks, p.mw-protect-editreasons,
 p.mw-filedelete-editreasons, p.mw-delete-editreasons,
 p.mw-revdel-editreasons {
 	font-size: 90%;
-	float: right;
-}
-
-/* Search results */
-.searchresults {
-}
-
-.searchresults p {
-	margin-left: 0.4em;
-	margin-top: 1em;
-	margin-bottom: 1.2em;
-}
-
-div.searchresult {
-	font-size: 95%;
-	width:38em;
-}
-
-.mw-search-results {
-	margin-left: 0.4em;
-}
-
-.mw-search-results li {
-	padding-bottom: 1em;
-	list-style:none;
-	list-style-image:none;
-}
-.mw-search-results li a {
-	font-size: 108%;
-}
-
-.mw-search-result-data {
-	color: green;
-	font-size: 97%;
-}
-
-.mw-search-formheader {
-	background-color: #f3f3f3;
-	margin-top: 1em;
-	border: 1px solid silver;
-}
-.mw-search-formheader div.search-types {
-	float:left;
-	padding-left: 0.25em;
-}
-.rtl .mw-search-formheader div.search-types {
-	float: right;
-}
-.mw-search-formheader div.search-types ul {
-	margin: 0 !important;
-	padding: 0 !important;
-	list-style: none !important;
-}
-.mw-search-formheader div.search-types ul li {
-	float: left;
-	margin: 0;
-	padding: 0;
-}
-.mw-search-formheader div.search-types ul li a {
-	display: block;
-	padding: 0.5em;
-}
-.mw-search-formheader div.search-types ul li.current a {
-	color: #333333;
-	cursor: default;
-}
-.mw-search-formheader div.search-types ul li.current a:hover {
-	text-decoration: none;
-}
-.mw-search-formheader div.results-info {
-	float: right;
-	padding: 0.5em;
-	padding-right: 0.75em;
-}
-.mw-search-formheader div.results-info ul {
-	margin: 0 !important;
-	padding: 0 !important;
-	list-style: none !important;
-}
-.mw-search-formheader div.results-info ul li {
-	float: right;
-	margin: 0;
-	padding: 0;
-}
-fieldset#mw-searchoptions {
-	margin: 0;
-	padding-left: 0.75em !important;
-	padding-right: 0.75em !important;
-	padding-bottom: 0.5em !important;
-	padding-top: 0.5em !important;
-	border: none;
-	background-color: #f9f9f9;
-	border: 1px solid silver !important;
-	border-top-width: 0 !important;
-}
-fieldset#mw-searchoptions legend {
-	display: none;
-}
-fieldset#mw-searchoptions h4 {
-	padding: 0;
-	margin: 0;
-	float: left;
-}
-.rtl fieldset#mw-searchoptions h4 {
-	float: right;
-}
-fieldset#mw-searchoptions div#mw-search-togglebox {
-	float: right;
-}
-.rtl fieldset#mw-searchoptions div#mw-search-togglebox {
-	float: left;
-}
-
-fieldset#mw-searchoptions div#mw-search-togglebox label {
-	margin-right: 0.25em;
-}
-fieldset#mw-searchoptions div#mw-search-togglebox input {
-	margin-left: 0.25em;
-}
-fieldset#mw-searchoptions table {
-	float: left;
-	margin-right: 3em;
-}
-fieldset#mw-searchoptions table td {
-	padding-right: 1em;
-}
-.rtl fieldset#mw-searchoptions table td {
-	padding-left: 1em;
-	padding-right: 0;
-}
-body.rtl fieldset#mw-searchoptions table {
-	margin-right: 0;
-	margin-left: 3em;
-	float: right;
-}
-fieldset#mw-searchoptions div.divider {
-	clear: both;
-	border-bottom: 1px solid #DDDDDD;
-	padding-top: 0.5em;
-	margin-bottom: 0.5em;
-}
-
-td#mw-search-menu {
-	padding-left:6em;
-	font-size:85%;
-}
-
-div#mw-search-interwiki {
-	float: right;
-	width: 18em;
-	border-style: solid;
-	border-color: #AAAAAA;
-	border-width: 1px;
-	margin-top: 2ex;
-}
-
-.rtl div#mw-search-interwiki {
-	float: left;
-}
-
-div#mw-search-interwiki li {
-	font-size: 95%;
-}
-
-.mw-search-interwiki-more {
-	float: right;
-	font-size: 90%;
-}
-
-.rtl .mw-search-interwiki-more {
-	float: left;
-}
-
-div#mw-search-interwiki-caption {
-	text-align: center;
-	font-weight: bold;
-	font-size: 95%;
-}
-
-.mw-search-interwiki-project {
-	font-size: 97%;
-	text-align: left;
-	padding-left: 0.2em;
-	padding-right: 0.15em;
-	padding-bottom: 0.2em;
-	padding-top: 0.15em;
-	background-color:#ececec;
-	border-top:1px solid #BBBBBB;
-}
-
-.rtl .mw-search-interwiki-project {
 	text-align: right;
-}
-
-span.searchalttitle {
-	font-size: 95%;
-}
-
-div.searchdidyoumean {
-	font-size: 127%;
-	margin-top: 0.8em;
-	/* Note that this color won't affect the link, as desired. */
-	color: #c00;
-}
-
-div.searchdidyoumean em {
-	font-weight: bold;
-}
-
-.searchmatch {
-	font-weight: bold;
-}
-
-table#mw-search-top-table {
-	background-color: transparent;
-}
-
-
-/*
- * Advanced PowerSearch box
- */
-
-td#mw-search-togglebox {
-        text-align: right;
-}
-
-table#mw-search-powertable {
-	width:100%;
-}
-
-form#powersearch {
-	clear: both;
-}
-
-
-/*
- * UserRights stuff
- */
-.mw-userrights-disabled {
-	color: #888;
-}
-
-table.mw-userrights-groups * td,table.mw-userrights-groups * th {
-	padding-right: 1.5em;
 }
 
 /*
@@ -439,14 +279,22 @@ table.os-suggest-results {
 /* the auto-generated edit comments */
 .autocomment { color: gray; }
 #pagehistory .history-user {
-    margin-left: 0.4em;
-    margin-right: 0.2em;
+	margin-left: 0.4em;
+	margin-right: 0.2em;
 }
-#pagehistory span.minor { font-weight: bold; }
-#pagehistory li { border: 1px solid white; }
+#pagehistory span.minor {
+	font-weight: bold;
+}
+#pagehistory li {
+	border: 1px solid white;
+}
 #pagehistory li.selected {
-    background-color: #f9f9f9;
-    border: 1px dashed #aaa;
+	background-color: #f9f9f9;
+	border: 1px dashed #aaa;
+}
+
+.mw-history-revisiondelete-button, #mw-fileduplicatesearch-icon {
+	float: right;
 }
 
 /** Generic minor/bot/newpage styling */
@@ -454,75 +302,8 @@ table.os-suggest-results {
 	font-weight: bold;
 }
 
-/* Special:Contributions styling */
-.mw-uctop {
-	font-weight: bold;
-}
-
-/* Special:ListGroupRights styling */
-table.mw-listgrouprights-table tr  {
-	vertical-align: top;
-}
-.listgrouprights-revoked { text-decoration: line-through; }
-
-/* Special:Statistics styling */
-td.mw-statistics-numbers {
-	text-align: right;
-}
-
-/* Special:SpecialPages styling */
-h4.mw-specialpagesgroup {
-	background-color: #dcdcdc;
-	padding: 2px;
-	margin: .3em 0em 0em 0em;
-}
-.mw-specialpagerestricted {
-	font-weight: bold;
-}
-
 #shared-image-dup, #shared-image-conflict {
 	font-style: italic;
-}
-
-/* Special:EmailUser styling */
-table.mw-emailuser-table {
-	width: 98%;
-}
-td#mw-emailuser-sender, td#mw-emailuser-recipient {
-	font-weight: bold;
-}
-
-/* Special:Allpages styling */
-table.allpageslist {
-	background-color: transparent;
-}
-table.mw-allpages-table-form, table.mw-allpages-table-chunk {
-	background-color: transparent;
-	width: 100%;
-}
-td.mw-allpages-alphaindexline {
-	text-align: right;
-}
-td.mw-allpages-nav, p.mw-allpages-nav {
-	text-align: right;
-	font-size: smaller;
-	margin-bottom: 1em;
-}
-table.mw-allpages-table-form tr  {
-	vertical-align: top;
-}
-
-/* Special:Prefixindex styling */
-table#mw-prefixindex-list-table,
-table#mw-prefixindex-nav-table {
-	width: 98%;
-	background-color: transparent;
-}
-td#mw-prefixindex-nav-form  {
-	font-size: smaller;
-	margin-bottom: 1em;
-	text-align: right;
-	vertical-align: top;
 }
 
 /*
@@ -558,34 +339,43 @@ td.mw-revdel-checkbox, th.mw-revdel-checkbox {
 
 /* feed links */
 a.feedlink {
+	/* @embed */
 	background: url("images/feed-icon.png") center left no-repeat;
 	padding-left: 16px;
 }
 
-/* Plainlinks - this can be used to switch 
+/* Plainlinks - this can be used to switch
  * off special external link styling */
 .plainlinks a {
-		background: none !important;
-		padding: 0 !important;
+	background: none !important;
+	padding: 0 !important;
+}
+/* External URLs should always be treated as LTR (bug 4330) */
+/* @noflip */ .rtl a.external.free, .rtl a.external.autonumber {
+	direction: ltr;
+	unicode-bidi: embed;
 }
 
-/* wikitable class for skinning normal tables */
+/* wikitable class for skinning normal tables
+ * keep on sync with commonPrint.css
+ */
 table.wikitable {
-    margin: 1em 1em 1em 0;
-    background: #f9f9f9;
-    border: 1px #aaa solid;
-    border-collapse: collapse;
+	margin: 1em 1em 1em 0;
+	background: #f9f9f9;
+	border: 1px #aaa solid;
+	border-collapse: collapse;
+	color: black;
 }
 .wikitable th, .wikitable td {
-    border: 1px #aaa solid;
-    padding: 0.2em;
+	border: 1px #aaa solid;
+	padding: 0.2em;
 }
 .wikitable th {
-    background: #f2f2f2;
-    text-align: center;
+	background: #f2f2f2;
+	text-align: center;
 }
 .wikitable caption {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 /* hide initially collapsed collapsable tables */
@@ -598,11 +388,15 @@ table.collapsed tr.collapsable {
 	color: green;
 	font-size: larger;
 }
+.warning {
+	color: #FFA500; /* orange */
+	font-size: larger;
+}
 .error {
 	color: red;
 	font-size: larger;
 }
-.errorbox, .successbox {
+.errorbox, .warningbox, .successbox {
 	font-size: larger;
 	border: 2px solid;
 	padding: .5em 1em;
@@ -614,16 +408,49 @@ table.collapsed tr.collapsable {
 	border-color: red;
 	background-color: #fff2f2;
 }
+.warningbox {
+	border-color: #FF8C00; /* darkorange */
+	background-color: #FFFFC0;
+}
 .successbox {
 	border-color: green;
 	background-color: #dfd;
 }
-.errorbox h2, .successbox h2 {
+.errorbox h2, .warningbox h2, .successbox h2 {
 	font-size: 1em;
 	font-weight: bold;
 	display: inline;
 	margin: 0 .5em 0 0;
 	border: none;
+}
+
+/* general info/warning box for SP */
+.mw-infobox {
+	border: 2px solid #ff7f00;
+	margin: 0.5em;
+	clear: left;
+	overflow: hidden;
+}
+
+.mw-infobox-left {
+	margin: 7px;
+	float: left;
+	width: 35px;
+}
+
+.mw-infobox-right {
+	margin: 0.5em 0.5em 0.5em 49px;
+}
+
+/* Note on preview page */
+.previewnote {
+	color: #c00;
+	margin-bottom: 1em;
+}
+
+.previewnote p {
+	text-indent: 3em;
+	margin: 0.8em 0;
 }
 
 .visualClear {
@@ -637,44 +464,52 @@ table.collapsed tr.collapsable {
 }
 
 /*
-  Table pager (e.g. Special:Imagelist)
-  - remove underlines from the navigation link
-  - collapse borders
-  - set the borders to outsets (similar to Special:Allmessages)
-  - remove line wrapping for all td and th, set background color
-  - restore line wrapping for the last two table cells (description and size)
+	Table pager (e.g. Special:ListFiles)
+	- remove underlines from the navigation link
+	- collapse borders
+	- set the borders to outsets (similar to Special:AllMessages)
+	- remove line wrapping for all td and th, set background color
+	- restore line wrapping for the last two table cells (description and size)
 */
-.TablePager { min-width: 80%; }
-.TablePager_nav a { text-decoration: none; }
-.TablePager { border-collapse: collapse; }
-.TablePager, .TablePager td, .TablePager th { 
+.TablePager {
+	min-width: 80%;
+	border-collapse: collapse;
+}
+.TablePager_nav {
+	margin: 0 auto;
+}
+.TablePager_nav td {
+	padding: 3px;
+	text-align: center;
+}
+.TablePager_nav a {
+	text-decoration: none;
+}
+.TablePager, .TablePager td, .TablePager th {
 	border: 1px solid #aaaaaa;
 	padding: 0 0.15em 0 0.15em;
 }
-.TablePager th { background-color: #eeeeff }
-.TablePager td { background-color: #ffffff }
-.TablePager tr:hover td { background-color: #eeeeff }
-
-.imagelist td, .imagelist th { white-space: nowrap }
-.imagelist .TablePager_col_links { background-color: #eeeeff }
-.imagelist .TablePager_col_img_description { white-space: normal }
-.imagelist th.TablePager_sort { background-color: #ccccff }
-
- /* Allmessages table */
-#mw-allmessagestable .allmessages-customised td.am_default {
-	background-color: #fcffc4;
+.TablePager th {
+	background-color: #eeeeff;
+}
+.TablePager td {
+	background-color: #ffffff;
+}
+.TablePager tr:hover td {
+	background-color: #eeeeff;
 }
 
-#mw-allmessagestable tr.allmessages-customised:hover td.am_default {
-	background-color: #faff90;
+.imagelist td, .imagelist th {
+	white-space: nowrap;
 }
-
-#mw-allmessagestable td.am_actual {
-	background-color: #e2ffe2;
+.imagelist .TablePager_col_links {
+	background-color: #eeeeff;
 }
-
-#mw-allmessagestable tr.allmessages-customised:hover + tr.allmessages-customised td.am_actual {
-	background-color: #b1ffb1;
+.imagelist .TablePager_col_img_description {
+	white-space: normal;
+}
+.imagelist th.TablePager_sort {
+	background-color: #ccccff;
 }
 
 /* filetoc */
@@ -700,7 +535,7 @@ table.mw_metadata {
 	font-size: 0.8em;
 	margin-left: 0.5em;
 	margin-bottom: 0.5em;
-	width: 300px;
+	width: 400px;
 }
 
 table.mw_metadata caption {
@@ -723,8 +558,8 @@ table.mw_metadata {
 table.mw_metadata td, table.mw_metadata th {
 	text-align: center;
 	border: 1px solid #aaaaaa;
-	padding-left: 0.1em;
-	padding-right: 0.1em;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 table.mw_metadata th {
@@ -735,80 +570,103 @@ table.mw_metadata td {
 	background-color: #fcfcfc;
 }
 
+table.mw_metadata ul.metadata-langlist {
+	list-style-type: none;
+	list-style-image: none;
+	padding-right: 5px;
+	padding-left: 5px;
+	margin: 0;
+}
+
+/* Correct directionality when page dir is different from site/user dir */
+.mw-content-ltr ul,
+.mw-content-rtl .mw-content-ltr ul {
+	/* @noflip */
+	margin: 0.3em 0 0 1.5em;
+	padding: 0;
+}
+.mw-content-rtl ul,
+.mw-content-ltr .mw-content-rtl ul {
+	/* @noflip */
+	margin: 0.3em 1.5em 0 0;
+	padding: 0;
+}
+.mw-content-ltr ol,
+.mw-content-rtl .mw-content-ltr ol {
+	/* @noflip */
+	margin: 0.3em 0 0 3.2em;
+	padding: 0;
+}
+.mw-content-rtl ol,
+.mw-content-ltr .mw-content-rtl ol {
+	/* @noflip */
+	margin: 0.3em 3.2em 0 0;
+	padding: 0;
+}
+
+/* Correct directionality when page dir is different from site/user dir */
+/* @noflip */.mw-content-ltr ul, .mw-content-rtl .mw-content-ltr ul {
+	margin: .3em 0 0 1.5em;
+}
+/* @noflip */.mw-content-rtl ul, .mw-content-ltr .mw-content-rtl ul {
+	margin: .3em 1.5em 0 0;
+}
+/* @noflip */.mw-content-ltr ol, .mw-content-rtl .mw-content-ltr ol {
+	margin: .3em 0 0 3.2em;
+}
+/* @noflip */.mw-content-rtl ol, .mw-content-ltr .mw-content-rtl ol {
+	margin: .3em 3.2em 0 0;
+}
+
 /* Galleries */
-table.gallery {
-	border: 1px solid #ccc;
+/* These display attributes look nonsensical, but are needed to support IE and FF2 */
+/* Don't forget to update commonPrint.css */
+li.gallerybox {
+	vertical-align: top;
+	border: solid 2px white;
+	display: -moz-inline-box;
+	display: inline-block;
+}
+
+ul.gallery, li.gallerybox {
+	zoom: 1;
+	*display: inline;
+}
+
+ul.gallery {
 	margin: 2px;
 	padding: 2px;
-	background-color: white;
+	display: block;
 }
 
-table.gallery tr {
-	vertical-align: top;
-}
-
-table.gallery td {
-	vertical-align: top;
-	background-color: #f9f9f9;
-	border: solid 2px white;
-}
-table.gallery caption {
+li.gallerycaption {
 	font-weight: bold;
+	text-align: center;
+	display: block;
+	word-wrap: break-word;
 }
 
-div.gallerybox {
-	margin: 2px;
-}
-
-div.gallerybox div.thumb {
+li.gallerybox div.thumb {
 	text-align: center;
 	border: 1px solid #ccc;
+	background-color: #f9f9f9;
 	margin: 2px;
+}
+
+li.gallerybox div.thumb img {
+	display: block;
+	margin: 0 auto;
 }
 
 div.gallerytext {
 	overflow: hidden;
 	font-size: 94%;
 	padding: 2px 4px;
-}
-
-table.mw-enhanced-rc {
-	background: none;
-	border:0;
-	border-spacing:0;
-}
-td.mw-enhanced-rc {
-	white-space:nowrap;
-	padding:0;
-	vertical-align:top;
-	font-family:monospace
-}
-
-#mw-addcategory-prompt {
-	display: inline;
-	margin-left: 1em;
-}
- 
-#mw-addcategory-prompt input {
-	margin-left: 0.5em;
-	margin-right: 0.5em;
-}
- 
-.mw-remove-category {
-	padding: 8px;
-	background-image: url(images/remove.png);
-	background-position: center center;
-	background-repeat: no-repeat;
-}
- 
-.mw-ajax-addcategory {
-	padding-left: 20px;
-	background-image: url(images/add.png);
-	background-position: left center;
-	background-repeat: no-repeat;
+	word-wrap: break-word;
 }
 
 .mw-ajax-loader {
+	/* @embed */
 	background-image: url(images/ajax-loader.gif);
 	background-position: center center;
 	background-repeat: no-repeat;
@@ -820,12 +678,182 @@ td.mw-enhanced-rc {
 .mw-small-spinner {
 	padding: 10px !important;
 	margin-right: 0.6em;
+	/* @embed */
 	background-image: url(images/spinner.gif);
 	background-position: center center;
 	background-repeat: no-repeat;
 }
 
-/* Sort arrows added by SortableTables */
-a.sortheader {
-	margin: 0 0.3em;
+/* Localised ordered list numbering for some languages */
+ol:lang(bcc) li,
+ol:lang(bqi) li,
+ol:lang(fa) li,
+ol:lang(glk) li,
+ol:lang(kk-arab) li,
+ol:lang(mzn) li {
+	list-style-type: -moz-persian;
+	list-style-type: persian;
 }
+
+ol:lang(ckb) li {
+	list-style-type: -moz-arabic-indic;
+	list-style-type: arabic-indic;
+}
+
+ol:lang(as) li,
+ol:lang(bn) li {
+	list-style-type: -moz-bengali;
+	list-style-type: bengali;
+}
+
+ol:lang(or) li {
+	list-style-type: -moz-oriya;
+	list-style-type: oriya;
+}
+
+#toc ul, .toc ul {
+	margin: .3em 0;
+}
+
+/* Correct directionality when page dir is different from site/user dir */
+/* @noflip */.mw-content-ltr .toc ul, .mw-content-ltr #toc ul,
+.mw-content-rtl .mw-content-ltr .toc ul, .mw-content-rtl .mw-content-ltr #toc ul {
+	text-align: left;
+}
+/* @noflip */.mw-content-rtl .toc ul, .mw-content-rtl #toc ul,
+.mw-content-ltr .mw-content-rtl .toc ul, .mw-content-ltr .mw-content-rtl #toc ul {
+	text-align: right;
+}
+/* @noflip */.mw-content-ltr .toc ul ul, .mw-content-ltr #toc ul ul,
+.mw-content-rtl .mw-content-ltr .toc ul ul, .mw-content-rtl .mw-content-ltr #toc ul ul {
+	margin: 0 0 0 2em;
+}
+/* @noflip */.mw-content-rtl .toc ul ul, .mw-content-rtl #toc ul ul,
+.mw-content-ltr .mw-content-rtl .toc ul ul, .mw-content-ltr .mw-content-rtl #toc ul ul {
+	margin: 0 2em 0 0;
+}
+
+#toc #toctitle,
+.toc #toctitle,
+#toc .toctitle,
+.toc .toctitle {
+	direction: ltr;
+}
+
+/* tooltip styles */
+.mw-help-field-hint {
+	display: none;
+	margin-left: 2px;
+	margin-bottom: -8px;
+	padding: 0px 0px 0px 15px;
+	/* @embed */
+	background-image: url('images/help-question.gif');
+	background-position: left center;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	font-size: .8em;
+	text-decoration: underline;
+	color: #0645ad;
+}
+.mw-help-field-hint:hover {
+	/* @embed */
+	background-image: url('images/help-question-hover.gif');
+}
+.mw-help-field-data {
+	display: block;
+	background-color: #d6f3ff;
+	padding:5px 8px 4px 8px;
+	border: 1px solid #5dc9f4;
+	margin-left: 20px;
+}
+.tipsy {
+	padding: 5px 5px 10px;
+	font-size: 12px;
+	position: absolute;
+	z-index: 100000;
+	overflow: visible;
+}
+.tipsy-inner {
+	padding: 5px 8px 4px 8px;
+	background-color: #d6f3ff;
+	color: black;
+	border: 1px solid #5dc9f4;
+	max-width: 300px;
+	text-align: left;
+}
+.tipsy-arrow {
+	position: absolute;
+	/* @embed */
+	background: url(images/tipsy-arrow.gif) no-repeat top left;
+	width: 13px;
+	height: 13px;
+}
+.tipsy-se .tipsy-arrow {
+	bottom: -2px;
+	right: 10px;
+	background-position: 0% 100%;
+}
+/* Table Sorting */
+table.sortable th.headerSort {
+	background-image: url(images/sort_both.gif);
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-position: center right;
+	padding-right: 21px;
+}
+table.sortable th.headerSortUp {
+	background-image: url(images/sort_up.gif);
+}
+table.sortable th.headerSortDown {
+	background-image: url(images/sort_down.gif);
+}
+
+/* LTR content in RTL layout */
+.ltr {
+	/* @noflip */
+	direction: ltr;
+	unicode-bidi: embed;
+}
+
+#mw-clearyourcache, #mw-sitecsspreview, #mw-sitejspreview, #mw-usercsspreview, #mw-userjspreview {
+	direction: ltr;
+	unicode-bidi: embed;
+}
+
+/* Correct user & content directionality when viewing a diff */
+.diff-currentversion-title, .diff {
+	direction: ltr;
+	unicode-bidi: embed;
+}
+/* @noflip */ .diff-contentalign-right td {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+/* @noflip */ .diff-contentalign-left td {
+	direction: ltr;
+	unicode-bidi: embed;
+}
+.diff-otitle, .diff-ntitle, .diff-lineno {
+	direction: ltr !important;
+	unicode-bidi: embed;
+}
+
+#mw-revision-info, #mw-revision-nav {
+	direction: ltr;
+}
+
+/* Images */
+/* @noflip */div.tright, div.floatright, table.floatright {
+	clear: right;
+	float: right;
+}
+/* @noflip */div.tleft, div.floatleft, table.floatleft {
+	float: left;
+	clear: left;
+}
+div.floatright, table.floatright, div.floatleft, table.floatleft {
+	position: relative;
+}
+
+/* bug 12205 */
+#mw-credits a { unicode-bidi: embed; }

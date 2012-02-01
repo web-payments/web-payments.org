@@ -7,6 +7,7 @@
  * @ingroup Language
  * @file
  *
+ * @author Iketsi
  * @author Ushanka
  */
 
@@ -112,7 +113,7 @@ $messages = array(
 # Contributions
 'year' => 'Yia:',
 
-'sp-contributions-talk' => 'Toktok',
+'sp-contributions-talk' => 'toktok',
 
 # Block/unblock
 'proxyblocksuccess' => 'Finis.',
@@ -138,11 +139,9 @@ $messages = array(
 'exif-exposuretime-format' => '$1 sek. ($2)',
 
 # 'all' in various places, this might be different for inflected languages
-'recentchangesall' => 'olgeta',
-'imagelistall'     => 'olgeta',
-'watchlistall2'    => 'olgeta',
-'namespacesall'    => 'olgeta',
-'monthsall'        => 'olgeta',
+'watchlistall2' => 'olgeta',
+'namespacesall' => 'olgeta',
+'monthsall'     => 'olgeta',
 
 # Table pager
 'table_pager_first' => 'Nambawan pej',

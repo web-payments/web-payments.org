@@ -1,5 +1,5 @@
 <?php
-/** Megleno-Romanian (Cyrillic) (Vlăheşte (Cyrillic))
+/** Megleno-Romanian (Cyrillic script) (Влахесте)
  *
  * See MessagesQqq.php for message documentation incl. usage of parameters
  * To improve a translation please visit http://translatewiki.net
@@ -155,8 +155,6 @@ $messages = array(
 'extlink_tip'     => 'Легајтул ќстернул (вец префикс http://)',
 'headline_sample' => 'Ескрире с-титлус',
 'headline_tip'    => 'Титлу де нивел 2',
-'math_sample'     => 'Интродуца формула иси',
-'math_tip'        => 'Формула с-математикс (LaTeX)',
 'nowiki_sample'   => 'Интродуца но-Вики иси',
 'nowiki_tip'      => 'Но-Бики клашу',
 'image_tip'       => 'Сантигул инсерат',
@@ -255,11 +253,10 @@ $3',
 'allpagessubmit' => 'Треме',
 
 # Watchlist
-'watchlist'    => 'Мај клајаеру',
-'mywatchlist'  => 'Мај клајаере',
-'watchlistfor' => "(пентру '''$1''')",
-'watch'        => 'клајаере',
-'unwatch'      => 'Деклајаера',
+'watchlist'   => 'Мај клајаеру',
+'mywatchlist' => 'Мај клајаере',
+'watch'       => 'клајаере',
+'unwatch'     => 'Деклајаера',
 
 # Displayed when you click the "watch" button and it is in the process of watching
 'watching'   => 'О клајаере...',

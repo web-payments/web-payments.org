@@ -1,9 +1,18 @@
 <?php
-/** */
+/**
+ * Functions related to the output of file content
+ *
+ * @file
+ */
 
-/** */
+/**
+ * @param $fname string
+ * @param $headers array
+ */
 function wfStreamFile( $fname, $headers = array() ) {
-	$stat = @stat( $fname );
+	wfSuppressWarnings();
+	$stat = stat( $fname );
+	wfRestoreWarnings();
 	if ( !$stat ) {
 		header( 'HTTP/1.0 404 Not Found' );
 		header( 'Cache-Control: no-cache' );
@@ -37,8 +46,8 @@ function wfStreamFile( $fname, $headers = array() ) {
 		return;
 	}
 
-	global $wgContLanguageCode;
-	header( "Content-Disposition: inline;filename*=utf-8'$wgContLanguageCode'" . urlencode( basename( $fname ) ) );
+	global $wgLanguageCode;
+	header( "Content-Disposition: inline;filename*=utf-8'$wgLanguageCode'" . urlencode( basename( $fname ) ) );
 
 	foreach ( $headers as $header ) {
 		header( $header );
@@ -59,7 +68,11 @@ function wfStreamFile( $fname, $headers = array() ) {
 	readfile( $fname );
 }
 
-/** */
+/**
+ * @param $filename string
+ * @param $safe bool
+ * @return null|string
+ */
 function wfGetType( $filename, $safe = true ) {
 	global $wgTrivialMimeDetection;
 
@@ -91,8 +104,8 @@ function wfGetType( $filename, $safe = true ) {
 	 */
 	if ( $safe ) {
 		global $wgFileBlacklist, $wgCheckFileExtensions, $wgStrictFileExtensions, 
-			$wgFileExtensions, $wgVerifyMimeType, $wgMimeTypeBlacklist, $wgRequest;
-		list( $partName, $extList ) = UploadBase::splitExtensions( $filename );
+			$wgFileExtensions, $wgVerifyMimeType, $wgMimeTypeBlacklist;
+		list( , $extList ) = UploadBase::splitExtensions( $filename );
 		if ( UploadBase::checkFileExtensionList( $extList, $wgFileBlacklist ) ) {
 			return 'unknown/unknown';
 		}

@@ -15,6 +15,87 @@
 
 $fallback = 'tr';
 
+$namespaceNames = array(
+	NS_MEDIA            => 'Mediya',
+	NS_SPECIAL          => 'Maasus',
+	NS_TALK             => 'Dartışma',
+	NS_USER             => 'Kullanıcı',
+	NS_USER_TALK        => 'Kullanıcı_dartışma',
+	NS_PROJECT_TALK     => '$1_dartışma',
+	NS_FILE             => 'Dosye',
+	NS_FILE_TALK        => 'Dosye_dartışma',
+	NS_MEDIAWIKI        => 'MediaWiki',
+	NS_MEDIAWIKI_TALK   => 'MediaWiki_dartışma',
+	NS_TEMPLATE         => 'Şablon',
+	NS_TEMPLATE_TALK    => 'Şablon_dartışma',
+	NS_HELP             => 'Yardım',
+	NS_HELP_TALK        => 'Yardım_dartışma',
+	NS_CATEGORY         => 'Kategoriya',
+	NS_CATEGORY_TALK    => 'Kategoriya_dartışma',
+);
+
+$namespaceAliases = array(
+	# Turkish namespaces
+	'Medya'              => NS_MEDIA,
+	'Özel'               => NS_SPECIAL,
+	'Tartışma'           => NS_TALK,
+	'Kullanıcı'          => NS_USER,
+	'Kullanıcı_mesaj'    => NS_USER_TALK,
+	'$1_tartışma'        => NS_PROJECT_TALK,
+	'Dosya'              => NS_FILE,
+	'Dosya_tartışma'     => NS_FILE_TALK,
+	'MediaWiki'          => NS_MEDIAWIKI,
+	'MediaWiki_tartışma' => NS_MEDIAWIKI_TALK,
+	'Şablon'             => NS_TEMPLATE,
+	'Şablon_tartışma'    => NS_TEMPLATE_TALK,
+	'Yardım'             => NS_HELP,
+	'Yardım_tartışma'    => NS_HELP_TALK,
+	'Kategori'           => NS_CATEGORY,
+	'Kategori_tartışma'  => NS_CATEGORY_TALK,
+);
+
+$specialPageAliases = array(
+	'Allpages'                  => array( 'HepsiYazılar', 'HepsiSayfalar', 'HepsiYapraklar' ),
+	'Ancientpages'              => array( 'EskiYazılar', 'EskiSayfalar', 'EskiYapraklar' ),
+	'Categories'                => array( 'Kategoriyalar' ),
+	'Contributions'             => array( 'Katılmaklar' ),
+	'CreateAccount'             => array( 'EsapYarat', 'EsapAç' ),
+	'Deadendpages'              => array( 'BaalantısızYazılar', 'BaalantısızSayfalar', 'BaalantısızYapraklar' ),
+	'Disambiguations'           => array( 'MaanaAydınnatmak', 'MaanaAydınnatma' ),
+	'DoubleRedirects'           => array( 'İkiKeräYönnendirmäler', 'İkiKeräYönnendirmeler' ),
+	'Listadmins'                => array( 'İzmetliListası' ),
+	'Listbots'                  => array( 'BotListası' ),
+	'Listfiles'                 => array( 'DosyeListası', 'PätretListası' ),
+	'Listredirects'             => array( 'YönnedirmeListası', 'YönndermäListası' ),
+	'Listusers'                 => array( 'KullanıcıListası' ),
+	'Mycontributions'           => array( 'Katılmaklarım' ),
+	'Mytalk'                    => array( 'SözleşmäkSayfam', 'SözleşmäkYapraım' ),
+	'Newimages'                 => array( 'EniDosyeler', 'EniPätretler' ),
+	'Newpages'                  => array( 'EniYazılar', 'EniSayfalar', 'EniYapraklar' ),
+	'Popularpages'              => array( 'EnAnılmışSayfalar', 'EnAnılmışYazılar' ),
+	'Preferences'               => array( 'Seçimner' ),
+	'Prefixindex'               => array( 'Prefiksİndeksi' ),
+	'Randompage'                => array( 'Razgele', 'RazgeleYazı', 'RazgeleSayfa', 'RazgeleYaprak' ),
+	'Randomredirect'            => array( 'RazgeleYönnendirme', 'RazgeleYönndermä' ),
+	'Recentchanges'             => array( 'BitkiDiişikmäklär' ),
+	'Search'                    => array( 'Ara' ),
+	'Specialpages'              => array( 'MaasusSayfalar', 'MaasusYazılar', 'MaasusYapraklar' ),
+	'Statistics'                => array( 'İstatistikalar' ),
+	'Uncategorizedcategories'   => array( 'KategorizațiyasızKategoriyalar' ),
+	'Uncategorizedimages'       => array( 'KategorizațiyasızDosyeler', 'KategorizațiyasızPätretler' ),
+	'Uncategorizedpages'        => array( 'KategorizațiyasızYazılar', 'KategorizațiyasızSayfalar', 'KategorizațiyasızYapraklar' ),
+	'Uncategorizedtemplates'    => array( 'KategorizațiyasızŞablonnar' ),
+	'Unusedcategories'          => array( 'KullanılmayanKategoriyalar' ),
+	'Unusedimages'              => array( 'KullanılmayanDosyeler', 'KullanılmayanPätretler' ),
+	'Upload'                    => array( 'Ükle' ),
+	'Watchlist'                 => array( 'SiirListası', 'BakmaaListası' ),
+	'Withoutinterwiki'          => array( 'İntervikisiz' ),
+);
+
+$magicWords = array(
+	'redirect'              => array( '0', '#YÖNNENDİRMÄKLER', '#YÖNNENDİR', '#YÖNNENDİRMÄ', '#YÖNLENDİRME', '#YÖNLENDİR', '#REDIRECT' ),
+);
+
 $messages = array(
 # User preference toggles
 'tog-underline'               => 'Baalantıların altını çiz',
@@ -29,8 +110,7 @@ $messages = array(
 'tog-editsection'             => 'Bölümleri [diiştir] baalantılarılan diiştirmää hakkı ver',
 'tog-editsectiononrightclick' => 'Bölüm başlıına saa tuşla basarak bölümü düzmää izin ver.(JavaScript)',
 'tog-showtoc'                 => 'İçindäkiler tablițasını düz<br />(3-tän çok başlıı olan sayfalar için)',
-'tog-rememberpassword'        => 'Parolu hatırla',
-'tog-editwidth'               => 'Diiştirmää eri brauzer penceräsi büüklüktä olsun',
+'tog-rememberpassword'        => 'Parolu hatırla (en fazla $1 {{PLURAL:$1|gün|gün}})',
 'tog-watchcreations'          => 'Yarattıım sayfaları bakmaa listama ekle',
 'tog-watchdefault'            => 'Diişmäk yapılan sayfayı bakmaa listasına ekle',
 'tog-watchmoves'              => 'Bakmaa listama ekle o sayfaları angılarını taşıdım',
@@ -75,18 +155,18 @@ $messages = array(
 'thu'           => 'Per',
 'fri'           => 'Cumaa',
 'sat'           => 'Cts',
-'january'       => 'Yanvar',
-'february'      => 'Fevral',
-'march'         => 'Marta',
-'april'         => 'Aprel',
-'may_long'      => 'May',
-'june'          => 'İyün',
-'july'          => 'İyül',
-'august'        => 'Avgust',
-'september'     => 'Sentäbri',
-'october'       => 'Oktäbri',
-'november'      => 'Noyabri',
-'december'      => 'Dekabri',
+'january'       => 'Büük ay',
+'february'      => 'Küçük ay',
+'march'         => 'Baba Marta',
+'april'         => 'Çiçek ay',
+'may_long'      => 'Hederlez',
+'june'          => 'Kirez ay',
+'july'          => 'Orak ay',
+'august'        => 'Harman ay',
+'september'     => 'Ceviz ay',
+'october'       => 'Canavar ay',
+'november'      => 'Kasım',
+'december'      => 'Kırım ay',
 'january-gen'   => 'Büük ay',
 'february-gen'  => 'Küçük ay',
 'march-gen'     => 'Baba Marta',
@@ -123,15 +203,6 @@ $messages = array(
 'category-article-count' => '{{PLURAL:$2|Bu kategoriyaa girer sadä aşaadaki sayfa.|Hepsi $2 den, aşaadaki {{PLURAL:$1|sayfa|$1 sayfa}} bu kategoriyadan.}}',
 'listingcontinuesabbrev' => '(devam)',
 
-'mainpagetext'      => "'''MediaWiki başarılan kuruldu.'''",
-'mainpagedocfooter' => "Vikilän iş uurunda bilgi almaa için [http://meta.wikimedia.org/wiki/Help:Contents User's Guide] sayfasına bakınız
-
-== Eni başlayanlar için ==
-
-* [http://www.mediawiki.org/wiki/Manual:Configuration_settings Configuration settings list]
-* [http://www.mediawiki.org/wiki/Manual:FAQ MediaWiki FAQ]
-* [https://lists.wikimedia.org/mailman/listinfo/mediawiki-announce MediaWiki release mailing list]",
-
 'about'         => 'Uurunda',
 'article'       => 'Yazı',
 'newwindow'     => '(eni bir pencerädä açılêr)',
@@ -154,6 +225,10 @@ $messages = array(
 'faq'            => 'SSS',
 'faqpage'        => 'Project:SSS',
 
+# Vector skin
+'vector-view-edit' => 'Diiştir',
+'vector-view-view' => 'Oku',
+
 'errorpagetitle'    => 'Yannış',
 'returnto'          => '$1 dön.',
 'tagline'           => '{{SITENAME}} saydından',
@@ -165,7 +240,6 @@ $messages = array(
 'history'           => 'Sayfanın istoriyası',
 'history_short'     => 'İstoriya',
 'updatedmarker'     => 'bitki gelişimdän sora enilenmiş',
-'info_short'        => 'Bilgi',
 'printableversion'  => 'Tiparlanacêk versiya',
 'permalink'         => 'Bitki haline baalantı',
 'print'             => 'Tiparla',
@@ -311,7 +385,7 @@ Esapınız açıldı. Unutmayın [[Special:Preferences|{{SITENAME}} preferences]
 'yourname'                   => 'Kullanıcı adınız',
 'yourpassword'               => 'Parol',
 'yourpasswordagain'          => 'Parolu enidän yaz',
-'remembermypassword'         => 'Parolu hatırla.',
+'remembermypassword'         => 'Parolu hatırla (en fazla $1 {{PLURAL:$1|gün|gün}} için)',
 'yourdomainname'             => 'Domen adınız',
 'login'                      => 'Gir',
 'nav-login-createaccount'    => 'Gir / esap yarat',
@@ -334,7 +408,7 @@ Kullanıcı adınız '''var nicä içersin'''gagauzça nışan, boşluk . Savaş
 'loginsuccesstitle'          => 'Sessiya başarılan açıldı',
 'loginsuccess'               => '{{SITENAME}} saytında "$1" kullanıcı adılan sessiya açtınız.',
 'nosuchuser'                 => 'Burada "$1" adlı kullanıcı yok. Yokla bir taa nesoy yazdın, yaki eni esap yarat.',
-'nosuchusershort'            => 'Burada "<nowiki>$1</nowiki>" adlı kullanıcı yok. Yoklayın ani ad nesoy yazıldı.',
+'nosuchusershort'            => 'Burada "$1" adlı kullanıcı yok. Yoklayın ani ad nesoy yazıldı.',
 'nouserspecified'            => 'Läazım bir kullanıcı adı göstermää.',
 'wrongpassword'              => 'Parolu yannış girdiniz. Yalvarerêz tekrar denämää.',
 'wrongpasswordempty'         => 'Boş parol girdiniz. Yalvarerez tekrar denämää.',
@@ -360,7 +434,7 @@ O zamana kadar ani e-maildaki instrukțiyalar yapılmaycêk hem doorulanmaycêk 
 'createaccount-title'        => '{{SITENAME}} için esap açılışı',
 'loginlanguagelabel'         => 'Dil: $1',
 
-# Password reset dialog
+# Change password dialog
 'retypenew'           => 'Eni parolu tekrar girin',
 'resetpass_forbidden' => 'Saytında parol yok nicä diiştirilsin',
 
@@ -375,8 +449,6 @@ O zamana kadar ani e-maildaki instrukțiyalar yapılmaycêk hem doorulanmaycêk 
 'extlink_tip'     => 'Dış baalantı (Unutmayın adresin önüne http:// koymaa)',
 'headline_sample' => 'Başlık teksti',
 'headline_tip'    => '2. düzey başlık',
-'math_sample'     => 'Matematik-formulanı-koyun',
-'math_tip'        => 'Matematik formula (LaTeX formatında)',
 'nowiki_sample'   => 'Serbest format yazınızı buraya yazınız',
 'nowiki_tip'      => 'Wiki formatlamasını ignor et',
 'image_tip'       => 'Pätret eklemää',
@@ -435,7 +507,6 @@ lițenziyası şartları içindä (detallar için $1'a bakınız).
 Herliim istemeersiniz ani sizin tekstlär serbest yayılsın hem diiştirilsin übür kullanıcılar tarafınnan, onnarı erleştirmeyniz buraya.<br />
 Hem siz garantiyada bulunêrsiniz ani eklemäklerin avtorusunuz, yaki onnarı kopiya ettiniz kaynaktan angısı izin verer teksti serbest yaymaa hem diiştirmää.<br />
 '''<center>AVTORLUK KORUNMAK HAKKILAN KORUNMAYAN MATERİALLAR EKLEMEYNİZ!</center>'''",
-'longpagewarning'                  => "'''BAK: Bu sayfanın ölçüsü $1 kilobayt; ölçüsü 32 kb-a yakın yaki onnan çok sayfalar bir takım brauzerlärdä var nicä yannış görünsün. Savaşênız onu bölümnerä ayırmaa.'''",
 'templatesused'                    => 'Bu sayfada kullanılan {{PLURAL:$1|şablon|şablonlar}}:',
 'templatesusedpreview'             => '{{PLURAL:$1|Şablon|Şablonnar}} ani bu ön siirdä kullanıldı:',
 'templatesusedsection'             => 'Bu bölümde kullanılan {{PLURAL:$1|şablon|şablonlar}}:',
@@ -518,7 +589,7 @@ Nışannar: (bitki) = şindiki versiyalan aradaki fark,
 'search-result-size'        => '$1 ({{PLURAL:$2|1 laf|$2 laf}})',
 'search-redirect'           => '(göndermää $1)',
 'search-section'            => '(bölüm $1)',
-'search-suggest'            => '↓ İstediniz demää: $1',
+'search-suggest'            => 'İstediniz demää: $1',
 'search-interwiki-caption'  => 'Kardaş proyektlär',
 'search-interwiki-default'  => '$1 rezultatlar:',
 'search-interwiki-more'     => '(taa çok)',
@@ -654,6 +725,7 @@ Sizin bakmaa [[Special:Watchlist|listasındaki]] sayfalar verildi '''kalın''' b
 'statistics-edits'             => '{{SITENAME}} kurulmaa beeri yapmaa sayfa diişmäkleri',
 'statistics-edits-average'     => 'Her yapraktaki diişmäklerin sayısı',
 'statistics-views-total'       => 'Hepsi resimlär',
+'statistics-views-total-desc'  => 'Var nica olmadı hem maasus yapraklarından resim eklenmee',
 'statistics-views-peredit'     => 'Diişmäk başına resimlär',
 'statistics-users'             => 'Registratlı [[Special:ListUsers|kullanıcılar]]',
 'statistics-users-active'      => 'Aktivli kullanıcılar',
@@ -743,8 +815,6 @@ Sizin bakmaa [[Special:Watchlist|listasındaki]] sayfalar verildi '''kalın''' b
 # Watchlist
 'watchlist'         => 'Bakmaa listam',
 'mywatchlist'       => 'Bakmaa listam',
-'watchlistfor'      => "('''$1''' için)",
-'addedwatch'        => 'Bakmaa listasına registrat edildi.',
 'addedwatchtext'    => '"<nowiki>$1</nowiki>" adlı sayfa [[Special:Watchlist|bakmaa listanıza]] registrat olundu.
 
 Gelecektä, bu sayfaya hem ilgili konuşmaa sayfasına yapılacêk diişmäkler burada yazılacêk.
@@ -752,7 +822,6 @@ Gelecektä, bu sayfaya hem ilgili konuşmaa sayfasına yapılacêk diişmäkler 
 [[Special:RecentChanges|Bitki diişmäkler listası]] başlıı altında yazılacêk kalın bukvalarnan neçin ki kolayca seçilsin.
 
 Ne zaman neetlendiniz sayfayı bakmaa listasınnan çıkarmaa tuşlayın "sayfaya bakmaa durgun" baalantısına.',
-'removedwatch'      => 'Bakmaa listanızdan silindi',
 'removedwatchtext'  => '"[[:$1]]" yapraı siir [[Special:Watchlist|listanızdan]] silindi.',
 'watch'             => 'Bak',
 'watchthispage'     => 'Bak bu sayfaya',
@@ -771,7 +840,7 @@ Ne zaman neetlendiniz sayfayı bakmaa listasınnan çıkarmaa tuşlayın "sayfay
 'confirmdeletetext'     => 'Bu sayfayı yaki faylı silersiniz hepsi istoriyasılan bilä.
 Lütfen doorulayın ani siz neetlenersiniz bunu yapmaa, annêêrsiniz onun rezultatlarını hem inanêrsiniz ani bu [[{{MediaWiki:Policy-url}}|Silmää kanonnarına]] uyêr.',
 'actioncomplete'        => 'İşlik tamannandı.',
-'deletedtext'           => '"<nowiki>$1</nowiki>" silindi.
+'deletedtext'           => '"$1" silindi.
 Yakın zamanda silinenleri görmää deyni: $2.',
 'deletedarticle'        => '"[[$1]]" silindi',
 'dellogpage'            => 'Silmää jurnalı',
@@ -792,7 +861,7 @@ Yakın zamanda silinenleri görmää deyni: $2.',
 'protectexpiry'               => 'Bitmää datası:',
 'protect_expiry_invalid'      => 'Yannış bitmää datası.',
 'protect_expiry_old'          => 'Bitmää datası geçti.',
-'protect-text'                => "Var nicä görmää hem diiştirmää buradan '''<nowiki>$1</nowiki>''' sayfasın korunmaa düzeyini.",
+'protect-text'                => "Var nicä görmää hem diiştirmää buradan '''$1''' sayfasın korunmaa düzeyini.",
 'protect-locked-access'       => "Sizin esapın yok izni yazının korunmak düzeyini diiştirmää.
 Burada bitki seçimner '''$1''' yazı diiştirmää deyni:",
 'protect-cascadeon'           => 'Bu sayfa şindi korunêr onuştan ani girer {{PLURAL:$1|aşaadaki sayfaa, angısına|||aşaadaki sayfalara, angılarına}} konuldu kaskad korunmak. Sizä yakışêr diiştirin bu sayfanın korunmak düzeyin, ama bu etkilemez kaskad korunmaa.',
@@ -936,6 +1005,8 @@ Yalvarêrêz başka bir ad seçmää.',
 'tooltip-search'                  => '{{SITENAME}} içindä ara',
 'tooltip-search-go'               => 'Herliim varsa, git salt bu adlı bir sayfaa',
 'tooltip-search-fulltext'         => 'Bu tekst için sayfaları aara',
+'tooltip-p-logo'                  => '
+Dönün baş yapraa',
 'tooltip-n-mainpage'              => 'Dönün baş yapraa',
 'tooltip-n-mainpage-description'  => 'Dönün baş yapraa',
 'tooltip-n-portal'                => 'Proyekt uurunda, ne nändä, nelär var nicä yapmaa',
@@ -976,11 +1047,10 @@ Yalvarêrêz başka bir ad seçmää.',
 'nextdiff'     => 'Geerki versiyalan aradaki fark →',
 
 # Media information
-'file-info-size'       => '($1 × $2 piksel, fayl ölçüsü: $3, MIME tipi: $4)',
-'file-nohires'         => '<small>Taa üüksek aydınnıklı versiya bulunmêêr.</small>',
-'svg-long-desc'        => '(SVG faylı, nominal $1 × $2 piksel, fayl ölçüsü: $3)',
-'show-big-image'       => 'Taman aydınnık',
-'show-big-image-thumb' => '<small>Ön siir ölçüsü: $1 × $2 piksel</small>',
+'file-info-size' => '$1 × $2 piksel, fayl ölçüsü: $3, MIME tipi: $4',
+'file-nohires'   => '<small>Taa üüksek aydınnıklı versiya bulunmêêr.</small>',
+'svg-long-desc'  => 'SVG faylı, nominal $1 × $2 piksel, fayl ölçüsü: $3',
+'show-big-image' => 'Taman aydınnık',
 
 # Special:NewFiles
 'newimages' => 'Eni pätretler',
@@ -1006,11 +1076,17 @@ Herliim fayl diiştirildi yaratılıştan sora, bir takım parametrlär var nic�
 * exposuretime
 * fnumber
 * isospeedratings
-* focallength',
+* focallength
+* artist
+* copyright
+* imagedescription
+* gpslatitude
+* gpslongitude
+* gpsaltitude',
 
 # External editor support
 'edit-externally'      => 'Kompyuterinizdäki uygulamaklarlan faylı düz',
-'edit-externally-help' => 'Taa çok bilgi için var nicä bakmaa metadaki [http://www.mediawiki.org/wiki/Manual:External_editors dış uygulama instrumentläri] (angliyça) sayfasına.',
+'edit-externally-help' => 'Taa çok bilgi için var nicä bakmaa metadaki [//www.mediawiki.org/wiki/Manual:External_editors dış uygulama instrumentläri] (angliyça) sayfasına.',
 
 # 'all' in various places, this might be different for inflected languages
 'watchlistall2' => 'Hepsini göster',

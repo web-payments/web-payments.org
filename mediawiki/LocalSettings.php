@@ -137,9 +137,12 @@ $wgGroupPermissions['*']['edit'] = false;
 # Default User permissions
 #$wgDefaultUserOptions ['editsection'] = false;
 
-# ConfirmEdit anti-SPAM extension
-require_once("$IP/extensions/ConfirmEdit/ConfirmEdit.php");
-require_once("$IP/extensions/ConfirmEdit/MathCaptcha.php");
-$wgCaptchaClass = 'SimpleCaptcha';
+# Prevent new user registrations except by sysops
+$wgGroupPermissions['*']['createaccount'] = false;
+function efLoginFormMessage( &$template ) {
+ $template->set( 'header', "To request an account for editing pages on this wiki, please send a request to: public-webpayments@w3.org");
+        return true;
+}
+$wgHooks['UserLoginForm'][]='efLoginFormMessage';
 
 require_once("$IP/extensions/Nuke/Nuke.php");

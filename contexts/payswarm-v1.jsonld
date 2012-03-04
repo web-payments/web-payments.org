@@ -8,10 +8,10 @@
       "sec": "http://purl.org/security#",
       "com": "http://purl.org/commerce#",
       "ps": "http://purl.org/payswarm#",
-      "gr": "http://purl.org/goodrelations/v1#"
+      "gr": "http://purl.org/goodrelations/v1#",
       "com:payee":
       {
-         "@list": true
+         "@container": "@list"
       }
    }
 }

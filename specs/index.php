@@ -98,23 +98,26 @@ decentralized crowd-funding for innovative initiatives and projects.
     <?php dirContents("ED/payment-intents"); ?>
   </ul>
 </li>
-<li><a href="../vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 
+<li><a href="source/vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 
 that is used to describe commercial transactions.
   <ul>
+    <!--<li>Current Editor Draft: <a href="../vocabs/commerce">current</a></li>-->
     <?php dirContents("ED/vocabs/commerce"); ?>
   </ul>
 </li>
-<li><a href="../vocabs/payswarm">PaySwarm Vocabulary</a> - the Web vocabulary 
+<li><a href="source/vocabs/payswarm">PaySwarm Vocabulary</a> - the Web vocabulary 
 that is used to describe PaySwarm-specific concepts and properties on a 
 PaySwarm network.
   <ul>
+    <!--<li>Current Editor Draft: <a href="../vocabs/payswarm">current</a></li>-->
     <?php dirContents("ED/vocabs/payswarm"); ?>
   </ul>
 </li>
-<li><a href="../vocabs/security">Security Vocabulary</a> - 
+<li><a href="source/vocabs/security">Security Vocabulary</a> - 
 the Web vocabulary that is used to describe mechanisms for expressing
 digital signatures and encrypting and decrypting messages.
   <ul>
+    <!--<li>Current Editor Draft: <a href="../vocabs/security">current</a></li>-->
     <?php dirContents("ED/vocabs/security"); ?>
   </ul>
 </li>

@@ -99,9 +99,12 @@
     <section id='abstract'> 
       <p>
 The Security vocabulary is used to enable Internet-based applications to
-encrypt, decrypt, and digitally sign information. It also provides vocabulary
-terms for the creation and management of a decentralized Public Key 
-Infrastructure via the Web.
+encrypt, decrypt, and digitally sign information expressed as 
+<a href="http://en.wikipedia.org/wiki/Linked_data">Linked Data</a>. 
+It also provides vocabulary terms for the creation and management of a 
+decentralized 
+<a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">Public Key Infrastructure</a> 
+via the Web.
       </p>
     </section>
 
@@ -134,10 +137,10 @@ properties of the digest.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
+            <dd property="vs:term_status">stable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
-            <dt>Properties</dt>
+            <dt>Expected properties</dt>
             <dd>digestAlgorithm, digestValue</dd>
           </dl>
         <p>
@@ -173,8 +176,14 @@ data, encryptionKey, password, cipherAlgorithm, iv, publicKey
             </dd>
           </dl>
         <p>
-The example below describes a cryptographic key that contains both the 
-public and private key as well as the owner of the key.
+The example below expresses an password-encrypted message using the
+AES 128-bit cipher with Cyclic-Block-Chaining. The password to unlock the
+encrypted message has been encrypted using the public key provided by 
+the <code>publicKey</code> parameter. To decrypt the message, the private
+key associated with the <code>publicKey</code> is used to decrypt the password. 
+The password, <code>iv</code> (intermediate value), and the cipher algorithm 
+are then used to extract the final clear-text message from the
+the base-64 encoded <code>data</code> property.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -196,7 +205,7 @@ z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
   "cipherAlgorithm": "aes-128-cbc",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-  "publicKey": "http://example.com/people/john/keys/23"
+  "publicKey": "https://example.com/people/john/keys/23"
 }        
         </pre>
       </section>
@@ -207,7 +216,7 @@ z7u3IxpqNVcXHExjXQE=",
           <p>
 A graph signature is used for digital signatures on RDF graphs. 
 The default normalization mechanism is specified in the
-JSON-LD specification, which effectively resolves all CURIEs and 
+RDF Graph normalization specification, which effectively resolves all CURIEs and 
 deterministically names all unnamed nodes. The default digest method uses the 
 SHA-1 algorithm over a series of quads statements in N-Quad format. The default 
 signature mechanism uses a SHA-1 digest and RSA to perform the digital 
@@ -215,10 +224,10 @@ signature.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
+            <dd property="vs:term_status">stable</dd>
             <dt>Parent Class</dt>
             <dd>Signature</dd>
-            <dt>Properties</dt>
+            <dt>Expected properties</dt>
             <dd>creator, signatureValue</dd>
             <dt>Signing Properties</dt>
             <dd>
@@ -272,8 +281,8 @@ canonicalized using the standard normalization algorithm for JSON-LD.
         typeof="rdfs:Class">
         <h3>Key</h3>
           <p>
-This class represents a cryptographic key that may be used for digital 
-signatures or cryptography.
+This class represents a cryptographic key that may be used for encryption, 
+decryption or digitally signing data.
           </p>
           <dl>
             <dt>Status</dt>
@@ -285,7 +294,8 @@ signatures or cryptography.
           </dl>
         <p>
 The example below describes a cryptographic key that contains both the 
-public and private key as well as the owner of the key.
+public and private key as well as the owner of the key. The owner property
+is described in the <a href="http://purl.org/commerce">Commerce Vocabulary</a>.
         </p>
 <pre class="example prettyprint language-jsonld">
 {
@@ -304,12 +314,12 @@ public and private key as well as the owner of the key.
         <h3>Signature</h3>
           <p>
 This class represents a digital signature on serialized data. It is an abstract
-class and should not be used other than for Semantic reasoning purposes, such as
-by a Reasoning Agent. 
+class and should not be used other than for Semantic Web reasoning purposes, 
+such as by a reasoning agent.
           </p>
           <dl>
             <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
+            <dd property="vs:term_status">stable</dd>
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Properties</dt>
@@ -317,9 +327,9 @@ by a Reasoning Agent.
           </dl>
           <p class="note">
 A Signature class MUST NOT be used as an RDF type. It should instead be used 
-as the base class for all signature classes. For a signature sub-class to be of 
-use, it SHOULD express at least three signature algorithm properties:
-normalizationAlgorithm, digestAlgorithm, and signingAlgorithm.
+as the base class for all signature classes. A signature sub-class SHOULD 
+express at least three signature algorithm properties: normalizationAlgorithm, 
+digestAlgorithm, and signingAlgorithm.
           </p>
       </section>
 
@@ -338,15 +348,21 @@ and a block cipher mechanism.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>EncryptedMessage</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below describes the cipher as The Advanced Cryptography Standard 
-using 128 bits and cipher block chaining.
+The example below describes the cipher as that detailed in the
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
+using 128 bits and <a href="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">cipher block chaining</a>.
+The password to unlock the
+encrypted message has been encrypted using the public key provided by 
+the <code>publicKey</code> parameter. To decrypt the message, the private
+key associated with the <code>publicKey</code> is used to decrypt the password. 
+The password, <code>iv</code> (intermediate value), and the cipher algorithm 
+are then used to extract the final clear-text message from the
+the base-64 encoded <code>data</code> property.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -377,40 +393,58 @@ z7u3IxpqNVcXHExjXQE=",
         typeof="rdf:Property">
         <h3>data</h3>
         <p>
-Used to specify the data associated with a signature if the information 
-should not be gleaned from the containing graph.
+The data property is an opaque blob of information that is typically used 
+to specify the data associated with a particular message.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Signature</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
-          <dd>xsd:string, rdf:XMLLiteral</dd>
+          <dd>xsd:string</dd>
         </dl>
-        <p>
-The following example demonstrates how the data property can be specified
-explicitly. This example is a bit strange as a JSON-LD signature would 
-typically be found in the same graph as the data that was signed, but the
-example below shows that signatures can be specified in a number of flexible
-ways:
+The example below describes a secret message that has been encrypted and
+placed in the <code>data</code> property. The message has been encrypted using
+the
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
+using 128 bits and <a href="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">cipher block chaining</a>.
+The password to unlock the
+encrypted message has been encrypted using the public key provided by 
+the <code>publicKey</code> parameter. To decrypt the message, the private
+key associated with the <code>publicKey</code> is used to decrypt the password. 
+The password, <code>iv</code> (intermediate value), and the cipher algorithm 
+are then used to extract the final clear-text message from the
+the base-64 encoded <code>data</code> property.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "http://purl.org/security/v1",
-  "@type": "GraphSignature2011",
-  "data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"foaf:Person>\", \"foaf:name\": \"Joe Bob\" }",
-  "creator": "http://example.com/people/john-doe#key-5",
-  "signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
-}
+  "@type": "EncryptedMessage",
+  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
+  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=",
+  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
+  "cipherAlgorithm": "aes-128-cbc",
+  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "publicKey": "http://example.com/people/john/keys/23"
+}        
         </pre>
       </section>
       <section id="digestAlgorithm" about="http://purl.org/security#digestAlgorithm"
         typeof="rdf:Property">
         <h3>digestAlgorithm</h3>
         <p>
-The digest method is used to specify the cryptographic function to use when
-generating the data to be digitally signed. Typically, text to be signed
+The digest algorithm is used to specify the cryptographic function to use when
+generating the data to be digitally signed. Typically, data that is to be signed
 goes through three steps: 1) normalization, 2) digest, and 3) signature. 
 This property is used to specify the algorithm that should be used for step #2.
 A signature class typically specifies a default digest method, so this 
@@ -418,11 +452,9 @@ property is typically used to specify information for a signature algorithm.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Signature</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
-          <dd>xsd:anyURI, xsd:string</dd>
+          <dd>IRI, xsd:string</dd>
         </dl>
         <p>
 The following example shows how the digest algorithm can be specified for
@@ -445,16 +477,11 @@ a particular signature type:
         <h3>digestValue</h3>
         <p>
 The digest value is used to express the output of the digest algorithm
-expressed in Base-16 format.
-        </p>
-        <p class="issue">
-Should digest be defined or leave it up to specific applications to define
-special properties that semantically express what content the digest applies
-to?
+expressed in Base-16 (hexadecimal) format.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Domain</dt>
           <dd>Digest</dd>
           <dt>Range</dt>
@@ -466,13 +493,18 @@ encoded in JSON-LD:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": [
+    "http://purl.org/security/v1", 
+    { 
+      "dc": "http://purl.org/dc/terms/",
+      "foaf": "http://xmlns.com/foaf/0.1/"
+    }
+  ],
   "@id": "http://example.com/logo.jpg",
   "@type": "foaf:Image",
   "dc:title": "Example Logo",
   "digest":
   {
-  "@context": "http://purl.org/security/v1",
     "@type": "Digest",
     "digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
     "digestValue": "981ec496092bf6ea18d6251d36068b52b633268b"
@@ -485,15 +517,15 @@ encoded in JSON-LD:
         typeof="rdf:Property">
         <h3>iv</h3>
         <p>
-The <em>initialization vector</em> is a byte stream that is typically used to
-initialize certain password-based encryption schemes. For a receiving 
-application to be able to decrypt the scheme, it must not only know the
-decryption password, but the initialization vector as well. The value is
+The <em>initialization vector</em> (iv) is a byte stream that is typically 
+used to initialize certain password-based encryption schemes. For a receiving 
+application to be able to decrypt the scheme, it must know the
+decryption password and the initialization vector. The value is
 typically base-64 encoded.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Domain</dt>
           <dd>EncryptedMessage</dd>
           <dt>Range</dt>
@@ -543,9 +575,7 @@ packet in order to execute a privileged request.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Signature</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -558,15 +588,19 @@ in order to protect against
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
-  "ex:request": "DELETE foo.txt",
+  "@context": [
+    "http://purl.org/security/v1",
+    { "ex": "http://example.org/vocab#" }
+  ],
+  "@graph": {
+    "ex:request": "DELETE /private/2840-credit-card-log"
+  }
   "signature":
   {
-  "@context": "http://purl.org/security/v1",
     "@type": "GraphSignature2011",
     "creator": "http://example.com/people/john-doe#key-5",
-    "signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI=",
-    "nonce": "8495723045.84957"
+    "nonce": "8495723045.84957",
+    "signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI="
   }
 }
         </pre>
@@ -576,26 +610,22 @@ in order to protect against
         typeof="rdf:Property">
         <h3>normalizationAlgorithm</h3>
         <p>
-The normalization method is used to transform the target graph, or the
-data property into a form that can be passed to a cryptographic digest 
-method. The digest is then digitally signed using a digital signature algorithm.
-normalization ensures that a piece of software that is generating a digital
-signature is able to simplify the input graph or data to a form that is
-the same across all programs regardless of how much whitespace and 
-unnecessary formatting information is included in the input data.
+The normalization algorithm is used to transform the input data into a form that
+can be passed to a cryptographic digest method. The digest is then digitally 
+signed using a digital signature algorithm. Normalization ensures that a piece 
+of software that is generating a digital signature is able to do so on the
+same set of information in a deterministic manner.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Signature</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
-          <dd>xsd:anyURI, xsd:string</dd>
+          <dd>IRI, xsd:string</dd>
         </dl>
         <p>
-While the normalization method is usually associated with the digital 
-signature class defaults, it can also be specified in a signature to
-override the defaults:
+The example below shows the establishment of a new signature class, using the
+three pieces of information that are typically required for a signature -
+the normalization algorithm, the digest algorithm and the signing algorithm:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -613,15 +643,15 @@ override the defaults:
         typeof="rdf:Property">
         <h3>password</h3>
         <p>
-A secret that is used to decrypt and encrypted message. It is typically a 
+A secret that is used to decrypt an encrypted message. It is typically a 
 string value. Some passwords are encrypted using a public key so that only
-the intended recipient may know the password.
+the intended recipient may know the password. Some passwords are provided in
+clear-text over a secure channel. The first method is the preferred approach
+for specifying a password.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>EncryptedMessage</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -658,23 +688,24 @@ z7u3IxpqNVcXHExjXQE=",
         typeof="rdf:Property">
         <h3>privateKeyPem</h3>
         <p>
-A private key PEM property is used to specify the PEM-encoded version of the
-private key. This encoding is compatible with almost every Secure Sockets Layer
-library implementation and typically plugs directly into functions intializing
-private keys.
+A private key PEM property is used to specify the 
+<a href="http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail">PEM-encoded</a> 
+version of the private key. This encoding is compatible with almost every 
+Secure Sockets Layer library implementation and typically plugs directly into 
+functions intializing private keys.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Domain</dt>
-          <dd>Key, owl:Thing</dd>
+          <dd>Key</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example demonstrates the expression of a private key PEM. The
-elipsis ("...") in the middle of the string denotes more data that has been
-abbreviated for the sake of the readability of the example.
+The following example demonstrates the expression of a private key in
+PEM format. The elipsis ("...") in the middle of the string denotes more data 
+that has been abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -683,7 +714,6 @@ abbreviated for the sake of the readability of the example.
   "@type": "Key",
   "owner": "https://payswarm.example.com/i/bob",
   "privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
-  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
 }
         </pre>
       </section>
@@ -692,16 +722,14 @@ abbreviated for the sake of the readability of the example.
         typeof="rdf:Property">
         <h3>publicKey</h3>
         <p>
-A public key property refers to a URL that contains information about a public 
-key.
+A public key property is used to specify a URL that contains information about 
+a public key.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Key, owl:Thing</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
-          <dd>xsd:anyURI</dd>
+          <dd>IRI</dd>
         </dl>
         <p>
 The following example demonstrates the expression of a public key belonging
@@ -729,16 +757,16 @@ public keys.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Domain</dt>
-          <dd>Key, owl:Thing</dd>
+          <dd>Key</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example demonstrates the expression of a public key PEM. The
-elipsis ("...") in the middle of the string denotes more data that has been
-abbreviated for the sake of the readability of the example.
+The following example demonstrates the expression of a public key 
+in PEM format. The elipsis ("...") in the middle of the string denotes more 
+data that has been abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -783,15 +811,13 @@ operated upon using the protocol described in [[!WEB-KEYS]].
         typeof="rdf:Property">
         <h3>signature</h3>
         <p>
-The signature property is used to associate a signature with a subject in a
-graph of information. The signature property is typically not included
+The signature property is used to associate a signature with a graph of 
+information. The signature property is typically not included
 in the canonicalized graph that is then digested, and digitally signed.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>owl:Thing</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
           <dd>Signature</dd>
         </dl>
@@ -802,14 +828,19 @@ a JSON-LD signature:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
-  "@id": "http://example.com/people#jane",
-  "@type": "foaf:Person",
-  "foaf:name": "Jane Doe",
-  "foaf:homepage": "http://example.org/jane",
+  "@context": [
+    "http://purl.org/security/v1",
+    { "foaf": "http://xmlns.com/foaf/0.1/" }
+  ]
+  "@graph":
+  {
+     "@id": "http://example.com/people#jane",
+     "@type": "foaf:Person",
+     "foaf:name": "Jane Doe",
+     "foaf:homepage": "http://example.org/jane"
+  },
   "signature":
   {
-  "@context": "http://purl.org/security/v1",
     "@type": "GraphSignature2011",
     "creator": "http://example.com/people/john-doe#key-5",
     "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
@@ -817,65 +848,17 @@ a JSON-LD signature:
 }
         </pre>
       </section>
-      <section id="signatureFor" about="http://purl.org/security#signatureFor"
-        typeof="rdf:Property">
-        <h3>signatureFor</h3>
-        <p>
-A signatureFor property can be used to express a digital signature of 
-a graph that is external to the local environment, or a sub-graph of the local 
-environment.
-        </p>
-        <p class="issue">
-Is this really that much different from data? Can we collapse the two
-properties into one?
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Signature</dd>
-          <dt>Range</dt>
-          <dd>xsd:anyURI, owl:Thing</dd>
-        </dl>
-        <p>
 
-        </p>
-        <pre class="example prettyprint language-jsonld">
-{
-  "@context": "http://purl.org/security/v1",
-  "@id": "http://example.com/people#jane",
-  "@type": "foaf:Person",
-  "foaf:name": "Jane Doe",
-  "foaf:homepage": "http://example.org/jane",
-  "foaf:knows":
-  {
-  "@context": "http://purl.org/security/v1",
-    "@id": "http://example.com/people#john",
-    "@type": "foaf:Person",
-    "foaf:name": "John Smith",
-    "foaf:homepage": "http://example.org/john",
-  },
-  "signature":
-  {
-  "@context": "http://purl.org/security/v1",
-    "@type": "GraphSignature2011",
-    "signatureFor" : "http://example.org/people#john",
-    "creator": "http://example.com/people/john-doe#key-5",
-    "signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
-  }
-}
-        </pre>
-      </section>
       <section id="signatureValue" about="http://purl.org/security#signatureValue"
         typeof="rdf:Property">
         <h3>signatureValue</h3>
         <p>
 The signature value is used to express the output of the signature algorithm
-expressed in Base-64 format.
+expressed in base-64 format.
         </p>
         <dl>
           <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
+          <dd property="vs:term_status">stable</dd>
           <dt>Domain</dt>
           <dd>Signature</dd>
           <dt>Range</dt>
@@ -887,14 +870,19 @@ encoded in JSON-LD:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
-  "@id": "http://example.com/people#jane",
-  "@type": "foaf:Person",
-  "foaf:name": "Jane Doe",
-  "foaf:homepage": "http://example.org/jane",
+  "@context": [
+    "http://purl.org/security/v1",
+    { "foaf": "http://xmlns.com/foaf/0.1/" }
+  ]
+  "@graph":
+  {
+     "@id": "http://example.com/people#jane",
+     "@type": "foaf:Person",
+     "foaf:name": "Jane Doe",
+     "foaf:homepage": "http://example.org/jane"
+  },
   "signature":
   {
-  "@context": "http://purl.org/security/v1",
     "@type": "GraphSignature2011",
     "creator": "http://example.com/people/john-doe#key-5",
     "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
@@ -911,7 +899,8 @@ function to use when digitally signing the digest data. Typically, text to be
 signed goes through three steps: 1) normalization, 2) digest, and 
 3) signature. This property is used to specify the algorithm that should be 
 used for step #3. A signature class typically specifies a default signing
-algorithm, so this property rarely needs to be used in practice.
+algorithm, so this property rarely needs to be used in practice when specifying
+digital signatures.
         </p>
         <dl>
           <dt>Status</dt>
@@ -919,9 +908,11 @@ algorithm, so this property rarely needs to be used in practice.
           <dt>Domain</dt>
           <dd>Signature</dd>
           <dt>Range</dt>
-          <dd>xsd:anyURI, xsd:string</dd>
+          <dd>IRI</dd>
         </dl>
         <p>
+The following example shows how the signing algorithm can be specified for
+a particular class of signatures:
         </p>
         <pre class="example prettyprint language-jsonld">
 {

@@ -43,7 +43,7 @@
  
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["../../respec/css/respec.css"],
+          extraCSS:             ["../../respec/css/respec.css", "prettify.css"],
  
           // editors, add as many as you like
           // only "name" is required
@@ -79,7 +79,6 @@
           wgPatentURI:  ""
     };
     </script> 
-    <link href="prettify.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="prettify.js" class="remove"></script>
     <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
     <script type="text/javascript" class="remove">
@@ -513,6 +512,40 @@ encoded in JSON-LD:
         </pre>
       </section>
 
+      <section id="expires" about="http://purl.org/security#expires"
+        typeof="rdf:Property">
+        <h3>expires</h3>
+        <p>
+The expiration time is typically associated with a <a href="#Key">Key</a> and
+specifies when the validity of the key will expire. It is considered a best
+practice to only create keys that have very definite expiration periods. This
+period is typically set to between six months and two years. An digital
+signature created using an expired key MUST be marked as invalid by any
+software attempting to verify the signature.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The following example shows a key that was created on January 3rd 2012 and
+that expires on January 3rd 2014:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "@type": "Key",
+  "created": "2012-01-03T14:34:57+0000",
+  "expires": "2014-01-03T14:34:57+0000",
+  "owner": "https://payswarm.example.com/i/bob",
+  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n",
+}
+        </pre>
+      </section>
+
       <section id="iv" about="http://purl.org/security#iv"
         typeof="rdf:Property">
         <h3>iv</h3>
@@ -807,6 +840,39 @@ operated upon using the protocol described in [[!WEB-KEYS]].
         </pre>
       </section>
 
+      <section id="revoked" about="http://purl.org/security#revoked"
+        typeof="rdf:Property">
+        <h3>revoked</h3>
+        <p>
+The revocation time is typically associated with a <a href="#Key">Key</a> that
+has been marked as invalid as of the date and time associated with the 
+property. Key revocations are often used when a key is compromised, such as 
+the theft of the private key, or during the course of best-practice key 
+rotation schedules.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The following example shows a key that was created on January 3rd 2012 and
+revoked on May 5th 2012:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "@type": "Key",
+  "created": "2012-01-03T14:34:57+0000",
+  "revoked": "2012-05-01T18:11:19+0000",
+  "owner": "https://payswarm.example.com/i/bob",
+  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n",
+}
+        </pre>
+      </section>
+
       <section id="signature" about="http://purl.org/security#signature"
         typeof="rdf:Property">
         <h3>signature</h3>
@@ -890,6 +956,7 @@ encoded in JSON-LD:
 }
         </pre>
       </section>
+      
       <section id="signatureAlgorithm" about="http://purl.org/security#signatureAlgorithm"
         typeof="rdf:Property">
         <h3>signingAlgorithm</h3>

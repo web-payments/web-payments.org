@@ -1,0 +1,60 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "sec": "http://purl.org/security#",
+
+    "Digest": "http://purl.org/security#Digest",
+    "EncryptedMessage": "http://purl.org/security#EncryptedMessage",
+    "GraphSignature2011": "http://purl.org/security#GraphSignature2011",
+    "Key": "http://purl.org/security#Key",
+    "Signature": "http://purl.org/security#Signature",
+
+    "cipherAlgorithm": "http://purl.org/security#cipherAlgorithm",
+    "created": {
+      "@id": "http://purl.org/dc/terms/created",
+      "@type": "xsd:dateTime"
+    },
+    "data": "http://purl.org/security#data",
+    "digestAlgorithm": {
+      "@id": "http://purl.org/security#digestAlgorithm",
+      "@type": "@id"
+    },
+    "digestValue": "http://purl.org/security#digestValue",
+    "expires": {
+      "@id": "http://purl.org/security#expires",
+      "@type": "xsd:dateTime"
+    },
+    "iv": "http://purl.org/security#iv",
+    "nonce": "http://purl.org/security#nonce",
+    "normalizationAlgorithm": {
+      "@id": "http://purl.org/security#normalizationAlgorithm",
+      "@type": "@id"
+    },
+    "owner": {
+      "@id": "http://purl.org/commerce#owner",
+      "@type": "@id"
+    },
+    "password": "http://purl.org/security#password",
+    "privateKeyPem": "http://purl.org/security#privateKeyPem",
+    "publicKey": {
+      "@id": "http://purl.org/security#publicKey",
+      "@type": "@id"
+    },
+    "publicKeyPem": "http://purl.org/security#publicKeyPem",
+    "publicKeyService": {
+      "@id": "http://purl.org/security#publicKeyService",
+      "@type": "@id"
+    },
+    "revoked": {
+      "@id": "http://purl.org/security#revoked",
+      "@type": "xsd:dateTime"
+    },
+    "signature": "http://purl.org/security#signature",
+    "signatureValue": "http://purl.org/security#signatureValue",
+    "signingAlgorithm": {
+      "@id": "http://purl.org/security#signingAlgorithm",
+      "@type": "xsd:dateTime"
+    }
+  }
+}
+

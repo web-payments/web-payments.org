@@ -10,12 +10,22 @@
      --> 
     <script src='../../respec/js/respec.js' class='remove'></script> 
     <script class='remove'> 
+      var preProc = {
+        apply: function(c) {
+          // extend the bibliography entries
+          berjon.biblio["WEB-KEYS"] = "Manu Sporny; et al. <a href=\"http://payswarm.com/specs/source/web-keys/\"><cite>Web Keys</cite></a>. Web Payments Community Group Working Draft. URL: <a href=\"http://payswarm.com/specs/source/web-keys/\">http://payswarm.com/specs/source/web-keys/</a> ";
+      }
+    };       
+
       var respecConfig = {
+          // Run the following pre-processing commands
+          preProcess: [ preProc ],
+      
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "unofficial",
+          specStatus:       "unofficial",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "security-vocabulary",
+          shortName:        "security-vocabulary",
  
           // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
@@ -26,7 +36,7 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://payswarm.com/specs/source/vocabs/security.html",
+          edDraftURI:       "http://payswarm.com/specs/source/vocabs/security.html",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -38,7 +48,7 @@
           // editors, add as many as you like
           // only "name" is required
           editors:  [
-              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+            { name: "Manu Sporny", url: "http://digitalbazaar.com/",
                 company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
           ],
  
@@ -47,16 +57,16 @@
           // only "name" is required. Same format as editors.
  
           //authors:  [
-          //    { name: "Your Name", url: "http://example.org/",
+          //  { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2010-2011 &copy; Digital Bazaar, Inc. Shared under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution Share-Alike license</a>.",
+          additionalCopyrightHolders: "Copyright 2010-2012 &copy; Digital Bazaar, Inc. Shared under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution Share-Alike license</a>.",
           
           // name of the WG
-          wg:           "Web Payments Community Group",
+          wg:       "Web Payments Community Group",
           
           // URI of the public WG page
-          wgURI:        "http://www.w3.org/community/webpayments/",
+          wgURI:    "http://www.w3.org/community/webpayments/",
           
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webpayments@w3c.org",
@@ -67,7 +77,7 @@
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
           wgPatentURI:  ""
-      };
+    };
     </script> 
     <link href="prettify.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="prettify.js" class="remove"></script>
@@ -77,114 +87,42 @@
       window.onload = function() {
         if (oldonload) oldonload();
         prettyPrint();
-      };
+    };
     </script>
   </head> 
-  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
-        xmlns:owl="http://www.w3.org/2002/07/owl#" 
-        xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"
-        xmlns:sig="http://purl.org/security#"> 
+  <body prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    owl: http://www.w3.org/2002/07/owl#
+    vs: http://www.w3.org/2003/06/sw-vocab-status/ns#
+    sig: http://purl.org/security#"> 
 
     <section id='abstract'> 
-      <p> 
-      </p> 
-    </section> 
+      <p>
+The Security vocabulary is used to enable Internet-based applications to
+encrypt, decrypt, and digitally sign information. It also provides vocabulary
+terms for the creation and management of a decentralized Public Key 
+Infrastructure via the Web.
+      </p>
+    </section>
 
     <section>
       <h2>Introduction</h2>
       <p>
 This document describes a number of classes and properties that can be used to
 express <a href="http://en.wikipedia.org/wiki/Digital_signatures">
-digital signatures</a> and achieve cryptographic protection on resources
-living on the Semantic Web.
+digital signatures</a> and achieve cryptographic protection for Linked Data
+resources. This specification was designed as a modular part of the 
+<a href="http://payswarm.com/">PaySwarm</a> decentralized payment system 
+for the Web.
       </p>
       <p class="issue">
-This entire document is a work in progress and is thus incredibly
-unstable. It MUST NOT be used for any production use. It may harm children
-and animals. It will probably set your house on fire. You have been warned.
+This entire document is a work in progress and should be considered in beta
+until it is ratified as an official document via the World Wide Web Consortium.
       </p>
     </section>
 
     <section>
       <h2>Classes</h2>
-
-      <section id="EncryptedMessage" 
-        about="http://purl.org/security#EncryptedMessage"
-        typeof="rdfs:Class">
-        <h3>EncryptedMessage</h3>
-          <p>
-A class of messages that are obfuscated in some cryptographic manner. These 
-messages are incredibly difficult to decrypt without the proper decryption key
-or password.
-          </p>
-          <dl>
-            <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
-            <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
-            <dt>Properties</dt>
-            <dd>
-sec:data, sec:encryptionKey, sec:password, sec:cipher, sec:iv, sec:publicKey
-            </dd>
-          </dl>
-        <p>
-The example below describes a cryptographic key that contains both the 
-public and private key as well as the owner of the key.
-        </p>
-        <pre class="example prettyprint language-jsonld">
-{
-   "@type": "sec:EncryptedMessage",
-   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
-a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
-UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
-Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
-L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
-Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
-ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
-UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
-bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
-YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
-gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
-z7u3IxpqNVcXHExjXQE=",
-   "sec:password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-   "sec:cipher": "aes-128-cbc",
-   "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-   "sec:publicKey": "http://example.com/people/john/keys/23"
-}        
-        </pre>
-      </section>
-      
-      <section id="Key" about="http://purl.org/security#Key"
-        typeof="rdfs:Class">
-        <h3>Key</h3>
-          <p>
-This class represents a cryptographic key that may be used for digital 
-signatures or cryptography.
-          </p>
-          <dl>
-            <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
-            <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
-            <dt>Properties</dt>
-            <dd>sec:publicKey, sec:privateKeyPem, sec:publicKeyPem</dd>
-          </dl>
-        <p>
-The example below describes a cryptographic key that contains both the 
-public and private key as well as the owner of the key.
-        </p>
-<pre class="example prettyprint language-jsonld">
-{
-   "@id": "https://payswarm.example.com/i/bob/keys/1",
-   "@type": "sec:Key",
-   "ps:owner": "https://payswarm.example.com/i/bob",
-   "sec:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n",
-   "sec:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
-}
-</pre>
-      </section>
 
       <section id="Digest" about="http://purl.org/security#Digest"
         typeof="rdfs:Class">
@@ -200,16 +138,163 @@ properties of the digest.
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Properties</dt>
-            <dd>sec:digestAlgorithm, sec:digestValue</dd>
+            <dd>digestAlgorithm, digestValue</dd>
           </dl>
         <p>
 The example below describes a cryptographic digest:
         </p>
 <pre class="example prettyprint language-jsonld">
 {
-   "@type": "sec:Digest",
-   "sec:digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
-   "sec:digestValue": "981ec496092bf6ee18d6255d96069b528633268b"
+  "@context": "http://purl.org/security/v1",
+  "@type": "Digest",
+  "digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
+  "digestValue": "981ec496092bf6ee18d6255d96069b528633268b"
+}
+</pre>
+      </section>
+      
+      <section id="EncryptedMessage" 
+        about="http://purl.org/security#EncryptedMessage"
+        typeof="rdfs:Class">
+        <h3>EncryptedMessage</h3>
+          <p>
+A class of messages that are obfuscated in some cryptographic manner. These 
+messages are incredibly difficult to decrypt without the proper decryption key
+or password.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>
+data, encryptionKey, password, cipherAlgorithm, iv, publicKey
+            </dd>
+          </dl>
+        <p>
+The example below describes a cryptographic key that contains both the 
+public and private key as well as the owner of the key.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+  "@context": "http://purl.org/security/v1",
+  "@type": "EncryptedMessage",
+  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
+  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=",
+  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
+  "cipherAlgorithm": "aes-128-cbc",
+  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "publicKey": "http://example.com/people/john/keys/23"
+}        
+        </pre>
+      </section>
+
+      <section id="GraphSignature2011" about="http://purl.org/security#GraphSignature2011"
+        typeof="rdfs:Class">
+        <h3>GraphSignature2011</h3>
+          <p>
+A graph signature is used for digital signatures on RDF graphs. 
+The default normalization mechanism is specified in the
+JSON-LD specification, which effectively resolves all CURIEs and 
+deterministically names all unnamed nodes. The default digest method uses the 
+SHA-1 algorithm over a series of quads statements in N-Quad format. The default 
+signature mechanism uses a SHA-1 digest and RSA to perform the digital 
+signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>Signature</dd>
+            <dt>Properties</dt>
+            <dd>creator, signatureValue</dd>
+            <dt>Signing Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Normalization Method</dt>
+                <dd>
+<a rel="normalizationAlgorithm" 
+  href="http://purl.org/jsonld#UGNA2011">
+http://purl.org/jsonld#UGNA2011</a>
+                </dd>
+                <dt>Default Digest Method</dt>
+                <dd>
+<a rel="digestAlgorithm" 
+  href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
+                  </dd>
+                <dt>Default Signing Algorithm</dt>
+                <dd>
+<a rel="signingAlgorithm" 
+  href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The example below shows how a basic JSON-LD signature is expressed in a
+JSON-LD snippet. Note that the signature property is directly embedded in the
+object. The signing algorithm understands that in order to check the signature
+that the signature property must be removed and the text
+canonicalized using the standard normalization algorithm for JSON-LD.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+{
+  "@context": "http://purl.org/security/v1",
+  "@type": "foaf:Person",
+  "foaf:name": "Manu Sporny",
+  "foaf:homepage": "http://manu.sporny.org/",
+  "signature":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@type": "GraphSignature2011",
+    "creator": "http://manu.sporny.org/webid#key-5",
+    "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
+  }
+}
+          </pre>
+      </section>
+
+      <section id="Key" about="http://purl.org/security#Key"
+        typeof="rdfs:Class">
+        <h3>Key</h3>
+          <p>
+This class represents a cryptographic key that may be used for digital 
+signatures or cryptography.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>owner, privateKeyPem, publicKeyPem</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic key that contains both the 
+public and private key as well as the owner of the key.
+        </p>
+<pre class="example prettyprint language-jsonld">
+{
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "@type": "Key",
+  "owner": "https://payswarm.example.com/i/bob",
+  "privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n",
+  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
 }
 </pre>
       </section>
@@ -234,172 +319,40 @@ by a Reasoning Agent.
 A Signature class MUST NOT be used as an RDF type. It should instead be used 
 as the base class for all signature classes. For a signature sub-class to be of 
 use, it SHOULD express at least three signature algorithm properties:
-sec:normalizationAlgorithm, sec:digestAlgorithm, and sec:signingAlgorithm.
+normalizationAlgorithm, digestAlgorithm, and signingAlgorithm.
           </p>
       </section>
 
-      <section id="JsonLdSignature" about="http://purl.org/security#JsonLdSignature"
-        typeof="rdfs:Class">
-        <h3>JsonLdSignature</h3>
-          <p>
-A JSON-LD signature is used for digital signatures on RDF graphs expressed 
-in JSON-LD format. The default normalization mechanism is specified in the
-JSON-LD specification, which effectively resolves all CURIEs and 
-deterministically names all unnamed nodes. The default digest method uses the 
-SHA-1 algorithm. The default signature mechanism uses a SHA-1 digest and 
-RSA to perform the digital signature.
-          </p>
-          <dl>
-            <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
-            <dt>Parent Class</dt>
-            <dd>sec:Signature</dd>
-            <dt>Properties</dt>
-            <dd>sec:signer, sec:signatureValue</dd>
-            <dt>Signing Properties</dt>
-            <dd>
-              <dl>
-                <dt>Default Normalization Method</dt>
-                <dd>
-<a rel="sec:normalizationAlgorithm" 
-  href="http://purl.org/jsonld#standard-normalization">
-http://purl.org/jsonld#UGNA2011</a>
-                </dd>
-                <dt>Default Digest Method</dt>
-                <dd>
-<a rel="sec:digestAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#sha1">
-http://www.w3.org/2000/09/xmldsig#sha1</a>
-                  </dd>
-                <dt>Default Signing Algorithm</dt>
-                <dd>
-<a rel="sec:signingAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
-http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
-                </dd>
-              </dl>
-            </dd>
-          </dl>
-          <p>
-The example below shows how a basic JSON-LD signature is expressed in a
-JSON-LD snippet. Note that the signature property is directly embedded in the
-object. The signing algorithm understands that in order to check the signature
-that the signature property must be removed and the text
-canonicalized using the standard normalization algorithm for JSON-LD.
-          </p>
-          <pre class="example prettyprint language-jsonld">
-{
-    "@type": "foaf:Person",
-    "foaf:name": "Manu Sporny",
-    "foaf:homepage": "http://manu.sporny.org/",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signer": "http://manu.sporny.org/webid#key-5",
-        "sec:signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
-    }
-}
-          </pre>
-      </section>
-
-      <section id="XmlSignature" about="http://purl.org/security#XmlSignature"
-        typeof="rdfs:Class">
-        <h3>XmlSignature</h3>
-          <p>
-An XML signature is used for digital signatures in RDF graphs where the data
-is expressed in an XML format. The default normalization mechanism is 
-specifiedspecified in the XML normalization specification. The default digest
-method uses the SHA-1 algorithm. The default signature mechanism uses a SHA-1 
-digest and RSA to perform the digital signature.
-          </p>
-          <dl>
-            <dt>Status</dt>
-            <dd property="vs:term_status">unstable</dd>
-            <dt>Parent Class</dt>
-            <dd>sec:Signature</dd>
-            <dt>Properties</dt>
-            <dd>sec:signer, sec:signatureValue</dd>
-            <dt>Signing Properties</dt>
-            <dd>
-              <dl>
-                <dt>Default Normalization Method</dt>
-                <dd>
-<a rel="sec:normalizationAlgorithm" 
-  href="http://www.w3.org/2006/12/xml-c14n11">
-http://www.w3.org/2006/12/xml-c14n11</a>
-                </dd>
-                <dt>Default Digest Method</dt>
-                <dd>
-<a rel="sec:digestAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#sha1">
-http://www.w3.org/2000/09/xmldsig#sha1</a>
-                  </dd>
-                <dt>Default Signing Algorithm</dt>
-                <dd>
-<a rel="sec:signingAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
-http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
-                </dd>
-              </dl>
-            </dd>
-          </dl>
-          <p>
-The signature example below demonstrates how XML data can be expressed and
-digitally signed in an RDF graph.
-          </p>
-          <pre class="example">
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sec: &lt;http://purl.org/security#> .
-_:bnode1 rdf:type sec:XmlSignature ;
-         sec:data "&lt;mydata>Some data&lt;/mydata>" ;
-         sec:signer &lt;http://example.com/people/john-doe#key-5> ;
-         sec:signatureValue "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk=" .
-          </pre>
-          <p>
-Signature defaults can be overridden by specifying the non-default values
-like so:
-          </p>
-          <pre class="example">
-@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sec: &lt;http://purl.org/security#> .
-_:bnode1 rdf:type sec:XmlSignature ;
-         sec:data "&lt;mydata>Some data&lt;/mydata>" ;
-         sec:normalizationAlgorithm &lt;http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments>;
-         sec:digestAlgorithm &lt;http://example.org/digestAlgorithms#sha1024>;
-         sec:signingAlgorithm &lt;http://example.org/signatureMethods#superSecretSignatureAlgorithm>;
-         sec:signer &lt;http://example.com/people/john-doe#key-5> ;
-         sec:signatureValue "3ODIyOWOGQzNGVkMzVmMmQM32MzQzNmExMgNjI4NTIyZTkoYzI4ZDY3=" .
-          </pre>
-      </section>
     </section>
 
     <section>
       <h2>Properties</h2>
 
-      <section id="cipher" about="http://purl.org/security#cipher"
+      <section id="cipherAlgorithm" about="http://purl.org/security#cipherAlgorithm"
         typeof="rdf:Property">
-        <h3>cipher</h3>
+        <h3>cipherAlgorithm</h3>
         <p>
-The cipher describes the mechanism used to encrypt a message. It is typically
-a string expressing the cipher suite, the strength of the cipher and a block
-cipher mechanism.
+The cipher algorithm describes the mechanism used to encrypt a message. It is 
+typically a string expressing the cipher suite, the strength of the cipher 
+and a block cipher mechanism.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:EncryptedMessage</dd>
+          <dd>EncryptedMessage</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below describes the cipher as The
-Advanced Cryptography Standard using 128 bits and cipher block chaining.
+The example below describes the cipher as The Advanced Cryptography Standard 
+using 128 bits and cipher block chaining.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "sec:EncryptedMessage",
-   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "@context": "http://purl.org/security/v1",
+  "@type": "EncryptedMessage",
+  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -409,13 +362,13 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-   "sec:cipher": "aes-128-cbc",
-   "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-   "sec:publicKey": "http://example.com/people/john/keys/23"
+  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
+  "cipherAlgorithm": "aes-128-cbc",
+  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "publicKey": "http://example.com/people/john/keys/23"
 }        
         </pre>
       </section>
@@ -431,7 +384,7 @@ should not be gleaned from the containing graph.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:string, rdf:XMLLiteral</dd>
         </dl>
@@ -444,10 +397,11 @@ ways:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "sec:JsonLdSignature",
-    "sec:data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"foaf:Person>\", \"foaf:name\": \"Joe Bob\" }",
-    "sec:signer": "http://example.com/people/john-doe#key-5",
-    "sec:signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
+  "@context": "http://purl.org/security/v1",
+  "@type": "GraphSignature2011",
+  "data": "{ \"#\" : { \"foaf\" : \"http://xmlns.com/foaf/0.1\" }, \"a\": \"foaf:Person>\", \"foaf:name\": \"Joe Bob\" }",
+  "creator": "http://example.com/people/john-doe#key-5",
+  "signatureValue": "kMzVmMmQ3OgoYzIOGQzNGV4ZDY3NjI4NTIyZTkDIyOWM32MzQzNmExM="
 }
         </pre>
       </section>
@@ -460,32 +414,28 @@ generating the data to be digitally signed. Typically, text to be signed
 goes through three steps: 1) normalization, 2) digest, and 3) signature. 
 This property is used to specify the algorithm that should be used for step #2.
 A signature class typically specifies a default digest method, so this 
-property rarely needs to be used in practice.
+property is typically used to specify information for a signature algorithm.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI, xsd:string</dd>
         </dl>
         <p>
-The following example shows how the digest method can override the default
-digest method specified by the signature class:
+The following example shows how the digest algorithm can be specified for
+a particular signature type:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "foaf:Person",
-    "foaf:name": "Jane Doe",
-    "foaf:homepage": "http://example.org/jane",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:digestAlgorithm": "http://example.com/digests#sha512",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
-    }
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://purl.org/security#GraphSignature2011",
+  "@type": "Signature",
+  "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
+  "digestAlgorithm": "http://example.com/digests#sha512",
+  "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
         </pre>
       </section>
@@ -498,7 +448,7 @@ The digest value is used to express the output of the digest algorithm
 expressed in Base-16 format.
         </p>
         <p class="issue">
-Should sec:digest be defined or leave it up to specific applications to define
+Should digest be defined or leave it up to specific applications to define
 special properties that semantically express what content the digest applies
 to?
         </p>
@@ -506,7 +456,7 @@ to?
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Digest</dd>
+          <dd>Digest</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -516,15 +466,17 @@ encoded in JSON-LD:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@id": "http://example.com/logo.jpg",
-    "@type": "foaf:Image",
-    "dc:title": "Example Logo",
-    "sec:digest":
-    {
-        "@type": "sec:Digest",
-        "sec:digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
-        "sec:digestValue": "981ec496092bf6ea18d6251d36068b52b633268b"
-    }
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://example.com/logo.jpg",
+  "@type": "foaf:Image",
+  "dc:title": "Example Logo",
+  "digest":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@type": "Digest",
+    "digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
+    "digestValue": "981ec496092bf6ea18d6251d36068b52b633268b"
+  }
 }
         </pre>
       </section>
@@ -543,20 +495,21 @@ typically base-64 encoded.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:EncryptedMessage</dd>
+          <dd>EncryptedMessage</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
         <p>
 The following example shows a public key based encrypted message where the
 decryption password is encrypted using the public key described in the message.
-Since the cipher is AES-128-CBC, an initialization vector along with the
-password and the public key is required in order to decrypt the data.
+Since the cipher algorithm is AES-128-CBC, an initialization vector along with 
+the password and the public key is required in order to decrypt the data.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "sec:EncryptedMessage",
-   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "@context": "http://purl.org/security/v1",
+  "@type": "EncryptedMessage",
+  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -566,13 +519,13 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-   "sec:cipher": "aes-128-cbc",
-   "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-   "sec:publicKey": "http://example.com/people/john/keys/23"
+  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
+  "cipherAlgorithm": "aes-128-cbc",
+  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "publicKey": "http://example.com/people/john/keys/23"
 }        
         </pre>
       </section>
@@ -592,7 +545,7 @@ packet in order to execute a privileged request.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -605,14 +558,16 @@ in order to protect against
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "ex:request": "DELETE foo.txt",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI=",
-        "sec:nonce": "8495723045.84957"
-    }
+  "@context": "http://purl.org/security/v1",
+  "ex:request": "DELETE foo.txt",
+  "signature":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@type": "GraphSignature2011",
+    "creator": "http://example.com/people/john-doe#key-5",
+    "signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI=",
+    "nonce": "8495723045.84957"
+  }
 }
         </pre>
       </section>
@@ -622,7 +577,7 @@ in order to protect against
         <h3>normalizationAlgorithm</h3>
         <p>
 The normalization method is used to transform the target graph, or the
-sec:data property into a form that can be passed to a cryptographic digest 
+data property into a form that can be passed to a cryptographic digest 
 method. The digest is then digitally signed using a digital signature algorithm.
 normalization ensures that a piece of software that is generating a digital
 signature is able to simplify the input graph or data to a form that is
@@ -633,7 +588,7 @@ unnecessary formatting information is included in the input data.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI, xsd:string</dd>
         </dl>
@@ -644,16 +599,12 @@ override the defaults:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "foaf:Person",
-    "foaf:name": "Joe Bob",
-    "foaf:homepage": "http://example.org/joebob",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:normalizationAlgorithm": "http://example.com/vocab#fancy-normalization-method",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "Q3ODIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4NTIyZTkZDY="
-    }
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://purl.org/security#GraphSignature2011",
+  "@type": "Signature",
+  "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
+  "digestAlgorithm": "http://example.com/digests#sha512",
+  "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
         </pre>
       </section>
@@ -670,7 +621,7 @@ the intended recipient may know the password.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:EncryptedMessage</dd>
+          <dd>EncryptedMessage</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -680,8 +631,9 @@ base-64 encoded.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "sec:EncryptedMessage",
-   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "@context": "http://purl.org/security/v1",
+  "@type": "EncryptedMessage",
+  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -691,13 +643,13 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-   "sec:cipher": "aes-128-cbc",
-   "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-   "sec:publicKey": "http://example.com/people/john/keys/23"
+  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
+  "cipherAlgorithm": "aes-128-cbc",
+  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "publicKey": "http://example.com/people/john/keys/23"
 }        
         </pre>
       </section>
@@ -715,7 +667,7 @@ private keys.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Key, owl:Thing</dd>
+          <dd>Key, owl:Thing</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -726,11 +678,12 @@ abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "https://payswarm.example.com/i/bob/keys/1",
-   "@type": "sec:Key",
-   "ps:owner": "https://payswarm.example.com/i/bob",
-   "sec:privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
-   "sec:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "@type": "Key",
+  "owner": "https://payswarm.example.com/i/bob",
+  "privateKeyPem": "-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n"
+  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
 }
         </pre>
       </section>
@@ -746,7 +699,7 @@ key.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Key, owl:Thing</dd>
+          <dd>Key, owl:Thing</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI</dd>
         </dl>
@@ -756,10 +709,11 @@ to the identity <code>https://payswarm.example.com/i/bob</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "https://payswarm.example.com/i/bob/keys/1",
-   "@type": "sec:Key",
-   "ps:owner": "https://payswarm.example.com/i/bob",
-   "sec:publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "@type": "Key",
+  "owner": "https://payswarm.example.com/i/bob",
+  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
 }
         </pre>
       </section>
@@ -777,7 +731,7 @@ public keys.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Key, owl:Thing</dd>
+          <dd>Key, owl:Thing</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -788,12 +742,43 @@ abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "https://payswarm.example.com/i/bob/keys/1",
-   "ps:owner": "https://payswarm.example.com/i/bob",
-   "sec:publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "owner": "https://payswarm.example.com/i/bob",
+  "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
 }
         </pre>
       </section>
+
+      <section id="publicKeyService" about="http://purl.org/security#publicKeyService"
+        typeof="rdf:Property">
+        <h3>publicKeyService</h3>
+        <p>
+The publicKeyService property is used to express the REST URL that provides 
+public key management services as defined by the Web Key [[!WEB-KEYS]] 
+specification.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>URL</dd>
+        </dl>
+        <p>
+The following example shows how a website can publish the location of a 
+public keys service via the .well-known file. The publicKeyService can be found
+at the <code>https://payswarm.example.com/public-keys</code> URL and may be 
+operated upon using the protocol described in [[!WEB-KEYS]].
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+  "@context": "http://purl.org/security/v1",
+  "@id": "https://payswarm.example.com/.well-known/services",
+  "publicKeyService": "https://payswarm.example.com/public-keys"
+}
+        </pre>
+      </section>
+
       <section id="signature" about="http://purl.org/security#signature"
         typeof="rdf:Property">
         <h3>signature</h3>
@@ -808,7 +793,7 @@ in the canonicalized graph that is then digested, and digitally signed.
           <dt>Domain</dt>
           <dd>owl:Thing</dd>
           <dt>Range</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
         </dl>
         <p>
 The following example demonstrates how a signature on the graph identified by 
@@ -817,16 +802,18 @@ a JSON-LD signature:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@id": "http://example.com/people#jane",
-    "@type": "foaf:Person",
-    "foaf:name": "Jane Doe",
-    "foaf:homepage": "http://example.org/jane",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
-    }
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://example.com/people#jane",
+  "@type": "foaf:Person",
+  "foaf:name": "Jane Doe",
+  "foaf:homepage": "http://example.org/jane",
+  "signature":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@type": "GraphSignature2011",
+    "creator": "http://example.com/people/john-doe#key-5",
+    "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+  }
 }
         </pre>
       </section>
@@ -839,14 +826,14 @@ a graph that is external to the local environment, or a sub-graph of the local
 environment.
         </p>
         <p class="issue">
-Is this really that much different from sec:data? Can we collapse the two
+Is this really that much different from data? Can we collapse the two
 properties into one?
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI, owl:Thing</dd>
         </dl>
@@ -855,60 +842,27 @@ properties into one?
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@id": "http://example.com/people#jane",
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://example.com/people#jane",
+  "@type": "foaf:Person",
+  "foaf:name": "Jane Doe",
+  "foaf:homepage": "http://example.org/jane",
+  "foaf:knows":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@id": "http://example.com/people#john",
     "@type": "foaf:Person",
-    "foaf:name": "Jane Doe",
-    "foaf:homepage": "http://example.org/jane",
-    "foaf:knows":
-    {
-        "@id": "http://example.com/people#john",
-        "@type": "foaf:Person",
-        "foaf:name": "John Smith",
-        "foaf:homepage": "http://example.org/john",
-    },
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signatureFor" : "http://example.org/people#john",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
-    }
-}
-        </pre>
-      </section>
-      <section id="signer" about="http://purl.org/security#signer"
-        typeof="rdf:Property">
-        <h3>signer</h3>
-        <p>
-The signer property specifies a location where you may retrieve information
-about the public key that created the digital signature in order to verify
-the authenticity of the signature, as well as any owner information related
-to the public key.
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>TBD</dd>
-          <dt>Range</dt>
-          <dd>TBD</dd>
-        </dl>
-        <p>
-The following example expresses the location of the semantic information about
-the public key that can be used to verify the digital signature:
-        </p>
-        <pre class="example prettyprint language-jsonld">
-{
-    "@id": "http://example.com/people#jane",
-    "@type": "foaf:Person",
-    "foaf:name": "Jane Doe",
-    "foaf:homepage": "http://example.org/jane",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
-    }
+    "foaf:name": "John Smith",
+    "foaf:homepage": "http://example.org/john",
+  },
+  "signature":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@type": "GraphSignature2011",
+    "signatureFor" : "http://example.org/people#john",
+    "creator": "http://example.com/people/john-doe#key-5",
+    "signatureValue": "IyQ3ODOGQzN4NTIyZTkZDYMmMzQzNmExMgoYzI43OWM32NjIGVkMzVm="
+  }
 }
         </pre>
       </section>
@@ -923,7 +877,7 @@ expressed in Base-64 format.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -933,16 +887,18 @@ encoded in JSON-LD:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@id": "http://example.com/people#jane",
-    "@type": "foaf:Person",
-    "foaf:name": "Jane Doe",
-    "foaf:homepage": "http://example.org/jane",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
-    }
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://example.com/people#jane",
+  "@type": "foaf:Person",
+  "foaf:name": "Jane Doe",
+  "foaf:homepage": "http://example.org/jane",
+  "signature":
+  {
+  "@context": "http://purl.org/security/v1",
+    "@type": "GraphSignature2011",
+    "creator": "http://example.com/people/john-doe#key-5",
+    "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+  }
 }
         </pre>
       </section>
@@ -961,7 +917,7 @@ algorithm, so this property rarely needs to be used in practice.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>sec:Signature</dd>
+          <dd>Signature</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI, xsd:string</dd>
         </dl>
@@ -969,16 +925,12 @@ algorithm, so this property rarely needs to be used in practice.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "foaf:Person",
-    "foaf:name": "Joe Bob",
-    "foaf:homepage": "http://example.org/joebob",
-    "sec:signature":
-    {
-        "@type": "sec:JsonLdSignature",
-        "sec:signingAlgorithm": "http://example.com/vocab#special-signing-algorithm",
-        "sec:signer": "http://example.com/people/john-doe#key-5",
-        "sec:signatureValue": "P9fDIyOWM32OGQzNGVkMzVmMmMzQzNmExMgoYzI43NjI4k3FJKs98f="
-    }
+  "@context": "http://purl.org/security/v1",
+  "@id": "http://purl.org/security#GraphSignature2011",
+  "@type": "Signature",
+  "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
+  "digestAlgorithm": "http://example.com/digests#sha512",
+  "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
         </pre>
       </section>

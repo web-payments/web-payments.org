@@ -6,37 +6,34 @@
    xmlns:ps="http://purl.org/payswarm#">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" /> 
-  <meta property="dc:format" content="text/html" />
+  <meta property="dc:format" content="text/plain" />
   <title>Personal Use License for Articles</title> 
 </head>
-<body about="" typeof="ps:License" 
-      property="ps:licenseTemplate" datatype="rdf:XMLLiteral">
-<h1>Personal Use License for Articles</h1>
+<body>
+<pre about="" typeof="ps:License" property="ps:licenseTemplate">
+Personal Use License for Articles
 
-<p>
 The article content owner grants the buyer a non-exclusive perpetual 
 personal-use license to view, download and copy the article, subject to the 
 following restrictions:
-</p>
 
-<ol>
-<li>This license is for personal use only. Personal use means non-commercial 
+This license is for personal use only. Personal use means non-commercial 
 use of the article(s) for display on personal websites and computers, or 
 making prints for personal use. The articles(s) may not be used in any way 
 whatsoever in which you charge money, collect fees, or receive any form of 
 remuneration. The article(s) may not be used in advertising. The articles(s) 
 may not be resold, relicensed, or sub-licensed.
-</li>
-<li>Title and ownership, and all rights now and in the future, of and for the 
+
+Title and ownership, and all rights now and in the future, of and for the 
 article(s) remain exclusively with the content owner.
-</li>
-<li>There are no warranties, express or implied. The articles(s) are provided 
-'as is.'</li>
-<li>Neither the writer, payment processing service, nor hosting service will 
+
+There are no warranties, express or implied. The articles(s) are provided 
+'as is.'
+
+Neither the writer, payment processing service, nor hosting service will 
 be liable for any third party claims or incidental, consequential or other 
 damages arising out of this license or buyer's use of the article(s).
-</li>
-</ol>
+</pre>
 </body>
 </html>
 

@@ -10,8 +10,8 @@
   <title>Personal Use License for Articles</title> 
 </head>
 <body>
-<pre about="" typeof="ps:License" property="ps:licenseTemplate">
-Personal Use License for Articles
+<pre about="" typeof="ps:License" 
+     property="ps:licenseTemplate">Personal Use License for Articles
 
 The article content owner grants the buyer a non-exclusive perpetual 
 personal-use license to view, download and copy the article, subject to the 

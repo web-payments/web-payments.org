@@ -8,7 +8,7 @@
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      --> 
-    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
     <script class='remove'> 
       var preProc = {
         apply: function(c) {
@@ -22,7 +22,7 @@
           preProcess: [ preProc ],
       
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:       "unofficial",
+          specStatus:       "CG-DRAFT",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
           shortName:        "security-vocabulary",
@@ -36,14 +36,14 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:       "http://payswarm.com/specs/source/vocabs/security.html",
+          edDraftURI:       "http://payswarm.com/specs/source/vocabs/security",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
  
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["../../respec/css/respec.css", "prettify.css"],
+          extraCSS:             ["prettify.css"],
  
           // editors, add as many as you like
           // only "name" is required
@@ -60,7 +60,6 @@
           //  { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2010-2012 &copy; Digital Bazaar, Inc. Shared under a <a href=\"http://creativecommons.org/licenses/by/3.0/\">Creative Commons Attribution Share-Alike license</a>.",
           
           // name of the WG
           wg:       "Web Payments Community Group",

@@ -8,7 +8,7 @@
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      --> 
-    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
     <script type="text/javascript" class="remove">
     var preProc = {
           apply:  function(c) {
@@ -135,7 +135,7 @@
 
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "unofficial",
+          specStatus:           "CG-DRAFT",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
           shortName:            "web-commerce",
@@ -156,7 +156,7 @@
  
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["../../respec/css/respec.css", "spec.css", "prettify.css"],
+          extraCSS:             ["spec.css", "prettify.css"],
  
           // editors, add as many as you like
           // only "name" is required
@@ -173,13 +173,12 @@
           //    { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
-          additionalCopyrightHolders: "Copyright 2009-2012 &copy; Digital Bazaar, Inc.",
           
           // name of the WG
-          wg:           "W3C Web Payments Community Group",
+          wg:           "Web Payments Community Group",
           
           // URI of the public WG page
-          wgURI:        "http://payswarm.com/",
+          wgURI:        "http://www.w3.org/community/webpayments/",
           
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webpayments@w3c.org",

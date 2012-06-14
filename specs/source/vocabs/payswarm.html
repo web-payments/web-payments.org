@@ -8,11 +8,11 @@
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      --> 
-    <script src='../../respec/js/respec.js' class='remove'></script> 
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
     <script class='remove'> 
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "unofficial",
+          specStatus:           "CG-DRAFT",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
           shortName:            "payswarm-vocabulary",
@@ -26,14 +26,14 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://payswarm.com/specs/vocabs/payswarm",
+          edDraftURI:           "http://payswarm.com/specs/source/vocabs/payswarm",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
  
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["../../respec/css/respec.css", "prettify.css"],
+          extraCSS:             ["prettify.css"],
  
           // editors, add as many as you like
           // only "name" is required
@@ -53,13 +53,13 @@
           additionalCopyrightHolders: "Copyright 2009-2011 &copy; Digital Bazaar, Inc.",
           
           // name of the WG
-          wg:           "Unofficial Payswarm Exploratory Group",
+          wg:           "Web Payments Community Group",
           
           // URI of the public WG page
-          wgURI:        "http://payswarm.com/",
+          wgURI:        "http://www.w3.org/community/webpayments/",
           
           // name (with the @w3c.org) of the public mailing to which comments are due
-          wgPublicList: "---",
+          wgPublicList: "public-webpayments@w3.org",
           
           // URI of the patent status for this WG, for Rec-track documents
           // !!!! IMPORTANT !!!!
@@ -81,24 +81,17 @@
   </head> 
   <body> 
     <section id='abstract'> 
-      <p> 
-      </p> 
-    </section> 
-
-    <section>
-      <h2>Introduction</h2>
       <p>
 This document describes a number of classes and properties that can be used to 
-express digital sales, rentals, contracts, licenses and micropayment-based
-exchanges on the Semantic Web. These include things such as micropayments for
+express digital sales, rentals, contracts, licenses and payment-based
+exchanges on the Web. These include things such as payments for
 blog articles, video rentals, electronic magazine subscriptions, data vending, 
-provisioning of web services under legally enforceable contracts, 
-and other novel business models that are powered by micropayments and the Web.
-This vocabulary is a part of the 
-<a href="http://payswarm.com/">PaySwarm Universal Web Payments
-Specification</a>.
-      </p>
-    </section>
+provisioning of Web services under legally enforceable contracts, 
+and other novel business models that are powered by the universal
+payment standard for the Web. This vocabulary is a part of the 
+<a href="http://payswarm.com/">PaySwarm Universal Web Payment Specifications</a>.
+      </p> 
+    </section> 
 
     <section>
       <h2>Classes</h2>

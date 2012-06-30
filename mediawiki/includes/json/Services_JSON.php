@@ -51,7 +51,7 @@
 * @author Matt Knapp <mdknapp[at]gmail[dot]com>
 * @author Brett Stimmerman <brettstimmerman[at]gmail[dot]com>
 * @copyright 2005 Michal Migurski
-* @version CVS: $Id: Services_JSON.php 95607 2011-08-27 19:28:13Z hashar $
+* @version CVS: $Id$
 * @license http://www.opensource.org/licenses/bsd-license.php
 * @see http://pear.php.net/pepr/pepr-proposal-show.php?id=198
 */
@@ -136,7 +136,7 @@ class Services_JSON
 	{
 		$this->use = $use;
 	}
-	
+
 	private static $mHavePear = null;
 	/**
 	 * Returns cached result of class_exists('pear'), to avoid calling AutoLoader numerous times
@@ -872,7 +872,7 @@ if (class_exists('PEAR_Error')) {
 		{
 			$this->message = $message;
 		}
-		
+
 		function __toString()
 		{
 			return $this->message;

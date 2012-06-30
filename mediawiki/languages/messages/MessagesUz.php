@@ -220,7 +220,6 @@ $messages = array(
 'error'             => 'Xato',
 'badtitle'          => 'Notoʻgʻri sarlavha',
 'viewsource'        => "Ko'rib chiqish",
-'viewsourcefor'     => '$1 uchun',
 'protectedpagetext' => 'Bu sahifa tahrirlashdan saqlanish maqsadida qulflangan.',
 'viewsourcetext'    => "Siz bu sahifaning manbasini ko'rishingiz va uni nusxasini olishingiz mumkin:",
 
@@ -282,6 +281,7 @@ Sizni $1 chetlashtirdi. Bunga sabab: ''$2''.
 * Chetlashtirish muddati yakuni: $6
 
 Siz $1 yoki boshqa [[{{MediaWiki:Grouppage-sysop}}|administrator]] bilan bogʻlanib, arz qilishingiz mumkin.
+You cannot use the 'e-mail this user' feature unless a valid e-mail address is specified in your [[Special:Preferences|account preferences]] and you have not been blocked from using it.
 Sizning hozirgi IP manzilingiz - $3, chetlashtirish raqamingiz - #$5. Arizaga bularni ilova qilishingiz mumkin.",
 'newarticle'                 => '(Yangi)',
 'newarticletext'             => "Bu sahifa hali mavjud emas.
@@ -300,7 +300,7 @@ Siz shuningdek bu yozganlaringiz sizniki yoki erkin litsenziya ostida ekanligini
 'copyrightwarning2'          => "Iltimos, shuni esda tutingki, {{SITENAME}} sahifalaridagi barcha matnlar boshqa foydalanuvchilar tomonidan tahrirlanishi, almashtirilishi yoki o'chirilishi mumkin. Agar siz yozgan ma'lumotlaringizni bunday tartibda tahrirlanishiga rozi bo'lmasangiz, unda uni bu yerga joylashtirmang.<br />
 Bundan tashqari, siz ushbu ma'lumotlarni o'zingiz yozgan bo'lishingiz yoki ruxsat berilgan internet manzilidan yoki shu kabi erkin resursdan nusxa olgan bo'lishingiz lozim (Qo'shimcha ma'lumotlar ushun $1 sahifasiga murojaat qiling).
 '''MUALLIFLIK HUQUQI QO'YILGAN ISHLARNI RUXSATSIZ BU YERGA JOYLASHTIRMANG!'''",
-'templatesused'              => 'Ushbu sahifada ishlatilgan andozalar:',
+'templatesused'              => '{{PLURAL:$1|Template|Templates}} used on this page:',
 'template-protected'         => '(himoyalangan)',
 'template-semiprotected'     => '(yarim-himoyalangan)',
 'nocreatetext'               => 'Ushbu sayt yangi sahifa yaratishni taqiqlagan.
@@ -428,7 +428,7 @@ Bu yerda: (joriy) = hozirgi koʻrinish bilan farq,
 'imagelinks'                => 'Fayllarga ishoratlar',
 'linkstoimage'              => 'Bu faylga quyidagi {{PLURAL:$1|sahifa|$1 sahifalar}} bogʻlangan:',
 'nolinkstoimage'            => 'Bu faylga bogʻlangan sahifalar yoʻq.',
-'sharedupload'              => 'Ushbu fayl umumiy joyga yuklangandir va boshqa loyihalarda ishlatilishi mumkin.',
+'sharedupload'              => 'This file is from $1 and may be used by other projects.',
 'uploadnewversion-linktext' => 'Bu faylning yangi versiyasini yukla',
 
 # Unused templates
@@ -479,12 +479,9 @@ Bu yerda: (joriy) = hozirgi koʻrinish bilan farq,
 
 # Special:Categories
 'categories'         => 'Turkumlar',
-'categoriespagetext' => 'Ushbu turkumlarda sahifa yoki fayllar mavjud.
+'categoriespagetext' => 'The following {{PLURAL:$1|category contains|categories contain}} pages or media.
 [[Special:UnusedCategories|Unused categories]] are not shown here.
 Also see [[Special:WantedCategories|wanted categories]].',
-
-# Special:Log/newusers
-'newuserlog-create-entry' => 'Yangi foydalanuvchi',
 
 # E-mail user
 'emailuser' => 'Bu foydalanuvchiga e-maktub joʻnat',
@@ -500,14 +497,13 @@ Agar siz bu sahifani kuzatuv ro'yxatingizdan o'chirmoqchi bo'lsangiz \"Kuzatmasl
 'watch'            => 'kuzatish',
 'watchthispage'    => 'Sahifani kuzatish',
 'unwatch'          => 'kuzatmaslik',
-'wlnote'           => "Pastda oxirgi '''$2''' soatda sodir bo'lgan $1 o'zgartirishlar ko'rsatilgan.",
+'wlnote'           => "Below {{PLURAL:$1|is the last change|are the last '''$1''' changes}} in the last {{PLURAL:$2|hour|'''$2''' hours}}, as of $3, $4.",
 'wlshowlast'       => "Oxirgi $1 soatdagi $2 kundagi tahrirlarni ko'rsatish. $3 tahrirlarni ko'rsatish",
 
 # Delete
 'actioncomplete'        => 'Bajarildi',
 'deletedtext'           => '"$1" yoʻqotildi.
 Yaqinda sodir etilgan yoʻqotishlar uchun $2ni koʻring.',
-'deletedarticle'        => '"[[$1]]" yoʻqotildi',
 'dellogpage'            => 'Yoʻqotish qaydlari',
 'deletecomment'         => 'Sabab:',
 'deleteotherreason'     => 'Boshqa/qoʻshimcha sabab:',
@@ -566,7 +562,6 @@ Yaqinda sodir etilgan yoʻqotishlar uchun $2ni koʻring.',
 'movepagebtn'    => 'Sahifani koʻchir',
 'pagemovedsub'   => 'Koʻchirildi',
 'movepage-moved' => '\'\'\'"$1" nomli sahifa "$2" nomli sahifaga koʻchirildi\'\'\'',
-'1movedto2'      => "[[$1]] [[$2]]ga ko'chirildi",
 'movelogpage'    => 'Koʻchirish qaydlari',
 'movereason'     => 'Sabab:',
 'revertmove'     => 'qaytar',
@@ -642,7 +637,7 @@ Yaqinda sodir etilgan yoʻqotishlar uchun $2ni koʻring.',
 'imagemaxsize'   => "Tasvir ta'rifi sahifasidagi tasvirning kattaligi:",
 'thumbsize'      => 'Tasvirning kichiklashtirilgan versiyasining kattaligi:',
 'file-info-size' => '$1 × $2 piksel, fayl hajmi: $3, MIME tipi: $4',
-'file-nohires'   => '<small>Bundan kattaroq tasvir yoʻq.</small>',
+'file-nohires'   => 'Bundan kattaroq tasvir yoʻq.',
 'svg-long-desc'  => 'SVG fayl, asl oʻlchamlari $1 × $2 piksel, fayl hajmi: $3',
 'show-big-image' => 'Asl hajmdagi tasvir',
 

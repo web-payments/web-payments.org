@@ -24,11 +24,6 @@
  * @file
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	// Eclipse helper - will be ignored in production
-	require_once( 'ApiFormatBase.php' );
-}
-
 /**
  * API PHP's var_dump() output formatter
  * @ingroup API
@@ -59,6 +54,6 @@ class ApiFormatDump extends ApiFormatBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiFormatDump.php 79969 2011-01-10 22:36:26Z reedy $';
+		return __CLASS__ . ': $Id$';
 	}
 }

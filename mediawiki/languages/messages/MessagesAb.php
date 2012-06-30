@@ -56,6 +56,9 @@ $namespaceAliases = array(
 	'Обсуждение_категории' => NS_CATEGORY_TALK
 );
 
+// Remove Russian aliases
+$namespaceGenderAliases = array();
+
 $specialPageAliases = array(
 	'Categories'                => array( 'Акатегориақәа' ),
 	'Mycontributions'           => array( 'Архиарақәа' ),
@@ -71,9 +74,9 @@ $specialPageAliases = array(
 );
 
 $magicWords = array(
-	'language'              => array( '0', '#АБЫЗШӘА:', '#ЯЗЫК:', '#LANGUAGE:' ),
-	'special'               => array( '0', 'цастәи', 'служебная', 'special' ),
-	'index'                 => array( '1', '__АИНДЕКС__', '__ИНДЕКС__', '__INDEX__' ),
+	'language'                => array( '0', '#АБЫЗШӘА:', '#ЯЗЫК:', '#LANGUAGE:' ),
+	'special'                 => array( '0', 'цастәи', 'служебная', 'special' ),
+	'index'                   => array( '1', '__АИНДЕКС__', '__ИНДЕКС__', '__INDEX__' ),
 );
 
 $messages = array(
@@ -218,7 +221,7 @@ $messages = array(
 # Groups
 'group-user' => 'Алахәылацәа',
 
-'group-user-member' => 'алахәыла',
+'group-user-member' => '{{GENDER:$1|алахәыла}}',
 
 'grouppage-sysop' => '{{ns:project}}:Администраторцәа',
 

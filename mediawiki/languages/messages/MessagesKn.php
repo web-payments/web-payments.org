@@ -11,6 +11,7 @@
  * @author Dipin
  * @author HPN
  * @author Hari Prasad Nadig <hpnadig@gmail.com> http://en.wikipedia.org/wiki/User:Hpnadig
+ * @author Kaganer
  * @author Ktkaushik
  * @author M G Harish
  * @author Mana
@@ -21,6 +22,7 @@
  * @author Shankar
  * @author Shushruth
  * @author The Evil IP address
+ * @author VASANTH S.N.
  * @author לערי ריינהארט
  */
 
@@ -55,6 +57,8 @@ $digitTransformTable = array(
 	'8' => '೮', # &#x0cee;
 	'9' => '೯', # &#x0cef;
 );
+
+$digitGroupingPattern = "##,##,###";
 
 $messages = array(
 # User preference toggles
@@ -213,6 +217,7 @@ $messages = array(
 'vector-action-delete'           => 'ಅಳಿಸು',
 'vector-action-move'             => 'ಸ್ಥಳಾಂತರಿಸಿ',
 'vector-action-protect'          => 'ಸಂರಕ್ಷಿಸು',
+'vector-action-undelete'         => 'ಅಳಿಸಬೇಡ',
 'vector-action-unprotect'        => 'ರಕ್ಷಣೆಯನ್ನು ಬದಲಾವಣೆ',
 'vector-simplesearch-preference' => 'ವರ್ಧಿಸಿದ ಹುಡುಕು ಸಲಹೆಗಳನ್ನು (ಕೇವಲ ವೆಕ್ಟರ್ ಚರ್ಮ) ಸಕ್ರಿಯಗೊಳಿಸಿ',
 'vector-view-create'             => 'ಸೃಷ್ಟಿಸು',
@@ -339,6 +344,8 @@ $messages = array(
 'page-rss-feed'           => '"$1" RSS ಫೀಡು',
 'page-atom-feed'          => '"$1" ಪುಟದ Atom ಫೀಡು',
 'red-link-title'          => '$1 (ಪುಟವು ಇನ್ನೂ ಸೃಷ್ಟಿತವಾಗಿಲ್ಲ)',
+'sort-descending'         => 'ಇಳಿಕೆ ಕ್ರಮದಲ್ಲಿ ಜೋಡಿಸು',
+'sort-ascending'          => 'ಏರಿಕೆ ಕ್ರಮದಲ್ಲಿ ಜೋಡಿಸು',
 
 # Short words for each namespace, by default used in the namespace tab in monobook
 'nstab-main'      => 'ಲೇಖನ',
@@ -391,6 +398,8 @@ MySQL ಹಿಂದಿರುಗಿಸಿದ ದೋಷ "$3: $4"',
 'readonly_lag'         => 'ಅಡಿಯಲ್ಲಿರುವ ಡೇಟಾಬೇಸ್ ಸರ್ವರ್‍ಗಳು ಮೂಲ ಸರ್ವರ್ ಒಂದಿಗೆ ಸಮಾನತೆಗೆ ಬರುವವರೆಗೂ ಡೇಟಾಬೇಸ್ ಅನ್ನು ಯಾಂತ್ರಿಕವಾಗಿ ಮುಚ್ಚಲಾಗಿದೆ',
 'internalerror'        => 'ಆಂತರಿಕ ದೋಷ',
 'internalerror_info'   => 'ಆಂತರಿಕ ದೋಷ: $1',
+'fileappenderrorread'  => 'ಸೇರಿಸುವಾಗ "$1" ನ್ನು ಓದಲಾಗಿಲ್ಲ',
+'fileappenderror'      => '"$1"ನ್ನು"$2" ರೊಂದಿಗೆ ಸೇರಿಸಲಾಗಿಲ್ಲ',
 'filecopyerror'        => '"$1" ಫೈಲ್ ಅನ್ನು "$2" ಗೆ ನಕಲಿಸಲಾಗಲಿಲ್ಲ.',
 'filerenameerror'      => '"$1" ಫೈಲನ್ನು "$2" ಎಂದು ಮರುನಾಮಕರಣ ಮಾಡಲು ಆಗಲಿಲ್ಲ.',
 'filedeleteerror'      => '"$1" ಫೈಲ್ ಅನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ.',
@@ -401,14 +410,14 @@ MySQL ಹಿಂದಿರುಗಿಸಿದ ದೋಷ "$3: $4"',
 'formerror'            => 'ದೋಷ: ಅರ್ಜಿ ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ',
 'badarticleerror'      => 'ಈ ಪುಟದ ಮೇಲೆ ನೀವು ಪ್ರಯತ್ನಿಸಿದ ಕಾರ್ಯವನ್ನು ನಡೆಸಲಾಗದು.',
 'cannotdelete'         => 'ಈ ಪುಟ ಅಥವಾ ಚಿತ್ರವನ್ನು ಅಳಿಸಲಾಗಲಿಲ್ಲ. (ಬೇರೊಬ್ಬ ಸದಸ್ಯರಿಂದ ಆಗಲೇ ಅಳಿಸಲ್ಪಟ್ಟಿರಬಹುದು.)',
+'cannotdelete-title'   => '"$1" ಪುಟವನ್ನು ಅಳಿಸಲಾಗುವುದಿಲ್ಲ',
 'badtitle'             => 'ಸರಿಯಿಲ್ಲದ ಹೆಸರು',
 'badtitletext'         => 'ನೀವು ಕೋರಿದ ಪುಟದ ಶೀರ್ಷಿಕೆ ಸಿಂಧುವಲ್ಲದ್ದು ಅಥವ ಖಾಲಿ ಅಥವ ಸರಿಯಾದ ಕೊಂಡಿಯಲ್ಲದ ಅಂತರ-ಭಾಷೆ/ಅಂತರ-ವಿಕಿ ಸಂಪರ್ಕವಾಗಿದೆ.
 ಅದರಲ್ಲಿ ಒಂದು ಅಥವ ಹೆಚ್ಚು ಶೀರ್ಷಿಕೆಯಲ್ಲಿ ಬಳಸಲು ನಿಷಿದ್ಧವಾಗಿರುವ ಅಕ್ಷರಗಳು ಇರಬಹುದು.',
-'perfcached'           => 'ಈ ಕೆಳಗಿನ ಮಾಹಿತಿಯು cache ಇಂದ ಬಂದಿರುವುದು ಮತ್ತು ಪ್ರಸಕ್ತ ಸ್ಥಿತಿಯನ್ನು ಬಿಂಬಿಸದಿರಬಹುದು.',
-'perfcachedts'         => 'ಈ ಕೆಳಗಿನ ಮಾಹಿತಿ cache ಆಗಿರುವುದು, ಮತ್ತು ಇದರ ಕೊನೆಯ ಬದಲಾವಣೆ ಆಗಿರುವುದು $1.',
+'perfcached'           => 'ಈ ಕೆಳಗಿನ ಮಾಹಿತಿಯು cache ಇಂದ ಬಂದಿರುವುದು ಮತ್ತು ಪ್ರಸಕ್ತ ಸ್ಥಿತಿಯನ್ನು ಬಿಂಬಿಸದಿರಬಹುದು. A maximum of {{PLURAL:$1|one result is|$1 results are}} available in the cache.',
+'perfcachedts'         => 'ಈ ಕೆಳಗಿನ ಮಾಹಿತಿ cache ಆಗಿರುವುದು, ಮತ್ತು ಇದರ ಕೊನೆಯ ಬದಲಾವಣೆ ಆಗಿರುವುದು $1. A maximum of {{PLURAL:$4|one result is|$4 results are}} available in the cache.',
 'querypage-no-updates' => 'ಈ ಪುಟದ ಅಪ್ಡೇಟ್‍ಗಳನ್ನು ಪ್ರಸಕ್ತವಾಗಿ ನಿಲುಗಡೆ ಮಾಡಲಾಗಿದೆ. ಇಲ್ಲಿರುವ ಮಾಹಿತಿಯನ್ನು ಸದ್ಯಕ್ಕೆ ನವೀಕರಿಸಲಾಗುವುದಿಲ್ಲ.',
 'viewsource'           => 'ಆಕರ ವೀಕ್ಷಿಸು',
-'viewsourcefor'        => '$1 ಪುಟಕ್ಕೆ',
 'protectedpagetext'    => 'ಈ ಪುಟವನ್ನು ಸಂಪಾದನೆ ಮಾಡಲಾಗದಂತೆ ಸಂರಕ್ಷಿಸಲಾಗಿದೆ.',
 'viewsourcetext'       => 'ಈ ಪುಟದ ಮೂಲವನ್ನು ನೀವು ವೀಕ್ಷಿಸಬಹುದು ಮತ್ತು ನಕಲು ಮಾಡಬಹುದು:',
 'protectedinterface'   => 'ಈ ಪುಟವು ತಂತ್ರಾಂಶವು ಉಪಯೋಗಿಸುವ ಪಠ್ಯವನ್ನು ದೊರಕಿಸುತ್ತದೆ. ದುರುಪಯೋಗ ಆಗದಿರಲೆಂದು ಇದನ್ನು ಸಂರಕ್ಷಿಸಲಾಗಿದೆ.',
@@ -584,9 +593,6 @@ $2',
 ನಿಮ್ಮ ಪ್ರಸ್ತಕ ಐಪಿ ವಿಳಾಸ $3, ಮತ್ತು ಈ ತಡೆಯ ಸಂಖ್ಯೆ $5.
 ನೀವು ಸಂಪರ್ಕಿಸಿದಾಗ ದಯವಿಟ್ಟು ಈ ವಿವರಣೆಗಳನ್ನು ಸೇರಿಸಿ.',
 'blockednoreason'                  => 'ಯಾವ ಕಾರಣವೂ ನೀಡಲಾಗಿಲ್ಲ',
-'blockedoriginalsource'            => "'''$1''' ರ ಮೂಲವನ್ನು ಕೆಳಗೆ ತೋರಲಾಗಿದೆ:",
-'blockededitsource'                => "'''$1''' ಪುಟದಲ್ಲಿನ '''ನಿಮ್ಮ ಸಂಪಾದನೆಗಳ''' ಪಠ್ಯವನ್ನು ಕೆಳಗೆ ತೋರಲಾಗಿದೆ:",
-'whitelistedittitle'               => 'ಸಂಪಾದನೆ ಮಾಡಲು ಲಾಗ್ ಇನ್ ಆಗಿರಬೇಕು',
 'whitelistedittext'                => 'ಪುಟಗಳನ್ನು ಸಂಪಾದಿಸಲು ನೀವು $1 ಆಗಬೇಕು.',
 'confirmedittext'                  => 'ಪುಟಗಳನ್ನು ಸಂಪಾದಿಸುವ ಮುನ್ನ ನೀವು ನಿಮ್ಮ ಇ-ಅಂಚೆ ವಿಳಾಸವನ್ನು ಧೃಡೀಕರಿಸಬೇಕು.
 ದಯವಿಟ್ಟು [[Special:Preferences|ಬಳಕೆದಾರ ಆಯ್ಕೆಗಳು]] ಪುಟದಲ್ಲಿ ತಮ್ಮ ಇ-ಅಂಚೆ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ ಮತ್ತು ಧೃಡೀಕರಿಸಿ.',
@@ -666,7 +672,9 @@ $2',
 ಪುಟದ ಅಳಿಸುವಿಕೆ ದಿನಚರಿಯನ್ನು ಈ ಕೆಳಗೆ ನೀಡಲಾಗಿದೆ:",
 'moveddeleted-notice'              => 'ಈ ಪುಟವು ಅಳಿಸಲ್ಪಟ್ಟಿದೆ.
 ಈ ಪುಟದ ಅಳಿಸುವಿಕೆಯ ದಾಖಲೆಯನ್ನು ಕೆಳಗೆ ತೋರಿಸಲಾಗಿದೆ.',
+'edit-gone-missing'                => 'ಪುಟವನ್ನು ಪ್ರಸ್ತುತಗೊಳಿಸಲು ಸಾದ್ಯವಿಲ್ಲ, ಪುಟವು ಬಹುಶ: ಅಳಿಸಲ್ಪಟ್ಟಿರಬಹುದು',
 'edit-conflict'                    => 'ಸಂಪಾದನಾ ಘರ್ಷಣೆ.',
+'edit-no-change'                   => 'ನಿಮ್ಮ ಸಂಪಾದನೆಯನ್ನು ಕಡೆಗಣಿಸಲಾಗಿದೆ ಏಕೆಂದರೆ ಪಠ್ಯದಲ್ಲಿ ಯಾವುದೇ ಬದಲಾವಣೆ ಮಾಡಲಾಗಿಲ್ಲ್ಲ',
 'edit-already-exists'              => 'ಹೊಸ ಪುಟವನ್ನು ಸೃಷ್ಟಿಸಲಾಗಲಿಲ್ಲ.
 ಅದು ಆಗಲೆ ಅಸ್ಥಿತ್ವದಲ್ಲಿದೆ.',
 
@@ -679,6 +687,13 @@ $2',
 ಕೆಲವು ಟೆಂಪ್ಲೇಟುಗಳು ಹಕಲಗುದಿಲ್ಲ.",
 'post-expand-template-inclusion-category' => 'ಪುಟದಲ್ಲಿ  ಚಿತ್ರ  ಹಗಲ ಯೆರಿದೆ',
 'parser-template-loop-warning'            => 'ಟೆಂಪ್ಲೇಟು ಆವರ್ತನೆ ಪತ್ತೆಯಾಗಿದೆ: [[$1]]',
+'language-converter-depth-warning'        => 'ಭಾಷಾಂತರಕದ ಆಳದ ಮಿತಿಮೀರಿದೆ($1)',
+
+# "Undo" feature
+'undo-success' => 'ಸಂಪಾದನೆಯನ್ನು ವಜಾ ಮಾಡಬಹುದು. ದಯವಿಟ್ಟು ಕೆಳಗಿರುವ ತುಲನೆಯನ್ನು ಪರೀಕ್ಷಿಸಿ ನೀವು ಮಾಡಲು ಇಚ್ಚಿಸಿರುವುದನ್ನು ಖಾತ್ರಿ ಮಾಡಿಕೊಂಡು ವಜಾಗೊಳಿಸುವ ಕ್ರಿಯೆಯನ್ನು 
+ಪೂರ್ಣಗೊಳಿಸಲು ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ.',
+'undo-norev'   => 'ಸಂಪಾದನೆಯನ್ನು ವಜಾಗೊಳಿಸಲು ಸಾದ್ಯವಿಲ್ಲ ಏಕೆಂದರೆ ಒಂದೊ ಇದು ಅಸ್ತಿತ್ವದಲ್ಲಿ ಇಲ್ಲ ಅಧವಾ ಇದು ಅಳಿಸಲ್ಪಟ್ಟಿದೆ',
+'undo-summary' => '[[Special:Contributions/$2|$2]] ([[User talk:$2|talk]]) ರ $1 ಪರಿಷ್ಕರಣೆಯನ್ನು ವಜಾ ಮಾಡಿ',
 
 # Account creation failure
 'cantcreateaccounttitle' => 'ಖಾತೆಯನ್ನು ಸೃಷ್ಟಿಸಲಾಗುತ್ತಿಲ್ಲ',
@@ -740,18 +755,11 @@ $2',
 'revdelete-unsuppress'       => 'ಪುನಃ ಸ್ಥಾಪಿಸಿದ ಬದಲಾವಣೆಗಳ ಮೇಲಿನ ನಿಬಂಧನೆಗಳನ್ನು ತೆಗೆ',
 'revdelete-log'              => 'ಕಾರಣ:',
 'revdelete-submit'           => 'ಆಯ್ಕೆ ಮಾಡಿದ ಬದಲಾವಣೆಗೆ ಅನ್ವಯಿಸು',
-'revdelete-logentry'         => '[[$1]] ರ ಸಂಪಾದನೆಯ ಕಾಣಿಸುವಿಕೆಯನ್ನು ಬದಲಾಯಿಸಲಾಯಿತು',
 'revdel-restore'             => 'ಕಾಣಿಸುವಿಕೆಯನ್ನು ಬದಲಾಯಿಸು',
 'revdel-restore-deleted'     => 'ಅಳಿಸಿಹಾಕಲಾದ ಆವೃತ್ತಿಗಳು',
 'revdel-restore-visible'     => 'ಕಾಣುವ ಆವೃತ್ತಿಗಳು',
 'pagehist'                   => 'ಪುಟದ ಇತಿಹಾಸ',
 'deletedhist'                => 'ಅಳಿಸಲ್ಪಟ್ಟ ಇತಿಹಾಸ',
-'revdelete-content'          => 'ಮಾಹಿತಿ',
-'revdelete-summary'          => 'ಸಂಪಾದನೆಯ ತಾತ್ಪರ್ಯ',
-'revdelete-uname'            => 'ಬಳಕೆಯ ಹೆಸರು',
-'revdelete-restricted'       => 'ನಿರ್ವಾಹಕರಿಗೆ ನಿಬಂಧನೆಗಳನ್ನು ಅನ್ವಯಿಸಲಾಯಿತು',
-'revdelete-unrestricted'     => 'ನಿರ್ವಾಹಕರ ನಿಬಂಧನೆಗಳನ್ನು ತೆಗೆಯಲಾಯಿತು',
-'revdelete-hid'              => '$1 ಅಡಗಿಸಲಾಯಿತು',
 'revdelete-otherreason'      => 'ಇತರ/ಹೆಚ್ಚುವರಿ ಕಾರಣ:',
 'revdelete-reasonotherlist'  => 'ಇತರ ಕಾರಣ',
 'revdelete-edit-reasonlist'  => 'ಅಳಿಸುವಿಕೆಯ ಕಾರಣಗಳನ್ನು ಸಂಪಾದಿಸು',
@@ -872,7 +880,7 @@ $2',
 'prefs-rc'                    => 'ಇತ್ತೀಚಿನ ಬದಲಾವಣೆಗಳು',
 'prefs-watchlist'             => 'ವೀಕ್ಷಣಾಪಟ್ಟಿ',
 'prefs-watchlist-days'        => 'ವೀಕ್ಷಣಾಪಟ್ಟಿಯಲ್ಲಿ ತೋರಿಸಲಾಗುವ ದಿನಗಳು:',
-'prefs-watchlist-days-max'    => 'ಗರಿಷ್ಠ ೭ ದಿನಗಳು',
+'prefs-watchlist-days-max'    => 'Maximum $1 {{PLURAL:$1|day|days}}',
 'prefs-watchlist-edits'       => 'ವಿಸ್ತೃತ ವೀಕ್ಷಣಾಪಟ್ಟಿಯಲ್ಲಿ ತೋರಿಸಬೇಕಾದ ಗರಿಷ್ಠ ಬದಲಾವಣೆಗಳು:',
 'prefs-watchlist-edits-max'   => 'ಗರಿಷ್ಠ ಸಂಖ್ಯೆ: ೧೦೦೦',
 'prefs-misc'                  => 'ಇತರೆ',
@@ -1350,8 +1358,7 @@ $2',
 'activeusers' => 'ಸಕ್ರಿಯ ಸದಸ್ಯರ ಪಟ್ಟಿ',
 
 # Special:Log/newusers
-'newuserlogpage'          => 'ಸದಸ್ಯತ್ವ ಸೃಷ್ಟಿಗಳ ದಾಖಲೆ',
-'newuserlog-create-entry' => 'ಹೊಸ ಸದಸ್ಯತ್ವ ಖಾತೆ',
+'newuserlogpage' => 'ಸದಸ್ಯತ್ವ ಸೃಷ್ಟಿಗಳ ದಾಖಲೆ',
 
 # Special:ListGroupRights
 'listgrouprights'              => 'ಬಳಕೆದಾರ ಗುಂಪು ಹಕ್ಕುಗಳು',
@@ -1428,7 +1435,6 @@ $2',
 'actioncomplete'         => 'ಕಾರ್ಯ ಸಂಪೂರ್ಣ',
 'deletedtext'            => '"$1" ಅನ್ನು ಅಳಿಸಲಾಯಿತು.
 ಇತ್ತೀಚೆಗಿನ ಅಳಿಸುವಿಕೆಗಳ ಪಟ್ಟಿಗಾಗಿ $2 ಅನ್ನು ನೋಡಿ.',
-'deletedarticle'         => '"$1" ಅಳಿಸಲಾಯಿತು',
 'dellogpage'             => 'ಅಳಿಸುವಿಕೆ ದಾಖಲೆ',
 'dellogpagetext'         => 'ಇತ್ತೀಚಿನ ಅಳಿಸುವಿಕೆಗಳ ಪಟ್ಟಿ ಕೆಳಗಿದೆ.',
 'deletionlog'            => 'ಅಳಿಸುವಿಕೆ ದಿನಚರಿ',
@@ -1504,7 +1510,6 @@ $2',
 'undeletelink'           => 'ವೀಕ್ಷಿಸು/ಹಿಂದಿನಂತಾಗಿಸು',
 'undeleteviewlink'       => 'ನೋಡು',
 'undeletecomment'        => 'ಕಾರಣ:',
-'undeletedarticle'       => '"[[$1]]" ಅನ್ನು ಹಿಂದಿನಂತೆ ಮಾಡು',
 'undelete-header'        => 'ಇತ್ತೀಚೆಗೆ ಅಳಿಸಲಾದ ಪುಟಗಳಿಗೆ [[Special:Log/delete|ಅಳಿಸುವಿಕೆ ದಿನಚರಿ]] ಅನ್ನು ನೋಡಿ.',
 'undelete-search-box'    => 'ಅಳಿಸಲ್ಪಟ್ಟ ಪುಟಗಳನ್ನು ಹುಡುಕು',
 'undelete-search-prefix' => 'ಇದರಿಂದ ಪ್ರಾರಂಭವಾಗುವ ಪುಟಗಳನ್ನು ತೋರು:',
@@ -1576,7 +1581,7 @@ $2',
 'ipbotherreason'           => 'ಇತರ/ಹೆಚ್ಚುವರಿ ಕಾರಣ:',
 'badipaddress'             => 'ಸರಿಯಿಲ್ಲದ IP ವಿಳಾಸ',
 'blockipsuccesssub'        => 'ತಡೆಹಿಡಿಯುವಿಕೆ ಯಶಸ್ವಿಯಾಯಿತು.',
-'blockipsuccesstext'       => '"$1" ಐಪಿ ಸಂಖ್ಯೆಯನ್ನು ತಡೆ ಹಿಡಿಯಲಾಗಿದೆ. <br /> ತಡೆಗಳನ್ನು ಪರಿಶೀಲಿಸಲು [[Special:IPBlockList|ತಡೆ ಹಿಡಿಯಲಾಗಿರುವ ಐಪಿ ಸಂಖ್ಯೆಗಳ ಪಟ್ಟಿ]] ನೋಡಿ.',
+'blockipsuccesstext'       => '"$1" ಐಪಿ ಸಂಖ್ಯೆಯನ್ನು ತಡೆ ಹಿಡಿಯಲಾಗಿದೆ. <br /> ತಡೆಗಳನ್ನು ಪರಿಶೀಲಿಸಲು [[Special:BlockList|ತಡೆ ಹಿಡಿಯಲಾಗಿರುವ ಐಪಿ ಸಂಖ್ಯೆಗಳ ಪಟ್ಟಿ]] ನೋಡಿ.',
 'ipb-edit-dropdown'        => 'ತಡೆಹಿಡಿಯುವಿಕೆ ಕಾರಣಗಳನ್ನು ಸಂಪಾದಿಸು',
 'ipb-unblock-addr'         => '$1 ಖಾತೆಯ ತಡೆಯನ್ನು ತೆಗೆ',
 'ipb-unblock'              => 'ಬಳಕೆದಾರರ ಅಥವ IP ವಿಳಾಸದ ತಡೆಯನ್ನು ತೆಗೆ',
@@ -1660,8 +1665,6 @@ $2',
 ದಯವಿಟ್ಟು ಕೈಯಾರೆ ಈ ಎರಡು ಪುಟಗಳನ್ನು ಒಂದಾಗಿಸಿ.'''",
 'movedto'                 => 'ಸ್ಥಳಾಂತರಿಸಲ್ಪಟ್ಟ ನೆಲೆ',
 'movetalk'                => 'ಜೊತೆಗಿನ ಚರ್ಚೆ ಪುಟವನ್ನೂ ಸ್ಥಳಾಂತರಿಸು',
-'1movedto2'               => '[[$1]] - [[$2]] ಪುಟಕ್ಕೆ ಸ್ಥಳಾಂತರಿಸಲಾಗಿದೆ',
-'1movedto2_redir'         => '[[$1]] - [[$2]] ಪುಟ ರಿಡೈರೆಕ್ಟ್ ಮೂಲಕ ಸ್ಥಳಾಂತರಿಸಲಾಗಿದೆ',
 'movelogpage'             => 'ಸ್ಥಳಾಂತರಿಕೆ ದಾಖಲೆ',
 'movelogpagetext'         => 'ಸ್ಥಳಾಂತರಿಸಲಾಗಿರುವ ಪುಟಗಳ ಪಟ್ಟಿ ಕೆಳಗಿದೆ.',
 'movereason'              => 'ಕಾರಣ:',
@@ -1788,9 +1791,6 @@ $2',
 'siteusers'     => '{{SITENAME}} {{PLURAL:$2|ಸದಸ್ಯ|ಸದಸ್ಯರು}} $1',
 'creditspage'   => 'ಪುಟದ ಗೌರವಗಳು',
 
-# Patrol log
-'patrol-log-diff' => 'ಆವೃತ್ತಿ $1',
-
 # Image deletion
 'deletedrevision'       => 'ಹಳೆ ಆವೃತ್ತಿ $1 ಅನ್ನು ಅಳಿಸಲಾಗಿದೆ',
 'filedeleteerror-short' => 'ಈ ಫೈಲನ್ನು ಅಳಿಸುವುದರಲ್ಲಿ ದೋಷ: $1',
@@ -1805,10 +1805,10 @@ $1',
 
 # Media information
 'thumbsize'       => 'ಕಿರುನೋಟದ ಗಾತ್ರ:',
-'widthheightpage' => '$1×$2, $3 {{PLURAL:$3|ಪುಟ|ಪುಟಗಳು}}',
+'widthheightpage' => '$1 × $2, $3 {{PLURAL:$3|ಪುಟ|ಪುಟಗಳು}}',
 'file-info'       => 'ಫೈಲಿನ ಗಾತ್ರ: $1, MIME ಪ್ರಕಾರ: $2',
 'file-info-size'  => '$1 × $2 ಚಿತ್ರಬಿಂದು, ಫೈಲಿನ ಗಾತ್ರ: $3, MIME ಪ್ರಕಾರ: $4',
-'file-nohires'    => '<small>ಇದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ವಿವರವಾದ ನೋಟ ಇಲ್ಲ.</small>',
+'file-nohires'    => 'ಇದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ವಿವರವಾದ ನೋಟ ಇಲ್ಲ.',
 'svg-long-desc'   => 'SVG ಫೈಲು, ಸುಮಾರಾಗಿ $1 × $2 ಚಿತ್ರಬಿಂದುಗಳು, ಫೈಲಿನ ಗಾತ್ರ: $3',
 'show-big-image'  => 'ಅತಿ ಹೆಚ್ಚು ವಿವರವಾದ ನೋಟ',
 
@@ -1987,9 +1987,6 @@ $5
 # Scary transclusion
 'scarytranscludetoolong' => '[URL ತುಂಬ ಉದ್ದವಾಗಿದೆ]',
 
-# Trackbacks
-'trackbackremove' => '([$1 ಅಳಿಸು])',
-
 # Delete conflict
 'deletedwhileediting' => "'''ಸೂಚನೆ''': ನೀವು ಸಂಪಾದನೆ ಪ್ರಾರಂಭಿಸಿದ ನಂತರ ಈ ಪುಟವನ್ನು ಅಳಿಸಲಾಗಿದೆ!",
 'confirmrecreate'     => "ಸದಸ್ಯ [[User:$1|$1]] ([[User talk:$1|ಚರ್ಚೆ]]) ನೀವು ಸಂಪಾದನೆ ಶುರು ಮಾಡಿದ ಮೇಲೆ ಕೆಳಗಿನ ಕಾರಣ ನೀಡಿ ಈ ಪುಟವನ್ನು ಅಳಿಸಿದ್ದಾರೆ:
@@ -2098,5 +2095,9 @@ $5
 
 # HTML forms
 'htmlform-selectorother-other' => 'ಇತರ',
+
+# New logging system
+'revdelete-restricted'   => 'ನಿರ್ವಾಹಕರಿಗೆ ನಿಬಂಧನೆಗಳನ್ನು ಅನ್ವಯಿಸಲಾಯಿತು',
+'revdelete-unrestricted' => 'ನಿರ್ವಾಹಕರ ನಿಬಂಧನೆಗಳನ್ನು ತೆಗೆಯಲಾಯಿತು',
 
 );

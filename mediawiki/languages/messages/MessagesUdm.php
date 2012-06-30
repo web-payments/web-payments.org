@@ -35,6 +35,9 @@ $namespaceNames = array(
 	NS_CATEGORY_TALK    => 'Категория_сярысь_вераськон',
 );
 
+// Remove Russian aliases
+$namespaceGenderAliases = array();
+
 $linkTrail = '/^([a-zа-яёӝӟӥӧӵ“»]+)(.*)$/sDu';
 $fallback8bitEncoding = 'windows-1251';
 $separatorTransformTable = array( ',' => ' ', '.' => ',' );
@@ -237,7 +240,7 @@ $messages = array(
 'searchresults'      => 'Шедьтэмын',
 'searchresulttext'   => 'Проектлэн бамъёстӥз утчан сярысь тыро-быдогес тодэмды потӥз ке, учке [[{{MediaWiki:Helppage}}|«Юан-веран» люкетэз]].',
 'searchhelp-url'     => 'Help:Валэктон',
-'search-result-size' => '$1 кыл',
+'search-result-size' => '$1 кыл({{PLURAL:$2|1 word|$2 words}})',
 
 # Preferences page
 'preferences'     => 'настройкаос',

@@ -52,7 +52,7 @@ $wgExtensionCredits['other'][] = array(
 	'name' => 'Vector',
 	'author' => array( 'Trevor Parscal', 'Roan Kattouw', 'Nimish Gautam', 'Adam Miller' ),
 	'version' => '0.3.0',
-	'url' => 'http://www.mediawiki.org/wiki/Extension:Vector',
+	'url' => 'https://www.mediawiki.org/wiki/Extension:Vector',
 	'descriptionmsg' => 'vector-desc',
 );
 $wgAutoloadClasses['VectorHooks'] = dirname( __FILE__ ) . '/Vector.hooks.php';
@@ -75,6 +75,7 @@ $wgResourceModules += array(
 			'vector-collapsiblenav-more',
 		),
 		'dependencies' => array(
+			'mediawiki.util',
 			'jquery.client',
 			'jquery.cookie',
 			'jquery.tabIndex',
@@ -105,6 +106,13 @@ $wgResourceModules += array(
 	'ext.vector.footerCleanup' => $vectorResourceTemplate + array(
 		'scripts' => 'ext.vector.footerCleanup.js',
 		'styles' => 'ext.vector.footerCleanup.css',
+		'messages' => array (
+			'vector-footercleanup-transclusion',
+		),
+		'dependencies' => array(
+			// The message require plural support at javascript.
+			'mediawiki.jqueryMsg',
+		)
 	),
 	'ext.vector.sectionEditLinks' => $vectorResourceTemplate + array(
 		'scripts' => 'ext.vector.sectionEditLinks.js',
@@ -121,10 +129,11 @@ $wgResourceModules += array(
 			'vector-simplesearch-containing',
 		),
 		'dependencies' => array(
-			'jquery.client',
-			'jquery.suggestions',
 			'jquery.autoEllipsis',
+			'jquery.client',
 			'jquery.placeholder',
+			'jquery.suggestions',
+			'mediawiki.legacy.mwsuggest', // to ensure we disable it in proper order
 		),
 	),
 );

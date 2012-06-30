@@ -238,7 +238,7 @@ fn: {
 	doAction : function( context, action, source ) {
 		// Verify that this has been called from a source that's within the toolbar
 		// 'trackAction' defined in click tracking
-		if ( $.trackAction !== undefined && source.closest( '.wikiEditor-ui-toolbar' ).size() ) {
+		if ( mw.config.get( 'wgWikiEditorToolbarClickTracking' ) && $.trackAction !== undefined && source.closest( '.wikiEditor-ui-toolbar' ).size() ) {
 			// Build a unique id for this action by tracking the parent rel attributes up to the toolbar level
 			var rels = [];
 			var step = source;
@@ -337,8 +337,9 @@ fn: {
 						$.wikiEditor.imgPath + 'toolbar/'
 					);
 					if ( typeof offsetOrIcon == 'object' ) {
-						$button = $( '<span/>' )
+						$button = $( '<a/>' )
 							.attr( {
+								'href' : '#',
 								'alt' : label,
 								'title' : label,
 								'rel' : id,
@@ -438,13 +439,13 @@ fn: {
 		}
 	},
 	buildBookmark : function( context, id, page ) {
-		var label = $.wikiEditor.autoMsg( page,
-		'label' );
+		var label = $.wikiEditor.autoMsg( page, 'label' );
 		return $( '<div/>' )
 			.text( label )
 			.attr( 'rel', id )
 			.data( 'context', context )
 			.mousedown( function( e ) {
+				context.fn.saveCursorAndScrollTop();
 				// No dragging!
 				e.preventDefault();
 				return false;
@@ -461,9 +462,10 @@ fn: {
 					{ expires: 30, path: '/' }
 				);
 				// Click tracking
-				if ( $.trackAction !== undefined){
+				if ( mw.config.get( 'wgWikiEditorToolbarClickTracking' ) && $.trackAction !== undefined ) {
 					$.trackAction(section + '.' + $(this).attr('rel'));
 				}
+				context.fn.restoreCursorAndScrollTop();
 				// No dragging!
 				event.preventDefault();
 				return false;
@@ -488,7 +490,7 @@ fn: {
 						html += $.wikiEditor.modules.toolbar.fn.buildRow( context, page.rows[i] );
 					}
 				}
-				$page.html( html );
+				$page.html( html + '</table>');
 				break;
 			case 'characters':
 				$page.addClass( 'page-characters' );
@@ -499,6 +501,11 @@ fn: {
 				}
 				if ( 'direction' in page ) {
 					$characters.attr( 'dir', page.direction );
+				} else {
+					// By default it should be explicit ltr for all scripts.
+					// Without this some conjoined ltr characters look
+					// weird in rtl wikis.
+					$characters.attr( 'dir', 'ltr' );
 				}
 				if ( 'characters' in page ) {
 					html = '';
@@ -534,7 +541,7 @@ fn: {
 		for ( var i = 0; i< headings.length; i++ ) {
 			html += '<th>' + $.wikiEditor.autoMsg( headings[i], ['html', 'text'] ) + '</th>';
 		}
-		return html;
+		return html + '</tr>';
 	},
 	buildRow : function( context, row ) {
 		var html = '<tr>';
@@ -542,8 +549,7 @@ fn: {
 			html += '<td class="cell cell-' + cell + '" valign="top"><span>' +
 				$.wikiEditor.autoMsg( row[cell], ['html', 'text'] ) + '</span></td>';
 		}
-		html += '</tr>';
-		return html;
+		return html + '</tr>';
 	},
 	buildCharacter : function( character, actions ) {
 		if ( typeof character == 'string' ) {
@@ -557,7 +563,7 @@ fn: {
 					}
 				}
 			};
-		} else if ( 0 in character && 1 in character ) {
+		} else if ( character && 0 in character && 1 in character ) {
 			character = {
 				'label' : character[0],
 				'action' : {
@@ -569,10 +575,12 @@ fn: {
 				}
 			};
 		}
-		if ( 'action' in character && 'label' in character ) {
+		if ( character && 'action' in character && 'label' in character ) {
 			actions[character.label] = character.action;
 			return '<span rel="' + character.label + '">' + character.label + '</span>';
 		}
+		mw.log( "A character for the toolbar was undefined. This is not supposed to happen. Double check the config." );
+		return ""; // bug 31673; also an additional fix for bug 24208...
 	},
 	buildTab : function( context, id, section ) {
 		var selected = $.cookie( 'wikiEditor-' + context.instance + '-toolbar-section' );
@@ -580,7 +588,7 @@ fn: {
 		if ( selected !== null ) {
 			$.cookie( 'wikiEditor-' + context.instance + '-toolbar-section', selected, { expires: 30, path: '/' } );
 		}
-		var $link = 
+		var $link =
 			$( '<a/>' )
 				.addClass( selected == id ? 'current' : null )
 				.attr( 'href', '#' )
@@ -638,7 +646,7 @@ fn: {
 							} );
 					}
 					// Click tracking
-					if ( $.trackAction !== undefined ) {
+					if ( mw.config.get( 'wgWikiEditorToolbarClickTracking' ) && $.trackAction !== undefined ) {
 						$.trackAction( $section.attr('rel') + '.' + ( show ? 'show': 'hide' )  );
 					}
 					// Save the currently visible section
@@ -661,7 +669,7 @@ fn: {
 		var $section = $( '<div/>' ).attr( { 'class': section.type + ' section section-' + id, 'rel': id } );
 		var selected = $.cookie( 'wikiEditor-' + context.instance + '-toolbar-section' );
 		var show = selected == id;
-		
+
 		if ( section.deferLoad !== undefined && section.deferLoad && id !== 'main' && !show ) {
 			// This class shows the spinner and serves as a marker for the click handler in buildTab()
 			$section.addClass( 'loading' ).append( $( '<div/>' ).addClass( 'spinner' ) );
@@ -672,7 +680,7 @@ fn: {
 		} else {
 			$.wikiEditor.modules.toolbar.fn.reallyBuildSection( context, id, section, $section );
 		}
-		
+
 		// Show or hide section
 		if ( id !== 'main' ) {
 			$section.css( 'display', show ? 'block' : 'none' );

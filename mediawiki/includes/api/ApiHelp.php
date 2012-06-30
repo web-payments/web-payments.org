@@ -24,11 +24,6 @@
  * @file
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	// Eclipse helper - will be ignored in production
-	require_once( 'ApiBase.php' );
-}
-
 /**
  * This is a simple class to handle action=help
  *
@@ -139,18 +134,13 @@ class ApiHelp extends ApiBase {
 		return 'Display this help screen. Or the help screen for the specified module';
 	}
 
-	protected function getExamples() {
+	public function getExamples() {
 		return array(
-			'Whole help page:',
-			'  api.php?action=help',
-			'Module (action) help page:',
-			'  api.php?action=help&modules=protect',
-			'Query (list) modules help page:',
-			'  api.php?action=help&querymodules=categorymembers',
-			'Query (prop) modules help page:',
-			'  api.php?action=help&querymodules=info',
-			'Query (meta) modules help page:',
-			'  api.php?action=help&querymodules=siteinfo',
+			'api.php?action=help' => 'Whole help page',
+			'api.php?action=help&modules=protect' => 'Module (action) help page',
+			'api.php?action=help&querymodules=categorymembers' => 'Query (list) modules help page',
+			'api.php?action=help&querymodules=info' => 'Query (prop) modules help page',
+			'api.php?action=help&querymodules=siteinfo' => 'Query (meta) modules help page',
 		);
 	}
 
@@ -163,6 +153,6 @@ class ApiHelp extends ApiBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiHelp.php 104439 2011-11-28 15:22:23Z reedy $';
+		return __CLASS__ . ': $Id$';
 	}
 }

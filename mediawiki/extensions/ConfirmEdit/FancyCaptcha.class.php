@@ -57,24 +57,28 @@ class FancyCaptcha extends SimpleCaptcha {
 		$title = SpecialPage::getTitleFor( 'Captcha', 'image' );
 
 		return "<p>" .
-			Xml::element( 'img', array(
+			Html::element( 'img', array(
 				'src'    => $title->getLocalUrl( 'wpCaptchaId=' . urlencode( $index ) ),
 				'width'  => $info['width'],
 				'height' => $info['height'],
 				'alt'    => '' ) ) .
 			"</p>\n" .
-			Xml::element( 'input', array(
+			Html::element( 'input', array(
 				'type'  => 'hidden',
 				'name'  => 'wpCaptchaId',
 				'id'    => 'wpCaptchaId',
 				'value' => $index ) ) .
-			"<p>" .
-			Xml::element( 'input', array(
+			'<p>' .
+			Html::element( 'label', array(
+				'for' => 'wpCaptchaWord',
+			), parent::getMessage( 'label' ) . wfMsg( 'colon-separator' ) ) .
+			Html::element( 'input', array(
 				'name' => 'wpCaptchaWord',
 				'id'   => 'wpCaptchaWord',
+				'type' => 'text',
 				'autocorrect' => 'off',
 				'autocapitalize' => 'off',
-				'required',
+				'required' => 'required',
 				'tabindex' => 1 ) ) . // tab in before the edit textarea
 			"</p>\n";
 	}
@@ -97,6 +101,9 @@ class FancyCaptcha extends SimpleCaptcha {
 
 			// Check which subdirs are actually present...
 			$dir = opendir( $directory );
+			if ( !$dir ) {
+				return false;
+			}
 			while ( false !== ( $entry = readdir( $dir ) ) ) {
 				if ( ctype_xdigit( $entry ) && strlen( $entry ) == 1 ) {
 					$dirs[] = $entry;

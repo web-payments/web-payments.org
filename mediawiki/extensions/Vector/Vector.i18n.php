@@ -1,7 +1,7 @@
 <?php
 /**
  * Internationalisation for Vector extension
- * 
+ *
  * @file
  * @ingroup Extensions
  */
@@ -14,7 +14,7 @@ $messages = array();
 $messages['en'] = array(
 	'vector' => 'UI improvements for Vector',
 	'vector-desc' => 'Improves on the user interface elements of the Vector skin.',
-	'vector-collapsiblenav-preference' => 'Enable collapsing of items in the navigation menu in Vector skin',
+	'vector-collapsiblenav-preference' => 'Enable collapsing of items in the sidebar in Vector skin',
 	'vector-collapsiblenav-more' => 'More languages',
 	'vector-editwarning-warning' => 'Leaving this page may cause you to lose any changes you have made.
 If you are logged in, you can disable this warning in the "Editing" section of your preferences.',
@@ -22,27 +22,42 @@ If you are logged in, you can disable this warning in the "Editing" section of y
 	'vector-simplesearch-search' => 'Search',
 	'vector-simplesearch-containing' => 'containing...',
 	'vector-noexperiments-preference' => 'Exclude me from feature experiments',
+	'vector-footercleanup-transclusion' => 'This page contains {{PLURAL:$1|transclusion|transclusions}} of {{PLURAL:$1|one other page|$1 other pages}}.',
 );
 
 /** Message documentation (Message documentation)
  * @author Fryed-peach
  * @author Lloffiwr
+ * @author Nemo bis
+ * @author Srtxg
  * @author Umherirrender
  */
 $messages['qqq'] = array(
 	'vector' => 'UI means User Interface. Vector is the name of an interface skin.',
 	'vector-desc' => '{{desc}}',
-	'vector-editwarning-warning' => "{{doc-important|Do ''not'' use <nowiki>{{int:prefs-editing}}</nowiki> for \"Editing\". It is forbidden in this message, see [[mwr:68405]].}}",
+	'vector-collapsiblenav-preference' => 'The message refers to the sidebar, whose sections are collapsible in Vector skin (some of them collapsed by default and some no); the preference disables collapsing entirely and is among "Advanced options" in the "Appearence" section.',
+	'vector-editwarning-warning' => "{{doc-important|Do ''not'' use <nowiki>{{int:prefs-editing}}</nowiki> for \"Editing\". It is forbidden in this message, see [[mwr:68405]].}}
+
+but you can see the text of that button here: {{msg-mw|Prefs-editing}}",
 	'vector-simplesearch-search' => 'Greyed out default text in the simple search box in the Vector skin. (It disappears and lets the user enter the requested search terms when the search box receives focus.)
 
 {{Identical|Search}}',
 	'vector-simplesearch-containing' => 'Label used in the special item of the search suggestions list which gives the user an option to perform a full text search for the term.',
 	'vector-noexperiments-preference' => 'An option in [[Special:Preferences]]',
+	'vector-footercleanup-transclusion' => 'Label used in the footer while editing to display the count of how many transclusions a page contains.',
+);
+
+/** Ṫuroyo (Ṫuroyo)
+ * @author Ariyo
+ */
+$messages['tru'] = array(
+	'vector-simplesearch-search' => 'Kruxyo',
 );
 
 /** Afrikaans (Afrikaans)
  * @author Adriaan
  * @author Naudefj
+ * @author පසිඳු කාවින්ද
  */
 $messages['af'] = array(
 	'vector' => 'Gebruikerskoppelvlak-verbeteringe vir Vektor',
@@ -54,6 +69,7 @@ Indien u aangemeld is, kan u hierdie waarskuwing in die {{int:prefs-editing}}"-a
 	'vector-editwarning-preference' => "Waarsku my as ek 'n gewysigde bladsy verlaat alvorens dit gestoor is",
 	'vector-simplesearch-search' => 'Soek',
 	'vector-simplesearch-containing' => 'bevat...',
+	'vector-noexperiments-preference' => 'Verban my uit funksie eksperimente',
 );
 
 /** Gheg Albanian (Gegë)
@@ -89,10 +105,13 @@ $messages['an'] = array(
 	'vector-editwarning-preference' => "Alvertir-me quan salga d'una pachina d'edición sin alzar os cambios",
 	'vector-simplesearch-search' => 'Mirar',
 	'vector-simplesearch-containing' => 'que contién...',
+	'vector-noexperiments-preference' => "Excluir-me d'as caracteristicas experimentals",
 );
 
 /** Arabic (العربية)
  * @author Aiman titi
+ * @author Alexknight12
+ * @author DRIHEM
  * @author Meno25
  * @author OsamaK
  */
@@ -106,7 +125,8 @@ $messages['ar'] = array(
 	'vector-editwarning-preference' => 'حذّرني عندما أغادر تحرير صفحة ذات تغييرات غير محفوظة',
 	'vector-simplesearch-search' => 'ابحث',
 	'vector-simplesearch-containing' => 'يحتوي...',
-	'vector-noexperiments-preference' => 'استبعادي من إستخدام الميزة',
+	'vector-noexperiments-preference' => 'استبعدني من تجارب الخاصية',
+	'vector-footercleanup-transclusion' => 'هذه الصفحة تحتوي على {{PLURAL:$1تضمين|تضمينات}} لـ {{PLURAL:$1|صفحة واحدة أخرى|$1 صفحات أخرى}}.',
 );
 
 /** Aramaic (ܐܪܡܝܐ)
@@ -114,7 +134,7 @@ $messages['ar'] = array(
  */
 $messages['arc'] = array(
 	'vector-simplesearch-search' => 'ܒܨܝ',
-	'vector-simplesearch-containing' => 'ܚܒܫ ܥܠ...',
+	'vector-simplesearch-containing' => 'ܬܚܒܘܫ...',
 );
 
 /** Egyptian Spoken Arabic (مصرى)
@@ -133,10 +153,41 @@ $messages['arz'] = array(
 	'vector-simplesearch-containing' => 'جوّاه...',
 );
 
+/** Assamese (অসমীয়া)
+ * @author Bishnu Saikia
+ * @author Gitartha.bordoloi
+ */
+$messages['as'] = array(
+	'vector-collapsiblenav-more' => 'অধিক ভাষা',
+	'vector-editwarning-preference' => 'সালসলনি সংৰক্ষণ নকৰাকৈ সম্পাদনা পৃষ্ঠা ত্যাগৰ সময়ত মোক সাৱধান কৰক',
+	'vector-simplesearch-search' => 'সন্ধান কৰক',
+	'vector-simplesearch-containing' => 'যি আছে...',
+	'vector-noexperiments-preference' => 'ভৱিষ্যতৰ পৰীক্ষাবোৰৰ পৰা মোক ৰেহাই দিয়ক',
+);
+
+/** Asturian (Asturianu)
+ * @author Xuacu
+ */
+$messages['ast'] = array(
+	'vector' => "Meyores de la interfaz d'usuariu pa Vector",
+	'vector-desc' => "Meyora los elementos de la interfaz d'usuariu del aspeutu Vector.",
+	'vector-collapsiblenav-preference' => 'Activar anubrir elementos nel panel llateral del aspeutu Vector',
+	'vector-collapsiblenav-more' => 'Más llingües',
+	'vector-editwarning-warning' => 'Salir d\'esta páxina pue facer que se pierda cualesquier cambiu fechu.
+Si aniciasti sesión, puedes desactivar esti avisu na seición "Edición" de les tos preferencies.',
+	'vector-editwarning-preference' => "Avisame cuando salga d'una páxina d'edición con cambios ensin guardar",
+	'vector-simplesearch-search' => 'Guetar',
+	'vector-simplesearch-containing' => 'que contién...',
+	'vector-noexperiments-preference' => 'Escluíme de carauterístiques esperimentales',
+	'vector-footercleanup-transclusion' => "Esta páxina contién {{PLURAL:$1|una tresclusión|tresclusiones}} {{PLURAL:$1|d'otra páxina|d'otres $1 páxines}}.",
+);
+
 /** Azerbaijani (Azərbaycanca)
  * @author PPerviz
+ * @author Vugar 1981
  */
 $messages['az'] = array(
+	'vector-collapsiblenav-more' => 'Çoxlu dillər',
 	'vector-simplesearch-search' => 'Axtar',
 );
 
@@ -205,6 +256,7 @@ $messages['be-tarask'] = array(
 	'vector-simplesearch-search' => 'Пошук',
 	'vector-simplesearch-containing' => 'утрымлівае...',
 	'vector-noexperiments-preference' => 'Не прапаноўваць экспэрымэнтальныя магчымасьці',
+	'vector-footercleanup-transclusion' => 'Гэтая старонка ўключае {{PLURAL:$1|адну іншую старонку|$1 іншыя старонкі|$1 іншых старонак}}.',
 );
 
 /** Bulgarian (Български)
@@ -224,7 +276,7 @@ $messages['bg'] = array(
 	'vector-noexperiments-preference' => 'Не желая да участвам в бъдещи експерименти',
 );
 
-/** Bahasa Banjar (Bahasa Banjar)
+/** Banjar (Bahasa Banjar)
  * @author Ezagren
  */
 $messages['bjn'] = array(
@@ -236,6 +288,7 @@ $messages['bjn'] = array(
 
 /** Bengali (বাংলা)
  * @author Bellayet
+ * @author Nasir8891
  * @author Wikitanvir
  */
 $messages['bn'] = array(
@@ -248,6 +301,7 @@ $messages['bn'] = array(
 	'vector-editwarning-preference' => 'অসংরক্ষিত পরিবর্তন সহ কোনো পাতা ত্যাগের সময় সাবধান করো',
 	'vector-simplesearch-search' => 'অনুসন্ধান',
 	'vector-simplesearch-containing' => 'যা আছে...',
+	'vector-noexperiments-preference' => 'বৈশিষ্ট পরীক্ষার তালিকা থেকে আমাকে বাদ দেয়া হোক',
 );
 
 /** Bishnupria Manipuri (ইমার ঠার/বিষ্ণুপ্রিয়া মণিপুরী)
@@ -337,7 +391,7 @@ $messages['ckb'] = array(
 	'vector-simplesearch-containing' => 'بە لەبەرگرتنەوەی ...',
 );
 
-/** Crimean Turkish (Latin) (Qırımtatarca (Latin))
+/** Crimean Turkish (Latin script) (‪Qırımtatarca (Latin)‬)
  * @author Don Alessandro
  */
 $messages['crh-latn'] = array(
@@ -345,7 +399,7 @@ $messages['crh-latn'] = array(
 	'vector-simplesearch-containing' => 'içinde bu olğan...',
 );
 
-/** Crimean Turkish (Cyrillic) (Qırımtatarca (Cyrillic))
+/** Crimean Turkish (Cyrillic script) (‪Къырымтатарджа (Кирилл)‬)
  * @author Don Alessandro
  */
 $messages['crh-cyrl'] = array(
@@ -367,6 +421,7 @@ Pokud jste přihlášeni, můžete si toto varování vypnout na záložce „Ed
 	'vector-simplesearch-search' => 'Hledat',
 	'vector-simplesearch-containing' => 'obsahující…',
 	'vector-noexperiments-preference' => 'Neúčastnit se experimentů s novými funkcemi',
+	'vector-footercleanup-transclusion' => 'Do této stránky {{PLURAL:$1|je vložena $1 jiná stránka|jsou vloženy $1 jiné stránky|je vloženo $1 jiných stránek}}.',
 );
 
 /** Kashubian (Kaszëbsczi)
@@ -415,16 +470,17 @@ Gallwch ddiddymu\'r rhybudd hwn yn yr adran "Golygu" yn eich dewisiadau.',
  * @author Sir48
  */
 $messages['da'] = array(
-	'vector' => 'Forbedringer af brugerinterfacet til Vector',
-	'vector-desc' => 'Forbedrer dele af brugerinterfacet til Vector-skinnet',
-	'vector-collapsiblenav-preference' => 'Aktiver sammenklapning i navigationsmenuen i Vector-skinnet',
+	'vector' => 'Forbedringer af brugerfladen til Vector',
+	'vector-desc' => 'Forbedrer dele af brugerfladen til Vector-udseendet.',
+	'vector-collapsiblenav-preference' => 'Aktiver sammenklapning af sidemenuen i Vector-udseendet',
 	'vector-collapsiblenav-more' => 'Flere sprog',
 	'vector-editwarning-warning' => 'Hvis du forlader siden nu, risikerer du at miste alle ændringer som du har lavet.
 Denne advarsel kan slås fra under Redigering i dine indstillinger.',
-	'vector-editwarning-preference' => 'Advar mig hvis jeg forlader en redigeringsside med ikke gemte ændringer.',
+	'vector-editwarning-preference' => 'Advar mig, hvis jeg forlader en redigeringsside med ændringer, der ikke er gemt.',
 	'vector-simplesearch-search' => 'Søg',
 	'vector-simplesearch-containing' => 'indeholder...',
 	'vector-noexperiments-preference' => 'Udeluk mig fra funktionseksperimenter',
+	'vector-footercleanup-transclusion' => 'Denne side indeholder {{PLURAL:$1|en transklusion|transklusioner}} af {{PLURAL:$1|én anden side|$1 andre sider}}.',
 );
 
 /** German (Deutsch)
@@ -436,8 +492,8 @@ Denne advarsel kan slås fra under Redigering i dine indstillinger.',
  * @author ✓
  */
 $messages['de'] = array(
-	'vector' => 'Verbesserungen für die Vector-Benutzeroberfläche',
-	'vector-desc' => 'Stellt Verbesserungen für die Benutzeroberfläche „Vector“ zur Verfügung',
+	'vector' => 'Verbesserungen für die Benutzeroberfläche „Vector“',
+	'vector-desc' => 'Ermöglicht zusätzliche Verbesserungen der Benutzeroberfläche „Vector“',
 	'vector-collapsiblenav-preference' => 'Zusammenklappen von Elementen im Navigationsmenü der Benutzeroberfläche Vector aktivieren',
 	'vector-collapsiblenav-more' => 'Weitere Sprachen',
 	'vector-editwarning-warning' => 'Das Verlassen dieser Seite kann dazu führen, dass die Änderungen verloren gehen.
@@ -446,6 +502,7 @@ Als angemeldeter Benutzer kann das Anzeigen dieser Warnung im „Bearbeiten“-B
 	'vector-simplesearch-search' => 'Suche',
 	'vector-simplesearch-containing' => 'Volltextsuche nach …',
 	'vector-noexperiments-preference' => 'Nicht an Funktionsexperimenten teilnehmen',
+	'vector-footercleanup-transclusion' => 'In diese Seite {{PLURAL:$1|wurde eine Seite|wurden $1 Seiten}} eingebunden.',
 );
 
 /** German (formal address) (‪Deutsch (Sie-Form)‬) */
@@ -455,6 +512,7 @@ Wenn Sie angemeldet sind, können Sie das Anzeigen dieser Warnung im „Bearbeit
 );
 
 /** Zazaki (Zazaki)
+ * @author Erdemaslancan
  * @author Mirzali
  * @author Xoser
  */
@@ -466,8 +524,9 @@ $messages['diq'] = array(
 	'vector-editwarning-warning' => 'ihtimal o ke wexta şıma peli ra bıveci, vurnayiş o ke şıma kerdo, hewna şiyêro .
 eke şıma kewtê hesabê xo, no hişyari tercihanê xo ra şıma eşkeni "Ho vurnayeno" bıvındarnî .',
 	'vector-editwarning-preference' => 'wexta ke ez pelo nêqeydbiyaye ra veciyaya mı hişyar bıker',
-	'vector-simplesearch-search' => 'Cıgeyre',
-	'vector-simplesearch-containing' => 'tedeestey...',
+	'vector-simplesearch-search' => 'Cı geyre',
+	'vector-simplesearch-containing' => 'Estên...',
+	'vector-noexperiments-preference' => 'Mı tewrê cerbnayışan dê bahdoyêna meke',
 );
 
 /** Lower Sorbian (Dolnoserbski)
@@ -482,6 +541,8 @@ $messages['dsb'] = array(
 	'vector-editwarning-preference' => 'Warnowaś, gaž bok spušća se z njeskłaźonymi změnami',
 	'vector-simplesearch-search' => 'Pytaś',
 	'vector-simplesearch-containing' => 'wopśimujo...',
+	'vector-noexperiments-preference' => 'Mě z funkciskich eksperimentow wuzamknuś',
+	'vector-footercleanup-transclusion' => 'Toś ten bok wopśimujo {{PLURAL:$1|transkluziju|transkluziji|transkluzije|transkluzije}} $1 {{PLURAL:$1|drugego boka|drugeju bokowu|drugich bokow|drugich bokow}}.',
 );
 
 /** Greek (Ελληνικά)
@@ -515,13 +576,14 @@ $messages['eo'] = array(
 	'vector-collapsiblenav-more' => 'Pli lingvoj',
 	'vector-editwarning-warning' => 'Forlasante ĉi tiun paĝon kaŭzos al vi perdi iun ajn ŝanĝojn kiujn vi faris.
 Se vi ensalutas, vi povas malŝalti ĉi tiun averton en la sekcio "Grandeco de redakta tekstujo" de viaj preferoj.',
-	'vector-editwarning-preference' => 'Avertu min kiam mi forlasas redaktan paĝon kun nekonservitaj ŝanĝoj',
+	'vector-editwarning-preference' => 'Averti min kiam mi forlasas redaktan paĝon kun nekonservitaj ŝanĝoj',
 	'vector-simplesearch-search' => 'Serĉi',
 	'vector-simplesearch-containing' => 'enhavas...',
 	'vector-noexperiments-preference' => 'Ekskluzivu min de estontecaj testoj',
 );
 
 /** Spanish (Español)
+ * @author Armando-Martin
  * @author Crazymadlover
  * @author Drini
  * @author Fitoschido
@@ -531,21 +593,25 @@ Se vi ensalutas, vi povas malŝalti ĉi tiun averton en la sekcio "Grandeco de r
 $messages['es'] = array(
 	'vector' => 'Mejoras de interfaz de usuario para Vector',
 	'vector-desc' => 'Mejora los elementos de la interfaz de usuario del skin Vector.',
-	'vector-collapsiblenav-preference' => 'Activar el menú de navegación izquierda plegable en la piel Vector',
+	'vector-collapsiblenav-preference' => 'Activar menús plegables en la barra lateral de la piel Vector',
 	'vector-collapsiblenav-more' => 'Más idiomas',
-	'vector-editwarning-warning' => 'Dejar esta página le causará la pérdida de cualquier cambio que haya hecho.
-Si está "logueado", puede deshabilitar esta advertencia en la sección "Edición" de sus preferencias.',
+	'vector-editwarning-warning' => 'El dejar esta página causará la pérdida de cualquier cambio que hayas realizado.
+Si has iniciado sesión, puedes desactivar este aviso en la sección «Edición» en tus preferencias.',
 	'vector-editwarning-preference' => 'Advertirme cuando abandone una página editada con cambios sin grabar',
-	'vector-simplesearch-search' => 'Búsqueda',
+	'vector-simplesearch-search' => 'Buscar',
 	'vector-simplesearch-containing' => 'conteniendo...',
 	'vector-noexperiments-preference' => 'Excluirme de características experimentales',
+	'vector-footercleanup-transclusion' => 'Esta página contiene {{PLURAL:$1|una transclusión|transclusiones}} {{PLURAL:$1|de otra página|de otras $1 páginas}}.',
 );
 
 /** Estonian (Eesti)
  * @author Pikne
  */
 $messages['et'] = array(
+	'vector' => 'Vector-kujunduse kasutajaliidese täiustused',
+	'vector-desc' => 'Täiustab Vector-kujunduse kasutajaliidese elemente.',
 	'vector-collapsiblenav-preference' => 'Luba Vektori-kujundusega navigeerimismenüü üksusi peita',
+	'vector-collapsiblenav-more' => 'Veel keeli',
 	'vector-editwarning-warning' => 'Sellelt leheküljelt lahkumise tõttu võivad tehtud muudatused kaotsi minna.
 Kui oled sisse loginud, saad selle hoiatuse eelistuste alaosas "Toimetamine" keelata.',
 	'vector-editwarning-preference' => 'Hoiata mind, kui lahkun redigeerimisleheküljelt muudatusi salvestamata',
@@ -574,6 +640,7 @@ Saioa hasi baduzu, mezu hau kendu dezakezu zure hobespenen orrialdeko "Aldatzen"
  * @author Huji
  * @author Ladsgroup
  * @author Sahim
+ * @author ZxxZxxZ
  */
 $messages['fa'] = array(
 	'vector' => 'بهبودهای رابط کاربر برای پوستهٔ برداری',
@@ -582,15 +649,17 @@ $messages['fa'] = array(
 	'vector-collapsiblenav-more' => 'زبان‌های بیشتر',
 	'vector-editwarning-warning' => 'خروج از این صفحه ممکن است باعث از دست رفتن هرچه نوشته‌اید شود.
 اگر شما با نام کاربری وارد شده‌اید می‌توانید این هشدار را در بخش «در حال ویرایش» ترجیحاتتان بیابید.',
-	'vector-editwarning-preference' => 'زمان خروج از صفحهٔ ویرایش در صورت داشتن ویرایش‌های‌ ذخیره‌نشده به من هشدار بده',
+	'vector-editwarning-preference' => 'زمان خروج از صفحهٔ ویرایش در صورت داشتن ویرایش‌های‌ ذخیره‌نشده به من هشدار داده شود',
 	'vector-simplesearch-search' => 'جستجو',
 	'vector-simplesearch-containing' => 'صفحه‌های دربردارنده...',
 	'vector-noexperiments-preference' => 'من را از ویژگی‌های آزمایشی مستثنی کن',
+	'vector-footercleanup-transclusion' => 'این صفحه شامل {{PLURAL:$1|تراگنجانش|تراگنجانش‌های}} {{PLURAL:$1|صفحه‌ای دیگر است|$1 صفحهٔ دیگر است}}.',
 );
 
 /** Finnish (Suomi)
  * @author Crt
  * @author Nike
+ * @author Olli
  * @author Str4nd
  */
 $messages['fi'] = array(
@@ -603,11 +672,20 @@ Jos olet kirjautuneena sisään, voit poistaa tämän varoituksen käytöstä as
 	'vector-editwarning-preference' => 'Varoita minua, kun poistun muokkaussivulta tallentamatta muutoksia',
 	'vector-simplesearch-search' => 'Etsi',
 	'vector-simplesearch-containing' => 'sisältää...',
+	'vector-noexperiments-preference' => 'Älä ota minua mukaan ominaisuuskokeiluihin',
+);
+
+/** Faroese (Føroyskt)
+ * @author Diupwijk
+ */
+$messages['fo'] = array(
+	'vector-simplesearch-search' => 'Leita',
 );
 
 /** French (Français)
  * @author IAlex
  * @author Jean-Frédéric
+ * @author McDutchie
  * @author PieRRoMaN
  * @author Sherbrooke
  * @author Urhixidur
@@ -623,6 +701,7 @@ Si vous êtes connecté avec votre compte, vous pouvez retirer cet avertissement
 	'vector-simplesearch-search' => 'Rechercher',
 	'vector-simplesearch-containing' => 'contenant...',
 	'vector-noexperiments-preference' => "M'exclure des expériences de nouvelles fonctionnalités",
+	'vector-footercleanup-transclusion' => 'Cette page contient {{PLURAL:$1|une traduction|des traductions}} de $1 {{PLURAL:$1|autre page|autres pages}}.',
 );
 
 /** Franco-Provençal (Arpetan)
@@ -630,7 +709,7 @@ Si vous êtes connecté avec votre compte, vous pouvez retirer cet avertissement
  */
 $messages['frp'] = array(
 	'vector' => 'Mèlyoracions EU por « Vèctor »',
-	'vector-desc' => 'Mèlyoracions des èlèments de l’entèrface utilisator de l’habelyâjo « Vèctor ».',
+	'vector-desc' => 'Mèlyoracions des èlèments de l’entèrface usanciér de l’habelyâjo « Vèctor ».',
 	'vector-collapsiblenav-preference' => 'Activar lo menu de navigacion repleyâblo avouéc l’habelyâjo « Vèctor »',
 	'vector-collapsiblenav-more' => 'Més de lengoues',
 	'vector-editwarning-warning' => 'Quitar ceta pâge vos farat pèrdre tôs los changements que vos éd fêts.
@@ -638,6 +717,7 @@ Se vos éte branchiê, vos pouede enlevar ceti avèrtissement dens la sèccion �
 	'vector-editwarning-preference' => 'M’avèrtir quand quito una pâge de changement sen sôvar los changements',
 	'vector-simplesearch-search' => 'Rechèrchiér',
 	'vector-simplesearch-containing' => 'que contint...',
+	'vector-noexperiments-preference' => 'M’èxcllure des èxpèriences de novèles fonccionalitâts',
 );
 
 /** Friulian (Furlan)
@@ -648,6 +728,11 @@ $messages['fur'] = array(
 	'vector-editwarning-preference' => 'Visimi cuant che o stoi par lassâ une pagjine dulà che a son cambiaments no salvâts',
 	'vector-simplesearch-search' => 'Ricercje',
 	'vector-simplesearch-containing' => 'che al à dentri...',
+);
+
+/** Simplified Gan script (‪赣语(简体)‬) */
+$messages['gan-hans'] = array(
+	'vector-simplesearch-search' => '寻吖',
 );
 
 /** Traditional Gan script (‪贛語(繁體)‬)
@@ -677,8 +762,8 @@ Ma tha thu air logadh a-steach, \'s urrainn dhut an rabhadh seo a chur dheth san
  */
 $messages['gl'] = array(
 	'vector' => 'Melloras na interface de usuario para a aparencia Vector',
-	'vector-desc' => 'Mellora os elementos da interface de usuario da aparencia Vector.',
-	'vector-collapsiblenav-preference' => 'Activar o menú de navegación despregable á esquerda na aparencia vector',
+	'vector-desc' => 'Mellora os elementos da interface de usuario da aparencia Vector',
+	'vector-collapsiblenav-preference' => 'Activar o menú de navegación despregable á esquerda na aparencia Vector',
 	'vector-collapsiblenav-more' => 'Máis linguas',
 	'vector-editwarning-warning' => 'Deixar esta páxina pode causar a perda de calquera cambio feito.
 Se accedeu ao sistema, pode desactivar esta mensaxe de advertencia na sección "Edición" das súas preferencias.',
@@ -686,6 +771,7 @@ Se accedeu ao sistema, pode desactivar esta mensaxe de advertencia na sección "
 	'vector-simplesearch-search' => 'Procurar',
 	'vector-simplesearch-containing' => 'que conteña...',
 	'vector-noexperiments-preference' => 'Excluídeme das novas características',
+	'vector-footercleanup-transclusion' => 'Esta páxina contén {{PLURAL:$1|unha transclusión|transclusións}} {{PLURAL:$1|doutra páxina|doutras $1 páxinas}}.',
 );
 
 /** Ancient Greek (Ἀρχαία ἑλληνικὴ) */
@@ -708,6 +794,24 @@ Wänn Du aagmäldet bisch, chasch s Anzeige vu däre Warnig im „Tekscht-Ygab�
 	'vector-simplesearch-search' => 'Suechi',
 	'vector-simplesearch-containing' => 'din het s …',
 	'vector-noexperiments-preference' => 'Mi uusschließe vu dr Dailnahm Feature-Experimänt',
+	'vector-footercleanup-transclusion' => 'In die Syte {{PLURAL:$1|isch ei Syte|sin $1 Syte}} yybunde wore.',
+);
+
+/** Gujarati (ગુજરાતી)
+ * @author KartikMistry
+ * @author Sushant savla
+ */
+$messages['gu'] = array(
+	'vector' => 'વેક્ટર માટે UI સુધારા',
+	'vector-desc' => 'વેક્ટર સ્કીનના યુઝર ઈંટરફેઝ ના તત્વોને સુધારે છે',
+	'vector-collapsiblenav-preference' => 'વેક્ટર સ્કીનના સાઈડ બારમાં કોલેપ્સીંગ સક્રીય કરશે.',
+	'vector-collapsiblenav-more' => 'વધુ ભાષાઓ',
+	'vector-editwarning-warning' => 'આ પાનું છોડી દેશો તો તમરા ફેરફારો સચવાશે નહીં.
+જો તમે પ્રવેશ કરેલો હોય તો તમે આ ચેતવણીને તમારી પસંદના "ફેરફાર" વિભાગના વિકલ્પો બદલીને બંધ કરી શકો છો.',
+	'vector-editwarning-preference' => 'સાચવ્યા વગર જો હું પૃષ્ઠ છોડું તો મને ચેતવણી આપો',
+	'vector-simplesearch-search' => 'શોધો',
+	'vector-simplesearch-containing' => 'ધરાવતી...',
+	'vector-noexperiments-preference' => 'મને પ્રયોગોમાંથી બકાત રાખો',
 );
 
 /** Manx (Gaelg)
@@ -724,6 +828,7 @@ My t'ou uss loggalt stiagh, foddee oo lhiettal y raaue shoh 'sy tosheeaghtyn ayd
 
 /** Hebrew (עברית)
  * @author Amire80
+ * @author Ofekalef
  * @author Rotemliss
  * @author YaronSh
  * @author Yonidebest
@@ -735,10 +840,21 @@ $messages['he'] = array(
 	'vector-collapsiblenav-more' => 'דף זה בשפות אחרות',
 	'vector-editwarning-warning' => 'עזיבת דף זה עשויה לגרום לאובדן כל השינויים שביצעתם.
 אם אתם מחוברים לחשבון, תוכלו לבטל אזהרה זו בחלק "עריכה" שבהעדפות שלכם.',
-	'vector-editwarning-preference' => 'הצגת אזהרה אם אני עומד לעזוב דף עריכה עם שינויים שטרם נשמרו',
+	'vector-editwarning-preference' => 'הצגת אזהרה בעת עזיבת דף עריכה עם שינויים שטרם נשמרו',
 	'vector-simplesearch-search' => 'חיפוש',
 	'vector-simplesearch-containing' => 'כולל...',
 	'vector-noexperiments-preference' => 'אל תכללו אותי בניסויים בעתיד',
+	'vector-footercleanup-transclusion' => 'הדף הזה מכליל {{PLURAL:$1|דף אחד אחר|$1 דפים אחרים}}',
+);
+
+/** Hindi (हिन्दी)
+ * @author Ansumang
+ */
+$messages['hi'] = array(
+	'vector' => 'यूआई उन्नति वेक्टर स्किन के लिए',
+	'vector-collapsiblenav-more' => 'और अधिक भाषाएं',
+	'vector-simplesearch-search' => 'खोज',
+	'vector-noexperiments-preference' => 'मुझे सुविधा प्रयोगों से बाहर निकालें',
 );
 
 /** Croatian (Hrvatski)
@@ -767,11 +883,12 @@ $messages['hsb'] = array(
 	'vector-desc' => 'Polěpša elementy wužiwarskeho powjercha šata Vector',
 	'vector-collapsiblenav-preference' => 'Pokazowanje zapiskow w nawigaciskim meniju w šaće Vector zmóžnić',
 	'vector-collapsiblenav-more' => 'Dalše rěče',
-	'vector-editwarning-warning' => 'Hdyž so strona wopušća, móžeja so změny zhubić, kotrež sy přewjedł. Jeli sy přizjewjeny, móžeš tute warnowanje we wotrězku Wobdźěłowanje swojich nastajenjow znjemóžnić.',
+	'vector-editwarning-warning' => 'Hdyž so strona wopušća, móžeja so změny zhubić, kotrež sy přewjedł. Jeli sy přizjewjeny, móžeš tute warnowanje we wotrězku "Wobdźěłowanje" swojich nastajenjow znjemóžnić.',
 	'vector-editwarning-preference' => 'Warnować, hdyž so wobdźěłowanska strona z njeskładowanymi změnami wopušća',
 	'vector-simplesearch-search' => 'Pytać',
 	'vector-simplesearch-containing' => 'wobsahuje...',
 	'vector-noexperiments-preference' => 'Mje z funkciskich eksperimentow wuzamknyć',
+	'vector-footercleanup-transclusion' => 'Tuta strona wobsahuje {{PLURAL:$1|transkluziju|transkluziji|transkluzije|transkluzije}} $1 {{PLURAL:$1|druheje strony|druheju stronow|druhich stronow|druhich stronow}}.',
 );
 
 /** Hungarian (Magyar)
@@ -816,6 +933,7 @@ Si tu ha aperite un session, tu pote disactivar iste aviso in le section "Modifi
 	'vector-simplesearch-search' => 'Cercar',
 	'vector-simplesearch-containing' => 'continente...',
 	'vector-noexperiments-preference' => 'Excluder me de functionalitate experimental',
+	'vector-footercleanup-transclusion' => 'Iste pagina contine {{PLURAL:$1|un transclusion|transclusiones}} de $1 altere {{PLURAL:$1|pagina|paginas}}.',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -841,7 +959,24 @@ Jika Anda telah masuk log, Anda dapat mematikan peringatan ini lewat "Penyunting
  * @author Ukabia
  */
 $messages['ig'] = array(
-	'vector-simplesearch-search' => 'Chöwá',
+	'vector-simplesearch-search' => 'Chọwa',
+);
+
+/** Iloko (Ilokano)
+ * @author Lam-ang
+ */
+$messages['ilo'] = array(
+	'vector' => 'Napasayat nga UI iti Vector',
+	'vector-desc' => 'Napasaayat kadagiti "interface elements" ti agar-aramat no agusar iti kudil a Vector.',
+	'vector-collapsiblenav-preference' => 'Pakabaelan na ti pagpabassit kadagita adda dita  "sidebar" ti Vector a kudil',
+	'vector-collapsiblenav-more' => 'Adu pay a pagsasao',
+	'vector-editwarning-warning' => 'No pumanaw ka ditoy a panid baka agpukaw dagiti binalbaliwam.
+No nakastrekka, mabalin mo nga ikkaten daytoy a ballaag idiay "Panagurnos" a paset kadagiti kaykayatmo.',
+	'vector-editwarning-preference' => 'Pakaunaannak no pumanawak iti inurnos a panid a saan a naidulin dagiti sinukatan',
+	'vector-simplesearch-search' => 'Biruken',
+	'vector-simplesearch-containing' => 'naglaon ti...',
+	'vector-noexperiments-preference' => 'Saannak nga iraman kadagiti eksperimento a langa',
+	'vector-footercleanup-transclusion' => 'Daytoy a panid ket naglaon  {{PLURAL:$1|ti transklusion|dagiti transklusion}} iti {{PLURAL:$1|maysa a panid|$1 dadduma a pampanid}}.',
 );
 
 /** Ido (Ido)
@@ -855,16 +990,25 @@ $messages['io'] = array(
 
 /** Icelandic (Íslenska)
  * @author Krun
+ * @author Snævar
  * @author Ævar Arnfjörð Bjarmason
  */
 $messages['is'] = array(
+	'vector' => 'Viðmóts lagfæringar á Vector-sniði',
+	'vector-desc' => 'Endurbætir notanda viðmót Vector sniðsins.',
+	'vector-collapsiblenav-preference' => 'Fella saman hluti í hliðarstiku Vector sniðsins',
 	'vector-collapsiblenav-more' => 'Fleiri tungumál',
+	'vector-editwarning-warning' => 'Ef farið er frá þessari síðu gætu þær breytingar sem þú hefur gert tapast.
+Ef þú ert skráður inn, þá getur þú óvirkjað þessi skilaboð í „Breytingarflipanum" undir stillingum.',
+	'vector-editwarning-preference' => 'Vara mig við þegar ég fer frá breytingarsíðu með óvistaðar breytingar',
 	'vector-simplesearch-search' => 'Leita',
 	'vector-simplesearch-containing' => 'sem innihalda ...',
+	'vector-noexperiments-preference' => 'Útiloka mig frá tilraunum framvegis.',
 );
 
 /** Italian (Italiano)
  * @author Beta16
+ * @author F. Cosoleto
  * @author Una giornata uggiosa '94
  */
 $messages['it'] = array(
@@ -874,27 +1018,29 @@ $messages['it'] = array(
 	'vector-collapsiblenav-more' => 'Più lingue',
 	'vector-editwarning-warning' => 'Lasciare questa pagina potrebbe costarti la perdita di tutti i cambiamenti effettuati.
 Se sei loggato, puoi disattivare questo avviso nella sezione "Casella di modifica" delle tue preferenze.',
-	'vector-editwarning-preference' => 'Avvisa quando lascio una pagina di modifica con modifiche non salvate',
+	'vector-editwarning-preference' => 'Avvisa quando si lascia una pagina di modifica con modifiche non salvate',
 	'vector-simplesearch-search' => 'Ricerca',
 	'vector-simplesearch-containing' => 'contenente...',
 	'vector-noexperiments-preference' => 'Escludimi dalle funzionalità sperimentali',
+	'vector-footercleanup-transclusion' => "Questa pagina contiene {{PLURAL:$1|un'inclusione|delle inclusioni}} di {{PLURAL:$1|un'altra pagina|$1 altre pagine}}.",
 );
 
 /** Japanese (日本語)
  * @author Fryed-peach
+ * @author Shirayuki
  * @author Whym
  * @author 青子守歌
  */
 $messages['ja'] = array(
-	'vector' => 'ベクター用ユーザーインターフェイス改良',
-	'vector-desc' => 'ベクター・スキンのユーザーインターフェイス要素を改良する。',
-	'vector-collapsiblenav-preference' => 'ベクター外装のナビゲーションで、項目の折り畳みを有効化する',
+	'vector' => 'ベクター外装用ユーザーインターフェイス改良',
+	'vector-desc' => 'ベクター外装のユーザーインターフェイス要素を改良する',
+	'vector-collapsiblenav-preference' => 'ベクター外装のナビゲーションで、項目の折り畳みを有効にする',
 	'vector-collapsiblenav-more' => '他の言語',
 	'vector-editwarning-warning' => 'このページを離れると、あなたが行った変更はすべて失われてしまうかもしれません。ログインしている場合、個人設定の「編集」タブでこの警告を表示しないようにすることができます。',
-	'vector-editwarning-preference' => '変更を保存せずに編集画面から離れようとした際に警告する',
+	'vector-editwarning-preference' => '変更を保存せずに編集画面から離れようとしたら警告',
 	'vector-simplesearch-search' => '検索',
 	'vector-simplesearch-containing' => 'この語句を全文検索',
-	'vector-noexperiments-preference' => '機能についての実験から自分を除外する',
+	'vector-noexperiments-preference' => '開発中の機能から自分を除外',
 );
 
 /** Javanese (Basa Jawa) */
@@ -904,6 +1050,8 @@ $messages['jv'] = array(
 
 /** Georgian (ქართული)
  * @author BRUTE
+ * @author David1010
+ * @author ITshnik
  * @author გიორგიმელა
  */
 $messages['ka'] = array(
@@ -915,6 +1063,27 @@ $messages['ka'] = array(
 	'vector-editwarning-preference' => 'გამაფრთხილე, როდესაც დავტოვებ რედაქტირებად გვერდს, დაუმახსოვრებელი ცვლილებებით',
 	'vector-simplesearch-search' => 'ძიება',
 	'vector-simplesearch-containing' => 'შეიცავს...',
+	'vector-noexperiments-preference' => 'გამომრიცხე შემდგომი ექსპერიმენტებისგან.',
+	'vector-footercleanup-transclusion' => 'ეს გვერდი შეიცავს {{PLURAL:$1|ერთი სხვა გვერდის|$1 სხვა გვერდის}} {{PLURAL:$1|ჩანართს|ჩანართს}}.',
+);
+
+/** Kazakh (Қазақша)
+ * @author Kaztrans
+ */
+$messages['kk'] = array(
+	'vector-editwarning-warning' => 'Басқа бетке өтсеңіз сіздің жазған соңғы өңдемелеріңіз жойылуы мүмкін. 
+Егер сiз жүйеде тiркелсеңiз, онда сiз баптауларыңыздағы «Өңдеу» бөлігіне кіріп, бұл ескертуді өшіре аласыз.',
+);
+
+/** Kazakh (Cyrillic script) (‪Қазақша (кирил)‬)
+ * @author GaiJin
+ * @author Kaztrans
+ */
+$messages['kk-cyrl'] = array(
+	'vector-editwarning-warning' => 'Басқа бетке өтсеңіз сіздің жазған соңғы өңдемелеріңіз жойылуы мүмкін. 
+Егер сiз жүйеде тiркелсеңiз, онда сiз баптауларыңыздағы «Өңдеу» бөлігіне кіріп, бұл ескертуді өшіре аласыз.',
+	'vector-simplesearch-search' => 'Іздеу',
+	'vector-noexperiments-preference' => 'Параметр эксперименттеріне қатыстырма',
 );
 
 /** Kalaallisut (Kalaallisut)
@@ -934,12 +1103,14 @@ $messages['km'] = array(
 	'vector-editwarning-preference' => 'សូមព្រមាន​ខ្ញុំ​ ពេលដែលខ្ញុំ​ចាកចេញ​ពី​ទំព័រ​កែប្រែដោយមិន​បានរក្សា​ទុកបំលាស់ប្ដូរ​នានា​',
 	'vector-simplesearch-search' => 'ស្វែងរក​',
 	'vector-simplesearch-containing' => 'ដែលមានពាក្យ...',
+	'vector-noexperiments-preference' => 'ដកខ្ញុំចេញពីការពិសោធន៍មុខងារថ្មីៗ',
 );
 
 /** Korean (한국어)
  * @author Albamhandae
  * @author IRTC1015
  * @author Kwj2772
+ * @author 아라
  */
 $messages['ko'] = array(
 	'vector' => '벡터 스킨의 인터페이스 향상',
@@ -952,6 +1123,7 @@ $messages['ko'] = array(
 	'vector-simplesearch-search' => '검색',
 	'vector-simplesearch-containing' => '다음의 어구가 들어간 문서 찾기',
 	'vector-noexperiments-preference' => '새 기능 실험에서 나를 제외합니다.',
+	'vector-footercleanup-transclusion' => '이 페이지는 다른 $1 페이지의 트랜스클루전이 포함되어 있습니다.',
 );
 
 /** Karachay-Balkar (Къарачай-Малкъар)
@@ -983,9 +1155,10 @@ Do kanns heh di Warnung affschallde, wann de aanjemelldt un enjelogg bes, dann k
 	'vector-simplesearch-search' => 'Söhke',
 	'vector-simplesearch-containing' => 'dren änthallde…',
 	'vector-noexperiments-preference' => 'Donn mesch nit met neue Saache zom Ußprobeere behällijje',
+	'vector-footercleanup-transclusion' => 'Heh di Sigg trick {{PLURAL:$1|ein ander Sigg|$1 ander Sigge|kein ander Sigg}} en sesch eren.',
 );
 
-/** Kurdish (Latin) (Kurdî (Latin))
+/** Kurdish (Latin script) (‪Kurdî (latînî)‬)
  * @author Erdal Ronahi
  */
 $messages['ku-latn'] = array(
@@ -996,14 +1169,15 @@ $messages['ku-latn'] = array(
 
 /** Cornish (Kernowek)
  * @author Kw-Moon
+ * @author Nrowe
  */
 $messages['kw'] = array(
-	'vector-collapsiblenav-more' => 'Moy a yethow',
-	'vector-editwarning-warning' => 'Mar qwrewgh whi gara an folen-ma, whi a alja kelly chanjyow eus gwres genowgh.
-Mars owgh whi omgelmys, whi a ell dialosegy an gwarnyans-ma en trogh "Chanjya" agas dowisyanjow.',
-	'vector-editwarning-preference' => 'Gwra ow gwarnya pan von gara folen chanjya gen chanjyow nag eus gwithys',
-	'vector-simplesearch-search' => 'Whilas',
-	'vector-simplesearch-containing' => 'ow senjy...',
+	'vector-collapsiblenav-more' => 'Moy yethow',
+	'vector-editwarning-warning' => 'Mar tewgh hwi ha gasa an folen-ma, hwi a alsa kelli chanjyow eus gwres genowgh.
+Mars owgh hwi omgelmys, hwi a ell dialosegi an gwarnyans-ma en trogh "Chanjya" agas dowisyansow.',
+	'vector-editwarning-preference' => 'Gwra ow gwarnya pan wrellen vy gasa folen chanjya gans chanjyow nag eus gwithys',
+	'vector-simplesearch-search' => 'Hwilas',
+	'vector-simplesearch-containing' => 'ow senji...',
 );
 
 /** Latin (Latina) */
@@ -1049,6 +1223,8 @@ Es se bös aangemeld, kins se dees waorsjoewing oetzètten in 't bewerkingstabbl
 	'vector-editwarning-preference' => "Waorssjoew mich es ich 'n bewerkdje pagina die nag neet is opgeslage wil verlaote",
 	'vector-simplesearch-search' => 'Zeuke',
 	'vector-simplesearch-containing' => 'bevat...',
+	'vector-noexperiments-preference' => "Laot mich in 't vervolg neet mier mitdoon aan experimente",
+	'vector-footercleanup-transclusion' => "Dees pagina bevat {{PLURAL:$1|'n transclusie|transclusies}} van {{PLURAL:$1|ein anger pagina|$1 anger pagina's}}.",
 );
 
 /** Lithuanian (Lietuvių)
@@ -1061,6 +1237,16 @@ $messages['lt'] = array(
 	'vector-editwarning-warning' => 'Palikdamas šį puslapį jūs prarasite visus padarytus pakeitimus.',
 	'vector-editwarning-preference' => 'Perspėti mane, kai palieku redagavimo puslapį, o jame yra neišsaugotų pakeitimų',
 	'vector-simplesearch-search' => 'Ieškoti',
+);
+
+/** Lushai (Mizo ţawng)
+ * @author RMizo
+ */
+$messages['lus'] = array(
+	'vector-collapsiblenav-more' => 'Ţawng dangin',
+	'vector-editwarning-preference' => 'Ka phêk siam danglamna ka dahţhat theihnghilh palh chuan min hrilh rawh',
+	'vector-simplesearch-search' => 'Zawnna',
+	'vector-simplesearch-containing' => 'hemi thu telna hi...',
 );
 
 /** Latvian (Latviešu)
@@ -1094,6 +1280,7 @@ $messages['min'] = array(
 
 /** Macedonian (Македонски)
  * @author Bjankuloski06
+ * @author Brest
  */
 $messages['mk'] = array(
 	'vector' => 'Подобрувања на посредникот за изгледот „Векторски“',
@@ -1105,7 +1292,8 @@ $messages['mk'] = array(
 	'vector-editwarning-preference' => 'Предупреди ме кога сакам да напуштам страница за уредување без да ги имам зачувано промените',
 	'vector-simplesearch-search' => 'Пребарување',
 	'vector-simplesearch-containing' => 'содржи...',
-	'vector-noexperiments-preference' => 'Изземиме од експерименти so функции',
+	'vector-noexperiments-preference' => 'Изземи ме од експерименти сo функции',
+	'vector-footercleanup-transclusion' => 'Оваа страница содржи {{PLURAL:$1|превметнување|превметнувања}} на уште $1 {{PLURAL:$1|друга страница|други страници}}.',
 );
 
 /** Malayalam (മലയാളം)
@@ -1121,8 +1309,9 @@ $messages['ml'] = array(
 താങ്കൾ ലോഗിൻ ചെയ്തിട്ടുണ്ടെങ്കിൽ, താങ്കളുടെ ക്രമീകരണങ്ങളിൽ "തിരുത്തൽ" എന്ന ഭാഗത്ത് ചെന്ന് ഈ അറിയിപ്പ് പ്രദർശിപ്പിക്കുന്നത് ഒഴിവാക്കാവുന്നതാണ്.',
 	'vector-editwarning-preference' => 'സേവ് ചെയ്യാത്ത മാറ്റങ്ങളോടു കൂടിയ തിരുത്തൽ താളിൽ നിന്നും പോകുമ്പോൾ എന്നെ അറിയിക്കുക',
 	'vector-simplesearch-search' => 'തിരയുക',
-	'vector-simplesearch-containing' => 'ഉൾപ്പെടുത്തുന്നു...',
+	'vector-simplesearch-containing' => 'ഉൾപ്പെടുന്നവ...',
 	'vector-noexperiments-preference' => 'സവിശേഷഗുണങ്ങൾ പരീക്ഷിക്കുന്നതിൽ നിന്നും എന്നെ ഒഴിവാക്കുക',
+	'vector-footercleanup-transclusion' => 'ഈ താളിൽ {{PLURAL:$1|മറ്റൊരു താൾ|മറ്റ് $1 താളുകൾ}} ഉൾപ്പെടുത്തിയിട്ടുണ്ട്.',
 );
 
 /** Mongolian (Монгол) */
@@ -1144,6 +1333,7 @@ $messages['mr'] = array(
 	'vector-editwarning-preference' => 'जर मी संपादित करीत असलेल्या पानावरील माझे संपादिलेले बदल जतन न केल्यास मला इशारा द्या',
 	'vector-simplesearch-search' => 'शोधा',
 	'vector-simplesearch-containing' => '.......हे असलेले',
+	'vector-noexperiments-preference' => 'प्रायोगिक वैशिष्ट्यापासून मला दूर ठेवा',
 );
 
 /** Malay (Bahasa Melayu)
@@ -1162,6 +1352,7 @@ Anda boleh melumpuhkan amaran in di bahagian "Menyunting" dalam keutamaan anda.'
 	'vector-simplesearch-search' => 'Cari',
 	'vector-simplesearch-containing' => 'mengandungi...',
 	'vector-noexperiments-preference' => 'Kecualikan saya dari uji kaji ciri',
+	'vector-footercleanup-transclusion' => 'Laman ini mengandungi {{PLURAL:$1|transklusi|transklusi-transklusi}} {{PLURAL:$1|satu laman lain|$1 laman lain}}.',
 );
 
 /** Maltese (Malti)
@@ -1187,16 +1378,34 @@ $messages['nah'] = array(
 	'vector-simplesearch-search' => 'Tlatēmoliztli',
 );
 
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+ * @author Jon Harald Søby
+ * @author Laaknor
+ * @author Nghtwlkr
+ */
+$messages['nb'] = array(
+	'vector' => 'Brukergrensesnittsforbedringer for Vector',
+	'vector-desc' => 'Forbedrer elementer i brukergrensesnittet for Vector-utseendet.',
+	'vector-collapsiblenav-preference' => 'Aktiver sammenlegging av element i navigeringsmenyen i drakten Vector',
+	'vector-collapsiblenav-more' => 'Flere språk',
+	'vector-editwarning-warning' => 'Ved å forlate siden vil du miste alle endringer du har utført.
+Denne advarselen kan slås av under Redigering i instillingene dine.',
+	'vector-editwarning-preference' => 'Si ifra dersom jeg forlater en side jeg har gjort redigeringer på men ikke har lagret siden.',
+	'vector-simplesearch-search' => 'Søk',
+	'vector-simplesearch-containing' => 'inneholder …',
+	'vector-noexperiments-preference' => 'Eksluder meg fra funksjonseksperimenter',
+);
+
 /** Nedersaksisch (Nedersaksisch)
  * @author Servien
  */
 $messages['nds-nl'] = array(
-	'vector-collapsiblenav-preference' => "Inklapbaor navigasiemenu inschakelen bie 't gebruuk van Vector",
+	'vector-collapsiblenav-preference' => 'Inklapbaor navigasiemenu inschakelen bie t gebruuk van Vector',
 	'vector-collapsiblenav-more' => 'Meer talen',
-	'vector-editwarning-warning' => 'A-j disse pagina ofsluten dan kan \'t ween dat der wieziging dee-j emaak hemmen kwiet raken.
-A-j an-emeld bin, dan ku-j disse waorschuwing uutzetten in \'t tabblad "Bewarken" in joew veurkeuren.',
-	'vector-editwarning-preference' => 'Waorschuw mien a-k een bewörken pagina of wil sluten dee-j nog neet op-esleugen is',
-	'vector-simplesearch-search' => 'Zeuken',
+	'vector-editwarning-warning' => "A'j disse pagina aofsluten dan kan t ween dat der wieziging die'j emaakt hebben kwiet raken.
+A'j an-emeld bin, dan ku'j disse waorschuwing uutzetten in t tabblad \"Bewarken\" in joew veurkeuren.",
+	'vector-editwarning-preference' => "Waorschuw mien a'k n bewörken pagina of wil sluten die'j nog niet op-esleugen is",
+	'vector-simplesearch-search' => 'Zeuken / zuken / zuiken',
 	'vector-simplesearch-containing' => 'bevat...',
 );
 
@@ -1214,6 +1423,7 @@ Als u bent aangemeld, kunt u deze waarschuwing uitschakelen in het tabblad "Bewe
 	'vector-simplesearch-search' => 'Zoeken',
 	'vector-simplesearch-containing' => 'bevat...',
 	'vector-noexperiments-preference' => 'Mij in de toekomst niet laten deelnemen aan experimenten',
+	'vector-footercleanup-transclusion' => "Deze pagina bevat {{PLURAL:$1|een transclusie|transclusies}} van {{PLURAL:$1|één andere pagina|$1 andere pagina's}}.",
 );
 
 /** Norwegian Nynorsk (‪Norsk (nynorsk)‬)
@@ -1226,24 +1436,6 @@ Denne åtvaringa kan slåast av under Endring i instillingane dine.',
 	'vector-editwarning-preference' => 'Gje ei åtvaring om eg går ut av ei redigeringsside og ikkje alle endringar er lagra',
 	'vector-simplesearch-search' => 'Søk',
 	'vector-simplesearch-containing' => 'inneheld ...',
-);
-
-/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
- * @author Jon Harald Søby
- * @author Laaknor
- * @author Nghtwlkr
- */
-$messages['no'] = array(
-	'vector' => 'Brukergrensesnittsforbedringer for Vector',
-	'vector-desc' => 'Forbedrer elementer i brukergrensesnittet for Vector-utseendet.',
-	'vector-collapsiblenav-preference' => 'Aktiver sammenlegging av element i navigeringsmenyen i drakten Vector',
-	'vector-collapsiblenav-more' => 'Flere språk',
-	'vector-editwarning-warning' => 'Ved å forlate siden vil du miste alle endringer du har utført.
-Denne advarselen kan slås av under Redigering i instillingene dine.',
-	'vector-editwarning-preference' => 'Si ifra dersom jeg forlater en side jeg har gjort redigeringer på men ikke har lagret siden.',
-	'vector-simplesearch-search' => 'Søk',
-	'vector-simplesearch-containing' => 'inneholder …',
-	'vector-noexperiments-preference' => 'Eksluder meg fra funksjonseksperimenter',
 );
 
 /** Occitan (Occitan)
@@ -1260,6 +1452,23 @@ Se sètz connectat amb vòstre compte, podètz levar aqueste avertiment dins la 
 	'vector-simplesearch-containing' => 'que conten...',
 );
 
+/** Oriya (ଓଡ଼ିଆ)
+ * @author Odisha1
+ * @author Psubhashish
+ */
+$messages['or'] = array(
+	'vector' => 'ଭେକ୍ଟର ପାଇଁ ଇଉଜର ଇଣ୍ଟରଫେସ ଉନ୍ନତିକରଣ',
+	'vector-desc' => 'ଭେକ୍ଟର ଆବରଣରେ ଇଉଜର ଇଣ୍ଟରଫେସ ଉପାଦାନସମୂହକୁ ଉନ୍ନତ କରିବେ ।',
+	'vector-collapsiblenav-preference' => 'ଭେକ୍ଟର ବହିରାବରଣରେ କଡ଼ରେ ଥିବା ପଟିକାର ଚିଜ ସବୁକୁ ଦେଖାଇବା-ଲୁଚାଇବା ସଚଳ କରିବେ',
+	'vector-collapsiblenav-more' => 'ଅଧିକ ଭାଷା',
+	'vector-editwarning-warning' => 'ଏହି ପୃଷ୍ଠାକୁ ଛାଡ଼ି ଚାଲିଗଲେ ହୁଏ ତ ଆପଣ କରିଥିବା କିଛି ସମ୍ପାଦନା ହରାଇ ପାରନ୍ତି ।
+ଯଦି ଆପଣ ଲଗ ଇନ କରିଥାନ୍ତି ତେବେ ଆପଣଙ୍କ ପସନ୍ଦର "ସମ୍ପାଦନା" ଭାଗରେ ଏହି ଚେତାବନୀଟିକୁ ଅଚଳ କରିପାରିବେ ।',
+	'vector-editwarning-preference' => 'ଯେତେବେଳେ ମୁଁ ଗୋଟିଏ ସାଇତାଯାଇନଥିବା ପୃଷ୍ଠାକୁ ବନ୍ଦ କରିଦିଏ ମୋତେ ଚେତାବନୀ ଦେବେ',
+	'vector-simplesearch-search' => 'ଖୋଜିବା',
+	'vector-simplesearch-containing' => 'ଧାରଣ ହେଉଛି...',
+	'vector-noexperiments-preference' => 'ସୁବିଧାର ପରଖରୁ ମୋତେ ବାହାର କରିବେ',
+);
+
 /** Deitsch (Deitsch)
  * @author Xqt
  */
@@ -1268,7 +1477,16 @@ $messages['pdc'] = array(
 	'vector-simplesearch-search' => 'Uffgucke',
 );
 
+/** Pälzisch (Pälzisch)
+ * @author Manuae
+ */
+$messages['pfl'] = array(
+	'vector-collapsiblenav-more' => 'Mea Schbooche',
+	'vector-simplesearch-search' => 'Suche',
+);
+
 /** Polish (Polski)
+ * @author BeginaFelicysym
  * @author Sp5uhe
  */
 $messages['pl'] = array(
@@ -1282,6 +1500,7 @@ Jeśli jesteś zalogowany możesz wyłączyć wyświetlanie tego ostrzeżenia w 
 	'vector-simplesearch-search' => 'Szukaj',
 	'vector-simplesearch-containing' => 'zawierające...',
 	'vector-noexperiments-preference' => 'Nie chcę w przyszłości brać udziału w testach',
+	'vector-footercleanup-transclusion' => 'Ta strona zawiera {{PLURAL:$1|dołączoną treść|dołączone treści}} z {{PLURAL:$1|jednej innej strony|$1 innych stron|$1 innych stron}}.',
 );
 
 /** Piedmontese (Piemontèis)
@@ -1299,6 +1518,23 @@ S'it ses logà, it peule disabilité st'avis-sì ant la session \"Quàder ëd mo
 	'vector-simplesearch-search' => 'Arserca',
 	'vector-simplesearch-containing' => 'contenent ...',
 	'vector-noexperiments-preference' => "Gav-me da j'esperiment ëd le funsion",
+	'vector-footercleanup-transclusion' => "Costa pàgina a conten {{PLURAL:$1|transclusion|transclusion}} ëd {{PLURAL:$1|n'àutra pàgina|$1 àutre pàgine}}.",
+);
+
+/** Western Punjabi (پنجابی)
+ * @author Khalid Mahmood
+ */
+$messages['pnb'] = array(
+	'vector' => 'یو آئی بہتریاں ویکٹر لئی',
+	'vector-desc' => 'ورتن والے دے وکھالے',
+	'vector-collapsiblenav-preference' => 'ویکٹر سکن چ سائیڈ بار چ چیزاں دا ڈگنا ہون دیو۔',
+	'vector-collapsiblenav-more' => 'ہور بولیاں',
+	'vector-editwarning-warning' => 'اے صفے توں جان تے ہو سکدا اوہ ساریاں تبدیلیاں مک جان جیہڑیاں تساں بناياں نیں۔
+اگر تسیں لاکان او، تسیں ایڈیٹنگ سیکشن چ  اپنی پسنداں چ ایس خبرداری نوں پعلے ناں۔',
+	'vector-editwarning-preference' => 'جدوں میں کوئی صفحہ تبدیلی کر کے بچاۓ بغیر چھڈن لگاں تے منوں دس دیو',
+	'vector-simplesearch-search' => 'کھوج',
+	'vector-simplesearch-containing' => 'بند کر ریا اے۔۔۔',
+	'vector-noexperiments-preference' => 'منوں نویاں شیواں دے تجربیاں توں بار رکھو',
 );
 
 /** Pontic (Ποντιακά) */
@@ -1366,7 +1602,7 @@ Yaykusqa kaspaykiqa, kay yuyampayta hark'ayta atinki allinkachinaykikunapi \"Lla
 	'vector-noexperiments-preference' => 'Ñuqawan ama lliplli llanchikukunata ruraychu',
 );
 
-/** Romanian (Română)
+/** Romanian (română)
  * @author AdiJapan
  * @author Minisarm
  */
@@ -1381,6 +1617,7 @@ Dacă sunteți autentificat, puteți dezactiva această avertizare în secțiune
 	'vector-simplesearch-search' => 'Căutare',
 	'vector-simplesearch-containing' => 'conținând...',
 	'vector-noexperiments-preference' => 'Nu mai vreau să iau parte la experimente viitoare',
+	'vector-footercleanup-transclusion' => 'Această pagină conține {{PLURAL:$1|o transcludere a |transcluderi ale}} {{PLURAL:$1|unei alte pagini|altor $1 pagini|altor $1 de pagini}}.',
 );
 
 /** Tarandíne (Tarandíne)
@@ -1399,8 +1636,10 @@ Ce tu è trasute, tu puè disabbilità st\'avvertimende jndr\'à sezione "Cangia
 	'vector-noexperiments-preference' => 'Escludeme da le funziune sperimendale',
 );
 
-/** Russian (Русский)
+/** Russian (русский)
  * @author G0rn
+ * @author KPu3uC B Poccuu
+ * @author Kaganer
  * @author MaxSem
  * @author Александр Сигачёв
  */
@@ -1415,6 +1654,7 @@ $messages['ru'] = array(
 	'vector-simplesearch-search' => 'Поиск',
 	'vector-simplesearch-containing' => 'содержащие…',
 	'vector-noexperiments-preference' => 'Не предлагать экспериментальные возможности',
+	'vector-footercleanup-transclusion' => 'Эта страница содержит {{PLURAL:$1|включение|включения}} {{PLURAL:$1|другой страницы|$1 других страниц}}.',
 );
 
 /** Rusyn (Русиньскый)
@@ -1430,9 +1670,17 @@ $messages['rue'] = array(
 	'vector-editwarning-preference' => 'Упозорнити ня, кідь буду опущати сторінку без уложіня змін',
 	'vector-simplesearch-search' => 'Глядати',
 	'vector-simplesearch-containing' => 'обсягуючій...',
+	'vector-noexperiments-preference' => 'Не брати участь на експеріментах з новыма функціями',
 );
 
-/** Yakut (Саха тыла)
+/** Sanskrit (संस्कृतम्)
+ * @author Ansumang
+ */
+$messages['sa'] = array(
+	'vector-simplesearch-search' => 'अन्वेषणम्',
+);
+
+/** Sakha (Саха тыла)
  * @author HalanTul
  */
 $messages['sah'] = array(
@@ -1464,6 +1712,7 @@ $messages['scn'] = array(
  * @author Budhajeewa
  * @author Calcey
  * @author තඹරු විජේසේකර
+ * @author පසිඳු කාවින්ද
  * @author බිඟුවා
  */
 $messages['si'] = array(
@@ -1476,10 +1725,12 @@ $messages['si'] = array(
 	'vector-editwarning-preference' => 'මා සංස්කරණ පිටුවක් සුරකිනු නොලැබූ වෙනස්කිරීම් සමඟ අතහැර යන විට අවවාද කරන්න',
 	'vector-simplesearch-search' => 'ගවේශණය කරන්න',
 	'vector-simplesearch-containing' => 'ඇතුළත් වෙමින් පවතී...',
+	'vector-noexperiments-preference' => 'ඉදිරි අත්හදා බැලීම් වලින් මාව බැහැර කරන්න',
 );
 
 /** Slovak (Slovenčina)
  * @author Helix84
+ * @author Teslaton
  */
 $messages['sk'] = array(
 	'vector' => 'Vylepšenia použ. rozhrania Vector',
@@ -1492,6 +1743,7 @@ Ak ste prihlásený, toto upozornenie môžete vypnúť v sekcii „Úpravy“ s
 	'vector-simplesearch-search' => 'Hľadať',
 	'vector-simplesearch-containing' => 'obsahuje...',
 	'vector-noexperiments-preference' => 'Vylúčiť ma z budúcich experimentov',
+	'vector-footercleanup-transclusion' => 'Táto stránka obsahuje {{PLURAL:$1|transklúziu|transklúzie}} $1 {{PLURAL:$1|inej stránky|iných stránok}}.',
 );
 
 /** Slovenian (Slovenščina)
@@ -1508,6 +1760,7 @@ To opozorilo lahko onemogočite v razdelku »Urejanje« svojih nastavitev.',
 	'vector-simplesearch-search' => 'Iskanje',
 	'vector-simplesearch-containing' => 'vsebujoč ...',
 	'vector-noexperiments-preference' => 'Izključi me iz prihodnjih preizkusov',
+	'vector-footercleanup-transclusion' => 'Stran vsebuje {{PLURAL:$1|vključitev|vključitvi|vključitve}} $1 {{PLURAL:$1|druge strani|drugih strani}}.',
 );
 
 /** Somali (Soomaaliga)
@@ -1533,7 +1786,7 @@ Nëse keni hyrë brenda, ju mund ta hiqni këtë paralajmërim në seksionin "Re
 	'vector-simplesearch-containing' => 'përmban ...',
 );
 
-/** Serbian Cyrillic ekavian (‪Српски (ћирилица)‬)
+/** Serbian (Cyrillic script) (‪Српски (ћирилица)‬)
  * @author Helios13
  * @author Rancher
  * @author Жељко Тодоровић
@@ -1542,22 +1795,36 @@ $messages['sr-ec'] = array(
 	'vector' => 'Побољшања корисничког интерфејса за вектор',
 	'vector-desc' => 'Побољшава корисничке елементе сучеља за пресвлаку Вектор.',
 	'vector-collapsiblenav-preference' => 'Скупљање ставки навигационог менија у Vector пресвлаци',
-	'vector-collapsiblenav-more' => 'Још језика:',
+	'vector-collapsiblenav-more' => 'Више језика:',
 	'vector-editwarning-warning' => 'Ако напустите ову страницу, изгубићете све измене које сте направили.
 Ако сте пријављени, можете онемогућити ово упозорење у својим подешавањима, у одељку „Уређивање“.',
 	'vector-editwarning-preference' => 'Упозори ме када напустим страницу која није сачувана',
 	'vector-simplesearch-search' => 'Претрага',
 	'vector-simplesearch-containing' => 'садржи...',
+	'vector-noexperiments-preference' => 'Изузми ме из пробних могућности',
 );
 
-/** Serbian Latin ekavian (‪Srpski (latinica)‬)
+/** Serbian (Latin script) (‪Srpski (latinica)‬)
  * @author Liangent
  */
 $messages['sr-el'] = array(
+	'vector' => 'Poboljšanja korisničkog interfejsa za vektor',
+	'vector-desc' => 'Poboljšava korisničke elemente sučelja za presvlaku Vektor.',
+	'vector-collapsiblenav-preference' => 'Skupljanje stavki navigacionog menija u Vector presvlaci',
 	'vector-collapsiblenav-more' => 'Još jezika:',
+	'vector-editwarning-warning' => 'Ako napustite ovu stranicu, izgubićete sve izmene koje ste napravili.
+Ako ste prijavljeni, možete onemogućiti ovo upozorenje u svojim podešavanjima, u odeljku „Uređivanje“.',
 	'vector-editwarning-preference' => 'Upozori me kada napustim stranicu sa nesačuvanim promenama',
 	'vector-simplesearch-search' => 'Pretraga',
 	'vector-simplesearch-containing' => 'sadrži...',
+);
+
+/** Seeltersk (Seeltersk)
+ * @author Pyt
+ */
+$messages['stq'] = array(
+	'vector-simplesearch-search' => 'Säik',
+	'vector-simplesearch-containing' => 'Fultextsäike ätter ...',
 );
 
 /** Sundanese (Basa Sunda)
@@ -1669,6 +1936,7 @@ Kung nakalagda ka, maaari mong huwag paganahin ang babalang ito sa loob ng seksy
 );
 
 /** Turkish (Türkçe)
+ * @author Hcagri
  * @author Karduelis
  * @author Srhat
  * @author Vito Genovese
@@ -1683,9 +1951,10 @@ Eğer giriş yaptıysanız, bu uyarıyı, tercihlerinizin "Sayfa yazma alanı" b
 	'vector-editwarning-preference' => 'Kaydedilmemiş değişikliğe sahip bir değişiklik sayfasından çıkarken beni uyar',
 	'vector-simplesearch-search' => 'Ara',
 	'vector-simplesearch-containing' => 'içeren...',
+	'vector-noexperiments-preference' => 'Beni gelecekteki deneylere dahil etme',
 );
 
-/** Tatar (Cyrillic) (Татарча/Tatarça (Cyrillic))
+/** Tatar (Cyrillic script) (Татарча)
  * @author Ильнар
  */
 $messages['tt-cyrl'] = array(
@@ -1697,6 +1966,7 @@ $messages['tt-cyrl'] = array(
 	'vector-editwarning-preference' => 'Битне сакламыйча китү вакытында мине кисәтергә',
 	'vector-simplesearch-search' => 'Эзләү',
 	'vector-simplesearch-containing' => 'эчтәлек...',
+	'vector-noexperiments-preference' => 'Тикшерүдәге мөмкинлекләрне кулланмаска',
 );
 
 /** Ukrainian (Українська)
@@ -1733,7 +2003,7 @@ Se te sì loggà, te poli disabilitar sto aviso in te la sezion "Dimension de la
 	'vector-simplesearch-containing' => 'che contien...',
 );
 
-/** Veps (Vepsan kel') */
+/** Veps (Vepsän kel’) */
 $messages['vep'] = array(
 	'vector-simplesearch-search' => 'Ectä',
 	'vector-simplesearch-containing' => 'mülütajad...',
@@ -1754,6 +2024,7 @@ Nếu đã đăng nhập, bạn có thể tắt cảnh báo này tại mục “
 	'vector-simplesearch-search' => 'Tìm kiếm',
 	'vector-simplesearch-containing' => 'có chứa…',
 	'vector-noexperiments-preference' => 'Loại trừ tôi khỏi các thí nghiệm tính năng',
+	'vector-footercleanup-transclusion' => 'Trang này nhúng nội dung của {{PLURAL:$1|một trang khác|$1 trang khác}}.',
 );
 
 /** Volapük (Volapük)
@@ -1763,6 +2034,23 @@ $messages['vo'] = array(
 	'vector-collapsiblenav-more' => 'Püks pluik',
 	'vector-simplesearch-search' => 'Suk',
 	'vector-simplesearch-containing' => 'ninädöl...',
+);
+
+/** Walloon (walon)
+ * @author Srtxg
+ */
+$messages['wa'] = array(
+	'vector' => "Amidraedjes di l' eterface pol pea «Vector»",
+	'vector-desc' => "Amidraedjes pol pea d' eterface d' uzeu «Vector»",
+	'vector-collapsiblenav-preference' => "Permete d' erôler les cayets del båre di costé avou l' pea «Vector»",
+	'vector-collapsiblenav-more' => 'Pus di lingaedjes',
+	'vector-editwarning-warning' => "Cwiter cisse pådje ci vos frè piede tos les candjmints ki vos avoz fwait.
+Si vos estoz elodjî, vos ploz dismete cist adviertixhmint ci dins l' linwete «Boesse di tecse» di vos preferinces.",
+	'vector-editwarning-preference' => "M' advierti cwand dji cwite ene pådje k' a des candjmints nén schapés",
+	'vector-simplesearch-search' => 'Cweri',
+	'vector-simplesearch-containing' => 'ki contént...',
+	'vector-noexperiments-preference' => 'Mi rsaetchî des esperyinces di fonccionalité',
+	'vector-footercleanup-transclusion' => "Cisse pådje ci a {{PLURAL:$1|on ravalé elemint|des ravalés elemints}} vnant d' {{PLURAL:$1|ene ôte pådje|$1 ôtès pådjes}}.",
 );
 
 /** Mingrelian (მარგალური) */
@@ -1818,6 +2106,7 @@ $messages['yue'] = array(
  * @author Bencmq
  * @author Liangent
  * @author Onecountry
+ * @author Yfdyh000
  * @author 阿pp
  */
 $messages['zh-hans'] = array(
@@ -1825,15 +2114,16 @@ $messages['zh-hans'] = array(
 	'vector-desc' => '改进Vector皮肤中的用户界面元素。',
 	'vector-collapsiblenav-preference' => '在Vector皮肤的导航菜单中折叠项目',
 	'vector-collapsiblenav-more' => '更多语言',
-	'vector-editwarning-warning' => '离开这个页面可能会令您失去之前的所有更改。
-若您已经登入，您可在您参数设置的“{{int:prefs-editing}}”节中关闭此警告。',
+	'vector-editwarning-warning' => '离开这个页面可能会令您失去之前的所有更改。若您已经登入，您可在您参数设置的“编辑”一栏中关闭此警告。',
 	'vector-editwarning-preference' => '如在更改未保存时离开页面，则发出警告',
 	'vector-simplesearch-search' => '搜索',
 	'vector-simplesearch-containing' => '含有...',
 	'vector-noexperiments-preference' => '功能实验中排除我',
+	'vector-footercleanup-transclusion' => '此页{{PLURAL:$1|嵌入包含}}有{{PLURAL:$1|一个其他页面|$1个其他页面}}。',
 );
 
 /** Traditional Chinese (‪中文(繁體)‬)
+ * @author Bencmq
  * @author Gaoxuewei
  * @author Liangent
  * @author Mark85296341
@@ -1844,8 +2134,7 @@ $messages['zh-hant'] = array(
 	'vector-desc' => '改進 Vector 外觀中的使用者介面元素。',
 	'vector-collapsiblenav-preference' => '在 Vector 外觀的導覽選單中摺疊項目',
 	'vector-collapsiblenav-more' => '更多語言',
-	'vector-editwarning-warning' => '離開這個頁面可能會令您失去之前的所有更改。
-若您已經登入，您可在您偏好設定的「編輯」節中關閉此警告。',
+	'vector-editwarning-warning' => '離開這個頁面可能會令您失去之前的所有更改。若您已經登入，您可在您偏好設定的「編輯」節中關閉此警告。',
 	'vector-editwarning-preference' => '當我在更改未儲存時離開頁面時警告我',
 	'vector-simplesearch-search' => '搜尋',
 	'vector-simplesearch-containing' => '包含...',

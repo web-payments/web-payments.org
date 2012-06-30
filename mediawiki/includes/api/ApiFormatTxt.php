@@ -24,11 +24,6 @@
  * @file
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	// Eclipse helper - will be ignored in production
-	require_once( 'ApiFormatBase.php' );
-}
-
 /**
  * API Text output formatter
  * @ingroup API
@@ -55,6 +50,6 @@ class ApiFormatTxt extends ApiFormatBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiFormatTxt.php 78829 2010-12-22 20:52:06Z reedy $';
+		return __CLASS__ . ': $Id$';
 	}
 }

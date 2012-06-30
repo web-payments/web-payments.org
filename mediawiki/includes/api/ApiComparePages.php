@@ -35,7 +35,7 @@ class ApiComparePages extends ApiBase {
 		$rev1 = $this->revisionOrTitle( $params['fromrev'], $params['fromtitle'] );
 		$rev2 = $this->revisionOrTitle( $params['torev'], $params['totitle'] );
 
-		$de = new DifferenceEngine( null,
+		$de = new DifferenceEngine( $this->getContext(),
 			$rev1,
 			$rev2,
 			null, // rcid
@@ -118,13 +118,13 @@ class ApiComparePages extends ApiBase {
 		) );
 	}
 
-	protected function getExamples() {
+	public function getExamples() {
 		return array(
-			'api.php?action=compare&fromrev=1&torev=2',
+			'api.php?action=compare&fromrev=1&torev=2' => 'Create a diff between revision 1 and 2',
 		);
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiComparePages.php 92400 2011-07-17 16:51:11Z reedy $';
+		return __CLASS__ . ': $Id$';
 	}
 }

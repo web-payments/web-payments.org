@@ -94,18 +94,42 @@ class WebInstallerOutput {
 	 */
 	public function getCSS( $dir ) {
 		$skinDir = dirname( dirname( dirname( __FILE__ ) ) ) . '/skins';
-		$vectorCssFile = "$skinDir/vector/screen.css";
-		$configCssFile = "$skinDir/common/config.css";
-		$css = '';
-		wfSuppressWarnings();
-		$vectorCss = file_get_contents( $vectorCssFile );
-		$configCss = file_get_contents( $configCssFile );
-		wfRestoreWarnings();
-		if( !$vectorCss || !$configCss ) {
-			$css = "/** Your webserver cannot read $vectorCssFile or $configCssFile, please check file permissions */";
-		}
 
-		$css .= str_replace( 'images/', '../skins/vector/images/', $vectorCss ) . "\n" . str_replace( 'images/', '../skins/common/images/', $configCss );
+		// All these files will be concatenated in sequence and loaded
+		// as one file.
+		// The string 'images/' in the files' contents will be replaced
+		// by '../skins/$skinName/images/', where $skinName is what appears
+		// before the last '/' in each of the strings.
+		$cssFileNames = array(
+
+			// Basically the "skins.vector" ResourceLoader module styles
+			'common/commonElements.css',
+			'common/commonContent.css',
+			'common/commonInterface.css',
+			'vector/screen.css',
+
+			// mw-config specific
+			'common/config.css',
+		);
+
+		$css = '';
+
+		wfSuppressWarnings();
+		foreach ( $cssFileNames as $cssFileName ) {
+			$fullCssFileName = "$skinDir/$cssFileName";
+			$cssFileContents = file_get_contents( $fullCssFileName );
+			if ( $cssFileContents ) {
+				preg_match( "/^(\w+)\//", $cssFileName, $match );
+				$skinName = $match[1];
+				$css .= str_replace( 'images/', "../skins/$skinName/images/", $cssFileContents );
+			} else {
+				$css .= "/** Your webserver cannot read $fullCssFileName. Please check file permissions. */";
+			}
+
+			$css .= "\n";
+		}
+		wfRestoreWarnings();
+
 		if( $dir == 'rtl' ) {
 			$css = CSSJanus::transform( $css, true );
 		}
@@ -144,11 +168,7 @@ class WebInstallerOutput {
 	 */
 	public function getDir() {
 		global $wgLang;
-		if( !is_object( $wgLang ) || !$wgLang->isRtl() ) {
-			return 'ltr';
-		} else {
-			return 'rtl';
-		}
+		return is_object( $wgLang ) ? $wgLang->getDir() : 'ltr';
 	}
 
 	/**
@@ -156,11 +176,7 @@ class WebInstallerOutput {
 	 */
 	public function getLanguageCode() {
 		global $wgLang;
-		if( !is_object( $wgLang ) ) {
-			return 'en';
-		} else {
-			return $wgLang->getCode();
-		}
+		return is_object( $wgLang ) ? $wgLang->getCode() : 'en';
 	}
 
 	/**
@@ -240,7 +256,6 @@ class WebInstallerOutput {
 		href="http://www.mediawiki.org/"
 		title="Main Page"></a>
 	</div>
-	<script type="text/javascript"> if (window.isMSIE55) fixalpha(); </script>
 	<div class="portal"><div class="body">
 <?php
 	echo $this->parent->parse( wfMsgNoTrans( 'config-sidebar' ), true );

@@ -97,7 +97,7 @@ class CoreParserFunctions {
 	static function intFunction( $parser, $part1 = '' /*, ... */ ) {
 		if ( strval( $part1 ) !== '' ) {
 			$args = array_slice( func_get_args(), 2 );
-			$message = wfMessage( $part1, $args )->inLanguage( $parser->getOptions()->getUserLang() )->plain();
+			$message = wfMessage( $part1, $args )->inLanguage( $parser->getOptions()->getUserLangObj() )->plain();
 			return array( $message, 'noparse' => false );
 		} else {
 			return array( 'found' => false );
@@ -141,7 +141,11 @@ class CoreParserFunctions {
 	}
 
 	static function nse( $parser, $part1 = '' ) {
-		return wfUrlencode( str_replace( ' ', '_', self::ns( $parser, $part1 ) ) );
+		$ret = self::ns( $parser, $part1 );
+		if ( is_string( $ret ) ) {
+			$ret = wfUrlencode( str_replace( ' ', '_', $ret ) );
+		}
+		return $ret;
 	}
 
 	/**
@@ -164,17 +168,21 @@ class CoreParserFunctions {
 
 			// Encode as though it's a wiki page, '_' for ' '.
 			case 'url_wiki':
-				return wfUrlencode( str_replace( ' ', '_', $s ) );
+				$func = 'wfUrlencode';
+				$s = str_replace( ' ', '_', $s );
+				break;
 
 			// Encode for an HTTP Path, '%20' for ' '.
 			case 'url_path':
-				return rawurlencode( $s );
+				$func = 'rawurlencode';
+				break;
 
 			// Encode for HTTP query, '+' for ' '.
 			case 'url_query':
 			default:
-				return urlencode( $s );
+				$func = 'urlencode';
 		}
+		return $parser->markerSkipCallback( $s, $func );
 	}
 
 	static function lcfirst( $parser, $s = '' ) {
@@ -194,11 +202,7 @@ class CoreParserFunctions {
 	 */
 	static function lc( $parser, $s = '' ) {
 		global $wgContLang;
-		if ( is_callable( array( $parser, 'markerSkipCallback' ) ) ) {
-			return $parser->markerSkipCallback( $s, array( $wgContLang, 'lc' ) );
-		} else {
-			return $wgContLang->lc( $s );
-		}
+		return $parser->markerSkipCallback( $s, array( $wgContLang, 'lc' ) );
 	}
 
 	/**
@@ -208,11 +212,7 @@ class CoreParserFunctions {
 	 */
 	static function uc( $parser, $s = '' ) {
 		global $wgContLang;
-		if ( is_callable( array( $parser, 'markerSkipCallback' ) ) ) {
-			return $parser->markerSkipCallback( $s, array( $wgContLang, 'uc' ) );
-		} else {
-			return $wgContLang->uc( $s );
-		}
+		return $parser->markerSkipCallback( $s, array( $wgContLang, 'uc' ) );
 	}
 
 	static function localurl( $parser, $s = '', $arg = null ) { return self::urlFunction( 'getLocalURL', $s, $arg ); }
@@ -252,12 +252,13 @@ class CoreParserFunctions {
 	 * @param null $raw
 	 * @return
 	 */
-	static function formatNum( $parser, $num = '', $raw = null) {
-		if ( self::israw( $raw ) ) {
-			return $parser->getFunctionLang()->parseFormattedNumber( $num );
+	static function formatnum( $parser, $num = '', $raw = null) {
+		if ( self::isRaw( $raw ) ) {
+			$func = array( $parser->getFunctionLang(), 'parseFormattedNumber' );
 		} else {
-			return $parser->getFunctionLang()->formatNum( $num );
+			$func = array( $parser->getFunctionLang(), 'formatNum' );
 		}
+		return $parser->markerSkipCallback( $num, $func );
 	}
 
 	/**
@@ -267,6 +268,7 @@ class CoreParserFunctions {
 	 * @return
 	 */
 	static function grammar( $parser, $case = '', $word = '' ) {
+		$word = $parser->killMarkers( $word );
 		return $parser->getFunctionLang()->convertGrammar( $word, $case );
 	}
 
@@ -277,7 +279,14 @@ class CoreParserFunctions {
 	 */
 	static function gender( $parser, $username ) {
 		wfProfileIn( __METHOD__ );
-		$forms = array_slice( func_get_args(), 2);
+		$forms = array_slice( func_get_args(), 2 );
+
+		// Some shortcuts to avoid loading user data unnecessarily
+		if ( count( $forms ) === 0 ) {
+			return '';
+		} elseif ( count( $forms ) === 1 ) {
+			return $forms[0];
+		}
 
 		$username = trim( $username );
 
@@ -562,7 +571,11 @@ class CoreParserFunctions {
 	 *   to the link cache, so the local cache here should be unnecessary, but
 	 *   in fact calling getLength() repeatedly for the same $page does seem to
 	 *   run one query for each call?
+	 * @todo Document parameters
+	 *
 	 * @param $parser Parser
+	 * @param $page String TODO DOCUMENT (Default: empty string)
+	 * @param $raw TODO DOCUMENT (Default: null)
 	 */
 	static function pagesize( $parser, $page = '', $raw = null ) {
 		static $cache = array();
@@ -623,8 +636,9 @@ class CoreParserFunctions {
 
 	/**
 	 * Unicode-safe str_pad with the restriction that $length is forced to be <= 500
- 	 */
-	static function pad( $string, $length, $padding = '0', $direction = STR_PAD_RIGHT ) {
+	 */
+	static function pad( $parser, $string, $length, $padding = '0', $direction = STR_PAD_RIGHT ) {
+		$padding = $parser->killMarkers( $padding );
 		$lengthOfPadding = mb_strlen( $padding );
 		if ( $lengthOfPadding == 0 ) return $string;
 
@@ -648,11 +662,11 @@ class CoreParserFunctions {
 	}
 
 	static function padleft( $parser, $string = '', $length = 0, $padding = '0' ) {
-		return self::pad( $string, $length, $padding, STR_PAD_LEFT );
+		return self::pad( $parser, $string, $length, $padding, STR_PAD_LEFT );
 	}
 
 	static function padright( $parser, $string = '', $length = 0, $padding = '0' ) {
-		return self::pad( $string, $length, $padding );
+		return self::pad( $parser, $string, $length, $padding );
 	}
 
 	/**
@@ -661,6 +675,7 @@ class CoreParserFunctions {
 	 * @return string
 	 */
 	static function anchorencode( $parser, $text ) {
+		$text = $parser->killMarkers( $text );
 		return substr( $parser->guessSectionNameFromWikiText( $text ), 1);
 	}
 
@@ -676,23 +691,36 @@ class CoreParserFunctions {
 
 	/**
 	 * @param $parser Parser
-	 * @param  $text
+	 * @param $text String The sortkey to use
+	 * @param $uarg String Either "noreplace" or "noerror" (in en)
+	 *   both suppress errors, and noreplace does nothing if
+	 *   a default sortkey already exists.
 	 * @return string
 	 */
-	public static function defaultsort( $parser, $text ) {
+	public static function defaultsort( $parser, $text, $uarg = '' ) {
+		static $magicWords = null;
+		if ( is_null( $magicWords ) ) {
+			$magicWords = new MagicWordArray( array( 'defaultsort_noerror', 'defaultsort_noreplace' ) );
+		}
+		$arg = $magicWords->matchStartToEnd( $uarg );
+
 		$text = trim( $text );
 		if( strlen( $text ) == 0 )
 			return '';
 		$old = $parser->getCustomDefaultSort();
-		$parser->setDefaultSort( $text );
-		if( $old === false || $old == $text )
+		if ( $old === false || $arg !== 'defaultsort_noreplace' ) {
+			$parser->setDefaultSort( $text );
+		}
+
+		if( $old === false || $old == $text || $arg ) {
 			return '';
-		else
+		} else {
 			return( '<span class="error">' .
 				wfMsgForContent( 'duplicate-defaultsort',
 						 htmlspecialchars( $old ),
 						 htmlspecialchars( $text ) ) .
 				'</span>' );
+		}
 	}
 
 	// Usage {{filepath|300}}, {{filepath|nowiki}}, {{filepath|nowiki|300}} or {{filepath|300|nowiki}}
@@ -720,7 +748,7 @@ class CoreParserFunctions {
 		if ( $file ) {
 			$url = $file->getFullUrl();
 
-			// If a size is requested...			
+			// If a size is requested...
 			if ( is_integer( $size ) ) {
 				$mto = $file->transform( array( 'width' => $size ) );
 				// ... and we can

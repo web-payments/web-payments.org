@@ -24,11 +24,6 @@
  * @file
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	// Eclipse helper - will be ignored in production
-	require_once( 'ApiFormatBase.php' );
-}
-
 /**
  * API YAML output formatter
  * @ingroup API
@@ -44,6 +39,6 @@ class ApiFormatYaml extends ApiFormatJson {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiFormatYaml.php 86302 2011-04-18 11:42:44Z reedy $';
+		return __CLASS__ . ': $Id$';
 	}
 }

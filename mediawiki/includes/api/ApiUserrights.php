@@ -25,11 +25,6 @@
  * @file
  */
 
-if ( !defined( 'MEDIAWIKI' ) ) {
-	// Eclipse helper - will be ignored in production
-	require_once( "ApiBase.php" );
-}
-
 /**
  * @ingroup API
  */
@@ -44,7 +39,7 @@ class ApiUserrights extends ApiBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 
-		$user = $this->getUser();
+		$user = $this->getUrUser();
 
 		$form = new UserrightsPage;
 		$r['user'] = $user->getName();
@@ -62,7 +57,7 @@ class ApiUserrights extends ApiBase {
 	/**
 	 * @return User
 	 */
-	private function getUser() {
+	private function getUrUser() {
 		if ( $this->mUser !== null ) {
 			return $this->mUser;
 		}
@@ -130,10 +125,10 @@ class ApiUserrights extends ApiBase {
 	}
 
 	public function getTokenSalt() {
-		return $this->getUser()->getName();
+		return $this->getUrUser()->getName();
 	}
 
-	protected function getExamples() {
+	public function getExamples() {
 		return array(
 			'api.php?action=userrights&user=FooBot&add=bot&remove=sysop|bureaucrat&token=123ABC'
 		);
@@ -144,6 +139,6 @@ class ApiUserrights extends ApiBase {
 	}
 
 	public function getVersion() {
-		return __CLASS__ . ': $Id: ApiUserrights.php 104449 2011-11-28 15:52:04Z reedy $';
+		return __CLASS__ . ': $Id$';
 	}
 }

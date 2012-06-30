@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 ## Convert data from a MySQL mediawiki database into a Postgres mediawiki database
-## svn: $Id: mediawiki_mysql2postgres.pl 86721 2011-04-22 18:47:17Z mah $
+## svn: $Id$
 
 ## NOTE: It is probably easier to dump your wiki using maintenance/dumpBackup.php
 ## and then import it with maintenance/importDump.php
@@ -181,7 +181,7 @@ $MYSQLSOCKET and $conninfo .= "\n--   socket    $MYSQLSOCKET";
 print qq{
 -- Dump of MySQL Mediawiki tables for import into a Postgres Mediawiki schema
 -- Performed by the program: $0
--- Version: $VERSION (subversion }.q{$LastChangedRevision: 86721 $}.qq{)
+-- Version: $VERSION (subversion }.q{$LastChangedRevision$}.qq{)
 -- Author: Greg Sabino Mullane <greg\@turnstep.com> Comments welcome
 --
 -- This file was created: $now
@@ -417,7 +417,6 @@ SELECT setval('page_restrictions_pr_id_seq', 1+coalesce(max(pr_id)  ,0),false) F
 SELECT setval('recentchanges_rc_id_seq',     1+coalesce(max(rc_id)  ,0),false) FROM recentchanges;
 SELECT setval('revision_rev_id_seq',         1+coalesce(max(rev_id) ,0),false) FROM revision;
 SELECT setval('text_old_id_seq',       1+coalesce(max(old_id) ,0),false) FROM pagecontent;
-SELECT setval('trackbacks_tb_id_seq',  1+coalesce(max(tb_id)  ,0),false) FROM trackbacks;
 SELECT setval('user_user_id_seq',      1+coalesce(max(user_id),0),false) FROM mwuser;
 };
 
@@ -437,7 +436,6 @@ profiling
 objectcache
 
 ## Which tables to ignore depending on the version
-VERSION 1.5: trackback
 VERSION 1.6: externallinks job templatelinks transcache
 VERSION 1.7: filearchive langlinks querycache_info
 VERSION 1.9: querycachetwo page_restrictions redirect

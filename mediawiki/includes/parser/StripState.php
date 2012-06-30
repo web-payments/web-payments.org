@@ -11,6 +11,9 @@ class StripState {
 
 	protected $tempType, $tempMergePrefix;
 
+	/**
+	 * @param $prefix string
+	 */
 	function __construct( $prefix ) {
 		$this->prefix = $prefix;
 		$this->data = array(
@@ -170,9 +173,23 @@ class StripState {
 		return $texts;
 	}
 
+	/**
+	 * @param $m
+	 * @return string
+	 */
 	protected function mergeCallback( $m ) {
 		$key = $m[1];
 		return "{$this->prefix}{$this->tempMergePrefix}-$key" . Parser::MARKER_SUFFIX;
+	}
+
+	/**
+	 * Remove any strip markers found in the given text.
+	 *
+	 * @param $text Input string
+	 * @return string
+	 */
+	function killMarkers( $text ) {
+		return preg_replace( $this->regex, '', $text );
 	}
 }
 

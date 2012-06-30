@@ -19,11 +19,26 @@ $messages['en'] = array(
 	'recaptcha-create' => 'To help protect against automated page creation, please type the two words you see in the box below:', 
 );
 
+/** Message documentation (Message documentation)
+ * @author Umherirrender
+ */
+$messages['qqq'] = array(
+	'recaptcha-desc' => '{{desc}}',
+);
+
 /** Arabic (العربية)
+ * @author Alexknight12
+ * @author Ciphers
  * @author Meno25
  */
 $messages['ar'] = array(
 	'recaptcha-desc' => 'موديل reCAPTCHA لConfirm Edit',
+	'recaptcha-edit' => 'للمساعدة في الحماية ضد التحرير السبام، يرجى كتابة الكلمتين التي تراها في المربع أدناه :',
+	'recaptcha-addurl' => 'إن تعديلك يتضمن وصلات خارجية جديدة. للمساعدة في الحماية ضد السبام، يرجى كتابة الكلمتين التي تراها في المربع أدناه :',
+	'recaptcha-badpass' => 'للمساعدة في الحماية ضد الكسر الآلي لكلمة السر، يرجى كتابة الكلمتين اللتين تراهما في المربع أدناه :',
+	'recaptcha-createaccount' => 'للمساعدة في الحماية ضد الإنشاء الآلي للحسابات، رجاء اكتب الكلمتين اللتين تراهما في المربع أدناه:',
+	'recaptcha-createaccount-fail' => 'جواب reCAPTCHA غير صحيح أو مفقود.',
+	'recaptcha-create' => 'للمساعدة في الحماية ضد الإنشاء الآلي للصفحات، يرجى كتابة الكلمتين اللتين تراهما في المربع أدناه :',
 );
 
 /** Asturian (Asturianu)
@@ -93,22 +108,40 @@ $messages['cs'] = array(
  * @author Lloffiwr
  */
 $messages['cy'] = array(
-	'recaptcha-edit' => "Er mwyn ei gwneud yn annodd i olygyddion awtomatig osod sbam, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
+	'recaptcha-edit' => "Er mwyn ei gwneud yn anodd i olygyddion awtomatig osod sbam, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
 	'recaptcha-addurl' => "Mae'ch golygiad yn cynnwys cysylltiadau allanol newydd. Er mwyn helpu i ddiogelu rhag sbam awtomatig, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
 	'recaptcha-badpass' => "Er mwyn helpu i arbed rhag i'ch cyfrinair gael ei ddatrys gan beiriant, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
-	'recaptcha-createaccount' => "Er mwyn ei gwneud yn annodd i beiriannau i agor cyfrifon yn awtomatig, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
+	'recaptcha-createaccount' => "Er mwyn ei gwneud yn anodd i beiriannau i agor cyfrifon yn awtomatig, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
 	'recaptcha-createaccount-fail' => "Mae'r ateb i'r pos CAPTCHA yn anghywir neu yn eisiau.",
-	'recaptcha-create' => "Er mwyn ei gwneud yn annodd i beiriannau i ddechrau tudalennau yn awtomatig, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
+	'recaptcha-create' => "Er mwyn ei gwneud yn anodd i beiriannau i ddechrau tudalennau yn awtomatig, teipiwch y ddau air sydd i'w gweld yn y blwch isod:",
 );
 
-/** German (Deutsch) */
+/** German (Deutsch)
+ * @author Kghbln
+ * @author Umherirrender
+ */
 $messages['de'] = array(
+	'recaptcha-desc' => 'reCAPTCHA-Module für die Erweiterung „Confirm Edit“',
 	'recaptcha-edit' => 'Zum Schutz vor automatisiertem Spam, gib bitte die beiden folgenden Wörter in das untenstehende Feld ein:',
 	'recaptcha-addurl' => 'Deine Bearbeitung enthält neue externe Links. Zum Schutz vor automatisiertem Spam gib bitte die beiden folgenden Wörter in das folgende Feld ein:',
 	'recaptcha-badpass' => 'Zum Schutz gegen automatisiertes Knacken von Passwörtern, gib bitte die beiden folgenden Wörter in das folgende Feld ein:',
-	'recaptcha-createaccount' => 'Zum Schutz gegen automatisierte Erstellung von Benutzerkonten gib bitte die beiden folgenden Wörter in das folgende Feld ein:',
+	'recaptcha-createaccount' => 'Zum Schutz gegen die automatisierte Erstellung von Benutzerkonten bitten wir dich, die folgenden beiden Wörter in das untenstehende Feld einzugeben:',
 	'recaptcha-createaccount-fail' => 'Fehlerhafte oder fehlende reCAPTCHA Antwort.',
 	'recaptcha-create' => 'Zum Schutz gegen automatisierte Erstellung von Seiten gib bitte die beiden folgenden Wörter in das folgende Feld ein:',
+);
+
+/** German (formal address) (‪Deutsch (Sie-Form)‬)
+ * @author Kghbln
+ */
+$messages['de-formal'] = array(
+	'recaptcha-createaccount' => 'Zum Schutz gegen die automatisierte Erstellung von Benutzerkonten bitten wir Sie, die folgenden beiden Wörter in das untenstehende Feld einzugeben:',
+);
+
+/** Lower Sorbian (Dolnoserbski)
+ * @author Michawiki
+ */
+$messages['dsb'] = array(
+	'recaptcha-createaccount-fail' => 'Wopacne abo felujuce wótegrono reCAPTCHA.',
 );
 
 /** Spanish (Español)
@@ -123,10 +156,12 @@ $messages['es'] = array(
 	'recaptcha-create' => 'Para protegernos de la creación automática de páginas, escribe las dos palabras que ves en el cuadro de abajo:',
 );
 
-/** French (Français) */
+/** French (Français)
+ * @author Urhixidur
+ */
 $messages['fr'] = array(
 	'recaptcha-edit' => "Pour nous protéger des robots, merci d'écrire les deux mots visibles dans le cadre qui suit:",
-	'recaptcha-addurl' => "Votre contribution contient des liens vers un site externe. Pour nous protéger des robots, merci d'écrire les deux mots visibles dans le cadre qui suit:",
+	'recaptcha-addurl' => 'Votre contribution contient des liens vers un site externe. Pour nous protéger des robots, merci d’écrire les deux mots visibles dans le cadre qui suit :',
 	'recaptcha-badpass' => "Pour nous protéger des essais automatiques de cassage de mot de passe, merci d'écrire les deux mots visibles dans le cadre qui suit:",
 	'recaptcha-createaccount' => "Pour nous protéger des créations automatiques de compte, merci d'écrire les deux mots visibles dans le cadre qui suit:",
 	'recaptcha-createaccount-fail' => 'Réponse de reCAPTCHA fausse ou manquante.',
@@ -204,14 +239,36 @@ $messages['id'] = array(
 	'recaptcha-create' => 'Untuk membantu pelindungan terhadap pembuatan halaman otomatis, silakan ketik dua kata yang Anda lihat dalam kotak di bawah ini:',
 );
 
-/** Japanese (日本語) */
+/** Italian (Italiano)
+ * @author Nemo bis
+ */
+$messages['it'] = array(
+	'recaptcha-edit' => 'Per aiutarci a proteggerci dalle modifiche automatiche che aggiungono spam, scrivi le due parole mostrate nel riquadro sottostante:',
+	'recaptcha-addurl' => 'La tua modifica aggiunge qualche nuovo collegamento esterno. Per aiutarci a proteggerci dallo spam automatico, scrivi le due parole mostrate nel riquadro sottostante:',
+	'recaptcha-badpass' => 'Per aiutarci a proteggerci dalla forzatura automatica delle password, scrivi le due parole mostrate nel riquadro sottostante:',
+	'recaptcha-createaccount' => 'Per aiutarci a proteggerci dalla creazione automatica di nuovi accessi, scrivi le due parole mostrate nel riquadro sottostante:',
+	'recaptcha-createaccount-fail' => 'Risposta reCAPTCHA mancante o errata.',
+	'recaptcha-create' => 'Per aiutarci a proteggerci dalla creazione automatica di pagine, scrivi le due parole mostrate nel riquadro sottostante:',
+);
+
+/** Japanese (日本語)
+ * @author Shirayuki
+ */
 $messages['ja'] = array(
-	'recaptcha-edit' => '自動編集スパムからの保護のため、下の画像に表示されている２つの言葉を入力 してください。',
-	'recaptcha-addurl' => 'あなたの編集は新しい外部リンクを含んでいます。自動スパムからの保護のた め、下の画像に表示されている２つの言葉を入力してください。',
-	'recaptcha-badpass' => '自動パスワードクラッキングからの保護のために、下の画像に表示されている２ つの言葉を入力してください。',
-	'recaptcha-createaccount' => '自動アカウント登録からの保護のために、下の画像に表示されている２つの言葉 を入力してください。',
-	'recaptcha-createaccount-fail' => '入力された文字列が正しくありません。',
-	'recaptcha-create' => '自動ページ作成からの保護のために、下の画像に表示されている２つの言葉を入 力してください。',
+	'recaptcha-desc' => 'Confirm Edit 用 reCAPTCHA モジュール',
+	'recaptcha-edit' => '自動編集スパムからの保護のため、下の画像に表示されている2つの単語を入力してください：',
+	'recaptcha-addurl' => 'あなたの編集は新しい外部リンクを含んでいます。自動スパムからの保護のため、下の画像に表示されている2つの単語を入力してください：',
+	'recaptcha-badpass' => '自動パスワードクラッキングからの保護のために、下の画像に表示されている2つの単語を入力してください：',
+	'recaptcha-createaccount' => '自動アカウント登録からの保護のために、下の画像に表示されている2つの単語を入力してください：',
+	'recaptcha-createaccount-fail' => '文字列が正しくない、または入力されていません。',
+	'recaptcha-create' => '自動ページ作成からの保護のために、下の画像に表示されている2つの単語を入力してください：',
+);
+
+/** Korean (한국어)
+ * @author 아라
+ */
+$messages['ko'] = array(
+	'recaptcha-desc' => '편집 확인에 대한 reCAPCHA 모듈',
 );
 
 /** Colognian (Ripoarisch)
@@ -266,6 +323,18 @@ $messages['ms'] = array(
 	'recaptcha-createaccount' => 'Untuk membanteras kegiatan membuka akaun secara automatik, sila taipkan dua perkataan yang anda lihat dalam petak di bawah:',
 	'recaptcha-createaccount-fail' => 'Jawapan reCAPTCHA tidak betul atau tidak ada.',
 	'recaptcha-create' => 'Untuk membanteras kegiatan mencipta laman secara automatik, sila taipkan dua perkataan yang anda lihat dalam petak di bawah:',
+);
+
+/** Norwegian (bokmål)‬ (‪Norsk (bokmål)‬)
+ * @author Event
+ */
+$messages['nb'] = array(
+	'recaptcha-edit' => 'Som beskyttelse mot automatisk redigert spam, vennligst skriv inn de to ordene du ser i boksen under:',
+	'recaptcha-addurl' => 'Din redigering inneholder nye eksterne lenker. Som beskyttelse mot automatisk spam, vennligst skriv inn de to ordene du ser i boksen under:',
+	'recaptcha-badpass' => 'Som beskyttelse mot automatisk passordknekking, vennligst skriv inn de to ordene du ser i boksen under:',
+	'recaptcha-createaccount' => 'Som beskyttelse mot automatisk opprettelse av brukerkonto, vennligst skriv inn de to ordene du ser i boksen under:',
+	'recaptcha-createaccount-fail' => 'Feil eller manglende reCAPTCHA-svar.',
+	'recaptcha-create' => 'Som beskyttelse mot automatisk opprettelse av side, vennligst skriv inn de to ordene du ser i boksen under:',
 );
 
 /** Dutch (Nederlands)
@@ -337,6 +406,18 @@ $messages['ru'] = array(
 	'recaptcha-create' => 'В целях защиты от автоматического создания страниц, пожалуйста, введите два слова, которые вы видите ниже:',
 );
 
+/** Serbian (Cyrillic script) (‪Српски (ћирилица)‬)
+ * @author Rancher
+ */
+$messages['sr-ec'] = array(
+	'recaptcha-desc' => 'Модул reCAPTCHA за потврду уређивања',
+);
+
+/** Serbian (Latin script) (‪Srpski (latinica)‬) */
+$messages['sr-el'] = array(
+	'recaptcha-desc' => 'Modul reCAPTCHA za potvrdu uređivanja',
+);
+
 /** Swedish (Svenska) */
 $messages['sv'] = array(
 	'recaptcha-edit' => 'Den här sidan skyddas mot spam-robotar, bevisa att du är en människa genom att skriva de två orden du ser i boxen nedan:',
@@ -390,13 +471,25 @@ $messages['vi'] = array(
 
 /** Simplified Chinese (‪中文(简体)‬)
  * @author Hydra
+ * @author Hzy980512
+ * @author Onecountry
  */
 $messages['zh-hans'] = array(
-	'recaptcha-edit' => '要帮助保护免受垃圾邮件自动的编辑，请键入您在下面的框中看到这两个词：',
-	'recaptcha-addurl' => '您的编辑包含新的外部链接。为了帮助防止自动垃圾邮件，请键入您在下面的框中看到这两个词：',
-	'recaptcha-badpass' => '为帮助防止自动密码破解，请键入您看到下面的框中的两个字：',
-	'recaptcha-createaccount' => '为了帮助防止创建自动化的帐户，请键入您在下面的框中看到的这两个字：',
-	'recaptcha-createaccount-fail' => '不正确或缺失的 reCAPTCHA 答案。',
-	'recaptcha-create' => '为了帮助防止自动的页创建，请键入您在下面的框中看到这两个词：',
+	'recaptcha-edit' => '为了避免垃圾用户自动编辑，请键入下面框中的两个单词：',
+	'recaptcha-addurl' => '您的编辑包含新的外部链接。为了避免垃圾用户自动编辑，请键入下面框中的两个单词：',
+	'recaptcha-badpass' => '为避免自动密码破解，请键入下面框中的两个单词：',
+	'recaptcha-createaccount' => '为了避免创建自动垃圾用户，请键入下面框中的两个单词：',
+	'recaptcha-createaccount-fail' => 'reCAPTCHA 答案不正确或未填写。',
+	'recaptcha-create' => '为了避免垃圾用户自动创建页面，请键入下面框中的两个单词：',
+);
+
+/** Traditional Chinese (‪中文(繁體)‬) */
+$messages['zh-hant'] = array(
+	'recaptcha-edit' => '要幫助保護免受垃圾郵件自動的編輯，請鍵入您在下面的框中看到這兩個詞：',
+	'recaptcha-addurl' => '您的編輯包含新的外部鏈接。為了幫助防止自動垃圾郵件，請鍵入您在下面的框中看到這兩個詞：',
+	'recaptcha-badpass' => '為幫助防止自動密碼破解，請鍵入您看到下面的框中的兩個字：',
+	'recaptcha-createaccount' => '為了幫助防止創建自動化的帳戶，請鍵入您在下面的框中看到的這兩個字：',
+	'recaptcha-createaccount-fail' => '不正確或缺失的 reCAPTCHA 答案。',
+	'recaptcha-create' => '為了幫助防止自動的頁創建，請鍵入您在下面的框中看到這兩個詞：',
 );
 

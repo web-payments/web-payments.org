@@ -92,7 +92,7 @@
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     owl: http://www.w3.org/2002/07/owl#
     vs: http://www.w3.org/2003/06/sw-vocab-status/ns#
-    sig: http://purl.org/security#"> 
+    sec: https://w3id.org/security#"> 
 
     <section id='abstract'> 
       <p>
@@ -125,7 +125,7 @@ until it is ratified as an official document via the World Wide Web Consortium.
     <section>
       <h2>Classes</h2>
 
-      <section id="Digest" about="http://purl.org/security#Digest"
+      <section id="Digest" about="https://w3id.org/security#Digest"
         typeof="rdfs:Class">
         <h3>Digest</h3>
           <p>
@@ -146,7 +146,7 @@ The example below describes a cryptographic digest:
         </p>
 <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "Digest",
   "digestAlgorithm": "http://www.w3.org/2000/09/xmldsig#sha1",
   "digestValue": "981ec496092bf6ee18d6255d96069b528633268b"
@@ -155,7 +155,7 @@ The example below describes a cryptographic digest:
       </section>
       
       <section id="EncryptedMessage" 
-        about="http://purl.org/security#EncryptedMessage"
+        about="https://w3id.org/security#EncryptedMessage"
         typeof="rdfs:Class">
         <h3>EncryptedMessage</h3>
           <p>
@@ -185,7 +185,7 @@ the base-64 encoded <code>data</code> property.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
@@ -208,7 +208,7 @@ z7u3IxpqNVcXHExjXQE=",
         </pre>
       </section>
 
-      <section id="GraphSignature2011" about="http://purl.org/security#GraphSignature2011"
+      <section id="GraphSignature2011" about="https://w3id.org/security#GraphSignature2011"
         typeof="rdfs:Class">
         <h3>GraphSignature2011</h3>
           <p>
@@ -260,13 +260,13 @@ canonicalized using the standard normalization algorithm for JSON-LD.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "foaf:Person",
   "foaf:name": "Manu Sporny",
   "foaf:homepage": "http://manu.sporny.org/",
   "signature":
   {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
     "@type": "GraphSignature2011",
     "creator": "http://manu.sporny.org/webid#key-5",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
@@ -275,7 +275,7 @@ canonicalized using the standard normalization algorithm for JSON-LD.
           </pre>
       </section>
 
-      <section id="Key" about="http://purl.org/security#Key"
+      <section id="Key" about="https://w3id.org/security#Key"
         typeof="rdfs:Class">
         <h3>Key</h3>
           <p>
@@ -293,11 +293,11 @@ decryption or digitally signing data.
         <p>
 The example below describes a cryptographic key that contains both the 
 public and private key as well as the owner of the key. The owner property
-is described in the <a href="http://purl.org/commerce">Commerce Vocabulary</a>.
+is described in the <a href="https://w3id.org/commerce">Commerce Vocabulary</a>.
         </p>
 <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/i/bob/keys/1",
   "@type": "Key",
   "owner": "https://payswarm.example.com/i/bob",
@@ -307,7 +307,7 @@ is described in the <a href="http://purl.org/commerce">Commerce Vocabulary</a>.
 </pre>
       </section>
 
-      <section id="Signature" about="http://purl.org/security#Signature"
+      <section id="Signature" about="https://w3id.org/security#Signature"
         typeof="rdfs:Class">
         <h3>Signature</h3>
           <p>
@@ -336,7 +336,7 @@ digestAlgorithm, and signingAlgorithm.
     <section>
       <h2>Properties</h2>
 
-      <section id="cipherAlgorithm" about="http://purl.org/security#cipherAlgorithm"
+      <section id="cipherAlgorithm" about="https://w3id.org/security#cipherAlgorithm"
         typeof="rdf:Property">
         <h3>cipherAlgorithm</h3>
         <p>
@@ -364,7 +364,7 @@ the base-64 encoded <code>data</code> property.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
@@ -387,7 +387,7 @@ z7u3IxpqNVcXHExjXQE=",
         </pre>
       </section>
 
-      <section id="data" about="http://purl.org/security#data"
+      <section id="data" about="https://w3id.org/security#data"
         typeof="rdf:Property">
         <h3>data</h3>
         <p>
@@ -415,7 +415,7 @@ the base-64 encoded <code>data</code> property.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
@@ -437,7 +437,7 @@ z7u3IxpqNVcXHExjXQE=",
 }        
         </pre>
       </section>
-      <section id="digestAlgorithm" about="http://purl.org/security#digestAlgorithm"
+      <section id="digestAlgorithm" about="https://w3id.org/security#digestAlgorithm"
         typeof="rdf:Property">
         <h3>digestAlgorithm</h3>
         <p>
@@ -460,8 +460,8 @@ a particular signature type:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
-  "@id": "http://purl.org/security#GraphSignature2011",
+  "@context": "https://w3id.org/security/v1",
+  "@id": "https://w3id.org/security#GraphSignature2011",
   "@type": "Signature",
   "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
@@ -470,7 +470,7 @@ a particular signature type:
         </pre>
       </section>
 
-      <section id="digestValue" about="http://purl.org/security#digestValue"
+      <section id="digestValue" about="https://w3id.org/security#digestValue"
         typeof="rdf:Property">
         <h3>digestValue</h3>
         <p>
@@ -492,7 +492,7 @@ encoded in JSON-LD:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": [
-    "http://purl.org/security/v1", 
+    "https://w3id.org/security/v1", 
     { 
       "dc": "http://purl.org/dc/terms/",
       "foaf": "http://xmlns.com/foaf/0.1/"
@@ -511,7 +511,7 @@ encoded in JSON-LD:
         </pre>
       </section>
 
-      <section id="expires" about="http://purl.org/security#expires"
+      <section id="expires" about="https://w3id.org/security#expires"
         typeof="rdf:Property">
         <h3>expires</h3>
         <p>
@@ -534,7 +534,7 @@ that expires on January 3rd 2014:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/i/bob/keys/1",
   "@type": "Key",
   "created": "2012-01-03T14:34:57+0000",
@@ -545,7 +545,7 @@ that expires on January 3rd 2014:
         </pre>
       </section>
 
-      <section id="iv" about="http://purl.org/security#iv"
+      <section id="iv" about="https://w3id.org/security#iv"
         typeof="rdf:Property">
         <h3>iv</h3>
         <p>
@@ -571,7 +571,7 @@ the password and the public key is required in order to decrypt the data.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
@@ -594,7 +594,7 @@ z7u3IxpqNVcXHExjXQE=",
         </pre>
       </section>
       
-      <section id="nonce" about="http://purl.org/security#nonce"
+      <section id="nonce" about="https://w3id.org/security#nonce"
         typeof="rdf:Property">
         <h3>nonce</h3>
         <p>
@@ -621,7 +621,7 @@ in order to protect against
         <pre class="example prettyprint language-jsonld">
 {
   "@context": [
-    "http://purl.org/security/v1",
+    "https://w3id.org/security/v1",
     { "ex": "http://example.org/vocab#" }
   ],
   "@graph": {
@@ -638,7 +638,7 @@ in order to protect against
         </pre>
       </section>
 
-      <section id="normalizationAlgorithm" about="http://purl.org/security#normalizationAlgorithm"
+      <section id="normalizationAlgorithm" about="https://w3id.org/security#normalizationAlgorithm"
         typeof="rdf:Property">
         <h3>normalizationAlgorithm</h3>
         <p>
@@ -661,8 +661,8 @@ the normalization algorithm, the digest algorithm and the signing algorithm:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
-  "@id": "http://purl.org/security#GraphSignature2011",
+  "@context": "https://w3id.org/security/v1",
+  "@id": "https://w3id.org/security#GraphSignature2011",
   "@type": "Signature",
   "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
@@ -671,7 +671,7 @@ the normalization algorithm, the digest algorithm and the signing algorithm:
         </pre>
       </section>
 
-      <section id="password" about="http://purl.org/security#password"
+      <section id="password" about="https://w3id.org/security#password"
         typeof="rdf:Property">
         <h3>password</h3>
         <p>
@@ -693,7 +693,7 @@ base-64 encoded.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
@@ -716,7 +716,7 @@ z7u3IxpqNVcXHExjXQE=",
         </pre>
       </section>
 
-      <section id="privateKeyPem" about="http://purl.org/security#privateKeyPem"
+      <section id="privateKeyPem" about="https://w3id.org/security#privateKeyPem"
         typeof="rdf:Property">
         <h3>privateKeyPem</h3>
         <p>
@@ -741,7 +741,7 @@ that has been abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/i/bob/keys/1",
   "@type": "Key",
   "owner": "https://payswarm.example.com/i/bob",
@@ -750,7 +750,7 @@ that has been abbreviated for the sake of the readability of the example.
         </pre>
       </section>
 
-      <section id="publicKey" about="http://purl.org/security#publicKey"
+      <section id="publicKey" about="https://w3id.org/security#publicKey"
         typeof="rdf:Property">
         <h3>publicKey</h3>
         <p>
@@ -769,7 +769,7 @@ to the identity <code>https://payswarm.example.com/i/bob</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/i/bob/keys/1",
   "@type": "Key",
   "owner": "https://payswarm.example.com/i/bob",
@@ -778,7 +778,7 @@ to the identity <code>https://payswarm.example.com/i/bob</code>.
         </pre>
       </section>
       
-      <section id="publicKeyPem" about="http://purl.org/security#publicKeyPem"
+      <section id="publicKeyPem" about="https://w3id.org/security#publicKeyPem"
         typeof="rdf:Property">
         <h3>publicKeyPem</h3>
         <p>
@@ -802,7 +802,7 @@ data that has been abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/i/bob/keys/1",
   "owner": "https://payswarm.example.com/i/bob",
   "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n"
@@ -810,7 +810,7 @@ data that has been abbreviated for the sake of the readability of the example.
         </pre>
       </section>
 
-      <section id="publicKeyService" about="http://purl.org/security#publicKeyService"
+      <section id="publicKeyService" about="https://w3id.org/security#publicKeyService"
         typeof="rdf:Property">
         <h3>publicKeyService</h3>
         <p>
@@ -832,14 +832,14 @@ operated upon using the protocol described in [[!WEB-KEYS]].
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/.well-known/services",
   "publicKeyService": "https://payswarm.example.com/public-keys"
 }
         </pre>
       </section>
 
-      <section id="revoked" about="http://purl.org/security#revoked"
+      <section id="revoked" about="https://w3id.org/security#revoked"
         typeof="rdf:Property">
         <h3>revoked</h3>
         <p>
@@ -861,7 +861,7 @@ revoked on May 5th 2012:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
+  "@context": "https://w3id.org/security/v1",
   "@id": "https://payswarm.example.com/i/bob/keys/1",
   "@type": "Key",
   "created": "2012-01-03T14:34:57+0000",
@@ -872,7 +872,7 @@ revoked on May 5th 2012:
         </pre>
       </section>
 
-      <section id="signature" about="http://purl.org/security#signature"
+      <section id="signature" about="https://w3id.org/security#signature"
         typeof="rdf:Property">
         <h3>signature</h3>
         <p>
@@ -894,7 +894,7 @@ a JSON-LD signature:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": [
-    "http://purl.org/security/v1",
+    "https://w3id.org/security/v1",
     { "foaf": "http://xmlns.com/foaf/0.1/" }
   ]
   "@graph":
@@ -914,7 +914,7 @@ a JSON-LD signature:
         </pre>
       </section>
 
-      <section id="signatureValue" about="http://purl.org/security#signatureValue"
+      <section id="signatureValue" about="https://w3id.org/security#signatureValue"
         typeof="rdf:Property">
         <h3>signatureValue</h3>
         <p>
@@ -936,7 +936,7 @@ encoded in JSON-LD:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": [
-    "http://purl.org/security/v1",
+    "https://w3id.org/security/v1",
     { "foaf": "http://xmlns.com/foaf/0.1/" }
   ]
   "@graph":
@@ -956,7 +956,7 @@ encoded in JSON-LD:
         </pre>
       </section>
       
-      <section id="signatureAlgorithm" about="http://purl.org/security#signatureAlgorithm"
+      <section id="signatureAlgorithm" about="https://w3id.org/security#signatureAlgorithm"
         typeof="rdf:Property">
         <h3>signingAlgorithm</h3>
         <p>
@@ -982,8 +982,8 @@ a particular class of signatures:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-  "@context": "http://purl.org/security/v1",
-  "@id": "http://purl.org/security#GraphSignature2011",
+  "@context": "https://w3id.org/security/v1",
+  "@id": "https://w3id.org/security#GraphSignature2011",
   "@type": "Signature",
   "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",

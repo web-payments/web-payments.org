@@ -164,11 +164,11 @@
               { name: "Manu Sporny", url: "http://digitalbazaar.com/",
                 company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
           ],
- 
-          // authors, add as many as you like. 
+
+          // authors, add as many as you like.
           // This is optional, uncomment if you have authors as well as editors.
           // only "name" is required. Same format as editors.
- 
+
           //authors:  [
           //    { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
@@ -182,7 +182,7 @@
           
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webpayments@w3c.org",
-          
+
           // URI of the patent status for this WG, for Rec-track documents
           // !!!! IMPORTANT !!!!
           // This is important for Rec-track documents, do not copy a patent URI from a random
@@ -607,13 +607,13 @@ The following example shows an input <tref>message</tref> and the resulting
         <pre class="example prettyprint language-jsonld">
 *** message
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "dc:title": "Hello World!"
 }
 
 *** signed message
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "dc:title": "Hello World!",
    "sec:signature":
    {
@@ -750,7 +750,7 @@ message looks like when generated using the algorithm above.
    "com:maximumRate": "10.0",
    "com:destination": "https://example.com/people/manu/accounts/article-sales",
    "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23",
-   "ps:license": "http://purl.org/payswarm/licenses/blogging",
+   "ps:license": "https://w3id.org/payswarm/licenses/blogging",
    "ps:licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
 }
 
@@ -890,7 +890,7 @@ end-points and other public configuration information for a
 <tref>authority</tref>. An <tref>authority</tref> MUST
 publish this service at a top-level IRI named <code>payswarm-v1-config</code>. 
 The document MUST be available in JSON-LD compacted form and MUST use the
-<code>http://purl.org/payswarm/v1</code> JSON-LD context. The following
+<code>https://w3id.org/payswarm/v1</code> JSON-LD context. The following
 keys MUST be present in the published document; 
 <code>ps:publicKeyService</code>, <code>ps:licenseService</code>, and
 <code>ps:transactionService</code>.</dd>
@@ -978,7 +978,7 @@ IRI: <code>https://example.com/payswarm-v1-config</code>.</li>
 HTTP <code>Accept</code> header set to 
 <code>application/ld+json; form=compacted</code>. The
 <tref>authority</tref> MUST respond with a compacted JSON-LD document
-using the context specified at <code>http://purl.org/payswarm/v1</code>.</li>
+using the context specified at <code>https://w3id.org/payswarm/v1</code>.</li>
               <li>The result MUST be a JSON-LD document containing a flat set of
 key-value pairs defined in the <tref>configuration service</tref> section above.
               </li>
@@ -1099,7 +1099,7 @@ Host: payswarm.example.com
 Server: Apache/2.2.19 (Debian)
 
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://payswarm.example.com/i/authority",
    "ps:registrationService": "http://payswarm.example.com/api/v1/applications",
    "ps:publicKeyService": "http://payswarm.example.com/api/v1/keys",
@@ -1160,7 +1160,7 @@ US89y0M909ZTj2zDQwIDAQAB%0A↩
    "com:maximumRate": "10.0",
    "com:destination": "https://example.com/people/manu/accounts/article-sales",
    "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23",
-   "ps:license": "http://purl.org/payswarm/licenses/blogging",
+   "ps:license": "https://w3id.org/payswarm/licenses/blogging",
    "ps:licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
 }
 
@@ -1284,7 +1284,7 @@ JSON-LD format containing at least the following:
             <dl>
               <dt><code>@context</code></dt>
               <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
               </dd>
@@ -1547,7 +1547,7 @@ that is verifiable by the receiving party.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
@@ -1584,8 +1584,8 @@ assume that the following file is served from the
  &lt;/head>
  &lt;body prefix="dc: http://purl.org/dc/terms/ 
                foaf: http://xmlns.com/foaf/0.1/ 
-               ps: http://purl.org/payswarm#
-               sec: http://purl.org/security#
+               ps: https://w3id.org/payswarm#
+               sec: https://w3id.org/security#
                xsd: http://www.w3.org/2001/XMLSchema#">
 
    &lt;article about="http://example.org/articles/1#asset" typeof="ps:Asset ps:WebPage">
@@ -1660,7 +1660,7 @@ The following example describes a very simple license for personal use.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://payswarm.example.com/licenses/personal-use",
    "@type": "ps:License",
    "dc:format": "text/html",
@@ -1705,7 +1705,7 @@ may only take a maximum of 10% of the final sale price to cover their fees.
 
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://example.com/articles/1#listing",
    "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
@@ -1872,7 +1872,7 @@ JSON-LD format, the following pieces of information MUST be expressed:
                 <dl>
                   <dt><code>@context</code></dt>
                   <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                   </dd>
@@ -2016,7 +2016,7 @@ MUST be expressed:
             <dl>
               <dt><code>@context</code></dt>
               <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
               </dd>
@@ -2075,7 +2075,7 @@ placed into the response:
               <dl>
                 <dt><code>@context</code></dt>
                 <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                 </dd>
@@ -2174,7 +2174,7 @@ Jane, who may now peruse the article.
 
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",

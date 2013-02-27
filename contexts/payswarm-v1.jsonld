@@ -2,229 +2,159 @@
   "@context": {
     "id": "@id",
     "type": "@type",
-    "ccard": "http://purl.org/commerce/creditcard#",
-    "com": "http://purl.org/commerce#",
+
+    "ccard": "https://w3id.org/commerce/creditcard#",
+    "com": "https://w3id.org/commerce#",
     "dc": "http://purl.org/dc/terms/",
     "foaf": "http://xmlns.com/foaf/0.1/",
     "gr": "http://purl.org/goodrelations/v1#",
     "pto": "http://www.productontology.org/id/",
-    "ps": "http://purl.org/payswarm#",
-    "psp": "http://purl.org/payswarm/preferences#",
+    "ps": "https://w3id.org/payswarm#",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-    "sec": "http://purl.org/security#",
+    "sec": "https://w3id.org/security#",
     "vcard": "http://www.w3.org/2006/vcard/ns#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "address": {
-      "@id": "vcard:adr",
-      "@type": "@id"
-    },
+
+    "address": {"@id": "vcard:adr", "@type": "@id"},
+    "bankAccount": "bank:account",
+    "bankRouting": "bank:routing",
     "comment": "rdfs:comment",
     "countryName": "vcard:country-name",
-    "created": {
-      "@id": "dc:created",
-      "@type": "xsd:dateTime"
-    },
-    "creator": {
-      "@id": "dc:creator",
-      "@type": "@id"
-    },
-    "depiction": {
-      "@id": "foaf:depiction",
-      "@type": "@id"
-    },
+    "created": {"@id": "dc:created", "@type": "xsd:dateTime"},
+    "creator": {"@id": "dc:creator", "@type": "@id"},
+    "depiction": {"@id": "foaf:depiction", "@type": "@id"},
     "description": "dc:description",
     "email": "foaf:mbox",
     "fullName": "vcard:fn",
-    "homepage": {
-      "@id": "foaf:homepage",
-      "@type": "@id"
-    },
+    "homepage": {"@id": "foaf:homepage", "@type": "@id"},
     "label": "rdfs:label",
     "locality": "vcard:locality",
     "postalCode": "vcard:postal-code",
     "region": "vcard:region",
     "streetAddress": "vcard:street-address",
     "title": "dc:title",
+    "Address": "vcard:Address",
+
     "bankAccount": "bank:account",
-    "bankRouting": "bank:routing",
-    "cardAddress": {
-      "@id": "ccard:address",
-      "@type": "@id"
-    },
-    "cardBrand": {
-      "@id": "ccard:brand",
-      "@type": "@id"
-    },
+    "bankAccountType": {"@id": "bank:accountType", "@type": "@vocab"},
+    "bankRoutingNumber": "bank:routing",
+    "BankAccount": "bank:BankAccount",
+    "Checking": "bank:Checking",
+    "Savings": "bank:Savings",
+
+    "cardBrand": {"@id": "ccard:brand", "@type": "@vocab"},
     "cardCvm": "ccard:cvm",
-    "cardExpMonth": "ccard:expMonth",
-    "cardExpYear": "ccard:expYear",
+    "cardExpMonth": {"@id": "ccard:expMonth", "@type": "xsd:integer"},
+    "cardExpYear": {"@id": "ccard:expYear", "@type": "xsd:integer"},
     "cardNumber": "ccard:number",
-    "account": {
-      "@id": "com:account",
-      "@type": "@id"
-    },
-    "accountOwnerType": {
-      "@id": "com:accountOwnerType",
-      "@type": "@id"
-    },
+    "AmericanExpress": "ccard:AmericanExpress",
+    "ChinaUnionPay": "ccard:ChinaUnionPay",
+    "CreditCard": "ccard:CreditCard",
+    "Discover": "ccard:Discover",
+    "Visa": "ccard:Visa",
+    "MasterCard": "ccard:MasterCard",
+
+    "account": {"@id": "com:account", "@type": "@id"},
     "amount": "com:amount",
+    "authorized": {"@id": "com:authorized", "@type": "xsd:dateTime"},
     "balance": "com:balance",
-    "currency": "com:currency",
-    "destination": {
-      "@id": "com:destination",
-      "@type": "@id"
-    },
-    "escrow": "com:escrow",
-    "forTransaction": {
-      "@id": "com:forTransaction",
-      "@type": "@id"
-    },
+    "currency": {"@id": "com:currency", "@type": "@vocab"},
+    "destination": {"@id": "com:destination", "@type": "@id"},
     "maximumAmount": "com:maximumAmount",
     "maximumPayeeRate": "com:maximumPayeeRate",
+    "minimumPayeeRate": "com:minimumPayeeRate",
     "minimumAmount": "com:minimumAmount",
-    "payee": {
-      "@id": "com:payee",
-      "@type": "@id",
-      "@container": "@set"
-    },
-    "payeeRule": {
-      "@id": "com:payeeRule",
-      "@type": "@id",
-      "@container": "@set"
-    },
-    "payeeLimitation": {
-      "@id": "com:payeeLimitation",
-      "@type": "@id"
-    },
-    "payeePosition": {
-      "@id": "com:payeePosition",
-      "@type": "xsd:integer"
-    },
+    "payee": {"@id": "com:payee", "@type": "@id", "@container": "@set"},
+    "payeeApplyAfter": {"@id": "com:payeeApplyAfter", "@container": "@set"},
+    "payeeApplyGroup": {"@id": "com:payeeApplyGroup", "@container": "@set"},
+    "payeeApplyType": {"@id": "com:payeeApplyType", "@type": "@vocab"},
+    "payeeGroup": {"@id": "com:payeeGroup", "@container": "@set"},
+    "payeeGroupPrefix": {"@id": "com:payeeGroupPrefix", "@container": "@set"},
+    "payeeExemptGroup": {"@id": "com:payeeExemptGroup", "@container": "@set"},
+    "payeeLimitation": {"@id": "com:payeeLimitation", "@type": "@vocab"},
     "payeeRate": "com:payeeRate",
-    "payeeRateContext": {
-      "@id": "com:payeeRateContext",
-      "@type": "@id"
-    },
-    "payeeRateType": {
-      "@id": "com:payeeRateType",
-      "@type": "@id"
-    },
+    "payeeRateType": {"@id": "com:payeeRateType", "@type": "@vocab"},
+    "payeeRule": {"@id": "com:payeeRule", "@type": "@id", "@container": "@set"},
     "paymentGateway": "com:paymentGateway",
-    "paymentMethod": {
-      "@id": "com:paymentMethod",
-      "@type": "@id"
-    },
+    "paymentMethod": {"@id": "com:paymentMethod", "@type": "@vocab"},
     "paymentToken": "com:paymentToken",
     "referenceId": "com:referenceId",
-    "settled": {
-      "@id": "com:settled",
-      "@type": "xsd:dateTime"
-    },
-    "source": {
-      "@id": "com:source",
-      "@type": "@id"
-    },
-    "transfer": {
-      "@id": "com:transfer",
-      "@type": "@id"
-    },
-    "vendor": {
-      "@id": "com:vendor",
-      "@type": "@id"
-    },
-    "voided": {
-      "@id": "com:voided",
-      "@type": "xsd:dateTime"
-    },
-    "asset": {
-      "@id": "ps:asset",
-      "@type": "@id"
-    },
-    "assetAcquirer": {
-      "@id": "ps:assetAcquirer",
-      "@type": "@id"
-    },
-    "assetContent": {
-      "@id": "ps:assetContent",
-      "@type": "@id"
-    },
+    "settled": {"@id": "com:settled", "@type": "xsd:dateTime"},
+    "source": {"@id": "com:source", "@type": "@id"},
+    "transfer": {"@id": "com:transfer", "@type": "@id", "@container": "@set"},
+    "vendor": {"@id": "com:vendor", "@type": "@id"},
+    "voided": {"@id": "com:voided", "@type": "xsd:dateTime"},
+    "ApplyExclusively": "com:ApplyExclusively",
+    "ApplyInclusively": "com:ApplyInclusively",
+    "FinancialAccount": "com:Account",
+    "FlatAmount": "com:FlatAmount",
+    "Deposit": "com:Deposit",
+    "NoAdditionalPayeesLimitation": "com:NoAdditionalPayeesLimitation",
+    "Payee": "com:Payee",
+    "PayeeRule": "com:PayeeRule",
+    "PayeeScheme": "com:PayeeScheme",
+    "PaymentToken": "com:PaymentToken",
+    "Percentage": "com:Percentage",
+    "Transaction": "com:Transaction",
+    "Transfer": "com:Transfer",
+    "Withdrawal": "com:Withdrawal",
+
+    "usd": "https://w3id.org/currency/usd",
+
+    "asset": {"@id": "ps:asset", "@type": "@id"},
+    "assetAcquirer": {"@id": "ps:assetAcquirer", "@type": "@id"},
+    "assetContent": {"@id": "ps:assetContent", "@type": "@id"},
     "assetHash": "ps:assetHash",
-    "assetProvider": {
-      "@id": "ps:assetProvider",
-      "@type": "@id"
-    },
-    "authority": {
-      "@id": "ps:authority",
-      "@type": "@id"
-    },
+    "assetProvider": {"@id": "ps:assetProvider", "@type": "@id"},
+    "authority": {"@id": "ps:authority", "@type": "@id"},
+    "contract": {"@id": "ps:contract", "@type": "@id"},
     "identityHash": "ps:identityHash",
     "ipv4Address": "ps:ipv4Address",
-    "license": {
-      "@id": "ps:license",
-      "@type": "@id"
-    },
+    "license": {"@id": "ps:license", "@type": "@id"},
     "licenseHash": "ps:licenseHash",
     "licenseTemplate": "ps:licenseTemplate",
-    "licenseTerms": {
-      "@id": "ps:licenseTerms",
-      "@type": "@id"
-    },
-    "listing": {
-      "@id": "ps:listing",
-      "@type": "@id"
-    },
+    "licenseTerms": {"@id": "ps:licenseTerms", "@type": "@id"},
+    "listing": {"@id": "ps:listing", "@type": "@id"},
     "listingHash": "ps:listingHash",
-    "owner": {
-      "@id": "ps:owner",
-      "@type": "@id"
-    },
-    "preferences": {
-      "@id": "ps:preferences",
-      "@type": "@id"
-    },
-    "validFrom": {
-      "@id": "ps:validFrom",
-      "@type": "xsd:dateTime"
-    },
-    "validUntil": {
-      "@id": "ps:validUntil",
-      "@type": "xsd:dateTime"
-    },
+    "owner": {"@id": "ps:owner", "@type": "@id"},
+    "preferences": {"@id": "ps:preferences", "@type": "@vocab"},
+    "validFrom": {"@id": "ps:validFrom", "@type": "xsd:dateTime"},
+    "validUntil": {"@id": "ps:validUntil", "@type": "xsd:dateTime"},
+    "Asset": "ps:Asset",
+    "Budget": "ps:Budget",
+    "Contract": "ps:Contract",
+    "License": "ps:License",
+    "Listing": "ps:Listing",
+    "PersonalIdentity": "ps:PersonalIdentity",
+    "IdentityPreferences": "ps:IdentityPreferences",
+    "Profile": "ps:Profile",
+    "PurchaseRequest": "ps:PurchaseRequest",
+    "PreAuthorization": "ps:PreAuthorization",
+    "Receipt": "ps:Receipt",
+    "VendorIdentity": "ps:VendorIdentity",
+
     "cipherAlgorithm": "sec:cipherAlgorithm",
     "cipherData": "sec:cipherData",
     "cipherKey": "sec:cipherKey",
     "digestAlgorithm": "sec:digestAlgorithm",
     "digestValue": "sec:digestValue",
-    "expiration": {
-      "@id": "sec:expiration",
-      "@type": "xsd:dateTime"
-    },
+    "expiration": {"@id": "sec:expiration", "@type": "xsd:dateTime"},
     "initializationVector": "sec:initializationVector",
     "nonce": "sec:nonce",
     "normalizationAlgorithm": "sec:normalizationAlgorithm",
     "password": "sec:password",
-    "privateKey": {
-      "@id": "sec:privateKey",
-      "@type": "@id"
-    },
+    "privateKey": {"@id": "sec:privateKey", "@type": "@id"},
     "privateKeyPem": "sec:privateKeyPem",
-    "publicKey": {
-      "@id": "sec:publicKey",
-      "@type": "@id"
-    },
+    "publicKey": {"@id": "sec:publicKey", "@type": "@id"},
     "publicKeyPem": "sec:publicKeyPem",
-    "publicKeyService": {
-      "@id": "sec:publicKeyService",
-      "@type": "@id"
-    },
-    "revoked": {
-      "@id": "sec:revoked",
-      "@type": "@id"
-    },
+    "publicKeyService": {"@id": "sec:publicKeyService", "@type": "@id"},
+    "revoked": {"@id": "sec:revoked", "@type": "@id"},
     "signature": "sec:signature",
     "signatureAlgorithm": "sec:signatureAlgorithm",
-    "signatureValue": "sec:signatureValue"
+    "signatureValue": "sec:signatureValue",
+    "EncryptedMessage": "sec:EncryptedMessage",
+    "CryptographicKey": "sec:Key",
+    "GraphSignature2012": "sec:GraphSignature2012"
   }
 }
-

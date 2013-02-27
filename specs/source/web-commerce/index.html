@@ -408,7 +408,7 @@ that is verifiable by the receiving party.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://example.org/articles/1#asset",
    "@type": ["ps:Asset", "ps:WebPage"],
    "dc:title": "PaySwarm in Practice",
@@ -445,8 +445,8 @@ assume that the following file is served from the
  &lt;/head>
  &lt;body prefix="dc: http://purl.org/dc/terms/ 
                foaf: http://xmlns.com/foaf/0.1/ 
-               ps: http://purl.org/payswarm#
-               sec: http://purl.org/security#
+               ps: https://w3id.org/payswarm#
+               sec: https://w3id.org/security#
                xsd: http://www.w3.org/2001/XMLSchema#">
 
    &lt;article about="http://example.org/articles/1#asset" typeof="ps:Asset ps:WebPage">
@@ -521,7 +521,7 @@ The following example describes a very simple license for personal use.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://payswarm.example.com/licenses/personal-use",
    "@type": "ps:License",
    "dc:format": "text/html",
@@ -566,7 +566,7 @@ may only take a maximum of 10% of the final sale price to cover their fees.
 
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://example.com/articles/1#listing",
    "@type": ["gr:Offering", "ps:Listing"],
    "com:payee": 
@@ -733,7 +733,7 @@ JSON-LD format, the following pieces of information MUST be expressed:
                 <dl>
                   <dt><code>@context</code></dt>
                   <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                   </dd>
@@ -877,7 +877,7 @@ MUST be expressed:
             <dl>
               <dt><code>@context</code></dt>
               <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
               </dd>
@@ -936,7 +936,7 @@ placed into the response:
               <dl>
                 <dt><code>@context</code></dt>
                 <dd>
-A single value containing the string <code>http://purl.org/payswarm/v1</code> 
+A single value containing the string <code>https://w3id.org/payswarm/v1</code> 
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                 </dd>
@@ -1035,7 +1035,7 @@ Jane, who may now peruse the article.
 
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "@id": "http://payswarm.example.com/contracts/28394729347",
    "@type": ["ps:Transaction", "ps:Contract"],
    "com:amount": "0.05",

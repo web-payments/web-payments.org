@@ -285,7 +285,7 @@ end-points and other public configuration information for a
 publish this service at a top-level IRI named 
 <code>/.well-known/linked-data-services</code>. The document MUST be available 
 in JSON-LD compacted form and MUST include the 
-<code>http://purl.org/web-keys/v1</code> JSON-LD context. The following
+<code>https://w3id.org/web-keys/v1</code> JSON-LD context. The following
 key MUST be present in the published document:
 <code>wkey:publicKeyService</code>.</dd>
         <dt><tdef>public key registration service</tdef></dt>
@@ -337,7 +337,7 @@ IRI: <code>https://example.com/.well-known/linked-data-services</code>.</li>
 <tref>configuration service</tref> IRI with the HTTP <code>Accept</code> header 
 set to <code>application/ld+json; form=compacted</code>. The
 <tref>key listing service</tref> MUST respond with a compacted JSON-LD document
-using the context specified at <code>http://purl.org/web-key/v1</code>.</li>
+using the context specified at <code>https://w3id.org/web-key/v1</code>.</li>
               <li>The result MUST be a JSON-LD document containing a flat set of
 key-value pairs. The data MUST contain at least the properties defined in 
 the <tref>configuration service</tref> section.
@@ -456,7 +456,7 @@ Host: keys-r-us.example.com
 Server: Apache/2.2.19 (Debian)
 
 {
-   "@context": "http://purl.org/web-key/v1",
+   "@context": "https://w3id.org/web-key/v1",
    "@id": "http://keys-r-us.example.com/i/key-master",
    "wkey:publicKeyService": "http://keys-r-us.example.com/keys",
 }
@@ -706,13 +706,13 @@ The following example shows an input <tref>message</tref> and the resulting
         <pre class="example prettyprint language-jsonld">
 *** message
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "dc:title": "Hello World!"
 }
 
 *** signed message
 {
-   "@context": "http://purl.org/payswarm/v1",
+   "@context": "https://w3id.org/payswarm/v1",
    "dc:title": "Hello World!",
    "sec:signature":
    {
@@ -849,7 +849,7 @@ message looks like when generated using the algorithm above.
    "com:maximumRate": "10.0",
    "com:destination": "https://example.com/people/manu/accounts/article-sales",
    "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23",
-   "ps:license": "http://purl.org/payswarm/licenses/blogging",
+   "ps:license": "https://w3id.org/payswarm/licenses/blogging",
    "ps:licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
 }
 

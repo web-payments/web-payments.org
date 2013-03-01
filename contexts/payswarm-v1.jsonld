@@ -100,7 +100,7 @@
     "Transfer": "com:Transfer",
     "Withdrawal": "com:Withdrawal",
 
-    "usd": "https://w3id.org/currency/usd",
+    "USD": "https://w3id.org/currency/USD",
 
     "asset": {"@id": "ps:asset", "@type": "@id"},
     "assetAcquirer": {"@id": "ps:assetAcquirer", "@type": "@id"},

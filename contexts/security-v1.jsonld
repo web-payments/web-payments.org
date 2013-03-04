@@ -1,39 +1,31 @@
 {
   "@context": {
-    "com": "https://w3id.org/commerce#",
     "dc": "http://purl.org/dc/terms/",
     "sec": "https://w3id.org/security#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
-    "Digest": "sec:Digest",
     "EncryptedMessage": "sec:EncryptedMessage",
-    "GraphSignature2011": "sec:GraphSignature2011",
-    "Key": "sec:Key",
-    "Signature": "sec:Signature",
+    "GraphSignature2012": "sec:GraphSignature2012",
+    "CryptographicKey": "sec:Key",
 
     "cipherAlgorithm": "sec:cipherAlgorithm",
+    "cipherData": "sec:cipherData",
+    "cipherKey": "sec:cipherKey",
     "created": {
       "@id": "dc:created",
       "@type": "xsd:dateTime"
     },
-    "data": "sec:data",
-    "digestAlgorithm": {
-      "@id": "sec:digestAlgorithm",
-      "@type": "@id"
-    },
+    "digestAlgorithm": "sec:digestAlgorithm",
     "digestValue": "sec:digestValue",
-    "expires": {
-      "@id": "sec:expires",
+    "expiration": {
+      "@id": "sec:expiration",
       "@type": "xsd:dateTime"
     },
-    "iv": "sec:iv",
+    "initializationVector": "sec:initializationVector",
     "nonce": "sec:nonce",
-    "normalizationAlgorithm": {
-      "@id": "sec:normalizationAlgorithm",
-      "@type": "@id"
-    },
+    "normalizationAlgorithm": "sec:normalizationAlgorithm",
     "owner": {
-      "@id": "com:owner",
+      "@id": "sec:owner",
       "@type": "@id"
     },
     "password": "sec:password",
@@ -52,10 +44,8 @@
       "@type": "xsd:dateTime"
     },
     "signature": "sec:signature",
-    "signatureValue": "sec:signatureValue",
-    "signingAlgorithm": {
-      "@id": "sec:signingAlgorithm",
-      "@type": "xsd:dateTime"
+    "signatureAlgorithm": "sec:signingAlgorithm",
+    "signatureValue": "sec:signatureValue"
     }
   }
 }

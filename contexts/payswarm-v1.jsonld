@@ -27,7 +27,7 @@
     "description": "dc:description",
     "email": "foaf:mbox",
     "fullName": "vcard:fn",
-    "homepage": {"@id": "foaf:homepage", "@type": "@id"},
+    "website": {"@id": "foaf:homepage", "@type": "@id"},
     "label": "rdfs:label",
     "locality": "vcard:locality",
     "postalCode": "vcard:postal-code",

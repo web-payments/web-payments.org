@@ -1,1 +1,2 @@
 Header set Access-Control-Allow-Origin *
+AddType application/ld+json .jsonld

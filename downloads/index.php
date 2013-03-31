@@ -85,10 +85,10 @@ for access to their content. Code available on
 <div class="container vspacing"> 
   <div class="row"> 
     <div class="threecol"> 
-      <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a> 
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a> 
     </div> 
     <div class="ninecol last"> 
-      <p>&copy; 2010 Digital Bazaar, Inc. 
+      <p>&copy; 2010-2013 Digital Bazaar, Inc. 
 Website CSS created by <a href="http://cssgrid.net/">@andytlr</a> 
 and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/au/">
 Creative Commons Attribution-ShareAlike 3.0 Australia License</a>. All other

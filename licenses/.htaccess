@@ -1,4 +1,4 @@
-<FilesMatch "blogging">
+<FilesMatch "^(blogging|personal-use)$">
    ForceType application/xhtml+xml
    SetHandler default_handler
    RewriteEngine on

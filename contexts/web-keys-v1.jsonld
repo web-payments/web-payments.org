@@ -1,0 +1,49 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+
+    "dc": "http://purl.org/dc/terms/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "sec": "https://w3id.org/security#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "comment": "rdfs:comment",
+    "created": {"@id": "dc:created", "@type": "xsd:dateTime"},
+    "creator": {"@id": "dc:creator", "@type": "@id"},
+    "description": "dc:description",
+    "email": "foaf:mbox",
+    "fullName": "vcard:fn",
+    "label": "rdfs:label",
+    "title": "dc:title",
+    "website": {"@id": "foaf:homepage", "@type": "@id"},
+
+    "validFrom": {"@id": "ps:validFrom", "@type": "xsd:dateTime"},
+    "validUntil": {"@id": "ps:validUntil", "@type": "xsd:dateTime"},
+
+    "cipherAlgorithm": "sec:cipherAlgorithm",
+    "cipherData": "sec:cipherData",
+    "cipherKey": "sec:cipherKey",
+    "digestAlgorithm": "sec:digestAlgorithm",
+    "digestValue": "sec:digestValue",
+    "expiration": {"@id": "sec:expiration", "@type": "xsd:dateTime"},
+    "initializationVector": "sec:initializationVector",
+    "nonce": "sec:nonce",
+    "normalizationAlgorithm": "sec:normalizationAlgorithm",
+    "owner": {"@id": "sec:owner", "@type": "@id"},
+    "password": "sec:password",
+    "privateKey": {"@id": "sec:privateKey", "@type": "@id"},
+    "privateKeyPem": "sec:privateKeyPem",
+    "publicKey": {"@id": "sec:publicKey", "@type": "@id"},
+    "publicKeyPem": "sec:publicKeyPem",
+    "publicKeyService": {"@id": "sec:publicKeyService", "@type": "@id"},
+    "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},
+    "signature": "sec:signature",
+    "signatureAlgorithm": "sec:signatureAlgorithm",
+    "signatureValue": "sec:signatureValue",
+    "EncryptedMessage": "sec:EncryptedMessage",
+    "CryptographicKey": "sec:Key",
+    "GraphSignature2012": "sec:GraphSignature2012"
+  }
+}

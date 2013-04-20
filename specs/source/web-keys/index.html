@@ -283,7 +283,7 @@ Web keys for an <tref>actor</tref></dd>
 end-points and other public configuration information for a
 <tref>key listing service</tref>. A <tref>key listing service</tref> MUST
 publish this service at a top-level IRI named 
-<code>/.well-known/linked-data-services</code>. The document MUST be available 
+<code>/.well-known/web-keys</code>. The document MUST be available 
 in JSON-LD compacted form and MUST include the 
 <code>https://w3id.org/web-keys/v1</code> JSON-LD context. The following
 key MUST be present in the published document:
@@ -327,17 +327,17 @@ encrypt messages.</li>
             <ol class="algorithm">
               <li>The <tref>configuration service</tref> IRI is generated 
 by concatenating a base IRI for the <tref>key listing service</tref>, 
-such as <code>https://example.com/</code> with the 
-<code>/.well-known/linked-data-services</code> suffix. 
+such as <code>http://example.com/</code> with the 
+<code>/.well-known/web-keys</code> suffix. 
 For example, the previous <tref>key listing service</tref> IRI concatenated 
 with the configuration suffix would result in the following 
 <tref>configuration service</tref>
-IRI: <code>https://example.com/.well-known/linked-data-services</code>.</li>
+IRI: <code>http://example.com/.well-known/web-keys</code>.</li>
               <li>An HTTPS GET is performed on the 
 <tref>configuration service</tref> IRI with the HTTP <code>Accept</code> header 
 set to <code>application/ld+json; form=compacted</code>. The
 <tref>key listing service</tref> MUST respond with a compacted JSON-LD document
-using the context specified at <code>https://w3id.org/web-key/v1</code>.</li>
+using the context specified at <code>https://w3id.org/web-keys/v1</code>.</li>
               <li>The result MUST be a JSON-LD document containing a flat set of
 key-value pairs. The data MUST contain at least the properties defined in 
 the <tref>configuration service</tref> section.
@@ -371,7 +371,7 @@ back to the <code>registration-callback</code> IRI via a POST
 initiated by the <tref>user agent</tref>.
             <ol class="algorithm">
               <li>The following configuration value MUST be included in the
-JSON-LD response to the <tref>key agent</tref>: <code>sec:publicKey</code>.
+JSON-LD response to the <tref>key agent</tref>: <code>publicKey</code>.
               </li>
               <li>The JSON-LD response is compacted and encrypted using the
 public key associated with the registration request according to the
@@ -386,7 +386,7 @@ to the <tref>key agent</tref> when a form submission button is clicked
 via the <tref>user agent</tref>.
               <li>The <tref>key agent</tref> decrypts the base-64
 encoded byte stream, extracts the configuration values and stores the
-location of the <code>sec:publicKey</code> for use when messages are being
+location of the <code>publicKey</code> for use when messages are being
 digitally signed or encrypted.</li>
             </ol>
           </li>
@@ -441,7 +441,7 @@ KBTHOaBRQMgvjsdA/obrs7D0HrEbQqGOy7JBYGWZTsiI
 
 *** Request: key agent -> key listing service
 
-GET /.well-known/linked-data-services HTTP/1.1
+GET /.well-known/web-keys HTTP/1.1
 Host: keys-r-us.example.com
 Accept: application/ld+json,*/*;q=0.1
 
@@ -456,9 +456,9 @@ Host: keys-r-us.example.com
 Server: Apache/2.2.19 (Debian)
 
 {
-   "@context": "https://w3id.org/web-key/v1",
-   "@id": "http://keys-r-us.example.com/i/key-master",
-   "wkey:publicKeyService": "http://keys-r-us.example.com/keys",
+   "@context": "https://w3id.org/web-keys/v1",
+   "id": "http://keys-r-us.example.com/i/key-master",
+   "publicKeyService": "http://keys-r-us.example.com/keys",
 }
 
 --------------------------------- Step #3 -----------------------------------
@@ -466,14 +466,14 @@ Server: Apache/2.2.19 (Debian)
 *** Redirect: user agent &lt;- key agent
 
 HTTP/1.1 303 See Other
-Location: https://keys-r-us.example.com/keys?public-key=↩
+Location: http://keys-r-us.example.com/keys?public-key=↩
 -----BEGIN+PUBLIC+KEY-----%0A↩
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDptIkqrXhx7YVGsBZ5fY%2FLz0il%0A↩
 0LXJrhUY43V%2FlLWdRf7JXY6tcgA5AmwNGZtJRyH79QXCJn%2BBAHUtl6gX2gvjs8N2%0A↩
 B5u4m0LtXyaFWtbQV9%2BhY3JRLOBiydPeXLgsnLwKiJ9v4CNXSNA5wT8vYGXiqq0B%0A↩
 US89y0M909ZTj2zDQwIDAQAB%0A↩
 -----END+PUBLIC+KEY-----↩
-&amp;registration-callback=http%3A%2F%2Fmy-host.example.org%2Fregistration-complete?nonce=pn9sueh43jefa
+&amp;registration-callback=http%3A%2F%2Fmy-host.example.org%2Fregistration-complete?response-nonce=pn9sueh43jefa
 Content-Type: text/html
 Content-Length: 174
 
@@ -491,7 +491,7 @@ MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDptIkqrXhx7YVGsBZ5fY%2FLz0il%0A↩
 B5u4m0LtXyaFWtbQV9%2BhY3JRLOBiydPeXLgsnLwKiJ9v4CNXSNA5wT8vYGXiqq0B%0A↩
 US89y0M909ZTj2zDQwIDAQAB%0A↩
 -----END+PUBLIC+KEY-----↩
-&amp;registration-callback=http%3A%2F%2Fmy-host.example.org%2Fregistration-complete?nonce=pn9sueh43jefa">
+&amp;registration-callback=http%3A%2F%2Fmy-host.example.org%2Fregistration-complete?response-nonce=pn9sueh43jefa">
     register your identification information&lt;/a> 
     there.&lt;/p>
  &lt;/body>
@@ -508,20 +508,20 @@ US89y0M909ZTj2zDQwIDAQAB%0A↩
 *** to the publishing agent
 
 {
-   "sec:publicKey": "http://keys-r-us.example.com/keys/8472",
+   "publicKey": "http://keys-r-us.example.com/keys/8472",
 }
 
 *** The configuration object is then encrypted and sent to the 
 *** registration-callback specified in the registration request above.
 
-POST registration-complete?nonce=pn9sueh43jefa HTTP/1.1
+POST registration-complete?response-nonce=pn9sueh43jefa HTTP/1.1
 Host: my-host.example.org
 Content-Length: 473
 Content-Type: application/ld+json
 
 {
-   "@type": "sec:EncryptedMessage",
-   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+   "type": "EncryptedMessage",
+   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -531,12 +531,12 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+   "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:cipher": "aes-128-cbc",
-   "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-   "sec:publicKey": "http://keys-r-us.example.com/keys/8472"
+   "cipher": "aes-128-cbc",
+   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+   "publicKey": "http://keys-r-us.example.com/keys/8472"
 }
 </pre>
       </section>
@@ -638,7 +638,7 @@ can be verified as long as the public key can be retrieved by the receiver. A
         
         <ol class="algorithm">
           <li>
-Remove any <code>sec:signature</code> key-value pair from the top-level of the
+Remove any <code>signature</code> key-value pair from the top-level of the
 <tref>message</tref>. Copy the <tref>message</tref> to the 
 <tref>signed message</tref>.
           </li>
@@ -667,30 +667,30 @@ resulting base-64 encoded string is the <tref>signature value</tref>.
               </li>
             </ol>
           <li>
-Add a <code>sec:signature</code> key to the <tref>signed message</tref> with
+Add a <code>signature</code> key to the <tref>signed message</tref> with
 a JSON object containing the following key-value pairs:
             <dl style="margin-left: 1em;">
-              <dt><code>@type</code><dt>
-              <dd><code>sec:JsonLdSignature</code></dd>
-              <dt><code>dc:created</code><dt>
+              <dt><code>type</code><dt>
+              <dd><code>JsonLdSignature</code></dd>
+              <dt><code>created</code><dt>
               <dd>
 The string value of the <tref>combined date and time string</tref> generated
 by this algorithm.
               </dd>
-              <dt><code>sec:responseToken</code><dt>
+              <dt><code>nonce</code><dt>
               <dd>
 A string value that will be encoded in the encrypted response to the requesting
 agent. It is RECOMMENDED that this value is a session identifier that is 
 associated with the user agent that initiated the request, plus a hyphen, 
 plus a cryptographically secure random string used as a one-time pad. 
 For example, <code>jf793ksj72jkf-78p82qpj87dnd2f839</code>. See 
-<a href="#the-response-token">The Response Token</a> section to understand 
+<a href="#the-response-nonce">The Response Nonce</a> section to understand 
 more about how this value is used to prevent replay attacks and its accepted
 limitations.
               </dd>
-              <dt><code>sec:publicKey</code><dt>
+              <dt><code>publicKey</code><dt>
               <dd>The value of the input <tref>public key</tref> IRI.</dd>
-              <dt><code>sec:signatureValue</code><dt>
+              <dt><code>signatureValue</code><dt>
               <dd>
 The value of the <tref>signature value</tref> generated by this algorithm.
               </dd>
@@ -707,19 +707,19 @@ The following example shows an input <tref>message</tref> and the resulting
 *** message
 {
    "@context": "https://w3id.org/payswarm/v1",
-   "dc:title": "Hello World!"
+   "title": "Hello World!"
 }
 
 *** signed message
 {
    "@context": "https://w3id.org/payswarm/v1",
-   "dc:title": "Hello World!",
-   "sec:signature":
+   "title": "Hello World!",
+   "signature":
    {
-      "@type": "sec:JsonLdSignature",
-      "dc:created": "2011-09-23T20:21:34Z",
-      "sec:signer": "http://payswarm.example.com/i/john/keys/5",
-      "sec:signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
+      "type": "JsonLdSignature",
+      "created": "2011-09-23T20:21:34Z",
+      "signer": "http://payswarm.example.com/i/john/keys/5",
+      "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
    }
 }
         </pre>
@@ -738,7 +738,7 @@ the signature is valid or a forgery is produced as output.
         <ol class="algorithm">
           <li>
 Generate the <tdef>original message</tdef> by copying the 
-<tref>signed message</tref> and removing the <code>sec:signature</code> value
+<tref>signed message</tref> and removing the <code>signature</code> value
 from the <tref>original message</tref>.
           </li>
           <li>
@@ -752,7 +752,7 @@ Verify the <tdef>original signature value</tdef>:
             <ol class="algorithm">
               <li>
 Generate the <tdef>original timestamped message</tdef> by setting its value to 
-the value of the <code>dc:created</code> key in the 
+the value of the <code>created</code> key in the 
 <tref>signed message</tref>. Append the
 <tref>original normalized message</tref> to the 
 <tref>original timestamped message</tref>.
@@ -760,7 +760,7 @@ the value of the <code>dc:created</code> key in the
               <li>
 Retrieve the PEM-encoded <tref>public key</tref> from the
 <tref>public key</tref> IRI provided in
-<code>sec:signer</code> value. The <tref>public key</tref> MAY also be retrieved
+<code>signer</code> value. The <tref>public key</tref> MAY also be retrieved
 from a cache. ???Verify the <tref>original nonced message</tref>
 using the <tref>public key</tref>??? 
 <div class="note">We need to be more explicit about what is happening here.</div>
@@ -807,25 +807,25 @@ Generate the <tdef>encrypted symmetric key</tdef> by using the
 Generate the <tref>encrypted message</tref> by creating a JSON object
 containing the following key-value pairs:
             <dl style="margin-left: 1em;">
-              <dt><code>@type</code><dt>
-              <dd><code>sec:EncryptedMessage</code></dd>
-              <dt><code>sec:data</code><dt>
+              <dt><code>type</code><dt>
+              <dd><code>EncryptedMessage</code></dd>
+              <dt><code>data</code><dt>
               <dd>
 The base-64 encoded value of the <tref>encrypted data</tref>.
               </dd>
-              <dt><code>sec:encryptionKey</code><dt>
+              <dt><code>encryptionKey</code><dt>
               <dd>
 The base-64 encoded value of the <tref>encrypted key</tref>.
               </dd>
-              <dt><code>sec:cipher</code><dt>
+              <dt><code>cipher</code><dt>
               <dd>
 The value <code>rsa-aes-128-cbc</code>.
               </dd>
-              <dt><code>sec:iv</code><dt>
+              <dt><code>iv</code><dt>
               <dd>
 The base-64 encoded value of the <tref>encrypted initialization vector</tref>.
               </dd>
-              <dt><code>sec:publicKey</code><dt>
+              <dt><code>publicKey</code><dt>
               <dd>
 The <tref>public key</tref> IRI associated with the <tref>public key</tref>
 that was used to encrypt the <tref>symmetric key</tref> in this
@@ -843,20 +843,20 @@ message looks like when generated using the algorithm above.
         <pre class="example prettyprint language-jsonld">
 *** message
 {
-   "@type": "ps:Preferences"
-   "com:currency": "USD",
-   "com:minimumAmount": "0.05",
-   "com:maximumRate": "10.0",
-   "com:destination": "https://example.com/people/manu/accounts/article-sales",
-   "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23",
-   "ps:license": "https://w3id.org/payswarm/licenses/blogging",
-   "ps:licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
+   "type": "Preferences"
+   "currency": "USD",
+   "minimumAmount": "0.05",
+   "maximumRate": "10.0",
+   "destination": "http://example.com/people/manu/accounts/article-sales",
+   "publicKey": "http://payswarm.example.com/i/manu/keys/23",
+   "license": "https://w3id.org/payswarm/licenses/blogging",
+   "licenseHash": "961ec496092bf6ee08d6255d96069b5186332689",
 }
 
 *** encrypted message
 {
-   "@type": "sec:EncryptedMessage",
-   "sec:data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+   "type": "EncryptedMessage",
+   "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -866,12 +866,12 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-   "sec:encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+   "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "sec:cipher": "rsa-aes-128-cbc",
-   "sec:iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-   "sec:publicKey": "http://payswarm.example.com/i/manu/keys/23"
+   "cipher": "rsa-aes-128-cbc",
+   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+   "publicKey": "http://payswarm.example.com/i/manu/keys/23"
 }
         </pre>
         
@@ -888,21 +888,21 @@ is an <tref>encrypted message</tref> and the result is the
         <ol class="algorithm">
           <li>
 Generate the <tdef>decryption key</tdef> by base-64 decoding the
-<code>sec:encryptionKey</code> value and using the <tref>private key</tref>
+<code>encryptionKey</code> value and using the <tref>private key</tref>
 associated with the <tref>public key</tref> IRI in
-<code>sec:publicKey</code> to decrypt the base-64 decoded value.
+<code>publicKey</code> to decrypt the base-64 decoded value.
 <div class="issue">Refer to the exact algorithm that is used to do the
 decryption in the AES spec.</div>
           </li>
           <li>
 Generate the <tref>intermediate value</tref> by base-64 decoding the
-<code>sec:iv</code> value and then using the <tref>private key</tref>
+<code>iv</code> value and then using the <tref>private key</tref>
 associated with the <tref>public key</tref> IRI in
-<code>sec:publicKey</code> to decrypt the base-64 decoded value.
+<code>publicKey</code> to decrypt the base-64 decoded value.
           </li>          
           <li>
 Generate the <tdef>original unencrypted message</tdef> by applying the
-<code>sec:cipher</code> to the <code>sec:data</code> value. Use the
+<code>cipher</code> to the <code>data</code> value. Use the
 <tref>decryption key</tref> and <tref>intermediate value</tref> generated in
 this algorithm as inputs to the cipher algorithm.
           </li>
@@ -919,9 +919,9 @@ specification should be aware of in order to create secure software.
         </p>
 
         <section>
-        <h3>The Response Token</h3>        
+        <h3>The Response Nonce</h3>        
           <p>
-The <code>sec:responseToken</code> mechanism is used in order to prevent
+The <code>nonce</code> mechanism is used in order to prevent
 replay attacks, but implementers must be aware that it is not capable of 
 preventing man-in-the-middle attacks. Only a full end-to-end encryption channel
 is capable of accomplishing that feat and if implementers are concerned about
@@ -980,13 +980,13 @@ a message requesting that a certain action be performed on behalf of the
       <h2>Key Revocation and Expiration</h2>
       <p>
 In order for a <tref>key pair</tref> to be revoked, the 
-<code>sec:revocationDate</code> MUST be associated with the key. In order to
+<code>revocationDate</code> MUST be associated with the key. In order to
 specify an expiration date for a <tref>key pair</tref>, the 
-<code>sec:expirationDate</code> MUST be associated with the key.
+<code>expirationDate</code> MUST be associated with the key.
 All software systems utilizing the <tref>key pair</tref> MUST honor the 
 revocation and expiration dates and fail to verify any signatures made on 
 or after the date and time specified. Similarly, the 
-<code>dc:created</code> date establishes the date and time on which the
+<code>created</code> date establishes the date and time on which the
 key can be used to digitally sign and encrypt data.
 All software systems utilizing the <tref>key pair</tref> MUST honor the 
 creation date and fail to verify any signatures made before the date and 

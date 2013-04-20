@@ -208,27 +208,37 @@
   <body> 
     <section id='abstract'> 
       <p>
-The future of messaging in Web services depends on three key
-features; message verifiability, secure messaging, and dynamic access 
-control to resources. While OAuth provides a mechanism for performing dynamic
-access control to resources, it does not address verifiability and secure
-messaging. More advanced Web service systems are being built now that
-require all three features. Historically, public/private key cryptography 
-has provided a mechanism to achieve message verifiability 
-(via digital signatures), and secure messaging (via encryption). Often,
-access control to resources are built on top of public/private key
-cryptography systems. The challenge has always been in building an extensible,
-distributed, Public Key Infrastructure for the Web. This specification 
-demonstrates how systems that require more than OAuth 2 can hook into a 
-decentralized Public Key Infrastructure that is built on top of the Web 
-using Linked Data principles.
+The Web Keys specification describes a simple, decentralized security 
+infrastructure for the Web based on public key cryptography. This system 
+enables Web applications to establish identities for agents on the Web, 
+associate security credentials with those identities, and then use those
+security credentials to send and receive messages that are both encrypted 
+and verifiable via digital signatures.
       </p>
     </section>
 
     <section>
       <h2>Introduction</h2>
-      <p class="issue">
-Need to write an introductory section.
+      <p>
+The future of messaging in Web services depends on three key
+features; message verifiability, secure messaging, and dynamic access 
+control to resources. While a number of popular authorization mechanisms provide
+a way of performing dynamic access control to resources, most do not address 
+message verifiability and secure messaging. 
+More advanced Web service systems are being built now that
+require all three features. Historically, public/private key cryptography 
+has provided a mechanism to achieve message verifiability 
+(via digital signatures), and secure messaging (via encryption). Often,
+access control to resources are built on top of public/private key
+cryptography systems.
+      </p>
+      <p>
+The challenge has always been in building an extensible,
+distributed, Public Key Infrastructure for the Web. This specification 
+details how a decentralized Public Key Infrastructure can be built on top of 
+the Web using Linked Data principles. This system can then be used to easily
+achieve message verifiability, secure messaging, and dynamic access control
+to resources on the Web.
       </p>
       <p class="note">
 Web Keys are not a replacement for Transport Layer Security, but are designed 
@@ -239,7 +249,8 @@ operating in environments where TLS is not available to the application.
          <h3>Key Technologies</h3>
          <p>
 Technologies utilized in this specification include the
-JavaScript Object Notation for Linking Data [[!JSON-LD]], and the
+JavaScript Object Notation for Linking Data [[!JSON-LD]], 
+the HyperText Transfer Protocol [[!HTTP11]], and the
 Advanced Encryption Standard [[!AES]].
          <p>
       </section>
@@ -287,7 +298,7 @@ publish this service at a top-level IRI named
 in JSON-LD compacted form and MUST include the 
 <code>https://w3id.org/web-keys/v1</code> JSON-LD context. The following
 key MUST be present in the published document:
-<code>wkey:publicKeyService</code>.</dd>
+<code>publicKeyService</code>.</dd>
         <dt><tdef>public key registration service</tdef></dt>
         <dd>An interactive Web service used to register PEM-encoded 
 X.509 public keys with the <tref>key listing service</tref>.</dd>

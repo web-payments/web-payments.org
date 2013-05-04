@@ -69,6 +69,13 @@ Transaction processing environment.
     <?php dirContents("ED/use-cases"); ?>
   </ul>
 </li>
+<li><a href="source/http-signatures">HTTP Signatures</a> - a digital signature
+mechanism for the HTTP protocol that adds origin authentication, 
+message integrity, and replay resistance to HTTP requests.
+  <ul>
+    <?php dirContents("ED/http-signatures"); ?>
+  </ul>
+</li>
 <li><a href="source/web-keys">Web Keys</a> - a secure and verifiable messaging
 mechanism built using Linked Data principles to produce a distributed
 Public Key Infrastructure for the Web.

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Template</title>
+	
+	<meta name="author" content="Manu Sporny">
+	<meta name="geo.country" content="US">
+	<meta name="dc.language" content="en">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width">
+	
+	<link rel="stylesheet" type="text/css" href="css/reset-min.css">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="css/print.css" type="text/css" media="print" charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/shadowbox.css">
+	<script type="text/javascript" src="js/shadowbox.js"></script>
+</head>
+<body>
+
+	<div id="nav">
+		<div id="title">
+			<h1>Template Title</h1>
+			<h2>by <a href="http://manu.sporny.org/" onclick="window.open(this.href); return false;">Manu Sporny</a></h2>
+			<h2>Digital Bazaar / Meritora / PaySwarm</h2>
+		</div>
+		<ul class="slidenav">
+			<li><a id="prevButton" href="#">previous</a></li>
+			<li><a id="nextButton" href="#">next</a></li>
+		</ul>
+	</div> <!-- footer -->
+	
+
+	<div class="presentation">
+		<div class="slides">
+	        
+			<div class="slide cover current">
+				<section class="center intro">
+					<h1>Template</h1>
+					<h2>Digital Bazaar / PaySwarm / Meritora</h2>
+					<div class="instructions-screen">
+						<p>This presentation is an HTML5 page.</p>
+						<p>Press <span class="key">→</span> key to advance.</p>
+						<p>Toggle notes with the  <span class="key">2</span> key.</p>
+						<p>Zoom in/out: <span class="key">Ctrl or Command</span> + <span class="key">+/-</span></p>
+					</div>
+					<div class="instructions-print">
+						<p>This presentation was printed from an HTML page.</p>
+						<p>A fully interactive version of these slides containing examples and links to further resources can be found at:<br>http://payswarm.com/slides/.</p>
+					</div>
+					<div class="credit">
+						<p>This page is based on the HTML5 Slideshow by Marcin Wichary, Ernest Delgado, Alex Russell, and Brad Neuberg:<br><a href="http://apirocks.com/html5/html5.html" onclick="window.open(this.href); return false;">http://apirocks.com/html5/html5.html</a>. It uses CSS additions by Matthew Richmond.</p>
+					</div>
+				</section>
+			</div>
+
+			<!-- 
+			--------------------------------------------
+			Intro 
+			--------------------------------------------
+			-->
+	
+			<div class="slide future">
+				<header><h1>Intro</h1><h2>The Topic</h2></header>
+				<subheader><h3>Some subheadline about the topic</h3></subheader>
+					<flag><h4>Flag</h4></flag>
+       		<section class="center">
+						<div class="social"><a class="twitter-button" href="http://twitter.com/choppingblock" onclick="window.open(this.href); return false;">Follow On Twitter</a></div>
+					</section>
+					<!-- <div class="notes">
+						<h3>Notes:</h3>
+						<ul>
+							<li></li>
+						</ul>
+					</div> -->
+	        </div>
+	
+			<div class="slide far-future">
+				<header><h1>Topic</h1><h2>Subtopic</h2></header>
+				<subheader><h3>Subtopic headline</h3></subheader>
+					<flag><h4>Subtopic</h4></flag>
+       		<section class="center">
+					</section>
+					<div class="notes">
+						<h3>Notes:</h3>
+						<ul>
+							<li>Speakers notes.</li>
+						</ul>
+					</div>
+	        </div>
+
+			<!-- 
+			--------------------------------------------
+			Thanks 
+			--------------------------------------------
+			-->
+	
+			<div class="slide far-future">
+				<header><h1>Thanks</h1></header>
+				<subheader><h3>Learn more...</h3></subheader>
+				<flag><h4>The End</h4></flag>
+					<section class="center">
+						<h4>This Presentation will be posted online at:</h4>
+						<ul>
+							<li><a href="http://payswarm.com/slides" onclick="window.open(this.href); return false;">http://payswarm.com/slides</a></li>
+						</ul>
+						<h4>Questions, comments or more info:</h4>
+						<ul>
+							<li>The Presenter</li>
+							<li><a href="http://payswarm.com/" onclick="window.open(this.href); return false;">http://payswarm.com</a>.</li>
+						</ul>
+					</section>
+					<!-- <div class="notes">
+						<h3>Notes:</h3>
+						<ul>
+							<li></li>
+						</ul>
+					</div> -->
+	        </div>
+	
+	
+		</div> <!-- slides -->
+	</div> <!-- presentation -->
+	
+	
+	<script>
+      (function() {
+        // Since we don't have the fallback of attachEvent and
+        // other IE only stuff we won't try to run JS for IE.
+        // It will run though when using Google Chrome Frame
+        if (document.all) { return; }
+
+        var currentSlideNo;
+        var notesOn = false;
+        var slides = document.getElementsByClassName('slide');
+        var touchStartX = 0;     
+   
+        // var slide_hash = window.location.hash.replace(/#/, '');
+        // if (slide_hash) {
+        //   for (var i = 0, len = slides.length; i < len; i++) {
+        //     if (slides[i].id == slide_hash) {
+        //       currentSlideNo = i;
+        //       updateSlideClasses(); 
+        //     }
+        //   }
+        // }
+        
+        var spaces = /\s+/, a1 = [""];
+
+        var str2array = function(s) {
+          if (typeof s == "string" || s instanceof String) {
+            if (s.indexOf(" ") < 0) {
+              a1[0] = s;
+              return a1;
+            } else {
+              return s.split(spaces);
+            }
+          }
+          return s;
+        };
+
+        var trim = function(str) {
+          return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+        };
+
+        var addClass = function(node, classStr) {
+          classStr = str2array(classStr);
+          var cls = " " + node.className + " ";
+          for (var i = 0, len = classStr.length, c; i < len; ++i) {
+            c = classStr[i];
+            if (c && cls.indexOf(" " + c + " ") < 0) {
+              cls += c + " ";
+            }
+          }
+          node.className = trim(cls);
+        };
+
+        var removeClass = function(node, classStr) {
+          var cls;
+          if (classStr !== undefined) {
+            classStr = str2array(classStr);
+            cls = " " + node.className + " ";
+            for (var i = 0, len = classStr.length; i < len; ++i) {
+              cls = cls.replace(" " + classStr[i] + " ", " ");
+            }
+            cls = trim(cls);
+          } else {
+            cls = "";
+          }
+          if (node.className != cls) {
+            node.className = cls;
+          }
+        };
+
+        var getSlideEl = function(slideNo) {
+          if (slideNo > 0) {
+            return slides[slideNo - 1];
+          } else {
+            return null;
+          }
+        };
+
+        var getSlideTitle = function(slideNo) {
+          var el = getSlideEl(slideNo);
+          
+          if (el) {
+            return el.getElementsByTagName('header')[0].innerHTML;
+          } else {
+            return null;
+          }
+        };
+        
+        var changeSlideElClass = function(slideNo, className) {
+          var el = getSlideEl(slideNo);
+
+          if (el) {
+            removeClass(el, 'far-past past current future far-future');
+            addClass(el, className);
+          }
+        };
+        
+        var updateSlideClasses = function() {
+          window.location.hash = "slide" + currentSlideNo;
+          changeSlideElClass(currentSlideNo - 2, 'far-past');
+          changeSlideElClass(currentSlideNo - 1, 'past');
+          changeSlideElClass(currentSlideNo, 'current');
+          changeSlideElClass(currentSlideNo + 1, 'future');
+          changeSlideElClass(currentSlideNo + 2, 'far-future');                
+        };
+        
+        var nextSlide = function() {
+          if ( (currentSlideNo < slides.length) && ( !Shadowbox.isOpen() )) {
+            currentSlideNo++;
+          }
+          
+          updateSlideClasses();
+        };
+        
+        var prevSlide = function() {
+          if ( (currentSlideNo > 1) && ( !Shadowbox.isOpen() )) {
+            currentSlideNo--;
+          }
+          updateSlideClasses();
+        };
+        
+        var showNotes = function() {
+          var notes = document.querySelectorAll('.notes');
+          for (var i = 0, len = notes.length; i < len; i++) {
+            notes[i].style.display = (notesOn) ? 'none':'block';
+          }
+          notesOn = (notesOn) ? false:true;
+        };
+
+		var switch3D = function() {
+			if (document.body.className.indexOf('three-d') == -1) {
+				document.getElementsByClassName('presentation')[0].style.webkitPerspective = '1000px';
+				document.body.className += ' three-d';
+			} else {
+				window.setTimeout("document.getElementsByClassName('presentation')[0].style.webkitPerspective = '0';", 2000);
+				document.body.className = document.body.className.replace(/three-d/, '');
+			}
+		};
+
+
+        var handleBodyKeyDown = function(event) {
+          // console.log(event.keyCode);
+          switch (event.keyCode) {
+            case 37: // left arrow
+              prevSlide();
+              break;
+            case 39: // right arrow
+            // case 32: // space
+              nextSlide();
+              break;
+            case 50: // 2
+              showNotes();          
+              break;
+            case 51: // 3
+              switch3D();          
+              break;
+          }
+        };
+
+        var addTouchListeners = function() {
+          document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].pageX;
+          }, false);
+          document.addEventListener('touchend', function(e) {
+            var pixelsMoved = touchStartX - e.changedTouches[0].pageX;
+            var SWIPE_SIZE = 150;
+            if (pixelsMoved > SWIPE_SIZE) {
+              nextSlide();
+            }
+            else if (pixelsMoved < -SWIPE_SIZE) {
+             prevSlide();
+            }
+          }, false);
+        };
+
+		var addButtonListeners = function() {
+			document.getElementById("prevButton").addEventListener('click', prevSlide, false );
+			document.getElementById("nextButton").addEventListener('click', nextSlide, false );
+		};
+
+        // initialize
+
+        (function() {
+          if (window.location.hash != "") {
+            currentSlideNo = Number(window.location.hash.replace('#slide', ''));
+          } else {
+            currentSlideNo = 1;
+          }
+   
+          document.addEventListener('keydown', handleBodyKeyDown, false);
+   
+          var els = slides;
+          for (var i = 0, el; el = els[i]; i++) {
+            addClass(el, 'slide far-future');
+          }
+          updateSlideClasses(); 
+
+          // add support for finger events (filter it by property detection?)
+			addTouchListeners();
+			addButtonListeners();
+        })();
+      })();
+
+	
+	/**
+	 * Handy method to call a click event on an element
+	 * @param {Object} element object to recieve click event
+	 * @returns none
+	 */
+	function dispatchClickEvent(element) {
+		
+		var event;
+		  if (document.createEvent) {
+		    event = document.createEvent("HTMLEvents");
+		    event.initEvent("click", true, true);
+		  } else {
+		    event = document.createEventObject();
+		    event.eventType = "onclick";
+		  }
+
+		  if (document.createEvent) {
+		    element.dispatchEvent(event);
+		  } else {
+		    element.fireEvent(event.eventType, event);
+		  }
+	}
+	
+	// ShadowBox
+
+	Shadowbox.init({
+	    handleOversize: "drag",
+	    modal: true,
+		onOpen: shadowOpen,
+		onClose: shadowClose
+	});
+
+	function shadowOpen(){
+		//alert("Open!");
+		
+		// check to see if show style has been appended
+		if (document.body.className.indexOf('show') == -1) {
+			// no
+			document.body.className += ' hide';
+		} else {
+			// yes
+			document.body.className = document.body.className.replace(/show/, ' hide');
+		}
+		
+	};
+
+	function shadowClose(){
+		//alert("Close!");
+
+		document.body.className = document.body.className.replace(/hide/, ' show');
+	};
+
+
+    </script>
+
+<div id="sb-container"><div id="sb-overlay"></div><div id="sb-wrapper"><div id="sb-title"><div id="sb-title-inner"></div></div><div id="sb-wrapper-inner"><div id="sb-body"><div id="sb-body-inner"></div><div id="sb-loading"><div id="sb-loading-inner"><span>loading</span></div></div></div></div><div id="sb-info"><div id="sb-info-inner"><div id="sb-counter"></div><div id="sb-nav"><a id="sb-nav-close" title="Close" onclick="Shadowbox.close()"></a><a id="sb-nav-next" title="Next" onclick="Shadowbox.next()"></a><a id="sb-nav-play" title="Play" onclick="Shadowbox.play()"></a><a id="sb-nav-pause" title="Pause" onclick="Shadowbox.pause()"></a><a id="sb-nav-previous" title="Previous" onclick="Shadowbox.previous()"></a></div></div></div></div></div></body></html>

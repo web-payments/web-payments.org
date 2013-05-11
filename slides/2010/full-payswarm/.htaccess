@@ -1,3 +1,0 @@
-# 301 Redirect Entire Directory
-RedirectMatch 301 (.*)/slides/full-payswarm/(.*) $1/slides/browser-payswarm/$2
- 

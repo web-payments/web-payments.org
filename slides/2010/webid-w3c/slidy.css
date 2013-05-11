@@ -64,7 +64,7 @@ div.slide {
   line-height: 120%;
   background-color: transparent;
 
-  background-image:url('../../images/db-logo-square.png');
+  background-image:url('../../../images/db-logo-square.png');
   background-repeat:no-repeat;
   background-position:right bottom;
 }

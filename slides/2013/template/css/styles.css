@@ -22,6 +22,7 @@ div#nav {
 	padding-left: 1em;
 	padding-top: 8px;
 	padding-right: 1em;
+	padding-bottom: 8px;
 }
 
 div.presentation {
@@ -181,7 +182,7 @@ div#nav #title a:hover {
 
 ul.slidenav {
 	float: right;
-	width: 200px;
+	width: 300px;
 	/*border: 1px green solid;*/
 	text-align: right;
 	padding-right: 30px;
@@ -201,11 +202,11 @@ ul.slidenav li {
 
 header {
     position: absolute;
-    left: 30px;
-    top: 18px;
+    left: 31px;
+    top: 14px;
     margin-left: -44px;
     padding-bottom: 14px;
-	background: url(../images/headerBg.png) no-repeat 0 80px;
+	background: url(../images/headerBg.png) no-repeat 0 81px;
 }
 
 header h1{
@@ -215,7 +216,7 @@ header h1{
     text-transform: uppercase;
     color: #fff;
 	height: 73px;
-	padding-top: 7px;
+	padding-bottom: 9px;
 	padding-right: 12px;
 	padding-left: 8px;
 	background-color: #69604f;
@@ -229,7 +230,7 @@ header h2{
     text-transform: uppercase;
     color: #fff;
 	height: 73px;
-	padding-top: 7px;
+	padding-bottom: 9px;
 	padding-right: 12px;
 	padding-left: 8px;
 	background-color: #c3bfb9;
@@ -242,7 +243,7 @@ subheader {
     top: 106px;
     width: 842px;
     padding-bottom: 12px;
-	background: url(../images/subheaderBg.png) no-repeat 830px 46px;
+	background: url(../images/subheaderBg.png) no-repeat 830px 50px;
 }
 
 subheader h3 {
@@ -251,7 +252,7 @@ subheader h3 {
     font-size: 36px;
     /*line-height: 36px;*/
     color: #69604f;
-	height: 46px;
+	height: 50px;
 	padding-left: 8px;
 	background-color: #CB9;
 }
@@ -279,9 +280,10 @@ flag h4{
     color: #fff;
 	/*background-color: #f60;*/
 	display: inline-block;
-	padding-top: 9px;
-	padding-left: 30px;
+	padding-top: 5px;
+	padding-left: 40px;
 	padding-right: 10px;
+	padding-bottom: 5px;
 	height: 41px;
 	background: #f60 url(../images/flagBg.png) no-repeat;
 }
@@ -329,7 +331,7 @@ div.slide section.center.intro .instructions-print{
 	display:none;
 }
 
-div.slide section.center.intro .credit{
+div.slide .credit{
 	font-size: 14px;
 	position: absolute;
 	bottom: 40px;
@@ -584,7 +586,7 @@ div.slide .notes a {
 .key {
 	color: white;
 	display: inline-block;
-	padding: 5px 6px 2px 5px;
+	padding: 5px 6px 8px 5px;
 	/*font-size: 25px;*/
 	line-height: 16px;
 	text-shadow: none;

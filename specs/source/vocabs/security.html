@@ -208,9 +208,9 @@ z7u3IxpqNVcXHExjXQE=",
         </pre>
       </section>
 
-      <section id="GraphSignature2011" about="https://w3id.org/security#GraphSignature2011"
+      <section id="GraphSignature2012" about="https://w3id.org/security#GraphSignature2012"
         typeof="rdfs:Class">
-        <h3>GraphSignature2011</h3>
+        <h3>GraphSignature2012</h3>
           <p>
 A graph signature is used for digital signatures on RDF graphs. 
 The default normalization mechanism is specified in the
@@ -267,7 +267,7 @@ canonicalized using the standard normalization algorithm for JSON-LD.
   "signature":
   {
   "@context": "https://w3id.org/security/v1",
-    "@type": "GraphSignature2011",
+    "@type": "GraphSignature2012",
     "creator": "http://manu.sporny.org/webid#key-5",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
   }
@@ -461,7 +461,7 @@ a particular signature type:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
-  "@id": "https://w3id.org/security#GraphSignature2011",
+  "@id": "https://w3id.org/security#GraphSignature2012",
   "@type": "Signature",
   "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
@@ -629,7 +629,7 @@ in order to protect against
   }
   "signature":
   {
-    "@type": "GraphSignature2011",
+    "@type": "GraphSignature2012",
     "creator": "http://example.com/people/john-doe#key-5",
     "nonce": "8495723045.84957",
     "signatureValue": "Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI="
@@ -662,7 +662,7 @@ the normalization algorithm, the digest algorithm and the signing algorithm:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
-  "@id": "https://w3id.org/security#GraphSignature2011",
+  "@id": "https://w3id.org/security#GraphSignature2012",
   "@type": "Signature",
   "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
@@ -938,7 +938,7 @@ a JSON-LD signature:
   },
   "signature":
   {
-    "@type": "GraphSignature2011",
+    "@type": "GraphSignature2012",
     "creator": "http://example.com/people/john-doe#key-5",
     "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
   }
@@ -980,7 +980,7 @@ encoded in JSON-LD:
   },
   "signature":
   {
-    "@type": "GraphSignature2011",
+    "@type": "GraphSignature2012",
     "creator": "http://example.com/people/john-doe#key-5",
     "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
   }
@@ -1015,7 +1015,7 @@ a particular class of signatures:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
-  "@id": "https://w3id.org/security#GraphSignature2011",
+  "@id": "https://w3id.org/security#GraphSignature2012",
   "@type": "Signature",
   "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",

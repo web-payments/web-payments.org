@@ -233,8 +233,8 @@ signature.
                 <dt>Default Normalization Method</dt>
                 <dd>
 <a rel="normalizationAlgorithm" 
-  href="http://purl.org/jsonld#UGNA2011">
-http://purl.org/jsonld#UGNA2011</a>
+  href="https://w3id.org/jsonld#UGNA2011">
+http://w3id.org/jsonld#UGNA2011</a>
                 </dd>
                 <dt>Default Digest Method</dt>
                 <dd>
@@ -463,7 +463,7 @@ a particular signature type:
   "@context": "https://w3id.org/security/v1",
   "@id": "https://w3id.org/security#GraphSignature2011",
   "@type": "Signature",
-  "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
+  "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
   "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
@@ -494,7 +494,7 @@ encoded in JSON-LD:
   "@context": [
     "https://w3id.org/security/v1", 
     { 
-      "dc": "http://purl.org/dc/terms/",
+      "dc": "https://w3id.org/dc/terms/",
       "foaf": "http://xmlns.com/foaf/0.1/"
     }
   ],
@@ -664,9 +664,41 @@ the normalization algorithm, the digest algorithm and the signing algorithm:
   "@context": "https://w3id.org/security/v1",
   "@id": "https://w3id.org/security#GraphSignature2011",
   "@type": "Signature",
-  "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
+  "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
   "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
+}
+        </pre>
+      </section>
+
+      <section id="owner" about="https://w3id.org/security#owner"
+        typeof="rdf:Property">
+        <h3>owner</h3>
+        <p>
+An owner is an entity that claims control over a particular resource. Note
+that ownership is best validated as a two-way relationship where the owner
+claims ownership over a particular resource, and the resource clearly 
+identifies its owner.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>IRI</dd>
+        </dl>
+        <p>
+The example below shows a cryptographic key that is owned by an entity
+identified by a URL. Presumably, this key is under the control of the owner 
+and can be used to infer that any digitally signed content using the key was
+signed by a software agent of the owner:
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+  "@context": "https://w3id.org/security/v1",
+  "@id": "https://payswarm.example.com/i/bob/keys/1",
+  "@type": "Key",
+  "owner": "https://payswarm.example.com/i/bob",
+  "publicKeyPem": "-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n"
 }
         </pre>
       </section>
@@ -985,7 +1017,7 @@ a particular class of signatures:
   "@context": "https://w3id.org/security/v1",
   "@id": "https://w3id.org/security#GraphSignature2011",
   "@type": "Signature",
-  "normalizationAlgorithm": "http://purl.org/jsonld#UGNA2011",
+  "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2011",
   "digestAlgorithm": "http://example.com/digests#sha512",
   "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }

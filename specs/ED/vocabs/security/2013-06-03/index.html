@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head> 
+    <title>The Security Vocabulary</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+     
+     
+    
+    
+    
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- --- */
+ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #52e052; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="stylesheet" href="http://www.w3.org/community/src/css/spec/cg-draft.css"><!--[if lt IE 9]><script src='http://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head> 
+  <body prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs: http://www.w3.org/2000/01/rdf-schema#
+    owl: http://www.w3.org/2002/07/owl#
+    vs: http://www.w3.org/2003/06/sw-vocab-status/ns#
+    sec: https://w3id.org/security#"><div class="head">
+  <p>
+    <a href="http://www.w3.org/"><img width="72" height="48" src="http://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+  </p>
+  <h1 class="title" id="title">The Security Vocabulary</h1>
+  
+  <h2 id="draft-community-group-specification-03-june-2013">Draft Community Group Specification 03 June 2013</h2>
+  <dl>
+    
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="http://payswarm.com/specs/source/vocabs/security">http://payswarm.com/specs/source/vocabs/security</a></dd>
+    
+    
+    
+    
+    
+      
+    
+    <dt>Editor:</dt>
+    <dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+
+    
+  </dl>
+  
+  <p class="copyright">
+    <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+    2013
+    the Contributors to the The Security Vocabulary Specification, published by the
+    <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a> under the
+    
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+      A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available.
+    
+  </p>
+  <hr>
+</div> 
+
+    <section id="abstract" class="introductory"><h2>Abstract</h2> 
+      <p>
+The Security vocabulary is used to enable Internet-based applications to
+encrypt, decrypt, and digitally sign information expressed as 
+<a href="http://en.wikipedia.org/wiki/Linked_data">Linked Data</a>. 
+It also provides vocabulary terms for the creation and management of a 
+decentralized 
+<a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">Public Key Infrastructure</a> 
+via the Web.
+      </p>
+    </section><section id="sotd" class="introductory"><h2>Status of This Document</h2>
+  <p>
+    This specification was published by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>.
+    It is not a W3C Standard nor is it on the W3C Standards Track.
+    
+      Please note that under the 
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+      there is a limited opt-out and other conditions apply.
+    
+    Learn more about 
+    <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.
+  </p>
+  
+</section><section id="toc"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#classes" class="tocxref"><span class="secno">2. </span>Classes</a><ul class="toc"><li class="tocline"><a href="#Digest" class="tocxref"><span class="secno">2.1 </span>Digest</a></li><li class="tocline"><a href="#EncryptedMessage" class="tocxref"><span class="secno">2.2 </span>EncryptedMessage</a></li><li class="tocline"><a href="#GraphSignature2011" class="tocxref"><span class="secno">2.3 </span>GraphSignature2011</a></li><li class="tocline"><a href="#Key" class="tocxref"><span class="secno">2.4 </span>Key</a></li><li class="tocline"><a href="#Signature" class="tocxref"><span class="secno">2.5 </span>Signature</a></li></ul></li><li class="tocline"><a href="#properties" class="tocxref"><span class="secno">3. </span>Properties</a><ul class="toc"><li class="tocline"><a href="#cipherAlgorithm" class="tocxref"><span class="secno">3.1 </span>cipherAlgorithm</a></li><li class="tocline"><a href="#data" class="tocxref"><span class="secno">3.2 </span>data</a></li><li class="tocline"><a href="#digestAlgorithm" class="tocxref"><span class="secno">3.3 </span>digestAlgorithm</a></li><li class="tocline"><a href="#digestValue" class="tocxref"><span class="secno">3.4 </span>digestValue</a></li><li class="tocline"><a href="#expires" class="tocxref"><span class="secno">3.5 </span>expires</a></li><li class="tocline"><a href="#iv" class="tocxref"><span class="secno">3.6 </span>iv</a></li><li class="tocline"><a href="#nonce" class="tocxref"><span class="secno">3.7 </span>nonce</a></li><li class="tocline"><a href="#normalizationAlgorithm" class="tocxref"><span class="secno">3.8 </span>normalizationAlgorithm</a></li><li class="tocline"><a href="#owner" class="tocxref"><span class="secno">3.9 </span>owner</a></li><li class="tocline"><a href="#password" class="tocxref"><span class="secno">3.10 </span>password</a></li><li class="tocline"><a href="#privateKeyPem" class="tocxref"><span class="secno">3.11 </span>privateKeyPem</a></li><li class="tocline"><a href="#publicKey" class="tocxref"><span class="secno">3.12 </span>publicKey</a></li><li class="tocline"><a href="#publicKeyPem" class="tocxref"><span class="secno">3.13 </span>publicKeyPem</a></li><li class="tocline"><a href="#publicKeyService" class="tocxref"><span class="secno">3.14 </span>publicKeyService</a></li><li class="tocline"><a href="#revoked" class="tocxref"><span class="secno">3.15 </span>revoked</a></li><li class="tocline"><a href="#signature" class="tocxref"><span class="secno">3.16 </span>signature</a></li><li class="tocline"><a href="#signatureValue" class="tocxref"><span class="secno">3.17 </span>signatureValue</a></li><li class="tocline"><a href="#signatureAlgorithm" class="tocxref"><span class="secno">3.18 </span>signingAlgorithm</a></li></ul></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">A. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">A.1 </span>Normative references</a></li></ul></li></ul></section>
+
+    <section id="introduction">
+      <!--OddPage--><h2><span class="secno">1. </span>Introduction</h2>
+      <p>
+This document describes a number of classes and properties that can be used to
+express <a href="http://en.wikipedia.org/wiki/Digital_signatures">
+digital signatures</a> and achieve cryptographic protection for Linked Data
+resources. This specification was designed as a modular part of the 
+<a href="http://payswarm.com/">PaySwarm</a> decentralized payment system 
+for the Web.
+      </p>
+      <div class="issue"><div class="issue-title"><span>Issue 1</span></div><p class="">
+This entire document is a work in progress and should be considered in beta
+until it is ratified as an official document via the World Wide Web Consortium.
+      </p></div>
+    </section>
+
+    <section id="classes">
+      <!--OddPage--><h2><span class="secno">2. </span>Classes</h2>
+
+      <section id="Digest" about="https://w3id.org/security#Digest" typeof="rdfs:Class">
+        <h3><span class="secno">2.1 </span>Digest</h3>
+          <p>
+This class represents a message digest that may be used for data integrity
+verification. The digest algorithm used will determine the cryptographic
+properties of the digest.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>digestAlgorithm, digestValue</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic digest:
+        </p>
+<div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Digest</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">digestAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://www.w3.org/2000/09/xmldsig#sha1</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">digestValue</span><span class="pln">": "</span><span class="str">981ec496092bf6ee18d6255d96069b528633268b</span><span class="pln">"
+}</span></pre></div>
+      </section>
+      
+      <section id="EncryptedMessage" about="https://w3id.org/security#EncryptedMessage" typeof="rdfs:Class">
+        <h3><span class="secno">2.2 </span>EncryptedMessage</h3>
+          <p>
+A class of messages that are obfuscated in some cryptographic manner. These 
+messages are incredibly difficult to decrypt without the proper decryption key
+or password.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>
+data, encryptionKey, password, cipherAlgorithm, iv, publicKey
+            </dd>
+          </dl>
+        <p>
+The example below expresses an password-encrypted message using the
+AES 128-bit cipher with Cyclic-Block-Chaining. The password to unlock the
+encrypted message has been encrypted using the public key provided by 
+the <code>publicKey</code> parameter. To decrypt the message, the private
+key associated with the <code>publicKey</code> is used to decrypt the password. 
+The password, <code>iv</code> (intermediate value), and the cipher algorithm 
+are then used to extract the final clear-text message from the
+the base-64 encoded <code>data</code> property.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 2</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">EncryptedMessage</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">data</span><span class="pln">": "</span><span class="str">VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">encryptionKey</span><span class="pln">": "</span><span class="str">uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">password</span><span class="pln">": "</span><span class="str">5dTlEckNURjMrMDER1NPQ3graFABKMVFub=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">cipherAlgorithm</span><span class="pln">": "</span><span class="str">aes-128-cbc</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">iv</span><span class="pln">": "</span><span class="str">vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKey</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.com/people/john/keys/23</span><span class="pln">"
+}        
+        </span></pre></div>
+      </section>
+
+      <section id="GraphSignature2011" about="https://w3id.org/security#GraphSignature2011" typeof="rdfs:Class">
+        <h3><span class="secno">2.3 </span>GraphSignature2011</h3>
+          <p>
+A graph signature is used for digital signatures on RDF graphs. 
+The default normalization mechanism is specified in the
+RDF Graph normalization specification, which effectively resolves all CURIEs and 
+deterministically names all unnamed nodes. The default digest method uses the 
+SHA-1 algorithm over a series of quads statements in N-Quad format. The default 
+signature mechanism uses a SHA-1 digest and RSA to perform the digital 
+signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>Signature</dd>
+            <dt>Expected properties</dt>
+            <dd>creator, signatureValue</dd>
+            <dt>Signing Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Normalization Method</dt>
+                <dd>
+<a rel="normalizationAlgorithm" href="https://w3id.org/jsonld#UGNA2011">
+http://w3id.org/jsonld#UGNA2011</a>
+                </dd>
+                <dt>Default Digest Method</dt>
+                <dd>
+<a rel="digestAlgorithm" href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
+                  </dd>
+                <dt>Default Signing Algorithm</dt>
+                <dd>
+<a rel="signingAlgorithm" href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
+http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The example below shows how a basic JSON-LD signature is expressed in a
+JSON-LD snippet. Note that the signature property is directly embedded in the
+object. The signing algorithm understands that in order to check the signature
+that the signature property must be removed and the text
+canonicalized using the standard normalization algorithm for JSON-LD.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 3</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">foaf:Person</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">foaf:name</span><span class="pln">": "</span><span class="str">Manu Sporny</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">foaf:homepage</span><span class="pln">": "</span><span class="tag jsonld-uri">http://manu.sporny.org/</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">signature</span><span class="pln">":
+  {
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">GraphSignature2011</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">http://manu.sporny.org/webid#key-5</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk=</span><span class="pln">"
+  }
+}
+          </span></pre></div>
+      </section>
+
+      <section id="Key" about="https://w3id.org/security#Key" typeof="rdfs:Class">
+        <h3><span class="secno">2.4 </span>Key</h3>
+          <p>
+This class represents a cryptographic key that may be used for encryption, 
+decryption or digitally signing data.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Expected properties</dt>
+            <dd>owner, privateKeyPem, publicKeyPem</dd>
+          </dl>
+        <p>
+The example below describes a cryptographic key that contains both the 
+public and private key as well as the owner of the key. The owner property
+is described in the <a href="https://w3id.org/commerce">Commerce Vocabulary</a>.
+        </p>
+<div class="example"><div class="example-title"><span>Example 4</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">privateKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n</span><span class="pln">"
+}</span></pre></div>
+      </section>
+
+      <section id="Signature" about="https://w3id.org/security#Signature" typeof="rdfs:Class">
+        <h3><span class="secno">2.5 </span>Signature</h3>
+          <p>
+This class represents a digital signature on serialized data. It is an abstract
+class and should not be used other than for Semantic Web reasoning purposes, 
+such as by a reasoning agent.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>owl:Thing</dd>
+            <dt>Properties</dt>
+            <dd>none</dd>
+          </dl>
+          <div class="note"><div class="note-title"><span>Note</span></div><p class="">
+A Signature class <em class="rfc2119" title="MUST NOT">MUST NOT</em> be used as an RDF type. It should instead be used 
+as the base class for all signature classes. A signature sub-class <em class="rfc2119" title="SHOULD">SHOULD</em> 
+express at least three signature algorithm properties: normalizationAlgorithm, 
+digestAlgorithm, and signingAlgorithm.
+          </p></div>
+      </section>
+
+    </section>
+
+    <section id="properties">
+      <!--OddPage--><h2><span class="secno">3. </span>Properties</h2>
+
+      <section id="cipherAlgorithm" about="https://w3id.org/security#cipherAlgorithm" typeof="rdf:Property">
+        <h3><span class="secno">3.1 </span>cipherAlgorithm</h3>
+        <p>
+The cipher algorithm describes the mechanism used to encrypt a message. It is 
+typically a string expressing the cipher suite, the strength of the cipher 
+and a block cipher mechanism.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below describes the cipher as that detailed in the
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
+using 128 bits and <a href="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">cipher block chaining</a>.
+The password to unlock the
+encrypted message has been encrypted using the public key provided by 
+the <code>publicKey</code> parameter. To decrypt the message, the private
+key associated with the <code>publicKey</code> is used to decrypt the password. 
+The password, <code>iv</code> (intermediate value), and the cipher algorithm 
+are then used to extract the final clear-text message from the
+the base-64 encoded <code>data</code> property.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 5</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">EncryptedMessage</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">data</span><span class="pln">": "</span><span class="str">VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">encryptionKey</span><span class="pln">": "</span><span class="str">uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">password</span><span class="pln">": "</span><span class="str">5dTlEckNURjMrMDER1NPQ3graFABKMVFub=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">cipherAlgorithm</span><span class="pln">": "</span><span class="str">aes-128-cbc</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">iv</span><span class="pln">": "</span><span class="str">vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKey</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john/keys/23</span><span class="pln">"
+}        
+        </span></pre></div>
+      </section>
+
+      <section id="data" about="https://w3id.org/security#data" typeof="rdf:Property">
+        <h3><span class="secno">3.2 </span>data</h3>
+        <p>
+The data property is an opaque blob of information that is typically used 
+to specify the data associated with a particular message.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+The example below describes a secret message that has been encrypted and
+placed in the <code>data</code> property. The message has been encrypted using
+the
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
+using 128 bits and <a href="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">cipher block chaining</a>.
+The password to unlock the
+encrypted message has been encrypted using the public key provided by 
+the <code>publicKey</code> parameter. To decrypt the message, the private
+key associated with the <code>publicKey</code> is used to decrypt the password. 
+The password, <code>iv</code> (intermediate value), and the cipher algorithm 
+are then used to extract the final clear-text message from the
+the base-64 encoded <code>data</code> property.
+        <p></p>
+        <div class="example"><div class="example-title"><span>Example 6</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">EncryptedMessage</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">data</span><span class="pln">": "</span><span class="str">VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">encryptionKey</span><span class="pln">": "</span><span class="str">uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">password</span><span class="pln">": "</span><span class="str">5dTlEckNURjMrMDER1NPQ3graFABKMVFub=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">cipherAlgorithm</span><span class="pln">": "</span><span class="str">aes-128-cbc</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">iv</span><span class="pln">": "</span><span class="str">vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKey</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john/keys/23</span><span class="pln">"
+}        
+        </span></pre></div>
+      </section>
+      <section id="digestAlgorithm" about="https://w3id.org/security#digestAlgorithm" typeof="rdf:Property">
+        <h3><span class="secno">3.3 </span>digestAlgorithm</h3>
+        <p>
+The digest algorithm is used to specify the cryptographic function to use when
+generating the data to be digitally signed. Typically, data that is to be signed
+goes through three steps: 1) normalization, 2) digest, and 3) signature. 
+This property is used to specify the algorithm that should be used for step #2.
+A signature class typically specifies a default digest method, so this 
+property is typically used to specify information for a signature algorithm.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>IRI, xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the digest algorithm can be specified for
+a particular signature type:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 7</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security#GraphSignature2011</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Signature</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">normalizationAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/jsonld#UGNA2011</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">digestAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/digests#sha512</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">signingAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://www.w3.org/2000/09/xmldsig#rsa-sha1</span><span class="pln">",
+}
+        </span></pre></div>
+      </section>
+
+      <section id="digestValue" about="https://w3id.org/security#digestValue" typeof="rdf:Property">
+        <h3><span class="secno">3.4 </span>digestValue</h3>
+        <p>
+The digest value is used to express the output of the digest algorithm
+expressed in Base-16 (hexadecimal) format.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>Digest</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the output of the digest algorithm can be
+encoded in JSON-LD:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 8</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": [
+    "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">", 
+    { 
+      "</span><span class="atn jsonld-curie">dc</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/dc/terms/</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">foaf</span><span class="pln">": "</span><span class="tag jsonld-uri">http://xmlns.com/foaf/0.1/</span><span class="pln">"
+    }
+  ],
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/logo.jpg</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">foaf:Image</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">dc:title</span><span class="pln">": "</span><span class="str">Example Logo</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">digest</span><span class="pln">":
+  {
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Digest</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">digestAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://www.w3.org/2000/09/xmldsig#sha1</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">digestValue</span><span class="pln">": "</span><span class="str">981ec496092bf6ea18d6251d36068b52b633268b</span><span class="pln">"
+  }
+}
+        </span></pre></div>
+      </section>
+
+      <section id="expires" about="https://w3id.org/security#expires" typeof="rdf:Property">
+        <h3><span class="secno">3.5 </span>expires</h3>
+        <p>
+The expiration time is typically associated with a <a href="#Key">Key</a> and
+specifies when the validity of the key will expire. It is considered a best
+practice to only create keys that have very definite expiration periods. This
+period is typically set to between six months and two years. An digital
+signature created using an expired key <em class="rfc2119" title="MUST">MUST</em> be marked as invalid by any
+software attempting to verify the signature.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The following example shows a key that was created on January 3rd 2012 and
+that expires on January 3rd 2014:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 9</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2012-01-03T14:34:57+0000</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">expires</span><span class="pln">": "</span><span class="tag jsonld-curie">2014-01-03T14:34:57+0000</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n</span><span class="pln">",
+}
+        </span></pre></div>
+      </section>
+
+      <section id="iv" about="https://w3id.org/security#iv" typeof="rdf:Property">
+        <h3><span class="secno">3.6 </span>iv</h3>
+        <p>
+The <em>initialization vector</em> (iv) is a byte stream that is typically 
+used to initialize certain password-based encryption schemes. For a receiving 
+application to be able to decrypt the scheme, it must know the
+decryption password and the initialization vector. The value is
+typically base-64 encoded.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>EncryptedMessage</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows a public key based encrypted message where the
+decryption password is encrypted using the public key described in the message.
+Since the cipher algorithm is AES-128-CBC, an initialization vector along with 
+the password and the public key is required in order to decrypt the data.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 10</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">EncryptedMessage</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">data</span><span class="pln">": "</span><span class="str">VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">encryptionKey</span><span class="pln">": "</span><span class="str">uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">password</span><span class="pln">": "</span><span class="str">5dTlEckNURjMrMDER1NPQ3graFABKMVFub=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">cipherAlgorithm</span><span class="pln">": "</span><span class="str">aes-128-cbc</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">iv</span><span class="pln">": "</span><span class="str">vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKey</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john/keys/23</span><span class="pln">"
+}        
+        </span></pre></div>
+      </section>
+      
+      <section id="nonce" about="https://w3id.org/security#nonce" typeof="rdf:Property">
+        <h3><span class="secno">3.7 </span>nonce</h3>
+        <p>
+This property is used in conjunction with the input to the signature hashing 
+function in order to protect against
+<a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
+Typically, receivers need to track all nonce values used within a certain time
+period in order to ensure that an attacker cannot merely re-send a compromised
+packet in order to execute a privileged request.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows a fairly sensitive request that is digitally
+signed with a nonce. How the nonce is used is up to the signature algorithm, 
+but the value is typically included as input to the signature hashing function 
+in order to protect against
+<a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 11</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": [
+    "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+    { "</span><span class="atn jsonld-curie">ex</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/vocab#</span><span class="pln">" }
+  ],
+  "</span><span class="atn jsonld-curie">@graph</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">ex:request</span><span class="pln">": "</span><span class="str">DELETE /private/2840-credit-card-log</span><span class="pln">"
+  }
+  "</span><span class="atn jsonld-curie">signature</span><span class="pln">":
+  {
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">GraphSignature2011</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john-doe#key-5</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">nonce</span><span class="pln">": "</span><span class="str">8495723045.84957</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">Q3ODIyOGQzNGVkMzVm4NTIyZ43OWM32NjITkZDYMmMzQzNmExMgoYzI=</span><span class="pln">"
+  }
+}
+        </span></pre></div>
+      </section>
+
+      <section id="normalizationAlgorithm" about="https://w3id.org/security#normalizationAlgorithm" typeof="rdf:Property">
+        <h3><span class="secno">3.8 </span>normalizationAlgorithm</h3>
+        <p>
+The normalization algorithm is used to transform the input data into a form that
+can be passed to a cryptographic digest method. The digest is then digitally 
+signed using a digital signature algorithm. Normalization ensures that a piece 
+of software that is generating a digital signature is able to do so on the
+same set of information in a deterministic manner.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>IRI, xsd:string</dd>
+        </dl>
+        <p>
+The example below shows the establishment of a new signature class, using the
+three pieces of information that are typically required for a signature -
+the normalization algorithm, the digest algorithm and the signing algorithm:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 12</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security#GraphSignature2011</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Signature</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">normalizationAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/jsonld#UGNA2011</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">digestAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/digests#sha512</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">signingAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://www.w3.org/2000/09/xmldsig#rsa-sha1</span><span class="pln">",
+}
+        </span></pre></div>
+      </section>
+
+      <section id="owner" about="https://w3id.org/security#owner" typeof="rdf:Property">
+        <h3><span class="secno">3.9 </span>owner</h3>
+        <p>
+An owner is an entity that claims control over a particular resource. Note
+that ownership is best validated as a two-way relationship where the owner
+claims ownership over a particular resource, and the resource clearly 
+identifies its owner.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>IRI</dd>
+        </dl>
+        <p>
+The example below shows a cryptographic key that is owned by an entity
+identified by a URL. Presumably, this key is under the control of the owner 
+and can be used to infer that any digitally signed content using the key was
+signed by a software agent of the owner:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 13</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+
+      <section id="password" about="https://w3id.org/security#password" typeof="rdf:Property">
+        <h3><span class="secno">3.10 </span>password</h3>
+        <p>
+A secret that is used to decrypt an encrypted message. It is typically a 
+string value. Some passwords are encrypted using a public key so that only
+the intended recipient may know the password. Some passwords are provided in
+clear-text over a secure channel. The first method is the preferred approach
+for specifying a password.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The password example below is a public-key encrypted string that has been
+base-64 encoded.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 14</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">EncryptedMessage</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">data</span><span class="pln">": "</span><span class="str">VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">encryptionKey</span><span class="pln">": "</span><span class="str">uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">password</span><span class="pln">": "</span><span class="str">5dTlEckNURjMrMDER1NPQ3graFABKMVFub=</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">cipherAlgorithm</span><span class="pln">": "</span><span class="str">aes-128-cbc</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">iv</span><span class="pln">": "</span><span class="str">vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKey</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john/keys/23</span><span class="pln">"
+}        
+        </span></pre></div>
+      </section>
+
+      <section id="privateKeyPem" about="https://w3id.org/security#privateKeyPem" typeof="rdf:Property">
+        <h3><span class="secno">3.11 </span>privateKeyPem</h3>
+        <p>
+A private key PEM property is used to specify the 
+<a href="http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail">PEM-encoded</a> 
+version of the private key. This encoding is compatible with almost every 
+Secure Sockets Layer library implementation and typically plugs directly into 
+functions intializing private keys.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>Key</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a private key in
+PEM format. The elipsis ("...") in the middle of the string denotes more data 
+that has been abbreviated for the sake of the readability of the example.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 15</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">privateKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PUBLIC KEY-----\nMII8YbF3s8q3c...j8Fk88FsRa3K\n-----END PUBLIC KEY-----\n</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+
+      <section id="publicKey" about="https://w3id.org/security#publicKey" typeof="rdf:Property">
+        <h3><span class="secno">3.12 </span>publicKey</h3>
+        <p>
+A public key property is used to specify a URL that contains information about 
+a public key.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>IRI</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key belonging
+to the identity <code>https://payswarm.example.com/i/bob</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 16</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+      
+      <section id="publicKeyPem" about="https://w3id.org/security#publicKeyPem" typeof="rdf:Property">
+        <h3><span class="secno">3.13 </span>publicKeyPem</h3>
+        <p>
+A public key PEM property is used to specify the PEM-encoded version of the
+public key. This encoding is compatible with almost every Secure Sockets Layer
+library implementation and typically plugs directly into functions intializing
+public keys.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>Key</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key 
+in PEM format. The elipsis ("...") in the middle of the string denotes more 
+data that has been abbreviated for the sake of the readability of the example.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 17</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+
+      <section id="publicKeyService" about="https://w3id.org/security#publicKeyService" typeof="rdf:Property">
+        <h3><span class="secno">3.14 </span>publicKeyService</h3>
+        <p>
+The publicKeyService property is used to express the REST URL that provides 
+public key management services as defined by the Web Key [<cite><a class="bibref" href="#bib-WEB-KEYS">WEB-KEYS</a></cite>] 
+specification.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Range</dt>
+          <dd>URL</dd>
+        </dl>
+        <p>
+The following example shows how a website can publish the location of a 
+public keys service via the .well-known file. The publicKeyService can be found
+at the <code>https://payswarm.example.com/public-keys</code> URL and may be 
+operated upon using the protocol described in [<cite><a class="bibref" href="#bib-WEB-KEYS">WEB-KEYS</a></cite>].
+        </p>
+        <div class="example"><div class="example-title"><span>Example 18</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/.well-known/services</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyService</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/public-keys</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+
+      <section id="revoked" about="https://w3id.org/security#revoked" typeof="rdf:Property">
+        <h3><span class="secno">3.15 </span>revoked</h3>
+        <p>
+The revocation time is typically associated with a <a href="#Key">Key</a> that
+has been marked as invalid as of the date and time associated with the 
+property. Key revocations are often used when a key is compromised, such as 
+the theft of the private key, or during the course of best-practice key 
+rotation schedules.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The following example shows a key that was created on January 3rd 2012 and
+revoked on May 5th 2012:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 19</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2012-01-03T14:34:57+0000</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">revoked</span><span class="pln">": "</span><span class="tag jsonld-curie">2012-05-01T18:11:19+0000</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PRIVATE KEY-----\nMIIBG0BA...OClDQAB\n-----END PRIVATE KEY-----\n</span><span class="pln">",
+}
+        </span></pre></div>
+      </section>
+
+      <section id="signature" about="https://w3id.org/security#signature" typeof="rdf:Property">
+        <h3><span class="secno">3.16 </span>signature</h3>
+        <p>
+The signature property is used to associate a signature with a graph of 
+information. The signature property is typically not included
+in the canonicalized graph that is then digested, and digitally signed.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>Signature</dd>
+        </dl>
+        <p>
+The following example demonstrates how a signature on the graph identified by 
+the subject <code>http://example.com/people#jane</code> is expressed using
+a JSON-LD signature:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 20</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": [
+    "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+    { "</span><span class="atn jsonld-curie">foaf</span><span class="pln">": "</span><span class="tag jsonld-uri">http://xmlns.com/foaf/0.1/</span><span class="pln">" }
+  ]
+  "</span><span class="atn jsonld-curie">@graph</span><span class="pln">":
+  {
+     "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people#jane</span><span class="pln">",
+     "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">foaf:Person</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">foaf:name</span><span class="pln">": "</span><span class="str">Jane Doe</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">foaf:homepage</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/jane</span><span class="pln">"
+  },
+  "</span><span class="atn jsonld-curie">signature</span><span class="pln">":
+  {
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">GraphSignature2011</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john-doe#key-5</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI=</span><span class="pln">"
+  }
+}
+        </span></pre></div>
+      </section>
+
+      <section id="signatureValue" about="https://w3id.org/security#signatureValue" typeof="rdf:Property">
+        <h3><span class="secno">3.17 </span>signatureValue</h3>
+        <p>
+The signature value is used to express the output of the signature algorithm
+expressed in base-64 format.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Domain</dt>
+          <dd>Signature</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how the output of the signature algorithm can be
+encoded in JSON-LD:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 21</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": [
+    "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+    { "</span><span class="atn jsonld-curie">foaf</span><span class="pln">": "</span><span class="tag jsonld-uri">http://xmlns.com/foaf/0.1/</span><span class="pln">" }
+  ]
+  "</span><span class="atn jsonld-curie">@graph</span><span class="pln">":
+  {
+     "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people#jane</span><span class="pln">",
+     "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="tag jsonld-curie">foaf:Person</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">foaf:name</span><span class="pln">": "</span><span class="str">Jane Doe</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">foaf:homepage</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.org/jane</span><span class="pln">"
+  },
+  "</span><span class="atn jsonld-curie">signature</span><span class="pln">":
+  {
+    "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">GraphSignature2011</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/people/john-doe#key-5</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI=</span><span class="pln">"
+  }
+}
+        </span></pre></div>
+      </section>
+      
+      <section id="signatureAlgorithm" about="https://w3id.org/security#signatureAlgorithm" typeof="rdf:Property">
+        <h3><span class="secno">3.18 </span>signingAlgorithm</h3>
+        <p>
+The signing algorithm is used to specify the cryptographic signature
+function to use when digitally signing the digest data. Typically, text to be 
+signed goes through three steps: 1) normalization, 2) digest, and 
+3) signature. This property is used to specify the algorithm that should be 
+used for step #3. A signature class typically specifies a default signing
+algorithm, so this property rarely needs to be used in practice when specifying
+digital signatures.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>Signature</dd>
+          <dt>Range</dt>
+          <dd>IRI</dd>
+        </dl>
+        <p>
+The following example shows how the signing algorithm can be specified for
+a particular class of signatures:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 22</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security/v1</span><span class="pln">",
+  "</span><span class="kwd">@id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/security#GraphSignature2011</span><span class="pln">",
+  "</span><span class="kwd">@type</span><span class="pln">": "</span><span class="str">Signature</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">normalizationAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/jsonld#UGNA2011</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">digestAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/digests#sha512</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">signingAlgorithm</span><span class="pln">": "</span><span class="tag jsonld-uri">http://www.w3.org/2000/09/xmldsig#rsa-sha1</span><span class="pln">",
+}
+        </span></pre></div>
+      </section>
+    </section>
+
+   
+
+
+<div class="extLives"></div><section id="references" class="appendix"><!--OddPage--><h2><span class="secno">A. </span>References</h2><section id="normative-references"><h3><span class="secno">A.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-WEB-KEYS">[WEB-KEYS]</dt><dd>Manu Sporny; et al. <a href="http://payswarm.com/specs/source/web-keys/"><cite>Web Keys</cite></a>. Web Payments Community Group Working Draft. URL: <a href="http://payswarm.com/specs/source/web-keys/">http://payswarm.com/specs/source/web-keys/</a> 
+</dd></dl></section></section></body></html>

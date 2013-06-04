@@ -260,15 +260,15 @@ canonicalized using the standard normalization algorithm for JSON-LD.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-  "@context": "https://w3id.org/security/v1",
-  "@type": "foaf:Person",
-  "foaf:name": "Manu Sporny",
-  "foaf:homepage": "http://manu.sporny.org/",
+  "@context": ["https://w3id.org/security/v1", "http://json-ld.org/contexts/person.jsonld"]
+  "@type": "Person",
+  "name": "Manu Sporny",
+  "homepage": "http://manu.sporny.org/",
   "signature":
   {
   "@context": "https://w3id.org/security/v1",
     "@type": "GraphSignature2012",
-    "creator": "http://manu.sporny.org/webid#key-5",
+    "creator": "http://manu.sporny.org/keys/5",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
   }
 }
@@ -516,14 +516,13 @@ encoded in JSON-LD:
         <h3>encryptionKey</h3>
         <p>
 An encryption key is a value that is used to encrypt a piece of information. 
-The key itself may be expressed at an IRI location, shown in clear text, 
-or encrypted itself.
+The key itself may be expressed in clear text or encrypted.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">stable</dd>
           <dt>Range</dt>
-          <dd>IRI or xsd:string</dd>
+          <dd>xsd:string</dd>
         </dl>
         <p>
 The following example shows an encrypted message that contains an encrypted

@@ -15,8 +15,10 @@
       "@id": "dc:created",
       "@type": "xsd:dateTime"
     },
+    "creator": {"@id": "dc:creator", "@type": "@id"},
     "digestAlgorithm": "sec:digestAlgorithm",
     "digestValue": "sec:digestValue",
+    "encryptionKey": "sec:encryptionKey",
     "expiration": {
       "@id": "sec:expiration",
       "@type": "xsd:dateTime"

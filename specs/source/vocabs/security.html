@@ -511,6 +511,53 @@ encoded in JSON-LD:
         </pre>
       </section>
 
+      <section id="expires" about="https://w3id.org/security#encryptionKey"
+        typeof="rdf:Property">
+        <h3>encryptionKey</h3>
+        <p>
+An encryption key is a value that is used to encrypt a piece of information. 
+The key itself may be expressed at an IRI location, shown in clear text, 
+or encrypted itself.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">stable</dd>
+          <dt>Range</dt>
+          <dd>IRI or xsd:string</dd>
+        </dl>
+        <p>
+The following example shows an encrypted message that contains an encrypted
+key value that has been password-protected. The password itself has been
+encrypted against the public key of the message receiver. In order to decode
+the message, the receiver must use their public key to decrypt the password, 
+and then use the password to decrypt the encryption key. The encryption key
+can then be used to decrypt the data held in the message.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+  "@context": "https://w3id.org/security/v1",
+  "@type": "EncryptedMessage",
+  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
+UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
+Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
+L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
+Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
+ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
+UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
+bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
+YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
+  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
+z7u3IxpqNVcXHExjXQE=",
+  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
+  "cipherAlgorithm": "aes-128-cbc",
+  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "publicKey": "http://example.com/people/john/keys/23"
+}
+        </pre>
+      </section>
+
       <section id="expires" about="https://w3id.org/security#expires"
         typeof="rdf:Property">
         <h3>expires</h3>

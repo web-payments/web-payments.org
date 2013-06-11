@@ -128,6 +128,12 @@ digital signatures and encrypting and decrypting messages.
     <?php dirContents("ED/vocabs/security"); ?>
   </ul>
 </li>
+<li><a href="source/http-signatures-audit">Security Considerations for HTTP 
+Signatures</a> - a complete security audit of the HTTP Signatures specification.
+  <ul>
+    <?php dirContents("ED/http-signatures-audit"); ?>
+  </ul>
+</li>
 </ul>
 
 </p>

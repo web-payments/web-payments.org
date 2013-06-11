@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN" "http://xml.resource.org/authoring/rfc2629.dtd" [
+  <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY rfc2616 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY rfc2818 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY rfc2617 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml">
+  <!ENTITY rfc3339 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml">
+  <!ENTITY rfc5246 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
+]>
+<?xml-stylesheet type="text/xsl" href="rfc2629.xsl" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<?rfc toc="yes" ?>
+<?rfc sortrefs="yes" ?>
+<?rfc symrefs="yes" ?>
+<rfc category="std" ipr="trust200902" submissionType="independent" 
+     docName="draft-sporny-http-signatures-audit-00">
+<front>
+ <title>Security Considerations for HTTP Signatures</title>
+
+ <author initials="M.S." surname="Sporny" fullname="Manu Sporny">
+  <organization>Digital Bazaar</organization>
+  <address>
+   <postal>
+    <street>1700 Kraft Drive</street>
+    <street>Suite 2408</street>
+    <city>Blacksburg</city> <region>VA</region>
+    <code>24060</code>
+    <country>US</country>
+   </postal>
+   <phone>+1 540 961 4469</phone>
+   <email>msporny@digitalbazaar.com</email>
+   <uri>http://manu.sporny.org/</uri>
+  </address>
+ </author>
+
+ <date month="June" year="2013" />
+ <area>Security</area>
+ <workgroup></workgroup>
+ <keyword>HTTP</keyword>
+ <keyword>digital signature</keyword>
+ <keyword>PKI</keyword>
+ <keyword>security considerations</keyword>
+ <abstract>
+ <t>
+This document outlines the various security considerations that should be
+taken into account when utilizing the HTTP Signatures specification.
+ </t>
+ </abstract>
+</front>
+
+<middle>
+
+ <section anchor="intro" title="Introduction">
+  <t>
+The HTTP Signatures protocol is intended to provide a standard way for clients 
+to sign HTTP requests. This document outlines the security considerations for
+that protocol along with various approaches for mitigating against known
+attacks on the protocol.
+  </t>
+
+ </section>
+ 
+ <section anchor="general" title="General Attacks">
+
+  <t>
+The HTTP Signatures protocol is designed to protect developer-specified 
+portions of an HTTP-based message. This means that full protection of the 
+message contents at all times is not always a goal as some headers may not
+be in the list of signed headers. Developers should note that not signing
+a particular HTTP header is no worse than just using HTTP or HTTPS without
+signatures. Therefore, this section outlines the basic security considerations
+for HTTP and HTTPS-based communication in order to establish a 
+"security floor" for the case where HTTP Signatures fail to secure the 
+information intended to be secured by the developer.
+  </t>
+
+  <section anchor="http" title="HTTP Attacks">
+
+   <t>
+HTTP is generally regarded as wide open to many different attack vectors,
+including but not limited to: information sniffing, phishing, insertion attacks, 
+modification attacks, deletion attacks, spear-phishing, man-in-the-middle, 
+DNS spoofing, header spoofing, and denial-of-service. It is should be 
+assumed that all messages sent over HTTP are easily modified by peers 
+on the network.
+   </t>
+
+   <t>
+The Security Considerations for HTTP can be found in Section 15 of 
+<xref target="RFC2617">RFC 2616</xref>.
+   </t>
+
+  </section>  
+
+  <section anchor="https" title="HTTPS Attacks">
+
+   <t>
+The HTTPS protocol was developed in order to mitigate a large number of 
+the attacks on HTTP. However, one drawback of HTTPS is the requirement to run a
+server with a valid TLS certificate. These certificates may be expensive or
+difficult to setup and configure correctly. For this reason, the HTTP
+Signatures specification is provided as an alternative mechanism for 
+providing an acceptable level of security to certain applications that need
+to protect certain types of transactions on the network, but don't want to
+run those transactions over HTTPS.
+   </t>
+
+   <t>
+While HTTPS is far more secure than HTTP, it is still susceptible to 
+certain forms of attacks. For example, if a Certificate Authority is 
+compromised, an attacker may mount man-in-the-middle attacks against any
+on-path traffic between the victim and the intended website. A class of these
+attacks may be mitigated by digitally signing the contents of the request or
+further encrypting the contents of the HTTP message.
+   </t>
+
+   <t>
+The Security Considerations for HTTPS can be found in 
+<xref target="RFC2818">RFC 2818</xref>.
+   </t>
+
+  </section>
+ </section>
+
+ <section anchor="passive" title="Passive Attacks">
+
+  <t>
+Passive attacks consist of attacks that attackers can execute without writing to 
+the network. These attacks are mainly used to steal information that may
+be used to mount an active attack at a later point in time.
+  </t>
+
+  <section anchor="confidentiality" title="Confidentiality Violations">
+
+   <section anchor="confidentiality-http" title="HTTP">
+
+    <t>
+All of the known confidentiality violation attacks against HTTP are also 
+applicable to signed HTTP messages with the following exceptions:
+    </t>
+
+    <t>
+Replay attacks are mitigated using nonces as specified in the HTTP Signatures
+specification.
+    </t>
+
+    <t>
+Headers that are signed using HTTP Signatures cannot be spoofed without
+considerable effort expended to break the cryptographic algorithm used to 
+generate the digital signature. By default, the HTTP method, location, and Host
+header parameters are protected.
+    </t>
+
+   </section>  
+
+   <section anchor="confidentiality-https" title="HTTPS">
+
+    <t>
+All of the known confidentiality violation attacks against HTTPS are also 
+applicable to signed HTTPS messages with the following exceptions:
+    </t>
+
+    <t>
+It is possible to mitigate a replay attack using nonces as specified in the HTTP
+Signatures specification since two different verficiations will need to be
+performed on the data. The first is for the TLS server certificate, the second
+is for the digital signature on the data. This "double signature" would ensure
+that messages sent to a compromised on-path router would be able to be read,
+but not replayed. However, there are still dangers with this sort of approach.
+Namely, if a man-in-the-middle can convince a victim to generate multiple
+requests by notifying the victim of a faked error, then each one of those
+requests could be replayed. This attack, however, may be mitigated if the
+server also digitally signs its responses and the victim verifies those 
+responses.
+    </t>
+
+    <t>
+It is also possible to mitigate an attack where the Certificate Authority
+is compromised by digitally signing all information that is intended for the 
+client and the server. This ensures that even in the event of a compromised 
+HTTPS channel, that the information can be transmitted without
+concern that the data will be modified by an attacker.
+    </t>
+
+   </section>  
+
+  </section>  
+
+  <section anchor="sniffing" title="Password Sniffing">
+
+   <t>
+All sensitive information sniffing vulnerabilities that apply for HTTP
+apply for HTTP Signatures used over HTTP. That said, since there are no 
+passwords used when performing HTTP Signatures, there is no risk for a 
+HTTP Signature-specific password to be stolen via HTTP or HTTPS. 
+   </t>
+
+  </section>  
+
+  <section anchor="offline-attacks" title="Offline Cryptographic Attacks">
+
+   <t>
+   </t>
+
+  </section> 
+ </section>
+
+ <section anchor="passive" title="Active Attacks">
+
+  <t>
+  </t>
+
+  <section anchor="insertion" title="Message Insertion">
+
+   <t>
+   </t>
+
+  </section>  
+
+  <section anchor="deletion" title="Message Deletion">
+
+   <t>
+   </t>
+
+  </section>  
+
+  <section anchor="modification" title="Message Modification">
+
+   <t>
+   </t>
+
+  </section> 
+
+  <section anchor="mitm" title="Man-In-The-Middle">
+
+   <t>
+   </t>
+
+  </section> 
+
+  <section anchor="on-path" title="On-Path">
+
+   <t>
+   </t>
+
+  </section> 
+
+  <section anchor="off-path" title="Off-Path">
+
+   <t>
+   </t>
+
+  </section> 
+
+  <section anchor="link-local" title="Link-Local">
+
+   <t>
+   </t>
+
+  </section> 
+
+ </section>
+
+</middle>
+<back>
+ <section anchor="acknowledgements" title="Acknowledgements">
+
+ <t>
+The following individuals made major contributions to the contents of this
+document: Mark Cavage, Dave Longley, David I. Lehn.
+ </t> 
+
+ </section>
+
+ <references title="Normative References">
+  &rfc2119;
+  &rfc2616;
+  &rfc2818;
+  &rfc2617;
+  &rfc3339;
+  &rfc5246;
+ </references>
+</back>
+</rfc>

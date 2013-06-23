@@ -200,7 +200,37 @@ HTTP Signature-specific password to be stolen via HTTP or HTTPS.
 
   <section anchor="offline-attacks" title="Offline Cryptographic Attacks">
 
+   <section anchor="offline-attacks-http" title="HTTP">
+
    <t>
+Offline cryptographic attacks require knowledge of the inputs that went into
+a particular message that was digitally signed. If a signed message is sent 
+over HTTP, then the attacker has full access to the inputs, except for the
+private key, that went into the signature. In this case, the difficulty of 
+attacking the signature or the private key is no different than the standard 
+literature about attacks against RSA. 
+   </t>
+   
+   <t>
+It should be noted that not including enough randomness in a message could be
+used as an attack vector. For example, digitally signing thousands of 
+messages that only differ in the timestamp could be (theoretically) used in 
+a statistical attack against the key. Application authors are urged to ensure
+that enough randomness is injected into the text being digitally signed in 
+order to protect against statistical attacks against the private key.
+   </t>
+   
+   </section>
+   
+   <section anchor="offline-attacks-https" title="HTTPS">
+   
+   <t>
+Offline cryptographic attacks against a signature transmitted over HTTPS
+would have to defeat the HTTPS encryption scheme before an attack can be
+performed on the signature or private key associated with the message. If
+HTTPS is defeated, HTTP message integrity is still protected by the signature.
+An attack that assumes that HTTPS is defeated would have the same attack 
+characteristics as if HTTPS were not used to protect the message in transit.
    </t>
 
   </section> 
@@ -209,53 +239,120 @@ HTTP Signature-specific password to be stolen via HTTP or HTTPS.
  <section anchor="passive" title="Active Attacks">
 
   <t>
+Active attacks consist of attacks that attackers execute by writing to 
+the network. These attacks are mainly used to modify messages in a way
+that temporarily or permanently place parts of the system under the 
+control of the attacker.
   </t>
 
   <section anchor="insertion" title="Message Insertion">
 
+   <section anchor="insertion-http" title="HTTP">
+
    <t>
+
+   </t>
+
+   <section anchor="insertion-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section>  
 
   <section anchor="deletion" title="Message Deletion">
 
+   <section anchor="deletion-http" title="HTTP">
+
    <t>
+   
+   </t>
+
+   <section anchor="deletion-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section>  
 
   <section anchor="modification" title="Message Modification">
 
+   <section anchor="modification-http" title="HTTP">
+
    <t>
+   
+   </t>
+
+   <section anchor="modification-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section> 
 
   <section anchor="mitm" title="Man-In-The-Middle">
 
+   <section anchor="mitm-http" title="HTTP">
+
    <t>
+   
+   </t>
+
+   <section anchor="mitm-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section> 
 
   <section anchor="on-path" title="On-Path">
 
+   <section anchor="on-path-http" title="HTTP">
+
    <t>
+   
+   </t>
+
+   <section anchor="on-path-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section> 
 
   <section anchor="off-path" title="Off-Path">
 
+   <section anchor="off-http" title="HTTP">
+
    <t>
+   
+   </t>
+
+   <section anchor="off-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section> 
 
   <section anchor="link-local" title="Link-Local">
 
+   <section anchor="link-local-http" title="HTTP">
+
    <t>
+   
+   </t>
+
+   <section anchor="link-local-https" title="HTTPS">
+
+   <t>
+   
    </t>
 
   </section> 
@@ -268,7 +365,7 @@ HTTP Signature-specific password to be stolen via HTTP or HTTPS.
 
  <t>
 The following individuals made major contributions to the contents of this
-document: Mark Cavage, Dave Longley, David I. Lehn.
+document: Mark Cavage, Dave Longley, and David I. Lehn.
  </t> 
 
  </section>

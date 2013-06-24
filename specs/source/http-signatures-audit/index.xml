@@ -323,7 +323,8 @@ digitally sign all important portions of an HTTP message (headers and body).
     <t>
 Message insertion attacks over HTTPS are protected because the entire 
 message stream is protected, including each individual HTTP message. If HTTPS
-protection is broken, the same 
+protection is compromised, the same concerns as exist for HTTP message
+insertion attacks apply. 
     </t>
 
    </section>
@@ -335,7 +336,31 @@ protection is broken, the same
    <section anchor="deletion-http" title="HTTP">
 
     <t>
-   
+It is possible for an attacker to entirely remove a signed message from
+the network if the message is traveling over HTTP. This attack can be 
+performed by inserting an attacker as a relay between the client and the
+server. An attacker may then choose to drop messages that result in
+giving them an advantage on the network.
+    </t>
+    
+    <t>
+There are two ways to mitigate deletion attacks over HTTP. The first is to
+implement a message counter at the application layer. If a server and client
+agree to use a sequential counter, that counter can be included in every
+message between the server and client. The drawback to this approach is
+additional overhead on both the client and the server as each has to keep
+a counter associated with each peer on the network.
+    </t>
+    
+    <t>
+The second approach to mitigating a deletion attack over HTTP is to ensure that
+both the request and response are digitally signed. If an attacker successfully
+deletes a message from the network, it will be unable to forge a response to
+the victim that is verifiable as having come from the responder. It is important
+to note that a response should contain enough randomness to ensure that a
+replay attack is not possible for the response over HTTP. The use of a nonce
+in the response message is a minimum requirement to ensure protection against
+replay that could result in a deletion going unnoticed by the victim. 
     </t>
 
    </section>
@@ -343,7 +368,11 @@ protection is broken, the same
    <section anchor="deletion-https" title="HTTPS">
 
     <t>
-   
+HTTPS contains protections against deletion attacks by utilizing a message
+counter in the protocol. In order to achieve a deletion attack in HTTPS, an
+attacker would have to compromise the HTTPS protocol. If an attacker is
+able to compromise the HTTPS protocol, the concerns related to deletion 
+attacks over HTTP apply.  
     </t>
 
    </section>
@@ -355,15 +384,26 @@ protection is broken, the same
    <section anchor="modification-http" title="HTTP">
 
     <t>
-   
+Message modification attacks over HTTP are easily accomplished for HTTP headers
+that are not included in the signature. It is advised that both clients and
+servers should not trust HTTP headers that are a part of a request that 
+are not included in the signature.
     </t>
-
+ 
+    <t>
+To prevent message modification attacks, both clients and servers should
+digitally sign all important portions of an HTTP message (headers and body).
+    </t>
+ 
    </section>
 
    <section anchor="modification-https" title="HTTPS">
 
     <t>
-   
+Message modification attacks over HTTPS are protected because the entire 
+message stream is protected, including each individual HTTP message. If HTTPS
+protection is compromised, the same concerns as exist for HTTP message
+modification attacks apply. 
     </t>
     
    </section>

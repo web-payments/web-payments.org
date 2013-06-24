@@ -16,7 +16,7 @@
 <rfc category="std" ipr="trust200902" submissionType="independent" 
      docName="draft-sporny-http-signatures-audit-00">
 <front>
- <title>Security Considerations for HTTP Signatures</title>
+ <title abbrev="HTTP Signatures Security Considerations">Security Considerations for HTTP Signatures</title>
 
  <author initials="M.S." surname="Sporny" fullname="Manu Sporny">
   <organization>Digital Bazaar</organization>
@@ -560,7 +560,7 @@ document: Mark Cavage, Dave Longley, and David I. Lehn.
 
  </section>
 
- <references title="Normative References">
+ <references title="Informative References">
   &rfc2119;
   &rfc2616;
   &rfc2818;

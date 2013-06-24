@@ -1,0 +1,862 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en"><head><title>Security Considerations for HTTP Signatures</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="Security Considerations for HTTP Signatures">
+<meta name="keywords" content="HTTP, digital signature, PKI, security considerations">
+<meta name="generator" content="xml2rfc v1.36 (http://xml.resource.org/)">
+<style type='text/css'><!--
+        body {
+                font-family: verdana, charcoal, helvetica, arial, sans-serif;
+                font-size: small; color: #000; background-color: #FFF;
+                margin: 2em;
+        }
+        h1, h2, h3, h4, h5, h6 {
+                font-family: helvetica, monaco, "MS Sans Serif", arial, sans-serif;
+                font-weight: bold; font-style: normal;
+        }
+        h1 { color: #900; background-color: transparent; text-align: right; }
+        h3 { color: #333; background-color: transparent; }
+
+        td.RFCbug {
+                font-size: x-small; text-decoration: none;
+                width: 30px; height: 30px; padding-top: 2px;
+                text-align: justify; vertical-align: middle;
+                background-color: #000;
+        }
+        td.RFCbug span.RFC {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: bold; color: #666;
+        }
+        td.RFCbug span.hotText {
+                font-family: charcoal, monaco, geneva, "MS Sans Serif", helvetica, verdana, sans-serif;
+                font-weight: normal; text-align: center; color: #FFF;
+        }
+
+        table.TOCbug { width: 30px; height: 15px; }
+        td.TOCbug {
+                text-align: center; width: 30px; height: 15px;
+                color: #FFF; background-color: #900;
+        }
+        td.TOCbug a {
+                font-family: monaco, charcoal, geneva, "MS Sans Serif", helvetica, sans-serif;
+                font-weight: bold; font-size: x-small; text-decoration: none;
+                color: #FFF; background-color: transparent;
+        }
+
+        td.header {
+                font-family: arial, helvetica, sans-serif; font-size: x-small;
+                vertical-align: top; width: 33%;
+                color: #FFF; background-color: #666;
+        }
+        td.author { font-weight: bold; font-size: x-small; margin-left: 4em; }
+        td.author-text { font-size: x-small; }
+
+        /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+        a.info {
+                /* This is the key. */
+                position: relative;
+                z-index: 24;
+                text-decoration: none;
+        }
+        a.info:hover {
+                z-index: 25;
+                color: #FFF; background-color: #900;
+        }
+        a.info span { display: none; }
+        a.info:hover span.info {
+                /* The span will display just on :hover state. */
+                display: block;
+                position: absolute;
+                font-size: smaller;
+                top: 2em; left: -5em; width: 15em;
+                padding: 2px; border: 1px solid #333;
+                color: #900; background-color: #EEE;
+                text-align: left;
+        }
+
+        a { font-weight: bold; }
+        a:link    { color: #900; background-color: transparent; }
+        a:visited { color: #633; background-color: transparent; }
+        a:active  { color: #633; background-color: transparent; }
+
+        p { margin-left: 2em; margin-right: 2em; }
+        p.copyright { font-size: x-small; }
+        p.toc { font-size: small; font-weight: bold; margin-left: 3em; }
+        table.toc { margin: 0 0 0 3em; padding: 0; border: 0; vertical-align: text-top; }
+        td.toc { font-size: small; font-weight: bold; vertical-align: text-top; }
+
+        ol.text { margin-left: 2em; margin-right: 2em; }
+        ul.text { margin-left: 2em; margin-right: 2em; }
+        li      { margin-left: 3em; }
+
+        /* RFC-2629 <spanx>s and <artwork>s. */
+        em     { font-style: italic; }
+        strong { font-weight: bold; }
+        dfn    { font-weight: bold; font-style: normal; }
+        cite   { font-weight: normal; font-style: normal; }
+        tt     { color: #036; }
+        tt, pre, pre dfn, pre em, pre cite, pre span {
+                font-family: "Courier New", Courier, monospace; font-size: small;
+        }
+        pre {
+                text-align: left; padding: 4px;
+                color: #000; background-color: #CCC;
+        }
+        pre dfn  { color: #900; }
+        pre em   { color: #66F; background-color: #FFC; font-weight: normal; }
+        pre .key { color: #33C; font-weight: bold; }
+        pre .id  { color: #900; }
+        pre .str { color: #000; background-color: #CFF; }
+        pre .val { color: #066; }
+        pre .rep { color: #909; }
+        pre .oth { color: #000; background-color: #FCF; }
+        pre .err { background-color: #FCC; }
+
+        /* RFC-2629 <texttable>s. */
+        table.all, table.full, table.headers, table.none {
+                font-size: small; text-align: center; border-width: 2px;
+                vertical-align: top; border-collapse: collapse;
+        }
+        table.all, table.full { border-style: solid; border-color: black; }
+        table.headers, table.none { border-style: none; }
+        th {
+                font-weight: bold; border-color: black;
+                border-width: 2px 2px 3px 2px;
+        }
+        table.all th, table.full th { border-style: solid; }
+        table.headers th { border-style: none none solid none; }
+        table.none th { border-style: none; }
+        table.all td {
+                border-style: solid; border-color: #333;
+                border-width: 1px 2px;
+        }
+        table.full td, table.headers td, table.none td { border-style: none; }
+
+        hr { height: 1px; }
+        hr.insert {
+                width: 80%; border-style: none; border-width: 0;
+                color: #CCC; background-color: #CCC;
+        }
+--></style>
+</head>
+<body>
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<table summary="layout" width="66%" border="0" cellpadding="0" cellspacing="0"><tr><td><table summary="layout" width="100%" border="0" cellpadding="2" cellspacing="1">
+<tr><td class="header">Network Working Group</td><td class="header">M. Sporny</td></tr>
+<tr><td class="header">Internet-Draft</td><td class="header">Digital Bazaar</td></tr>
+<tr><td class="header">Intended status: Standards Track</td><td class="header">June 23, 2013</td></tr>
+<tr><td class="header">Expires: December 25, 2013</td><td class="header">&nbsp;</td></tr>
+</table></td></tr></table>
+<h1><br />Security Considerations for HTTP Signatures<br />draft-sporny-http-signatures-audit-00</h1>
+
+<h3>Abstract</h3>
+
+<p>
+This document outlines the various security considerations that should be
+taken into account when utilizing the HTTP Signatures specification.
+ 
+</p>
+<h3>Status of this Memo</h3>
+<p>
+This Internet-Draft is submitted  in full
+conformance with the provisions of BCP&nbsp;78 and BCP&nbsp;79.</p>
+<p>
+Internet-Drafts are working documents of the Internet Engineering
+Task Force (IETF).  Note that other groups may also distribute
+working documents as Internet-Drafts.  The list of current
+Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>
+Internet-Drafts are draft documents valid for a maximum of six months
+and may be updated, replaced, or obsoleted by other documents at any time.
+It is inappropriate to use Internet-Drafts as reference material or to cite
+them other than as &ldquo;work in progress.&rdquo;</p>
+<p>
+This Internet-Draft will expire on December 25, 2013.</p>
+
+<h3>Copyright Notice</h3>
+<p>
+Copyright (c) 2013 IETF Trust and the persons identified as the
+document authors.  All rights reserved.</p>
+<p>
+This document is subject to BCP 78 and the IETF Trust's Legal
+Provisions Relating to IETF Documents
+(http://trustee.ietf.org/license-info) in effect on the date of
+publication of this document.  Please review these documents
+carefully, as they describe your rights and restrictions with respect
+to this document.</p>
+<a name="toc"></a><br /><hr />
+<h3>Table of Contents</h3>
+<p class="toc">
+<a href="#intro">1.</a>&nbsp;
+Introduction<br />
+<a href="#general">2.</a>&nbsp;
+General Attacks<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#http">2.1.</a>&nbsp;
+HTTP Attacks<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#https">2.2.</a>&nbsp;
+HTTPS Attacks<br />
+<a href="#passive">3.</a>&nbsp;
+Passive Attacks<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#confidentiality">3.1.</a>&nbsp;
+Confidentiality Violations<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#confidentiality-http">3.1.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#confidentiality-https">3.1.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#sniffing">3.2.</a>&nbsp;
+Password Sniffing<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#offline-attacks">3.3.</a>&nbsp;
+Offline Cryptographic Attacks<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#offline-attacks-http">3.3.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#offline-attacks-https">3.3.2.</a>&nbsp;
+HTTPS<br />
+<a href="#active">4.</a>&nbsp;
+Active Attacks<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#replay">4.1.</a>&nbsp;
+Replay<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#replay-http">4.1.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#replay-https">4.1.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#insertion">4.2.</a>&nbsp;
+Message Insertion<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#insertion-http">4.2.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#insertion-https">4.2.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#deletion">4.3.</a>&nbsp;
+Message Deletion<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#deletion-http">4.3.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#deletion-https">4.3.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#modification">4.4.</a>&nbsp;
+Message Modification<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#modification-http">4.4.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#modification-https">4.4.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#mitm">4.5.</a>&nbsp;
+Man-In-The-Middle<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#mitm-http">4.5.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#mitm-https">4.5.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#on-path">4.6.</a>&nbsp;
+On-Path<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#on-path-http">4.6.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#on-path-https">4.6.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#off-path">4.7.</a>&nbsp;
+Off-Path<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#off-http">4.7.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#off-https">4.7.2.</a>&nbsp;
+HTTPS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#link-local">4.8.</a>&nbsp;
+Link-Local<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#link-local-http">4.8.1.</a>&nbsp;
+HTTP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#link-local-https">4.8.2.</a>&nbsp;
+HTTPS<br />
+<a href="#acknowledgements">Appendix&nbsp;A.</a>&nbsp;
+Acknowledgements<br />
+<a href="#rfc.references1">5.</a>&nbsp;
+Informative References<br />
+<a href="#rfc.authors">&#167;</a>&nbsp;
+Author's Address<br />
+</p>
+<br clear="all" />
+
+<a name="intro"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.1"></a><h3>1.&nbsp;
+Introduction</h3>
+
+<p>
+The HTTP Signatures protocol is intended to provide a standard way for clients 
+to sign HTTP requests. This document outlines the security considerations for
+that protocol along with various approaches for mitigating against known
+attacks on the protocol.
+  
+</p>
+<a name="general"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2"></a><h3>2.&nbsp;
+General Attacks</h3>
+
+<p>
+The HTTP Signatures protocol is designed to protect developer-specified 
+portions of an HTTP-based message. This means that full protection of the 
+message contents at all times is not always a goal as some headers may not
+be in the list of signed headers. Developers should note that not signing
+a particular HTTP header is no worse than just using HTTP or HTTPS without
+signatures. Therefore, this section outlines the basic security considerations
+for HTTP and HTTPS-based communication in order to establish a 
+"security floor" for the case where HTTP Signatures fail to secure the 
+information intended to be secured by the developer.
+  
+</p>
+<a name="http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.1"></a><h3>2.1.&nbsp;
+HTTP Attacks</h3>
+
+<p>
+HTTP is generally regarded as wide open to many different attack vectors,
+including but not limited to: information sniffing, phishing, insertion attacks, 
+modification attacks, deletion attacks, spear-phishing, man-in-the-middle, 
+DNS spoofing, header spoofing, and denial-of-service. It is should be 
+assumed that all messages sent over HTTP are easily modified by peers 
+on the network.
+   
+</p>
+<p>
+The Security Considerations for HTTP can be found in Section 15 of 
+<a class='info' href='#RFC2617'>RFC 2616<span> (</span><span class='info'>Franks, J., Hallam-Baker, P., Hostetler, J., Lawrence, S., Leach, P., Luotonen, A., and L. Stewart, &ldquo;HTTP Authentication: Basic and Digest Access Authentication,&rdquo; June&nbsp;1999.</span><span>)</span></a> [RFC2617].
+   
+</p>
+<a name="https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.2.2"></a><h3>2.2.&nbsp;
+HTTPS Attacks</h3>
+
+<p>
+The HTTPS protocol was developed in order to mitigate a large number of 
+the attacks on HTTP. However, one drawback of HTTPS is the requirement to run a
+server with a valid TLS certificate. These certificates may be expensive or
+difficult to setup and configure correctly. For this reason, the HTTP
+Signatures specification is provided as an alternative mechanism for 
+providing an acceptable level of security to certain applications that need
+to protect certain types of transactions on the network, but don't want to
+run those transactions over HTTPS.
+   
+</p>
+<p>
+While HTTPS is far more secure than HTTP, it is still susceptible to 
+certain forms of attacks. For example, if a Certificate Authority is 
+compromised, an attacker may mount man-in-the-middle attacks against any
+on-path traffic between the victim and the intended website. A class of these
+attacks may be mitigated by digitally signing the contents of the request or
+further encrypting the contents of the HTTP message.
+   
+</p>
+<p>
+The Security Considerations for HTTPS can be found in 
+<a class='info' href='#RFC2818'>RFC 2818<span> (</span><span class='info'>Rescorla, E., &ldquo;HTTP Over TLS,&rdquo; May&nbsp;2000.</span><span>)</span></a> [RFC2818].
+   
+</p>
+<a name="passive"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3"></a><h3>3.&nbsp;
+Passive Attacks</h3>
+
+<p>
+Passive attacks consist of attacks that attackers can execute without writing to 
+the network. These attacks are mainly used to steal information that may
+be used to mount an active attack at a later point in time.
+  
+</p>
+<a name="confidentiality"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1"></a><h3>3.1.&nbsp;
+Confidentiality Violations</h3>
+
+<a name="confidentiality-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1.1"></a><h3>3.1.1.&nbsp;
+HTTP</h3>
+
+<p>
+All of the known confidentiality violation attacks against HTTP are also 
+applicable to signed HTTP messages with the following exceptions:
+    
+</p>
+<p>
+Replay attacks are mitigated using nonces as specified in the HTTP Signatures
+specification.
+    
+</p>
+<p>
+Headers that are signed using HTTP Signatures cannot be spoofed without
+considerable effort expended to break the cryptographic algorithm used to 
+generate the digital signature. By default, the HTTP method, location, and Host
+header parameters are protected.
+    
+</p>
+<a name="confidentiality-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.1.2"></a><h3>3.1.2.&nbsp;
+HTTPS</h3>
+
+<p>
+All of the known confidentiality violation attacks against HTTPS are also 
+applicable to signed HTTPS messages with the following exceptions:
+    
+</p>
+<p>
+It is possible to mitigate a replay attack using nonces as specified in the HTTP
+Signatures specification since two different verficiations will need to be
+performed on the data. The first is for the TLS server certificate, the second
+is for the digital signature on the data. This "double signature" would ensure
+that messages sent to a compromised on-path router would be able to be read,
+but not replayed. However, there are still dangers with this sort of approach.
+Namely, if a man-in-the-middle can convince a victim to generate multiple
+requests by notifying the victim of a faked error, then each one of those
+requests could be replayed. This attack, however, may be mitigated if the
+server also digitally signs its responses and the victim verifies those 
+responses.
+    
+</p>
+<p>
+It is also possible to mitigate an attack where the Certificate Authority
+is compromised by digitally signing all information that is intended for the 
+client and the server. This ensures that even in the event of a compromised 
+HTTPS channel, that the information can be transmitted without
+concern that the data will be modified by an attacker.
+    
+</p>
+<a name="sniffing"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.2"></a><h3>3.2.&nbsp;
+Password Sniffing</h3>
+
+<p>
+All sensitive information sniffing vulnerabilities that apply for HTTP
+apply for HTTP Signatures used over HTTP. That said, since there are no 
+passwords used when performing HTTP Signatures, there is no risk for a 
+HTTP Signature-specific password to be stolen via HTTP or HTTPS. 
+   
+</p>
+<a name="offline-attacks"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.3"></a><h3>3.3.&nbsp;
+Offline Cryptographic Attacks</h3>
+
+<a name="offline-attacks-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.3.1"></a><h3>3.3.1.&nbsp;
+HTTP</h3>
+
+<p>
+Offline cryptographic attacks require knowledge of the inputs that went into
+a particular message that was digitally signed. If a signed message is sent 
+over HTTP, then the attacker has full access to the inputs, except for the
+private key, that went into the signature. In this case, the difficulty of 
+attacking the signature or the private key is no different than the standard 
+literature about attacks against RSA. 
+   
+</p>
+<p>
+It should be noted that not including enough randomness in a message could be
+used as an attack vector. For example, digitally signing thousands of 
+messages that only differ in the timestamp could be (theoretically) used in 
+a statistical attack against the key. Application authors are urged to ensure
+that enough randomness is injected into the text being digitally signed in 
+order to protect against statistical attacks against the private key.
+   
+</p>
+<a name="offline-attacks-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.3.3.2"></a><h3>3.3.2.&nbsp;
+HTTPS</h3>
+
+<p>
+Offline cryptographic attacks against a signature transmitted over HTTPS
+would have to defeat the HTTPS encryption scheme before an attack can be
+performed on the signature or private key associated with the message. If
+HTTPS is defeated, HTTP message integrity is still protected by the signature.
+An attack that assumes that HTTPS is defeated would have the same attack 
+characteristics as if HTTPS were not used to protect the message in transit.
+   
+</p>
+<a name="active"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4"></a><h3>4.&nbsp;
+Active Attacks</h3>
+
+<p>
+Active attacks consist of attacks that attackers execute by writing to 
+the network. These attacks are mainly used to modify messages in a way
+that temporarily or permanently place parts of the system under the 
+control of the attacker.
+  
+</p>
+<a name="replay"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1"></a><h3>4.1.&nbsp;
+Replay</h3>
+
+<a name="replay-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1.1"></a><h3>4.1.1.&nbsp;
+HTTP</h3>
+
+<p>
+Replay attacks over HTTP are fairly trivial to accomplish. An attacker would
+typically capture network traffic, including the HTTP message, and then
+re-transmit the HTTP message at a later time (within the HTTP message
+time window). A victim would not be able to detect the attack if there is
+no mechanism employed to determine if the message was previously recorded. 
+    
+</p>
+<p>
+A mitigation for the replay attack is to use the nonce mechanism outlined in
+an extension specification to the HTTP Signatures specification. While nonces
+have traditionally been a pain to implement, the HTTP Signature nonce approach
+utilizes a mechanism that is fairly easy to implement and requires very little
+memory on both the client and the server.
+    
+</p>
+<p>
+Even if nonces are employed, there is a class of application attack where the
+attacker relays traffic between the victim and the server. When the victim
+sends a signed message, the attacker captures the message and prevents it
+from reaching the intended server. The attacker then sends a failure
+response back to the victim. If the victim's software is set to automatically 
+re-send requests, the attacker can continue to send failure responses and 
+can queue up a series of valid requests from the victim 
+(For example: "Send $10 to Alice"). The attacker would then replay all of 
+these queued requests to the server, within the time window, and the server
+would accept them as valid requests from the victim. 
+    
+</p>
+<p>
+To mitigate this sort of application attack, application authors are urged to
+require digital signatures from both the client and the server.
+    
+</p>
+<a name="replay-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.1.2"></a><h3>4.1.2.&nbsp;
+HTTPS</h3>
+
+<p>
+Replay attacks on messages encapsulated in the HTTPS protocol are much more
+difficult to achieve because replay protection is a feature that is built
+into HTTPS. In order to attempt a replay attack, an attacker must first defeat
+the replay protection mechanism in HTTPS. If HTTPS is broken, the replay
+attack concerns become the same as for HTTP Signatures over HTTP. 
+    
+</p>
+<a name="insertion"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.2"></a><h3>4.2.&nbsp;
+Message Insertion</h3>
+
+<a name="insertion-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.2.1"></a><h3>4.2.1.&nbsp;
+HTTP</h3>
+
+<p>
+Message insertion attacks over HTTP are easily accomplished for HTTP headers
+that are not included in the signature. It is advised that both clients and
+servers should not trust HTTP headers that are a part of a request that 
+are not included in the signature.
+    
+</p>
+<p>
+To prevent message insertion attacks, both clients and servers should
+digitally sign all important portions of an HTTP message (headers and body).
+    
+</p>
+<a name="insertion-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.2.2"></a><h3>4.2.2.&nbsp;
+HTTPS</h3>
+
+<p>
+Message insertion attacks over HTTPS are protected because the entire 
+message stream is protected, including each individual HTTP message. If HTTPS
+protection is compromised, the same concerns as exist for HTTP message
+insertion attacks apply. 
+    
+</p>
+<a name="deletion"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.3"></a><h3>4.3.&nbsp;
+Message Deletion</h3>
+
+<a name="deletion-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.3.1"></a><h3>4.3.1.&nbsp;
+HTTP</h3>
+
+<p>
+It is possible for an attacker to entirely remove a signed message from
+the network if the message is traveling over HTTP. This attack can be 
+performed by inserting an attacker as a relay between the client and the
+server. An attacker may then choose to drop messages that result in
+giving them an advantage on the network.
+    
+</p>
+<p>
+There are two ways to mitigate deletion attacks over HTTP. The first is to
+implement a message counter at the application layer. If a server and client
+agree to use a sequential counter, that counter can be included in every
+message between the server and client. The drawback to this approach is
+additional overhead on both the client and the server as each has to keep
+a counter associated with each peer on the network.
+    
+</p>
+<p>
+The second approach to mitigating a deletion attack over HTTP is to ensure that
+both the request and response are digitally signed. If an attacker successfully
+deletes a message from the network, it will be unable to forge a response to
+the victim that is verifiable as having come from the responder. It is important
+to note that a response should contain enough randomness to ensure that a
+replay attack is not possible for the response over HTTP. The use of a nonce
+in the response message is a minimum requirement to ensure protection against
+replay that could result in a deletion going unnoticed by the victim. 
+    
+</p>
+<a name="deletion-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.3.2"></a><h3>4.3.2.&nbsp;
+HTTPS</h3>
+
+<p>
+HTTPS contains protections against deletion attacks by utilizing a message
+counter in the protocol. In order to achieve a deletion attack in HTTPS, an
+attacker would have to compromise the HTTPS protocol. If an attacker is
+able to compromise the HTTPS protocol, the concerns related to deletion 
+attacks over HTTP apply.  
+    
+</p>
+<a name="modification"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.4"></a><h3>4.4.&nbsp;
+Message Modification</h3>
+
+<a name="modification-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.4.1"></a><h3>4.4.1.&nbsp;
+HTTP</h3>
+
+<p>
+Message modification attacks over HTTP are easily accomplished for HTTP headers
+that are not included in the signature. It is advised that both clients and
+servers should not trust HTTP headers that are a part of a request that 
+are not included in the signature.
+    
+</p>
+<p>
+To prevent message modification attacks, both clients and servers should
+digitally sign all important portions of an HTTP message (headers and body).
+    
+</p>
+<a name="modification-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.4.2"></a><h3>4.4.2.&nbsp;
+HTTPS</h3>
+
+<p>
+Message modification attacks over HTTPS are protected because the entire 
+message stream is protected, including each individual HTTP message. If HTTPS
+protection is compromised, the same concerns as exist for HTTP message
+modification attacks apply. 
+    
+</p>
+<a name="mitm"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.5"></a><h3>4.5.&nbsp;
+Man-In-The-Middle</h3>
+
+<a name="mitm-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.5.1"></a><h3>4.5.1.&nbsp;
+HTTP</h3>
+
+<p>
+The Man-In-The-Middle attack, where an attacker relays messages for an
+unknowing victim, is possible on any unsigned HTTP message. The state of HTTP
+is such that there is no protocol-level protection against this sort of 
+attack.
+    
+</p>
+<p>
+Two of the protections that HTTP Signatures provides is the ability to protect
+against insertion and modification attacks with a signature (as
+long as all of the fields that need to be protected are included in the 
+signature). Detection of deletion attacks may also be achieved using a
+simple nonce mechanism. With these three HTTP Signature-based protections 
+in place, all known Man-In-The-Middle attacks on HTTP can be detected such 
+that an application can determine that it may be under attack and act 
+accordingly.
+    
+</p>
+<a name="mitm-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.5.2"></a><h3>4.5.2.&nbsp;
+HTTPS</h3>
+
+<p>
+The HTTPS protocol provides multiple protections against Man-In-The-Middle 
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same 
+Man-In-The-Middle concerns that are outlined for signatures over HTTP apply. 
+    
+</p>
+<a name="on-path"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.6"></a><h3>4.6.&nbsp;
+On-Path</h3>
+
+<a name="on-path-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.6.1"></a><h3>4.6.1.&nbsp;
+HTTP</h3>
+
+<p>
+The HTTP protocol is susceptible to on-path attacks.
+    
+</p>
+<p>
+On-path attacks can be mitigated using HTTP Signatures by utilizing the
+HTTP Signature-based protections for message insertion, modification, and
+deletion. It is important to note that the origin of a message is not
+a concern for HTTP Signatures. In fact, HTTP Signatures are agnostic to
+network topology. The only information that matters is the sender and
+receiver of the message, which is cryptographically established via the
+signature.    
+    
+</p>
+<a name="on-path-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.6.2"></a><h3>4.6.2.&nbsp;
+HTTPS</h3>
+
+<p>
+The HTTPS protocol provides multiple protections against on-path
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same on-path 
+concerns that are outlined for signatures over HTTP apply. 
+    
+</p>
+<a name="off-path"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.7"></a><h3>4.7.&nbsp;
+Off-Path</h3>
+
+<a name="off-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.7.1"></a><h3>4.7.1.&nbsp;
+HTTP</h3>
+
+<p>
+The HTTP protocol is susceptible to off-path attacks.
+    
+</p>
+<p>
+Off-path attacks can be mitigated using HTTP Signatures by utilizing the
+HTTP Signature-based protections for message insertion, modification, and
+deletion. It is important to note that the origin of a message is not
+a concern for HTTP Signatures. In fact, HTTP Signatures are agnostic to
+network topology. The only information that matters is the sender and
+receiver of the message, which is cryptographically established via the
+signature.    
+    
+</p>
+<a name="off-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.7.2"></a><h3>4.7.2.&nbsp;
+HTTPS</h3>
+
+<p>
+The HTTPS protocol provides multiple protections against off-path
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same off-path 
+concerns that are outlined for signatures over HTTP apply. 
+    
+</p>
+<a name="link-local"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.8"></a><h3>4.8.&nbsp;
+Link-Local</h3>
+
+<a name="link-local-http"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.8.1"></a><h3>4.8.1.&nbsp;
+HTTP</h3>
+
+<p>
+The HTTP protocol is susceptible to link-local attacks.
+    
+</p>
+<p>
+Link-local attacks can be mitigated using HTTP Signatures by utilizing the
+HTTP Signature-based protections for message insertion, modification, and
+deletion. It is important to note that the origin of a message is not
+a concern for HTTP Signatures. In fact, HTTP Signatures are agnostic to
+network topology. The only information that matters is the sender and
+receiver of the message, which is cryptographically established via the
+signature.    
+    
+</p>
+<a name="link-local-https"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.4.8.2"></a><h3>4.8.2.&nbsp;
+HTTPS</h3>
+
+<p>
+The HTTPS protocol provides multiple protections against link-local
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same link-local
+concerns that are outlined for signatures over HTTP apply. 
+    
+</p>
+<a name="acknowledgements"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<a name="rfc.section.A"></a><h3>Appendix A.&nbsp;
+Acknowledgements</h3>
+
+<p>
+The following individuals made major contributions to the contents of this
+document: Mark Cavage, Dave Longley, and David I. Lehn.
+ 
+</p>
+<a name="rfc.references1"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>5.&nbsp;Informative References</h3>
+<table width="99%" border="0">
+<tr><td class="author-text" valign="top"><a name="RFC2119">[RFC2119]</a></td>
+<td class="author-text"><a href="mailto:sob@harvard.edu">Bradner, S.</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>,&rdquo; BCP&nbsp;14, RFC&nbsp;2119, March&nbsp;1997 (<a href="http://www.rfc-editor.org/rfc/rfc2119.txt">TXT</a>, <a href="http://xml.resource.org/public/rfc/html/rfc2119.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc2119.xml">XML</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC2616">[RFC2616]</a></td>
+<td class="author-text"><a href="mailto:fielding@ics.uci.edu">Fielding, R.</a>, <a href="mailto:jg@w3.org">Gettys, J.</a>, <a href="mailto:mogul@wrl.dec.com">Mogul, J.</a>, <a href="mailto:frystyk@w3.org">Frystyk, H.</a>, <a href="mailto:masinter@parc.xerox.com">Masinter, L.</a>, <a href="mailto:paulle@microsoft.com">Leach, P.</a>, and <a href="mailto:timbl@w3.org">T. Berners-Lee</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2616">Hypertext Transfer Protocol -- HTTP/1.1</a>,&rdquo; RFC&nbsp;2616, June&nbsp;1999 (<a href="http://www.rfc-editor.org/rfc/rfc2616.txt">TXT</a>, <a href="http://www.rfc-editor.org/rfc/rfc2616.ps">PS</a>, <a href="http://www.rfc-editor.org/rfc/rfc2616.pdf">PDF</a>, <a href="http://xml.resource.org/public/rfc/html/rfc2616.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc2616.xml">XML</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC2617">[RFC2617]</a></td>
+<td class="author-text"><a href="mailto:john@math.nwu.edu">Franks, J.</a>, <a href="mailto:pbaker@verisign.com">Hallam-Baker, P.</a>, <a href="mailto:jeff@AbiSource.com">Hostetler, J.</a>, <a href="mailto:lawrence@agranat.com">Lawrence, S.</a>, <a href="mailto:paulle@microsoft.com">Leach, P.</a>, Luotonen, A., and <a href="mailto:stewart@OpenMarket.com">L. Stewart</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc2617">HTTP Authentication: Basic and Digest Access Authentication</a>,&rdquo; RFC&nbsp;2617, June&nbsp;1999 (<a href="http://www.rfc-editor.org/rfc/rfc2617.txt">TXT</a>, <a href="http://xml.resource.org/public/rfc/html/rfc2617.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc2617.xml">XML</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC2818">[RFC2818]</a></td>
+<td class="author-text">Rescorla, E., &ldquo;<a href="http://tools.ietf.org/html/rfc2818">HTTP Over TLS</a>,&rdquo; RFC&nbsp;2818, May&nbsp;2000 (<a href="http://www.rfc-editor.org/rfc/rfc2818.txt">TXT</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC3339">[RFC3339]</a></td>
+<td class="author-text"><a href="mailto:GK@ACM.ORG">Klyne, G., Ed.</a> and <a href="mailto:chris.newman@sun.com">C. Newman</a>, &ldquo;<a href="http://tools.ietf.org/html/rfc3339">Date and Time on the Internet: Timestamps</a>,&rdquo; RFC&nbsp;3339, July&nbsp;2002 (<a href="http://www.rfc-editor.org/rfc/rfc3339.txt">TXT</a>, <a href="http://xml.resource.org/public/rfc/html/rfc3339.html">HTML</a>, <a href="http://xml.resource.org/public/rfc/xml/rfc3339.xml">XML</a>).</td></tr>
+<tr><td class="author-text" valign="top"><a name="RFC5246">[RFC5246]</a></td>
+<td class="author-text">Dierks, T. and E. Rescorla, &ldquo;<a href="http://tools.ietf.org/html/rfc5246">The Transport Layer Security (TLS) Protocol Version 1.2</a>,&rdquo; RFC&nbsp;5246, August&nbsp;2008 (<a href="http://www.rfc-editor.org/rfc/rfc5246.txt">TXT</a>).</td></tr>
+</table>
+
+<a name="rfc.authors"></a><br /><hr />
+<table summary="layout" cellpadding="0" cellspacing="2" class="TOCbug" align="right"><tr><td class="TOCbug"><a href="#toc">&nbsp;TOC&nbsp;</a></td></tr></table>
+<h3>Author's Address</h3>
+<table width="99%" border="0" cellpadding="0" cellspacing="0">
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Manu Sporny</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Digital Bazaar</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">1700 Kraft Drive</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Suite 2408</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">Blacksburg, VA  24060</td></tr>
+<tr><td class="author-text">&nbsp;</td>
+<td class="author-text">US</td></tr>
+<tr><td class="author" align="right">Phone:&nbsp;</td>
+<td class="author-text">+1 540 961 4469</td></tr>
+<tr><td class="author" align="right">Email:&nbsp;</td>
+<td class="author-text"><a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a></td></tr>
+<tr><td class="author" align="right">URI:&nbsp;</td>
+<td class="author-text"><a href="http://manu.sporny.org/">http://manu.sporny.org/</a></td></tr>
+</table>
+</body></html>

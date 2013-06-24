@@ -2,7 +2,7 @@
 <!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN" "http://xml.resource.org/authoring/rfc2629.dtd" [
   <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
   <!ENTITY rfc2616 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
-  <!ENTITY rfc2818 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY rfc2818 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2818.xml">
   <!ENTITY rfc2617 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml">
   <!ENTITY rfc3339 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml">
   <!ENTITY rfc5246 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
@@ -415,7 +415,21 @@ modification attacks apply.
    <section anchor="mitm-http" title="HTTP">
 
     <t>
-   
+The Man-In-The-Middle attack, where an attacker relays messages for an
+unknowing victim, is possible on any unsigned HTTP message. The state of HTTP
+is such that there is no protocol-level protection against this sort of 
+attack.
+    </t>
+    
+    <t>
+Two of the protections that HTTP Signatures provides is the ability to protect
+against insertion and modification attacks with a signature (as
+long as all of the fields that need to be protected are included in the 
+signature). Detection of deletion attacks may also be achieved using a
+simple nonce mechanism. With these three HTTP Signature-based protections 
+in place, all known Man-In-The-Middle attacks on HTTP can be detected such 
+that an application can determine that it may be under attack and act 
+accordingly.
     </t>
 
    </section>
@@ -423,7 +437,10 @@ modification attacks apply.
    <section anchor="mitm-https" title="HTTPS">
 
     <t>
-   
+The HTTPS protocol provides multiple protections against Man-In-The-Middle 
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same 
+Man-In-The-Middle concerns that are outlined for signatures over HTTP apply. 
     </t>
 
    </section>
@@ -435,7 +452,17 @@ modification attacks apply.
    <section anchor="on-path-http" title="HTTP">
 
     <t>
-   
+The HTTP protocol is susceptible to on-path attacks.
+    </t>
+    
+    <t>
+On-path attacks can be mitigated using HTTP Signatures by utilizing the
+HTTP Signature-based protections for message insertion, modification, and
+deletion. It is important to note that the origin of a message is not
+a concern for HTTP Signatures. In fact, HTTP Signatures are agnostic to
+network topology. The only information that matters is the sender and
+receiver of the message, which is cryptographically established via the
+signature.    
     </t>
 
    </section>
@@ -443,7 +470,10 @@ modification attacks apply.
    <section anchor="on-path-https" title="HTTPS">
 
     <t>
-   
+The HTTPS protocol provides multiple protections against on-path
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same on-path 
+concerns that are outlined for signatures over HTTP apply. 
     </t>
 
    </section>
@@ -455,7 +485,17 @@ modification attacks apply.
    <section anchor="off-http" title="HTTP">
 
     <t>
-   
+The HTTP protocol is susceptible to off-path attacks.
+    </t>
+    
+    <t>
+Off-path attacks can be mitigated using HTTP Signatures by utilizing the
+HTTP Signature-based protections for message insertion, modification, and
+deletion. It is important to note that the origin of a message is not
+a concern for HTTP Signatures. In fact, HTTP Signatures are agnostic to
+network topology. The only information that matters is the sender and
+receiver of the message, which is cryptographically established via the
+signature.    
     </t>
 
    </section>
@@ -463,7 +503,10 @@ modification attacks apply.
    <section anchor="off-https" title="HTTPS">
 
     <t>
-   
+The HTTPS protocol provides multiple protections against off-path
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same off-path 
+concerns that are outlined for signatures over HTTP apply. 
     </t>
 
    </section>
@@ -475,7 +518,17 @@ modification attacks apply.
    <section anchor="link-local-http" title="HTTP">
 
     <t>
-   
+The HTTP protocol is susceptible to link-local attacks.
+    </t>
+    
+    <t>
+Link-local attacks can be mitigated using HTTP Signatures by utilizing the
+HTTP Signature-based protections for message insertion, modification, and
+deletion. It is important to note that the origin of a message is not
+a concern for HTTP Signatures. In fact, HTTP Signatures are agnostic to
+network topology. The only information that matters is the sender and
+receiver of the message, which is cryptographically established via the
+signature.    
     </t>
 
    </section>
@@ -483,7 +536,10 @@ modification attacks apply.
    <section anchor="link-local-https" title="HTTPS">
 
     <t>
-   
+The HTTPS protocol provides multiple protections against link-local
+attacks. In order to remove these protections, the HTTPS protocol must
+be compromised. If the HTTPS protocol is compromised, the same link-local
+concerns that are outlined for signatures over HTTP apply. 
     </t>
 
    </section>

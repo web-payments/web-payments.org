@@ -233,10 +233,11 @@ An attack that assumes that HTTPS is defeated would have the same attack
 characteristics as if HTTPS were not used to protect the message in transit.
    </t>
 
-  </section> 
+   </section> 
+  </section>
  </section>
-
- <section anchor="passive" title="Active Attacks">
+ 
+ <section anchor="active" title="Active Attacks">
 
   <t>
 Active attacks consist of attacks that attackers execute by writing to 
@@ -245,19 +246,87 @@ that temporarily or permanently place parts of the system under the
 control of the attacker.
   </t>
 
+  <section anchor="replay" title="Replay">
+
+   <section anchor="replay-http" title="HTTP">
+   
+    <t>
+Replay attacks over HTTP are fairly trivial to accomplish. An attacker would
+typically capture network traffic, including the HTTP message, and then
+re-transmit the HTTP message at a later time (within the HTTP message
+time window). A victim would not be able to detect the attack if there is
+no mechanism employed to determine if the message was previously recorded. 
+    </t>
+   
+    <t>
+A mitigation for the replay attack is to use the nonce mechanism outlined in
+an extension specification to the HTTP Signatures specification. While nonces
+have traditionally been a pain to implement, the HTTP Signature nonce approach
+utilizes a mechanism that is fairly easy to implement and requires very little
+memory on both the client and the server.
+    </t>
+   
+    <t>
+Even if nonces are employed, there is a class of application attack where the
+attacker relays traffic between the victim and the server. When the victim
+sends a signed message, the attacker captures the message and prevents it
+from reaching the intended server. The attacker then sends a failure
+response back to the victim. If the victim's software is set to automatically 
+re-send requests, the attacker can continue to send failure responses and 
+can queue up a series of valid requests from the victim 
+(For example: "Send $10 to Alice"). The attacker would then replay all of 
+these queued requests to the server, within the time window, and the server
+would accept them as valid requests from the victim. 
+    </t>
+   
+    <t>
+To mitigate this sort of application attack, application authors are urged to
+require digital signatures from both the client and the server.
+    </t>
+
+   </section>
+
+   <section anchor="replay-https" title="HTTPS">
+   
+    <t>
+Replay attacks on messages encapsulated in the HTTPS protocol are much more
+difficult to achieve because replay protection is a feature that is built
+into HTTPS. In order to attempt a replay attack, an attacker must first defeat
+the replay protection mechanism in HTTPS. If HTTPS is broken, the replay
+attack concerns become the same as for HTTP Signatures over HTTP. 
+    </t>
+   
+   </section>
+   
+  </section>
+
   <section anchor="insertion" title="Message Insertion">
 
    <section anchor="insertion-http" title="HTTP">
 
-   <t>
-
-   </t>
+    <t>
+Message insertion attacks over HTTP are easily accomplished for HTTP headers
+that are not included in the signature. It is advised that both clients and
+servers should not trust HTTP headers that are a part of a request that 
+are not included in the signature.
+    </t>
+   
+    <t>
+To prevent message insertion attacks, both clients and servers should
+digitally sign all important portions of an HTTP message (headers and body).
+    </t>
+ 
+   </section>
 
    <section anchor="insertion-https" title="HTTPS">
 
-   <t>
-   
-   </t>
+    <t>
+Message insertion attacks over HTTPS are protected because the entire 
+message stream is protected, including each individual HTTP message. If HTTPS
+protection is broken, the same 
+    </t>
+
+   </section>
 
   </section>  
 
@@ -265,15 +334,19 @@ control of the attacker.
 
    <section anchor="deletion-http" title="HTTP">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
    <section anchor="deletion-https" title="HTTPS">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
   </section>  
 
@@ -281,15 +354,19 @@ control of the attacker.
 
    <section anchor="modification-http" title="HTTP">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
    <section anchor="modification-https" title="HTTPS">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+    
+   </section>
 
   </section> 
 
@@ -297,15 +374,19 @@ control of the attacker.
 
    <section anchor="mitm-http" title="HTTP">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
    <section anchor="mitm-https" title="HTTPS">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
   </section> 
 
@@ -313,15 +394,19 @@ control of the attacker.
 
    <section anchor="on-path-http" title="HTTP">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
    <section anchor="on-path-https" title="HTTPS">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
   </section> 
 
@@ -329,15 +414,19 @@ control of the attacker.
 
    <section anchor="off-http" title="HTTP">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
    <section anchor="off-https" title="HTTPS">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
+
+   </section>
 
   </section> 
 
@@ -345,21 +434,26 @@ control of the attacker.
 
    <section anchor="link-local-http" title="HTTP">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
 
+   </section>
+   
    <section anchor="link-local-https" title="HTTPS">
 
-   <t>
+    <t>
    
-   </t>
+    </t>
 
-  </section> 
+   </section>
+
+  </section>
 
  </section>
 
 </middle>
+
 <back>
  <section anchor="acknowledgements" title="Acknowledgements">
 

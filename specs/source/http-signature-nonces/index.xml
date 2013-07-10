@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN" "http://xml.resource.org/authoring/rfc2629.dtd" [
+  <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY rfc2616 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY rfc2617 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml">
+  <!ENTITY rfc3339 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml">
+  <!ENTITY rfc5246 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
+]>
+<?xml-stylesheet type="text/xsl" href="rfc2629.xsl" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<?rfc toc="yes" ?>
+<?rfc sortrefs="yes" ?>
+<?rfc symrefs="yes" ?>
+<rfc category="std" ipr="trust200902" submissionType="independent" 
+     docName="draft-sporny-http-signature-nonces-00">
+<front>
+ <title>HTTP Signature Nonces</title>
+
+ <author initials="M.S." surname="Sporny" fullname="Manu Sporny">
+  <organization>Digital Bazaar</organization>
+  <address>
+   <postal>
+    <street>1700 Kraft Drive</street>
+    <street>Suite 2408</street>
+    <city>Blacksburg</city> <region>VA</region>
+    <code>24060</code>
+    <country>US</country>
+   </postal>
+   <phone>+1 540 961 4469</phone>
+   <email>msporny@digitalbazaar.com</email>
+   <uri>http://manu.sporny.org/</uri>
+  </address>
+ </author>
+
+ <date month="July" year="2013" />
+ <area>Security</area>
+ <workgroup></workgroup>
+ <keyword>HTTP</keyword>
+ <keyword>digital signature</keyword>
+ <keyword>PKI</keyword>
+ <abstract>
+ <t>
+This document is an extension to the HTTP Signatures specification and
+describes a method of adding replay resistance to HTTP messages sent over 
+unsecure channels.
+ </t>
+ </abstract>
+</front>
+
+<middle>
+
+ <section anchor="intro" title="Introduction">
+  <t>
+The HTTP Signatures specification provides a standard way for clients to 
+digitally sign HTTP requests, adding origin authentication and 
+message integrity to the HTTP protocol. Typically, HTTP Signatures are
+protected from replay attacks by using a low-level secure communication 
+channel, such as those provided by Secure Sockets Layer or Transport Layer 
+Security. There are cases where operating SSL or TLS channels are
+computationally or financially cost prohibitive. In these instances, this
+specification provides an alternate mechanism for protecting 
+HTTP Signatures against replay attacks.
+  </t>
+ 
+ </section>
+ 
+ <section anchor="auth" title="Signature Authentication Scheme Extensions">
+
+  <t>
+The "signature" authentication scheme is outlined in [HTTP SIGNATURES REFERENCE].
+The section below is the extension to the Authorization Header that is 
+required to enable HTTP Signature nonces to be used. The grammar below assumes
+that the "params" grammar is extended with a "client" and "nonce" field.
+  </t>
+  
+   <figure>
+    <artwork>
+credentials := "Signature" SP params
+params := keyId "," algorithm [", " headers] [", " ext] [", " clientId ", " nonce] ", " signature
+clientId := "client-id" "=" ClientNumber
+nonce := "nonce" "=" NonceNumber
+ClientNumber := 128-bit unsigned integer represented as a base-10 string
+NonceNumber := 32-bit unsigned integer represented as a base-10 string
+    </artwork>
+   </figure>
+
+   <section anchor="params" title="Extended Signature Parameters">
+
+    <t>
+The following section details the extended set of signature parameters for the 
+Authorization Header.
+    </t>
+
+    <section anchor="clientId" title="clientId">
+     <t>
+REQUIRED if "nonce" parameter is used. The client identifier is a 128-bit 
+unsigned integer that is used to identify the specific client that is using
+a nonce-based signature. It is necessary because there may be multiple
+HTTP Signature clients behind the same IP address, using the same private key
+to generate signatures. 
+     </t>
+    </section>
+
+    <section anchor="nonce" title="nonce">
+     <t>
+REQUIRED if "client-id" parameter is used. The nonce is a 32-bit unsigned
+integer that is used to detect replay attacks on a network. When a nonce is
+used in a digital signature, the next message sent by the client MUST increment 
+the nonce value before it is used again. A ±5 minute window is used to detect
+replay attacks by the receiver of the message. If a nonce is re-used during the
+time window, the receiving party MUST respond as if a replay attack is being
+performed.
+     </t>
+    </section>
+  </section>
+ </section>
+ 
+ <section anchor="appendix-a" title="Appendix A: Test Values">
+  <t>
+The following test data uses the following RSA 2048-bit keys, which we will 
+refer to as `keyId=Test` in the following samples:
+
+   <figure>
+    <artwork>
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3
+6rPJj+CvfSC8+q28hxA161QFNUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6
+Z4UMR7EOcpfdUE9Hf3m/hs+FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJw
+oYi+1hqp1fIekaxsyQIDAQAB
+-----END PUBLIC KEY-----
+    </artwork>
+   </figure>
+
+   <figure>
+    <artwork>
+-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF
+NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F
+UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB
+AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA
+QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK
+kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg
+f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u
+412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc
+mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7
+kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA
+gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW
+G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI
+7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==
+-----END RSA PRIVATE KEY-----
+    </artwork>
+   </figure>
+  </t>
+
+  <t>
+And all examples use this request:
+   <figure>
+    <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1
+Host: example.com
+Date: Thu, 05 Jan 2012 21:31:40 GMT
+Content-Type: application/json
+Content-MD5: Sd/dVLAcvNLSq16eXua5uQ==
+Content-Length: 18
+
+{"hello": "world"}
+    </artwork>
+   </figure>
+  </t>
+  
+  <section anchor="default-test" title="Default Test">
+   <t>
+The string to sign would be:
+    <figure>
+     <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1
+host: example.com  
+date: Thu, 05 Jan 2012 21:31:40 GMT
+    </artwork>
+   </figure>
+   </t>
+   
+   <t>
+The Authorization header would be:
+    <figure>
+     <artwork>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",client-id=1596338745637,nonce=273,signature="ATp0r26dbMIxOopqw0OfABDT7CKMIoENumuruOtarj8n/97Q3htHFYpH8yOSQk3Z5zh8UxUym6FYTb5+A0Nz3NRsXJibnYi7brE/4tx5But9kkFGzG+xpUmimN4c3TMN7OFH//+r8hBf7BT9/GmHDUVZT2JzWGLZES2xDOUuMtA="
+    </artwork>
+   </figure>
+   </t>
+  </section>
+  
+  <section anchor="all-headers-test" title="All Headers Test">
+   <t>
+Parameterized to include all headers, the string to sign would be (`+ "\n"`
+inserted for readability):
+    <figure>
+     <artwork>
+1596338745637 273 + "\n"
+POST /foo?param=value&amp;pet=dog HTTP/1.1 + "\n"
+host: example.com + "\n"
+date: Thu, 05 Jan 2012 21:31:40 GMT + "\n"
+content-type: application/json + "\n"
+content-md5: Sd/dVLAcvNLSq16eXua5uQ== + "\n"
+content-length: 18
+     </artwork>
+    </figure>
+   </t>
+   
+   <t>
+The Authorization header would be:
+    <figure>
+     <artwork>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",headers="request-line host date content-type content-md5 content-length",client-id=1596338745637,nonce=273,signature="H/AaTDkJvLELy4i1RujnKlS6dm8QWiJvEpn9cKRMi49kKF+mohZ15z1r+mF+XiKS5kOOscyS83olfBtsVhYjPg2Ei3/D9D4Mvb7bFm9IaLJgYTFFuQCghrKQQFPiqJN320emjHxFowpIm1BkstnEU7lktH/XdXVBo8a6Uteiztw="
+     </artwork>
+    </figure>
+   </t>
+ </section>
+ </section>
+</middle>
+<back>
+ <references title="Normative References">
+  &rfc2119;
+  &rfc2616;
+  &rfc2617;
+  &rfc3339;
+  &rfc5246;
+ </references>
+</back>
+</rfc>

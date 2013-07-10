@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc PUBLIC "-//IETF//DTD RFC 2629//EN" "http://xml.resource.org/authoring/rfc2629.dtd" [
+  <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY rfc2616 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY rfc2617 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2617.xml">
+  <!ENTITY rfc3339 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3339.xml">
+  <!ENTITY rfc5246 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
+]>
+<?xml-stylesheet type="text/xsl" href="rfc2629.xsl" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+<?rfc toc="yes" ?>
+<?rfc sortrefs="yes" ?>
+<?rfc symrefs="yes" ?>
+<rfc category="std" ipr="trust200902" submissionType="independent" 
+     docName="draft-sporny-http-signature-trailers-00">
+<front>
+ <title>HTTP Signature Trailers</title>
+
+ <author initials="M.S." surname="Sporny" fullname="Manu Sporny">
+  <organization>Digital Bazaar</organization>
+  <address>
+   <postal>
+    <street>1700 Kraft Drive</street>
+    <street>Suite 2408</street>
+    <city>Blacksburg</city> <region>VA</region>
+    <code>24060</code>
+    <country>US</country>
+   </postal>
+   <phone>+1 540 961 4469</phone>
+   <email>msporny@digitalbazaar.com</email>
+   <uri>http://manu.sporny.org/</uri>
+  </address>
+ </author>
+
+ <date month="July" year="2013" />
+ <area>Security</area>
+ <workgroup></workgroup>
+ <keyword>HTTP</keyword>
+ <keyword>digital signature</keyword>
+ <keyword>PKI</keyword>
+ <abstract>
+ <t>
+This document is an extension to the HTTP Signatures specification and
+describes a method of adding digital signatures to data that is streamed
+over HTTP via the HTTP Trailer mechanism.
+ </t>
+ </abstract>
+</front>
+
+<middle>
+
+ <section anchor="intro" title="Introduction">
+  <t>
+The HTTP Signatures specification provides a standard way for clients to 
+digitally sign HTTP requests, adding origin authentication and 
+message integrity to the HTTP protocol. HTTP Signatures are typically placed
+into the header of an HTTP request. This approach requires that all of the
+data to be transmitted be known at the time of transmission. There are 
+instances, such as a live video or audio broadcast, where not all data can be 
+known before transmission. In these instances, a digital signature
+must be placed into the HTTP Trailer. This document specifies how a digital
+signature can be constructed for data that is streamed over HTTP.
+  </t>
+ 
+ </section>
+ 
+ <section anchor="auth" title="HTTP Trailer Signatures">
+
+  <t>
+The "signature" authentication scheme is outlined in [HTTP SIGNATURES REFERENCE].
+The algorithm below should be used when constructing an HTTP Signature that
+should be placed in an HTTP Trailer.
+  </t>
+  
+  <t>
+The HTTP Signature mechanism can be placed in a trailer if the following 
+algorithm is employed.
+
+    <list style="numbers">
+     <t>
+The parameter "trailer=1" must appear in the HTTP Signature placed into the
+header of the document. This signals that the receiver should store all 
+HTTP Header values until the HTTP Trailer is processed. It also signals that
+the receiver should start tracking the content length, and
+start generating a MD5 hash, for the body of the HTTP message.
+     </t>
+     <t>
+When all HTTP Trailers are received, the HTTP Signature is checked using the
+algorithm outlined in the HTTP Signatures specification, using all of the
+headers and trailers recorded by the receiver.
+     </t>
+    </list>
+
+  </t>
+  
+ </section>
+ 
+ <section anchor="appendix-a" title="Appendix A: Test Values">
+  <t>
+The following test data uses the following RSA 2048-bit keys, which we will 
+refer to as `keyId=Test` in the following samples:
+
+   <figure>
+    <artwork>
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3
+6rPJj+CvfSC8+q28hxA161QFNUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6
+Z4UMR7EOcpfdUE9Hf3m/hs+FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJw
+oYi+1hqp1fIekaxsyQIDAQAB
+-----END PUBLIC KEY-----
+    </artwork>
+   </figure>
+
+   <figure>
+    <artwork>
+-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF
+NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F
+UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB
+AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA
+QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK
+kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg
+f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u
+412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc
+mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7
+kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA
+gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW
+G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI
+7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==
+-----END RSA PRIVATE KEY-----
+    </artwork>
+   </figure>
+  </t>
+
+  <t>
+And all examples use this request:
+   <figure>
+    <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1
+Host: example.com
+Date: Thu, 05 Jan 2012 21:31:40 GMT
+Content-Type: application/json
+
+{"hello": "world"}
+
+Content-MD5: Sd/dVLAcvNLSq16eXua5uQ==
+Content-Length: 18
+    </artwork>
+   </figure>
+  </t>
+  
+  <section anchor="default-test" title="Default Test">
+   <t>
+The string to sign for the HTTP Signature in the header would be:
+    <figure>
+     <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1
+host: example.com  
+date: Thu, 05 Jan 2012 21:31:40 GMT
+    </artwork>
+   </figure>
+   </t>
+   
+   <t>
+The Authorization field for the HTTP Signature in the header would be:
+    <figure>
+     <artwork>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",trailer=1,signature="ATp0r26dbMIxOopqw0OfABDT7CKMIoENumuruOtarj8n/97Q3htHFYpH8yOSQk3Z5zh8UxUym6FYTb5+A0Nz3NRsXJibnYi7brE/4tx5But9kkFGzG+xpUmimN4c3TMN7OFH//+r8hBf7BT9/GmHDUVZT2JzWGLZES2xDOUuMtA="
+    </artwork>
+   </figure>
+   </t>
+   
+   <t>
+The string to sign for the HTTP Signature in the trailer would be:
+    <figure>
+     <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1
+host: example.com  
+date: Thu, 05 Jan 2012 21:31:40 GMT
+content-length: 18
+content-md5: Sd/dVLAcvNLSq16eXua5uQ==
+    </artwork>
+   </figure>
+   </t>
+   
+   <t>
+The Authorization field for the HTTP Signature in the trailer would be:
+    <figure>
+     <artwork>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",signature="ATp0r26dbMIxOopqw0OfABDT7CKMIoENumuruOtarj8n/97Q3htHFYpH8yOSQk3Z5zh8UxUym6FYTb5+A0Nz3NRsXJibnYi7brE/4tx5But9kkFGzG+xpUmimN4c3TMN7OFH//+r8hBf7BT9/GmHDUVZT2JzWGLZES2xDOUuMtA="
+    </artwork>
+   </figure>
+   </t>   
+  </section>
+  
+  <section anchor="all-headers-test" title="All Headers Test">
+   <t>
+Parameterized to include all headers, the string to sign for the header 
+would be (`+ "\n"` inserted for readability):
+    <figure>
+     <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1 + "\n"
+host: example.com + "\n"
+date: Thu, 05 Jan 2012 21:31:40 GMT + "\n"
+content-type: application/json + "\n"
+     </artwork>
+    </figure>
+   </t>
+   
+   <t>
+The Authorization field for the header would be:
+    <figure>
+     <artwork>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",headers="request-line host date content-type",trailer=1,signature="H/AaTDkJvLELy4i1RujnKlS6dm8QWiJvEpn9cKRMi49kKF+mohZ15z1r+mF+XiKS5kOOscyS83olfBtsVhYjPg2Ei3/D9D4Mvb7bFm9IaLJgYTFFuQCghrKQQFPiqJN320emjHxFowpIm1BkstnEU7lktH/XdXVBo8a6Uteiztw="
+     </artwork>
+    </figure>
+   </t>
+      <t>
+Parameterized to include all headers, the string to sign for the trailer 
+would be (`+ "\n"` inserted for readability):
+    <figure>
+     <artwork>
+POST /foo?param=value&amp;pet=dog HTTP/1.1 + "\n"
+host: example.com + "\n"
+date: Thu, 05 Jan 2012 21:31:40 GMT + "\n"
+content-type: application/json + "\n"
+content-length: 18
+content-md5: lCMsW4/JJy9vc6HjbraPzw==
+     </artwork>
+    </figure>
+   </t>
+   
+   <t>
+The Authorization field for the header would be:
+    <figure>
+     <artwork>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",headers="request-line host date content-type content-length content-md5",signature="H/AaTDkJvLELy4i1RujnKlS6dm8QWiJvEpn9cKRMi49kKF+mohZ15z1r+mF+XiKS5kOOscyS83olfBtsVhYjPg2Ei3/D9D4Mvb7bFm9IaLJgYTFFuQCghrKQQFPiqJN320emjHxFowpIm1BkstnEU7lktH/XdXVBo8a6Uteiztw="
+     </artwork>
+    </figure>
+   </t>
+ </section>
+ </section>
+</middle>
+<back>
+ <references title="Normative References">
+  &rfc2119;
+  &rfc2616;
+  &rfc2617;
+  &rfc3339;
+  &rfc5246;
+ </references>
+</back>
+</rfc>

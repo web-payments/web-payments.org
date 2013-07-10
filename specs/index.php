@@ -70,10 +70,25 @@ Transaction processing environment.
   </ul>
 </li>
 <li><a href="source/http-signatures">HTTP Signatures</a> - a digital signature
-mechanism for the HTTP protocol that adds origin authentication, 
-message integrity, and replay resistance to HTTP requests.
+mechanism for the HTTP protocol that adds origin authentication and 
+message integrity to HTTP requests.
   <ul>
     <?php dirContents("ED/http-signatures"); ?>
+  </ul>
+</li>
+<li><a href="source/http-signature-nonces">HTTP Signature Nonces</a> - an extension
+to the HTTP Signatures specification that enables replay protection when 
+messages are sent over a non-secured HTTP connection.
+  <ul>
+    <?php dirContents("ED/http-signature-nonces"); ?>
+  </ul>
+</li>
+<li><a href="source/http-signature-trailers">HTTP Signature Trailers</a> - an
+extension to the HTTP Signatures specification that enables digital signatures
+to be applied to content that is streamed, such as audio and video, via 
+HTTP Trailers.
+  <ul>
+    <?php dirContents("ED/http-signature-trailers"); ?>
   </ul>
 </li>
 <li><a href="source/web-keys">Web Keys</a> - a secure and verifiable messaging

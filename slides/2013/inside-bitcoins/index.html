@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Web Payments - Bitcoin in the Browser</title>
+	
+	<meta name="author" content="Manu Sporny">
+	<meta name="geo.country" content="US">
+	<meta name="dc.language" content="en">
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width">
+	
+	<link rel="stylesheet" type="text/css" href="css/reset-min.css">
+	<link rel="stylesheet" href="css/styles.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="css/print.css" type="text/css" media="print" charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/shadowbox.css">
+	<script type="text/javascript" src="js/shadowbox.js"></script>
+</head>
+<body>
+
+	<div id="nav">
+		<div id="title">
+			<h1>Web Payments - One Web Under Bitcoin</h1>
+			<h2>by <a href="http://www.linkedin.com/in/manusporny" onclick="window.open(this.href); return false;">Manu Sporny</a></h2>
+			<h2>| <a href="http://www.w3.org/community/webpayments/" onclick="window.open(this.href); return false;">Web Payments</a> | <a href="http://meritora.com/" onclick="window.open(this.href); return false;">Meritora</a> | <a href="https://payswarm.com/" onclick="window.open(this.href); return false;">PaySwarm</a> | <a href="http://digitalbazaar.com/" onclick="window.open(this.href); return false;">Digital Bazaar</a></h2>
+		</div>
+		<ul class="slidenav">
+			<li><a id="prevButton" href="#">&vltri; previous</a></li>
+			<li><a id="nextButton" href="#">next &vrtri;</a></li>
+		</ul>
+	</div> <!-- footer -->
+	
+
+	<div class="presentation">
+		<div class="slides">
+
+			<div class="slide cover current">
+				<section class="center intro">
+					<h1>One Web Under Bitcoin</h1>
+          <h3>Toward the next 2 billion Bitcoin owners</h3><br><br>
+					<h2><a href="http://www.w3.org/community/webpayments/" onclick="window.open(this.href); return false;">Web Payments</a>  | <a href="https://payswarm.com/" onclick="window.open(this.href); return false;">PaySwarm</a> | <a href="http://meritora.com/" onclick="window.open(this.href); return false;">Meritora</a></h2>
+					<div class="instructions-screen">
+						<p>Slide navigation:</p>
+						<p>Press <span class="key">&rarr;</span> key to advance.</p>
+						<p>Toggle notes with the  <span class="key">2</span> key.</p>
+						<p>Zoom in/out: <span class="key">Ctrl or Command</span> + <span class="key">+/-</span></p>
+					</div>
+					<div class="instructions-print">
+						<p>This presentation was printed from an HTML page.</p>
+						<p>A fully interactive version of these slides containing examples and links to further resources can be found at:<br>http://payswarm.com/slides/.</p>
+					</div>
+				</section>
+			</div>
+
+			<!-- 
+			--------------------------------------------
+			Intro 
+			--------------------------------------------
+			-->
+
+      <div class="slide future">
+        <header><h1>Bitcoin</h1><h2>Stats</h2></header>
+        <subheader><h3>The State of Bitcoin</h3></subheader>
+          <section class="center">
+            <br>
+            <ul>
+              <li>Bitcoin market cap: ~<a href="http://blockchain.info/charts/market-cap">$1 billion USD</a></li>
+              <li>USD money supply: ~<a href="http://www.federalreserve.gov/datadownload/Choose.aspx?rel=H.6">$16,338 billion USD</a><br><br></li>
+              <li><a href="http://bitcoin.stackexchange.com/questions/10850/how-many-bitcoin-addresses-are-there">1.6 million</a> Bitcoin addresses carry a balance<br></li>
+              <li>At least <a href="http://www.forbes.com/sites/halahtouryalai/2012/09/17/who-needs-banks-number-of-americans-without-bank-accounts-rises/">78.9 million</a> bank accounts in the US</li>
+            </ul>
+            <br><br>
+            <h2>Bitcoin has room to grow...</h2>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Intro</h1><h2>Web Payments</h2></header>
+        <subheader><h3>Asking the right question</h3></subheader>
+          <flag><h4>Access</h4></flag>
+          <section class="center">
+            <br><br>
+            <ul>
+              <li>How could we add 2 billion people to the Bitcoin ecosystem in the next 5 years?<br><br></li>
+              <li>What ecosystem currently has 2 billion people that could be on-boarded that quickly?</li>
+            </ul>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Intro</h1><h2>Web Payments</h2></header>
+        <subheader><h3>The State of the Web</h3></subheader>
+          <section class="center">
+            <br>
+            <ul>
+              <li><a href="http://www.internetworldstats.com/stats.htm">2.4 billion</a> people access the Web<br><br></li>
+              <li><a href="http://www.internetworldstats.com/stats.htm">97% of people</a> use one of four Web browsers</li>
+            </ul>
+            <br><br>
+            <h2>If we could build Bitcoin support into the browsers...</h2>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Intro</h1><h2>Web Payments</h2></header>
+        <subheader><h3>What I do</h3></subheader>
+          <flag><h4>Manu</h4></flag>
+          <section class="center">
+            <ul>
+              <li>W3C Standards Chair dealing with<ul><li>Web Payments, Linked Data</li><li>Identity, Security</li></ul></li>
+              <li>Founder/CEO of Digital Bazaar<br></li>
+              <li>Championing these technologies: Web Commerce API, Web Keys, HTTP Signatures, PaySwarm, Crowdfunding, JSON-LD, RDFa, and ... Bitcoin.</li>
+            </ul>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Web</h1><h2>Standards</h2></header>
+        <subheader><h3>How are features added to browsers?</h3></subheader>
+          <flag><h4>W3C</h4></flag>
+          <section class="center">
+            <br>
+            <ul>
+              <li>The World Wide Web Consortium<br></li>
+              <li>392 member companies, 51 Working Groups<br></li>
+              <li>W3C standardizes: HTML5, CSS3, Web Payments, All Browser APIs... the Web</li>
+            </ul>
+          </section>
+      </div>
+      
+      <div class="slide future">
+        <header><h1>Web</h1><h2>Standards</h2></header>
+        <subheader><h3>How a standard is made</h3></subheader>
+          <flag><h4>W3C</h4></flag>
+          <section class="center">
+            <br>
+            <ul>
+              <li>The W3C Process: proposal, draft spec, working group, standard</li>
+              <li>It takes roughly 4 years to create a standard</li>
+              <li>All standards are open, patent and royalty free</li>
+            </ul>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Web</h1><h2>Commerce</h2></header>
+        <subheader><h3>Browser Bitcoin: Two Paths Forward</h3></subheader>
+          <section class="center">
+            <br>
+            <ul>
+              <li>PaySwarm - currency-agnostic standard for Web Payments<br></li>
+              <li>Web Commerce API - standard for browser-based payments</li>
+            </ul>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Web</h1><h2>Commerce</h2></header>
+        <subheader><h3>The Problem with Payments</h3></subheader>
+          <section class="center">
+            <br>
+            <p>Problem: Paying for things on the Web is way more complicated than it needs to be.</p>
+            <br>
+            <p>These things suck:</p>
+            <br>
+            <p>ACH transfer speed, <span class="hilite">stolen credit card numbers</span>, PCI compliance, <span class="hilite">3rd party payment processors</span>, payment gateway software, <span class="hilite">signing up with new payment providers</span>, signing up with websites, <span class="hilite">waiting for block chain verification</span>, losing wallet keys, <span class="hilite">receipts</span>, refunds, <span class="hilite">switching payment providers</span>, metadata extensibility ...</p> 
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Web</h1><h2>Commerce</h2></header>
+        <subheader><h3>PaySwarm</h3></subheader>
+          <section class="center">
+            <br>
+            <p>PaySwarm is an decentralized, currency-agnostic, open standard for Web Payments.</p>
+            <ul>
+              <li>Designed to drive market competition</li>
+              <li>Currency Agnostic - USD, Euro, Bitcoins, etc.</li>
+              <li>Digital Contracts and Receipts</li>
+              <li>Extensible</li>
+              <li>Commercialized: <a href="http://blog.meritora.com/launch/">Meritora</a></li>
+            </ul>
+          </section>
+      </div>
+
+      <div class="slide future">
+        <header><h1>Web</h1><h2>Commerce</h2></header>
+        <subheader><h3>Web Commerce API</h3></subheader>
+          <section class="center">
+            <br>
+            <p>The Web Commerce API is a way to initiate transactions from the browser.</p>
+            <ul>
+              <li>Make payment native and easy - one click</li>
+              <li>Protect from phishing attacks</li>
+              <li>Dumb pipe - supports both proprietary payment schemes as well as PaySwarm</li>
+              <li>Commercialized: <a href="https://www.mozilla.org/en-US/firefox/os/">FirefoxOS</a></li>
+            </ul>
+          </section>
+      </div>
+
+		
+			<div class="slide far-future">
+				<header><h1>Act</h1><h2>Now</h2></header>
+				<subheader><h3>Make Bitcoin in the Browser a Reality</h3></subheader>
+       		<section class="center">
+            <br>
+            <ul>
+              <li>The goal: Put Bitcoin in front of 2.4 billion people<br></li>
+              <li>We need: Developers, Executives, Evangelizers<br></li>
+              <li>Help here: <a href="http://lists.w3.org/Archives/Public/public-webpayments/">Web Payments Group @ W3C</a><br></li>
+              <li>Pull me aside, introduce yourself!</li>
+            </ul>
+         
+					</section>
+      </div>
+
+			<!-- 
+			--------------------------------------------
+			Thanks 
+			--------------------------------------------
+			-->
+	
+			<div class="slide far-future">
+				<header><h1>Thanks</h1></header>
+				<subheader><h3>Learn more...</h3></subheader>
+				<flag><h4>The End</h4></flag>
+					<section class="center">
+						<h4>This Presentation will be posted online at:</h4>
+						<ul>
+							<li><a href="http://payswarm.com/slides" onclick="window.open(this.href); return false;">http://payswarm.com/slides</a></li>
+						</ul>
+						<h4>Questions, comments or more info:</h4>
+						<ul>
+              <li><a href="http://lists.w3.org/Archives/Public/public-webpayments/">Web Payments Group @ W3C</a></li>
+              <li>Twitter: <a href="https://twitter.com/manusporny">@manusporny</a></li>
+              <li>G+: <a href="https://plus.google.com/102122664946994504971/posts">+Manu Sporny</a></li>
+              <li>Email: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a></li>
+						</ul>
+		  			<div class="credit">
+	  					<p>This slide deck is based on HTML5 Slideshow by Marcin Wichary, Ernest Delgado, Alex Russell, and Brad Neuberg with CSS additions by Matthew Richmond and Manu Sporny.</p>
+  					</div>
+					</section>
+					<!-- <div class="notes">
+						<h3>Notes:</h3>
+						<ul>
+							<li></li>
+						</ul>
+					</div> -->
+	        </div>
+	
+	
+		</div> <!-- slides -->
+	</div> <!-- presentation -->
+	
+	
+	<script>
+      (function() {
+        // Since we don't have the fallback of attachEvent and
+        // other IE only stuff we won't try to run JS for IE.
+        // It will run though when using Google Chrome Frame
+        if (document.all) { return; }
+
+        var currentSlideNo;
+        var notesOn = false;
+        var slides = document.getElementsByClassName('slide');
+        var touchStartX = 0;     
+   
+        // var slide_hash = window.location.hash.replace(/#/, '');
+        // if (slide_hash) {
+        //   for (var i = 0, len = slides.length; i < len; i++) {
+        //     if (slides[i].id == slide_hash) {
+        //       currentSlideNo = i;
+        //       updateSlideClasses(); 
+        //     }
+        //   }
+        // }
+        
+        var spaces = /\s+/, a1 = [""];
+
+        var str2array = function(s) {
+          if (typeof s == "string" || s instanceof String) {
+            if (s.indexOf(" ") < 0) {
+              a1[0] = s;
+              return a1;
+            } else {
+              return s.split(spaces);
+            }
+          }
+          return s;
+        };
+
+        var trim = function(str) {
+          return str.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+        };
+
+        var addClass = function(node, classStr) {
+          classStr = str2array(classStr);
+          var cls = " " + node.className + " ";
+          for (var i = 0, len = classStr.length, c; i < len; ++i) {
+            c = classStr[i];
+            if (c && cls.indexOf(" " + c + " ") < 0) {
+              cls += c + " ";
+            }
+          }
+          node.className = trim(cls);
+        };
+
+        var removeClass = function(node, classStr) {
+          var cls;
+          if (classStr !== undefined) {
+            classStr = str2array(classStr);
+            cls = " " + node.className + " ";
+            for (var i = 0, len = classStr.length; i < len; ++i) {
+              cls = cls.replace(" " + classStr[i] + " ", " ");
+            }
+            cls = trim(cls);
+          } else {
+            cls = "";
+          }
+          if (node.className != cls) {
+            node.className = cls;
+          }
+        };
+
+        var getSlideEl = function(slideNo) {
+          if (slideNo > 0) {
+            return slides[slideNo - 1];
+          } else {
+            return null;
+          }
+        };
+
+        var getSlideTitle = function(slideNo) {
+          var el = getSlideEl(slideNo);
+          
+          if (el) {
+            return el.getElementsByTagName('header')[0].innerHTML;
+          } else {
+            return null;
+          }
+        };
+        
+        var changeSlideElClass = function(slideNo, className) {
+          var el = getSlideEl(slideNo);
+
+          if (el) {
+            removeClass(el, 'far-past past current future far-future');
+            addClass(el, className);
+          }
+        };
+        
+        var updateSlideClasses = function() {
+          window.location.hash = "slide" + currentSlideNo;
+          changeSlideElClass(currentSlideNo - 2, 'far-past');
+          changeSlideElClass(currentSlideNo - 1, 'past');
+          changeSlideElClass(currentSlideNo, 'current');
+          changeSlideElClass(currentSlideNo + 1, 'future');
+          changeSlideElClass(currentSlideNo + 2, 'far-future');                
+        };
+        
+        var nextSlide = function() {
+          if ( (currentSlideNo < slides.length) && ( !Shadowbox.isOpen() )) {
+            currentSlideNo++;
+          }
+          
+          updateSlideClasses();
+        };
+        
+        var prevSlide = function() {
+          if ( (currentSlideNo > 1) && ( !Shadowbox.isOpen() )) {
+            currentSlideNo--;
+          }
+          updateSlideClasses();
+        };
+        
+        var showNotes = function() {
+          var notes = document.querySelectorAll('.notes');
+          for (var i = 0, len = notes.length; i < len; i++) {
+            notes[i].style.display = (notesOn) ? 'none':'block';
+          }
+          notesOn = (notesOn) ? false:true;
+        };
+
+		var switch3D = function() {
+			if (document.body.className.indexOf('three-d') == -1) {
+				document.getElementsByClassName('presentation')[0].style.webkitPerspective = '1000px';
+				document.body.className += ' three-d';
+			} else {
+				window.setTimeout("document.getElementsByClassName('presentation')[0].style.webkitPerspective = '0';", 2000);
+				document.body.className = document.body.className.replace(/three-d/, '');
+			}
+		};
+
+
+        var handleBodyKeyDown = function(event) {
+          // console.log(event.keyCode);
+          switch (event.keyCode) {
+            case 37: // left arrow
+              prevSlide();
+              break;
+            case 39: // right arrow
+            // case 32: // space
+              nextSlide();
+              break;
+            case 50: // 2
+              showNotes();          
+              break;
+            case 51: // 3
+              switch3D();          
+              break;
+          }
+        };
+
+        var addTouchListeners = function() {
+          document.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].pageX;
+          }, false);
+          document.addEventListener('touchend', function(e) {
+            var pixelsMoved = touchStartX - e.changedTouches[0].pageX;
+            var SWIPE_SIZE = 150;
+            if (pixelsMoved > SWIPE_SIZE) {
+              nextSlide();
+            }
+            else if (pixelsMoved < -SWIPE_SIZE) {
+             prevSlide();
+            }
+          }, false);
+        };
+
+		var addButtonListeners = function() {
+			document.getElementById("prevButton").addEventListener('click', prevSlide, false );
+			document.getElementById("nextButton").addEventListener('click', nextSlide, false );
+		};
+
+        // initialize
+
+        (function() {
+          if (window.location.hash != "") {
+            currentSlideNo = Number(window.location.hash.replace('#slide', ''));
+          } else {
+            currentSlideNo = 1;
+          }
+   
+          document.addEventListener('keydown', handleBodyKeyDown, false);
+   
+          var els = slides;
+          for (var i = 0, el; el = els[i]; i++) {
+            addClass(el, 'slide far-future');
+          }
+          updateSlideClasses(); 
+
+          // add support for finger events (filter it by property detection?)
+			addTouchListeners();
+			addButtonListeners();
+        })();
+      })();
+
+	
+	/**
+	 * Handy method to call a click event on an element
+	 * @param {Object} element object to recieve click event
+	 * @returns none
+	 */
+	function dispatchClickEvent(element) {
+		
+		var event;
+		  if (document.createEvent) {
+		    event = document.createEvent("HTMLEvents");
+		    event.initEvent("click", true, true);
+		  } else {
+		    event = document.createEventObject();
+		    event.eventType = "onclick";
+		  }
+
+		  if (document.createEvent) {
+		    element.dispatchEvent(event);
+		  } else {
+		    element.fireEvent(event.eventType, event);
+		  }
+	}
+	
+	// ShadowBox
+
+	Shadowbox.init({
+	    handleOversize: "drag",
+	    modal: true,
+		onOpen: shadowOpen,
+		onClose: shadowClose
+	});
+
+	function shadowOpen(){
+		//alert("Open!");
+		
+		// check to see if show style has been appended
+		if (document.body.className.indexOf('show') == -1) {
+			// no
+			document.body.className += ' hide';
+		} else {
+			// yes
+			document.body.className = document.body.className.replace(/show/, ' hide');
+		}
+		
+	};
+
+	function shadowClose(){
+		//alert("Close!");
+
+		document.body.className = document.body.className.replace(/hide/, ' show');
+	};
+
+
+    </script>
+
+<div id="sb-container"><div id="sb-overlay"></div><div id="sb-wrapper"><div id="sb-title"><div id="sb-title-inner"></div></div><div id="sb-wrapper-inner"><div id="sb-body"><div id="sb-body-inner"></div><div id="sb-loading"><div id="sb-loading-inner"><span>loading</span></div></div></div></div><div id="sb-info"><div id="sb-info-inner"><div id="sb-counter"></div><div id="sb-nav"><a id="sb-nav-close" title="Close" onclick="Shadowbox.close()"></a><a id="sb-nav-next" title="Next" onclick="Shadowbox.next()"></a><a id="sb-nav-play" title="Play" onclick="Shadowbox.play()"></a><a id="sb-nav-pause" title="Pause" onclick="Shadowbox.pause()"></a><a id="sb-nav-previous" title="Previous" onclick="Shadowbox.previous()"></a></div></div></div></div></div></body></html>

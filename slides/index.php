@@ -8,7 +8,7 @@ print <<< htmlcode
  
 <head> 
   <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> 
-  <title>PaySwarm - Slides</title> 
+  <title>PaySwarm - Presentations</title> 
  
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
  
@@ -32,7 +32,7 @@ print <<< htmlcode
   <div class="row"> 
     <div class="twelvecol"> 
       <h1>PaySwarm -
-        <span class="subhead">Slides</span></h1> 
+        <span class="subhead">Presentations</span></h1> 
     </div> 
   </div>
 </div>
@@ -41,8 +41,11 @@ print <<< htmlcode
 
   <div class="row"> 
     <div class="twelvecol last"> 
-      <p class="largeprint">The following slide decks explain the PaySwarm
-      concept as it has evolved throughout the years.
+      <p class="largeprint">
+The following presentations have been given over the years to explain the 
+basic concepts behind PaySwarm and the Web Payments initiatives. Documents 
+marked as historical are provided to show how the concept has evolved 
+throughout the years.
       </p>
 
       <ul>

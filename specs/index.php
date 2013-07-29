@@ -91,7 +91,7 @@ HTTP Trailers.
     <?php dirContents("ED/http-signature-trailers"); ?>
   </ul>
 </li>
-<li><a href="source/web-keys">Web Keys</a> - a secure and verifiable messaging
+<li><a href="source/http-keys">HTTP Keys</a> - a secure and verifiable messaging
 mechanism built using Linked Data principles to produce a distributed
 Public Key Infrastructure for the Web.
   <ul>

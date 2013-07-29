@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>Web Keys 1.0</title> 
+    <title>HTTP Keys 1.0</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -208,7 +208,7 @@
   <body> 
     <section id='abstract'> 
       <p>
-The Web Keys specification describes a simple, decentralized security 
+The HTTP Keys specification describes a simple, decentralized security 
 infrastructure for the Web based on public key cryptography. This system 
 enables Web applications to establish identities for agents on the Web, 
 associate security credentials with those identities, and then use those
@@ -241,8 +241,8 @@ achieve message verifiability, secure messaging, and dynamic access control
 to resources on the Web.
       </p>
       <p class="note">
-Web Keys are not a replacement for Transport Layer Security, but are designed 
-to work in concert with the security protocol. Web Keys are also capable of 
+HTTP Keys are not a replacement for Transport Layer Security, but are designed 
+to work in concert with the security protocol. HTTP Keys are also capable of 
 operating in environments where TLS is not available to the application.
       </p>
       <section>
@@ -283,12 +283,12 @@ some other piece of Web-aware automated software acting on behalf of an
 <tref>actor</tref>.</dd>
         <dt><tdef>key agent</tdef></dt>
         <dd>A piece of software acting on behalf of an <tref>actor</tref> for
-the purposes of utilizing Web Keys. Typically, this is blogging software, 
+the purposes of utilizing HTTP Keys. Typically, this is blogging software, 
 content distribution software, online merchant software or a Web-based
 game.</dd>
         <dt><tdef>key listing service</tdef></dt>
         <dd>A Web service that is responsible for registering and publishing
-Web keys for an <tref>actor</tref></dd>
+HTTP Keys for an <tref>actor</tref></dd>
         <dt><tdef>configuration service</tdef></dt>
         <dd>A Web service that is used to publish the public Web service
 end-points and other public configuration information for a
@@ -593,7 +593,7 @@ Need to write an introduction to verifiable messaging and why it's important.
         <h2>Messaging Terms</h2>
         <p>
 The following terminology is used to describe concepts used to generate and 
-secure messages that are sent and received using Web Keys. Many of these 
+secure messages that are sent and received using HTTP Keys. Many of these 
 terms are borrowed from public/private key cryptography. A more complete 
 description of public/private cryptography can be found in 
 The Advanced Encryption Standard [[AES]].

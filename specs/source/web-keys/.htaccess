@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^(.*)$  https://payswarm.com/specs/source/http-keys/$1 [L,R]

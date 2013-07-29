@@ -377,7 +377,7 @@ transaction.
         <dl>
           <dt><tdef>transaction service</tdef></dt>
           <dd>
-The service endpoint identified by the <code>ps:transactionService</code> key in
+The service endpoint identified by the <code>transactionService</code> key in
 the domain's PaySwarm configuration file. The configuration file can be fetched
 by performing an HTTP GET request on the <tref>configuration service</tref>
 IRI.
@@ -408,10 +408,10 @@ initiate a transaction by constructing a URL targeted to the
 <a href="http://payswarm.com/specs/source/payment-links/">Payment Links specification</a>. 
 The second approach is where an <tref>agent</tref> may initiate a transaction by
 performing an HTTPS POST of JSON-LD object expressing a
-<code>ps:Transaction</code>. The normative algorithm for performing this
+<code>Transaction</code>. The normative algorithm for performing this
 operation is detailed below. In both approaches, the 
 <tref>authority</tref> processesing the request MUST note the 
-<code>ps:Transaction</code> entry in all of the accounts associated in the 
+<code>Transaction</code> entry in all of the accounts associated in the 
 <tref>transaction</tref> and ensure that all accounts external to the 
 <tref>authority</tref> are notified via the 
 <a href="#decentralized-settlement-algorithm">Decentralized Settlement Algorithm</a>.
@@ -433,41 +433,41 @@ A single value containing the string <code>https://w3id.org/payswarm/v1</code>
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
               </dd>
-              <dt><code>@type</code></dt>
+              <dt><code>type</code></dt>
               <dd>
-The value <code>ps:Transaction</code>.
+The value <code>Transaction</code>.
               </dd>
-              <dt><code>com:transfer</code></dt>
+              <dt><code>transfer</code></dt>
               <dd>
 One or more <tref>transfer</tref>s in JSON-LD format containing at least the 
 following:
                 <dl>
-                  <dt><code>@type</code></dt>
+                  <dt><code>type</code></dt>
                   <dd>
-The value <code>ps:Transfer</code>.
+The value <code>Transfer</code>.
                   </dd>        
-                  <dt><code>com:amount</code></dt>
+                  <dt><code>amount</code></dt>
                   <dd>
 A string value of the total amount of the transfer.
                   </dd>        
-                  <dt><code>com:currency</code></dt>
+                  <dt><code>currency</code></dt>
                   <dd>
 The currency associated with the amount of the transfer. The value MUST be an 
 ISO-4217 currency or a dereference-able IRI to a monetary system that is 
 not specified in ISO-4217 but follows the specification of a 
 <a href="">Currency Mint</a>.
                   </dd>        
-                  <dt><code>com:source</code></dt>
+                  <dt><code>source</code></dt>
                   <dd>
-The source account from which the funds listed in <code>com:amount</code> will
+The source account from which the funds listed in <code>amount</code> will
 be withdrawn.
                   </dd>        
-                  <dt><code>com:destination</code></dt>
+                  <dt><code>destination</code></dt>
                   <dd>
-The destination account to which the funds listed in <code>com:amount</code> 
+The destination account to which the funds listed in <code>amount</code> 
 will be deposited.
                   </dd>        
-                  <dt><code>rdfs:comment</code></dt>
+                  <dt><code>comment</code></dt>
                   <dd>
 A string specifying the purpose of the transfer as well as other details 
 intended to be read by a human.
@@ -500,26 +500,26 @@ existing agreements between the <tref>authority</tref> and the
 entity operating the <tref>agent</tref>. The following properties MUST be added 
 to the <tref>transaction request</tref>:
             <dl>
-              <dt><code>@id</code></dt>
+              <dt><code>id</code></dt>
               <dd>
 The finalized <tref>transaction</tref> identifier IRI. The value MUST be
 dereferenceable and return at least the <tref>transaction</tref> information 
 returned at the end of this algorithm when accessed using a mechanism that
 proves authorization to access the resource.
               </dd>
-              <dt><code>com:amount</code></dt>
+              <dt><code>amount</code></dt>
               <dd>
 The total amount of the transaction which is calculated by adding up all of
 the <tref>transfer</tref>s.
               </dd>
-              <dt><code>com:currency</code></dt>
+              <dt><code>currency</code></dt>
               <dd>
 The currency associated with the total amount of the transaction. The value 
 MUST be an ISO-4217 currency or a dereference-able IRI to a monetary system 
 that is not specified in ISO-4217 but follows the specification of a 
 <a href="">Currency Mint</a>.
               </dd>
-              <dt><code>com:date</code></dt>
+              <dt><code>date</code></dt>
               <dd>
 The date and time at which the transaction was recorded in the system.
               </dd>
@@ -539,15 +539,15 @@ Transaction:
 *** Agent creates a Transaction object
 
 {
-   "@type": "ps:Transaction"
-   "ps:transfer":
+   "type": "Transaction"
+   "transfer":
    {
-      "@type": "ps:Transfer",
-      "com:amount": "7.50",
-      "com:currency": "USD",
-      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
-      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
-      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+      "type": "Transfer",
+      "amount": "7.50",
+      "currency": "USD",
+      "source": "https://bluebank.com/people/john/accounts/party-funds",
+      "destination": "https://redbank.com/people/jane/accounts/hosting",
+      "comment": "Chipping in for the Pizza Party tomorrow."
    }
 }
 
@@ -556,22 +556,22 @@ Transaction:
 *** Agent signs the Transaction object
 
 {
-   "@type": "ps:Transaction"
-   "ps:transfer":
+   "type": "Transaction"
+   "transfer":
    {
-      "@type": "ps:Transfer",
-      "com:amount": "7.50",
-      "com:currency": "USD",
-      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
-      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
-      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+      "type": "Transfer",
+      "amount": "7.50",
+      "currency": "USD",
+      "source": "https://bluebank.com/people/john/accounts/party-funds",
+      "destination": "https://redbank.com/people/jane/accounts/hosting",
+      "comment": "Chipping in for the Pizza Party tomorrow."
    },
-   "sec:signature":
+   "signature":
    {
-      "@type": "sec:JsonLdSignature",
-      "dc:created": "2011-09-23T20:21:34Z",
-      "sec:signer": "http://payswarm.example.com/i/john/keys/5",
-      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+      "type": "JsonLdSignature",
+      "created": "2011-09-23T20:21:34Z",
+      "signer": "http://payswarm.example.com/i/john/keys/5",
+      "signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
    }
 }
 
@@ -586,22 +586,22 @@ Content-Length: 634
 Content-Type: application/ld+json
 
 {
-   "@type": "ps:Transaction"
-   "ps:transfer":
+   "type": "Transaction"
+   "transfer":
    {
-      "@type": "ps:Transfer",
-      "com:amount": "7.50",
-      "com:currency": "USD",
-      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
-      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
-      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+      "type": "Transfer",
+      "amount": "7.50",
+      "currency": "USD",
+      "source": "https://bluebank.com/people/john/accounts/party-funds",
+      "destination": "https://redbank.com/people/jane/accounts/hosting",
+      "comment": "Chipping in for the Pizza Party tomorrow."
    },
-   "sec:signature":
+   "signature":
    {
-      "@type": "sec:JsonLdSignature",
-      "dc:created": "2011-09-23T20:21:34Z",
-      "sec:signer": "http://bluebank.com/people/john/keys/5",
-      "sec:signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
+      "type": "JsonLdSignature",
+      "created": "2011-09-23T20:21:34Z",
+      "signer": "http://bluebank.com/people/john/keys/5",
+      "signatureValue": "ExMgoDIyOGQzNGVkMzVmmMzYzI43Q3OQzNmOWM32Nj4NTIyZTkZDYMI="
    }
 }
 
@@ -615,27 +615,27 @@ Content-Length: 728
 Content-Type: application/ld+json
 
 {
-   "@id": "https://bluebank.com/transactions/20110923f72b8ca3",
-   "@type": "ps:Transaction",
-   "com:amount": "7.65",
-   "com:currency": "USD",
-   "com:date": "2011-09-23T20:21:35Z",
-   "ps:transfer":
+   "id": "https://bluebank.com/transactions/20110923f72b8ca3",
+   "type": "Transaction",
+   "amount": "7.65",
+   "currency": "USD",
+   "date": "2011-09-23T20:21:35Z",
+   "transfer":
    [{
-      "@type": "ps:Transfer",
-      "com:amount": "7.50",
-      "com:currency": "USD",
-      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
-      "com:destination": "https://redbank.com/people/jane/accounts/hosting",
-      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+      "type": "Transfer",
+      "amount": "7.50",
+      "currency": "USD",
+      "source": "https://bluebank.com/people/john/accounts/party-funds",
+      "destination": "https://redbank.com/people/jane/accounts/hosting",
+      "comment": "Chipping in for the Pizza Party tomorrow."
    },
    {
-      "@type": "ps:Transfer",
-      "com:amount": "0.15",
-      "com:currency": "USD",
-      "com:source": "https://bluebank.com/people/john/accounts/party-funds",
-      "com:destination": "https://bluebank.com/accounts/processing-fees",
-      "rdfs:comment": "Chipping in for the Pizza Party tomorrow."
+      "type": "Transfer",
+      "amount": "0.15",
+      "currency": "USD",
+      "source": "https://bluebank.com/people/john/accounts/party-funds",
+      "destination": "https://bluebank.com/accounts/processing-fees",
+      "comment": "Chipping in for the Pizza Party tomorrow."
    }]
 }
 </pre>
@@ -698,7 +698,7 @@ mis-applied to the wrong accounts.
 The <tref>disbursing authority</tref> contacts each 
 <tref>receiving authority</tref> listed in the list of <tref>transfer</tref>s
 contained in the <tref>transaction</tref> being processed and retrieves the
-<code>ps:TransactionBackhaul</code> service from each 
+<code>TransactionBackhaul</code> service from each 
 <tref>configuration service</tref> endpoint. If any
 <tref>receiving authority</tref> is not available now or at any point during
 this process, or if the <tref>receiving authority</tref> is blacklisted for

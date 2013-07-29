@@ -409,24 +409,24 @@ that is verifiable by the receiving party.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "https://w3id.org/payswarm/v1",
-   "@id": "http://example.org/articles/1#asset",
-   "@type": ["ps:Asset", "ps:WebPage"],
-   "dc:title": "PaySwarm in Practice",
-   "dc:description": "This article covers how to use PaySwarm on your Website.",
-   "dc:creator": 
+   "id": "http://example.org/articles/1#asset",
+   "type": ["Asset", "WebPage"],
+   "title": "PaySwarm in Practice",
+   "description": "This article covers how to use PaySwarm on your Website.",
+   "creator": 
    {
-      "@type": "foaf:Organization",
-      "foaf:name": "Digital Bazaar, Inc.",
+      "type": "Organization",
+      "name": "Digital Bazaar, Inc.",
    }
-   "ps:contentUrl": "http://example.org/articles/1",
-   "ps:validFrom": "2010-11-28T00:00:00Z",
-   "ps:validUntil": "2011-11-28T00:00:00Z"
-   "sec:signature": 
+   "contentUrl": "http://example.org/articles/1",
+   "validFrom": "2010-11-28T00:00:00Z",
+   "validUntil": "2011-11-28T00:00:00Z"
+   "signature": 
    {
-       "@type": "sec:JsonLdSignature",
-       "dc:created": "2010-11-28T00:00:00Z",
-       "sec:signer": "https://payswarm.example.com/i/digital-bazaar#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "created": "2010-11-28T00:00:00Z",
+       "signer": "https://payswarm.example.com/i/digital-bazaar#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -522,14 +522,14 @@ The following example describes a very simple license for personal use.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "https://w3id.org/payswarm/v1",
-   "@id": "http://payswarm.example.com/licenses/personal-use",
-   "@type": "ps:License",
-   "dc:format": "text/html",
-   "ps:licenseTemplate": "This personal use license allows you to save the 
+   "id": "http://payswarm.example.com/licenses/personal-use",
+   "type": "License",
+   "format": "text/html",
+   "licenseTemplate": "This personal use license allows you to save the 
       purchased asset onto any device that you own for your personal enjoyment
       and make up to &lt;span property=\"ex:physicalCopies\" /&gt; printed
       copies of the work for personal use."
-   "ps:licenseTerms": 
+   "licenseTerms": 
    {
       "ex:physicalCopies": 5
    }
@@ -567,42 +567,42 @@ may only take a maximum of 10% of the final sale price to cover their fees.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "https://w3id.org/payswarm/v1",
-   "@id": "http://example.com/articles/1#listing",
-   "@type": ["gr:Offering", "ps:Listing"],
-   "com:payee": 
+   "id": "http://example.com/articles/1#listing",
+   "type": ["Offering", "Listing"],
+   "payee": 
    [
       {
-         "@id": "http://example.com/articles/1#listing-payee",
-         "@type": "com:Payee",
-         "com:currency": "USD",
-         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
-         "com:rate": "0.05",
-         "com:rateType": "com:FlatAmount",
-         "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+         "id": "http://example.com/articles/1#listing-payee",
+         "type": "Payee",
+         "currency": "USD",
+         "destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "rate": "0.05",
+         "rateType": "FlatAmount",
+         "comment": "Payment for PaySwarm in Practice by Digital Bazaar."
       }
    ],
-   "com:payeeRule": 
+   "payeeRule": 
    [
       {
-         "@type": "com:PayeeRule",
-         "com:destinationOwnerType": "ps:Authority",
-         "com:maximumRate": "10",
-         "com:rateType": "com:InclusivePercentage"
+         "type": "PayeeRule",
+         "destinationOwnerType": "Authority",
+         "maximumRate": "10",
+         "rateType": "InclusivePercentage"
       }
    ],
-   "ps:asset": "http://example.com/articles/1#asset",
-   "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-   "ps:license": "http://payswarm.example.com/licenses/blogging",
-   "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-   "sec:signature": 
+   "asset": "http://example.com/articles/1#asset",
+   "assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+   "license": "http://payswarm.example.com/licenses/blogging",
+   "licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+   "signature": 
    {
-      "@type": "ps:JsonLdSignature",
-      "dc:created": "2011-03-02T00:00:00Z",
-      "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-      "sec:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+      "type": "JsonLdSignature",
+      "created": "2011-03-02T00:00:00Z",
+      "creator": "https://payswarm.example.com/i/bob/keys/4",
+      "signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
    },
-   "ps:validFrom": "2011-03-02T00:00:00+0000",
-   "ps:validUntil": "2011-03-03T00:00:00+0000"
+   "validFrom": "2011-03-02T00:00:00+0000",
+   "validUntil": "2011-03-03T00:00:00+0000"
 }
         </pre>
 
@@ -737,17 +737,17 @@ A single value containing the string <code>https://w3id.org/payswarm/v1</code>
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                   </dd>
-                    <dt><code>@type</code></dt>
+                    <dt><code>type</code></dt>
                     <dd>
-The value <code>ps:Receipt</code>.
+The value <code>Receipt</code>.
                     </dd>
-                  <dt><code>ps:preference</code></dt>
+                  <dt><code>preference</code></dt>
                   <dd>
 An array of preferences that are requested by either the 
 <tref>authority</tref> or the <tref>participant</tref>. All valid options
 are listed below:
                     <div>
-<code>ps:preAuthorization</code> - The <tref>participant</tref> has pre-authorized 
+<code>preAuthorization</code> - The <tref>participant</tref> has pre-authorized 
 future purchases for the <tref>vendor</tref> and thus the 
 <a href="#automatic-purchasing-algorithm">Automatic Purchasing Algorithm</a> 
 MAY be used for future purchases. If this preference setting is mentioned, the
@@ -756,54 +756,54 @@ including the <tref>authority</tref> IRI, for use in future
 automatic transactions.
                     </div>
                   </dd>
-                  <dt><code>ps:contract</code></dt>
+                  <dt><code>contract</code></dt>
 The contract used in the receipt is a summary of the digital contract that was
 finalized via the <tref>authority</tref>. It includes the minimum
 amount of information necessary for the <tref>publishing agent</tref> to 
 correctly identify the <tref>listing</tref> that was transacted:
                   <dd>
                     <dl>
-                    <dt><code>@type</code></dt>
+                    <dt><code>type</code></dt>
                     <dd>
-The value <code>ps:Contract</code>.
+The value <code>Contract</code>.
                     </dd>
-                    <dt><code>ps:asset</code></dt>
+                    <dt><code>asset</code></dt>
                     <dd>
 An IRI to the <tref>asset</tref> that was purchased.
                     </dd>
-                    <dt><code>ps:assetHash</code></dt>
+                    <dt><code>assetHash</code></dt>
                     <dd>
 The SHA-1 hash of the <tref>asset</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
                     </dd>
-                    <dt><code>com:reference</code></dt>
+                    <dt><code>reference</code></dt>
                     <dd>
 The <tref>reference identifier</tref>, if one was suppied via the purchase 
 request.
                     </dd>
-                    <dt><code>ps:license</code></dt>
+                    <dt><code>license</code></dt>
                     <dd>
 An IRI to the <tref>license</tref> describing the rights associated with the
 <tref>asset</tref> that was purchased.
                     </dd>
-                    <dt><code>ps:licenseHash</code></dt>
+                    <dt><code>licenseHash</code></dt>
                     <dd>
 The SHA-1 hash of the <tref>license</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
                     </dd>
-                    <dt><code>ps:listing</code></dt>
+                    <dt><code>listing</code></dt>
                     <dd>
 An IRI to the <tref>listing</tref> that was purchased.
                     </dd>
-                    <dt><code>ps:listingHash</code></dt>
+                    <dt><code>listingHash</code></dt>
                     <dd>
 The SHA-1 hash of the <tref>listing</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
                     </dd>
-                    <dt><code>ps:assetAcquirer</code></dt>
+                    <dt><code>assetAcquirer</code></dt>
                     <dd>
 An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
                     </dd>
@@ -881,25 +881,25 @@ A single value containing the string <code>https://w3id.org/payswarm/v1</code>
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
               </dd>
-              <dt><code>@type</code></dt>
+              <dt><code>type</code></dt>
               <dd>
-The value <code>ps:PurchaseRequest</code>.
+The value <code>PurchaseRequest</code>.
               </dd>
-              <dt><code>ps:listing</code></dt>
+              <dt><code>listing</code></dt>
               <dd>
 An IRI to the <tref>listing</tref> that was purchased.
               </dd>
-              <dt><code>ps:listingHash</code></dt>
+              <dt><code>listingHash</code></dt>
               <dd>
 The SHA-1 hash of the <tref>listing</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
               </dd>
-              <dt><code>ps:assetAcquirer</code></dt>
+              <dt><code>assetAcquirer</code></dt>
               <dd>
 An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
               </dd>
-              <dt><code>com:reference</code></dt>
+              <dt><code>reference</code></dt>
               <dd>
 The <tref>reference identifier</tref>, if one was suppied via the purchase 
 request.
@@ -940,58 +940,58 @@ A single value containing the string <code>https://w3id.org/payswarm/v1</code>
 or a list containing that context IRI as the first member, where subsequent 
 context declarations MUST NOT override any values in the first member.
                 </dd>
-                  <dt><code>@type</code></dt>
+                  <dt><code>type</code></dt>
                   <dd>
-The value <code>ps:Receipt</code>.
+The value <code>Receipt</code>.
                   </dd>
-                <dt><code>ps:contract</code></dt>
+                <dt><code>contract</code></dt>
 The contract used in the receipt is a summary of the digital contract that was
 finalized via the <tref>authority</tref>. It includes the minimum
 amount of information necessary for the <tref>publishing agent</tref> to 
 correctly identify the <tref>listing</tref> that was transacted:
                 <dd>
                   <dl>
-                  <dt><code>@type</code></dt>
+                  <dt><code>type</code></dt>
                   <dd>
-The value <code>ps:Contract</code>.
+The value <code>Contract</code>.
                   </dd>
-                  <dt><code>ps:asset</code></dt>
+                  <dt><code>asset</code></dt>
                   <dd>
 An IRI to the <tref>asset</tref> that was purchased.
                   </dd>
-                  <dt><code>ps:assetHash</code></dt>
+                  <dt><code>assetHash</code></dt>
                   <dd>
 The SHA-1 hash of the <tref>asset</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
                   </dd>
-                  <dt><code>com:reference</code></dt>
+                  <dt><code>reference</code></dt>
                   <dd>
 The <tref>reference identifier</tref>, if one was suppied via the purchase 
 request.
                   </dd>
-                  <dt><code>ps:license</code></dt>
+                  <dt><code>license</code></dt>
                   <dd>
 An IRI to the <tref>license</tref> describing the rights associated with the
 <tref>asset</tref> that was purchased.
                   </dd>
-                  <dt><code>ps:licenseHash</code></dt>
+                  <dt><code>licenseHash</code></dt>
                   <dd>
 The SHA-1 hash of the <tref>license</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
                   </dd>
-                  <dt><code>ps:listing</code></dt>
+                  <dt><code>listing</code></dt>
                   <dd>
 An IRI to the <tref>listing</tref> that was purchased.
                   </dd>
-                  <dt><code>ps:listingHash</code></dt>
+                  <dt><code>listingHash</code></dt>
                   <dd>
 The SHA-1 hash of the <tref>listing</tref> information after being normalized 
 using the <a href="http://json-ld.org/spec/ED/20110911#normalization-1">JSON-LD 
 Universal Graph Normalization Algorithm (UGNA2011)</a>.
                   </dd>
-                  <dt><code>ps:assetAcquirer</code></dt>
+                  <dt><code>assetAcquirer</code></dt>
                   <dd>
 An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
                   </dd>
@@ -1036,124 +1036,124 @@ Jane, who may now peruse the article.
         <pre class="example prettyprint language-jsonld">
 {
    "@context": "https://w3id.org/payswarm/v1",
-   "@id": "http://payswarm.example.com/contracts/28394729347",
-   "@type": ["ps:Transaction", "ps:Contract"],
-   "com:amount": "0.05",
-   "com:currency": "USD",
-   "dc:created": "2011-03-02T03:00:53Z",
-   "com:payee": 
+   "id": "http://payswarm.example.com/contracts/28394729347",
+   "type": ["Transaction", "Contract"],
+   "amount": "0.05",
+   "currency": "USD",
+   "created": "2011-03-02T03:00:53Z",
+   "payee": 
    [
       {
-         "@type": "com:Payee",
-         "com:currency": "USD",
-         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
-         "com:payeePosition": 0,
-         "com:rate": "10.00",
-         "com:rateContext": "com:TaxExempt",
-         "com:rateType": "com:InclusivePercentage",
-         "rdfs:comment": "authority Transaction Processing"
+         "type": "Payee",
+         "currency": "USD",
+         "destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "payeePosition": 0,
+         "rate": "10.00",
+         "rateContext": "TaxExempt",
+         "rateType": "InclusivePercentage",
+         "comment": "authority Transaction Processing"
       }
    ],
-   "com:transfer": 
+   "transfer": 
    [
       {
-         "@type": "com:Transfer",
-         "com:amount": "0.045",
-         "com:currency": "USD",
-         "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
-         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
-         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
-         "rdfs:comment": "Payment for PaySwarm in Practice by Bob Smith."
+         "type": "Transfer",
+         "amount": "0.045",
+         "currency": "USD",
+         "destination": "https://payswarm.example.com/i/bob/accounts/primary",
+         "forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "source": "https://payswarm.example.com/i/jane/accounts/primary",
+         "comment": "Payment for PaySwarm in Practice by Bob Smith."
       },
       {
-         "@type": "com:Transfer",
-         "com:amount": "0.005",
-         "com:currency": "USD",
-         "com:destination": "https://payswarm.example.com/i/authority/accounts/main",
-         "com:forTransaction": "http://payswarm.example.com/contracts/28394729347",
-         "com:source": "https://payswarm.example.com/i/jane/accounts/primary",
-         "rdfs:comment": "authority Transaction Processing"
+         "type": "Transfer",
+         "amount": "0.005",
+         "currency": "USD",
+         "destination": "https://payswarm.example.com/i/authority/accounts/main",
+         "forTransaction": "http://payswarm.example.com/contracts/28394729347",
+         "source": "https://payswarm.example.com/i/jane/accounts/primary",
+         "comment": "authority Transaction Processing"
       }
    ],
-   "dc:created": "2011-03-02T03:00:53Z",
-   "ps:asset": 
+   "created": "2011-03-02T03:00:53Z",
+   "asset": 
    {
-      "@id": "http://example.com/articles/1#asset",
-      "@type": ["ps:Asset", "ps:WebPage"],
-      "dc:creator": 
+      "id": "http://example.com/articles/1#asset",
+      "type": ["Asset", "WebPage"],
+      "creator": 
       {
-         "foaf:name": "Bob Smith"
+         "name": "Bob Smith"
       },
-      "dc:title": "PaySwarm in Practice",
-      "ps:assetProvider": "https://payswarm.example.com/i/bob",
-      "ps:authority": "https://payswarm.example.com/client-config",
-      "ps:contentUrl": "http://example.com/articles/1",
-      "sec:signature": 
+      "title": "PaySwarm in Practice",
+      "assetProvider": "https://payswarm.example.com/i/bob",
+      "authority": "https://payswarm.example.com/client-config",
+      "contentUrl": "http://example.com/articles/1",
+      "signature": 
       {
-         "@type": "ps:JsonLdSignature",
-         "dc:created": "2011-03-02T00:00:00Z",
-         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-         "sec:signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
+         "type": "JsonLdSignature",
+         "created": "2011-03-02T00:00:00Z",
+         "creator": "https://payswarm.example.com/i/bob/keys/4",
+         "signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
       }
    },
-   "ps:assetAcquirer": "https://payswarm.example.com/i/jane",
-   "ps:assetProviderIdentity": 
+   "assetAcquirer": "https://payswarm.example.com/i/jane",
+   "assetProviderIdentity": 
    {
-      "ps:identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
+      "identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
    },
-   "ps:license": 
+   "license": 
    {
-      "@id": "http://payswarm.example.com/licenses/blogging",
-      "@type": "ps:License",
-      "dc:format": "text/html",
-      "ps:licenseTemplate": "Personal Use License ..."
+      "id": "http://payswarm.example.com/licenses/blogging",
+      "type": "License",
+      "format": "text/html",
+      "licenseTemplate": "Personal Use License ..."
    },
-   "ps:listing": 
+   "listing": 
    {
-      "@id": "http://example.com/articles/1#listing",
-      "@type": ["gr:Offering", "ps:Listing"],
-      "com:payee": 
+      "id": "http://example.com/articles/1#listing",
+      "type": ["Offering", "Listing"],
+      "payee": 
       [
          {
-            "@id": "http://example.com/articles/1#listing-payee",
-            "@type": "com:Payee",
-            "com:currency": "USD",
-            "com:destination": "https://payswarm.example.com/i/bob/accounts/primary",
-            "com:rate": "0.05",
-            "com:rateType": "com:FlatAmount",
-            "rdfs:comment": "Payment for PaySwarm in Practice by Digital Bazaar."
+            "id": "http://example.com/articles/1#listing-payee",
+            "type": "Payee",
+            "currency": "USD",
+            "destination": "https://payswarm.example.com/i/bob/accounts/primary",
+            "rate": "0.05",
+            "rateType": "FlatAmount",
+            "comment": "Payment for PaySwarm in Practice by Digital Bazaar."
          }
       ],
-      "com:payeeRule": 
+      "payeeRule": 
       [
          {
-            "@type": "com:PayeeRule",
-            "com:destinationOwnerType": "ps:Authority",
-            "com:maximumRate": "10",
-            "com:rateType": "com:InclusivePercentage"
+            "type": "PayeeRule",
+            "destinationOwnerType": "Authority",
+            "maximumRate": "10",
+            "rateType": "InclusivePercentage"
          }
       ],
-      "ps:asset": "http://example.com/articles/1#asset",
-      "ps:assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-      "ps:license": "http://payswarm.example.com/licenses/blogging",
-      "ps:licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-      "sec:signature": 
+      "asset": "http://example.com/articles/1#asset",
+      "assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
+      "license": "http://payswarm.example.com/licenses/blogging",
+      "licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
+      "signature": 
       {
-         "@type": "ps:JsonLdSignature",
-         "dc:created": "2011-03-02T00:00:00Z",
-         "dc:creator": "https://payswarm.example.com/i/bob/keys/4",
-         "sec:signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
+         "type": "JsonLdSignature",
+         "created": "2011-03-02T00:00:00Z",
+         "creator": "https://payswarm.example.com/i/bob/keys/4",
+         "signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
       },
-      "ps:validFrom": "2011-03-02T00:00:00+0000",
-      "ps:validUntil": "2011-03-03T00:00:00+0000"
+      "validFrom": "2011-03-02T00:00:00+0000",
+      "validUntil": "2011-03-03T00:00:00+0000"
    },
-   "ps:listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
-   "sec:signature": 
+   "listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
+   "signature": 
    {
-      "@type": "ps:JsonLdSignature",
-      "dc:created": "2011-03-02T03:00:53Z",
-      "dc:creator": "https://payswarm.example.com/i/authority/keys/1",
-      "sec:signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
+      "type": "JsonLdSignature",
+      "created": "2011-03-02T03:00:53Z",
+      "creator": "https://payswarm.example.com/i/authority/keys/1",
+      "signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
    }
 }
         </pre>

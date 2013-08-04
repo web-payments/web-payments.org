@@ -216,8 +216,8 @@ A graph signature is used for digital signatures on RDF graphs.
 The default normalization mechanism is specified in the
 RDF Graph normalization specification, which effectively resolves all CURIEs and 
 deterministically names all unnamed nodes. The default digest method uses the 
-SHA-256 algorithm over a series of quads statements in N-Quad format. The default 
-signature mechanism uses a SHA-1 digest and RSA to perform the digital 
+SHA-1 algorithm over a series of quads statements in N-Quad format. The default 
+signature mechanism uses a SHA-256 digest and RSA to perform the digital 
 signature.
           </p>
           <dl>
@@ -239,14 +239,14 @@ http://w3id.org/jsonld#UGNA2012</a>
                 <dt>Default Digest Method</dt>
                 <dd>
 <a rel="digestAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#sha256">
-http://www.w3.org/2000/09/xmldsig#sha256</a>
+  href="http://www.w3.org/2000/09/xmldsig#sha1">
+http://www.w3.org/2000/09/xmldsig#sha1</a>
                   </dd>
                 <dt>Default Signing Algorithm</dt>
                 <dd>
 <a rel="signingAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#rsa-sha1">
-http://www.w3.org/2000/09/xmldsig#rsa-sha1</a>
+  href="http://www.w3.org/2000/09/xmldsig#rsa-sha256">
+http://www.w3.org/2000/09/xmldsig#rsa-sha256</a>
                 </dd>
               </dl>
             </dd>

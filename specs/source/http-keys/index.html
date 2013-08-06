@@ -13,10 +13,12 @@
     var preProc = {
           apply:  function(c) {
                     // extend the bibliography entries
-                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a> ";
-                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a> ";
+                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a>";
+                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a>";
+                    berjon.biblio["HTTP-SIGNATURES"] = "Mark Cavage; Manu Sporny <a href=\"http://tools.ietf.org/html/draft-cavage-http-signatures\"><cite>HTTP Signatures</cite></a> latest. IETF Network Working Group Internet Draft. URL: <a href=\"http://tools.ietf.org/html/draft-cavage-http-signatures\">http://tools.ietf.org/html/draft-cavage-http-signatures</a>";
                     berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
                     berjon.biblio["FIPS-197"] = "Information Technology Laboratory. <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>";
+
 
                     // process the document before anything else is done
                     var refs = document.querySelectorAll('adef') ;
@@ -590,10 +592,9 @@ content negotiated by the <tref>user agent</tref>.
       </p>
       
       <p>
-While discovery may seem like a fairly benign feature, it is at the core of
-a decentralized public key infrastructure for the Web. It enables applications
-running on the Web to verify digital signatures without requiring key 
-information to be looked up via a centralized public key repository. 
+Discovery enables applications running on the Web to verify digital signatures 
+without requiring key information to be looked up via a centralized 
+public key repository. 
       </p>
     </section>
 
@@ -604,9 +605,8 @@ information to be looked up via a centralized public key repository.
 There are certain types of messages where it is important to be able to
 verify the originator of a message. For example, when dealing with a
 financial transaction, it is important to verify that the payment originator
-actually initiated the transaction. In certain cases, it is also important
-that these messages can be encrypted in a way where only the intended
-recipient is able to decrypt the message and read it.
+actually initiated the transaction. It may also be important to encrypt a 
+message such that only the intended recipient is able to decrypt and read it.
       </p>
 
       <p>
@@ -968,7 +968,7 @@ man-in-the-middle attacks, they are strongly advised to run all callbacks
 over HTTPS.
           </p>
           <p class="issue">
-Implement the same nonce mechanism that HTTP Signatures does?
+Detail the nonce mechanism that is used in the current PaySwarm implementations.
           </p>
         </section>
       

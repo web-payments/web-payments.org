@@ -131,17 +131,17 @@ that is verifiable by the receiving party.
    "title": "PaySwarm in Practice",
    "creator": 
    {
-      "name": "Digital Bazaar, Inc.",
+      "fullName": "Digital Bazaar, Inc.",
    }
-   "contentUrl": "https://example.org/articles/1",
+   "assetContent": "https://example.org/articles/1",
    "assetProvider": "https://example.org/person/john-doe#me",
-   "authority": "https://payswarm.example.com/about#authority",
    "validFrom": "2010-11-28T00:00:00Z",
    "validUntil": "2011-11-28T00:00:00Z"
    "signature": 
    {
-       "type": "sec:JsonLdSignature",
-       "signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "type": "GraphSignature2012",
+       "created": "2010-11-27T01:44:52Z",
+       "creator": "https://payswarm.example.com/people/john-doe#key-5",
        "signatureValue": "OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo="
    }
 }
@@ -166,133 +166,129 @@ Asset, and payment information associated with the transaction.
           <dd>com:amount, com:currency, com:date, com:payee, com:transfer, dc:created, ps:asset, ps:assetProvider, ps:license, ps:listing, signature</dd>
         </dl>
         <p>
-The following example describes a purchase that occurred on March 2nd 2011
-for a Web-based article called "PaySwarm in Practice". The article was authored
-and listed for sale by Bob Smith and a personal use license was acquired by 
-Jane, who may now peruse the article.
+The following example describes a purchase that occurred on April 25th, 2013
+for a Web-based recipe for "Brown Sugar Fudge". The article was authored
+and listed for sale by 'chef' and a personal use license was acquired by 
+Manu, who may now peruse the article.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "https://w3id.org/payswarm/v1",
-   "id": "http://payswarm.example.com/contracts/28394729347",
-   "type": ["Transaction", "Contract"],
-   "amount": "0.05",
-   "currency": "USD",
-   "date": "2011-03-02T03:00:53Z",
-   "payee": 
-   [
+  "@context": "https://w3id.org/payswarm/v1",
+  "id": "https://dev.payswarm.com/transactions/1.3.f4.3",
+  "type": ["Transaction", "Contract"],
+  "amount": "0.05",
+  "currency": "USD",
+  "created": "2013-04-25T02:20:26Z",
+  "authorized": "2013-04-25T02:20:26Z",
+  "settled": "2013-04-25T02:20:26Z",
+  "asset": {
+    "id": "http://recipes.payswarm.com/?p=10614#asset",
+    "type": ["Asset", "pto:WebPage"],
+    "creator": {
+      "fullName": "chef"
+    },
+    "title": "Brown Sugar Fudge",
+    "assetContent": "http://recipes.payswarm.com/?p=10614",
+    "assetProvider": "https://dev.payswarm.com/i/wordpress-recipes",
+    "listingRestrictions": {
+      "vendor": "https://dev.payswarm.com/i/wordpress-recipes"
+    },
+    "signature": {
+      "type": "GraphSignature2012",
+      "created": "2013-04-25T00:37:16+00:00",
+      "creator": "https://dev.payswarm.com/i/wordpress-recipes/keys/1",
+      "signatureValue": "O9EGWL... s758A=="
+    }
+  },
+  "assetProvider": {
+    "id": "https://dev.payswarm.com/i/wordpress-recipes",
+    "type": "VendorIdentity",
+    "label": "wordpress-recipes",
+    "website": "http://recipes.payswarm.com/",
+    "description": "PaySwarm demonstration recipe blog - selling delicious meal recipes since 2012."
+  },
+  "license": {
+    "id": "https://w3id.org/payswarm/licenses/blogging",
+    "type": "License",
+    "licenseTemplate": "Personal Use License for Articles\n\n... "
+  },
+  "listing": {
+    "id": "http://recipes.payswarm.com/?p=10614#listing",
+    "type": ["Listing", "gr:Offering"],
+    "payee": [
       {
-         "type": "Payee",
-         "currency": "USD",
-         "destination": "https://payswarm.example.com/i/authority/accounts/main",
-         "payeePosition": 0,
-         "rate": "10.00",
-         "rateContext": "TaxExempt",
-         "rateType": "InclusivePercentage",
-         "comment": "PaySwarm Authority Transaction Processing"
+        "id": "http://recipes.payswarm.com/?p=10614#listing-payee",
+        "type": "Payee",
+        "comment": "Payment for Brown Sugar Fudge by chef.",
+        "currency": "USD",
+        "destination": "https://dev.payswarm.com/i/wordpress-recipes/accounts/blogging",
+        "payeeApplyType": "ApplyExclusively",
+        "payeeGroup": [ "vendor" ],
+        "payeeRate": "0.0500000",
+        "payeeRateType": "FlatAmount"
       }
-   ],
-   "transfer": 
-   [
+    ],
+    "payeeRule": [
       {
-         "type": "Transfer",
-         "amount": "0.045",
-         "currency": "USD",
-         "destination": "https://payswarm.example.com/i/bob/accounts/primary",
-         "forTransaction": "http://payswarm.example.com/contracts/28394729347",
-         "source": "https://payswarm.example.com/i/jane/accounts/primary",
-         "comment": "Payment for PaySwarm in Practice by Bob Smith."
-      },
-      {
-         "type": "Transfer",
-         "amount": "0.005",
-         "currency": "USD",
-         "destination": "https://payswarm.example.com/i/authority/accounts/main",
-         "forTransaction": "http://payswarm.example.com/contracts/28394729347",
-         "source": "https://payswarm.example.com/i/jane/accounts/primary",
-         "comment": "PaySwarm Authority Transaction Processing"
+        "type": "PayeeRule",
+        "maximumPayeeRate": "10.0000000",
+        "payeeApplyType": "ApplyInclusively",
+        "payeeGroupPrefix": [ "authority" ],
+        "payeeRateType": "Percentage"
       }
-   ],
-   "created": "2011-03-02T03:00:53Z",
-   "asset": 
-   {
-      "id": "http://example.com/articles/1#asset",
-      "type": ["Asset", "WebPage"],
-      "creator": 
-      {
-         "name": "Bob Smith"
-      },
-      "title": "PaySwarm in Practice",
-      "assetProvider": "https://payswarm.example.com/i/bob",
-      "authority": "https://payswarm.example.com/client-config",
-      "contentUrl": "http://example.com/articles/1",
-      "signature": 
-      {
-         "@type": "JsonLdSignature",
-         "created": "2011-03-02T00:00:00Z",
-         "creator": "https://payswarm.example.com/i/bob/keys/4",
-         "signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
-      }
-   },
-   "assetAcquirer": "https://payswarm.example.com/i/jane",
-   "assetProviderIdentity": 
-   {
-      "identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
-   },
-   "license": 
-   {
-      "id": "http://payswarm.example.com/licenses/blogging",
-      "type": "License",
-      "format": "text/html",
-      "licenseTemplate": "Personal Use <a href="#License">License</a> ..."
-   },
-   "listing": 
-   {
-      "id": "http://example.com/articles/1#listing",
-      "type": ["Offering", "Listing"],
-      "payee": 
-      [
-         {
-            "id": "http://example.com/articles/1#listing-payee",
-            "type": "com:Payee",
-            "currency": "USD",
-            "destination": "https://payswarm.example.com/i/bob/accounts/primary",
-            "rate": "0.05",
-            "rateType": "FlatAmount",
-            "comment": "Payment for PaySwarm in Practice by Digital Bazaar."
-         }
-      ],
-      "payeeRule": 
-      [
-         {
-            "type": "PayeeRule",
-            "destinationOwnerType": "Authority",
-            "maximumRate": "10",
-            "rateType": "InclusivePercentage"
-         }
-      ],
-      "asset": "http://example.com/articles/1#asset",
-      "assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-      "license": "http://payswarm.example.com/licenses/blogging",
-      "licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-      "signature": 
-      {
-         "type": "JsonLdSignature",
-         "created": "2011-03-02T00:00:00Z",
-         "creator": "https://payswarm.example.com/i/bob/keys/4",
-         "signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
-      },
-      "validFrom": "2011-03-02T00:00:00+0000",
-      "validUntil": "2011-03-03T00:00:00+0000"
-   },
-   "listingHash": "1acbd23c3a7d8827270a959a2760f7c4ded98022",
-   "signature": 
-   {
-      "type": "JsonLdSignature",
-      "created": "2011-03-02T03:00:53Z",
-      "creator": "https://payswarm.example.com/i/authority/keys/1",
-      "signatureValue": "ZnGaAs0QCIfEAvCsj2TxRTs8ekQrbbQUXvTLWcQ0kQ=="
-   }
+    ],
+    "vendor": "https://dev.payswarm.com/i/wordpress-recipes",
+    "asset": "http://recipes.payswarm.com/?p=10614#asset",
+    "assetHash": "urn:sha256:80cfb6bc234b3c3debb00c696b1c4eb0fa66946cbec1ce01ea824f5b634c3efb",
+    "license": "https://w3id.org/payswarm/licenses/blogging",
+    "licenseHash": "urn:sha256:d9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9",
+    "validFrom": "2013-04-25T00:37:16+00:00",
+    "validUntil": "2013-04-26T00:37:16+00:00",
+    "signature": {
+      "type": "GraphSignature2012",
+      "created": "2013-04-25T00:37:16+00:00",
+      "creator": "https://dev.payswarm.com/i/wordpress-recipes/keys/1",
+      "signatureValue": "TpwG9... S2Q=="
+    }
+  },
+  "listingHash": "urn:sha256:152e3102e92eb64b2a40aa613caa0d46da732b69d6865ce25c5d9f5c2228a291",
+  "payee": {
+    "type": "Payee",
+    "destination": "https://dev.payswarm.com/i/authority/accounts/main",
+    "currency": "USD",
+    "payeeGroup": [ "authority" ],
+    "payeeRate": "2.00",
+    "payeeRateType": "Percentage",
+    "payeeApplyType": "ApplyInclusively",
+    "maximumAmount": "10.00",
+    "comment": "PaySwarm Sandbox Authority Processing"
+  },
+  "referenceId": "payswarm.https://dev.payswarm.com/transactions/1.3.f4.3",
+  "transfer": [
+    {
+      "type": "Transfer",
+      "source": "https://dev.payswarm.com/i/manu/accounts/primary",
+      "destination": "https://dev.payswarm.com/i/wordpress-recipes/accounts/blogging",
+      "amount": "0.0490000000",
+      "currency": "USD",
+      "comment": "Payment for Brown Sugar Fudge by chef."
+    },
+    {
+      "type": "Transfer",
+      "source": "https://dev.payswarm.com/i/manu/accounts/primary",
+      "destination": "https://dev.payswarm.com/i/authority/accounts/main",
+      "amount": "0.0010000000",
+      "currency": "USD",
+      "comment": "PaySwarm Sandbox Authority Processing"
+    }
+  ],
+  "vendor": {
+    "id": "https://dev.payswarm.com/i/wordpress-recipes",
+    "type": "VendorIdentity",
+    "label": "wordpress-recipes",
+    "website": "http://recipes.payswarm.com/",
+    "description": "PaySwarm demonstration recipe blog - selling delicious meal recipes since 2012."
+  }
 }
         </pre>
       </section>
@@ -324,12 +320,11 @@ video with the title "Learning How Cells Divide" by John Doe.
    "type": ["Asset", "Data"],
    "creator": 
    {
-      "name": "John Doe"
+      "fullName": "John Doe"
    },
    "title": "Learning How Cells Divide",
    "assetProvider": "https://payswarm.example.com/i/john",
-   "authority": "https://payswarm.example.com/client-config",
-   "contentUrl": "http://example.com/video/cell-division.mpg",
+   "assetContent": "http://example.com/video/cell-division.mpg",
    "signature": 
    {
       "type": "ps:JsonLdSignature",
@@ -396,98 +391,50 @@ via PaySwarm as a way to express wares for sale in a decentralized manner.
         </dl>
         <p>
 The following example describes an asset for sale for $0.05 USD under a license
-that covers acceptable use of blog posts. The offer is valid from March 2nd 
-2011 to March 3rd 2011. The only restriction on additional payees is that the 
+that covers basic blogging rights. The offer is valid from April 25th
+2013 to April 26th 2013. The only restriction on additional payees is that the 
 PaySwarm Authority (the organization processing the payment) may only take a 
 maximum of 10% of the final sale price to cover their fees.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "https://w3id.org/payswarm/v1",
-   "id": "http://example.com/articles/1#listing",
-   "type": ["Offering", "Listing"],
-   "payee": 
-   [
-      {
-         "id": "http://example.com/articles/1#listing-payee",
-         "type": "Payee",
-         "currency": "USD",
-         "destination": "https://payswarm.example.com/i/bob/accounts/primary",
-         "rate": "0.05",
-         "rateType": "FlatAmount",
-         "comment": "Payment for PaySwarm in Practice by Digital Bazaar."
-      }
-   ],
-   "payeeRule": 
-   [
-      {
-         "type": "PayeeRule",
-         "destinationOwnerType": "Authority",
-         "maximumRate": "10",
-         "rateType": "InclusivePercentage"
-      }
-   ],
-   "asset": "http://example.com/articles/1#asset",
-   "assetHash": "14618b56ff597a2fed560db9aa0610fe442106a4",
-   "assetProvider": "https://payswarm.example.com/i/bob",
-   "license": "http://payswarm.example.com/licenses/blogging",
-   "licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
-   "signature": 
-   {
-      "@type": "JsonLdSignature",
-      "created": "2011-03-02T00:00:00Z",
-      "creator": "https://payswarm.example.com/i/bob/keys/4",
-      "signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
-   },
-   "validFrom": "2011-03-02T00:00:00+0000",
-   "validUntil": "2011-03-03T00:00:00+0000"
-}
-        </pre>
-      </section>
-      <section id="WebPage" about="https://w3id.org/payswarm#WebPage"
-        typeof="rdf:Property">
-        <h3>WebPage</h3>
-        <p>
-The WebPage class is a decorator class for Assets. The decorator is usually
-found as an additional rdf:type of an <a href="#Asset">Asset</a> which denotes that the asset is a
-web page of some kind. This is opposed to an opaque byte stream that may or 
-may not be viewable in a web browser.
-        </p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Parent Class</dt>
-          <dd>owl:Thing</dd>
-          <dt>Properties</dt>
-          <dd>dc:title, dc:creator, ps:contentUrl, ps:assetProvider, 
-          ps:authority, ps:validFrom, ps:validUntil, signature</dd>
-        </dl>
-        <p>
-The following example describes a web page titled "PaySwarm in Practice" that
-was created by "Digital Bazaar, Inc.". The asset is valid from November 28th
-2010 to November 28th 2011.
-        </p>
-        <pre class="example prettyprint language-jsonld">
-{
-   "@context": "https://w3id.org/payswarm/v1",
-   "id": "https://example.org/articles/1#asset",
-   "type": ["Asset", "WebPage"],
-   "title": "PaySwarm in Practice",
-   "creator": 
-   {
-      "name": "Digital Bazaar, Inc.",
-   }
-   "contentUrl": "https://example.org/articles/1",
-   "assetProvider": "https://example.org/person/john-doe#me",
-   "authority": "https://payswarm.example.com/about#authority",
-   "validFrom": "2010-11-28T00:00:00Z",
-   "validUntil": "2011-11-28T00:00:00Z"
-   "signature": 
-   {
-       "type": "sec:JsonLdSignature",
-       "signer": "https://payswarm.example.com/people/john-doe#key-5",
-       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
-   }
+  "id": "http://recipes.payswarm.com/?p=10614#listing",
+  "type": ["Listing", "gr:Offering"],
+  "payee": [
+    {
+      "id": "http://recipes.payswarm.com/?p=10614#listing-payee",
+      "type": "Payee",
+      "comment": "Payment for Brown Sugar Fudge by chef.",
+      "currency": "USD",
+      "destination": "https://dev.payswarm.com/i/wordpress-recipes/accounts/blogging",
+      "payeeApplyType": "ApplyExclusively",
+      "payeeGroup": [ "vendor" ],
+      "payeeRate": "0.0500000",
+      "payeeRateType": "FlatAmount"
+    }
+  ],
+  "payeeRule": [
+    {
+      "type": "PayeeRule",
+      "maximumPayeeRate": "10.0000000",
+      "payeeApplyType": "ApplyInclusively",
+      "payeeGroupPrefix": [ "authority" ],
+      "payeeRateType": "Percentage"
+    }
+  ],
+  "vendor": "https://dev.payswarm.com/i/wordpress-recipes",
+  "asset": "http://recipes.payswarm.com/?p=10614#asset",
+  "assetHash": "urn:sha256:80cfb6bc234b3c3debb00c696b1c4eb0fa66946cbec1ce01ea824f5b634c3efb",
+  "license": "https://w3id.org/payswarm/licenses/blogging",
+  "licenseHash": "urn:sha256:d9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9",
+  "validFrom": "2013-04-25T00:37:16+00:00",
+  "validUntil": "2013-04-26T00:37:16+00:00",
+  "signature": {
+    "type": "GraphSignature2012",
+    "created": "2013-04-25T00:37:16+00:00",
+    "creator": "https://dev.payswarm.com/i/wordpress-recipes/keys/1",
+    "signatureValue": "TpwG9... S2Q=="
+  }
 }
         </pre>
       </section>
@@ -520,7 +467,7 @@ asset or service.
 {
     "@context": "https://w3id.org/payswarm/v1",
     "type": "PayeeRule",
-    "rateType": "NoAdditionalPayees",
+    "payeeRateType": "NoAdditionalPayees",
 }
         </pre>
       </section>
@@ -554,33 +501,29 @@ of an <a href="#Asset">Asset</a> that was a part of the purchase.
    "type": ["Transaction", "Contract"],
    "amount": "0.05",
    "currency": "USD",
-   "date": "2011-03-02T03:00:53Z",
+   "created": "2011-03-02T03:00:53Z",
    ...
    "asset": 
    {
-      "id": "http://example.com/articles/1#asset",
-      "type": ["Asset", "WebPage"],
-      "creator": 
-      {
-         "name": "Bob Smith"
-      },
-      "title": "PaySwarm in Practice",
-      "assetProvider": "https://payswarm.example.com/i/bob",
-      "authority": "https://payswarm.example.com/client-config",
-      "contentUrl": "http://example.com/articles/1",
-      "signature": 
-      {
-         "type": "JsonLdSignature",
-         "created": "2011-03-02T00:00:00Z",
-         "creator": "https://payswarm.example.com/i/bob/keys/4",
-         "signatureValue": "XuLEGuq+ne56Qsc5Nic8I="
-      }
+     "id": "http://recipes.payswarm.com/?p=10614#asset",
+     "type": ["Asset", "pto:WebPage"],
+     "creator": {
+       "fullName": "chef"
+     },
+     "title": "Brown Sugar Fudge",
+     "assetContent": "http://recipes.payswarm.com/?p=10614",
+     "assetProvider": "https://dev.payswarm.com/i/wordpress-recipes",
+     "listingRestrictions": {
+       "vendor": "https://dev.payswarm.com/i/wordpress-recipes"
+     },
+     "signature": {
+       "type": "GraphSignature2012",
+       "created": "2013-04-25T00:37:16+00:00",
+       "creator": "https://dev.payswarm.com/i/wordpress-recipes/keys/1",
+       "signatureValue": "O9EGWL... s758A=="
+     }
    },
    "assetAcquirer": "https://payswarm.example.com/i/jane",
-   "assetProviderIdentity": 
-   {
-      "identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
-   },
    ...
 }
         </pre>
@@ -611,13 +554,9 @@ a value of <code>https://payswarm.example.com/i/jane</code>.
    "type": ["Transaction", "Contract"],
    "amount": "0.05",
    "currency": "USD",
-   "date": "2011-03-02T03:00:53Z",
+   "created": "2011-03-02T03:00:53Z",
    ...
    "assetAcquirer": "https://payswarm.example.com/i/jane",
-   "assetProviderIdentity": 
-   {
-      "identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
-   },
    ...
 }
         </pre>
@@ -676,17 +615,17 @@ ps:Asset as well as the ps:assetHash.
         "title": "PaySwarm in Practice - Full Article #1",
         "creator": 
         {
-           "name": "Digital Bazaar, Inc.",
+           "fullName": "Digital Bazaar, Inc.",
         }
-        "contentUrl": "https://example.org/articles/1",
+        "assetContent": "https://example.org/articles/1",
         "assetProvider": "https://example.org/person/john-doe#me",
-        "authority": "https://payswarm.example.com/about#authority",
         "validFrom": "2010-11-28T00:00:00Z",
         "validUntil": "2011-11-28T00:00:00Z"
         "signature": 
         {
-            "type": "JsonLdSignature",
-            "signer": "https://payswarm.example.com/people/john-doe#key-5",
+            "type": "GraphSignature2012",
+            "created": "2010-11-27T01:44:52Z",
+            "creator": "https://payswarm.example.com/people/john-doe#key-5",
             "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
         }
     },
@@ -730,7 +669,7 @@ with a value of <code>https://payswarm.example.com/i/bob</code>.
          "currency": "USD",
          "destination": "https://payswarm.example.com/i/bob/accounts/primary",
          "rate": "0.05",
-         "rateType": "FlatAmount",
+         "payeeRateType": "FlatAmount",
          "comment": "Payment for PaySwarm in Practice by Digital Bazaar."
       }
    ],
@@ -740,7 +679,7 @@ with a value of <code>https://payswarm.example.com/i/bob</code>.
          "type": "PayeeRule",
          "destinationOwnerType": "Authority",
          "maximumRate": "10",
-         "rateType": "InclusivePercentage"
+         "payeeRateType": "InclusivePercentage"
       }
    ],
    "asset": "http://example.com/articles/1#asset",
@@ -787,15 +726,14 @@ the asset should be performed via the
    "type": ["Asset", "Data"],
    "creator": 
    {
-      "name": "John Doe"
+      "fullName": "John Doe"
    },
    "title": "Learning How Cells Divide",
    "assetProvider": "https://payswarm.example.com/i/john",
-   "authority": "https://payswarm.example.com/client-config",
-   "contentUrl": "http://example.com/video/cell-division.mpg",
+   "assetContent": "http://example.com/video/cell-division.mpg",
    "signature": 
    {
-      "type": "JsonLdSignature",
+      "type": "GraphSignature2012",
       "created": "2011-03-12T00:00:00Z",
       "creator": "https://payswarm.example.com/i/john/keys/2",
       "signatureValue": "ne56Qsc5IXuLEGuq+Nic8="
@@ -832,17 +770,17 @@ as <code>https://example.org/articles/1</code>.
    "title": "PaySwarm in Practice",
    "creator": 
    {
-      "name": "Digital Bazaar, Inc.",
+      "fullName": "Digital Bazaar, Inc.",
    }
-   "contentUrl": "https://example.org/articles/1",
+   "assetContent": "https://example.org/articles/1",
    "assetProvider": "https://example.org/person/john-doe#me",
-   "authority": "https://payswarm.example.com/about#authority",
    "validFrom": "2010-11-28T00:00:00Z",
    "validUntil": "2011-11-28T00:00:00Z"
    "signature": 
    {
-       "type": "sec:JsonLdSignature",
-       "signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "type": "GraphSignature2012",
+       "created": "2010-11-27T01:44:52Z",
+       "creator": "https://payswarm.example.com/people/john-doe#key-5",
        "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
@@ -928,118 +866,6 @@ of printed physical copies of a work to 5.
    {
       "ex:physicalCopies": 5
    }
-}
-        </pre>
-      </section>
-      <section id="identityHash" about="https://w3id.org/payswarm#identityHash"
-        typeof="rdf:Property">
-        <h3>identityHash</h3>
-        <p>
-The identity hash is used to provide a means of identifying an individual that
-is a participant in a sale, but in a way that does not violate their privacy.
-At times, an asset acquirer may need to prove to a court of law that an 
-asset provider has broken the terms of a license in a contract. For instance,
-this may need to happen if the asset aquirer is seeking damages from the
-asset provider. PaySwarm 
-protects identities by encrypting data such as address information and names 
-in contracts. This ensures that even if a contract is posted to the Internet, 
-it will be nearly impossible to discover the names and addresses of the 
-participants in the contract if the participants do not want that information
-to be known. Instead of including real names and addresses in the PaySwarm
-contracts, an identityHash is calculated and included in the contract.
-</p>
-<p>
-The identity hash is generated by performing the following hashing algorithm:
-        </p>
-<ol>
-<li>Collect the formatted name for the person as well as the primary address
-for the individual.</li>
-<li>Convert the information to lower-case if it is supported in the 
-character set for the language.</li>
-<li>Generate a random 6-byte identity salt.</li>
-<li>Concatenate the formatted name, address and identity salt together.</li>
-<li>Perform a SHA-1 hash of the information, the result is the identityHash
-value.</li>
-</ol>
-<p>
-The identity hash is only used for asset providers and only those providers 
-that are providing an asset other than data. If an asset provider is providing 
-raw data, then it is assumed that they have implicitly given access to that 
-data. There are no rights involved other than the data access itself and the 
-contract is considered fairly temporal. 
-</p>
-<p>If the asset provider is not providing data then they are providing rights 
-to an asset where the creator of that asset is known. However, the home address 
-of that person is not necessarily known. If the home address of the asset
-provider is a matter of public record then the identityHash scheme cannot
-reliably protect that knowledge. This means that a person's address can be 
-determined just from their name anyway, even without using PaySwarm. 
-</p>
-<p>
-However, if an asset provider's address is not a matter of public record, 
-the identityHash scheme protects that entity's address because the set of all 
-addresses where an entity has resided are not available and are thus much
-harder to crack using a brute force attack. It is true though, that all 
-addresses where that entity might have lived within an entire state or 
-country might be available. If that is the case, it is typically not feasible
-to try every possible address in the region because the number of permutations
-are too high. 
-</p>
-<p>
-That is, if the entity's information has ever been made public, then it's 
-likely easier to check public records than it is to crack the identityHash
-for a PaySwarm contract. Since CPU power will continue to improve over time, 
-an implementation must ensure that it is sufficiently difficult to test the 
-sufficiently small set of addresses that an attacker believes an entity 
-has resided.
-</p>
-
-<p>
-In order ensure that a brute force attack remains infeasible, 
-a random number is appended to the identity data that is hashed. This approach
-is nearly identical to the concept of a salt, except that this salt does not 
-just protect against dictionary attacks, it protects against computational 
-attacks because the salt is kept secret. In practice, the salt is thrown away
-after use. The salt can be discarded because, in the event of a court order to
-perform discovery on the participants involved in a contract, there will be a 
-very small data set to search. The small data set is relative to the 
-"guess set" a brute force attacker would have to use to look for a hash match. 
-</p>
-
-<p>
-A court of law attempting to discover the identity of a contract participant can 
-test all random numbers (possible salts) along with each address 
-in the set for the entity that is a part of the case. The random number 
-should be sufficiently small that a program can test identities when 
-subpoenaed but sufficiently large to thwart brute-force attacks. The random
-number can increase in range with time as CPU power increases. Note that this 
-test only needs to be run if the PaySwarm authority involved has ceased to
-exist or records of the purchase no longer exist.
-</p>
-        <dl>
-          <dt>Status</dt>
-          <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>ps:Contract, owl:Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:string</dd>
-        </dl>
-        <p>
-The following snippet of a contract contains the asset provider's identity 
-which is hashed to protect the physical location at which the asset provider 
-resides.
-        </p>
-        <pre class="example prettyprint language-jsonld">
-{
-   "@context": "https://w3id.org/payswarm/v1",
-   "id": "http://payswarm.example.com/contracts/28394729347",
-   "type": ["Transaction", "Contract"],
-   "asset": { ... },
-   "assetProviderIdentity": 
-   {
-      "identityHash": "df913752be56fe0d37dcedc2d7f44708373d2a68"
-   },
-   ...
 }
         </pre>
       </section>
@@ -1150,7 +976,7 @@ contains the listing information.
    "type": ["Transaction", "Contract"],
    "amount": "0.05",
    "currency": "USD",
-   "date": "2011-03-02T03:00:53Z",
+   "created": "2011-03-02T03:00:53Z",
    ...
    "listing": 
    {
@@ -1164,7 +990,7 @@ contains the listing information.
             "currency": "USD",
             "destination": "https://payswarm.example.com/i/bob/accounts/primary",
             "rate": "0.05",
-            "rateType": "FlatAmount",
+            "payeeRateType": "FlatAmount",
             "comment": "Payment for PaySwarm in Practice by Digital Bazaar."
          }
       ],
@@ -1174,7 +1000,7 @@ contains the listing information.
             "type": "PayeeRule",
             "destinationOwnerType": "Authority",
             "maximumRate": "10",
-            "rateType": "InclusivePercentage"
+            "payeeRateType": "InclusivePercentage"
          }
       ],
       "asset": "http://example.com/articles/1#asset",
@@ -1183,7 +1009,7 @@ contains the listing information.
       "licenseHash": "0d8866836917f8ef58af44accb6efab9a10610ad",
       "signature": 
       {
-         "type": "JsonLdSignature",
+         "type": "GraphSignature2012",
          "created": "2011-03-02T00:00:00Z",
          "creator": "https://payswarm.example.com/i/bob/keys/4",
          "signatureValue": "KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10="
@@ -1293,17 +1119,17 @@ at midnight on November 28th, 2010.
    "title": "PaySwarm in Practice",
    "creator": 
    {
-      "name": "Digital Bazaar, Inc.",
+      "fullName": "Digital Bazaar, Inc.",
    }
-   "contentUrl": "https://example.org/articles/1",
+   "assetContent": "https://example.org/articles/1",
    "assetProvider": "https://example.org/person/john-doe#me",
-   "authority": "https://payswarm.example.com/about#authority",
    "validFrom": "2010-11-28T00:00:00Z",
    "validUntil": "2011-11-28T00:00:00Z"
    "signature": 
    {
-       "type": "JsonLdSignature",
-       "signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "type": "GraphSignature2012",
+       "created": "2010-11-27T01:44:52Z",
+       "creator": "https://payswarm.example.com/people/john-doe#key-5",
        "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
@@ -1337,17 +1163,17 @@ midnight on November 28th, 2011.
    "title": "PaySwarm in Practice",
    "creator": 
    {
-      "name": "Digital Bazaar, Inc.",
+      "fullName": "Digital Bazaar, Inc.",
    }
-   "contentUrl": "https://example.org/articles/1",
+   "assetContent": "https://example.org/articles/1",
    "assetProvider": "https://example.org/person/john-doe#me",
-   "authority": "https://payswarm.example.com/about#authority",
    "validFrom": "2010-11-28T00:00:00Z",
    "validUntil": "2011-11-28T00:00:00Z"
    "signature": 
    {
-       "type": "JsonLdSignature",
-       "signer": "https://payswarm.example.com/people/john-doe#key-5",
+       "type": "GraphSignature2012",
+       "created": "2010-11-27T01:44:52Z",
+       "creator": "https://payswarm.example.com/people/john-doe#key-5",
        "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }

@@ -215,10 +215,8 @@ z7u3IxpqNVcXHExjXQE=",
 A graph signature is used for digital signatures on RDF graphs. 
 The default normalization mechanism is specified in the
 RDF Graph normalization specification, which effectively resolves all CURIEs and 
-deterministically names all unnamed nodes. The default digest method uses the 
-SHA-1 algorithm over a series of quads statements in N-Quad format. The default 
-signature mechanism uses a SHA-256 digest and RSA to perform the digital 
-signature.
+deterministically names all unnamed nodes. The default signature mechanism 
+uses a SHA-256 digest and RSA to perform the digital signature.
           </p>
           <dl>
             <dt>Status</dt>
@@ -230,19 +228,13 @@ signature.
             <dt>Signing Properties</dt>
             <dd>
               <dl>
-                <dt>Default Normalization Method</dt>
+                <dt>Default Normalization Algorithm</dt>
                 <dd>
 <a rel="normalizationAlgorithm" 
   href="https://w3id.org/jsonld#UGNA2012">
-http://w3id.org/jsonld#UGNA2012</a>
+http://w3id.org/rdf#UGNA2012</a>
                 </dd>
-                <dt>Default Digest Method</dt>
-                <dd>
-<a rel="digestAlgorithm" 
-  href="http://www.w3.org/2000/09/xmldsig#sha1">
-http://www.w3.org/2000/09/xmldsig#sha1</a>
-                  </dd>
-                <dt>Default Signing Algorithm</dt>
+                <dt>Default Signature Algorithm</dt>
                 <dd>
 <a rel="signingAlgorithm" 
   href="http://www.w3.org/2000/09/xmldsig#rsa-sha256">
@@ -266,7 +258,6 @@ canonicalized using the standard normalization algorithm for JSON-LD.
   "homepage": "http://manu.sporny.org/",
   "signature":
   {
-    "@context": "https://w3id.org/security/v1",
     "@type": "GraphSignature2012",
     "creator": "http://manu.sporny.org/keys/5",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="

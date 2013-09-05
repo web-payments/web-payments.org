@@ -76,10 +76,10 @@
           <section class="center">
             <br>
             <ul>
-              <li>Split into equal-size groups<br><br></li>
-              <li>Consensus: The Group Hum<br><br></li>
-              <li>Short overview of each technology<br><br></li>
-              <li>Write questions down, deep dive on highest rated questions<br><br></li>
+              <li>Split into 3 groups of 10 + observers<br><br></li>
+              <li>Decide which topics are most important via "group hum"<br><br></li>
+              <li>Topics get 40, 30, 20 minutes, based on popularity<br><br></li>
+              <li>50% of each topic devoted to intro, 50% to Q & A<br><br></li>
             </ul>
           </section>
       </div>
@@ -92,7 +92,7 @@
             <ul>
               <li>Financial metadata (RDFa, JSON-LD)<br><br></li>
               <li>Decentralized financial systems (Bitcoin, Ripple, PaySwarm)<br><br></li>
-              <li>New financial services (Web-based Payments, Crowdfunding, Credit networks)<br><br></li>
+              <li>New financial services (Web-based Payments, Stored Value, Credit networks)<br><br></li>
             </ul>
           </section>
       </div>
@@ -105,8 +105,8 @@
             <br>
             <ul>
               <li>Problem: Lots of information on the Web, but machines can't understand it.<br><br></li>
-              <li>RDFa - machine-understandable web pages<br><br></li>
-              <li>JSON-LD - machine-understandable Linked Data<br><br></li>
+              <li>RDFa - machine-readable web pages<br><br></li>
+              <li>JSON-LD - machine-readable Linked Data<br><br></li>
               <li>Transactions, digital receipts, digital contracts<br><br></li>
             </ul>
           </section>
@@ -117,11 +117,12 @@
         <subheader><h3>What is Linked Data?</h3></subheader>
           <flag><h4>LD</h4></flag>
           <section class="center">
-            <br><br>
+            <br><p>A new way of publishing data on the Web:</p><br>
             <ul>
-              <li>Data that lives on the Web, uses URLs for identifiers<br><br></li>
-              <li>A global graph of information (nodes and edges)<br><br></li>
-              <li>Uses <em>vocabularies</em> to talk about <em>things</em><br><br></li>
+              <li>Use URLs to identify things.<br><br></li>
+              <li>Provide useful information at those identifiers.<br><br></li>
+              <li>Use Web standards to express information.<br><br></li>
+              <li>Link to other useful information.</li>
             </ul>
           </section>
       </div>
@@ -131,7 +132,7 @@
         <subheader><h3>Linked Data Example</h3></subheader>
           <flag><h4>LD</h4></flag>
           <section class="center">
-            <br><br><br>[IMAGE]
+            <img src="images/facebook-open-graph.jpg">
           </section>
       </div>
 
@@ -173,7 +174,7 @@
           <section class="center">
             <br><br>
             <ul>
-              <li>Makes data machine-understandable<br><br></li>
+              <li>Makes data machine-readable<br><br></li>
               <li>Useful for Web APIs and databases using JSON<br><br></li>
               <li>Used by Google, IBM, Yahoo!, Yandex<br><br></li>
             </ul>
@@ -192,17 +193,17 @@
   "@context": "https://w3id.org/payswarm/v1",
   "id": "https://redbank.com/transactions/1.A.F23BC",
   "type": "Transaction",
+  "amount": "1.04",
+  "currency": "USD",
+  "comment": "Purchase of Bad Romance by Lady Gaga from Best Buy"
+  "date": "2013-09-16T12:34:36.14532",
   "transfer": [{
     "type": "Transfer",
     "source": "https://redbank.com/accounts/12345",
     "destination": "https://greenbank.com/accounts/54321",
     "amount": "0.89",
     "currency": "USD"
-  }, ...]
-  "amount": "1.04",
-  "currency": "USD",
-  "comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
-  "date": "2013-09-16T12:34:36.14532",
+  }, ... ]
 }
             </pre>
           </section>
@@ -334,9 +335,10 @@
           <section class="center">
             <br><br>
             <ul>
-              <li>Decentralized identity enabling storage of KYC data<br><br></li>
-              <li>Cryptography-based, no credit card numbers to steal<br><br></li>
-              <li>Decentralized listing of products for sale w/ prices<br><br></li>
+              <li>Extensible, decentralized identity (KYC data)<br><br></li>
+              <li>Cryptography-based, no credit card numbers<br><br></li>
+              <li>Decentralized listing of products for sale<br><br></li>
+              <li>Extensible, digitally signed receipts<br><br></li>
             </ul>
           </section>
       </div>
@@ -348,9 +350,10 @@
           <section class="center">
             <br><br>
             <ul>
-              <li>Extensible, digitally signed receipts for all sales<br><br></li>
-              <li>Data portability, payment processor agnostic<br><br></li>
+              <li>Payment processor agnostic<br><br></li>
+              <li>Data portability, switch easily<br><br></li>
               <li>One-click purchases in the browser<br><br></li>
+              <li><a href="https://dev.payswarm.com/">PaySwarm Demo</a><br><br></li>
             </ul>
           </section>
       </div>
@@ -358,11 +361,11 @@
       <div class="slide future">
         <header><h1>Financial</h1><h2>Services</h2></header>
         <subheader><h3>Web Payments</h3></subheader>
-          <flag><h4></h4></flag>
+          <flag><h4>services</h4></flag>
           <section class="center">
             <br>
             <ul>
-              <li>What does being able to pay directly from the browser mean?<br><br></li>
+              <li>What does being able to transact directly using the browser (PaySwarm) mean?<br><br></li>
               <li>Browser manufacturers, mobile carriers, payment processors now compete with bank and credit card networks<br><br></li>
               <li>Using open standards, traditional financial institutions can provide the same services for their customers<br><br></li>
             </ul>
@@ -371,28 +374,30 @@
 
       <div class="slide future">
         <header><h1>Financial</h1><h2>Services</h2></header>
-        <subheader><h3>Crowdfunding</h3></subheader>
-          <flag><h4></h4></flag>
+        <subheader><h3>Storage of Value</h3></subheader>
+          <flag><h4>services</h4></flag>
           <section class="center">
             <br>
             <ul>
-              <li>What does an open standard for crowdfunding do?<br><br></li>
-              <li>Competition for traditional business loans<br><br></li>
-              <li>Banks could capitalize on crowdfunding successes by providing platforms, matching funds, or performing follow-on services<br><br></li>
+              <li>What do decentralized storage of value, like Bitcoin, do to banks?<br><br></li>
+              <li>Changes perception of the purpose of banks.<br><br></li>
+              <li>Rethink what's possible with financial networks.<br><br></li>
+              <li>Rethink the regulatory environment around money.<br><br></li>
             </ul>
           </section>
       </div>
 
       <div class="slide future">
         <header><h1>Financial</h1><h2>Services</h2></header>
-        <subheader><h3>Grassroots credit networks</h3></subheader>
-          <flag><h4></h4></flag>
+        <subheader><h3>Crowdfunding and P2P Credit</h3></subheader>
+          <flag><h4>services</h4></flag>
           <section class="center">
             <br>
             <ul>
-              <li>What do peer-to-peer credit systems enable?<br><br></li>
+              <li>What do crowdfunding and peer-to-peer credit systems like Ripple enable?<br><br></li>
               <li>Credit and lending will shift towards open networks<br><br></li>
-              <li>These credit networks are public - lenders could perform follow-on services<br><br></li>
+              <li>Competition for traditional business loans<br><br></li>
+              <li>Banks could capitalize on crowdfunding successes by providing platforms, matching funds, or performing follow-on services<br><br></li>
             </ul>
           </section>
       </div>
@@ -405,7 +410,7 @@
             <ul>
               <li>We need help building these technologies!<br><br></li>
               <li>We need: Developers, Executives, Evangelizers<br><br></li>
-              <li>Help here: <a href="http://lists.w3.org/Archives/Public/public-webpayments/">Web Payments Group @ W3C</a><br><br></li>
+              <li>Help here: <a href="http://www.w3.org/community/webpayments/">Web Payments Group @ W3C</a><br><br></li>
               <li>Pull me aside, introduce yourself!</li>
             </ul>         
           </section>
@@ -428,7 +433,7 @@
             </ul>
             <h4>Questions, comments or more info:</h4>
             <ul>
-              <li><a href="http://lists.w3.org/Archives/Public/public-webpayments/">Web Payments Group @ W3C</a></li>
+              <li><a href="http://www.w3.org/community/webpayments/">Web Payments Group @ W3C</a></li>
               <li>Twitter: <a href="https://twitter.com/manusporny">@manusporny</a></li>
               <li>G+: <a href="https://plus.google.com/102122664946994504971/posts">+Manu Sporny</a></li>
               <li>Email: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a></li>

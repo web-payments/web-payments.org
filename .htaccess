@@ -3,3 +3,6 @@ RewriteCond %{HTTP_USER_AGENT} .*MSIE.*
 RewriteCond %{REQUEST_URI} \.xhtml$
 RewriteRule .* - [T=text/html]
 
+<Files "join">
+  Options MultiViews
+</Files>

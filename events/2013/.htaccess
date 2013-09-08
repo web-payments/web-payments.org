@@ -1,0 +1,5 @@
+RewriteEngine on
+
+<Files "nyc-web-payments-bof">
+  Options MultiViews
+</Files>

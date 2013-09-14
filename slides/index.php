@@ -60,6 +60,8 @@ $allSlides = new RegexIterator($Iterator, '/^.+\.x?html$/i', RecursiveRegexItera
 foreach($allSlides as $match)
 {
    $deck = $match[0];
+   $zipfile = str_replace("/index.xhtml", ".zip", $match[0]);
+   $zipfile = str_replace("/index.html", ".zip", $zipfile);
    $deckTitle = "Untitled";
    
    if(strpos($deck, 'template') !== false) continue;
@@ -75,7 +77,7 @@ foreach($allSlides as $match)
    
    if($deckYear == "2010") $deckYear = "(Historical Document) 2010";
    
-   print("                 <li><a href=\"$deck\">$deckYear - $deckTitle</a></li>");
+   print("                 <li><a href=\"$deck\">$deckYear - $deckTitle</a> (<a href=\"$zipfile\">zip archive</a>)</li>");
 }
 
 print <<< htmlcode

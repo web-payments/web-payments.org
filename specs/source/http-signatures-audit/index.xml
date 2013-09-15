@@ -43,7 +43,7 @@
  <keyword>security considerations</keyword>
  <abstract>
  <t>
-This document outlines the various security considerations that should be
+This document outlines various security considerations that should be
 taken into account when utilizing the HTTP Signatures specification.
  </t>
  </abstract>
@@ -53,10 +53,14 @@ taken into account when utilizing the HTTP Signatures specification.
 
  <section anchor="intro" title="Introduction">
   <t>
-The HTTP Signatures protocol is intended to provide a standard way for clients 
-to sign HTTP requests. This document outlines the security considerations for
-that protocol along with various approaches for mitigating against known
-attacks on the protocol.
+The HTTP Signatures specification is intended to provide a standard way for clients 
+to add origin authentication and message integrity to HTTP-based messages. 
+The HTTP Signature Nonces specification describes a way
+to use the HTTP Signatures protocol over an unsecured channel like HTTP.
+This document outlines the security considerations for
+HTTP Signatures along with various approaches for mitigating against known
+attacks on the protocol whether it is used over unsecured or secured
+channels. 
   </t>
 
  </section>
@@ -81,9 +85,9 @@ information intended to be secured by the developer.
 HTTP is generally regarded as wide open to many different attack vectors,
 including but not limited to: information sniffing, phishing, insertion attacks, 
 modification attacks, deletion attacks, spear-phishing, man-in-the-middle, 
-DNS spoofing, header spoofing, and denial-of-service. It is should be 
-assumed that all messages sent over HTTP are easily modified by peers 
-on the network.
+DNS spoofing, header spoofing, and denial-of-service. It should be 
+assumed that all messages sent over HTTP are easily viewed or modified by
+attackers.
    </t>
 
    <t>
@@ -100,7 +104,7 @@ The HTTPS protocol was developed in order to mitigate a large number of
 the attacks on HTTP. However, one drawback of HTTPS is the requirement to run a
 server with a valid TLS certificate. These certificates may be expensive or
 difficult to setup and configure correctly. For this reason, the HTTP
-Signatures specification is provided as an alternative mechanism for 
+Signature Nonces specification is provided as an alternative mechanism for 
 providing an acceptable level of security to certain applications that need
 to protect certain types of transactions on the network, but don't want to
 run those transactions over HTTPS.
@@ -141,15 +145,15 @@ applicable to signed HTTP messages with the following exceptions:
     </t>
 
     <t>
-Replay attacks are mitigated using nonces as specified in the HTTP Signatures
-specification.
+Replay attacks are mitigated using nonces as specified in the HTTP Signature
+Nonces specification.
     </t>
 
     <t>
 Headers that are signed using HTTP Signatures cannot be spoofed without
 considerable effort expended to break the cryptographic algorithm used to 
-generate the digital signature. By default, the HTTP method, location, and Host
-header parameters are protected.
+generate the digital signature. By default, the HTTP request line, Host,
+and Date header parameters are protected.
     </t>
 
    </section>  
@@ -163,7 +167,7 @@ applicable to signed HTTPS messages with the following exceptions:
 
     <t>
 It is possible to mitigate a replay attack using nonces as specified in the HTTP
-Signatures specification since two different verficiations will need to be
+Signature Nonces specification since two different verifications will need to be
 performed on the data. The first is for the TLS server certificate, the second
 is for the digital signature on the data. This "double signature" would ensure
 that messages sent to a compromised on-path router would be able to be read,
@@ -208,7 +212,7 @@ a particular message that was digitally signed. If a signed message is sent
 over HTTP, then the attacker has full access to the inputs, except for the
 private key, that went into the signature. In this case, the difficulty of 
 attacking the signature or the private key is no different than the standard 
-literature about attacks against RSA. 
+literature about attacks against the utilized digital signature scheme. 
    </t>
    
    <t>
@@ -259,8 +263,8 @@ no mechanism employed to determine if the message was previously recorded.
     </t>
    
     <t>
-A mitigation for the replay attack is to use the nonce mechanism outlined in
-an extension specification to the HTTP Signatures specification. While nonces
+A mitigation for the replay attack is to use the mechanism described in
+the HTTP Signature Nonces specification. While nonces
 have traditionally been a pain to implement, the HTTP Signature nonce approach
 utilizes a mechanism that is fairly easy to implement and requires very little
 memory on both the client and the server.
@@ -281,9 +285,19 @@ would accept them as valid requests from the victim.
    
     <t>
 To mitigate this sort of application attack, application authors are urged to
-require digital signatures from both the client and the server.
+require digital signatures for both requests and responses. Both the client
+and the server should validate digital signatures if they are included in
+the message.
     </t>
 
+    <t>
+As the default scheme is to include the `Date` header in the signature, 
+service providers SHOULD protect against logged replay attacks 
+by enforcing a clock skew.  The server SHOULD be synchronized with NTP, 
+and the recommendation is to allow 300 seconds of clock skew 
+(in either direction).
+    </t>
+ 
    </section>
 
    <section anchor="replay-https" title="HTTPS">
@@ -393,6 +407,9 @@ are not included in the signature.
     <t>
 To prevent message modification attacks, both clients and servers should
 digitally sign all important portions of an HTTP message (headers and body).
+In order to ensure protection on the message body, a hash of the contents
+of the message should be included in an HTTP Header that is included in the
+signature for the message.
     </t>
  
    </section>
@@ -426,7 +443,8 @@ Two of the protections that HTTP Signatures provides is the ability to protect
 against insertion and modification attacks with a signature (as
 long as all of the fields that need to be protected are included in the 
 signature). Detection of deletion attacks may also be achieved using a
-simple nonce mechanism. With these three HTTP Signature-based protections 
+simple application-based message counter. 
+With these three HTTP Signature-based protections 
 in place, all known Man-In-The-Middle attacks on HTTP can be detected such 
 that an application can determine that it may be under attack and act 
 accordingly.

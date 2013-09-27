@@ -6,3 +6,7 @@ RewriteRule .* - [T=text/html]
 <Files "join">
   Options MultiViews
 </Files>
+
+<Files "intro">
+  Options MultiViews
+</Files>

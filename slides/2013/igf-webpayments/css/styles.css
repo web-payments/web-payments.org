@@ -257,6 +257,17 @@ subheader h3 {
 	background-color: #CB9;
 }
 
+div.pagenumber {
+  font-size: 16px;
+  color: #999;
+  position: absolute;
+  left: -13px;
+  top: -106px;
+	margin-top: 750px;
+	width: 850px;
+	text-align: right;
+}
+
 flag {
     position: absolute;
     left: 13px;

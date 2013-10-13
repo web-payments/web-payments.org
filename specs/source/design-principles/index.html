@@ -1,0 +1,309 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Web Payments Design Principles</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+    var preProc = {
+          apply:  function(c) {
+                    // extend the bibliography entries
+                    berjon.biblio["HTML-RDFA"] = "Manu Sporny; et al. <a href=\"http://www.w3.org/TR/rdfa-in-html/\"><cite>HTML+RDFa</cite></a> 04 March 2010. W3C Working Draft. URL: <a href=\"http://www.w3.org/TR/rdfa-in-html/\">http://www.w3.org/TR/rdfa-in-html/</a>";
+                    berjon.biblio["JSON-LD"] = "Manu Sporny; Gregg Kellogg; Dave Longley; et al. <a href=\"http://json-ld.org/spec/latest/\"><cite>JSON-LD</cite></a> latest. W3C Community Group Working Draft. URL: <a href=\"http://json-ld.org/spec/latest/\">http://json-ld.org/spec/latest/</a>";
+                    berjon.biblio["HTTP-SIGNATURES"] = "Mark Cavage; Manu Sporny <a href=\"http://tools.ietf.org/html/draft-cavage-http-signatures\"><cite>HTTP Signatures</cite></a> latest. IETF Network Working Group Internet Draft. URL: <a href=\"http://tools.ietf.org/html/draft-cavage-http-signatures\">http://tools.ietf.org/html/draft-cavage-http-signatures</a>";
+                    berjon.biblio["REST"] = "Fielding, Roy Thomas. <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\"><cite>Architectural Styles and the Design of Network-based Software Architectures</cite></a> 2000. University of California, Irvine. URL: <a href=\"http://www.ics.uci.edu/~fielding/pubs/dissertation/\">http://www.ics.uci.edu/~fielding/pubs/dissertation/</a>";
+                    berjon.biblio["FIPS-197"] = "Information Technology Laboratory. <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\"><cite>Specification for the ADVANCED ENCRYPTION STANDARD (AES)</cite></a> November 26th, 2001. Department of Commerce, National Institute of Standards and Technology. URL: <a href=\"http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf\">http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf</a>";
+
+
+                    // process the document before anything else is done
+                    var refs = document.querySelectorAll('adef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'dfn' ) ;
+                        var tit = item.getAttribute('title') ;
+                        if (!tit) {
+                            tit = con;
+                        }
+                        sp.className = 'adef' ;
+                        sp.title=tit ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    refs = document.querySelectorAll('aref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'aref' ;
+                        sp.setAttribute('title', con);
+                        sp.innerHTML = '@'+con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // local datatype references
+                    refs = document.querySelectorAll('ldtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'datatype';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // external datatype references
+                    refs = document.querySelectorAll('dtref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'a' ) ;
+                        sp.className = 'externalDFN';
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now do terms
+                    refs = document.querySelectorAll('tdef') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+                        var sp = document.createElement( 'dfn' ) ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                    // now term references
+                    refs = document.querySelectorAll('tref') ;
+                    for (var i = 0; i < refs.length; i++) {
+                        var item = refs[i];
+                        if (!item) continue ;
+                        var p = item.parentNode ;
+                        var con = item.innerHTML ;
+                        var ref = item.getAttribute('title') ;
+                        if (!ref) {
+                            ref = item.textContent ;
+                        }
+                        if (ref) {
+                            ref = ref.replace(/\n/g, '_') ;
+                            ref = ref.replace(/\s+/g, '_') ;
+                        }
+
+                        var sp = document.createElement( 'a' ) ;
+                        var id = item.textContent ;
+                        sp.className = 'tref' ;
+                        sp.title = ref ;
+                        sp.innerHTML = con ;
+                        p.replaceChild(sp, item) ;
+                    }
+                }
+        } ;
+
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "CG-DRAFT",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "web-payments-design",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "http://payswarm.com/specs/source/design-principles/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["spec.css", "prettify.css"],
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.w3.org/community/webpayments/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3.org",
+
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ preProc ] /*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+          */
+      };
+    </script> 
+    <script type="text/javascript" src="prettify.js" class="remove"></script>
+    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+  </head> 
+  <body> 
+    <section id='abstract'> 
+      <p>
+Underlying most standards are a set of design principles that often capture not
+only the technical considerations underpinning the system being created, but the
+philosophical considerations that influenced the direction of the technology. This
+document outlines the design principles and general philosophy behind the Web Payments
+work. It is used to guide the standards making process behind the technology that
+the group creates, and is meant to be a set of general guidelines rather than 
+a set of prescriptive rules.
+</p>
+    </section>
+
+    <section>
+      <h2>Broad Individual Empowerment</h2>
+      <p>
+Technologies are often targeted, either willfully or accidentally, toward 
+empowering a certain group of individuals. Speaking generally, patented 
+technology primarily empowers the creators of that technology with secondary
+empowerment coming to the consumers of the technology. Technologies, such as
+the Web, primarily empower the individual with secondary gains coming to
+large organizations that can capitalize on the core infrastructure
+that the Web provides. The Web Payments technologies should focus on empowering 
+the individual, local groups, and large organizations, in that order. 
+      </p>
+      <p>
+In general, this means
+choosing technologies that are not patented, and ensuring that all participants
+in the Web Payments ecosystem are capable of performing the same activities
+(within reason). There will be certain activities that will require licensing
+of some kind or another. In these cases, solutions should be attempted that 
+remove the need for acquiring the license in the first place while simultaneously
+staying true to the local, federal, and world laws.
+      </p>
+      <p>
+By focusing on individual empowerment, the hope is that certain side-effects
+like increased competition, access to technology, and increased rates of
+innovation can be achieved.
+      </p>
+    </section>
+
+    <section>
+      <h2>Maximize Competition</h2>
+      <p>
+Competition simultaneously drives innovation and commoditization of technology.
+If the goal of the Web Payments group is to empower the individual and get the
+technology to as many people as possible, then the standards must attempt to
+maximize competition. Keep in mind that this is different from merely promoting
+competition. For example, the standards could be written in such a way as to
+only push banks to compete with each other. However, maximizing the competition 
+would enable a larger group than just banks to compete in order to provide 
+financial services to customers. Ultimately, the ideal scenario is that the
+financial service is designed so that the individual doesn't need a 3rd party
+to gain the benefit of the particular service.
+      </p>
+    </section>
+
+    <section>
+      <h2>Respectful of the Law</h2>
+      <p>
+In order to maximize the impact of the Web Payments technologies, they must
+be compatible with a variety of (often conflicting) local, federal, and 
+global laws. At no point should the group consider standardizing technologies to
+enable the large-scale evasion of tax, money laundering, or funding of
+illegal activities.
+      </p>
+    </section>
+
+    <section>
+      <h2>Broadly Implementable</h2>
+      <p>
+Technologies standardized by the Web Payments group should be broadly 
+implementable by software developers and engineers that are well-versed in
+the art of programming. This also means that the need for software patents
+and black-box modules should be avoided in the primary design of the system.
+      </p>
+      <p>
+To be clear, this means that Digital Rights Management (DRM) technologies should
+not be employed in the primary payments system. However, it also means that
+DRM systems may be layered on top of the payment system if a particular ecosystem
+(such as the information security ecosystem) requires use of the DRM technology.
+      </p>
+    </section>
+
+    <section>
+      <h2>Data Portability</h2>
+      <p>
+Part of promoting competition is ensuring that customers may switch from one
+service provider to another in a standarized manner. Ideally, switching from one
+provider to another should take as long as transferring data from the old
+provider to the new one. In order to facilitate this migration, all important
+transactional data should be designed to be easily moved from one provider to
+another.
+      </p>
+    </section>
+
+
+  </body> 
+</html>
+

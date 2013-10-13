@@ -47,26 +47,33 @@ function dirContents($dir)
 <div class="container vspacing">
   <div class="row">
     <div class="twelvecol">
-      <h1>The PaySwarm Specifications.
+      <h1>The Specifications.
         <span class="subhead">Open, standards-based, royalty-free.</span></h1>
     </div>
   </div>
   <div class="row">
     <div class="twelvecol last">
 <p class="largeprint">
-The PaySwarm specifications are available under an open, standards-based,
+The Web Payments specifications are available under an open, standards-based,
 patent and royalty-free license. This means that, just like all other successful
 Web technologies, any person or organization is free to implement the
-specifications and inter-operate with one another without the express
-permission or consent of the group that created PaySwarm.
+specifications and interoperate with one another without the express
+permission or consent of the group that created these specifications.
 </p>
 
 <ul>
-<li><a href="source/use-cases">PaySwarm Use Cases</a> - the primary
+<li><a href="source/use-cases">Use Cases</a> - the primary
 scenarios that are the basis for the PaySwarm Web API and Payment and
 Transaction processing environment.
   <ul>
     <?php dirContents("ED/use-cases"); ?>
+  </ul>
+</li>
+<li><a href="source/design-principles">Design Principles</a> - the
+technological and philosophical design principles underlying the stack of
+PaySwarm technologies.
+  <ul>
+    <?php dirContents("ED/design-principles"); ?>
   </ul>
 </li>
 <li><a href="source/http-signatures">HTTP Signatures</a> - a digital signature

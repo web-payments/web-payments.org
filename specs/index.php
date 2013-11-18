@@ -105,6 +105,13 @@ Public Key Infrastructure for the Web.
     <?php dirContents("ED/web-keys"); ?>
   </ul>
 </li>
+<li><a href="source/web-identity">Web Identity</a> - a decentralized identity
+mechanism for the Web that allows arbitrary Linked Data to be read from and
+written to an identity URL.
+  <ul>
+    <?php dirContents("ED/web-identity"); ?>
+  </ul>
+</li>
 <li><a href="source/web-payments">Web Payments</a> - the base layer of the
 PaySwarm architecture; enables the creation of a monetary transaction between 
 two participants on the Web.

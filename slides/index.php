@@ -53,7 +53,7 @@ htmlcode;
 
 $Directory = new RecursiveDirectoryIterator('.', FilesystemIterator::SKIP_DOTS);
 $Iterator = new RecursiveIteratorIterator($Directory);
-$allSlides = new RegexIterator($Iterator, '/^.+\.x?html$/i', RecursiveRegexIterator::GET_MATCH);
+$allSlides = new RegexIterator($Iterator, '/^.+index\.x?html$/i', RecursiveRegexIterator::GET_MATCH);
 
 //rsort($allSlides);
 

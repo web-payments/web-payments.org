@@ -127,6 +127,13 @@ digitally verifiable receipt between the buyer and the vendor.
     <?php dirContents("ED/web-commerce"); ?>
   </ul>
 </li>
+<li><a href="source/web-price-indexes">Price Indexes</a> - price indexes can be
+used by vendors to associated their prices with a stable commodity such that
+they're not exposed to wild swings in a currency's value.
+  <ul>
+    <?php dirContents("ED/web-price-indexes"); ?>
+  </ul>
+</li>
 <li><a href="source/payment-intents">Payment Intents</a> - the
 parameterized transactions layer of the PaySwarm architecture; enables 
 decentralized crowd-funding for innovative initiatives and projects.

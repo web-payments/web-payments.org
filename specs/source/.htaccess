@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteRule ^web-keys(.*)$ ./secure-messaging$1 [L,R]
+RewriteRule ^http-keys(.*)$ ./secure-messaging$1 [L,R]

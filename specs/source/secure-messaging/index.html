@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>HTTP Keys 1.0</title> 
+    <title>Secure Messaging 1.0</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -140,7 +140,7 @@
           specStatus:           "CG-DRAFT",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "http-keys",
+          shortName:            "secure-messaging",
  
           // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
@@ -151,7 +151,7 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://payswarm.com/specs/source/http-keys/",
+          edDraftURI:           "http://payswarm.com/specs/source/secure-messaging/",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -210,7 +210,7 @@
   <body> 
     <section id='abstract'> 
       <p>
-The HTTP Keys specification describes a simple, decentralized security 
+The Secure Messaging specification describes a simple, decentralized security 
 infrastructure for the Web based on public key cryptography. This system 
 enables Web applications to establish identities for agents on the Web, 
 associate security credentials with those identities, and then use those
@@ -243,10 +243,10 @@ achieve message verifiability, secure messaging, and dynamic access control
 to resources on the Web.
       </p>
       <p class="note">
-HTTP Keys are not a replacement for Transport Layer Security, but are designed 
-to work in concert with the security protocol. HTTP Keys are also capable of 
+Secure Messaging are not a replacement for Transport Layer Security, but are designed 
+to work in concert with the security protocol. Secure Messaging are also capable of 
 operating in environments where TLS is not available to the application.
-Similarly, HTTP Keys are compatible with the HTTP Signatures specification,
+Similarly, Secure Messaging are compatible with the HTTP Signatures specification,
 extending it to support discoverable, machine-readable public keys and
 identity assertions.
       </p>
@@ -288,12 +288,12 @@ some other piece of Web-aware automated software acting on behalf of an
 <tref>actor</tref>.</dd>
         <dt><tdef>key agent</tdef></dt>
         <dd>A piece of software acting on behalf of an <tref>actor</tref> for
-the purposes of utilizing HTTP Keys. Typically, this is blogging software, 
+the purposes of utilizing Secure Messaging. Typically, this is blogging software, 
 content distribution software, online merchant software or a Web-based
 game.</dd>
         <dt><tdef>key listing service</tdef></dt>
         <dd>A Web service that is responsible for registering and publishing
-HTTP Keys for an <tref>actor</tref></dd>
+Secure Messaging for an <tref>actor</tref></dd>
         <dt><tdef>configuration service</tdef></dt>
         <dd>A Web service that is used to publish the public Web service
 end-points and other public configuration information for a
@@ -550,7 +550,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
    "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "cipher": "aes-128-cbc",
+   "cipher": "aes-128-cbc-gcm",
    "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
    "publicKey": "http://keys-r-us.example.com/keys/8472"
 }
@@ -622,7 +622,7 @@ sender of the message.
         <h2>Messaging Terms</h2>
         <p>
 The following terminology is used to describe concepts used to generate and 
-secure messages that are sent and received using HTTP Keys. Many of these 
+secure messages that are sent and received using Secure Messaging. Many of these 
 terms are borrowed from public/private key cryptography. A more complete 
 description of public/private cryptography can be found in 
 The Advanced Encryption Standard [[AES]].
@@ -838,7 +838,7 @@ Generate the <tdef>encrypted initialization vector</tdef> by using the
           </li>
           <li>
 Generate the <tdef>encrypted data</tdef> by encrypting the <tref>message</tref>
-using the RSA with AES 128-bit Cyclic Block Chaining algorithm, using the
+using the RSA with AES 128-bit Cipher Block Chaining Galois/Counter Mode (GCM) algorithm, using the
 <tref>symmetric key</tref> and the <tref>initialization vector</tref>
 generated previously in this algorithm.
           </li>
@@ -861,7 +861,7 @@ The base-64 encoded value of the <tref>encrypted key</tref>.
               </dd>
               <dt><code>cipher</code><dt>
               <dd>
-The value <code>rsa-aes-128-cbc</code>.
+The value <code>rsa-aes-128-cbc-gcm</code>.
               </dd>
               <dt><code>iv</code><dt>
               <dd>
@@ -911,7 +911,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
    "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-   "cipher": "rsa-aes-128-cbc",
+   "cipher": "rsa-aes-128-cbc-gcm",
    "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
    "publicKey": "http://payswarm.example.com/i/manu/keys/23"
 }

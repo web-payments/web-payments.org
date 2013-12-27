@@ -175,7 +175,7 @@ data, encryptionKey, password, cipherAlgorithm, iv, publicKey
           </dl>
         <p>
 The example below expresses an password-encrypted message using the
-AES 128-bit cipher with Cyclic-Block-Chaining. The password to unlock the
+AES 128-bit cipher using Galois Counter Mode. The password to unlock the
 encrypted message has been encrypted using the public key provided by 
 the <code>publicKey</code> parameter. To decrypt the message, the private
 key associated with the <code>publicKey</code> is used to decrypt the password. 
@@ -201,7 +201,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-cbc",
+  "cipherAlgorithm": "aes-128-gcm",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
   "publicKey": "https://example.com/people/john/keys/23"
 }        
@@ -344,7 +344,7 @@ and a block cipher mechanism.
         <p>
 The example below describes the cipher as that detailed in the
 <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
-using 128 bits and <a href="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">cipher block chaining</a>.
+using 128 bits and <a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a>.
 The password to unlock the
 encrypted message has been encrypted using the public key provided by 
 the <code>publicKey</code> parameter. To decrypt the message, the private
@@ -371,7 +371,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-cbc",
+  "cipherAlgorithm": "aes-128-gcm",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
   "publicKey": "http://example.com/people/john/keys/23"
 }        
@@ -395,7 +395,7 @@ The example below describes a secret message that has been encrypted and
 placed in the <code>data</code> property. The message has been encrypted using
 the
 <a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
-using 128 bits and <a href="http://en.wikipedia.org/wiki/Cipher_block_chaining#Cipher-block_chaining_.28CBC.29">cipher block chaining</a>.
+using 128 bits and <a href="http://en.wikipedia.org/wiki/GCM_mode">Galois Counter Mode</a>.
 The password to unlock the
 encrypted message has been encrypted using the public key provided by 
 the <code>publicKey</code> parameter. To decrypt the message, the private
@@ -422,7 +422,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-cbc",
+  "cipherAlgorithm": "aes-128-gcm",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
   "publicKey": "http://example.com/people/john/keys/23"
 }        
@@ -541,7 +541,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-cbc",
+  "cipherAlgorithm": "aes-128-gcm",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
   "publicKey": "http://example.com/people/john/keys/23"
 }
@@ -603,7 +603,7 @@ typically base-64 encoded.
         <p>
 The following example shows a public key based encrypted message where the
 decryption password is encrypted using the public key described in the message.
-Since the cipher algorithm is AES-128-CBC, an initialization vector along with 
+Since the cipher algorithm is AES-128-gcm, an initialization vector along with 
 the password and the public key is required in order to decrypt the data.
         </p>
         <pre class="example prettyprint language-jsonld">
@@ -624,7 +624,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-cbc",
+  "cipherAlgorithm": "aes-128-gcm",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
   "publicKey": "http://example.com/people/john/keys/23"
 }        
@@ -778,7 +778,7 @@ YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
   "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-cbc",
+  "cipherAlgorithm": "aes-128-gcm",
   "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
   "publicKey": "http://example.com/people/john/keys/23"
 }        

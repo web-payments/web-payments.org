@@ -1,10 +1,12 @@
+<?php $TOP_DIR='..'; include '../header.inc'; ?>
+
 <?php
 function dirContents($dir)
 {
    $contents = scandir($dir);
    rsort($contents);
 
-   print("      <li style='padding-left: 3em;'>Previous Drafts: ");
+   print("Previous Drafts: ");
    $items = array();
    foreach($contents as $item)
    {
@@ -14,213 +16,216 @@ function dirContents($dir)
       }
    }
    print(implode($items, ", "));
-   print("</li>");
 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
-      class="wf-adelle1adelle2-n6-active wf-active">
+<!-- ==== HEADER -->
+<section class="section-divider textdivider divider1">
+  <div class="container">
+    <h1>THE SPECIFICATIONS</h1>
+    <hr>
+    <p>
+The Web Payments specs are available under an open, patent and royalty-free 
+license. Just like all other successful open Web technologies, the freedom to 
+innovate is a fundamental part of what we do.
+    </p>
+  </div><!-- container -->
+</section>
 
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  <title>PaySwarm Specifications</title>
+<!-- ==== DESIGN ==== -->
+<section>
+<div class="container" id="use-cases">
+  <div class="row white">
+  <br>
+    <h1 class="centered"><span class="icon icon-yin-yang"></span><br/> DESIGN</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/design-principles">Design Principles</a>:
+An outline of the design principles and general philosophy used to guide the 
+standards making process behind the technology that the Web Payments group 
+creates. The principles are meant to be a set of general guidelines rather than 
+a set of prescriptive rules. <?php dirContents("ED/design-principles"); ?>
+      </p>
+      <p>
+<a href="source/use-cases">Use Cases</a>:
+The primary goal of the Web Payments work is to create a safe, 
+decentralized system and a set of open, patent and 
+royalty-free specifications that allow people on the Web to send each other 
+money as easily as they exchange instant messages and e-mail today. The 
+following use cases focus on concrete scenarios that the technology created
+by the group should enable.
+<?php dirContents("ED/use-cases"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
-  <link rel="stylesheet" href="../css/1140.css" type="text/css" media="screen" />
-  <!--[if lte IE 9]>
-  <link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
-  <![endif]-->
-  <link rel="stylesheet" href="../css/typeimg.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="../css/smallerscreen.css" media="only screen and (max-width: 1023px)" />
-  <link rel="stylesheet" href="../css/mobile.css" media="handheld, only screen and (max-width: 767px)" />
-  <link rel="stylesheet" href="../css/layout.css" type="text/css" media="screen" />
-  <link rel="shortcut icon" type="image/png" href="../images/payswarm-icon.png" />
-  
-</head>
-<body>
-
-<div class="titlebar">
-   <h1>PaySwarm</h1>
-</div>
-<div class="container vspacing">
-  <div class="row">
-    <div class="twelvecol">
-      <h1>The Specifications.
-        <span class="subhead">Open, standards-based, royalty-free.</span></h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="twelvecol last">
-<p class="largeprint">
-The Web Payments specifications are available under an open, standards-based,
-patent and royalty-free license. This means that, just like all other successful
-Web technologies, any person or organization is free to implement the
-specifications and interoperate with one another without the express
-permission or consent of the group that created these specifications.
-</p>
-
-<ul>
-<li><a href="source/use-cases">Use Cases</a> - the primary
-scenarios that are the basis for the PaySwarm Web API and Payment and
-Transaction processing environment.
-  <ul>
-    <?php dirContents("ED/use-cases"); ?>
-  </ul>
-</li>
-<li><a href="source/design-principles">Design Principles</a> - the
-technological and philosophical design principles underlying the stack of
-PaySwarm technologies.
-  <ul>
-    <?php dirContents("ED/design-principles"); ?>
-  </ul>
-</li>
-<li><a href="source/http-signatures">HTTP Signatures</a> - a digital signature
-mechanism for the HTTP protocol that adds origin authentication and 
-message integrity to HTTP requests.
-  <ul>
-    <?php dirContents("ED/http-signatures"); ?>
-  </ul>
-</li>
-<li><a href="source/http-signature-nonces">HTTP Signature Nonces</a> - an extension
-to the HTTP Signatures specification that enables replay protection when 
-messages are sent over a non-secured HTTP connection.
-  <ul>
-    <?php dirContents("ED/http-signature-nonces"); ?>
-  </ul>
-</li>
-<li><a href="source/http-signature-trailers">HTTP Signature Trailers</a> - an
-extension to the HTTP Signatures specification that enables digital signatures
-to be applied to content that is streamed, such as audio and video, via 
-HTTP Trailers.
-  <ul>
-    <?php dirContents("ED/http-signature-trailers"); ?>
-  </ul>
-</li>
-<li><a href="source/http-keys">HTTP Keys</a> - a secure and verifiable messaging
-mechanism built using Linked Data principles to produce a distributed
-Public Key Infrastructure for the Web.
-  <ul>
-    <?php dirContents("ED/web-keys"); ?>
-  </ul>
-</li>
-<li><a href="source/web-identity">Web Identity</a> - a decentralized identity
-mechanism for the Web that allows arbitrary Linked Data to be read from and
-written to an identity URL.
-  <ul>
-    <?php dirContents("ED/web-identity"); ?>
-  </ul>
-</li>
-<li><a href="source/web-payments">Web Payments</a> - the base layer of the
-PaySwarm architecture; enables the creation of a monetary transaction between 
-two participants on the Web.
-  <ul>
-    <?php dirContents("ED/web-payments"); ?>
-  </ul>
-</li>
-<li><a href="source/web-commerce">Web Commerce</a> - the electronic 
+<!-- ==== PRODUCTS ==== -->
+<section>
+<div class="container" id="products">
+  <div class="row white">
+  <br>
+    <h1 class="centered"><span class="icon icon-rocket"></span><br/> PRODUCTS</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/web-commerce">Web Commerce</a>: The electronic 
 commerce portion of the PaySwarm architecture; enabling the decentralized 
 listing of assets for sale and the transaction of those assets resulting in a 
 digitally verifiable receipt between the buyer and the vendor.
-  <ul>
-    <?php dirContents("ED/web-commerce"); ?>
-  </ul>
-</li>
-<li><a href="source/web-price-indexes">Price Indexes</a> - price indexes can be
+<?php dirContents("ED/web-commerce"); ?>
+      </p>
+      <p>
+<a href="source/web-price-indexes">Price Indexes</a>: Price indexes can be
 used by vendors to associated their prices with a stable commodity such that
 they're not exposed to wild swings in a currency's value.
-  <ul>
-    <?php dirContents("ED/web-price-indexes"); ?>
-  </ul>
-</li>
-<li><a href="source/payment-intents">Payment Intents</a> - the
-parameterized transactions layer of the PaySwarm architecture; enables 
-decentralized crowd-funding for innovative initiatives and projects.
-  <ul>
-    <?php dirContents("ED/payment-intents"); ?>
-  </ul>
-</li>
-<li><a href="source/vocabs/commerce">Commerce Vocabulary</a> - the Web vocabulary 
+<?php dirContents("ED/web-price-indexes"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
+
+<!-- ==== TRANSACTIONS ==== -->
+<section>
+<div class="container" id="transactions">
+  <div class="row white">
+  <br>
+    <h1 class="centered"><span class="icon icon-cart"></span><br/> TRANSACTIONS</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/web-payments">Web Payments</a>: The base layer of the
+Web Payments architecture; enables the creation of a monetary transaction 
+between two participants on the Web.     
+<?php dirContents("ED/web-payments"); ?>
+      </p>
+      <p>
+<a href="source/payment-intents">Payment Intents</a>: The parameterized 
+transactions layer of the Web Payments architecture; enables decentralized, 
+open crowd-funding over the Web.
+<?php dirContents("ED/payment-intents"); ?>
+      </p>
+<a href="source/vocabs/commerce">Commerce Vocabulary</a>: The Web vocabulary 
 that is used to describe commercial transactions.
-  <ul>
-    <!--<li>Current Editor Draft: <a href="../vocabs/commerce">current</a></li>-->
-    <?php dirContents("ED/vocabs/commerce"); ?>
-  </ul>
-</li>
-<li><a href="source/vocabs/payswarm">PaySwarm Vocabulary</a> - the Web vocabulary 
-that is used to describe PaySwarm-specific concepts and properties on a 
-PaySwarm network.
-  <ul>
-    <!--<li>Current Editor Draft: <a href="../vocabs/payswarm">current</a></li>-->
-    <?php dirContents("ED/vocabs/payswarm"); ?>
-  </ul>
-</li>
-<li><a href="source/vocabs/security">Security Vocabulary</a> - 
-the Web vocabulary that is used to describe mechanisms for expressing
-digital signatures and encrypting and decrypting messages.
-  <ul>
-    <!--<li>Current Editor Draft: <a href="../vocabs/security">current</a></li>-->
-    <?php dirContents("ED/vocabs/security"); ?>
-  </ul>
-</li>
-<li><a href="source/http-signatures-audit">Security Considerations for HTTP 
-Signatures</a> - a complete security audit of the HTTP Signatures specification.
-  <ul>
-    <?php dirContents("ED/http-signatures-audit"); ?>
-  </ul>
-</li>
-</ul>
+<?php dirContents("ED/vocabs/commerce"); ?>
+      </p>
+      <p>
+<a href="source/vocabs/payswarm">PaySwarm Vocabulary</a>: The Web vocabulary 
+that is used to describe specific concepts and properties on a 
+Web Payments network.
+<?php dirContents("ED/vocabs/payswarm"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
 
-</p>
+<!-- ==== RECEIPTS ==== -->
+<section>
+<div class="container" id="receipts">
+  <div class="row white">
+  <br>
+    <h1 class="centered"><span class="icon icon-file"></span><br/> RECEIPTS</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/web-commerce">Web Commerce</a>: The electronic commerce portion 
+of the Web Payments architecture; enabling the decentralized listing of assets 
+for sale and the transaction of those assets resulting in a digitally 
+verifiable receipt between the buyer and the vendor. 
+<?php dirContents("ED/web-commerce"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
 
-<h2>Obsolete Specifications</h2>
+<!-- ==== IDENTITY ==== -->
+<section>
+<div class="container" id="identity">
+  <div class="row white">
+  <br>
+    <h1 class="centered"><span class="icon icon-users"></span><br/> IDENTITY</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/web-identity">Web Identity</a>: A decentralized identity
+mechanism for the Web that allows arbitrary Linked Data to be read from and
+written to an identity URL.
+<?php dirContents("ED/web-identity"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
 
-<ul>
-<li><a href="source/web-api">PaySwarm Web API</a> - the core PaySwarm 
-protocol - listing, buying and selling digital assets.
-  <ul>
-    <?php dirContents("ED/web-api"); ?>
-  </ul>
-</li>
-</ul>
+<!-- ==== SECURITY ==== -->
+<section>
+<div class="container" id="security">
+  <div class="row white">
+  <br>
+    <h1 class="centered"><span class="icon icon-lock"></span><br/> SECURITY</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/http-signatures">HTTP Signatures</a>: A digital signature
+mechanism for the HTTP protocol that adds origin authentication and message 
+integrity to HTTP requests.
+<?php dirContents("ED/http-signatures"); ?>
+      </p>
+      <p>
+<a href="source/http-signature-nonces">HTTP Signature Nonces</a>: An extension
+to the HTTP Signatures specification that enables replay protection when 
+messages are sent over a non-secured HTTP connection.
+<?php dirContents("ED/http-signature-nonces"); ?>
+      </p>
+      <p>
+<a href="source/http-signature-trailers">HTTP Signature Trailers</a>: An
+extension to the HTTP Signatures specification that enables digital signatures
+to be applied to content that is streamed, such as audio and video, via 
+HTTP Trailers.
+<?php dirContents("ED/http-signature-trailers"); ?>
+      </p>
+      <p>
+<a href="source/http-keys">Secure Messaging</a>: A secure and verifiable 
+messaging mechanism built using Linked Data principles to produce a distributed
+Public Key Infrastructure for the Web.
+<?php dirContents("ED/secure-messaging"); ?>
+      </p>
+      <p>
+<a href="source/vocabs/security">Security Vocabulary</a>: the Web vocabulary 
+that is used to describe mechanisms for expressing digital signatures and 
+encrypting and decrypting messages.
+<?php dirContents("ED/vocabs/security"); ?>
+      </p>
+<a href="source/http-signatures-audit">Security Considerations for HTTP 
+Signatures</a>: A complete security audit of the HTTP Signatures specification.
+<?php dirContents("ED/http-signatures-audit"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
 
-    </div>
-  </div>
-</div>
- 
-<div class="container vspacing"> 
-  <div class="row"> 
-    <div class="threecol"> 
-      <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a> 
-    </div> 
-    <div class="ninecol last"> 
-      <p>&copy; 2010-2013 Digital Bazaar, Inc. 
-Website CSS created by <a href="http://cssgrid.net/">@andytlr</a> 
-and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/au/">
-Creative Commons Attribution-ShareAlike 3.0 Australia License</a>. All other
-website content is licensed under a 
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
-Creative Commons Attribution-ShareAlike 3.0 License</a>
-</p> 
-    </div> 
-  </div> 
-</div> 
+<!-- ==== ARCHIVES ==== -->
+<section>
+<div class="container" id="use-cases">
+  <div class="row white">
+  <br>
+    <h1 class="centered">ARCHIVES</h1>
+    <hr>
+    <div class="col-lg-offset-1 col-lg-10">
+      <p>
+<a href="source/web-api">PaySwarm Web API</a>: The initial PaySwarm protocol 
+designed to allow open listing, buying, and selling digital assets over the Web.
+<?php dirContents("ED/web-api"); ?>
+      </p>
+    </div><!-- col-lg-6 -->
+  </div><!-- row -->
+</div><!-- container -->
+</section>
 
-<script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-1539674-7']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
-  })();
-
-</script>
-
-</body>
-</html>
+<?php $TOP_DIR='..'; include '../footer.inc'; ?>
 

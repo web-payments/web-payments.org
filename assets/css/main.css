@@ -299,11 +299,11 @@ div.information {
 #headerwrap {
 	background: url(../img/header_bg.jpg) no-repeat center top;
 	margin-top: -50px;
-	padding-top:120px;
+	padding-top: 60px;
 	text-align:center;
 	background-attachment: relative;
 	background-position: center center;
-	min-height: 650px;
+	min-height: 400px;
 	width: 100%;
 	
     -webkit-background-size: 100%;

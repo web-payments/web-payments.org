@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head> 
+    <title>Web Payments Design Principles</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+     
+     
+    
+    
+    
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+
+/* --- --- */
+ol.algorithm { counter-reset:numsection; list-style-type: none; }
+ol.algorithm li { margin: 0.5em 0; }
+ol.algorithm li:before { font-weight: bold; counter-increment: numsection; content: counters(numsection, ".") ") "; }
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><link rel="stylesheet" href="http://www.w3.org/community/src/css/spec/cg-draft.css"><!--[if lt IE 9]><script src='http://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head> 
+  <body><div class="head">
+  <p>
+    <a href="http://www.w3.org/"><img width="72" height="48" src="http://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+  </p>
+  <h1 class="title" id="title">Web Payments Design Principles</h1>
+  
+  <h2 id="draft-community-group-specification-22-december-2013">Draft Community Group Specification 22 December 2013</h2>
+  <dl>
+    
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="http://payswarm.com/specs/source/design-principles/">http://payswarm.com/specs/source/design-principles/</a></dd>
+    
+    
+    
+    
+    
+      
+    
+    <dt>Editor:</dt>
+    <dd><a href="http://digitalbazaar.com/">Manu Sporny</a>, <a href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+
+    
+  </dl>
+  
+  <p class="copyright">
+    <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+    2013
+    the Contributors to the Web Payments Design Principles Specification, published by the
+    <a href="http://www.w3.org/community/webpayments/">W3C Web Payments Community Group</a> under the
+    
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+      A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available.
+    
+  </p>
+  <hr>
+</div> 
+    <section id="abstract" class="introductory"><h2>Abstract</h2> 
+      <p>
+Underlying most standards are a set of design principles that often capture not
+only the technical considerations underpinning the system being created, but the
+philosophical considerations that influenced the direction of the technology. This
+document outlines the design principles and general philosophy behind the Web Payments
+work. It is used to guide the standards making process behind the technology that
+the group creates, and is meant to be a set of general guidelines rather than 
+a set of prescriptive rules.
+</p>
+    </section><section id="sotd" class="introductory"><h2>Status of This Document</h2>
+  <p>
+    This specification was published by the <a href="http://www.w3.org/community/webpayments/">W3C Web Payments Community Group</a>.
+    It is not a W3C Standard nor is it on the W3C Standards Track.
+    
+      Please note that under the 
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+      there is a limited opt-out and other conditions apply.
+    
+    Learn more about 
+    <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.
+  </p>
+  
+</section><section id="toc"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#broad-individual-empowerment" class="tocxref"><span class="secno">1. </span>Broad Individual Empowerment</a></li><li class="tocline"><a href="#maximize-competition" class="tocxref"><span class="secno">2. </span>Maximize Competition</a></li><li class="tocline"><a href="#respectful-of-the-law" class="tocxref"><span class="secno">3. </span>Respectful of the Law</a></li><li class="tocline"><a href="#broadly-implementable" class="tocxref"><span class="secno">4. </span>Broadly Implementable</a></li><li class="tocline"><a href="#data-portability" class="tocxref"><span class="secno">5. </span>Data Portability</a></li></ul></section>
+
+    <section id="broad-individual-empowerment">
+      <!--OddPage--><h2><span class="secno">1. </span>Broad Individual Empowerment</h2>
+      <p>
+Technologies are often targeted, either willfully or accidentally, toward 
+empowering a certain group of individuals. Speaking generally, patented 
+technology primarily empowers the creators of that technology with secondary
+empowerment coming to the consumers of the technology. Technologies, such as
+the Web, primarily empower the individual with secondary gains coming to
+large organizations that can capitalize on the core infrastructure
+that the Web provides. The Web Payments technologies should focus on empowering 
+the individual, local groups, and large organizations, in that order. 
+      </p>
+      <p>
+In general, this means
+choosing technologies that are not patented, and ensuring that all participants
+in the Web Payments ecosystem are capable of performing the same activities
+(within reason). There will be certain activities that will require licensing
+of some kind or another. In these cases, solutions should be attempted that 
+remove the need for acquiring the license in the first place while simultaneously
+staying true to the local, federal, and world laws.
+      </p>
+      <p>
+By focusing on individual empowerment, the hope is that certain side-effects
+like increased competition, access to technology, and increased rates of
+innovation can be achieved.
+      </p>
+    </section>
+
+    <section id="maximize-competition">
+      <!--OddPage--><h2><span class="secno">2. </span>Maximize Competition</h2>
+      <p>
+Competition simultaneously drives innovation and commoditization of technology.
+If the goal of the Web Payments group is to empower the individual and get the
+technology to as many people as possible, then the standards must attempt to
+maximize competition. Keep in mind that this is different from merely promoting
+competition. For example, the standards could be written in such a way as to
+only push banks to compete with each other. However, maximizing the competition 
+would enable a larger group than just banks to compete in order to provide 
+financial services to customers. Ultimately, the ideal scenario is that the
+financial service is designed so that the individual doesn't need a 3rd party
+to gain the benefit of the particular service.
+      </p>
+    </section>
+
+    <section id="respectful-of-the-law">
+      <!--OddPage--><h2><span class="secno">3. </span>Respectful of the Law</h2>
+      <p>
+In order to maximize the impact of the Web Payments technologies, they must
+be compatible with a variety of (often conflicting) local, federal, and 
+global laws. At no point should the group consider standardizing technologies to
+enable the large-scale evasion of tax, money laundering, or funding of
+illegal activities.
+      </p>
+    </section>
+
+    <section id="broadly-implementable">
+      <!--OddPage--><h2><span class="secno">4. </span>Broadly Implementable</h2>
+      <p>
+Technologies standardized by the Web Payments group should be broadly 
+implementable by software developers and engineers that are well-versed in
+the art of programming. This also means that the need for software patents
+and black-box modules should be avoided in the primary design of the system.
+      </p>
+      <p>
+To be clear, this means that Digital Rights Management (DRM) technologies should
+not be employed in the primary payments system. However, it also means that
+DRM systems may be layered on top of the payment system if a particular ecosystem
+(such as the information security ecosystem) requires use of the DRM technology.
+      </p>
+    </section>
+
+    <section id="data-portability">
+      <!--OddPage--><h2><span class="secno">5. </span>Data Portability</h2>
+      <p>
+Part of promoting competition is ensuring that customers may switch from one
+service provider to another in a standarized manner. Ideally, switching from one
+provider to another should take as long as transferring data from the old
+provider to the new one. In order to facilitate this migration, all important
+transactional data should be designed to be easily moved from one provider to
+another.
+      </p>
+    </section>
+
+
+   
+
+
+</body></html>

@@ -1,7 +1,7 @@
 
     <div id="footerwrap">
       <div class="container">
-        <h4>Created by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. Shared with love under a <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a> license.</h4>
+        <h4>Created by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. Shared with love under a <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a> license. Thanks to our <a href="?php echo $TOP_DIR ?>/thanks.html">contributors</a>.</h4>
       </div>
     </div>
 

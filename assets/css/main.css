@@ -255,7 +255,7 @@ a {
 a:hover,
 a:focus {
     color: #c0392b;
-    text-decoration: none;
+    text-decoration: underline;
     outline: 0;
 }
 

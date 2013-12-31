@@ -85,12 +85,16 @@ body {
 
 body {
     font-family: "Lato";
-    font-weight: 300;
+/*    font-weight: 300; */
     font-size: 16px;
     color: #555;
 
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
+}
+
+.container > p {
+  font-weight: 300;
 }
 
 .col-md-4 {
@@ -264,7 +268,29 @@ a:after {
     transition: color 0.1s ease-in, background 0.1s ease-in;
 }
 
+/* ==========================================================================
+   Meeting Minutes
+   ========================================================================== */
+dl > dd {
+  margin-left: 2em;
+}
 
+dl > dd > ol > li {
+  margin-left: -1.1em;
+}
+
+span.name {
+  font-weight: bold;
+}
+
+div.comment {
+  margin-top: 1em;
+}
+
+div.information {
+  font-style: italic;
+  margin-top: 1em;
+}
 
 /* ==========================================================================
    Wrap Sections

@@ -77,9 +77,7 @@ digitally verifiable receipt between the buyer and the vendor.
 <?php dirContents("ED/web-commerce"); ?>
       </p>
       <p>
-<a href="source/web-price-indexes">Price Indexes</a>: Price indexes can be
-used by vendors to associated their prices with a stable commodity such that
-they're not exposed to wild swings in a currency's value.
+<a href="source/web-price-indexes">Pricing Indices</a>: Vendors can select one of the available online price indexing services, which could be a currency exchange rate, or another type of index more relevant to the scope and dynamics of their particular business that would enable greater price stability, variability with key input prices, or some other criterion.
 <?php dirContents("ED/web-price-indexes"); ?>
       </p>
     </div><!-- col-lg-6 -->

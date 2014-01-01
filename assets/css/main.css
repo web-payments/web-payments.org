@@ -496,6 +496,12 @@ div.information {
 
 .service-active .service-trigger {
     background: #222;
+    margin-bottom: 0px;
+    border-radius: 10px 10px 0px 0px;
+}
+
+div .service-active {
+    margin-bottom: 10px;
 }
 
 .service-active p {
@@ -507,7 +513,9 @@ div.information {
     padding: 15px 20px;
     background: #e6eaed;
     display: block;
-    height: auto
+    height: auto;
+    border-radius: 0px 0px 10px 10px;
+    border: solid 1px #333;
 }
 
 .service-content p:last-child {

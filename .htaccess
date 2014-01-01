@@ -10,3 +10,8 @@ RewriteRule .* - [T=text/html]
 <Files "intro">
   Options MultiViews
 </Files>
+
+<Files "thanks">
+  Options MultiViews
+</Files>
+

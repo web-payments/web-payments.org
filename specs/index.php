@@ -105,6 +105,7 @@ transactions layer of the Web Payments architecture; enables decentralized,
 open crowd-funding over the Web.
 <?php dirContents("ED/payment-intents"); ?>
       </p>
+      <p>
 <a href="source/vocabs/commerce">Commerce Vocabulary</a>: The Web vocabulary 
 that is used to describe commercial transactions.
 <?php dirContents("ED/vocabs/commerce"); ?>
@@ -114,6 +115,10 @@ that is used to describe commercial transactions.
 that is used to describe specific concepts and properties on a 
 Web Payments network.
 <?php dirContents("ED/vocabs/payswarm"); ?>
+      </p>
+      <p>
+<a href="source/vocabs/creditcard">Credit Card Vocabulary</a>: The Web vocabulary 
+that is used to describe credit cards.
       </p>
     </div><!-- col-lg-6 -->
   </div><!-- row -->

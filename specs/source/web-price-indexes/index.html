@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>Web Price Indexes 1.0</title> 
+    <title>Web Pricing Indices 1.0</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -201,45 +201,91 @@
   <body> 
     <section id='abstract'> 
       <p class="issue">
-Complete the abstract.
+<ul>
+<li>If a vendor chooses to receive payments in only one currency, they might want to implement variable pricing indexed to something.</li>
+<li>If a vendor chooses to receive payments in more than one currency, then some type of pricing index is essential.</li>
+</ul>
       </p>
     </section>
 
     <section>
       <h2>Introduction</h2>
       <p class="issue">
-Explain why price indexes are important.
+The Web Payments system includes pricing indices to enable vendor choice in (a) pricing method; (b) transaction currency. Any vendor may implement fixed, differentiated or indexed pricing. And any vendor may designate one or more currencies in which to receive payment. Following from this, any purchaser may issue payments in any of a vendor's designated currencies.
       </p>
     </section>
 
     <section>
-      <h2>Price Index Web Services</h2>
-      <p>
+      <h2>Pricing Index Concept of Operations</h2>
+      <p> 
+Consider an online vendor with operations based in five countries who is prepared to accept payment in any of the five countries' currencies, and wishes to post prices in each of the five different units of account. The vendor would like to index the price expressed in each currency in a way that keeps their offering consistent through time and amongst locations. 
+
+The Pricing Index sub-project of Web Payments exists to specify, design and develop software components and contract clauses to enable choice amongst algorithms for indexed pricing in contracts. Pricing index choices are additional to more complex OTC forward currency contracts that are typically used for currency hedging. Both techniques may be used.
+
+Using any standards-­compliant e-­commerce software, a vendor would select a reference currency they prefer for base price management, and identify any other currencies they would be equally willing to accepted in payment. Next they select one of the available pricing index services, which could be a currency exchange rate, or another type of index more relevant to the scope and dynamics of their particular business that would enable greater price stability, variability with key input prices, or some other criterion. When a vendor selects a particular pricing index service, their e-­commerce software would automatically query that indexing service's data feed in order to interpret the vendor's reference base price for each good or service from its publication date, to express what the vendor deems to be the same real value in each of the other currencies that the vendor has identified as acceptable for payment. Price re­-calibrations occur on an established schedule through time, and each update is digitally signed by the vendor's e-commerce software. 
+
+Any customer browsing the vendor's e­-commerce site chooses a payment currency that s/he has available to pay, from amongst those identified as acceptable to the vendor. (This would be like choosing a mutually acceptable language on a multilingual website). The vendor's site then displays all prices in that currency to the purchaser. When the customer activates a purchase, the vendor's shopping cart function sends the digitally-­signed interpreted price expressed in the buyer's chosen currency to the purchaser's own payments processor, local or external. Once the purchaser's available funds are confirmed, the transaction is processed at both ends. 
+
+A bank-posted currency "exchange rate" is one pricing index choice, possibly moderated with a data smoothing technique. Two potential sources are:
+<ul>
+<li>Effective exchange rates published by central banks http://www.bis.org/statistics/eer/index.htm </li>
+<li>Spot exchange rate published by WM-Reuters http://www.wmcompany.com/pdfs/WMReutersMethodology.pdf</li>
+</ul>
+
+A currency exchange rate may not be the optimal indexing choice for price stabilization or other objectives. 
+
+A global retail vendor may prefer to index their prices against a source such as the "World Price Index" supplied by EF Publishing:
+<ul>
+<li>http://www.worldeconomics.com/WorldPriceIndex/WPI.efp</li>
+</ul>
+
+Vendors in some fields may prefer an index based on a fraction of global market capitalization:
+<ul>
+<li>http://www.world-exchanges.org/statistics/monthly-query-tool
+</ul>
+
+In some cases it may be desireable to index prices to the general global availability of selected primary commodities weighted by the production of each commodity in each country, and moderated with a data smoothing technique.
+<ul>
+<li>http://faostat3.fao.org/faostat-gateway/go/to/home/E</li>
+<li>http://www.iea.org/stats/mods.asp</li>
+<li>http://unstats.un.org/unsd/mbs/app/DataSearchTable.aspx</li>
+<li>http://unctadstat.unctad.org/ReportFolders/reportFolders.aspx</li>
+</ul>
+
+Some vendors may find it attractive to associate their pricing with changes to underlying global indicators of biophysical capacity in each exclusive economic zone to obtain or supply real goods and services, for example:
+<ul>
+<li>Satellite data on surface thermal reflectivity http://landsat.usgs.gov/best_spectral_bands_to_use.php </li>
+<li>Band 2 - Green (0.52 to 0.60) Reveals peak vegetation, which is useful for assessing plant vigor</li>
+<li>Band 6 - Thermal Infrared (10.40 to 12.50) Reveals soil moisture</li>
+</ul>
+
+A vendor may also prefer to design their own custom index. If it is hosted at a URL and presents a RESTful data supply, they can select their custom pricing index from the list just as they would have chosen any of the other autonomous indexing services offered. 
+      
       </p>
 
       <section>
-        <h2>A Basic Price Index Query</h2>
+        <h2>A Basic Pricing Index Query</h2>
         <p>
-A basic price index query contains at least ...
+A basic pricing index query contains at least ...
         <dl>
         <dt><code>@context</code></dt>
         <dd>The value <code>https://w3id.org/payswarm/v1</code>, or an equivalent
 JSON-LD Context expressing the terminology necessary for the expression of the
 data.</dd>
         <dt><code>@type</code></dt>
-        <dd>The value <code>PriceIndexResult</code>.</dd>
+        <dd>The value <code>PricingIndexResult</code>.</dd>
         </p>
       </section>
 
       <section>
-        <h2>A Price Index Response</h2>
+        <h2>A Pricing Index Response</h2>
         <p>
-A typical price index response will look like... For example:
+A typical pricing index response will look like... For example:
         </p>
         
 <pre class="example">{
   "@context": "https://w3id.org/payswarm/v1",
-  "@type": "PriceIndexResult",
+  "@type": "PricingIndexResult",
   "amount": "23.41",
   "currency": "USD"
 }</pre>

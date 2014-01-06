@@ -66,6 +66,17 @@ body {
 }
 
 /*
+ * Make sure the navbar logo has special properties
+ */
+.navbar-brand {
+    padding: 8px 8px;
+}
+
+.navbar-logo {
+    background: transparent;
+}
+
+/*
  * Allow only vertical resizing of textareas.
  */
 

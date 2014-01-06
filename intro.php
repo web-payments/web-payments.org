@@ -1,57 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Web Payments">
-    <meta name="author" content="Manu Sporny">
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
+<?php $TOP_DIR='.'; include './header.inc'; ?>
 
-    <title>Web Payments</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/icomoon.css">
-    <link rel="stylesheet" href="assets/css/animate-custom.css">
-
-    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' type='text/css'>
-    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Raleway:400,300,700' type='text/css'>
-
-    <script src="assets/js/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
-    
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body data-target="#navbar-nav" data-spy="scroll">
-
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon icon-arrow-down" style="font-size:30px; color:#1abc9c;"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="./#home" class="smoothScroll">Home</a></li>
-            <li> <a href="./#about" class="smoothScroll"> About</a></li>
-            <li> <a href="./#specs" class="smoothScroll"> Specs</a></li>
-            <li> <a href="./#participate" class="smoothScroll"> Participate</a></li>
-            <li> <a href="./#contact" class="smoothScroll"> Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-  
     <!-- ==== HEADERWRAP ==== -->
       <div id="headerwrap" id="home" name="home">
       <header class="clearfix">
@@ -183,20 +131,5 @@ effort of the Ripple software running all over the world.
 
     </div>
 
-    <div id="footerwrap">
-      <div class="container">
-        <h4>Created by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. Shared with love under a <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a> license. Thanks to our <a href="thanks.html">contributors</a>.</h4>
-      </div>
-    </div>
+<?php $TOP_DIR='.'; include './footer.inc'; ?>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    
-
-  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="assets/js/retina.js"></script>
-  <script type="text/javascript" src="assets/js/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="assets/js/smoothscroll.js"></script> 
-  </body>
-</html>

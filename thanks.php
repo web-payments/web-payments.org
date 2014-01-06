@@ -4,7 +4,7 @@
       <div id="headerwrap" id="home" name="home">
       <header class="clearfix">
              <h1>Web Payments</h1>
-             <p>Payment standards for the Web.</p>
+             <p>Payment technologies for the Web.</p>
         </header>      
       </div><!-- /headerwrap -->
 

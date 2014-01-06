@@ -4,7 +4,7 @@
       <div id="headerwrap" id="home" name="home">
       <header class="clearfix">
              <h1>Web Payments</h1>
-             <p>Payment standards for the Web.</p>
+             <p>Payment technologies for the Web.</p>
         </header>      
       </div><!-- /headerwrap -->
 
@@ -50,7 +50,7 @@ interest you, consider
         <div class="col-lg-offset-1 col-lg-5">
           <p>
 The goal of this group is to create a set of universal payment
-standards for the Web, making single-click purchases and crowdfunding on the 
+technologies for the Web, making single-click purchases and crowdfunding on the 
 Web a reality, regardless of who your bank or financial institution is. It's 
 like PayPal, only open, patent-free, and royalty-free. 
           </p>

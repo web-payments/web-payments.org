@@ -106,18 +106,18 @@ open crowd-funding over the Web.
 <?php dirContents("ED/payment-intents"); ?>
       </p>
       <p>
-<a href="source/vocabs/commerce">Commerce Vocabulary</a>: The Web vocabulary 
+<a href="source/vocabs/commerce.html">Commerce Vocabulary</a>: The Web vocabulary 
 that is used to describe commercial transactions.
 <?php dirContents("ED/vocabs/commerce"); ?>
       </p>
       <p>
-<a href="source/vocabs/payswarm">PaySwarm Vocabulary</a>: The Web vocabulary 
+<a href="source/vocabs/payswarm.html">PaySwarm Vocabulary</a>: The Web vocabulary 
 that is used to describe specific concepts and properties on a 
 Web Payments network.
 <?php dirContents("ED/vocabs/payswarm"); ?>
       </p>
       <p>
-<a href="source/vocabs/creditcard">Credit Card Vocabulary</a>: The Web vocabulary 
+<a href="source/vocabs/creditcard.html">Credit Card Vocabulary</a>: The Web vocabulary 
 that is used to describe credit cards.
       </p>
     </div><!-- col-lg-6 -->
@@ -198,7 +198,7 @@ Public Key Infrastructure for the Web.
 <?php dirContents("ED/secure-messaging"); ?>
       </p>
       <p>
-<a href="source/vocabs/security">Security Vocabulary</a>: the Web vocabulary 
+<a href="source/vocabs/security.html">Security Vocabulary</a>: the Web vocabulary 
 that is used to describe mechanisms for expressing digital signatures and 
 encrypting and decrypting messages.
 <?php dirContents("ED/vocabs/security"); ?>

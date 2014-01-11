@@ -1,58 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Web Payments">
-    <meta name="author" content="Manu Sporny">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<?php $TOP_DIR='.'; include './header.inc'; ?>
 
-    <title>Web Payments</title>
-
-    <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap.css">
-
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/icomoon.css">
-    <link rel="stylesheet" href="assets/css/animate-custom.css">
-
-    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' type='text/css'>
-    <link rel='stylesheet' href='//fonts.googleapis.com/css?family=Raleway:400,300,700' type='text/css'>
-
-    <script src="assets/js/jquery.min.js"></script>
-  <script type="text/javascript" src="assets/js/modernizr.custom.js"></script>
-    
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body data-target="#navbar-nav" data-spy="scroll">
-
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-default navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <img class="navbar-logo" src="images/logo-32.png">
-          </button>
-          <a class="navbar-brand hidden-xs hidden-sm" href="#home"><img class="navbar-logo" src="images/logo-32.png"></a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#home" class="smoothScroll">Home</a></li>
-            <li> <a href="#about" class="smoothScroll">About</a></li>
-            <li> <a href="#tech" class="smoothScroll">Tech</a></li>
-            <li> <a href="#participate" class="smoothScroll">Participate</a></li>
-            <li> <a href="#contact" class="smoothScroll">Contact</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-  
     <!-- ==== HEADERWRAP ==== -->
       <div id="headerwrap" id="home" name="home">
       <header class="clearfix">
@@ -98,8 +45,7 @@ same thing for money. There is no global standard for sending money over the Int
         </div><!-- col-lg-6 -->
         
         <div class="col-lg-6">
-          <p>A large group of us are doing just this at the 
-We are the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>, and we are making it as easy and fast to send money around the world as it is to send an email. Our approach is different from the way traditional payment technology is built. We believe in a level playing field. We operate out in the open. We are transparent. Come <a href="join">join us</a> and make a difference in the world.</p>
+          <p>A large group of us are doing just this at the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. We are making it as easy and fast to send money around the world as it is to send an email. We are build and documenting technology that explains exactly how money moves around the world via the Web. Our approach is different from the way traditional payment technology is built. We believe in a level playing field. We operate out in the open. We are transparent. Come <a href="join">join us</a> and make a difference in the world.</p>
         </div><!-- col-lg-6 -->
       </div><!-- row -->
     </div><!-- container -->
@@ -122,10 +68,10 @@ We are the <a href="http://www.w3.org/community/webpayments/">Web Payments Commu
         <hr>
     <div class="row white">
         <div class="col-lg-offset-1 col-lg-10">
-           <p>The Web Payments Community Group operates under the umbrella of the <a href="http://www.w3.org/">World Wide Web Consortium</a>, the group that creates the core technology for the Web. While the W3C does not officially endorse any work performed by a community group, the
-purpose of this community group is to create documents that may or may not be promoted for standardization by the W3C Membership.
-The primary output of the Web Payments Community Group are technology documents that may be elevated to world standards through the
-W3C Process and then implemented by technology companies, merchants, payment processors, banks, and government. A summary of the 
+           <p>The Web Payments Community Group operates under the framework of the <a href="http://www.w3.org/">World Wide Web Consortium (W3C)</a>, the group that creates the core technology for the Web. It also participates heavily in work at the <a href="http://ietf.org">Internet Engineering Task Force (IETF)</a>. While neither the W3C or IETF officially endorses any work performed by a community group, the
+purpose of this community group is to create documents that will most likely be promoted for standardization by standards setting organizations.
+The primary output of the Web Payments Community Group are technology documents that may be elevated to world standards through
+standardization bodies like the W3C and IETF, and then implemented by technology companies, merchants, payment processors, banks, and government. A summary of the 
 technologies we are working on can be found below, further details can be found on the <a href="specs/">specifications page</a>.
 </p>
         </div>
@@ -248,20 +194,4 @@ technologies we are working on can be found below, further details can be found 
     
     </div><!-- container -->
 
-    <div id="footerwrap">
-      <div class="container">
-        <h4>Created by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. Shared with love under a <a href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a> license. Thanks to our <a href="thanks.html">contributors</a>.</h4>
-      </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    
-
-  <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="assets/js/retina.js"></script>
-  <script type="text/javascript" src="assets/js/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="assets/js/smoothscroll.js"></script> 
-  </body>
-</html>
+<?php $TOP_DIR='.'; include './footer.inc'; ?>

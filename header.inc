@@ -45,7 +45,7 @@
           <ul class="nav navbar-nav">
             <li><a href="<?php echo $TOP_DIR ?>/#home" class="smoothScroll">Home</a></li>
             <li> <a href="<?php echo $TOP_DIR ?>/#about" class="smoothScroll"> About</a></li>
-            <li> <a href="<?php echo $TOP_DIR ?>/#specs" class="smoothScroll"> Specs</a></li>
+            <li> <a href="<?php echo $TOP_DIR ?>/#tech" class="smoothScroll"> Tech</a></li>
             <li> <a href="<?php echo $TOP_DIR ?>/#participate" class="smoothScroll"> Participate</a></li>
             <li> <a href="<?php echo $TOP_DIR ?>/#contact" class="smoothScroll"> Contact</a></li>
           </ul>

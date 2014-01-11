@@ -45,4 +45,4 @@ Anyone may join the group and participate for free. Here's how:
       </div><!-- row -->
     </div><!-- container -->
 
-<?php $TOP_DIR='.'; include './header.inc'; ?>
+<?php $TOP_DIR='.'; include './footer.inc'; ?>

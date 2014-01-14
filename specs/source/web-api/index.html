@@ -467,7 +467,7 @@ specified, all API requests
 MUST be made over HTTPS to the <tref>authority</tref>.
         </p>
         <p>
-An invalid certificate or TLS error or any kind MUST result in the API 
+An invalid certificate or TLS error of any kind MUST result in the API 
 call exiting immediately and not performing the requested
 action. All API requests sent to the <tref>authority</tref> on 
 behalf of a participant of the network that results in any modification 
@@ -554,7 +554,7 @@ Generate the <tdef>signature value</tdef> by:
             <ol class="algorithm">
               <li>
 Create a <tdef>timestamped message</tdef> and initialize it to the
-emtpy string. Generate an  ISO8601 <tdef>combined date and time string</tdef> 
+empty string. Generate an  ISO8601 <tdef>combined date and time string</tdef> 
 containing the current date and time, accurate to at least one second, in 
 Universal Time Code format. For example: <code>2011-09-23T20:21:34Z</code>. 
 Append the <tref>combined date and time string</tref> to the 
@@ -813,7 +813,7 @@ this algorithm as inputs to the cipher algorithm.
       <section>
         <h2>Security Considerations</h2>
         <p>
-Since this specificationd describes a financial system, the security of the
+Since this specification describes a financial system, the security of the
 communication in the system is of utmost importance. The following section
 describes security considerations that developers implementing this 
 specification should be aware of in order to create secure software.
@@ -1265,7 +1265,7 @@ The second approach is where an <tref>agent</tref> may initiate a transaction by
 performing an HTTPS POST of JSON-LD object expressing a
 <code>ps:Transaction</code>. The normative algorithm for performing this
 operation is detailed below. In both approaches, the 
-<tref>authority</tref> processesing the request MUST note the 
+<tref>authority</tref> processing the request MUST note the 
 <code>ps:Transaction</code> entry in all of the accounts associated in the 
 <tref>transaction</tref> and ensure that all accounts external to the 
 <tref>authority</tref> are notified via the 
@@ -1758,7 +1758,7 @@ process consists of re-directing the Web browser to the buyer's PaySwarm
 Authority for the purposes of authorizing payment to the vendor for a
 particular <tref>listing</tref>. If a payment authorization is not approved,
 the user agent is re-directed back to the vendor's website with an error.
-If the payment authorization is approved, the user agent is re-directed bakc to
+If the payment authorization is approved, the user agent is re-directed back to
 the vendor's website with a short-form <tref>contract</tref>, which 
 is used as a proof-of-purchase for the vendor's listing.
         </p>
@@ -2040,7 +2040,7 @@ An IRI to the <tref>identity</tref> that acquired the <tref>asset</tref>.
               </dd>
               <dt><code>com:reference</code></dt>
               <dd>
-The <tref>reference identifier</tref>, if one was suppied via the purchase 
+The <tref>reference identifier</tref>, if one was supplied via the purchase 
 request.
               </dd>
             </dl>
@@ -2522,7 +2522,7 @@ the name <code>token</code>.
 The <tref>releasing authority</tref> MUST set a flag on all associated
 <tref title="identity">identities</tref> to
 <strong>MIGRATION_IN_PROGRESS</strong>. All <tref>transaction</tref>s 
-involving the previsouly flagged <tref title="identity">identities</tref>
+involving the previously flagged <tref title="identity">identities</tref>
 MUST be denied while the <strong>MIGRATION_IN_PROGRESS</strong> flag is active.
           </li>
           <li>

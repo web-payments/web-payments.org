@@ -9,18 +9,9 @@
       out in the same tree and use relative links so that they'll work offline,
      --> 
     <script src='../../respec-w3c-common.js' class='remove'></script> 
+    <script src='../../web-payments-common.js' class='remove'></script> 
     <script class='remove'> 
-      var preProc = {
-        apply: function(c) {
-          // extend the bibliography entries
-          berjon.biblio["WEB-KEYS"] = "Manu Sporny; et al. <a href=\"http://payswarm.com/specs/source/web-keys/\"><cite>Web Keys</cite></a>. Web Payments Community Group Working Draft. URL: <a href=\"http://payswarm.com/specs/source/web-keys/\">http://payswarm.com/specs/source/web-keys/</a> ";
-      }
-    };       
-
       var respecConfig = {
-          // Run the following pre-processing commands
-          preProcess: [ preProc ],
-      
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:       "CG-DRAFT",
           
@@ -51,7 +42,7 @@
             { name: "Manu Sporny", url: "http://digitalbazaar.com/",
                 company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
           ],
- 
+
           // authors, add as many as you like. 
           // This is optional, uncomment if you have authors as well as editors.
           // only "name" is required. Same format as editors.
@@ -60,6 +51,9 @@
           //  { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
           //],
+
+          // extend the bibliography entries
+          localBiblio: webpayments.localBiblio,
           
           // name of the WG
           wg:       "Web Payments Community Group",
@@ -75,7 +69,10 @@
           // This is important for Rec-track documents, do not copy a patent URI from a random
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
-          wgPatentURI:  ""
+          wgPatentURI:  "",
+
+          // Run the following pre-processing commands
+          preProcess: []
     };
     </script> 
     <script type="text/javascript" src="prettify.js" class="remove"></script>
@@ -85,7 +82,7 @@
       window.onload = function() {
         if (oldonload) oldonload();
         prettyPrint();
-    };
+      };
     </script>
   </head> 
   <body prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#

@@ -36,7 +36,7 @@
           // previousMaturity:  "WD",
  
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:       "http://payswarm.com/specs/source/vocabs/security",
+          edDraftURI:       "https://web-payments.org/specs/source/vocabs/security.html",
  
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -884,7 +884,7 @@ data that has been abbreviated for the sake of the readability of the example.
         <h3>publicKeyService</h3>
         <p>
 The publicKeyService property is used to express the REST URL that provides 
-public key management services as defined by the Web Key [[!WEB-KEYS]] 
+public key management services as defined by the Web Key [[!SECURE-MESSAGING]] 
 specification.
         </p>
         <dl>
@@ -897,7 +897,7 @@ specification.
 The following example shows how a website can publish the location of a 
 public keys service via the .well-known file. The publicKeyService can be found
 at the <code>https://payswarm.example.com/public-keys</code> URL and may be 
-operated upon using the protocol described in [[!WEB-KEYS]].
+operated upon using the protocol described in [[!SECURE-MESSAGING]].
         </p>
         <pre class="example prettyprint language-jsonld">
 {

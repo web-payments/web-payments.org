@@ -192,7 +192,7 @@ HTTP Trailers.
 <?php dirContents("ED/http-signature-trailers"); ?>
       </p>
       <p>
-<a href="source/http-keys">Secure Messaging</a>: A secure and verifiable 
+<a href="source/secure-messaging">Secure Messaging</a>: A secure and verifiable 
 messaging mechanism built using Linked Data principles to produce a distributed
 Public Key Infrastructure for the Web.
 <?php dirContents("ED/secure-messaging"); ?>

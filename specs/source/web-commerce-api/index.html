@@ -1,0 +1,471 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Web Commerce API 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <link rel="stylesheet" href="spec.css">
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
+    <script src='../../web-payments-common.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "CG-DRAFT",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "web-commerce-api",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "https://web-payments.org/specs/source/web-commerce-api/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+
+          // extend the bibliography entries
+          localBiblio: webpayments.localBiblio,
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.w3.org/community/webpayments/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3.org",
+
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ webpayments.preProcess ] /*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+          */
+      };
+    </script> 
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+<style type="text/css">
+  .diff { font-weight:bold; color:#0a3; }
+  table, thead, tr, td { padding: 5px; border-width: 1px; border-spacing: 0px; border-style: solid; border-collapse: collapse;}
+</style>
+</head>
+
+<body>
+<section id="abstract">
+  <p>
+The freedom to transact and exchange value has become an important cornerstone
+of the Web. This specification outlines a browser 
+<a href="http://remysharp.com/2010/10/08/what-is-a-polyfill/">polyfill</a>
+that makes financial transactions easier to initiate and verify while also 
+making them more secure. The solution is designed to work with both proprietary
+(PayPal, Google Wallet) and non-proprietary (PaySwarm, Bitcoin, Ripple)
+payment solutions.
+  </p>
+  <p>
+This document is heavily influenced by the MozPay API from Mozilla, which was
+authored by Andreas Gal, Fernando Jiménez, Mike Hanson, and Kumar McMillan.
+  </p>
+</section>
+
+<section id="sotd">
+
+  <p>There are a number of ways that one may participate in the development of
+    this specification:</p>
+
+  <ul>
+    <li>Ad-hoc technical discussion primarily occurs on the public community mailing list:
+      <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+    <li><a href="http://payswarm/minutes/">Public Web Payments Community Group teleconferences</a>
+    are held on Wednesdays at 1600UTC every other week.</li>
+
+    <li>Specification bugs and issues should be reported in the
+      <a href="https://github.com/web-payments/web-payments.org/issues">issue tracker</a>
+      if you do not want to send an e-mail to the public-webpayments mailing
+      list.</li>
+
+    <li><a href="https://github.com/web-payments/web-payments.org/tree/master/">Source code</a>
+      for the specification can be found on Github.</li>
+
+  </ul>
+</section>
+
+<section class="informative">
+  <h1>Introduction</h1>
+
+  <p>
+This API enables a web application to initiate payment for a product or 
+service by calling a <code>navigator.transact.pay()</code> method. The
+implementation of this feature is expected to be provided by a JavaScript
+polyfill at first, and if deployment is successful, native browser 
+implementations will eventually surface to enhance usability and transaction 
+security.
+  </p>
+  <section class="informative">
+    <h2>How to Read this Document</h2>
+
+    <p>This document is a detailed specification for an application programming
+      interface (API) for initiating payments from within a browser
+      environment. The document is primarily intended for the following
+      audiences:</p>
+
+    <ul>
+      <li>Software developers who want to understand the design decisions and
+        algorithms behind the API.</li>
+      <li>Software developers who want to implement the API.</li>
+    </ul>
+  </section>
+  <section class="normative">
+    <h3>Terminology</h3>
+    <p>
+There are a number of terms used throughout this document that readers may
+not be familiar with. This section can be used as a reference for that
+terminology.
+    </p>
+    
+    <dl>
+      <dt><tdef>application</tdef></dt>
+      <dd>
+A web application which offers goods or services to be sold. The
+Web App charges users via <code>navigator.transact.pay()</code> and requires 
+a client and server.
+      </dd>
+      <dt><tdef>vendor identity</tdef></dt>
+      <dd>
+A public identifier that can be transmitted in a JSON object so that a 
+payment provider can identify the vendor.
+      </dd>
+      <dt><tdef>vendor</tdef></dt>
+      <dd>
+A seller of digital goods or services.
+      </dd>
+      <dt><tdef>payment provider</tdef></dt>
+      <dd>
+A client/server web application that serves content in a dialog
+controlled by <code>navigator.transact.pay()</code>. The provider accepts 
+payment from a buyer and disperses income to the vendor.
+      </dd>
+      <dt><tdef>buyer</tdef></dt>
+      <dd>
+A person, organization, or other entity who wants to purchase a good or
+service.
+      </dd>
+      <dt><tdef>user agent</tdef></dt>
+      <dd>
+A tool that is used to interact with the Web. This can be a web browser, mobile
+phone operating system, or similar software system.
+      </dd>
+    </dl>
+  </section>
+
+</section>
+
+<section>
+ <h1>WebPayments Architecture</h1>
+ <p>
+A web app running on the vendor's website will interact with a 
+<tref>payment provider</tref> via <code>navigator.transact.pay()</code>.
+Results of the payment request will be POSTed to the vendor's server.
+</p>
+
+  <section>
+    <h2>Payment Flow Overview</h2>
+    <ol>
+      <li>
+The app initiates a payment by calling <code>navigator.transact.pay(request)</code>.
+      </li>
+      <li>
+This starts the buyflow by POSTing a purchase request to the payment provider.
+The payment provider is either the vendor-provided default, or a payment 
+provider specified by the customer.
+      </li>
+      <li>
+A purchasing flow is served from the payment provider as an HTML5 document 
+inside a dialog.
+      </li>
+      <li>
+The buyer is authenticated by the payment provider.
+      </li>
+      <li>
+The buyer accepts or cancels the purchase.
+      </li>
+      <li>
+A callback is called on the vendor's page that notfies the vendors software
+that the purchase was successful, or canceled.
+      </li>
+      <li>
+The vendor software receives a digital receipt of the sale and may then 
+verify whether or not the payment was processed successfully.
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Detailed Payment Flow</h2>
+<p class="issue">
+Describe the payment flow in detail here. Primarily, express how this approach
+utilizes a mechanism like Persona to deploy the API on websites using a 
+centralized service and then decentralize the payment mechanism through the
+implementation of the dialog via a Web browser.
+</p>
+
+    <section>
+      <h3>Sign-in</h3>
+      <p>
+This is an implementation detail of the <tref>payment provider</tref>.
+The <code>navigator.transact.pay()</code> API does not prescribe any user
+authorization scheme.
+      </p>
+      <p class="issue">
+Specify user identity management, 
+e.g. <a href="https://login.persona.org/">Persona</a>, and describe how 
+Persona coupled with the Web Identity specification can be used to discover
+a customer's payment provider.
+      </p>
+    </section>
+
+    <section>
+      <h3>Vendor Registration</h3>
+      <p>
+This is an implementation detail of the <tref>payment provider</tref>.
+The <code>navigator.transact.pay()</code> API facilities two parties in 
+executing a transaction: 1) a <tref>buyer</tref> and 2) a <tref>vendor</tref>.  
+It does not facilitate any part of the registration process.
+      </p>
+    </section>
+
+    <section>
+      <h3>Initiating a Payment</h3>
+      <ol>
+        <li>
+The <tref>buyer</tref> navigates to a vendor's website.</li>
+        <li>
+The <tref>buyer</tref> finds something interesting to purchase, like a one
+year subscription to a blog.
+        </li>
+        <li>
+The <tref>buyer</tref> clicks a <strong>Buy</strong> button.
+        </li>
+        <li>
+The application generates a purchase request, which is a [[!JSON-LD]] object 
+that contains the minimum amount of information for the payment provider to
+perform discovery on the product price and other information such as
+name, description, price, etc.
+        </li>
+        <li>
+The <code>navigator.transact.pay()</code> method is called with the 
+purchase request. This begins the payment provider buy flow 
+inside a dialog in the user agent.
+        </li>
+      </ol>
+      <pre class="example" title="Server-side JWT generation in Python">
+var purchaseRequest = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  paymentProvider: 'https://paymentprovider.com/transact',
+  listing: 'https://example.com/products/test#listing',
+  listingHash: '1ecd90db01ba293d097c713150defffa5e38bdabbe56e8950e4b354f514c7018',
+  paymentCallback: 'https://store.com/callback'
+}
+      </pre>
+      <p>
+Here is a detailed explanation of the purchase request:
+      </p>
+      <dl>
+        <dt>paymentProvider (mandatory)</dt>
+        <dd>
+The payment provider URL to use when initiating the transaction. The purchase
+request will be POSTed to this location.
+        </dd>
+        <dt>listing (mandatory)</dt>
+        <dd>
+A URL for the identifier of the product listing (product and pricing 
+information).
+        </dd>
+        <dt>listingHash</dt>
+        <dd>
+A SHA-256 hash of the listing if the vendor would like to ensure that the listing
+that is fetched matches the hash that they generated. Warning: This isn't
+completely collision proof, but it's very good protection as long as the
+size of the listing is limited to less than 512Kb. (We need to calculate 
+max listing sizes that protect against collision attacks on SHA-256).
+        </dd>
+        <dt>paymentCallback (mandatory)</dt>
+        <dd>
+The callback that will be called with the result of the purchase, either a
+digital receipt or a cancelation reason.
+        </dd>
+      </dl>
+
+      <p>
+For a user to make a purchase, the Application must execute the Javascript
+method <code>navigator.transact.pay()</code> with the listing. 
+For example, the app might have a 'buy' button that
+triggers this method when clicked.
+      </p>
+
+      <pre class="example" title="Initiating a payment via the navigator.transact.pay() method">
+navigator.transact.pay(purchaseRequest);
+      </pre>
+
+      <ol>
+        <li>
+The <code>navigator.transact.pay</code> method will POST the purchase
+request to the payment provider and the result will be shown in a dialog,
+so the buyer can confirm payment.
+        </li>
+        <li>
+The details of the exact buy flow are implemented by the
+<tref>payment provider</tref>.
+        </li>
+        <li>
+The buyer confirms the purchase or cancels it.
+        </li>
+        <li>
+If the buyer cancels or something goes wrong with the payment process, an
+error is posted to the callback
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>Notifications</h3>
+      <p>
+The user agent will POST a digital receipt to the 
+<strong>paymentCallback</strong> if the payment is successful. If
+the payment is not successful, an error will be posted to the 
+<strong>paymentCallback</strong>.
+      </p>
+      <p>
+When a digital receipt is received, the application must verify the signature. 
+If the signature is not valid, it should be ignored. If the signature is valid,
+the application should grant the buyer access to the item they purchased.
+      </p>
+      <p class="issue">
+The vendor is going to have to have a whitelist of some sort to understand
+which payment processors' signatures it trusts on digital receipts. For example,
+perhaps PayPal, Google Wallet, and Amazon will be in a whitelist. This creates
+undue advantage to those organizations, so a generalized whitelist is going to
+be necessary if the system is going to scale to thousands of payment 
+processors. This will most likely require some sort of regulatory body that
+approves payment processors (ensures that they've met some sort of fiduciary
+criteria).
+      </p>
+
+      <section>
+        <h4>Callback</h4>
+        <p>
+Here is an example of a callback POSTed to the <strong>purchaseCallback</strong> 
+that indicates a transaction was fully processed and was successful:
+        </p>
+        <pre class="example" title="Postback example">
+Add Digital Contract example here
+        </pre>
+      </section>
+    </section>
+  </section>
+</section>
+
+<section>
+  <h2>The Application Programming Interface</h2>
+
+  <p>This API provides a clean mechanism that enables developers to 
+    initiate payments in a <tref>User Agent</tref>. 
+    A conformant Payment Initator MUST implement the entirety of the 
+    following API.</p>
+
+  <section>
+    <h3>NavigatorTransactions</h3>
+
+    <p>Navigator Transactions is the name of the high-level programming 
+      interface that Web developers use to initiate payments. If MUST be
+      made available via the <code>navigator.transact</code> object.</p>
+
+    <dl title="interface NavigatorTransactions" class="idl">
+      <dt>DOMRequest pay()</dt>
+      <dd>
+        <p>
+Initiates a payment or refund given an array of [[!JSON-LD]] encoded payment 
+requests describing the type of financial operations to perform.
+        </p>
+        <p class="issue">
+Should we break refunds out into their own method call? The downside of doing
+that is that the API is no longer fairly generic. However, .pay() doesn't
+really imply "refund", unless you think of a refund like a reverse payment?
+The other thing we could do is use .process() or .transact() as the method
+call and change the interface name to something like 
+navigator.funds.transact() or navigator.wallet.transact().
+        </p>
+        <p>
+Each request object will contain a <code>typ</code> key. The value associated
+with this key will be used to perform matchmaking between the customer's list 
+of registered payment providers and the list of preferred payment providers 
+for the Merchant. Typically, a <tref>User Agent</tref> will 
+request that the customer rank their registered payment providers in most 
+preferable to least preferable order. If this ranking is performed, 
+a payment provider can be selected automatically by picking highest ranked
+payment provider in the customer's payment provider list with a payment 
+provider that also exists in the Merchant's payment provider list. 
+        </p>
+        <dl class="parameters">
+          <dt>object[] requests</dt>
+          <dd>An array of [[!JSON-LD]] encoded payment requests describing 
+          the type of financial operations to perform.</dd>
+        </dl>
+      </dd>
+    </dl>
+  </section> <!-- end of NavigatorPayment -->
+</section>
+
+<section class="appendix informative">
+  <h2>Acknowledgements</h2>
+
+  <p>
+The editor would like to thank Andreas Gal, Fernando Jiménez, Mike Hanson, 
+and Kumar McMillan for their work on the MozPay API.
+  </p>
+
+  <p>
+Thanks to the following individuals, in order of their first name, for
+their input on the specification: ...
+  </p>
+  
+</section>
+
+</body>
+</html>

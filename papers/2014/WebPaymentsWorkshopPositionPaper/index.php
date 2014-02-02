@@ -17,7 +17,7 @@
   "a__Web_Payments_Community_Group_Position_Paper"></a>Web Payments Community
   Group Position Paper</h1>
 
-  <p>W3C Web Payments Workshop - March 23 - 24 - Paris, France <br>
+  <p>W3C Web Payments Workshop - March 24 - 25 - Paris, France <br>
 
   <span>Submitted by: Manu Sporny &lt;</span><a href=
   "mailto:msporny@digitalbazaar.com"><span class=

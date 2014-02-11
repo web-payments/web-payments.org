@@ -68,7 +68,7 @@ same thing for money. There is no global standard for sending money over the Int
         <hr>
     <div class="row white">
         <div class="col-lg-offset-1 col-lg-10">
-           <p>The Web Payments Community Group operates under the framework of the <a href="http://www.w3.org/">World Wide Web Consortium (W3C)</a>, the group that creates the core technology for the Web. It also participates heavily in work at the <a href="http://ietf.org">Internet Engineering Task Force (IETF)</a>. While neither the W3C or IETF officially endorses any work performed by a community group, the
+           <p>The Web Payments Community Group operates under the framework of the <a href="http://www.w3.org/">World Wide Web Consortium (W3C)</a>, the group that creates the core technology for the Web. It also participates in work at the <a href="http://ietf.org">Internet Engineering Task Force (IETF)</a>. While neither the W3C or IETF officially endorses any work performed by a community group, the
 purpose of this community group is to create documents that will most likely be promoted for standardization by standards setting organizations.
 The primary output of the Web Payments Community Group are technology documents that may be elevated to world standards through
 standardization bodies like the W3C and IETF, and then implemented by technology companies, merchants, payment processors, banks, and government. A summary of the 

@@ -197,186 +197,183 @@ phone operating system, or similar software system.
 </section>
 
 <section>
- <h1>WebPayments Architecture</h1>
- <p>
+  <h2>Payment Flow Overview</h2>
+  <p>
 A web app running on the vendor's website will interact with a 
 <tref>payment provider</tref> via <code>navigator.transact.pay()</code>.
 Results of the payment request will be POSTed to the vendor's server.
-</p>
-
-  <section>
-    <h2>Payment Flow Overview</h2>
-    <ol>
-      <li>
+  </p>
+  <ol>
+    <li>
 The app initiates a payment by calling <code>navigator.transact.pay(request)</code>.
-      </li>
-      <li>
+    </li>
+    <li>
 This starts the buyflow by POSTing a purchase request to the payment provider.
 The payment provider is either the vendor-provided default, or a payment 
 provider specified by the customer.
-      </li>
-      <li>
+    </li>
+    <li>
 A purchasing flow is served from the payment provider as an HTML5 document 
 inside a dialog.
-      </li>
-      <li>
+    </li>
+    <li>
 The buyer is authenticated by the payment provider.
-      </li>
-      <li>
+    </li>
+    <li>
 The buyer accepts or cancels the purchase.
-      </li>
-      <li>
+    </li>
+    <li>
 A callback is called on the vendor's page that notfies the vendors software
 that the purchase was successful, or canceled.
-      </li>
-      <li>
+    </li>
+    <li>
 The vendor software receives a digital receipt of the sale and may then 
 verify whether or not the payment was processed successfully.
-      </li>
-    </ol>
-  </section>
+    </li>
+  </ol>
+</section>
 
-  <section>
-    <h2>Detailed Payment Flow</h2>
-<p class="issue">
+<section>
+  <h2>Detailed Payment Flow</h2>
+  <p class="issue">
 Describe the payment flow in detail here. Primarily, express how this approach
 utilizes a mechanism like Persona to deploy the API on websites using a 
 centralized service and then decentralize the payment mechanism through the
 implementation of the dialog via a Web browser.
-</p>
+  </p>
 
-    <section>
-      <h3>Sign-in</h3>
-      <p>
+  <section>
+    <h3>Buyer Registration and Login</h3>
+    <p>
 This is an implementation detail of the <tref>payment provider</tref>.
 The <code>navigator.transact.pay()</code> API does not prescribe any user
 authorization scheme.
-      </p>
-      <p class="issue">
+    </p>
+    <p class="issue">
 Specify user identity management, 
 e.g. <a href="https://login.persona.org/">Persona</a>, and describe how 
 Persona coupled with the Web Identity specification can be used to discover
 a customer's payment provider.
-      </p>
-    </section>
+    </p>
+  </section>
 
-    <section>
-      <h3>Vendor Registration</h3>
-      <p>
+  <section>
+    <h3>Vendor Registration</h3>
+    <p>
 This is an implementation detail of the <tref>payment provider</tref>.
 The <code>navigator.transact.pay()</code> API facilities two parties in 
 executing a transaction: 1) a <tref>buyer</tref> and 2) a <tref>vendor</tref>.  
 It does not facilitate any part of the registration process.
-      </p>
-    </section>
+    </p>
+  </section>
 
-    <section>
-      <h3>Initiating a Payment</h3>
-      <ol>
-        <li>
+  <section>
+    <h3>The Payment Request</h3>
+    <ol>
+      <li>
 The <tref>buyer</tref> navigates to a vendor's website.</li>
-        <li>
+      <li>
 The <tref>buyer</tref> finds something interesting to purchase, like a one
 year subscription to a blog.
-        </li>
-        <li>
+      </li>
+      <li>
 The <tref>buyer</tref> clicks a <strong>Buy</strong> button.
-        </li>
-        <li>
+      </li>
+      <li>
 The application generates a purchase request, which is a [[!JSON-LD]] object 
 that contains the minimum amount of information for the payment provider to
 perform discovery on the product price and other information such as
 name, description, price, etc.
-        </li>
-        <li>
+      </li>
+      <li>
 The <code>navigator.transact.pay()</code> method is called with the 
 purchase request. This begins the payment provider buy flow 
 inside a dialog in the user agent.
-        </li>
-      </ol>
-      <pre class="example" title="Server-side JWT generation in Python">
+      </li>
+    </ol>
+    <pre class="example" title="Example of a purchase request">
 var purchaseRequest = {
   '@context': 'https://w3id.org/web-payments/v1',
   paymentProvider: 'https://paymentprovider.com/transact',
   listing: 'https://example.com/products/test#listing',
   listingHash: '1ecd90db01ba293d097c713150defffa5e38bdabbe56e8950e4b354f514c7018',
-  paymentCallback: 'https://store.com/callback'
+  paymentCallback: 'https://store.com/digital-receipts?nonce=2f73a2j'
 }
-      </pre>
-      <p>
+    </pre>
+    <p>
 Here is a detailed explanation of the purchase request:
-      </p>
-      <dl>
-        <dt>paymentProvider (mandatory)</dt>
-        <dd>
+    </p>
+    <dl>
+      <dt>paymentProvider (mandatory)</dt>
+      <dd>
 The payment provider URL to use when initiating the transaction. The purchase
 request will be POSTed to this location.
-        </dd>
-        <dt>listing (mandatory)</dt>
-        <dd>
+      </dd>
+      <dt>listing (mandatory)</dt>
+      <dd>
 A URL for the identifier of the product listing (product and pricing 
 information).
-        </dd>
-        <dt>listingHash</dt>
-        <dd>
+      </dd>
+      <dt>listingHash</dt>
+      <dd>
 A SHA-256 hash of the listing if the vendor would like to ensure that the listing
 that is fetched matches the hash that they generated. Warning: This isn't
 completely collision proof, but it's very good protection as long as the
 size of the listing is limited to less than 512Kb. (We need to calculate 
 max listing sizes that protect against collision attacks on SHA-256).
-        </dd>
-        <dt>paymentCallback (mandatory)</dt>
-        <dd>
+      </dd>
+      <dt>paymentCallback (mandatory)</dt>
+      <dd>
 The callback that will be called with the result of the purchase, either a
 digital receipt or a cancelation reason.
-        </dd>
-      </dl>
+      </dd>
+    </dl>
 
-      <p>
+    <p>
 For a user to make a purchase, the Application must execute the Javascript
 method <code>navigator.transact.pay()</code> with the listing. 
 For example, the app might have a 'buy' button that
 triggers this method when clicked.
-      </p>
+    </p>
 
-      <pre class="example" title="Initiating a payment via the navigator.transact.pay() method">
+    <pre class="example" title="Initiating a payment via the navigator.transact.pay() method">
 navigator.transact.pay(purchaseRequest);
-      </pre>
+    </pre>
 
-      <ol>
-        <li>
+    <ol>
+      <li>
 The <code>navigator.transact.pay</code> method will POST the purchase
 request to the payment provider and the result will be shown in a dialog,
 so the buyer can confirm payment.
-        </li>
-        <li>
+      </li>
+      <li>
 The details of the exact buy flow are implemented by the
 <tref>payment provider</tref>.
-        </li>
-        <li>
+      </li>
+      <li>
 The buyer confirms the purchase or cancels it.
-        </li>
-        <li>
+      </li>
+      <li>
 If the buyer cancels or something goes wrong with the payment process, an
 error is posted to the callback
-        </li>
-      </ol>
-    </section>
+      </li>
+    </ol>
+  </section>
 
-    <section>
-      <h3>Notifications</h3>
-      <p>
+  <section>
+    <h3>The Digital Receipt</h3>
+    <p>
 The user agent will POST a digital receipt to the 
 <strong>paymentCallback</strong> if the payment is successful. If
 the payment is not successful, an error will be posted to the 
 <strong>paymentCallback</strong>.
-      </p>
-      <p>
+    </p>
+    <p>
 When a digital receipt is received, the application must verify the signature. 
 If the signature is not valid, it should be ignored. If the signature is valid,
 the application should grant the buyer access to the item they purchased.
-      </p>
-      <p class="issue">
+    </p>
+    <p class="issue">
 The vendor is going to have to have a whitelist of some sort to understand
 which payment processors' signatures it trusts on digital receipts. For example,
 perhaps PayPal, Google Wallet, and Amazon will be in a whitelist. This creates
@@ -385,19 +382,38 @@ be necessary if the system is going to scale to thousands of payment
 processors. This will most likely require some sort of regulatory body that
 approves payment processors (ensures that they've met some sort of fiduciary
 criteria).
-      </p>
+    </p>
 
-      <section>
-        <h4>Callback</h4>
-        <p>
+    <p>
 Here is an example of a callback POSTed to the <strong>purchaseCallback</strong> 
 that indicates a transaction was fully processed and was successful:
-        </p>
-        <pre class="example" title="Postback example">
-Add Digital Contract example here
-        </pre>
-      </section>
-    </section>
+    </p>
+    <pre class="example" title="Digital receipt postback example">{
+  "@context": "https://w3id.org/web-payments/v1",
+  "id": "https://paymentprovider.com/transactions/1.3.12e.1e",
+  "type": ["Transaction", "Receipt"],
+  "amount": "0.05",
+  "currency": "USD",
+  "assetAcquirer": "https://paymentprovider.com/i/manu",
+  "assetProvider": "https://artists.com/i/artist",
+  "asset": "http://artists.com/writing/recipe#asset",
+  "assetHash": "urn:sha256:9b757aa92e3cad...16524fe58fc8bc6857a051",
+  "license": "https://w3id.org/web-payments/licenses/blogging",
+  "licenseHash": "urn:sha256:d9dcfb7b3b...d58e1b9",
+  "listing": "http://vendor.com/articles/10317#listing"
+  "listingHash": "urn:sha256:58c4bbff8073...67711454a10155",
+  "authorized": "2013-09-18T19:12:22Z",
+  "created": "2013-09-18T19:11:48Z",
+  "settled": "2013-09-18T19:12:22Z",
+  "vendor": "https://vendorpayments.com/i/vendor"
+  "signature": {
+    "type": "GraphSignature2012",
+    "created": "2014-02-18T09:10:58+00:00",
+    "creator": "https://paymentprovider.com/i/paymentprovider/keys/1",
+    "signatureValue": "dSVNyy+UJR3Y6zmw...XEoJfEdcHw=="
+  }
+}
+    </pre>
   </section>
 </section>
 

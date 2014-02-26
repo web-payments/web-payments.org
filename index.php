@@ -26,7 +26,7 @@
         <div class="col-lg-4 callout">
           <span class="icon icon-heart"></span>
           <h2>Why</h2>
-          <p>The Web is going to play key role in achieving a resilient financial infrastructure and creating a more equitable future for all of us.</p>
+          <p>The Web is going to play a key role in achieving a resilient financial infrastructure and creating a more equitable future for all of us.</p>
         </div><!-- col-lg-4 -->  
       </div><!-- row -->
     </div><!-- greywrap -->
@@ -45,7 +45,7 @@ same thing for money. There is no global standard for sending money over the Int
         </div><!-- col-lg-6 -->
         
         <div class="col-lg-6">
-          <p>A large group of us are doing just this at the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. We are making it as easy and fast to send money around the world as it is to send an email. We are build and documenting technology that explains exactly how money moves around the world via the Web. Our approach is different from the way traditional payment technology is built. We believe in a level playing field. We operate out in the open. We are transparent. Come <a href="join">join us</a> and make a difference in the world.</p>
+          <p>A large group of us are doing just this at the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>. We are making it as easy and fast to send money around the world as it is to send an email. We are building and documenting technology that explains exactly how money moves around the world via the Web. Our approach is different from the way traditional payment technology is built. We believe in a level playing field. We operate out in the open. We are transparent. Come <a href="join">join us</a> and make a difference in the world.</p>
         </div><!-- col-lg-6 -->
       </div><!-- row -->
     </div><!-- container -->
@@ -71,7 +71,7 @@ same thing for money. There is no global standard for sending money over the Int
            <p>The Web Payments Community Group operates under the framework of the <a href="http://www.w3.org/">World Wide Web Consortium (W3C)</a>, the group that creates the core technology for the Web. It also participates in work at the <a href="http://ietf.org">Internet Engineering Task Force (IETF)</a>. While neither the W3C or IETF officially endorses any work performed by a community group, the
 purpose of this community group is to create documents that will most likely be promoted for standardization by standards setting organizations.
 The primary output of the Web Payments Community Group are technology documents that may be elevated to world standards through
-standardization bodies like the W3C and IETF, and then implemented by technology companies, merchants, payment processors, banks, and government. A summary of the 
+standardization bodies like the W3C and IETF, and then implemented by technology companies, merchants, payment processors, banks, and governments. A summary of the 
 technologies we are working on can be found below, further details can be found on the <a href="specs/">specifications page</a>.
 </p>
         </div>
@@ -84,7 +84,7 @@ technologies we are working on can be found below, further details can be found 
                     <div class="service-active">
                         <a href="specs#products"><span class="service-trigger icon icon-rocket"><p>PRODUCTS</p></span></a>
                         <div class="service-content">
-                            <p>Payments typically revolve around a particular product or service, so being able to express that product or service on the Web is important. It is also crucial that the description of the product or service is machine-readable to ensure that search engines can easily find the things you want.</p>
+                            <p>Payments typically revolve around a particular product or service, so being able to describe that product or service on the Web in a standardized way is important. It is also crucial that the description of the product or service is machine-readable to ensure that search engines can easily find the things you want.</p>
                         </div><!-- service-content -->
                     </div><!-- service-active -->
                     <!-- END SERVICE 3 -->        
@@ -105,7 +105,7 @@ technologies we are working on can be found below, further details can be found 
                     <div class="service-active">
                         <a href="specs#receipts"><span class="service-trigger icon icon-file"><p>RECEIPTS</p></span></a>
                         <div class="service-content">
-                            <p>Machine-readable digital receipts provide detailed information after a transaction has occurred. This enables you to more closely track where your money is going and more easily store your proofs of purchase. We are making it so your financial data is truly portable, and owned by you.</p>
+                            <p>Machine-readable digital receipts provide detailed information after a transaction has occurred. This enables you to more closely track where your money is going and more easily store your proofs-of-purchase. We are making it so your financial data is truly portable, and owned by you.</p>
                         </div><!-- service-content -->
                     </div><!-- service-active -->
                     <!-- END SERVICE 2 -->        
@@ -142,9 +142,9 @@ technologies we are working on can be found below, further details can be found 
         <div class="col-lg-4">
           <!-- START SERVICE 3 -->
                     <div class="service-active">
-                        <a href="specs#transactions"><span class="service-trigger icon icon-tools"><p>APIS</p></span></a>
+                        <a href="specs#transactions"><span class="service-trigger icon icon-tools"><p>APIs</p></span></a>
                         <div class="service-content">
-                            <p>A programmable financial infrastructure, built on the Web. That is what we hope to achieve in the next several years. The democratization of these financial tools will lower the barrier to entry for new businesses and financial products. An open financial architecture will usher in a more equitable future. </p>
+                            <p>A programmable financial infrastructure, built on the Web... that is what we hope to achieve in the next several years. The democratization of these financial tools will lower the barrier to entry for new businesses and financial products. An open financial architecture will usher in a more equitable future. </p>
                         </div><!-- service-content -->
                     </div><!-- service-active -->
                     <!-- END SERVICE 3 -->        

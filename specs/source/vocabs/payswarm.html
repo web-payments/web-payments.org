@@ -31,15 +31,19 @@
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
  
-          // if you want to have extra CSS, append them to this list
-          // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["prettify.css"],
- 
           // editors, add as many as you like
           // only "name" is required
           editors:  [
               { name: "Manu Sporny", url: "http://digitalbazaar.com/",
                 company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+          authors:  [
+          { name: "Dave Longley", url: "http://digitalbazaar.com/",
+            company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/"},
+          { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+            company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          { name: "David I. Lehn", url: "http://digitalbazaar.com/",
+            company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
           ],
  
           // authors, add as many as you like. 
@@ -83,14 +87,42 @@
     <section id='abstract'> 
       <p>
 This document describes a number of classes and properties that can be used to 
-express digital sales, rentals, contracts, licenses and payment-based
-exchanges on the Web. These include things such as payments for
+express purchase requests, digital receipts, rentals, contracts, licenses and 
+payment-based exchanges on the Web. These include things such as payments for
 blog articles, video rentals, electronic magazine subscriptions, data vending, 
 provisioning of Web services under legally enforceable contracts, 
 and other novel business models that are powered by the universal
 payment standard for the Web. This vocabulary is a part of the 
-<a href="http://payswarm.com/">PaySwarm Universal Web Payment Specifications</a>.
+<a href="http://web-payments.org/">W3C Web Payments Community Group</a> work.
       </p> 
+    </section> 
+
+    <section id='sotd'> 
+      <p>There are a number of ways that you may participate in the development of
+        this specification:</p>
+
+      <ul>
+        <li>If you want to make sure that your feedback is addressed by
+          the Web Payments Community Group, you should send it to public-webpayments:
+          <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+        <li>Ad-hoc technical discussion primarily occurs on the public community mailing list:
+          <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+        <li><a href="https://web-payments.org/minutes/">Public Web Payments Community Group teleconferences</a>
+        are held on Wednesdays at 1500UTC every week.</li>
+
+        <li>Specification bugs and issues should be reported in the
+          <a href="https://github.com/web-payments/web-payments.org/issues?state=open">issue tracker</a>
+          if you do not want to send an e-mail to the public-webpayments@w3.org mailing
+          list.</li>
+
+        <li><a href="https://github.com/web-payments/web-payments.org/blob/master/specs/source/vocabs/payswarm.html">Source code</a>
+          for the specification can be found on Github.</li>
+
+        <li>The <a href="http://webchat.freenode.net/?channels=payswarm">#payswarm</a>
+          IRC channel is available for real-time discussion on irc.freenode.net.</li>
+      </ul>
     </section> 
 
     <section>
@@ -327,7 +359,7 @@ video with the title "Learning How Cells Divide" by John Doe.
    "assetContent": "http://example.com/video/cell-division.mpg",
    "signature": 
    {
-      "type": "ps:JsonLdSignature",
+      "type": "GraphSignature2012",
       "created": "2011-03-12T00:00:00Z",
       "creator": "https://payswarm.example.com/i/john/keys/2",
       "signatureValue": "ne56Qsc5IXuLEGuq+Nic8="

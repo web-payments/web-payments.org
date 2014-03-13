@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en">
+<head> 
+    <title>PaySwarm Vocabulary</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+     
+     
+    
+    
+    
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><link rel="stylesheet" href="https://www.w3.org/community/src/css/spec/cg-draft.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head> 
+  <body class="h-entry" style="" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    <a href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">PaySwarm Vocabulary</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-03-13T18:07:08.000Z" id="draft-community-group-specification-13-march-2014">Draft Community Group Specification <time class="dt-published" datetime="2014-03-13">13 March 2014</time></h2>
+  <dl>
+    
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="https://web-payments.org/specs/source/vocabs/payswarm.html">https://web-payments.org/specs/source/vocabs/payswarm.html</a></dd>
+    
+    
+    
+    
+    
+      
+    
+    <dt>Editor:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Manu Sporny" href="http://digitalbazaar.com/">Manu Sporny</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
+</dd>
+
+    
+      <dt>Authors:</dt>
+      <dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Dave Longley" href="http://digitalbazaar.com/">Dave Longley</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Manu Sporny" href="http://digitalbazaar.com/">Manu Sporny</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="dcterms:contributor"><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="David I. Lehn" href="http://digitalbazaar.com/">David I. Lehn</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
+</dd>
+
+    
+  </dl>
+  
+  <p class="copyright">
+    <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+    2014
+    the Contributors to the PaySwarm Vocabulary Specification, published by the
+    <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a> under the
+    
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+      A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available.
+    
+  </p>
+  <hr>
+</div> 
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2> 
+      <p>
+This document describes a number of classes and properties that can be used to 
+express purchase requests, digital receipts, rentals, contracts, licenses and 
+payment-based exchanges on the Web. These include things such as payments for
+blog articles, video rentals, electronic magazine subscriptions, data vending, 
+provisioning of Web services under legally enforceable contracts, 
+and other novel business models that are powered by the universal
+payment standard for the Web. This vocabulary is a part of the 
+<a href="http://web-payments.org/">W3C Web Payments Community Group</a> work.
+      </p> 
+    </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  <p>
+    This specification was published by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>.
+    It is not a W3C Standard nor is it on the W3C Standards Track.
+    
+      Please note that under the 
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+      there is a limited opt-out and other conditions apply.
+    
+    Learn more about 
+    <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.
+  </p>
+   
+      <p>There are a number of ways that you may participate in the development of
+        this specification:</p>
+
+      <ul>
+        <li>If you want to make sure that your feedback is addressed by
+          the Web Payments Community Group, you should send it to public-webpayments:
+          <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+        <li>Ad-hoc technical discussion primarily occurs on the public community mailing list:
+          <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+        <li><a href="https://web-payments.org/minutes/">Public Web Payments Community Group teleconferences</a>
+        are held on Wednesdays at 1500UTC every week.</li>
+
+        <li>Specification bugs and issues should be reported in the
+          <a href="https://github.com/web-payments/web-payments.org/issues?state=open">issue tracker</a>
+          if you do not want to send an e-mail to the public-webpayments@w3.org mailing
+          list.</li>
+
+        <li><a href="https://github.com/web-payments/web-payments.org/blob/master/specs/source/vocabs/payswarm.html">Source code</a>
+          for the specification can be found on Github.</li>
+
+        <li>The <a href="http://webchat.freenode.net/?channels=payswarm">#payswarm</a>
+          IRC channel is available for real-time discussion on irc.freenode.net.</li>
+      </ul>
+    
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#classes" class="tocxref"><span class="secno">1. </span>Classes</a><ul class="toc"><li class="tocline"><a href="#Asset" class="tocxref"><span class="secno">1.1 </span>Asset</a></li><li class="tocline"><a href="#Contract" class="tocxref"><span class="secno">1.2 </span>Contract</a></li><li class="tocline"><a href="#Data" class="tocxref"><span class="secno">1.3 </span>Data</a></li><li class="tocline"><a href="#License" class="tocxref"><span class="secno">1.4 </span>License</a></li><li class="tocline"><a href="#Listing" class="tocxref"><span class="secno">1.5 </span>Listing</a></li></ul></li><li class="tocline"><a href="#constants" class="tocxref"><span class="secno">2. </span>Constants</a><ul class="toc"><li class="tocline"><a href="#NoAdditionalPayees" class="tocxref"><span class="secno">2.1 </span>NoAdditionalPayees</a></li></ul></li><li class="tocline"><a href="#properties" class="tocxref"><span class="secno">3. </span>Properties</a><ul class="toc"><li class="tocline"><a href="#asset" class="tocxref"><span class="secno">3.1 </span>asset</a></li><li class="tocline"><a href="#assetAcquirer" class="tocxref"><span class="secno">3.2 </span>assetAcquirer</a></li><li class="tocline"><a href="#assetHash" class="tocxref"><span class="secno">3.3 </span>assetHash</a></li><li class="tocline"><a href="#assetProvider" class="tocxref"><span class="secno">3.4 </span>assetProvider</a></li><li class="tocline"><a href="#authority" class="tocxref"><span class="secno">3.5 </span>authority</a></li><li class="tocline"><a href="#contentUrl" class="tocxref"><span class="secno">3.6 </span>contentUrl</a></li><li class="tocline"><a href="#licenseTemplate" class="tocxref"><span class="secno">3.7 </span>licenseTemplate</a></li><li class="tocline"><a href="#licenseTerms" class="tocxref"><span class="secno">3.8 </span>licenseTerms</a></li><li class="tocline"><a href="#license" class="tocxref"><span class="secno">3.9 </span>license</a></li><li class="tocline"><a href="#licenseHash" class="tocxref"><span class="secno">3.10 </span>licenseHash</a></li><li class="tocline"><a href="#listing" class="tocxref"><span class="secno">3.11 </span>listing</a></li><li class="tocline"><a href="#listingHash" class="tocxref"><span class="secno">3.12 </span>listingHash</a></li><li class="tocline"><a href="#owner" class="tocxref"><span class="secno">3.13 </span>owner</a></li><li class="tocline"><a href="#validFrom" class="tocxref"><span class="secno">3.14 </span>validFrom</a></li><li class="tocline"><a href="#validUntil" class="tocxref"><span class="secno">3.15 </span>validUntil</a></li></ul></li></ul></section> 
+
+     
+
+    <section id="classes">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_classes"><span class="secno">1. </span>Classes</h2>
+      <section id="Asset" about="https://w3id.org/payswarm#Asset" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_Asset"><span class="secno">1.1 </span>Asset</h3>
+        <p>
+An asset describes a particular item that is provided as a part of a commercial
+transaction. It is usually an item that can be accessed or acquired on the
+basis of a sale or rental under the terms of a particular license. Examples
+of assets include web pages, music files, video streams, use of virtual
+machines by the hour, 3D printer files for on-demand manufacturing, radio 
+spectrum and many other items that are capable of being transacted.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd>dc:title, dc:creator, ps:contentUrl, ps:assetProvider, 
+          ps:authority, ps:validFrom, ps:validUntil, sec:signature</dd>
+        </dl>
+        <p>
+The following example describes a web page asset with the title "PaySwarm
+in Practice - Full Article #1". The article was created by "Digital Bazaar, 
+Inc." and the information in the asset is valid from November 28th, 2010 to
+November 28th, 2011. The asset is digitally signed by the person providing it
+and thus can be cached, stored and then presented to someone else in a manner
+that is verifiable by the receiving party.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1#asset</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">WebPage</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">Digital Bazaar, Inc.</span><span class="pln">",
+   }
+   "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/person/john-doe#me</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-11-28T00:00:00Z</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+       "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-27T01:44:52Z</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzV...IyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="Contract" about="https://w3id.org/payswarm#Contract" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_Contract"><span class="secno">1.2 </span>Contract</h3>
+        <p>
+A contract is the result of a commercial transaction in PaySwarm and contains
+information such as the <a href="#Listing">Listing</a>, 
+the <a href="#Asset">Asset</a> that was purchased, the parties involved in the
+transaction, the <a href="#License">License</a> outlining the rights to the 
+Asset, and payment information associated with the transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>com:Transaction</dd>
+          <dt>Properties</dt>
+          <dd>com:amount, com:currency, com:date, com:payee, com:transfer, dc:created, ps:asset, ps:assetProvider, ps:license, ps:listing, signature</dd>
+        </dl>
+        <p>
+The following example describes a purchase that occurred on April 25th, 2013
+for a Web-based recipe for "Brown Sugar Fudge". The article was authored
+and listed for sale by 'chef' and a personal use license was acquired by 
+Manu, who may now peruse the article.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 2</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/transactions/1.3.f4.3</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Transaction</span><span class="pln">", "</span><span class="str">Contract</span><span class="pln">"],
+  "</span><span class="atn jsonld-curie">amount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T02:20:26Z</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">authorized</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T02:20:26Z</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">settled</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T02:20:26Z</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">asset</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#asset</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="tag jsonld-curie">pto:WebPage</span><span class="pln">"],
+    "</span><span class="atn jsonld-curie">creator</span><span class="pln">": {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">chef</span><span class="pln">"
+    },
+    "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">Brown Sugar Fudge</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">listingRestrictions</span><span class="pln">": {
+      "</span><span class="atn jsonld-curie">vendor</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">"
+    },
+    "</span><span class="atn jsonld-curie">signature</span><span class="pln">": {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T00:37:16+00:00</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/keys/1</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">O9EGWL... s758A==</span><span class="pln">"
+    }
+  },
+  "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">VendorIdentity</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">label</span><span class="pln">": "</span><span class="str">wordpress-recipes</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">website</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">description</span><span class="pln">": "</span><span class="str">PaySwarm demonstration recipe blog - selling delicious meal recipes since 2012.</span><span class="pln">"
+  },
+  "</span><span class="atn jsonld-curie">license</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/licenses/blogging</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">License</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">licenseTemplate</span><span class="pln">": "</span><span class="str">Personal Use License for Articles\n\n... </span><span class="pln">"
+  },
+  "</span><span class="atn jsonld-curie">listing</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#listing</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Listing</span><span class="pln">", "</span><span class="tag jsonld-curie">gr:Offering</span><span class="pln">"],
+    "</span><span class="atn jsonld-curie">payee</span><span class="pln">": [
+      {
+        "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#listing-payee</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Payee</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">Payment for Brown Sugar Fudge by chef.</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/accounts/blogging</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">payeeApplyType</span><span class="pln">": "</span><span class="str">ApplyExclusively</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">payeeGroup</span><span class="pln">": [ "</span><span class="str">vendor</span><span class="pln">" ],
+        "</span><span class="atn jsonld-curie">payeeRate</span><span class="pln">": "</span><span class="str">0.0500000</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">FlatAmount</span><span class="pln">"
+      }
+    ],
+    "</span><span class="atn jsonld-curie">payeeRule</span><span class="pln">": [
+      {
+        "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">PayeeRule</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">maximumPayeeRate</span><span class="pln">": "</span><span class="str">10.0000000</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">payeeApplyType</span><span class="pln">": "</span><span class="str">ApplyInclusively</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">payeeGroupPrefix</span><span class="pln">": [ "</span><span class="str">authority</span><span class="pln">" ],
+        "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">Percentage</span><span class="pln">"
+      }
+    ],
+    "</span><span class="atn jsonld-curie">vendor</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">asset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#asset</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">assetHash</span><span class="pln">": "</span><span class="tag jsonld-curie">urn:sha256:80cfb6bc234b3c3debb00c696b1c4eb0fa66946cbec1ce01ea824f5b634c3efb</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">license</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/licenses/blogging</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">licenseHash</span><span class="pln">": "</span><span class="tag jsonld-curie">urn:sha256:d9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T00:37:16+00:00</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-26T00:37:16+00:00</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">signature</span><span class="pln">": {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T00:37:16+00:00</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/keys/1</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">TpwG9... S2Q==</span><span class="pln">"
+    }
+  },
+  "</span><span class="atn jsonld-curie">listingHash</span><span class="pln">": "</span><span class="tag jsonld-curie">urn:sha256:152e3102e92eb64b2a40aa613caa0d46da732b69d6865ce25c5d9f5c2228a291</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">payee</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Payee</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/authority/accounts/main</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">payeeGroup</span><span class="pln">": [ "</span><span class="str">authority</span><span class="pln">" ],
+    "</span><span class="atn jsonld-curie">payeeRate</span><span class="pln">": "</span><span class="str">2.00</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">Percentage</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">payeeApplyType</span><span class="pln">": "</span><span class="str">ApplyInclusively</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">maximumAmount</span><span class="pln">": "</span><span class="str">10.00</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">PaySwarm Sandbox Authority Processing</span><span class="pln">"
+  },
+  "</span><span class="atn jsonld-curie">referenceId</span><span class="pln">": "</span><span class="tag jsonld-curie">payswarm.https://dev.payswarm.com/transactions/1.3.f4.3</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">transfer</span><span class="pln">": [
+    {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Transfer</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">source</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/manu/accounts/primary</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/accounts/blogging</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">amount</span><span class="pln">": "</span><span class="str">0.0490000000</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">Payment for Brown Sugar Fudge by chef.</span><span class="pln">"
+    },
+    {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Transfer</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">source</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/manu/accounts/primary</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/authority/accounts/main</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">amount</span><span class="pln">": "</span><span class="str">0.0010000000</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">PaySwarm Sandbox Authority Processing</span><span class="pln">"
+    }
+  ],
+  "</span><span class="atn jsonld-curie">vendor</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">VendorIdentity</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">label</span><span class="pln">": "</span><span class="str">wordpress-recipes</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">website</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">description</span><span class="pln">": "</span><span class="str">PaySwarm demonstration recipe blog - selling delicious meal recipes since 2012.</span><span class="pln">"
+  }
+}
+        </span></pre></div>
+      </section>
+      <section id="Data" about="https://w3id.org/payswarm#Data" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_Data"><span class="secno">1.3 </span>Data</h3>
+        <p>
+The Data class is typically found as a decorator class for an Asset. That is,
+the Data class is usually found as an rdf:type descriptor attached to an
+Asset. Data is used to specify that the asset is a pre-recorded or live 
+stream of bytes.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd>dc:title, dc:creator, ps:contentUrl, ps:assetProvider, 
+          ps:authority, ps:validFrom, ps:validUntil, signature</dd>
+        </dl>
+        <p>
+The following example shows an Data Asset for a byte stream for sale that is a 
+video with the title "Learning How Cells Divide" by John Doe. 
+        </p>
+        <div class="example"><div class="example-title"><span>Example 3</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/videos#cell-division</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">Data</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">John Doe</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">Learning How Cells Divide</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/john</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/video/cell-division.mpg</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-12T00:00:00Z</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/john/keys/2</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">ne56Qsc5IXuLEGuq+Nic8=</span><span class="pln">"
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="License" about="https://w3id.org/payswarm#License" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_License"><span class="secno">1.4 </span>License</h3>
+        <p>
+A license is a legal description of a licensee's rights to a particular Asset.
+Licenses are usually included as a part of a contract to express what a buyer 
+may do with the asset that has been purchased.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd>dc:format, ps:licenseTemplate, ps:licenseTerms</dd>
+        </dl>
+        <p>
+The following example describes an overly-simplified personal use license.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 4</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/personal-use</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">License</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">format</span><span class="pln">": "</span><span class="str">text/html</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">licenseTemplate</span><span class="pln">": "</span><span class="str">This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &lt;span property=\</span><span class="pln">"ex:physicalCopies\"</span><span class="str"> /&gt; printed
+      copies of the work for personal use.</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">licenseTerms</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">ex:physicalCopies</span><span class="pln">": </span><span class="lit">5</span><span class="pln">
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="Listing" about="https://w3id.org/payswarm#Listing" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_Listing"><span class="secno">1.5 </span>Listing</h3>
+        <p>
+A <a href="#Listing">Listing</a> describes the combination of an <a href="#Asset">Asset</a> that is for sale under a 
+specific <a href="#License">License</a> and a set of payment terms that must be fulfilled in order 
+to access the Asset. Listings are often published on websites that sell assets
+via PaySwarm as a way to express wares for sale in a decentralized manner.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Parent Class</dt>
+          <dd>owl:Thing</dd>
+          <dt>Properties</dt>
+          <dd>com:payee, com:payeeRule, ps:asset, ps:assetHash, ps:license,
+          ps:licenseHash, ps:signature, ps:validFrom, ps:validUntil</dd>
+        </dl>
+        <p>
+The following example describes an asset for sale for $0.05 USD under a license
+that covers basic blogging rights. The offer is valid from April 25th
+2013 to April 26th 2013. The only restriction on additional payees is that the 
+PaySwarm Authority (the organization processing the payment) may only take a 
+maximum of 10% of the final sale price to cover their fees.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 5</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+  "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#listing</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Listing</span><span class="pln">", "</span><span class="tag jsonld-curie">gr:Offering</span><span class="pln">"],
+  "</span><span class="atn jsonld-curie">payee</span><span class="pln">": [
+    {
+      "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#listing-payee</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Payee</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">Payment for Brown Sugar Fudge by chef.</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/accounts/blogging</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">payeeApplyType</span><span class="pln">": "</span><span class="str">ApplyExclusively</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">payeeGroup</span><span class="pln">": [ "</span><span class="str">vendor</span><span class="pln">" ],
+      "</span><span class="atn jsonld-curie">payeeRate</span><span class="pln">": "</span><span class="str">0.0500000</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">FlatAmount</span><span class="pln">"
+    }
+  ],
+  "</span><span class="atn jsonld-curie">payeeRule</span><span class="pln">": [
+    {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">PayeeRule</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">maximumPayeeRate</span><span class="pln">": "</span><span class="str">10.0000000</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">payeeApplyType</span><span class="pln">": "</span><span class="str">ApplyInclusively</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">payeeGroupPrefix</span><span class="pln">": [ "</span><span class="str">authority</span><span class="pln">" ],
+      "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">Percentage</span><span class="pln">"
+    }
+  ],
+  "</span><span class="atn jsonld-curie">vendor</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">asset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#asset</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">assetHash</span><span class="pln">": "</span><span class="tag jsonld-curie">urn:sha256:80cfb6bc234b3c3debb00c696b1c4eb0fa66946cbec1ce01ea824f5b634c3efb</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">license</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/licenses/blogging</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">licenseHash</span><span class="pln">": "</span><span class="tag jsonld-curie">urn:sha256:d9dcfb7b3ba057df52b99f777747e8fe0fc598a3bb364e3d3eb529f90d58e1b9</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T00:37:16+00:00</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-26T00:37:16+00:00</span><span class="pln">",
+  "</span><span class="atn jsonld-curie">signature</span><span class="pln">": {
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T00:37:16+00:00</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/keys/1</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">TpwG9... S2Q==</span><span class="pln">"
+  }
+}
+        </span></pre></div>
+      </section>
+    </section>
+
+    <section id="constants">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_constants"><span class="secno">2. </span>Constants</h2>
+      <section id="NoAdditionalPayees" about="https://w3id.org/payswarm#NoAdditionalPayees" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_NoAdditionalPayees"><span class="secno">2.1 </span>NoAdditionalPayees</h3>
+        <p>
+The NoAdditionalPayees constant is used as a com:rateType value in a 
+com:PayeeRule object to specify that no additional payees are allowed for the
+associated item. This is typically used when an asset owner does not want 
+anyone else on the network to provide value-added services on top of their
+asset.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:rateType</dd>
+        </dl>
+        <p>
+The following example specifies that no additional non-PaySwarm Authority 
+payees can be added to the list of payees as a result of the sale of an 
+asset or service.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 6</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+    "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">PayeeRule</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">NoAdditionalPayees</span><span class="pln">",
+}
+        </span></pre></div>
+      </section>
+    </section>
+
+    <section id="properties">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_properties"><span class="secno">3. </span>Properties</h2>
+      <section id="asset" about="https://w3id.org/payswarm#asset" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_asset"><span class="secno">3.1 </span>asset</h3>
+        <p>
+An asset property is used to specify an <a href="#Asset">Asset</a> for sale via 
+PaySwarm. The asset property is typically found in a Listing or a Contract.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Listing, com:Contract, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>com:Asset</dd>
+        </dl>
+        <p>
+The following example shows a portion of a contract containing the description 
+of an <a href="#Asset">Asset</a> that was a part of the purchase.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 7</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/28394729347</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Transaction</span><span class="pln">", "</span><span class="str">Contract</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">amount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T03:00:53Z</span><span class="pln">",
+   ...
+   "</span><span class="atn jsonld-curie">asset</span><span class="pln">": 
+   {
+     "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614#asset</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="tag jsonld-curie">pto:WebPage</span><span class="pln">"],
+     "</span><span class="atn jsonld-curie">creator</span><span class="pln">": {
+       "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">chef</span><span class="pln">"
+     },
+     "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">Brown Sugar Fudge</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">http://recipes.payswarm.com/?p=10614</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">",
+     "</span><span class="atn jsonld-curie">listingRestrictions</span><span class="pln">": {
+       "</span><span class="atn jsonld-curie">vendor</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes</span><span class="pln">"
+     },
+     "</span><span class="atn jsonld-curie">signature</span><span class="pln">": {
+       "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2013-04-25T00:37:16+00:00</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://dev.payswarm.com/i/wordpress-recipes/keys/1</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">O9EGWL... s758A==</span><span class="pln">"
+     }
+   },
+   "</span><span class="atn jsonld-curie">assetAcquirer</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/jane</span><span class="pln">",
+   ...
+}
+        </span></pre></div>
+      </section>
+      <section id="assetAcquirer" about="https://w3id.org/payswarm#assetAcquirer" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_assetAcquirer"><span class="secno">3.2 </span>assetAcquirer</h3>
+        <p>
+An asset acquirer is an entity that is in the process of acquiring or has
+acquired the rights to a particular asset via a PaySwarm Contract.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Contract, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example shows a contract that specifies a ps:assetAcquirer with
+a value of <code>https://payswarm.example.com/i/jane</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 8</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/28394729347</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Transaction</span><span class="pln">", "</span><span class="str">Contract</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">amount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T03:00:53Z</span><span class="pln">",
+   ...
+   "</span><span class="atn jsonld-curie">assetAcquirer</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/jane</span><span class="pln">",
+   ...
+}
+        </span></pre></div>
+      </section>
+      <section id="assetHash" about="https://w3id.org/payswarm#assetHash" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_assetHash"><span class="secno">3.3 </span>assetHash</h3>
+        <p>
+An asset hash is used as a unique identifier for a graph of asset information.
+These hashes exist so that the asset provider can refer to the asset by the
+hash instead of having to re-transmit the entire asset when communicating with
+a PaySwarm Authority. The hashes also provide a checksum on asset information
+such that both the asset provider and PaySwarm Authority know that each is
+talking about the same asset when the hash is used in Web service calls. Asset
+hash information <em class="rfc2119" title="MAY">MAY</em> be used to make <a href="#Asset">Asset</a> caching decisions by a PaySwarm
+Authority. The asset hash is generated by following this algorithm:
+        </p>
+        <ol>
+          <li>
+Encode the <a href="#Asset">Asset</a> sub-graph in JSON-LD normalized form.
+          </li>
+          <li>Generate a SHA-1 on the JSON-LD normalized form.</li>
+        </ol>
+        <p>
+When generating an asset hash, the following features <em class="rfc2119" title="MUST NOT">MUST NOT</em> exist in the
+Asset graph:
+        </p>
+        <ul>
+          <li>Graph cycles, which will result in non-deterministic 
+serialization of the graph.</li>
+          <li>Named Blank Nodes, such as <code>_:bn1</code>, which will result 
+in non-deterministic serialization due to the generation of potentially 
+different Blank Node names.</li>
+        </ul>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Asset</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example describes a listing that contains information about an
+ps:Asset as well as the ps:assetHash.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 9</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+    "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1#listing</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Listing</span><span class="pln">",
+    "</span><span class="atn jsonld-curie">asset</span><span class="pln">":
+    {
+        "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1#asset</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">WebPage</span><span class="pln">"],
+        "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice - Full Article #1</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+        {
+           "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">Digital Bazaar, Inc.</span><span class="pln">",
+        }
+        "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/person/john-doe#me</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+        "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-11-28T00:00:00Z</span><span class="pln">"
+        "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+        {
+            "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-27T01:44:52Z</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+        }
+    },
+    "</span><span class="atn jsonld-curie">assetHash</span><span class="pln">": "</span><span class="str">37b082b5c45a31d1c4b82da667f74e9b6686a95a</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+      <section id="assetProvider" about="https://w3id.org/payswarm#assetProvider" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_assetProvider"><span class="secno">3.4 </span>assetProvider</h3>
+        <p>
+An asset provider is the entity providing an asset for sale. Typically, the 
+assetProvider is the legal owner of the asset that is being listed for sale.
+Ownership of an asset can manifest in a variety of different forms. 
+Copyright ownership, physical ownership, and sub-leased property or services
+are just a few of the types of ownership that allow one to be listed as a
+ps:assetProvider.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Listing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example describes a ps:Listing that specifies a ps:assetProvider
+with a value of <code>https://payswarm.example.com/i/bob</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 10</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Offering</span><span class="pln">", "</span><span class="str">Listing</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">payee</span><span class="pln">": 
+   [
+      {
+         "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing-payee</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Payee</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/accounts/primary</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">FlatAmount</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">Payment for PaySwarm in Practice by Digital Bazaar.</span><span class="pln">"
+      }
+   ],
+   "</span><span class="atn jsonld-curie">payeeRule</span><span class="pln">": 
+   [
+      {
+         "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">PayeeRule</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">destinationOwnerType</span><span class="pln">": "</span><span class="str">Authority</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">InclusivePercentage</span><span class="pln">"
+      }
+   ],
+   "</span><span class="atn jsonld-curie">asset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#asset</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetHash</span><span class="pln">": "</span><span class="str">14618b56ff597a2fed560db9aa0610fe442106a4</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">license</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/blogging</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">licenseHash</span><span class="pln">": "</span><span class="str">0d8866836917f8ef58af44accb6efab9a10610ad</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:JsonLdSignature</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00Z</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/4</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10=</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00+0000</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-03T00:00:00+0000</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+      <section id="authority" about="https://w3id.org/payswarm#authority" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_authority"><span class="secno">3.5 </span>authority</h3>
+        <p>
+An authority is used to specify a PaySwarm authority that should be used to
+process contracts containing a particular <a href="#Listing">Listing</a> or Asset.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Listing, ps:Asset, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example describes an asset that specifies that any purchase of
+the asset should be performed via the 
+<code>https://payswarm.example.com/client-config</code> PaySwarm Authority.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 11</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/videos#cell-division</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">Data</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">John Doe</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">Learning How Cells Divide</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/john</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/video/cell-division.mpg</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-12T00:00:00Z</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/john/keys/2</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">ne56Qsc5IXuLEGuq+Nic8=</span><span class="pln">"
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="contentUrl" about="https://w3id.org/payswarm#contentUrl" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_contentUrl"><span class="secno">3.6 </span>contentUrl</h3>
+        <p>
+The content URL is used to specify the viewing or the download location for a
+particular piece of content. The content URL is usually specified along-side 
+the asset in the event that the asset description is expressed in a place
+that is different from the location of the asset.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Asset, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example demonstrates an asset that has a content URL specified
+as <code>https://example.org/articles/1</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 12</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1#asset</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">WebPage</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">Digital Bazaar, Inc.</span><span class="pln">",
+   }
+   "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/person/john-doe#me</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-11-28T00:00:00Z</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+       "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-27T01:44:52Z</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="licenseTemplate" about="https://w3id.org/payswarm#licenseTemplate" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_licenseTemplate"><span class="secno">3.7 </span>licenseTemplate</h3>
+        <p>
+The license template is used to express the boilerplate language in a license.
+The template is usually expressed in HTML and contains portions of markup that
+are replaceable via software. For example, a section of the ps:licenseTemplate
+may contain the following markup: 
+<code>&lt;span property="ex:physicalCopies" /&gt;</code>. The previous code
+snippet would be expanded when the license is displayed. For instance,
+the number of times a document may be physically reproduced
+could be placed into the <strong>span</strong> element, like so: 
+<code>&lt;span property="ex:physicalCopies"&gt;5&lt;/span&gt;</code>. 
+The ps:licenseTemplate is frequently used in combination with the 
+ps:licenseTerms property.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:License, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following example shows how a license template is used in conjunction with
+a set of license terms.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 13</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/personal-use</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:License</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">format</span><span class="pln">": "</span><span class="str">text/html</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">licenseTemplate</span><span class="pln">": "</span><span class="str">This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &lt;span property=\</span><span class="pln">"ex:physicalCopies\"</span><span class="str"> /&gt; printed
+      copies of the work for personal use.</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">licenseTerms</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">ex:physicalCopies</span><span class="pln">": </span><span class="lit">5</span><span class="pln">
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="licenseTerms" about="https://w3id.org/payswarm#licenseTerms" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_licenseTerms"><span class="secno">3.8 </span>licenseTerms</h3>
+        <p>
+The license terms are used in conjunction with the ps:licenseTemplate to 
+create the final license that is associated with a PaySwarm contract. The
+license term values are used to insert specific values into the license
+template.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:License</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The example below specifies a license with a single term that limits the number 
+of printed physical copies of a work to 5.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 14</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/personal-use</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">License</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">format</span><span class="pln">": "</span><span class="str">text/html</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">licenseTemplate</span><span class="pln">": "</span><span class="str">This personal use license allows you to save the 
+      purchased item onto any device that you own for your personal enjoyment
+      and make up to &lt;span property=\</span><span class="pln">"ex:physicalCopies\"</span><span class="str"> /&gt; printed
+      copies of the work for personal use.</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">licenseTerms</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">ex:physicalCopies</span><span class="pln">": </span><span class="lit">5</span><span class="pln">
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="license" about="https://w3id.org/payswarm#license" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_license"><span class="secno">3.9 </span>license</h3>
+        <p>
+The license specifies a URL where the rights to an asset are described. 
+Licenses are typically included in a <a href="#Listing">Listing</a> to express the rights that 
+are conferred upon purchase. Licenses are also included in contracts to
+express the rights that govern the access and use of the asset. The value of
+this property is typically a URL which expresses a ps:licenseTemplate using
+HTML+RDFa or other human-readable semantic web markup language.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Listing, ps:Contract, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following contract snippet below demonstrates how a license is expressed
+in a completed contract.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 15</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/982378927357</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Transaction</span><span class="pln">", "</span><span class="str">Contract</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">asset</span><span class="pln">": { ... },
+   "</span><span class="atn jsonld-curie">license</span><span class="pln">":
+   {
+      "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/personal-use</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="tag jsonld-curie">ps:License</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">format</span><span class="pln">": "</span><span class="str">text/html</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">licenseTemplate</span><span class="pln">": "</span><span class="str">This personal use license allows you to save the 
+         purchased item onto any device that you own for your personal enjoyment
+         and make up to &lt;span property=\</span><span class="pln">"ex:physicalCopies\"</span><span class="str"> /&gt; printed
+         copies of the work for personal use.</span><span class="pln">"
+      "</span><span class="atn jsonld-curie">licenseTerms</span><span class="pln">": 
+      {
+         "</span><span class="atn jsonld-curie">ex:physicalCopies</span><span class="pln">": </span><span class="lit">5</span><span class="pln">
+      }
+   }
+   ...
+}
+        </span></pre></div>
+      </section>
+      <section id="licenseHash" about="https://w3id.org/payswarm#licenseHash" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_licenseHash"><span class="secno">3.10 </span>licenseHash</h3>
+        <p>
+The licenseHash is a cryptographic hashing of the contents of a license.
+Specifically, it is a hashing of the ps:licenseTemplate using the SHA-1
+hashing algorithm.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Listing, ps:Contract</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The following listing snippet example below shows a license URL coupled with a
+licenseHash. A software agent working with the information may depend on a
+cache to determine whether or not the information associated with the 
+ps:license would need to be fetched from the Web based on the value of the
+license hash.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 16</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Offering</span><span class="pln">", "</span><span class="str">Listing</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">license</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/blogging</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">licenseHash</span><span class="pln">": "</span><span class="str">0d8866836917f8ef58af44accb6efab9a10610ad</span><span class="pln">"
+   ...
+}
+        </span></pre></div>
+      </section>
+      <section id="listing" about="https://w3id.org/payswarm#listing" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_listing"><span class="secno">3.11 </span>listing</h3>
+        <p>
+A listing encapsulates an offer for sale. It typically includes an <a href="#Asset">Asset</a> and
+a <a href="#License">License</a> that governs the post-purchase use of that asset.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Contract, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>ps:Listing</dd>
+        </dl>
+        <p>
+The following contract snippet shows the portion of the contract that 
+contains the listing information.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 17</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/28394729347</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Transaction</span><span class="pln">", "</span><span class="str">Contract</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">amount</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T03:00:53Z</span><span class="pln">",
+   ...
+   "</span><span class="atn jsonld-curie">listing</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Offering</span><span class="pln">", "</span><span class="str">Listing</span><span class="pln">"],
+      "</span><span class="atn jsonld-curie">payee</span><span class="pln">": 
+      [
+         {
+            "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing-payee</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Payee</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">currency</span><span class="pln">": "</span><span class="str">USD</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">destination</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/accounts/primary</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">rate</span><span class="pln">": "</span><span class="str">0.05</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">FlatAmount</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">comment</span><span class="pln">": "</span><span class="str">Payment for PaySwarm in Practice by Digital Bazaar.</span><span class="pln">"
+         }
+      ],
+      "</span><span class="atn jsonld-curie">payeeRule</span><span class="pln">": 
+      [
+         {
+            "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">PayeeRule</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">destinationOwnerType</span><span class="pln">": "</span><span class="str">Authority</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">maximumRate</span><span class="pln">": "</span><span class="str">10</span><span class="pln">",
+            "</span><span class="atn jsonld-curie">payeeRateType</span><span class="pln">": "</span><span class="str">InclusivePercentage</span><span class="pln">"
+         }
+      ],
+      "</span><span class="atn jsonld-curie">asset</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#asset</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">assetHash</span><span class="pln">": "</span><span class="str">14618b56ff597a2fed560db9aa0610fe442106a4</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">license</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/licenses/blogging</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">licenseHash</span><span class="pln">": "</span><span class="str">0d8866836917f8ef58af44accb6efab9a10610ad</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+      {
+         "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00Z</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/4</span><span class="pln">",
+         "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">KXtwA5kXZBJzj1rkPMJmGDROjM+fpi2cJIB+Xqf10=</span><span class="pln">"
+      },
+      "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-02T00:00:00+0000</span><span class="pln">",
+      "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-03-03T00:00:00+0000</span><span class="pln">"
+   },
+   "</span><span class="atn jsonld-curie">listingHash</span><span class="pln">": "</span><span class="str">1acbd23c3a7d8827270a959a2760f7c4ded98022</span><span class="pln">",
+   ...
+}
+        </span></pre></div>
+      </section>
+      <section id="listingHash" about="https://w3id.org/payswarm#listingHash" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_listingHash"><span class="secno">3.12 </span>listingHash</h3>
+        <p>
+A listing hash is a checksum for the contents of a listing. Technically, it is
+a cryptographic hash of the graph information expressed in JSON-LD. To 
+calculate a listing hash, the entire ps:listing sub-tree without any
+ps:signature values is normalized via standard JSON-LD normalization rules and
+then the SHA-1 hashing algorithm is performed on the result.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Contract, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:string</dd>
+        </dl>
+        <p>
+The contract snippet below shows the listing hash that is associated with the
+listing. A software agent working with the information may depend on a
+cache to determine whether or not the information associated with the 
+ps:listing would need to be fetched from the Web based on the value of the
+listing hash.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 18</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">http://payswarm.example.com/contracts/583272397238</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Transaction</span><span class="pln">", "</span><span class="str">Contract</span><span class="pln">"],
+   ...
+   "</span><span class="atn jsonld-curie">listing</span><span class="pln">": "</span><span class="tag jsonld-uri">http://example.com/articles/1#listing</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">listingHash</span><span class="pln">": "</span><span class="str">1acbd23c3a7d8827270a959a2760f7c4ded98022</span><span class="pln">",
+   ...
+}
+        </span></pre></div>
+      </section>
+      <section id="owner" about="https://w3id.org/payswarm#owner" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_owner"><span class="secno">3.13 </span>owner</h3>
+        <p>
+An owner is typically an entity that fully or partially has rights or control
+over a particular resource. This property is most often used to express that
+a particular entity owns a public key, but may be used for other resources 
+such as claiming ownership over a financial com:Account resource.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>com:Account, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:anyURI</dd>
+        </dl>
+        <p>
+The following example demonstrates the expression of a public key belonging
+to the identity <code>https://payswarm.example.com/i/bob</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 19</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob/keys/1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">Key</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">owner</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/i/bob</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">publicKeyPem</span><span class="pln">": "</span><span class="str">-----BEGIN PUBLIC KEY-----\nMIIBG0BA...OClDQAB\n-----END PUBLIC KEY-----\n</span><span class="pln">"
+}
+        </span></pre></div>
+      </section>
+      <section id="validFrom" about="https://w3id.org/payswarm#validFrom" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_validFrom"><span class="secno">3.14 </span>validFrom</h3>
+        <p>
+The valid from property specifies the point at which a piece of information
+becomes reliable. It is often used to specify when Assets or Listings
+start their validity period. The information can be used to determine caching
+metrics.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Listing, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The following example is of an <a href="#Asset">Asset</a> that has a validity period starting 
+at midnight on November 28th, 2010.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 20</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1#asset</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">WebPage</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">Digital Bazaar, Inc.</span><span class="pln">",
+   }
+   "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/person/john-doe#me</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-11-28T00:00:00Z</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+       "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-27T01:44:52Z</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre></div>
+      </section>
+      <section id="validUntil" about="https://w3id.org/payswarm#validUntil" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
+        <h3 aria-level="2" role="heading" id="h3_validUntil"><span class="secno">3.15 </span>validUntil</h3>
+        <p>
+The valid until property specifies the point at which a piece of information
+ceases to be reliable. It is often used to specify when Assets or Listings
+expire. The information can be used to determine caching metrics.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Domain</dt>
+          <dd>ps:Listing, owl:Thing</dd>
+          <dt>Range</dt>
+          <dd>xsd:dateTime</dd>
+        </dl>
+        <p>
+The following example is of an <a href="#Asset">Asset</a> that has a validity period ending at
+midnight on November 28th, 2011.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 21</span></div><pre class="example prettyprint language-jsonld"><span class="pln">{
+   "</span><span class="kwd">@context</span><span class="pln">": "</span><span class="tag jsonld-uri">https://w3id.org/payswarm/v1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">id</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1#asset</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">type</span><span class="pln">": ["</span><span class="str">Asset</span><span class="pln">", "</span><span class="str">WebPage</span><span class="pln">"],
+   "</span><span class="atn jsonld-curie">title</span><span class="pln">": "</span><span class="str">PaySwarm in Practice</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">creator</span><span class="pln">": 
+   {
+      "</span><span class="atn jsonld-curie">fullName</span><span class="pln">": "</span><span class="str">Digital Bazaar, Inc.</span><span class="pln">",
+   }
+   "</span><span class="atn jsonld-curie">assetContent</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/articles/1</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">assetProvider</span><span class="pln">": "</span><span class="tag jsonld-uri">https://example.org/person/john-doe#me</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validFrom</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-28T00:00:00Z</span><span class="pln">",
+   "</span><span class="atn jsonld-curie">validUntil</span><span class="pln">": "</span><span class="tag jsonld-curie">2011-11-28T00:00:00Z</span><span class="pln">"
+   "</span><span class="atn jsonld-curie">signature</span><span class="pln">": 
+   {
+       "</span><span class="atn jsonld-curie">type</span><span class="pln">": "</span><span class="str">GraphSignature2012</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">created</span><span class="pln">": "</span><span class="tag jsonld-curie">2010-11-27T01:44:52Z</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">creator</span><span class="pln">": "</span><span class="tag jsonld-uri">https://payswarm.example.com/people/john-doe#key-5</span><span class="pln">",
+       "</span><span class="atn jsonld-curie">signatureValue</span><span class="pln">": "</span><span class="str">OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo=</span><span class="pln">"
+   }
+}
+        </span></pre></div>
+      </section>
+    </section>
+
+   
+
+
+<div class="extLives"></div></body></html>

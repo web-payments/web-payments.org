@@ -154,10 +154,10 @@ verifiable receipt between the buyer and the vendor.
     <hr>
     <div class="col-lg-offset-1 col-lg-10">
       <p>
-<a href="source/web-identity">Web Identity</a>: A decentralized identity
-mechanism for the Web that allows arbitrary Linked Data to be read from and
-written to an identity URL.
-<?php dirContents("ED/web-identity"); ?>
+<a href="source/identity-credentials/">Identity Credentials</a>: A decentralized 
+identity mechanism for the Web that allows arbitrary Linked Data to be read from 
+and written to an identity URL.
+<?php dirContents("ED/identity-credentials"); ?>
       </p>
     </div><!-- col-lg-6 -->
   </div><!-- row -->

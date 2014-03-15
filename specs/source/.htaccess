@@ -2,3 +2,4 @@ RewriteEngine On
 RewriteBase /specs/source/
 RewriteRule ^(.*)web-keys(.*)$ $1secure-messaging$2 [L,R]
 RewriteRule ^(.*)http-keys(.*)$ $1secure-messaging$2 [L,R]
+RewriteRule ^(.*)web-identity(.*)$ $1identity-credentials$2 [L,R]

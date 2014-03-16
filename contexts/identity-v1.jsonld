@@ -16,9 +16,9 @@
     "countryName": "schema:country-name",
     "created": {"@id": "dc:created", "@type": "xsd:dateTime"},
     "creator": {"@id": "dc:creator", "@type": "@id"},
-    "depiction": {"@id": "foaf:depiction", "@type": "@id"},
+    "depiction": {"@id": "schema:image", "@type": "@id"},
     "description": "dc:description",
-    "email": "foaf:mbox",
+    "email": "schema:email",
     "fullName": "schema:fn",
     "label": "rdfs:label",
     "locality": "schema:locality",
@@ -26,10 +26,12 @@
     "region": "schema:region",
     "streetAddress": "schema:street-address",
     "title": "dc:title",
-    "website": {"@id": "foaf:homepage", "@type": "@id"},
+    "website": {"@id": "schema:url", "@type": "@id"},
     "Address": "schema:Address",
 
     "Identity": "id:Identity",
+    "Person": "schema:Person",
+    "Organization": "schema:Organization",
 
     "paymentProcessor": "ps:processor",
 

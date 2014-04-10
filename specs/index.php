@@ -100,6 +100,15 @@ between two participants on the Web.
 <?php dirContents("ED/web-payments"); ?>
       </p>
       <p>
+<a href="source/web-commerce-api">Web Commerce API</a>: Outlines a browser 
+polyfill that makes financial transactions easier to initiate and verify 
+while also making them more secure. The solution is designed to work with both 
+proprietary (PayPal, Google Wallet) and non-proprietary (PaySwarm, Bitcoin, 
+Ripple) payment solutions.
+<?php dirContents("ED/web-commerce-api"); ?>
+      </p>
+
+      <p>
 <a href="source/payment-intents">Payment Intents</a>: The parameterized 
 transactions layer of the Web Payments architecture; enables decentralized, 
 open crowd-funding over the Web.

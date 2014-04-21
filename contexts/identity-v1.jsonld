@@ -43,6 +43,7 @@
     "digestAlgorithm": "sec:digestAlgorithm",
     "digestValue": "sec:digestValue",
     "expiration": {"@id": "sec:expiration", "@type": "xsd:dateTime"},
+    "identityService": {"@id": "identity:identityService", "@type": "@id"},
     "initializationVector": "sec:initializationVector",
     "nonce": "sec:nonce",
     "normalizationAlgorithm": "sec:normalizationAlgorithm",

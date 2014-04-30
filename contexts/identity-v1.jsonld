@@ -12,6 +12,7 @@
     "schema": "http://schema.org/",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
 
+    "about": {"@id": "schema:about", "@type": "@id"},
     "address": {"@id": "schema:address", "@type": "@id"},
     "addressCountry": "schema:addressCountry",
     "addressLocality": "schema:addressLocality",

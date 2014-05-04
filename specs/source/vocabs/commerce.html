@@ -112,7 +112,7 @@ former. You have been warned.
       <h2>Classes</h2>
 
       <section id="Account" about="https://w3id.org/commerce#Deposit"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>Account</h3>
           <p>
 A financial device that can operate as a source or destination for funds 
@@ -122,9 +122,9 @@ transfered during a commercial exchange.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
+            <dd>Thing</dd>
             <dt>Properties</dt>
-            <dd>com:amount, com:currency, rdfs:label</dd>
+            <dd>amount, currency, label</dd>
           </dl>
           <p>
 The following example expresses an account belonging to a person named
@@ -132,18 +132,19 @@ The following example expresses an account belonging to a person named
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://payswarm.example.com/people/john-doe#account-3"
-   "@type": "com:Account",
-   "rdfs:label": "John's Financial Account",
-   "com:amount": "50.40",
-   "com:currency": "USD"
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://payswarm.example.com/people/john-doe#account-3"
+   "type": "Account",
+   "label": "John's Financial Account",
+   "amount": "50.40",
+   "currency": "USD"
 }
         </pre>
       </section>
 
 
       <section id="Deposit" about="https://w3id.org/commerce#Deposit"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>Deposit</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
@@ -153,54 +154,55 @@ performed as a means for storing monetary amounts in the destination account.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd><a href="https://w3id.org/commerce#Transaction">com:Transaction</a></dd>
+            <dd><a href="https://w3id.org/commerce#Transaction">Transaction</a></dd>
             <dt>Properties</dt>
-            <dd>com:date, com:source, com:payee, com:transfer, sec:signature</dd>
+            <dd>date, source, payee, transfer, signature</dd>
           </dl>
           <p>
 The following example describes a deposit made using a debit card:
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
-   "@type": ["com:Transaction", "com:Deposit"],
-   "com:date": "2010-10-16T12:34:36.14532",
-   "com:source":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": ["Transaction", "Deposit"],
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
    {
-      "@id": "http://mybank.example.com/accounts/3879279824",
-      "@type": "ccard:DebitCard",
-      "ccard:brand": "Visa",
-      "ccard:number": "3847573872837483",
-      "ccard:expirationMonth": "11",
-      "ccard:expirationYear": "2013",
-      "ccard:verificationCode": "372",
-      "ccard:name": "JOHN DOE",
-      "ccard:firstName": "JOHN",
-      "ccard:lastName": "DOE",
-      "ccard:address":
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
       {
-         "@type": "vcard:Address",
-         "vcard:street-address": "28 Rivertail Lane",
-         "vcard:locality": "Upsilanty",
-         "vcard:region": "New York",
-         "vcard:postal-code": "83748",
-         "vcard:country-name": "United States of America"
+         "type": "Address",
+         "street": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "sec:signature":
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "signature":
    {
-       "@type": "sec:JsonLdSignature",
-       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
       </section>
 
       <section id="Payee" about="https://w3id.org/commerce#Payee"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>Payee</h3>
           <p>
 An entity that defines how monetary funds should be transferred to a destination 
@@ -211,28 +213,28 @@ processed to produce a list of Transfers.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
+            <dd>Thing</dd>
             <dt>Properties</dt>
-            <dd>com:rate, com:rateType, com:currency, com:destination, 
-rdfs:comment, com:rateContext</dd>
+            <dd>rate, rateType, currency, destination, comment, rateContext</dd>
           </dl>
 <p>
 The following example expresses a flat payment of $0.05 USD.
 </p>
 <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:FlatAmount",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "Description about payment reason",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "Description about payment reason",
 }
 </pre>
       </section>
 
       <section id="PayeeRule" about="https://w3id.org/commerce#PayeeRule"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>PayeeRule</h3>
           <p>
 A Payee Rule is a mechanism that can describe limits and allowances on the 
@@ -246,10 +248,10 @@ specified using PayeeRules.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
+            <dd>Thing</dd>
             <dt>Properties</dt>
-            <dd>com:maximumRate, com:minimumRate, com:destinationOwnerType,
-com:rateType, com:limitation</dd>
+            <dd>maximumRate, minimumRate, destinationOwnerType,
+rateType, limitation</dd>
           </dl>
           <p>
 The example below expresses a maximum payment rate of 10% to go to a
@@ -258,10 +260,11 @@ make to 10% of the final sale price.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-    "@type": "com:PayeeRule",
-    "com:maximumRate": "10",
-    "com:rateType": "com:InclusivePercentage",
-    "com:destinationOwnerType": "ps:Authority"
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "maximumRate": "10",
+    "rateType": "InclusivePercentage",
+    "destinationOwnerType": "ps:Authority"
 }
           </pre>
           <p>
@@ -271,8 +274,9 @@ rates or exclusive percentages. That is, inclusive percentages are not allowed.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-    "@type": "com:PayeeRule",
-    "com:rateType": ["com:FlatAmount", "com:ExclusivePercentage"]
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "rateType": ["FlatAmount", "ExclusivePercentage"]
 }
           </pre>
 
@@ -282,14 +286,15 @@ added to the list of payees for a transaction.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-    "@type": "com:PayeeRule",
-    "com:limitation": "ps:NoAdditionalPayees"
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "limitation": "ps:NoAdditionalPayees"
 }
           </pre>
       </section>
 
       <section id="Transfer" about="https://w3id.org/commerce#Transfer"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>Transfer</h3>
           <p>
 A record of the movement of monetary funds from a source account into a
@@ -299,10 +304,10 @@ destination account.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
+            <dd>Thing</dd>
             <dt>Properties</dt>
-            <dd>com:forTransaction, com:source, com:destination, com:amount,
-com:currency, rdfs:comment</dd>
+            <dd>forTransaction, source, destination, amount,
+currency, comment</dd>
           </dl>
           <p>
 The example below shows a transaction processor transfering funds from a
@@ -310,19 +315,20 @@ local financial account to an external financial account.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Transfer",
-   "com:forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
-   "com:source": "http://redbankexample.com/accounts/12345#account",
-   "com:destination": "http://greencardexample.com/accounts/54321#account",
-   "com:amount": "8.00",
-   "com:currency": "USD",
-   "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Transfer",
+   "forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
 }
           </pre>
       </section>
 
       <section id="Transaction" about="https://w3id.org/commerce#Transaction"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>Transaction</h3>
           <p>
 A record of a commercial exchange between two entities resulting in the 
@@ -333,10 +339,10 @@ one or more destination accounts.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>owl:Thing</dd>
+            <dd>Thing</dd>
             <dt>Properties</dt>
-            <dd>com:transfer, com:amount, com:currency, rdfs:comment, 
-com:date, ps:originatingClient</dd>
+            <dd>transfer, amount, currency, comment, 
+date, ps:originatingClient</dd>
           </dl>
           <p>
 The example below describes a commercial transaction that resulted in the
@@ -346,20 +352,21 @@ to a tax account.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://example.com/transactions/1.A.F23BC"
-   "@type": "com:Transaction",
-   "com:transfer": [<a href="#Transfer">Transfer</a>+]
-   "com:amount": "1.04",
-   "com:currency": "USD",
-   "rdfs:comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
-   "com:date": "2010-10-16T12:34:36.14532",
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/transactions/1.A.F23BC"
+   "type": "Transaction",
+   "transfer": [<a href="#Transfer">Transfer</a>+]
+   "amount": "1.04",
+   "currency": "USD",
+   "comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
+   "date": "2010-10-16T12:34:36.14532",
    "ps:originatingClient": "10.113.15.142"
 }
           </pre>
       </section>
 
       <section id="Withdrawal" about="https://w3id.org/commerce#Withdrawal"
-        typeof="rdfs:Class">
+        typeof="Class">
         <h3>Withdrawal</h3>
           <p>
 A transfer of funds from a source account into a destination account typically
@@ -369,10 +376,10 @@ performed as a means for retrieving previously stored monetary amounts.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>com:Transaction</dd>
+            <dd>Transaction</dd>
             <dt>Properties</dt>
-            <dd>com:destination, ps:transfer, com:amount, com:currency, 
-rdfs:comment, ps:originatingClient</dd>
+            <dd>destination, ps:transfer, amount, currency, 
+comment, ps:originatingClient</dd>
           </dl>
           <p>
 The example below demonstrates the withdrawal of funds from an online account
@@ -382,19 +389,20 @@ bank account information.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://example.com/transactions/1.A.F23BC"
-   "@type": "com:Withdrawal",
-   "com:destination": 
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/transactions/1.A.F23BC"
+   "type": "Withdrawal",
+   "destination": 
    {
-      "@type": "bank:BankAccount",
+      "type": "bank:BankAccount",
       "bank:routing": "102000076",
       "bank:account": "5874523668972",
       "bank:name": "Wells Fargo",
    },
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "com:amount": "14.34",
-   "com:currency": "USD",
-   "rdfs:comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "amount": "14.34",
+   "currency": "USD",
+   "comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
    "ps:originatingClient": "10.113.15.142"
 }
           </pre>
@@ -423,20 +431,21 @@ its amount.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateType</dd>
+          <dd>rateType</dd>
         </dl>
         <p>
 The following example demonstrates how a cumulative rate type is specified:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The explanation of the cumulative rule goes here.",
-   "com:rateContext": "com:Cumulative"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the cumulative rule goes here.",
+   "rateContext": "Cumulative"
 }
         </pre>
       </section>
@@ -456,20 +465,21 @@ that is not a Tax wishes to behave like one, it should use this rate context.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateContext</dd>
+          <dd>rateContext</dd>
         </dl>
         <p>
 The following example demonstrates how a deferred rate context can be specified:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The explanation of the deferred payee goes here.",
-   "com:rateContext": "com:Deferred"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the deferred payee goes here.",
+   "rateContext": "Deferred"
 }
         </pre>
       </section>
@@ -492,19 +502,20 @@ sales taxes in the United States.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateType</dd>
+          <dd>rateType</dd>
         </dl>
         <p>
 The following example demonstrates how an exclusive percentage can be specified:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The explanation of the exclusive percentage goes here."
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the exclusive percentage goes here."
 }
         </pre>
       </section>
@@ -521,7 +532,7 @@ not as a percentage.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateType</dd>
+          <dd>rateType</dd>
         </dl>
         <p>
 The following example demonstrates a payment amount of $1.42 USD to a specified 
@@ -529,12 +540,13 @@ Payee.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "1.42",
-   "com:rateType": "com:FlatAmount",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The explanation of the flat amount goes here."
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "1.42",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the flat amount goes here."
 }
         </pre>
       </section>
@@ -558,19 +570,20 @@ include most income taxes in the United States.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateType</dd>
+          <dd>rateType</dd>
         </dl>
         <p>
 The following example describes an inclusive percentage.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:InclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The explanation of the inclusive percentage goes here."
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "InclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the inclusive percentage goes here."
 }
         </pre>
       </section>
@@ -585,7 +598,7 @@ This constant specifies that the Payee's rate specified is a tax.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateContext</dd>
+          <dd>rateContext</dd>
         </dl>
         <p>
 The following example describes the payment of a sales tax to the state of
@@ -593,13 +606,14 @@ Virginia of 5%.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "5.0",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/states/virginia#account-1",
-   "rdfs:comment": "Virginia sales tax.",
-   "com:rateContext": "com:Tax"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "5.0",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/states/virginia#account-1",
+   "comment": "Virginia sales tax.",
+   "rateContext": "Tax"
 }
         </pre>
       </section>
@@ -617,7 +631,7 @@ status.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:rateContext</dd>
+          <dd>rateContext</dd>
         </dl>
         <p>
 The following example demonstrates a tax-exempt donation to the Red Cross
@@ -625,13 +639,14 @@ for the amount of $5.00 USD.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "5.00",
-   "com:rateType": "com:FlatAmount",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/organizations/red-cross#account-6",
-   "rdfs:comment": "Donation to the Red Cross",
-   "com:rateContext": "com:TaxExempt"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "5.00",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/organizations/red-cross#account-6",
+   "comment": "Donation to the Red Cross",
+   "rateContext": "TaxExempt"
 }
         </pre>
       </section>
@@ -651,24 +666,25 @@ of a particular entity.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>foaf:Agent, owl:Thing</dd>
+          <dd>foaf:Agent, Thing</dd>
           <dt>Range</dt>
-          <dd>com:Account</dd>
+          <dd>Account</dd>
         </dl>
         <p>
-The following example demonstrates the proper use of the com:account property:
+The following example demonstrates the proper use of the account property:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://example.com/people/joe",
-   "@type": "foaf:Person",
-   "com:account":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/people/joe",
+   "type": "foaf:Person",
+   "account":
    {
-      "@id": "http://redbankexample.com/accounts/vacation",
-      "@type": "com:Account",
-      "rdfs:label": "Vacation Savings Account",
-      "com:amount": "7563.00",
-      "com:currency": "USD",
+      "id": "http://redbankexample.com/accounts/vacation",
+      "type": "Account",
+      "label": "Vacation Savings Account",
+      "amount": "7563.00",
+      "currency": "USD",
    }
 }
         </pre>
@@ -678,14 +694,14 @@ The following example demonstrates the proper use of the com:account property:
         typeof="rdf:Property">
         <h3>amount</h3>
         <p>
-The amount property is used to specify the total financial value of a
-commercial exchange, such as a transaction or transfer.
+The amount property is used to specify the total value of a financial
+resource or action such as an account, transfer, or transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, com:Transfer, com:Withdrawal, owl:Thing</dd>
+          <dd>Transaction, Transfer, Withdrawal, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:decimal</dd>
         </dl>
@@ -694,13 +710,27 @@ The following example shows the use of the amount property in a Transfer.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Transfer",
-   "com:forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
-   "com:source": "http://redbankexample.com/accounts/12345#account",
-   "com:destination": "http://greencardexample.com/accounts/54321#account",
-   "com:amount": "8.00",
-   "com:currency": "USD",
-   "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Transfer",
+   "forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+}
+        </pre>
+        <p>
+The next example demonstrates the use of the amount property in an Account.
+        </p>
+        <pre class="example prettyprint language-jsonld">
+{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://payswarm.example.com/people/john-doe#account-3"
+   "type": "Account",
+   "label": "John's Financial Account",
+   "amount": "50.40",
+   "currency": "USD"
 }
         </pre>
       </section>
@@ -718,7 +748,7 @@ is not specified in ISO-4217.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, com:Transfer, com:Withdrawal, owl:Thing</dd>
+          <dd>Transaction, Transfer, Withdrawal, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:string, xsd:anyURI</dd>
         </dl>
@@ -728,13 +758,14 @@ Transfer:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Transfer",
-   "com:forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
-   "com:source": "http://redbankexample.com/accounts/12345#account",
-   "com:destination": "http://greencardexample.com/accounts/54321#account",
-   "com:amount": "8.00",
-   "com:currency": "USD",
-   "rdfs:comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Transfer",
+   "forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
 }
         </pre>
       </section>
@@ -750,7 +781,7 @@ occurred. The value MUST be expressed using an ISO-8601 date/time string.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transfer, com:Transaction, owl:Thing</dd>
+          <dd>Transfer, Transaction, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:dateTime</dd>
         </dl>
@@ -760,13 +791,14 @@ The example below states that the Transaction occurred on October 16th, 2010 at
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://example.com/transactions/1.A.F23BC"
-   "@type": "com:Transaction",
-   "com:transfer": [<a href="#Transfer">Transfer</a>+]
-   "com:amount": "1.04",
-   "com:currency": "USD",
-   "rdfs:comment": "Purchase of Bad Romance by Lady Gaga from Best Buy"
-   "com:date": "2010-10-16T12:34:36.14532",
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/transactions/1.A.F23BC"
+   "type": "Transaction",
+   "transfer": [<a href="#Transfer">Transfer</a>+]
+   "amount": "1.04",
+   "currency": "USD",
+   "comment": "Purchase of Bad Romance by Lady Gaga from Best Buy"
+   "date": "2010-10-16T12:34:36.14532",
    "ps:originatingClient": "10.113.15.142"
 }
         </pre>
@@ -783,9 +815,9 @@ transaction.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, owl:Thing</dd>
+          <dd>Transaction, Thing</dd>
           <dt>Range</dt>
-          <dd>com:Account, owl:Thing</dd>
+          <dd>Account, Thing</dd>
         </dl>
         <p>
 The following example expresses a Payee where an amount of $1 USD should be 
@@ -794,12 +826,13 @@ placed into the destination account identified by
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "1.00",
-   "com:rateType": "com:FlatAmount",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "Description about payment reason",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "1.00",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "Description about payment reason",
 }
         </pre>
       </section>
@@ -815,9 +848,9 @@ where the type of destination account payment is to be restricted.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:PayeeRule, owl:Thing</dd>
+          <dd>PayeeRule, Thing</dd>
           <dt>Range</dt>
-          <dd>ps:PaySwarmAuthority, owl:Thing</dd>
+          <dd>ps:PaySwarmAuthority, Thing</dd>
         </dl>
         <p>
 The following example describes a PayeeRule where the destination account owner 
@@ -826,10 +859,11 @@ can charge is 10%.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "com:PayeeRule",
-    "com:maximumRate": "10",
-    "com:rateType": "com:InclusivePercentage",
-    "com:destinationOwnerType": ["ps:Authority"]
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "maximumRate": "10",
+    "rateType": "InclusivePercentage",
+    "destinationOwnerType": ["ps:Authority"]
 }
         </pre>
       </section>
@@ -846,7 +880,7 @@ the processing gateway software.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, owl:Thing</dd>
+          <dd>Transaction, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -856,39 +890,40 @@ approval code of <code>8FGk9347Bo2N83</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
-   "@type": "com:Deposit",
-   "com:date": "2010-10-16T12:34:36.14532",
-   "com:source":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
    {
-      "@id": "http://mybank.example.com/accounts/3879279824",
-      "@type": "ccard:DebitCard",
-      "ccard:brand": "Visa",
-      "ccard:number": "3847573872837483",
-      "ccard:expirationMonth": "11",
-      "ccard:expirationYear": "2013",
-      "ccard:verificationCode": "372",
-      "ccard:name": "JOHN DOE",
-      "ccard:firstName": "JOHN",
-      "ccard:lastName": "DOE",
-      "ccard:address":
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
       {
-         "@type": "vcard:Address",
-         "vcard:street-address": "28 Rivertail Lane",
-         "vcard:locality": "Upsilanty",
-         "vcard:region": "New York",
-         "vcard:postal-code": "83748",
-         "vcard:country-name": "United States of America"
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "com:gatewayApprovalCode": "8FGk9347Bo2N83",
-   "sec:signature":
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "gatewayApprovalCode": "8FGk9347Bo2N83",
+   "signature":
    {
-       "@type": "sec:JsonLdSignature",
-       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -906,7 +941,7 @@ that is specific to the processing gateway software.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, owl:Thing</dd>
+          <dd>Transaction, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
@@ -916,39 +951,40 @@ the reason in the gateway error code:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
-   "@type": "com:Deposit",
-   "com:date": "2010-10-16T12:34:36.14532",
-   "com:source":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
    {
-      "@id": "http://mybank.example.com/accounts/3879279824",
-      "@type": "ccard:DebitCard",
-      "ccard:brand": "Visa",
-      "ccard:number": "3847573872837483",
-      "ccard:expirationMonth": "11",
-      "ccard:expirationYear": "2013",
-      "ccard:verificationCode": "372",
-      "ccard:name": "JOHN DOE",
-      "ccard:firstName": "JOHN",
-      "ccard:lastName": "DOE",
-      "ccard:address":
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
       {
-         "@type": "vcard:Address",
-         "vcard:street-address": "28 Rivertail Lane",
-         "vcard:locality": "Upsilanty",
-         "vcard:region": "New York",
-         "vcard:postal-code": "83748",
-         "vcard:country-name": "United States of America"
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "com:gatewayError": "CREDIT_CARD_DECLINED",
-   "sec:signature":
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "gatewayError": "CREDIT_CARD_DECLINED",
+   "signature":
    {
-       "@type": "sec:JsonLdSignature",
-       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -969,7 +1005,7 @@ can collect to less than 4%".
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:PayeeRule, owl:Thing</dd>
+          <dd>PayeeRule, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:integer, xsd:string</dd>
         </dl>
@@ -979,10 +1015,11 @@ PaySwarm Authority can collect in fees to 10% of the final price:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@type": "com:PayeeRule",
-    "com:maximumRate": "10",
-    "com:rateType": "com:InclusivePercentage",
-    "com:destinationOwnerType": "ps:Authority"
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "maximumRate": "10",
+    "rateType": "InclusivePercentage",
+    "destinationOwnerType": "ps:Authority"
 }
         </pre>
       </section>
@@ -993,16 +1030,16 @@ PaySwarm Authority can collect in fees to 10% of the final price:
         <p>
 This property is most often used to specify that a Transfer is for the
 specified Transaction. The relationship from Transaction to Transfer is 
-encoded using the <a href="#transfer">com:trasfer</a> property. The relationship 
+encoded using the <a href="#transfer">trasfer</a> property. The relationship 
 from Transfer to Transaction is encoded using this property.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transfer, owl:Thing</dd>
+          <dd>Transfer, Thing</dd>
           <dt>Range</dt>
-          <dd>com:Transaction</dd>
+          <dd>Transaction</dd>
         </dl>
         <p>
 The example below specifies that the Transfer is meant for the transaction
@@ -1011,13 +1048,14 @@ identified by
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "ps:Transfer",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "ps:Transfer",
    "ps:forTransaction": "http://whitelabel.com/transactions/7f83fab44cd8d91#transaction";
-   "com:source": "http://whitelabel.payswarm.com/api/accounts/12345#account",
-   "com:destination": "http://yellowlabel.payswarm.com/people/bob/54321#account",
-   "com:amount": "8.00",
-   "com:currency": "USD",
-   "rdfs:comment": "Thanks for the memory card."
+   "source": "http://whitelabel.payswarm.com/api/accounts/12345#account",
+   "destination": "http://yellowlabel.payswarm.com/people/bob/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Thanks for the memory card."
 }
         </pre>
       </section>
@@ -1033,13 +1071,13 @@ transaction.
         </p>
         <p class="issue">
 Perhaps the limitation property should be applied to all limitations. Why
-doesn't it apply to com:destinationAccountType?
+doesn't it apply to destinationAccountType?
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:PayeeRule, owl:Thing</dd>
+          <dd>PayeeRule, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI</dd>
         </dl>
@@ -1050,7 +1088,8 @@ want their content to be sold through affiliate relationships:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-         "@type": "com:PayeeRule",
+   "@context": "https://w3id.org/payswarm/v1",
+         "type": "PayeeRule",
          "ps:limitation": "ps:NoAdditionalPayees"
 }
         </pre>
@@ -1070,7 +1109,7 @@ or $0.02 USD, whichever is greater".
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Payee, owl:Thing</dd>
+          <dd>Payee, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:decimal, xsd:integer, xsd:string</dd>
         </dl>
@@ -1080,13 +1119,14 @@ the final amount of the transaction, whichever is higher.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "2",
-   "com:rateType": "com:InclusivePercentage",
-   "com:minimumAmount": "0.05",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/organizations/zombo-com#account-1",
-   "rdfs:comment": "Zombocom value-added fee",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "2",
+   "rateType": "InclusivePercentage",
+   "minimumAmount": "0.05",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/organizations/zombo-com#account-1",
+   "comment": "Zombocom value-added fee",
 }
         </pre>
       </section>
@@ -1103,7 +1143,7 @@ Transfer list that is generated by processing the list of Payees.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Payee, owl:Thing</dd>
+          <dd>Payee, Thing</dd>
           <dt>Range</dt>
           <dd>xsd:integer, xsd:string</dd>
         </dl>
@@ -1113,14 +1153,15 @@ be processed in the 4th position:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:payeePosition": "4",
-   "com:rate": "2",
-   "com:rateType": "com:InclusivePercentage",
-   "com:minimumAmount": "0.05",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/organizations/zombo-com#account-1",
-   "rdfs:comment": "Zombocom value-added fee",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "payeePosition": "4",
+   "rate": "2",
+   "rateType": "InclusivePercentage",
+   "minimumAmount": "0.05",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/organizations/zombo-com#account-1",
+   "comment": "Zombocom value-added fee",
 }
         </pre>
       </section>
@@ -1137,7 +1178,7 @@ via credit card or debit card.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Deposit</dd>
+          <dd>Deposit</dd>
           <dt>Range</dt>
           <dd>xsd:anyURI, xsd:string</dd>
         </dl>
@@ -1148,39 +1189,40 @@ The example below expresses that the payment gateway is CyberSource:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
-   "@type": "com:Deposit",
-   "com:date": "2010-10-16T12:34:36.14532",
-   "com:source":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
    {
-      "@id": "http://mybank.example.com/accounts/3879279824",
-      "@type": "ccard:DebitCard",
-      "ccard:brand": "Visa",
-      "ccard:number": "3847573872837483",
-      "ccard:expirationMonth": "11",
-      "ccard:expirationYear": "2013",
-      "ccard:verificationCode": "372",
-      "ccard:name": "JOHN DOE",
-      "ccard:firstName": "JOHN",
-      "ccard:lastName": "DOE",
-      "ccard:address":
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
       {
-         "@type": "vcard:Address",
-         "vcard:street-address": "28 Rivertail Lane",
-         "vcard:locality": "Upsilanty",
-         "vcard:region": "New York",
-         "vcard:postal-code": "83748",
-         "vcard:country-name": "United States of America"
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "com:paymentGateway": "CyberSource",
-   "sec:signature":
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "paymentGateway": "CyberSource",
+   "signature":
    {
-       "@type": "sec:JsonLdSignature",
-       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1197,9 +1239,9 @@ has been paid as a result of a commercial exchange.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, owl:Thing</dd>
+          <dd>Transaction, Thing</dd>
           <dt>Range</dt>
-          <dd>com:Payee, owl:Thing</dd>
+          <dd>Payee, Thing</dd>
         </dl>
         <p>
 The example below shows the sale listing for an electronic book called 
@@ -1207,8 +1249,9 @@ The example below shows the sale listing for an electronic book called
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-    "@id": "http://example.org/books/dawntreader#listing",
-    "@type": "ps:Listing",
+   "@context": "https://w3id.org/payswarm/v1",
+    "id": "http://example.org/books/dawntreader#listing",
+    "type": "ps:Listing",
     "ps:forAsset": "http://example.org/books/dawntreader#asset",
     "ps:assetHash": "85331e47eb55ea0a706675db9a9076688171ff86f78a",
     "ps:license": "http://example.org/licenses#mylicense",
@@ -1217,22 +1260,22 @@ The example below shows the sale listing for an electronic book called
     "ps:validThrough": "2010-11-16T21:34:01+0000",
     "ps:payee": 
     {
-        "@type": "com:Payee",
-        "com:rate": "8.35",
-        "com:rateType": "com:FlatAmount",
-        "com:currency": "USD",
-        "com:destination": "http://payswarm.example.com/people/seymour#account-9",
-        "rdfs:comment": "Book: The Dawntreader - Awakening, Second Coming",
+        "type": "Payee",
+        "rate": "8.35",
+        "rateType": "FlatAmount",
+        "currency": "USD",
+        "destination": "http://payswarm.example.com/people/seymour#account-9",
+        "comment": "Book: The Dawntreader - Awakening, Second Coming",
     },
     "ps:payeeRule":
     [{
-         "@type": "com:PayeeRule",
-         "com:maximumRate": "10",
-         "com:rateType": "com:InclusivePercentage",
-         "com:destinationOwnerType": "ps:Authority"
+         "type": "PayeeRule",
+         "maximumRate": "10",
+         "rateType": "InclusivePercentage",
+         "destinationOwnerType": "ps:Authority"
     },
     {
-         "@type": "com:PayeeRule",
+         "type": "PayeeRule",
          "ps:limitation": "ps:NoAdditionalPayees"
     }],
     "ps:signature": [<a href="https://w3id.org/security#Signature">Signature</a>*]
@@ -1252,7 +1295,7 @@ has been paid as a result of a commercial exchange.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Payee</dd>
+          <dd>Payee</dd>
           <dt>Range</dt>
           <dd>xsd:decimal, xsd:integer</dd>
         </dl>
@@ -1262,12 +1305,13 @@ rate property:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:FlatAmount",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The",
 }
         </pre>
         <p>
@@ -1276,13 +1320,14 @@ example below specifies a 4% Virginia sales tax:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "4",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/states/virginia#sales-tax",
-   "rdfs:comment": "Virginia sales tax",
-   "com:rateContext": "com:Tax"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "4",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/states/virginia#sales-tax",
+   "comment": "Virginia sales tax",
+   "rateContext": "Tax"
 }
         </pre>
       </section>
@@ -1299,9 +1344,9 @@ payment calculation, or for Payees to be marked as Tax or TaxDeferred.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Payee</dd>
+          <dd>Payee</dd>
           <dt>Range</dt>
-          <dd>com:Cumulative, com:Tax, com:Deferred, com:TaxExempt, rdfs:Class</dd>
+          <dd>Cumulative, Tax, Deferred, TaxExempt, Class</dd>
         </dl>
         <p>
 The following example uses the rate context property to expresses that a 
@@ -1309,13 +1354,14 @@ Virginia sales tax of 5% should be collected:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "5.0",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/states/virginia#account-1",
-   "rdfs:comment": "Virginia sales tax.",
-   "com:rateContext": "com:Tax"
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "5.0",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/states/virginia#account-1",
+   "comment": "Virginia sales tax.",
+   "rateContext": "Tax"
 }
         </pre>
       </section>
@@ -1334,21 +1380,22 @@ calculation among a list of Payees.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Payee, owl:Thing</dd>
+          <dd>Payee, Thing</dd>
           <dt>Range</dt>
-          <dd>com:InclusivePercentage, com:ExclusivePercentage, com:FlatAmount, rdfs:Class, xsd:string</dd>
+          <dd>InclusivePercentage, ExclusivePercentage, FlatAmount, Class, xsd:string</dd>
         </dl>
         <p>
 The example below specifies an exclusive percentage rate type
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@type": "com:Payee",
-   "com:rate": "0.05",
-   "com:rateType": "com:ExclusivePercentage",
-   "com:currency": "USD",
-   "com:destination": "http://payswarm.example.com/people/john-doe#account-3",
-   "rdfs:comment": "The explanation of the deferred payee goes here.",
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the deferred payee goes here.",
 }
         </pre>
       </section>
@@ -1364,47 +1411,48 @@ transaction.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Account</dd>
+          <dd>Account</dd>
           <dt>Range</dt>
-          <dd>com:Account, ccard:CreditCard, ccard:DebitCard, owl:Thing</dd>
+          <dd>Account, CreditCard, DebitCard, Thing</dd>
         </dl>
         <p>
 The example below shows a source being expressed as a debit card.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
-   "@type": ["com:Transaction", "com:Deposit"],
-   "com:date": "2010-10-16T12:34:36.14532",
-   "com:source":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": ["Transaction", "Deposit"],
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
    {
-      "@id": "http://mybank.example.com/accounts/3879279824",
-      "@type": "ccard:DebitCard",
-      "ccard:brand": "Visa",
-      "ccard:number": "3847573872837483",
-      "ccard:expirationMonth": "11",
-      "ccard:expirationYear": "2013",
-      "ccard:verificationCode": "372",
-      "ccard:name": "JOHN DOE",
-      "ccard:firstName": "JOHN",
-      "ccard:lastName": "DOE",
-      "ccard:address":
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
       {
-         "@type": "vcard:Address",
-         "vcard:street-address": "28 Rivertail Lane",
-         "vcard:locality": "Upsilanty",
-         "vcard:region": "New York",
-         "vcard:postal-code": "83748",
-         "vcard:country-name": "United States of America"
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": [<a href="#Transfer">Transfer</a>*],
-   "sec:signature":
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "signature":
    {
-       "@type": "sec:JsonLdSignature",
-       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>
@@ -1423,9 +1471,9 @@ accounts for a particular Transaction.
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
           <dt>Domain</dt>
-          <dd>com:Transaction, owl:Thing</dd>
+          <dd>Transaction, Thing</dd>
           <dt>Range</dt>
-          <dd>com:Transfer, owl:Thing</dd>
+          <dd>Transfer, Thing</dd>
         </dl>
         <p>
 The example below shows the transfer information for a debit card deposit
@@ -1433,46 +1481,47 @@ from the owner's bank into their PaySwarm account.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
-   "@type": "com:Deposit",
-   "com:date": "2010-10-16T12:34:36.14532",
-   "com:source":
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
    {
-      "@id": "http://mybank.example.com/accounts/3879279824#account",
-      "@type": "ccard:DebitCard",
-      "ccard:brand": "Visa",
-      "ccard:number": "3847573872837483",
-      "ccard:expirationMonth": "11",
-      "ccard:expirationYear": "2013",
-      "ccard:verificationCode": "372",
-      "ccard:name": "JOHN DOE",
-      "ccard:firstName": "JOHN",
-      "ccard:lastName": "DOE",
-      "ccard:address":
+      "id": "http://mybank.example.com/accounts/3879279824#account",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
       {
-         "@type": "vcard:Address",
-         "vcard:street-address": "28 Rivertail Lane",
-         "vcard:locality": "Upsilanty",
-         "vcard:region": "New York",
-         "vcard:postal-code": "83748",
-         "vcard:country-name": "United States of America"
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
       }
    },
-   "com:payee": [<a href="#Payee">Payee</a>*],
-   "com:transfer": 
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": 
    {
-      "@type": "com:Transfer",
-      "com:source": "http://mybank.example.com/accounts/3879279824#account",
-      "com:destination": "http://greencardexample.com/accounts/54321#account",
-      "com:amount": "20.00",
-      "com:currency": "USD",
-      "rdfs:comment": "Monthly entertainment budget deposit into PaySwarm account."
+      "type": "Transfer",
+      "source": "http://mybank.example.com/accounts/3879279824#account",
+      "destination": "http://greencardexample.com/accounts/54321#account",
+      "amount": "20.00",
+      "currency": "USD",
+      "comment": "Monthly entertainment budget deposit into PaySwarm account."
    },
-   "sec:signature":
+   "signature":
    {
-       "@type": "sec:JsonLdSignature",
-       "sec:signer": "http://payswarm.example.com/people/john-doe#key-5",
-       "sec:signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
    }
 }
         </pre>

@@ -1,0 +1,891 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Signing HTTP Messages</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Using Signatures in HTTP Requests"/>
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Using Signatures in HTTP Responses"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 The Components of a Signature"/>
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Signature Parameters"/>
+<link href="#rfc.section.2.1.1" rel="Chapter" title="2.1.1 keyId"/>
+<link href="#rfc.section.2.1.2" rel="Chapter" title="2.1.2 algorithm"/>
+<link href="#rfc.section.2.1.3" rel="Chapter" title="2.1.3 headers"/>
+<link href="#rfc.section.2.1.4" rel="Chapter" title="2.1.4 signature"/>
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Ambiguous Parameters"/>
+<link href="#rfc.section.2.3" rel="Chapter" title="2.3 Signature String Construction"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 The 'Signature' HTTP Authentication Scheme"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Authorization Header"/>
+<link href="#rfc.section.3.1.1" rel="Chapter" title="3.1.1 Initiating Signature Authorization"/>
+<link href="#rfc.section.3.1.2" rel="Chapter" title="3.1.2 RSA Example"/>
+<link href="#rfc.section.3.1.3" rel="Chapter" title="3.1.3 HMAC Example"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 The 'Signature' HTTP Header"/>
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Signature Header"/>
+<link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 RSA Example"/>
+<link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 HMAC Example"/>
+<link href="#rfc.references" rel="Chapter" title="5 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="5.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="5.2 Informative References"/>
+<link href="#rfc.appendix.A" rel="Chapter" title="A Security Considerations"/>
+<link href="#rfc.appendix.B" rel="Chapter" title="B Extensions"/>
+<link href="#rfc.appendix.C" rel="Chapter" title="C Test Values"/>
+<link href="#rfc.appendix.C.1" rel="Chapter" title="C.1 Default Test"/>
+<link href="#rfc.appendix.C.2" rel="Chapter" title="C.2 Basic Test"/>
+<link href="#rfc.appendix.C.3" rel="Chapter" title="C.3 All Headers Test"/>
+<link href="#rfc.appendix.D" rel="Chapter" title="D Acknowledgements"/>
+<link href="#rfc.appendix.E" rel="Chapter" title="E IANA Considerations"/>
+<link href="#rfc.appendix.E.1" rel="Chapter" title="E.1 Signature Authentication Scheme"/>
+<link href="#rfc.appendix.E.2" rel="Chapter" title="E.2 Signature Algorithm Registry"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.4.3 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Cavage, M. and M. Sporny" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-cavage-http-signatures-02" />
+  <meta name="dct.issued" scheme="ISO8601" content="2014-5-8" />
+  <meta name="dct.abstract" content="When communicating over the Internet using the HTTP protocol, it can be desirable for a server or client to authenticate the sender of a particular message. It can also be desirable to ensure that the message was not tampered with during transit. This document describes a way for servers and clients to simultaneously add authentication and message integrity to HTTP messages by using a digital signature.  " />
+  <meta name="description" content="When communicating over the Internet using the HTTP protocol, it can be desirable for a server or client to authenticate the sender of a particular message. It can also be desirable to ensure that the message was not tampered with during transit. This document describes a way for servers and clients to simultaneously add authentication and message integrity to HTTP messages by using a digital signature.  " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">Network Working Group</td>
+  <td class="right">M. Cavage</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">Joyent</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Standards Track</td>
+  <td class="right">M. Sporny</td>
+</tr>
+<tr>
+  <td class="left">Expires: November 9, 2014</td>
+  <td class="right">Digital Bazaar</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">May 8, 2014</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Signing HTTP Messages<br />
+  <span class="filename">draft-cavage-http-signatures-02</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>When communicating over the Internet using the HTTP protocol, it can be desirable for a server or client to authenticate the sender of a particular message. It can also be desirable to ensure that the message was not tampered with during transit. This document describes a way for servers and clients to simultaneously add authentication and message integrity to HTTP messages by using a digital signature.  </p>
+<h1>
+  <a>Feedback</a>
+</h1>
+<p>This specification is a part of the <a href="https://web-payments.org/">Web Payments</a> work. Feedback related to this specification should be sent to <a href="mailto:public-webpayments@w3.org">public-webpayments@w3.org</a>.  </p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on November 9, 2014.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2014 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>1.1.   <a href="#rfc.section.1.1">Using Signatures in HTTP Requests</a></li>
+<li>1.2.   <a href="#rfc.section.1.2">Using Signatures in HTTP Responses</a></li>
+<li>2.   <a href="#rfc.section.2">The Components of a Signature</a></li>
+<li>2.1.   <a href="#rfc.section.2.1">Signature Parameters</a></li>
+<li>2.1.1.   <a href="#rfc.section.2.1.1">keyId</a></li>
+<li>2.1.2.   <a href="#rfc.section.2.1.2">algorithm</a></li>
+<li>2.1.3.   <a href="#rfc.section.2.1.3">headers</a></li>
+<li>2.1.4.   <a href="#rfc.section.2.1.4">signature</a></li>
+<li>2.2.   <a href="#rfc.section.2.2">Ambiguous Parameters</a></li>
+<li>2.3.   <a href="#rfc.section.2.3">Signature String Construction</a></li>
+<li>3.   <a href="#rfc.section.3">The 'Signature' HTTP Authentication Scheme</a></li>
+<li>3.1.   <a href="#rfc.section.3.1">Authorization Header</a></li>
+<li>3.1.1.   <a href="#rfc.section.3.1.1">Initiating Signature Authorization</a></li>
+<li>3.1.2.   <a href="#rfc.section.3.1.2">RSA Example</a></li>
+<li>3.1.3.   <a href="#rfc.section.3.1.3">HMAC Example</a></li>
+<li>4.   <a href="#rfc.section.4">The 'Signature' HTTP Header</a></li>
+<li>4.1.   <a href="#rfc.section.4.1">Signature Header</a></li>
+<li>4.1.1.   <a href="#rfc.section.4.1.1">RSA Example</a></li>
+<li>4.1.2.   <a href="#rfc.section.4.1.2">HMAC Example</a></li>
+<li>5.   <a href="#rfc.references">References</a></li>
+<li>5.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>5.2.   <a href="#rfc.references.2">Informative References</a></li>
+<li>Appendix A.   <a href="#rfc.appendix.A">Security Considerations</a></li>
+<li>Appendix B.   <a href="#rfc.appendix.B">Extensions</a></li>
+<li>Appendix C.   <a href="#rfc.appendix.C">Test Values</a></li>
+<li>C.1.   <a href="#rfc.appendix.C.1">Default Test</a></li>
+<li>C.2.   <a href="#rfc.appendix.C.2">Basic Test</a></li>
+<li>C.3.   <a href="#rfc.appendix.C.3">All Headers Test</a></li>
+<li>Appendix D.   <a href="#rfc.appendix.D">Acknowledgements</a></li>
+<li>Appendix E.   <a href="#rfc.appendix.E">IANA Considerations</a></li>
+<li>E.1.   <a href="#rfc.appendix.E.1">Signature Authentication Scheme</a></li>
+<li>E.2.   <a href="#rfc.appendix.E.2">Signature Algorithm Registry</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#intro" id="intro">Introduction</a></h1>
+<p id="rfc.section.1.p.1">This protocol extension is intended to provide a standard way for clients to sign HTTP messages.  <a href="#RFC2617">HTTP Authentication</a> <cite title="NONE">[RFC2617]</cite> defines Basic and Digest authentication mechanisms, and <a href="#RFC5246">TLS 1.2</a> <cite title="NONE">[RFC5246]</cite> defines cryptographically stronger client authentication, all of which are widely employed on the Internet today.  The burdens of PKI prevent some web service operators from deploying that methodoloy, and so some of those organizations fall back to Basic or Digest authentication. Basic and Digest authentication provide poor security characteristics when combined with common password usage behavior.  </p>
+<p id="rfc.section.1.p.2">Password database compromises between 2010 to 2014 have shown that people regularly use weak passwords and share the same password across multiple websites. The use of Basic authentication over a regular HTTP channel provides very little protection. Digest authentication, while providing a little more protection, still leaves the scheme open to brute-force attacks that are capable of discovering a weak or random 8 character password in less than 3 hours using a single commodity computer and mere minutes using cloud-based rental servers to distribute the brute-force attack.  </p>
+<p id="rfc.section.1.p.3">While it is true that most Basic and Digest authentication approaches are operated over secure channels like TLS, revelations over pervasive monitoring in 2013 have shown that TLS alone may not be secure enough to protect sensitive data.  </p>
+<p id="rfc.section.1.p.4">Additionally, <a href="#RFC6749">OAuth 2.0</a> <cite title="NONE">[RFC6749]</cite> provides a fully-specified alternative for authorization of web service requests, but is not always ideal for machine to machine communication, as the token acquisition steps generally imply a fixed infrastructure that may not make sense to a service provider. For example, the use of symmetric keys and the distribution of hundreds of thousands of those keys across multiple datacenters around the world create multiple points of attack where a successful attack results in a large gain for the attacker and thus an even bigger problem for the service provider and their customers.  </p>
+<p id="rfc.section.1.p.5">Several web service providers have invented their own schemes for signing HTTP messages, but to date, none have been standardized. While there are no techniques in this proposal that are novel beyond the previous art, it is useful to standardize a simple and cryptographically strong mechanism for digitally signing HTTP messages.  </p>
+<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> <a href="#intro-requests" id="intro-requests">Using Signatures in HTTP Requests</a></h1>
+<p id="rfc.section.1.1.p.1">It is common practice to protect sensitive website API functionality via authentication mechanisms. Often, the entity accessing these APIs is a piece of automated software outside of an interactive human session. While there are mechanisms like OAuth and API secrets that are used to grant API access, each have their weaknesses such as unnecessary complexity for particular use cases or the use of shared secrets which may not be acceptable to an implementer.  </p>
+<p id="rfc.section.1.1.p.2">Digital signatures are widely used to provide authentication without the need for shared secrets. They also do not require a round-trip in order to authenticate the client. A server need only have a mapping between the key being used to sign the content and the authorized entity to verify that a message was signed by that entity.  </p>
+<p id="rfc.section.1.1.p.3">This specification provides two mechanisms that can be used by a server to authenticate a client. The first is the 'Signature' HTTP Authentication Scheme, which may be used for interactive sessions. The second is the Signature HTTP Header, which is typically used by automated software agents.  </p>
+<h1 id="rfc.section.1.2"><a href="#rfc.section.1.2">1.2.</a> <a href="#intro-responses" id="intro-responses">Using Signatures in HTTP Responses</a></h1>
+<p id="rfc.section.1.2.p.1">It is often assumed that if a server provides a certificate signed by a trusted Certificate Authority that the server has not been compromised.  After the pervasive monitoring revelations of 2013, that is no longer a commonly held belief. For most low to moderate security transactions, TLS is acceptable. However, for high security transactions, having an additional signature on the HTTP header allows a client to ensure that even if the transport channel has been compromised, that the content of the messages have not been compromised.  </p>
+<p id="rfc.section.1.2.p.2">This specification provides a HTTP Signature Header mechanism that can be used by a client to authenticate the sender of a message and ensure that particular headers have not been modified in transit.  </p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#components" id="components">The Components of a Signature</a></h1>
+<p id="rfc.section.2.p.1">There are a number of components in a signature that are common between the 'Signature' HTTP Authentication Scheme and the 'Signature' HTTP Header. This section details the components of a digital signature.  </p>
+<h1 id="rfc.section.2.1"><a href="#rfc.section.2.1">2.1.</a> <a href="#params" id="params">Signature Parameters</a></h1>
+<p id="rfc.section.2.1.p.1">The following section details the signature parameters.  </p>
+<h1 id="rfc.section.2.1.1"><a href="#rfc.section.2.1.1">2.1.1.</a> <a href="#keyId" id="keyId">keyId</a></h1>
+<p id="rfc.section.2.1.1.p.1">REQUIRED.  The `keyId` field is an opaque string that the server can use to look up the component they need to validate the signature.  It could be an SSH key fingerprint, a URL to machine-readable key data, an LDAP DN, etc.  Management of keys and assignment of `keyId` is out of scope for this document.  </p>
+<h1 id="rfc.section.2.1.2"><a href="#rfc.section.2.1.2">2.1.2.</a> <a href="#algorithm" id="algorithm">algorithm</a></h1>
+<p id="rfc.section.2.1.2.p.1">REQUIRED. The `algorithm` parameter is used to specify the digital signature algorithm to use when generating the signature. Valid values for this parameter can be found in the Signature Algorithms registry located at <a href="http://www.iana.org/assignments/signature-algorithms">http://www.iana.org/assignments/signature-algorithms</a> and MUST NOT be marked "deprecated".  </p>
+<h1 id="rfc.section.2.1.3"><a href="#rfc.section.2.1.3">2.1.3.</a> <a href="#headers" id="headers">headers</a></h1>
+<p id="rfc.section.2.1.3.p.1">OPTIONAL.  The `headers` parameter is used to specify the list of HTTP headers included when generating the signature for message.  If specified, it should be a lowercased, quoted list of HTTP header fields, separated by a single space character. By default, only one HTTP header is signed, which is the `Date` header. Note that the list order is important, and MUST be specified in the order the values are concatenated together during signing.  </p>
+<h1 id="rfc.section.2.1.4"><a href="#rfc.section.2.1.4">2.1.4.</a> <a href="#signature" id="signature">signature</a></h1>
+<p id="rfc.section.2.1.4.p.1">REQUIRED.  The `signature` parameter is a base 64 encoded digital signature, as described in <a href="#RFC4648">RFC 4648</a> <cite title="NONE">[RFC4648]</cite>, <a href="http://tools.ietf.org/html/rfc4648#section-4">Section 4</a>.  The client uses the `algorithm` and `headers` signature parameters to form a canonicalized `signing string`.  This `signing string` is then signed with the key associated with `keyId` and the algorithm corresponding to `algorithm`.  The `signature` parameter is then set to the base 64 encoding of the signature.  </p>
+<h1 id="rfc.section.2.2"><a href="#rfc.section.2.2">2.2.</a> <a href="#ambiguity" id="ambiguity">Ambiguous Parameters</a></h1>
+<p id="rfc.section.2.2.p.1">If any of the parameters listed above are erroneously duplicated in the associated header field, then the last parameter defined MUST be used. Any parameter that is not recognized as a parameter, or is not well-formed, MUST be ignored.  </p>
+<h1 id="rfc.section.2.3"><a href="#rfc.section.2.3">2.3.</a> <a href="#canonicalization" id="canonicalization">Signature String Construction</a></h1>
+<p id="rfc.section.2.3.p.1">In order to generate the string that is signed with a key, the client MUST use the values of each HTTP header field specified by `headers` in the order they appear. It is out of scope for this document to dictate what header fields an application will want to enforce, but implementers SHOULD at minimum include the method + URL (request-line), Host, and Date header fields.  </p>
+<p id="rfc.section.2.3.p.2">To include the HTTP request line in the signature calculation, use the special `(request-line)` header field name.  </p>
+
+<ol>
+  <li>If the header field name is `(request-line)` then generate the header field value by concatenating the lowercased method name, an ASCII space, and the method URL.  </li>
+  <li>Create the header field string by concatenating the lowercased header field name followed with an ASCII colon `:`, an ASCII space ` `, and the header field value. The value MUST NOT be modified or canonicalized in any way. If there are multiple instances of the same header field, all header field values associated with the header field MUST be concatenated and used in the order in which they will appear in the transmitted HTTP message.  </li>
+  <li>If value is not the last value then append an ASCII newline `\n`.  </li>
+</ol>
+
+<p> </p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#auth-scheme" id="auth-scheme">The 'Signature' HTTP Authentication Scheme</a></h1>
+<p id="rfc.section.3.p.1">The "signature" authentication scheme is based on the model that the client must authenticate itself with a digital signature produced by either a private asymmetric key (e.g., RSA) or a shared symmetric key (e.g., HMAC).  The scheme is parameterized enough such that it is not bound to any particular key type or signing algorithm.  However, it does explicitly assume that clients can send an HTTP `Date` header.  </p>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#auth-header" id="auth-header">Authorization Header</a></h1>
+<p id="rfc.section.3.1.p.1">The client is expected to send an Authorization header (as defined in <a href="#I-D.ietf-httpbis-p7-auth">HTTPbis 1.1, Part 7</a> <cite title="NONE">[I-D.ietf-httpbis-p7-auth]</cite>, <a href="http://tools.ietf.org/html/draft-ietf-httpbis-p7-auth-25#section-4.1">Section 4.1</a>) where the "auth-scheme" is "Signature" and the "auth-param" parameters meet the requirements listed in Section 2: The Components of a Signature.  </p>
+<pre>
+POST /foo HTTP/1.1
+Host: example.org
+Date: Tue, 07 Jun 2014 20:51:35 GMT
+Content-Type: application/json
+Digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+Content-Length: 18
+
+{"hello": "world"}
+     </pre>
+<p id="rfc.section.3.1.p.2">The rest if this section uses the following HTTP request as an example.  </p>
+<p id="rfc.section.3.1.p.3">Note that the use of the `Digest` header field is per <a href="#RFC3230">RFC 3230</a> <cite title="NONE">[RFC3230]</cite>, <a href="http://tools.ietf.org/html/rfc3230#section-4.3.2">Section 4.3.2</a> and is included merely as a demonstration of how an implementer could include information about the body of the message in the signature.  The following sections also assume that the "rsa-key-1" keyId refers to a private key known to the client and a public key known to the server.  The "hmac-key-1" keyId refers to key known to the client and server.  </p>
+<h1 id="rfc.section.3.1.1"><a href="#rfc.section.3.1.1">3.1.1.</a> <a href="#auth-isa" id="auth-isa">Initiating Signature Authorization</a></h1>
+<pre>
+HTTP/1.1 401 Unauthorized
+Date: Thu, 08 Jun 2014 18:32:30 GMT
+Content-Length: 1234
+Content-Type: text/html
+WWW-Authenticate: Signature realm="Example"
+
+...
+</pre>
+<p id="rfc.section.3.1.1.p.1">A server may notify a client when a protected resource could be accessed by authenticating itself to the server. To initiate this process, the server will request that the client authenticate itself via a 401 response code.  For example: </p>
+<h1 id="rfc.section.3.1.2"><a href="#rfc.section.3.1.2">3.1.2.</a> <a href="#auth-rsa-example" id="auth-rsa-example">RSA Example</a></h1>
+<pre>
+Authorization: Signature keyId="rsa-key-1",algorithm="rsa-sha256",
+headers="(request-line) host date digest content-length",
+signature="Base64(RSA-SHA256(signing string))"</pre>
+<p id="rfc.section.3.1.2.p.1">The authorization header and signature would be generated as: </p>
+<pre>
+(request-line): post /foo\n
+host: example.org\n
+date: Tue, 07 Jun 2014 20:51:35 GMT\n
+digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=\n
+content-length: 18</pre>
+<p id="rfc.section.3.1.2.p.2">The client would compose the signing string as: </p>
+<pre>
+Authorization: Signature keyId="rsa-key-1",algorithm="rsa-sha256",
+headers="(request-line) host date digest content-length",
+signature="Base64(RSA-SHA256(signing string))"</pre>
+<p id="rfc.section.3.1.2.p.3">For an RSA-based signature, the authorization header and signature would then be generated as: </p>
+<h1 id="rfc.section.3.1.3"><a href="#rfc.section.3.1.3">3.1.3.</a> <a href="#auth-hmac-example" id="auth-hmac-example">HMAC Example</a></h1>
+<pre>
+Authorization: Signature keyId="hmac-key-1",algorithm="hmac-sha256",
+headers="(request-line) host date digest content-length",
+signature="Base64(HMAC-SHA256(signing string))"
+     </pre>
+<p id="rfc.section.3.1.3.p.1">For an HMAC-based signature without a list of headers specified, the authorization header and signature would be generated as: </p>
+<pre>
+(request-line): post /foo\n
+host: example.org\n
+date: Tue, 07 Jun 2014 20:51:35 GMT\n
+digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=\n
+content-length: 18
+     </pre>
+<p id="rfc.section.3.1.3.p.2">The only difference between the RSA Example and the HMAC Example is the signature algorithm that is used. The client would compose the signing string in the same way as the RSA Example above: </p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#sig" id="sig">The 'Signature' HTTP Header</a></h1>
+<p id="rfc.section.4.p.1">The "signature" HTTP Header is based on the model that the sender must authenticate itself with a digital signature produced by either a private asymmetric key (e.g., RSA) or a shared symmetric key (e.g., HMAC).  The scheme is parameterized enough such that it is not bound to any particular key type or signing algorithm.  However, it does explicitly assume that senders can send an HTTP `Date` header.  </p>
+<h1 id="rfc.section.4.1"><a href="#rfc.section.4.1">4.1.</a> <a href="#sig-header" id="sig-header">Signature Header</a></h1>
+<p id="rfc.section.4.1.p.1">The sender is expected to transmit a header (as defined in <a href="#I-D.ietf-httpbis-p1-messaging">HTTPbis 1.1, Part 1</a> <cite title="NONE">[I-D.ietf-httpbis-p1-messaging]</cite>, <a href="http://tools.ietf.org/html/draft-ietf-httpbis-p1-messaging-26#section-3.2">Section 3.2</a>) where the "field-name" is "Signature", and the "field-value" contains one or more "auth-param"s (as defined in <a href="#I-D.ietf-httpbis-p7-auth">HTTPbis 1.1, Part 7</a> <cite title="NONE">[I-D.ietf-httpbis-p7-auth]</cite>, <a href="http://tools.ietf.org/html/draft-ietf-httpbis-p7-auth-25#section-4.1">Section 4.1</a>) where the "auth-param" parameters meet the requirements listed in Section 2: The Components of a Signature.  </p>
+<pre>
+POST /foo HTTP/1.1
+Host: example.org
+Date: Tue, 07 Jun 2014 20:51:35 GMT
+Content-Type: application/json
+Digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+Content-Length: 18
+
+{"hello": "world"}</pre>
+<p id="rfc.section.4.1.p.2">The rest if this section uses the following HTTP request as an example.  </p>
+<p id="rfc.section.4.1.p.3">The following sections assume that the "rsa-key-1" keyId refers to a private key known to the client and a public key known to the server.  The "hmac-key-1" keyId refers to key known to the client and server.  </p>
+<h1 id="rfc.section.4.1.1"><a href="#rfc.section.4.1.1">4.1.1.</a> <a href="#sig-rsa-example" id="sig-rsa-example">RSA Example</a></h1>
+<pre>
+Signature: keyId="rsa-key-1",algorithm="rsa-sha256",
+headers="(request-line) host date digest content-length",
+signature="Base64(RSA-SHA256(signing string))"</pre>
+<p id="rfc.section.4.1.1.p.1">The signature header and signature would be generated as: </p>
+<pre>
+(request-line): post /foo\n
+host: example.org\n
+date: Tue, 07 Jun 2014 20:51:35 GMT\n
+digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=\n
+content-length: 18</pre>
+<p id="rfc.section.4.1.1.p.2">The client would compose the signing string as: </p>
+<pre>
+Signature: keyId="rsa-key-1",algorithm="rsa-sha256",
+headers="(request-line) host date digest content-length",
+signature="Base64(RSA-SHA256(signing string))"</pre>
+<p id="rfc.section.4.1.1.p.3">For an RSA-based signature, the authorization header and signature would then be generated as: </p>
+<h1 id="rfc.section.4.1.2"><a href="#rfc.section.4.1.2">4.1.2.</a> <a href="#sig-hmac-example" id="sig-hmac-example">HMAC Example</a></h1>
+<pre>
+Signature: keyId="hmac-key-1",algorithm="hmac-sha256",
+headers="(request-line) host date digest content-length",
+signature="Base64(HMAC-SHA256(signing string))"</pre>
+<p id="rfc.section.4.1.2.p.1">For an HMAC-based signature without a list of headers specified, the authorization header and signature would be generated as: </p>
+<pre>
+(request-line): post /foo\n
+host: example.org\n
+date: Tue, 07 Jun 2014 20:51:35 GMT\n
+digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=\n
+content-length: 18
+     </pre>
+<p id="rfc.section.4.1.2.p.2">The only difference between the RSA Example and the HMAC Example is the signature algorithm that is used. The client would compose the signing string in the same way as the RSA Example above: </p>
+<h1 id="rfc.references"><a href="#rfc.references">5.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">5.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-httpbis-p1-messaging">[I-D.ietf-httpbis-p1-messaging]</b>
+      </td>
+      <td class="top"><a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="http://tools.ietf.org/html/draft-ietf-httpbis-p1-messaging-25">Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing</a>", Internet-Draft draft-ietf-httpbis-p1-messaging-25, November 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-httpbis-p7-auth">[I-D.ietf-httpbis-p7-auth]</b>
+      </td>
+      <td class="top"><a>Fielding, R.</a> and <a>J. Reschke</a>, "<a href="http://tools.ietf.org/html/draft-ietf-httpbis-p7-auth-25">Hypertext Transfer Protocol (HTTP/1.1): Authentication</a>", Internet-Draft draft-ietf-httpbis-p7-auth-25, November 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-jose-json-web-algorithms">[I-D.ietf-jose-json-web-algorithms]</b>
+      </td>
+      <td class="top"><a>Jones, M.</a>, "<a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-20">JSON Web Algorithms (JWA)</a>", Internet-Draft draft-ietf-jose-json-web-algorithms-20, January 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC2119">[RFC2119]</b>
+      </td>
+      <td class="top"><a href="mailto:sob@harvard.edu" title="Harvard University">Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, March 1997.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC4648">[RFC4648]</b>
+      </td>
+      <td class="top"><a>Josefsson, S.</a>, "<a href="http://tools.ietf.org/html/rfc4648">The Base16, Base32, and Base64 Data Encodings</a>", RFC 4648, October 2006.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6376">[RFC6376]</b>
+      </td>
+      <td class="top"><a>Crocker, D.</a>, <a>Hansen, T.</a> and <a>M. Kucherawy</a>, "<a href="http://tools.ietf.org/html/rfc6376">DomainKeys Identified Mail (DKIM) Signatures</a>", STD 76, RFC 6376, September 2011.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">5.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC2617">[RFC2617]</b>
+      </td>
+      <td class="top"><a href="mailto:john@math.nwu.edu" title="Northwestern University, Department of Mathematics">Franks, J.</a>, <a href="mailto:pbaker@verisign.com" title="Verisign Inc.">Hallam-Baker, P.</a>, <a href="mailto:jeff@AbiSource.com" title="AbiSource, Inc.">Hostetler, J.</a>, <a href="mailto:lawrence@agranat.com" title="Agranat Systems, Inc.">Lawrence, S.</a>, <a href="mailto:paulle@microsoft.com" title="Microsoft Corporation">Leach, P.</a>, <a title="Netscape Communications Corporation">Luotonen, A.</a> and <a href="mailto:stewart@OpenMarket.com" title="Open Market, Inc.">L. Stewart</a>, "<a href="http://tools.ietf.org/html/rfc2617">HTTP Authentication: Basic and Digest Access Authentication</a>", RFC 2617, June 1999.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3230">[RFC3230]</b>
+      </td>
+      <td class="top"><a>Mogul, J.</a> and <a>A. Van Hoff</a>, "<a href="http://tools.ietf.org/html/rfc3230">Instance Digests in HTTP</a>", RFC 3230, January 2002.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5246">[RFC5246]</b>
+      </td>
+      <td class="top"><a>Dierks, T.</a> and <a>E. Rescorla</a>, "<a href="http://tools.ietf.org/html/rfc5246">The Transport Layer Security (TLS) Protocol Version 1.2</a>", RFC 5246, August 2008.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6749">[RFC6749]</b>
+      </td>
+      <td class="top"><a>Hardt, D.</a>, "<a href="http://tools.ietf.org/html/rfc6749">The OAuth 2.0 Authorization Framework</a>", RFC 6749, October 2012.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#appendix-a" id="appendix-a">Security Considerations</a></h1>
+<p id="rfc.section.A.p.1">There are a number of security considerations to take into account when implementing or utilizing this specification. A thorough security analysis of this protocol, including its strengths and weaknesses, can be found in <a href="https://web-payments.org/specs/source/http-signatures-audit/">Security Considerations for HTTP Signatures</a>.  </p>
+<h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#appendix-b" id="appendix-b">Extensions</a></h1>
+<p id="rfc.section.B.p.1">This specification was designed to be simple, modular, and extensible. There are a number of other specifications that build on this one. For example, the <a href="https://web-payments.org/specs/source/http-signature-nonces/">HTTP Signature Nonces</a> specification details how to use HTTP Signatures over a non-secured channel like HTTP and the <a href="https://web-payments.org/specs/source/http-signature-trailers/">HTTP Signature Trailers</a> specification explains how to apply HTTP Signatures to streaming content. Developers that desire more functionality than this specification provides are urged to ensure that an extension specification doesn't already exist before implementing a proprietary extension.  </p>
+<pre>
+Signature Parameter: nonce
+Reference to specification: [HTTP_AUTH_SIGNATURE_NONCE], Section XYZ.
+Notes (optional): The HTTP Signature Nonces specification details 
+how to use HTTP Signatures over a unsecured channel like HTTP.
+    </pre>
+<p id="rfc.section.B.p.2">If extensions to this specification are made by adding new Signature Parameters, those extension parameters MUST be registered in the Signature Authentication Scheme Registry. The registry will be created and maintained at (the suggested URI) <a href="http://www.iana.org/assignments/http-auth-scheme-signature">http://www.iana.org/assignments/http-auth-scheme-signature</a>. An example entry in this registry is included below: </p>
+<h1 id="rfc.appendix.C"><a href="#rfc.appendix.C">Appendix C.</a> <a href="#appendix-c" id="appendix-c">Test Values</a></h1>
+<pre>
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDCFENGw33yGihy92pDjZQhl0C3
+6rPJj+CvfSC8+q28hxA161QFNUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6
+Z4UMR7EOcpfdUE9Hf3m/hs+FUR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJw
+oYi+1hqp1fIekaxsyQIDAQAB
+-----END PUBLIC KEY-----
+    </pre>
+<pre>
+-----BEGIN RSA PRIVATE KEY-----
+MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF
+NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F
+UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB
+AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA
+QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK
+kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg
+f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u
+412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc
+mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7
+kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA
+gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW
+G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI
+7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==
+-----END RSA PRIVATE KEY-----
+    </pre>
+<p id="rfc.section.C.p.1">The following test data uses the following RSA 2048-bit keys, which we will refer to as `keyId=Test` in the following samples: </p>
+<pre>
+POST /foo?param=value&amp;pet=dog HTTP/1.1
+Host: example.com
+Date: Thu, 05 Jan 2014 21:31:40 GMT
+Content-Type: application/json
+Digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+Content-Length: 18
+
+{"hello": "world"}
+    </pre>
+<p id="rfc.section.C.p.2">All examples use this request: </p>
+<h1 id="rfc.appendix.C.1"><a href="#rfc.appendix.C.1">C.1.</a> <a href="#default-test" id="default-test">Default Test</a></h1>
+<pre>
+date: Thu, 05 Jan 2014 21:31:40 GMT</pre>
+<p id="rfc.section.C.1.p.1">If a list of headers is not included, the date is the only header that is signed by default. The string to sign would be: </p>
+<pre>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",
+signature="ATp0r26dbMIxOopqw0OfABDT7CKMIoENumuruOtarj8n/97Q3htH
+FYpH8yOSQk3Z5zh8UxUym6FYTb5+A0Nz3NRsXJibnYi7brE/4tx5But9kkFGzG+
+xpUmimN4c3TMN7OFH//+r8hBf7BT9/GmHDUVZT2JzWGLZES2xDOUuMtA="</pre>
+<p id="rfc.section.C.1.p.2">The Authorization header would be: </p>
+<pre>
+Signature: keyId="Test",algorithm="rsa-sha256",
+signature="ATp0r26dbMIxOopqw0OfABDT7CKMIoENumuruOtarj8n/97Q3htH
+FYpH8yOSQk3Z5zh8UxUym6FYTb5+A0Nz3NRsXJibnYi7brE/4tx5But9kkFGzG+
+xpUmimN4c3TMN7OFH//+r8hBf7BT9/GmHDUVZT2JzWGLZES2xDOUuMtA="</pre>
+<p id="rfc.section.C.1.p.3">The Signature header would be: </p>
+<h1 id="rfc.appendix.C.2"><a href="#rfc.appendix.C.2">C.2.</a> <a href="#basic-test" id="basic-test">Basic Test</a></h1>
+<pre>
+(request-line): post /foo?param=value&amp;pet=dog
+host: example.com
+date: Thu, 05 Jan 2014 21:31:40 GMT
+    </pre>
+<p id="rfc.section.C.2.p.1">The minimum recommended data to sign is the (request-line), host, and date. In this case, the string to sign would be: </p>
+<pre>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",
+headers="(request-line) host date", signature="KcLSABBj/m3v2Dhxi
+CKJmzYJvnx74tDO1SaURD8Dr8XpugN5wpy8iBVJtpkHUIp4qBYpzx2QvD16t8X
+0BUMiKc53Age+baQFWwb2iYYJzvuUL+krrl/Q7H6fPBADBsHqEZ7IE8rR0Ys3l
+b7J5A6VB9J/4yVTRiBcxTypW/mpr5w="
+    </pre>
+<p id="rfc.section.C.2.p.2">The Authorization header would be: </p>
+<h1 id="rfc.appendix.C.3"><a href="#rfc.appendix.C.3">C.3.</a> <a href="#all-headers-test" id="all-headers-test">All Headers Test</a></h1>
+<pre>
+(request-line): post /foo?param=value&amp;pet=dog
+host: example.com
+date: Thu, 05 Jan 2014 21:31:40 GMT
+content-type: application/json
+digest: SHA-256=X48E9qOokqqrvdts8nOJRJN3OWDUoyWxBf7kbu9DBPE=
+content-length: 18</pre>
+<p id="rfc.section.C.3.p.1">A strong signature including all of the headers and a digest of the body of the HTTP request would result in the following signing string: </p>
+<pre>
+Authorization: Signature keyId="Test",algorithm="rsa-sha256",
+headers="(request-line) host date content-type digest content-length",
+signature="jgSqYK0yKclIHfF9zdApVEbDp5eqj8C4i4X76pE+XHoxugXv7q
+nVrGR+30bmBgtpR39I4utq17s9ghz/2QFVxlnToYAvbSVZJ9ulLd1HQBugO0j
+Oyn9sXOtcN7uNHBjqNCqUsnt0sw/cJA6B6nJZpyNqNyAXKdxZZItOuhIs78w="</pre>
+<p id="rfc.section.C.3.p.2">The Authorization header would be: </p>
+<pre>
+Signature: keyId="Test",algorithm="rsa-sha256",
+headers="(request-line) host date content-type digest content-length",
+signature="jgSqYK0yKclIHfF9zdApVEbDp5eqj8C4i4X76pE+XHoxugXv7q
+nVrGR+30bmBgtpR39I4utq17s9ghz/2QFVxlnToYAvbSVZJ9ulLd1HQBugO0j
+Oyn9sXOtcN7uNHBjqNCqUsnt0sw/cJA6B6nJZpyNqNyAXKdxZZItOuhIs78w="</pre>
+<p id="rfc.section.C.3.p.3">The Signature header would be: </p>
+<h1 id="rfc.appendix.D"><a href="#rfc.appendix.D">Appendix D.</a> <a href="#acknowledgements" id="acknowledgements">Acknowledgements</a></h1>
+<p id="rfc.section.D.p.1">The editor would like to thank the following individuals for feedback on and implementations of the specification (in alphabetical order): Stephen Farrell, Phillip Hallam-Baker, Dave Lehn, Dave Longley, James H. Manger, Mark Nottingham, Yoav Nir, Julian Reschke, and Michael Richardson.  </p>
+<h1 id="rfc.appendix.E"><a href="#rfc.appendix.E">Appendix E.</a> <a href="#appendix-d" id="appendix-d">IANA Considerations</a></h1>
+<h1 id="rfc.appendix.E.1"><a href="#rfc.appendix.E.1">E.1.</a> <a href="#iana-scheme" id="iana-scheme">Signature Authentication Scheme</a></h1>
+<p id="rfc.section.E.1.p.1">The following entry should be added to the Authentication Scheme Registry located at <a href="http://www.iana.org/assignments/http-authschemes">http://www.iana.org/assignments/http-authschemes</a> </p>
+<p id="rfc.section.E.1.p.2">Authentication Scheme Name: Signature<br/> Reference: [RFC_THIS_DOCUMENT], Section 2.<br/> Notes (optional): The Signature scheme is designed for clients to authenticate themselves with a server.  </p>
+<h1 id="rfc.appendix.E.2"><a href="#rfc.appendix.E.2">E.2.</a> <a href="#sa-registry" id="sa-registry">Signature Algorithm Registry</a></h1>
+<p id="rfc.section.E.2.p.1">The following initial entries should be added to the Signature Algorithm Registry to be created and maintained at (the suggested URI) <a href="http://www.iana.org/assignments/signature-algorithms">http://www.iana.org/assignments/signature-algorithms</a>: </p>
+<p id="rfc.section.E.2.p.2">Editor's note: The references in this section are problematic as many of the specifications that they refer to are too implementation specific, rather than just pointing to the proper signature and hashing specifications. A better approach might be just specifying the signature and hashing function specifications, leaving implementers to connect the dots (which are not that hard to connect).  </p>
+<p id="rfc.section.E.2.p.3">Algorithm Name: rsa-sha1<br/> Reference: <a href="#RFC6376">RFC 6376</a> <cite title="NONE">[RFC6376]</cite>, Section 3.3.1<br/> Status: deprecated </p>
+<p id="rfc.section.E.2.p.4">Algorithm Name: rsa-sha256<br/> Reference: <a href="#RFC6376">RFC 6376</a> <cite title="NONE">[RFC6376]</cite>, Section 3.3.2<br/> Status: active </p>
+<p id="rfc.section.E.2.p.5">Algorithm Name: hmac-sha256<br/> Reference: HS256 in <a href="#I-D.ietf-jose-json-web-algorithms">JOSE JSON Web Algorithms</a> <cite title="NONE">[I-D.ietf-jose-json-web-algorithms]</cite>, Section 3.2<br/> Status: active </p>
+<p id="rfc.section.E.2.p.6">Algorithm Name: ecdsa-sha256<br/> Reference: ES256 in <a href="#I-D.ietf-jose-json-web-algorithms">JOSE JSON Web Algorithms</a> <cite title="NONE">[I-D.ietf-jose-json-web-algorithms]</cite>, Section 3.4<br/> Status: active </p>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Mark Cavage</span> 
+	  <span class="n hidden">
+		<span class="family-name">Cavage</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Joyent</span>
+	<span class="adr">
+	  <span>One Embarcadero Center</span>
+<span>9th Floor</span>
+
+	  <span class="vcardline">
+		<span class="locality">San Francisco</span>,  
+		<span class="region">CA</span> 
+		<span class="code">94111</span>
+	  </span>
+	  <span class="country-name vcardline">US</span>
+	</span>
+	<span class="vcardline">Phone: +1 415 400 0626 </span>
+
+<span class="vcardline">EMail: <a href="mailto:mark.cavage@joyent.com">mark.cavage@joyent.com</a></span>
+
+<span class="vcardline">URI: <a href="http://www.joyent.com/">http://www.joyent.com/</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Manu Sporny</span> 
+	  <span class="n hidden">
+		<span class="family-name">Sporny</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Digital Bazaar</span>
+	<span class="adr">
+	  <span>1700 Kraft Drive</span>
+<span>Suite 2408</span>
+
+	  <span class="vcardline">
+		<span class="locality">Blacksburg</span>,  
+		<span class="region">VA</span> 
+		<span class="code">24060</span>
+	  </span>
+	  <span class="country-name vcardline">US</span>
+	</span>
+	<span class="vcardline">Phone: +1 540 961 4469</span>
+
+<span class="vcardline">EMail: <a href="mailto:msporny@digitalbazaar.com">msporny@digitalbazaar.com</a></span>
+
+<span class="vcardline">URI: <a href="http://manu.sporny.org/">http://manu.sporny.org/</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>

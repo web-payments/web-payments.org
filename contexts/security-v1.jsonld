@@ -48,6 +48,5 @@
     "signature": "sec:signature",
     "signatureAlgorithm": "sec:signingAlgorithm",
     "signatureValue": "sec:signatureValue"
-    }
   }
 }

@@ -87,6 +87,7 @@
     "voided": {"@id": "com:voided", "@type": "xsd:dateTime"},
     "ApplyExclusively": "com:ApplyExclusively",
     "ApplyInclusively": "com:ApplyInclusively",
+    "Credit": "com:Credit",
     "FinancialAccount": "com:Account",
     "FlatAmount": "com:FlatAmount",
     "Deposit": "com:Deposit",

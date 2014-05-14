@@ -143,6 +143,38 @@ The following example expresses an account belonging to a person named
       </section>
 
 
+      <section id="Credit" about="https://w3id.org/commerce#Credit"
+        typeof="Class">
+        <h3>Credit</h3>
+          <p>
+A credit (aka IOU) between a source and a destination.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>Thing</dd>
+            <dt>Properties</dt>
+            <dd>forTransaction, source, destination, amount,
+currency, comment</dd>
+          </dl>
+          <p>
+The example below shows a transaction processor noting a credit from one entity to another.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Credit",
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Credit of $8.00 on 2010-10-16 at 12:34pm - promising to pay Jane back for pizza last Monday"
+}
+          </pre>
+      </section>
+
+
       <section id="Deposit" about="https://w3id.org/commerce#Deposit"
         typeof="Class">
         <h3>Deposit</h3>

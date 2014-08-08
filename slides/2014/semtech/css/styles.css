@@ -516,6 +516,39 @@ div.slide p.learn {
 	/*border: 1px solid red;*/
 }
 
+h1.whiteimagetext {
+  font-size: 2em;
+  color: #fff; 
+  text-shadow: 4px 4px 2px rgba(0,0,0,0.5);
+  text-align: center;
+  margin-top: 40%;
+}
+
+div.slide.care {
+	background: url(../images/3monkeys.jpg) 10px 10px no-repeat #ffffff;
+	background-position: center;
+}
+
+div.slide.identity {
+	background: url(../images/identity.jpg) 10px 10px no-repeat #000;
+	background-position: center;
+}
+
+div.slide.trust {
+	background: url(../images/trust.jpg) 10px 10px no-repeat #000;
+	background-position: center;
+}
+
+div.slide.payments {
+	background: url(../images/payments.jpg) 10px 10px no-repeat #000;
+	background-position: center;
+}
+
+div.slide.steps {
+	background: url(../images/steps.jpg) 10px 10px no-repeat #000;
+	background-position: center;
+}
+
 /*pre*/
 
 pre {
@@ -602,3 +635,5 @@ div.slide .notes a {
 div.gallery {
 	display:none;
 }
+
+

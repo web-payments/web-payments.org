@@ -542,6 +542,7 @@ div.slide.trust {
 div.slide.payments {
 	background: url(../images/payments.jpg) 10px 10px no-repeat #000;
 	background-position: center;
+	background-size: cover;
 }
 
 div.slide.steps {

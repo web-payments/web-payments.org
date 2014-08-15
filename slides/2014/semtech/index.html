@@ -21,7 +21,7 @@
   <div id="title">
    <h1>Building Linked Data into the Core of the Web</h1>
    <h2>by <a href="http://www.linkedin.com/in/manusporny" onclick="window.open(this.href); return false;">Manu Sporny</a></h2>
-   <h2>| Chair, <a href="http://www.w3.org/community/webpayments/" onclick="window.open(this.href); return false;">W3C Web Payments CG</a>, Co-Founder <a href="http://www.w3.org/community/credentials/" onclick="window.open(this.href); return false;">W3C Credentials CG</a></h2>
+   <h2>| Chair, <a href="http://www.w3.org/community/webpayments/" onclick="window.open(this.href); return false;">Web Payments CG</a>, Co-Founder <a href="http://www.w3.org/community/credentials/" onclick="window.open(this.href); return false;">Credentials CG</a></h2>
   </div>
   <ul class="slidenav">
    <li><a id="prevButton" href="#">&vltri; previous</a></li>
@@ -35,7 +35,7 @@
    <div class="slide cover current">
     <section class="center intro">
      <h1 style="font-size: 0.9em;">Building Linked Data into the Core of the Web</h1>
-     <h2 style="font-size: 0.7em;">Building Linked Data Mindshare and Converting the Skeptics</h2>
+     <h2 style="font-size: 0.7em;">Growing Linked Data Mindshare and Converting the Skeptics</h2>
      <div class="instructions-screen">
     <p>Slide navigation:</p>
     <p>Press <span class="key">&rarr;</span> key to advance.</p>
@@ -44,7 +44,7 @@
      </div>
      <div class="instructions-print">
     <p>This presentation was printed from an HTML page.</p>
-    <p>A fully interactive version of these slides containing examples and links to further resources can be found at:<br>https://web-payments.com/slides/.</p>
+    <p>A fully interactive version of these slides containing examples and links to further resources can be found at:<br>https://web-payments.com/slides/2014/semtech/.</p>
      </div>
     </section>
    </div>
@@ -54,7 +54,7 @@
    Intro 
    --------------------------------------------
    -->
- 
+
     <div class="slide future">
       <header><h1>Intro</h1><h2>Manu</h2></header>
       <subheader><h3>Web Technologist, Standardista</h3></subheader>
@@ -123,8 +123,8 @@
       <subheader><h3>What's broken with identity?</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>Centralized identity is bad for the Web<br><br></li>
-            <li>Usernames and Passwords are so 1980<br><br></li>
+            <li>The way we login is broken <br>centralization and passwords are so 1980s<br><br></li>
+            <li>The way we prove who we are is broken<br><br></li>
             <li>Credentials have been an afterthought<br><br></li>
             <li>High-value payments don't exist without verifiable identity<br><br></li>
           </ul>
@@ -136,7 +136,7 @@
       <subheader><h3>What do we need for basic identity?</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>An identity URL that can have data associated with that URL, which can then be queried.<br><br></li>
+            <li>A place on the Web to store personal data (URL) and a standard way to query it<br><br></li>
             <li>Persona, OpenID Connect, not robust enough<br><br></li>
             <li>Need 3rd party, digitally signed credentials<br><br></li>
             <li>Solution has to be simple and extensible<br><br></li>
@@ -152,7 +152,7 @@
             <li>A secure way of storing and transmitting 3rd party credentials<br><br></li>
             <li>Proposal: <a href="http://manu.sporny.org/2014/credential-based-login/">Identity Credentials</a><br><br></li>
             <li>Bonus: Works like Persona, so can be used for Web login problem as well<br><br></li>
-            <li>Interested? <a href="http://www.w3.org/community/credentials/">W3C Credentials Community Group</a><br><br></li>
+            <li>Interested? <a href="http://www.w3.org/community/credentials/">Credentials Community Group</a><br><br></li>
           </ul>
         </section>
     </div>
@@ -167,8 +167,8 @@
       <subheader><h3>How can you trust the Web?</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>Proving what happens on the Web is difficult today.<br><br></li>
-            <li>Beyond the padlock icon.<br><br></li>
+            <li>Proving something is real on the Web is difficult.<br><br></li>
+            <li>We need to go beyond the padlock icon.<br><br></li>
             <li>Trust no one, verify everything.<br><br></li>
             <li>Digital signatures and PKI show the way.<br><br></li>
           </ul>
@@ -180,7 +180,7 @@
       <subheader><h3>What is needed for a trustworthy Web?</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>You can say the same thing in different ways using graphs.<br><br></li>
+            <li>Graphs: Say the same thing in 50 different ways.<br><br></li>
             <li>Digital signatures for Linked Data objects.<br><br></li>
             <li>Digital signatures for HTTP messages.<br><br></li>
             <li>Non-reversible claims are important for commerce<br><br></li>
@@ -196,7 +196,7 @@
             <li>A way to normalize RDF data so it can be digitally signed.<br><br></li>
             <li>A way to transmit digitally signed Linked Data messages.<br><br></li>
             <li>Proposals: <a href="http://json-ld.org/spec/latest/rdf-graph-normalization/">RDF Graph Normalization</a>, <a href="http://tools.ietf.org/html/draft-cavage-http-signatures">HTTP Signatures</a><br><br></li>
-            <li>Interested? <a href="http://www.w3.org/community/webpayments/">W3C Web Payments Community Group</a><br><br></li>
+            <li>Interested? <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a><br><br></li>
           </ul>
         </section>
     </div>
@@ -211,9 +211,8 @@
       <subheader><h3>What's broken with Payments?</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>How do we exchange value today?<br><br></li>
-            <li>Expensive proprietary payment networks, or insecure credit cards<br><br></li>
-            <li>What's the ideal?<br><br></li>
+            <li>Pick one: insecure credit cards or proprietary payment networks or cryptocurrencies<br><br></li>
+            <li>What if we were to combine Linked Data with payments?<br><br></li>
             <li>One safe, seamless mechanism to exchange value on the Web supporting all current and near-future payment methods.<br><br></li>
           </ul>
         </section>
@@ -224,7 +223,7 @@
       <subheader><h3>Offers and Initiating Payment</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>How do we initiate a payment online?<br><br></li>
+            <li>How do most people initiate a payment online?<br><br></li>
             <li>This system was built in 1970s, hasn't changed much since.<br><br></li>
             <li>Need payment initiation standard that can take digitally signed Linked Data offers of sale as input.<br><br></li>
             <li>Proposal: <a href="https://web-payments.org/specs/source/web-commerce-api/">Web Commerce API</a><br><br></li>
@@ -255,10 +254,10 @@
       <subheader><h3>Internet Governance Forum</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>September 2-5th, 2014 - Istanbul, Turkey<br><br></li>
+            <li><a href="http://igf2014.sched.org/event/781846f97d253b11129ee88f4dd176ff">September 2-5th, 2014</a> - Istanbul, Turkey<br><br></li>
             <li>The Payment, Privacy, Policing Paradox<br><br></li>
             <li>Use Cases and Requirements from United Nations participants<br><br></li>
-            <li>Results fed into W3C Credentials Community Group<br><br></li>
+            <li>Join Web Payments and Credentials Community Groups<br><br></li>
           </ul>
         </section>
     </div>
@@ -269,10 +268,10 @@
       <subheader><h3>Web Payments Steering Group</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>September 30th, 2014 - W3C<br><br></li>
+            <li><a href="http://www.w3.org/2014/04/payments/webpayments_charter.html">September 30th, 2014</a> - W3C<br><br></li>
             <li>Determine use cases and requirements for Web Payments<br><br></li>
             <li>Suggest technical Working Groups to achieve goals<br><br></li>
-            <li>Join W3C Web Payments Community Group to contribute<br><br></li>
+            <li>Join Web Payments Community Group to contribute<br><br></li>
           </ul>
         </section>
     </div>
@@ -282,10 +281,10 @@
       <subheader><h3>W3C Technical Plenary</h3></subheader>
         <section class="center"><br>
           <ul>
+            <li><a href="http://www.w3.org/2014/11/TPAC/">October 27th, 2014</a> - Santa Clara, CA<br><br></li>          
             <li>Map out the future of identity and payments on the Web<br><br></li>
             <li>Determine what part Linked Data has to play<br><br></li>
-            <li>First Web Payments face-to-face<br><br></li>
-            <li>First Credentials CG face-to-face<br><br></li>
+            <li>First Web Payments and Credentials face-to-face<br><br></li>
           </ul>
         </section>
     </div>

@@ -102,6 +102,7 @@
 
     "USD": "https://w3id.org/currencies/USD",
 
+    "allowBudget": {"@id": "ps:allowBudget", "@type": "xsd:boolean"},
     "asset": {"@id": "ps:asset", "@type": "@id"},
     "assetAcquirer": {"@id": "ps:assetAcquirer", "@type": "@id"},
     "assetContent": {"@id": "ps:assetContent", "@type": "@id"},

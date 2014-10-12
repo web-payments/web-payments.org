@@ -1,14 +1,19 @@
 <!DOCTYPE html> 
-<html> 
+<html prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+      rdfs: http://www.w3.org/2000/01/rdf-schema#
+      owl: http://www.w3.org/2002/07/owl#
+      vs: http://www.w3.org/2003/06/sw-vocab-status/ns#"
+      about="https://w3id.org/commerce" typeof="owl:Ontology"> 
   <head> 
-    <title>Commerce Vocabulary</title> 
+    <title property="rdfs:label">Commerce Vocabulary</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      --> 
-    <script src='../../respec-w3c-common.js' class='remove'></script> 
+    <script src='../../respec-w3c-common.js' class='remove'></script>
+
     <script class='remove'> 
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
@@ -31,14 +36,10 @@
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
  
-          // if you want to have extra CSS, append them to this list
-          // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["prettify.css"],
- 
           // editors, add as many as you like
           // only "name" is required
           editors:  [
-              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+              { name: "Manu Sporny", url: "https://manu.sporny.org/",
                 company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
           ],
  
@@ -65,39 +66,43 @@
           // This is important for Rec-track documents, do not copy a patent URI from a random
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
-          wgPatentURI:  ""
+          wgPatentURI:  "",
+          doRDFa: false
       };
     </script> 
-    <script type="text/javascript" src="prettify.js" class="remove"></script>
-    <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
-    <script type="text/javascript" class="remove">
-      var oldonload = window.onload;
-      window.onload = function() {
-        if (oldonload) oldonload();
-        prettyPrint();
-      };
-    </script>
   </head> 
-  <body xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-        xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" 
-        xmlns:owl="http://www.w3.org/2002/07/owl#" 
-        xmlns:vs="http://www.w3.org/2003/06/sw-vocab-status/ns#"> 
-    <section id='abstract'> 
-      <p> 
-      </p> 
+  <body>
+    <section id='abstract'>
+      <p property="rdfs:comment">
+This document describes a number of classes and properties that can be used to
+express commerce transactions using Linked Data on the Web. These include 
+things such as deposits, withdrawals, how entities should be paid for goods or
+services rendered, receipts, payment details, and digital signatures on 
+financial transactions.
+      </p>
+    </section> 
+
+    <section id='sotd'>
+      <p>
+This is an experimental document that is being actively worked on by the
+W3C <a href="https://web-payments.org/">Web Payments Community Group</a>. All
+feedback on this document should be sent to 
+<a href="mailto:public-webpayments@w3.org">public-webpayments@w3.org</a>
+(<a href="http://lists.w3.org/Archives/Public/public-webpayments/">archive</a>).
+      </p>
     </section> 
 
     <section>
       <h2>Introduction</h2>
       <p>
 This document describes a number of classes and properties that can be used to
-express commercial transactions on the Semantic Web. These include things
-such as deposits, withdrawals, how entities should be paid for goods or
-services rendered, receipts, payment information, recording detailed 
-commercial transactions, and digital signatures on monetary transactions.
+express commerce transactions using Linked Data on the Web. These include 
+things such as deposits, withdrawals, how entities should be paid for goods or
+services rendered, receipts, payment details, and digital signatures on 
+financial transactions.
 Where GoodRelations provides a means for finding product offerings or
 expressing product needs, this vocabulary can be used for the next step:
-recording and expressing the commercial transaction.
+recording and expressing the commerce transaction.
       </p>
       <p class="issue">
 This entire document is a work in progress and is thus incredibly
@@ -111,19 +116,19 @@ former. You have been warned.
     <section>
       <h2>Classes</h2>
 
-      <section id="Account" about="https://w3id.org/commerce#Deposit"
-        typeof="Class">
-        <h3>Account</h3>
-          <p>
+      <section id="Account" about="https://w3id.org/commerce#Account"
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">Account</span></h3>
+          <p property="rdfs:comment">
 A financial device that can operate as a source or destination for funds 
-transfered during a commercial exchange.
+transfered during a commerce exchange.
           </p>
           <dl>
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>Thing</dd>
-            <dt>Properties</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
             <dd>amount, currency, label</dd>
           </dl>
           <p>
@@ -144,9 +149,9 @@ The following example expresses an account belonging to a person named
 
 
       <section id="Deposit" about="https://w3id.org/commerce#Deposit"
-        typeof="Class">
-        <h3>Deposit</h3>
-          <p>
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">Deposit</span></h3>
+          <p property="rdfs:comment">
 A transfer of funds from a source account into a destination account typically
 performed as a means for storing monetary amounts in the destination account.
           </p>
@@ -154,8 +159,8 @@ performed as a means for storing monetary amounts in the destination account.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd><a href="https://w3id.org/commerce#Transaction">Transaction</a></dd>
-            <dt>Properties</dt>
+            <dd><a property="rdfs:subclassOf" href="https://w3id.org/commerce#Transaction">Transaction</a></dd>
+            <dt>Common Properties</dt>
             <dd>date, source, payee, transfer, signature</dd>
           </dl>
           <p>
@@ -202,9 +207,9 @@ The following example describes a deposit made using a debit card:
       </section>
 
       <section id="Payee" about="https://w3id.org/commerce#Payee"
-        typeof="Class">
-        <h3>Payee</h3>
-          <p>
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">Payee</span></h3>
+          <p property="rdfs:comment">
 An entity that defines how monetary funds should be transferred to a destination 
 account during a <a href="#Transaction">Transaction</a>. A list of Payees can be 
 processed to produce a list of Transfers.
@@ -214,7 +219,7 @@ processed to produce a list of Transfers.
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
             <dd>Thing</dd>
-            <dt>Properties</dt>
+            <dt>Common Properties</dt>
             <dd>rate, rateType, currency, destination, comment, rateContext</dd>
           </dl>
 <p>
@@ -234,9 +239,9 @@ The following example expresses a flat payment of $0.05 USD.
       </section>
 
       <section id="PayeeRule" about="https://w3id.org/commerce#PayeeRule"
-        typeof="Class">
-        <h3>PayeeRule</h3>
-          <p>
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">PayeeRule</span></h3>
+          <p property="rdfs:comment">
 A Payee Rule is a mechanism that can describe limits and allowances on the 
 payees during a transaction. These rules are typically used to apply 
 algorithmic formulas to the final price of a particular good. For example,
@@ -248,8 +253,8 @@ specified using PayeeRules.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>Thing</dd>
-            <dt>Properties</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
             <dd>maximumRate, minimumRate, destinationOwnerType,
 rateType, limitation</dd>
           </dl>
@@ -294,9 +299,9 @@ added to the list of payees for a transaction.
       </section>
 
       <section id="Transfer" about="https://w3id.org/commerce#Transfer"
-        typeof="Class">
-        <h3>Transfer</h3>
-          <p>
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">Transfer</span></h3>
+          <p property="rdfs:comment">
 A record of the movement of monetary funds from a source account into a
 destination account.
           </p>
@@ -304,8 +309,8 @@ destination account.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>Thing</dd>
-            <dt>Properties</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
             <dd>forTransaction, source, destination, amount,
 currency, comment</dd>
           </dl>
@@ -328,10 +333,10 @@ local financial account to an external financial account.
       </section>
 
       <section id="Transaction" about="https://w3id.org/commerce#Transaction"
-        typeof="Class">
-        <h3>Transaction</h3>
-          <p>
-A record of a commercial exchange between two entities resulting in the 
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">Transaction</span></h3>
+          <p property="rdfs:comment">
+A record of a commerce exchange between two entities resulting in the 
 transfer of monetary funds from one or more source accounts to 
 one or more destination accounts.
           </p>
@@ -339,13 +344,13 @@ one or more destination accounts.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>Thing</dd>
-            <dt>Properties</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
             <dd>transfer, amount, currency, comment, 
 date, ps:originatingClient</dd>
           </dl>
           <p>
-The example below describes a commercial transaction that resulted in the
+The example below describes a commerce transaction that resulted in the
 transfer of $1.04 USD from a source account to two destination accounts. The
 transfers show part of the payment going to the retailer and the other going
 to a tax account.
@@ -366,9 +371,9 @@ to a tax account.
       </section>
 
       <section id="Withdrawal" about="https://w3id.org/commerce#Withdrawal"
-        typeof="Class">
-        <h3>Withdrawal</h3>
-          <p>
+        typeof="rdfs:Class">
+        <h3><span property="rdfs:label">Withdrawal</span></h3>
+          <p property="rdfs:comment">
 A transfer of funds from a source account into a destination account typically
 performed as a means for retrieving previously stored monetary amounts.
           </p>
@@ -376,8 +381,8 @@ performed as a means for retrieving previously stored monetary amounts.
             <dt>Status</dt>
             <dd property="vs:term_status">unstable</dd>
             <dt>Parent Class</dt>
-            <dd>Transaction</dd>
-            <dt>Properties</dt>
+            <dd><a property="rdfs:subclassOf" href="https://w3id.org/commerce#Transaction">Transaction</a></dd>
+            <dt>Common Properties</dt>
             <dd>destination, ps:transfer, amount, currency, 
 comment, ps:originatingClient</dd>
           </dl>
@@ -415,8 +420,8 @@ bank account information.
 
       <section id="Cumulative" about="https://w3id.org/commerce#Cumulative"
         typeof="rdf:Property">
-        <h3>Cumulative</h3>
-        <p>
+        <h3><span property="rdfs:label">Cumulative</span></h3>
+        <p property="rdfs:comment">
 This constant term is used to specify a cumulative rate context in a Payee. 
 Normally a percentage-based Payee's amount would be calculated by applying its 
 percentage rate to the total of all flat amount Payees from the Payee list. By 
@@ -430,8 +435,8 @@ its amount.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateType</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
         </dl>
         <p>
 The following example demonstrates how a cumulative rate type is specified:
@@ -452,8 +457,8 @@ The following example demonstrates how a cumulative rate type is specified:
 
       <section id="Deferred" about="https://w3id.org/commerce#Deferred"
         typeof="rdf:Property">
-        <h3>Deferred</h3>
-        <p>
+        <h3><span property="rdfs:label">Deferred</span></h3>
+        <p property="rdfs:comment">
 This constant term is used to specify a deferred rate context. A deferred
 rate context specifies that the amount of a percentage-based Payee must be 
 calculated after all non-deferred Payee amounts have already been calculated. 
@@ -464,8 +469,8 @@ that is not a Tax wishes to behave like one, it should use this rate context.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateContext</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateContext">rateContext</a></dd>
         </dl>
         <p>
 The following example demonstrates how a deferred rate context can be specified:
@@ -486,8 +491,8 @@ The following example demonstrates how a deferred rate context can be specified:
 
       <section id="ExclusivePercentage" about="https://w3id.org/commerce#ExclusivePercentage"
         typeof="rdf:Property">
-        <h3>ExclusivePercentage</h3>
-        <p>
+        <h3><span property="rdfs:label">ExclusivePercentage</span></h3>
+        <p property="rdfs:comment">
 This constant term is used to specify an exclusive percentage-based rate type.
 An exclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
@@ -501,8 +506,8 @@ sales taxes in the United States.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateType</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
         </dl>
         <p>
 The following example demonstrates how an exclusive percentage can be specified:
@@ -522,8 +527,8 @@ The following example demonstrates how an exclusive percentage can be specified:
 
       <section id="FlatAmount" about="https://w3id.org/commerce#FlatAmount"
         typeof="rdf:Property">
-        <h3>FlatAmount</h3>
-        <p>
+        <h3><span property="rdfs:label">FlatAmount</span></h3>
+        <p property="rdfs:comment">
 A flat amount rate type expresses that a payment amount is a specific amount
 in a given currency. That is, the rate is to be interpreted as a fixed amount,
 not as a percentage.
@@ -531,8 +536,8 @@ not as a percentage.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateType</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
         </dl>
         <p>
 The following example demonstrates a payment amount of $1.42 USD to a specified 
@@ -553,8 +558,8 @@ Payee.
 
       <section id="InclusivePercentage" about="https://w3id.org/commerce#InclusivePercentage"
         typeof="rdf:Property">
-        <h3>InclusivePercentage</h3>
-        <p>
+        <h3><span property="rdfs:label">InclusivePercentage</span></h3>
+        <p property="rdfs:comment">
 This constant term is used to specify an inclusive percentage-based rate type.
 An inclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
@@ -569,8 +574,8 @@ include most income taxes in the United States.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateType</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
         </dl>
         <p>
 The following example describes an inclusive percentage.
@@ -590,15 +595,15 @@ The following example describes an inclusive percentage.
 
       <section id="Tax" about="https://w3id.org/commerce#Tax"
         typeof="rdf:Property">
-        <h3>Tax</h3>
-        <p>
+        <h3><span property="rdfs:label">Tax</span></h3>
+        <p property="rdfs:comment">
 This constant specifies that the Payee's rate specified is a tax.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateContext</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateContext">rateContext</a></dd>
         </dl>
         <p>
 The following example describes the payment of a sales tax to the state of
@@ -620,8 +625,8 @@ Virginia of 5%.
 
       <section id="TaxExempt" about="https://w3id.org/commerce#TaxExempt"
         typeof="rdf:Property">
-        <h3>TaxExempt</h3>
-        <p>
+        <h3><span property="rdfs:label">TaxExempt</span></h3>
+        <p property="rdfs:comment">
 This constant specifies that a payment to the Payee should not have any
 taxes collected for the transfer of funds. Typically, these Payees are 
 non-profit corporations or other organizations that are under a non-taxable
@@ -630,8 +635,8 @@ status.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>rateContext</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateContext">rateContext</a></dd>
         </dl>
         <p>
 The following example demonstrates a tax-exempt donation to the Red Cross
@@ -657,18 +662,26 @@ for the amount of $5.00 USD.
 
       <section id="account" about="https://w3id.org/commerce#account"
         typeof="rdf:Property">
-        <h3>account</h3>
-        <p>
-The account property specifies a commercial account that is under the control
-of a particular entity.
+        <h3><span property="rdfs:label">account</span></h3>
+        <p property="rdfs:comment">
+The account property specifies a resource that is used to keep track of
+economic value that is under the control of a particular entity.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>foaf:Agent, Thing</dd>
-          <dt>Range</dt>
-          <dd>Account</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="http://schema.org/Person">Person</a>, 
+<a href="http://schema.org/Organization">Organization</a>, 
+<a href="http://xmlns.com/foaf/spec/#term_Agent">Agent</a>
+          </dd>
+          <dt>Associated value must be an</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Account">Account</a>
+          </dd>
         </dl>
         <p>
 The following example demonstrates the proper use of the account property:
@@ -677,7 +690,7 @@ The following example demonstrates the proper use of the account property:
 {
    "@context": "https://w3id.org/payswarm/v1",
    "id": "http://example.com/people/joe",
-   "type": "foaf:Person",
+   "type": "foaf:Agent",
    "account":
    {
       "id": "http://redbankexample.com/accounts/vacation",
@@ -692,18 +705,27 @@ The following example demonstrates the proper use of the account property:
 
       <section id="amount" about="https://w3id.org/commerce#amount"
         typeof="rdf:Property">
-        <h3>amount</h3>
-        <p>
+        <h3><span property="rdfs:label">amount</span></h3>
+        <p property="rdfs:comment">
 The amount property is used to specify the total value of a financial
 resource or action such as an account, transfer, or transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Transfer, Withdrawal, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:decimal</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The following example shows the use of the amount property in a Transfer.
@@ -737,20 +759,29 @@ The next example demonstrates the use of the amount property in an Account.
 
       <section id="currency" about="https://w3id.org/commerce#currency"
         typeof="rdf:Property">
-        <h3>currency</h3>
-        <p>
+        <h3><span property="rdfs:label">currency</span></h3>
+        <p property="rdfs:comment">
 The currency property is used to specify the monetary system that is used when
-specifying the financial amount of a commercial exchange. The value SHOULD 
+specifying the financial amount of a commerce exchange. The value SHOULD 
 be an ISO-4217 currency or a dereference-able IRI to a monetary system that 
 is not specified in ISO-4217.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Transfer, Withdrawal, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:string, xsd:anyURI</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
         </dl>
         <p>
 The following example demonstrates how to use the currency property in a
@@ -772,18 +803,28 @@ Transfer:
 
       <section id="date" about="https://w3id.org/commerce#date"
         typeof="rdf:Property">
-        <h3>date</h3>
-        <p>
-The date property specifies the date and time on which a commercial transaction 
+        <h3><span property="rdfs:label">date</span></h3>
+        <p property="rdfs:comment">
+The date property specifies the date and time on which a commerce transaction 
 occurred. The value MUST be expressed using an ISO-8601 date/time string.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transfer, Transaction, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:dateTime</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Event">Event</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#dateTime" 
+  href="http://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</a>
+          </dd>
         </dl>
         <p>
 The example below states that the Transaction occurred on October 16th, 2010 at
@@ -806,18 +847,28 @@ The example below states that the Transaction occurred on October 16th, 2010 at
 
       <section id="destination" about="https://w3id.org/commerce#destination"
         typeof="rdf:Property">
-        <h3>destination</h3>
-        <p>
-This property is used to specify a destination account for a commercial 
+        <h3><span property="rdfs:label">destination</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify a destination account for a commerce 
 transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Thing</dd>
-          <dt>Range</dt>
-          <dd>Account, Thing</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Payee">Payee</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Account">Account</a>
+          </dd>
         </dl>
         <p>
 The following example expresses a Payee where an amount of $1 USD should be 
@@ -839,18 +890,24 @@ placed into the destination account identified by
 
       <section id="destinationOwnerType" about="https://w3id.org/commerce#destinationOwnerType"
         typeof="rdf:Property">
-        <h3>destinationOwnerType</h3>
-        <p>
+        <h3><span property="rdfs:label">destinationOwnerType</span></h3>
+        <p property="rdfs:comment">
 Specifies the type of the destination account, typically used in a PayeeRule 
 where the type of destination account payment is to be restricted.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>PayeeRule, Thing</dd>
-          <dt>Range</dt>
-          <dd>ps:PaySwarmAuthority, Thing</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#PayeeRule">PayeeRule</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://schema.org/Thing">Thing</a>
+          </dd>
         </dl>
         <p>
 The following example describes a PayeeRule where the destination account owner 
@@ -859,7 +916,7 @@ can charge is 10%.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
-   "@context": "https://w3id.org/payswarm/v1",
+    "@context": "https://w3id.org/payswarm/v1",
     "type": "PayeeRule",
     "maximumRate": "10",
     "rateType": "InclusivePercentage",
@@ -870,8 +927,8 @@ can charge is 10%.
 
       <section id="gatewayApprovalCode" about="https://w3id.org/commerce#gatewayApprovalCode"
         typeof="rdf:Property">
-        <h3>gatewayApprovalCode</h3>
-        <p>
+        <h3><span property="rdfs:label">gatewayApprovalCode</span></h3>
+        <p property="rdfs:comment">
 The gateway approval code is typically used to express the result of a credit
 card processing gateway. These codes are typically a string that is specific to
 the processing gateway software.
@@ -879,10 +936,17 @@ the processing gateway software.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The following example notes that the deposit was successful with a gateway
@@ -931,8 +995,8 @@ approval code of <code>8FGk9347Bo2N83</code>.
 
       <section id="gatewayError" about="https://w3id.org/commerce#gatewayError"
         typeof="rdf:Property">
-        <h3>gatewayError</h3>
-        <p>
+        <h3><span property="rdfs:label">gatewayError</span></h3>
+        <p property="rdfs:comment">
 The gateway error is typically used to encode an error that occurred when
 processing a credit card or debit card. An error code is typically a string
 that is specific to the processing gateway software.
@@ -940,10 +1004,17 @@ that is specific to the processing gateway software.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The following example demonstrates that the deposit was a failure and lists
@@ -992,8 +1063,8 @@ the reason in the gateway error code:
 
       <section id="maximumRate" about="https://w3id.org/commerce#maximumRate"
         typeof="rdf:Property">
-        <h3>maximumRate</h3>
-        <p>
+        <h3><span property="rdfs:label">maximumRate</span></h3>
+        <p property="rdfs:comment">
 This property is typically used in a PayeeRule to limit the maximum rate that
 a Payee can receive as a part of a transaction. These types of rules ensure that
 no single Payee can capture more of the final sale price than the asset owner 
@@ -1004,10 +1075,16 @@ can collect to less than 4%".
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>PayeeRule, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:integer, xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#PayeeRule">PayeeRule</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The example below specifies a PayeeRule that limits the total amount that a
@@ -1026,20 +1103,26 @@ PaySwarm Authority can collect in fees to 10% of the final price:
 
       <section id="forTransaction" about="https://w3id.org/commerce#forTransaction"
         typeof="rdf:Property">
-        <h3>forTransaction</h3>
-        <p>
+        <h3><span property="rdfs:label">forTransaction</span></h3>
+        <p property="rdfs:comment">
 This property is most often used to specify that a Transfer is for the
 specified Transaction. The relationship from Transaction to Transfer is 
-encoded using the <a href="#transfer">trasfer</a> property. The relationship 
+encoded using the <a href="#transfer">transfer</a> property. The relationship 
 from Transfer to Transaction is encoded using this property.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transfer, Thing</dd>
-          <dt>Range</dt>
-          <dd>Transaction</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="https://w3id.org/commerce#Transfer">Transfer</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Transaction">Transaction</a>
+          </dd>
         </dl>
         <p>
 The example below specifies that the Transfer is meant for the transaction
@@ -1062,11 +1145,11 @@ identified by
 
       <section id="limitation" about="https://w3id.org/commerce#limitation"
         typeof="rdf:Property">
-        <h3>limitation</h3>
-        <p>
+        <h3><span property="rdfs:label">limitation</span></h3>
+        <p property="rdfs:comment">
 This property is often used with a PayeeRule and expresses a restriction on 
 a Payee. For example, a PayeeRule may provide restrictions on the type of a 
-Payee or the amounts that Payee may receive as a participant in a commercial 
+Payee or the amounts that Payee may receive as a participant in a commerce 
 transaction.
         </p>
         <p class="issue">
@@ -1074,12 +1157,18 @@ Perhaps the limitation property should be applied to all limitations. Why
 doesn't it apply to destinationAccountType?
         </p>
         <dl>
-          <dt>Status</dt>
+         <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>PayeeRule, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:anyURI</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#PayeeRule">PayeeRule</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
         </dl>
         <p>
 The example below specifies that no additional payees are allowed to be added
@@ -1097,8 +1186,8 @@ want their content to be sold through affiliate relationships:
 
       <section id="minimumAmount" about="https://w3id.org/commerce#minimumAmount"
         typeof="rdf:Property">
-        <h3>minimumAmount</h3>
-        <p>
+        <h3><span property="rdfs:label">minimumAmount</span></h3>
+        <p property="rdfs:comment">
 This property is typically used in a Payee to express a minimum amount that
 a Payee MUST receive as a part of a transaction. These types of rules ensure 
 that a floor is set for a particular percentage-based Payee. Minimum amount 
@@ -1108,10 +1197,16 @@ or $0.02 USD, whichever is greater".
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Payee, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:decimal, xsd:integer, xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The following example expresses a Payee that should receive 2% or $0.05 USD of
@@ -1133,8 +1228,8 @@ the final amount of the transaction, whichever is higher.
 
       <section id="payeePosition" about="https://w3id.org/commerce#payeePosition"
         typeof="rdf:Property">
-        <h3>payeePosition</h3>
-        <p>
+        <h3><span property="rdfs:label">payeePosition</span></h3>
+        <p property="rdfs:comment">
 This property is used to coerce a set of Payees into an ordered list. The
 order in which Payees are evaluated is vital to the final amount and 
 Transfer list that is generated by processing the list of Payees.
@@ -1142,10 +1237,16 @@ Transfer list that is generated by processing the list of Payees.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Payee, Thing</dd>
-          <dt>Range</dt>
-          <dd>xsd:integer, xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The following example shows a Payee that should, when accessed in a list format,
@@ -1168,8 +1269,8 @@ be processed in the 4th position:
 
       <section id="paymentGateway" about="https://w3id.org/commerce#paymentGateway"
         typeof="rdf:Property">
-        <h3>paymentGateway</h3>
-        <p>
+        <h3><span property="rdfs:label">paymentGateway</span></h3>
+        <p property="rdfs:comment">
 This property is used to specify the payment gateway. The gateway is typically
 a string and is used by the transaction processing software to process payments
 via credit card or debit card. 
@@ -1177,12 +1278,18 @@ via credit card or debit card.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Deposit</dd>
-          <dt>Range</dt>
-          <dd>xsd:anyURI, xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
-
 
         <p>
 The example below expresses that the payment gateway is CyberSource:
@@ -1230,18 +1337,25 @@ The example below expresses that the payment gateway is CyberSource:
 
       <section id="payee" about="https://w3id.org/commerce#payee"
         typeof="rdf:Property">
-        <h3>payee</h3>
-        <p>
-This property is used to specify an entity that either should be paid, or
-has been paid as a result of a commercial exchange. 
+        <h3><span property="rdfs:label">payee</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify an entity that should be paid, or
+has been paid, as a result of a commerce exchange. 
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Thing</dd>
-          <dt>Range</dt>
-          <dd>Payee, Thing</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/payswarm#Listing">Listing</a>,
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
         </dl>
         <p>
 The example below shows the sale listing for an electronic book called 
@@ -1285,19 +1399,25 @@ The example below shows the sale listing for an electronic book called
 
       <section id="rate" about="https://w3id.org/commerce#rate"
         typeof="rdf:Property">
-        <h3>rate</h3>
-        <p>
+        <h3><span property="rdfs:label">rate</span></h3>
+        <p property="rdfs:comment">
 This property can be used to specify the fixed amount or a percentage-based
 rate of a Payee. The rate specifies the amount that the Payee should be or
-has been paid as a result of a commercial exchange.
+has been paid as a result of a commerce exchange.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Payee</dd>
-          <dt>Range</dt>
-          <dd>xsd:decimal, xsd:integer</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
         </dl>
         <p>
 The following example shows a fixed amount of $0.05 USD specified using the
@@ -1334,8 +1454,8 @@ example below specifies a 4% Virginia sales tax:
 
       <section id="rateContext" about="https://w3id.org/commerce#rateContext"
         typeof="rdf:Property">
-        <h3>rateContext</h3>
-        <p>
+        <h3><span property="rdfs:label">rateContext</span></h3>
+        <p property="rdfs:comment">
 The rate context is used to specify at which point in a payment calculation 
 a rate should apply. It allows Payees to be deferred until the end of 
 payment calculation, or for Payees to be marked as Tax or TaxDeferred.
@@ -1343,10 +1463,23 @@ payment calculation, or for Payees to be marked as Tax or TaxDeferred.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Payee</dd>
-          <dt>Range</dt>
-          <dd>Cumulative, Tax, Deferred, TaxExempt, Class</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
+          <dt>Typical values are</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Cumulative">Cumulative</a>, 
+<a href="https://w3id.org/commerce#Deferred">Deferred</a>, 
+<a href="https://w3id.org/commerce#Tax">Tax</a>, 
+<a href="https://w3id.org/commerce#TaxExempt">TaxExempt</a>
+          </dd>
         </dl>
         <p>
 The following example uses the rate context property to expresses that a 
@@ -1368,8 +1501,8 @@ Virginia sales tax of 5% should be collected:
 
       <section id="rateType" about="https://w3id.org/commerce#rateType"
         typeof="rdf:Property">
-        <h3>rateType</h3>
-        <p>
+        <h3><span property="rdfs:label">rateType</span></h3>
+        <p property="rdfs:comment">
 The rate type property is used to specify whether the rate property of a
 Payee is a fixed amount, an inclusive percentage or an exclusive percentage.
 The rateType coupled with the currency, and rate specifies the exact 
@@ -1379,10 +1512,22 @@ calculation among a list of Payees.
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Payee, Thing</dd>
-          <dt>Range</dt>
-          <dd>InclusivePercentage, ExclusivePercentage, FlatAmount, Class, xsd:string</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
+          <dt>Typical values are</dt>
+          <dd>
+<a href="https://w3id.org/commerce#InclusivePercentage">Cumulative</a>, 
+<a href="https://w3id.org/commerce#ExclusivePercentage">Deferred</a>, 
+<a href="https://w3id.org/commerce#FlatAmount">Tax</a>
+          </dd>
         </dl>
         <p>
 The example below specifies an exclusive percentage rate type
@@ -1402,18 +1547,27 @@ The example below specifies an exclusive percentage rate type
 
       <section id="source" about="https://w3id.org/commerce#source"
         typeof="rdf:Property">
-        <h3>source</h3>
-        <p>
-This property is used to specify a source account for a commercial 
+        <h3><span property="rdfs:label">source</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify a source account for a commerce 
 transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Account</dd>
-          <dt>Range</dt>
-          <dd>Account, CreditCard, DebitCard, Thing</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Account">Account</a>
+          </dd>
         </dl>
         <p>
 The example below shows a source being expressed as a debit card.
@@ -1460,20 +1614,28 @@ The example below shows a source being expressed as a debit card.
 
       <section id="transfer" about="https://w3id.org/commerce#transfer"
         typeof="rdf:Property">
-        <h3>transfer</h3>
-        <p>
-This property is used to associate the commercial transfer of monetary funds 
+        <h3><span property="rdfs:label">transfer</span></h3>
+        <p property="rdfs:comment">
+This property is used to associate the transfer of value 
 during a Transaction. A list of transfers associated with a Transaction is the
-complete record of the monetary funds, the source accounts and the destination
+complete record of the value, the source accounts, and the destination
 accounts for a particular Transaction.
         </p>
         <dl>
           <dt>Status</dt>
           <dd property="vs:term_status">unstable</dd>
-          <dt>Domain</dt>
-          <dd>Transaction, Thing</dd>
-          <dt>Range</dt>
-          <dd>Transfer, Thing</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Transfer">Transfer</a>
+          </dd>
         </dl>
         <p>
 The example below shows the transfer information for a debit card deposit

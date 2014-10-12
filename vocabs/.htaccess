@@ -1,10 +1,6 @@
-<FilesMatch "(commerce|payswarm|creditcard|signature|security)">
-   ForceType text/html
-   SetHandler default_handler
-</FilesMatch>
+Options +FollowSymLinks +MultiViews
 
-<FilesMatch "(media|audio|video)">
-   ForceType application/xhtml+xml
-   SetHandler default_handler
-</FilesMatch>
+AddType  text/turtle             .ttl
+AddType  application/n-triples   .nt
+AddType  application/ld+json     .jsonld
 

@@ -9,69 +9,55 @@
 
 <https://w3id.org/commerce#Account> a rdfs:Class;
    rdfs:label "Account"@en;
-   rdfs:comment """
-A financial device that can operate as a source or destination for funds 
-transfered during a commercial exchange.
-          """@en;
+   rdfs:comment """A financial device that can operate as a source or destination for funds 
+transfered during a commercial exchange."""@en;
    rdfs:subclassOf rdfs:Class;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#Deposit> a rdfs:Class;
    rdfs:label "Deposit"@en;
-   rdfs:comment """
-A transfer of funds from a source account into a destination account typically
-performed as a means for storing monetary amounts in the destination account.
-          """@en;
+   rdfs:comment """A transfer of funds from a source account into a destination account typically
+performed as a means for storing monetary amounts in the destination account."""@en;
    rdfs:subclassOf <https://w3id.org/commerce#Transaction>;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#Payee> a rdfs:Class;
    rdfs:label "Payee"@en;
-   rdfs:comment """
-An entity that defines how monetary funds should be transferred to a destination 
+   rdfs:comment """An entity that defines how monetary funds should be transferred to a destination 
 account during a Transaction. A list of Payees can be 
-processed to produce a list of Transfers.
-          """@en;
+processed to produce a list of Transfers."""@en;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#PayeeRule> a rdfs:Class;
    rdfs:label "PayeeRule"@en;
-   rdfs:comment """
-A Payee Rule is a mechanism that can describe limits and allowances on the 
+   rdfs:comment """A Payee Rule is a mechanism that can describe limits and allowances on the 
 payees during a transaction. These rules are typically used to apply 
 algorithmic formulas to the final price of a particular good. For example,
 minimum and maximum prices, tax rates, when taxes are applied, and preventing
 additional payees are a few examples of the types of payee rules that can be
-specified using PayeeRules.
-          """@en;
+specified using PayeeRules."""@en;
    rdfs:subclassOf rdfs:Class;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#Transaction> a rdfs:Class;
    rdfs:label "Transaction"@en;
-   rdfs:comment """
-A record of a commercial exchange between two entities resulting in the 
+   rdfs:comment """A record of a commercial exchange between two entities resulting in the 
 transfer of monetary funds from one or more source accounts to 
-one or more destination accounts.
-          """@en;
+one or more destination accounts."""@en;
    rdfs:subclassOf rdfs:Class;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#Transfer> a rdfs:Class;
    rdfs:label "Transfer"@en;
-   rdfs:comment """
-A record of the movement of monetary funds from a source account into a
-destination account.
-          """@en;
+   rdfs:comment """A record of the movement of monetary funds from a source account into a
+destination account."""@en;
    rdfs:subclassOf rdfs:Class;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#Withdrawal> a rdfs:Class;
    rdfs:label "Withdrawal"@en;
-   rdfs:comment """
-A transfer of funds from a source account into a destination account typically
-performed as a means for retrieving previously stored monetary amounts.
-          """@en;
+   rdfs:comment """A transfer of funds from a source account into a destination account typically
+performed as a means for retrieving previously stored monetary amounts."""@en;
    rdfs:subclassOf <https://w3id.org/commerce#Transaction>;
    <vs:term_status> "unstable"@en .
 
@@ -86,8 +72,7 @@ services rendered, receipts, payment details, and digital signatures on
 financial transactions.
       
     """@en;
-   rdfs:comment """
-This document describes a number of classes and properties that can be used to
+   rdfs:comment """This document describes a number of classes and properties that can be used to
 express commercial transactions using Linked Data on the Web. These include 
 things such as deposits, withdrawals, how entities should be paid for goods or
 services rendered, receipts, payment details, and digital signatures on 
@@ -96,8 +81,7 @@ financial transactions.
 
 <https://w3id.org/commerce#Cumulative> a rdf:Property;
    rdfs:label "Cumulative"@en;
-   rdfs:comment """
-This constant term is used to specify a cumulative rate context in a Payee. 
+   rdfs:comment """This constant term is used to specify a cumulative rate context in a Payee. 
 Normally a percentage-based Payee's amount would be calculated by applying its 
 percentage rate to the total of all flat amount Payees from the Payee list. By 
 specifying that a Payee uses cumulative rate context, the total amount will also 
@@ -111,8 +95,7 @@ its amount.
 
 <https://w3id.org/commerce#Deferred> a rdf:Property;
    rdfs:label "Deferred"@en;
-   rdfs:comment """
-This constant term is used to specify a deferred rate context. A deferred
+   rdfs:comment """This constant term is used to specify a deferred rate context. A deferred
 rate context specifies that the amount of a percentage-based Payee must be 
 calculated after all non-deferred Payee amounts have already been calculated. 
 This is most useful when a Payee should be applied to the total cost of a good 
@@ -123,8 +106,7 @@ that is not a Tax wishes to behave like one, it should use this rate context.
 
 <https://w3id.org/commerce#ExclusivePercentage> a rdf:Property;
    rdfs:label "ExclusivePercentage"@en;
-   rdfs:comment """
-This constant term is used to specify an exclusive percentage-based rate type.
+   rdfs:comment """This constant term is used to specify an exclusive percentage-based rate type.
 An exclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
 not also percentage-based. There are some exceptions to this rule when using a 
@@ -138,8 +120,7 @@ sales taxes in the United States.
 
 <https://w3id.org/commerce#FlatAmount> a rdf:Property;
    rdfs:label "FlatAmount"@en;
-   rdfs:comment """
-A flat amount rate type expresses that a payment amount is a specific amount
+   rdfs:comment """A flat amount rate type expresses that a payment amount is a specific amount
 in a given currency. That is, the rate is to be interpreted as a fixed amount,
 not as a percentage.
         """@en;
@@ -147,8 +128,7 @@ not as a percentage.
 
 <https://w3id.org/commerce#InclusivePercentage> a rdf:Property;
    rdfs:label "InclusivePercentage"@en;
-   rdfs:comment """
-This constant term is used to specify an inclusive percentage-based rate type.
+   rdfs:comment """This constant term is used to specify an inclusive percentage-based rate type.
 An inclusive percentage-based rate type specifies that the rate is a percentage
 and the percentage should be applied to the total price of all payees that are
 not also percentage-based. There are some exceptions to this rule when using 
@@ -163,15 +143,13 @@ include most income taxes in the United States.
 
 <https://w3id.org/commerce#Tax> a rdf:Property;
    rdfs:label "Tax"@en;
-   rdfs:comment """
-This constant specifies that the Payee's rate specified is a tax.
+   rdfs:comment """This constant specifies that the Payee's rate specified is a tax.
         """@en;
    <vs:term_status> "unstable"@en .
 
 <https://w3id.org/commerce#TaxExempt> a rdf:Property;
    rdfs:label "TaxExempt"@en;
-   rdfs:comment """
-This constant specifies that a payment to the Payee should not have any
+   rdfs:comment """This constant specifies that a payment to the Payee should not have any
 taxes collected for the transfer of funds. Typically, these Payees are 
 non-profit corporations or other organizations that are under a non-taxable
 status.
@@ -180,8 +158,7 @@ status.
 
 <https://w3id.org/commerce#account> a rdf:Property;
    rdfs:label "account"@en;
-   rdfs:comment """
-The account property specifies a resource that is used to keep track of
+   rdfs:comment """The account property specifies a resource that is used to keep track of
 economic value that is under the control of a particular entity.
         """@en;
    rdfs:domain schema:Thing;
@@ -190,8 +167,7 @@ economic value that is under the control of a particular entity.
 
 <https://w3id.org/commerce#amount> a rdf:Property;
    rdfs:label "amount"@en;
-   rdfs:comment """
-The amount property is used to specify the total value of a financial
+   rdfs:comment """The amount property is used to specify the total value of a financial
 resource or action such as an account, transfer, or transaction.
         """@en;
    rdfs:domain schema:Thing;
@@ -200,8 +176,7 @@ resource or action such as an account, transfer, or transaction.
 
 <https://w3id.org/commerce#currency> a rdf:Property;
    rdfs:label "currency"@en;
-   rdfs:comment """
-The currency property is used to specify the monetary system that is used when
+   rdfs:comment """The currency property is used to specify the monetary system that is used when
 specifying the financial amount of a commercial exchange. The value SHOULD 
 be an ISO-4217 currency or a dereference-able IRI to a monetary system that 
 is not specified in ISO-4217.
@@ -212,8 +187,7 @@ is not specified in ISO-4217.
 
 <https://w3id.org/commerce#date> a rdf:Property;
    rdfs:label "date"@en;
-   rdfs:comment """
-The date property specifies the date and time on which a commercial transaction 
+   rdfs:comment """The date property specifies the date and time on which a commercial transaction 
 occurred. The value MUST be expressed using an ISO-8601 date/time string.
         """@en;
    rdfs:domain schema:Event;
@@ -222,8 +196,7 @@ occurred. The value MUST be expressed using an ISO-8601 date/time string.
 
 <https://w3id.org/commerce#destination> a rdf:Property;
    rdfs:label "destination"@en;
-   rdfs:comment """
-This property is used to specify a destination account for a commercial 
+   rdfs:comment """This property is used to specify a destination account for a commercial 
 transaction.
         """@en;
    rdfs:domain schema:Thing;
@@ -232,8 +205,7 @@ transaction.
 
 <https://w3id.org/commerce#destinationOwnerType> a rdf:Property;
    rdfs:label "destinationOwnerType"@en;
-   rdfs:comment """
-Specifies the type of the destination account, typically used in a PayeeRule 
+   rdfs:comment """Specifies the type of the destination account, typically used in a PayeeRule 
 where the type of destination account payment is to be restricted.
         """@en;
    rdfs:domain schema:Thing;
@@ -242,8 +214,7 @@ where the type of destination account payment is to be restricted.
 
 <https://w3id.org/commerce#forTransaction> a rdf:Property;
    rdfs:label "forTransaction"@en;
-   rdfs:comment """
-This property is most often used to specify that a Transfer is for the
+   rdfs:comment """This property is most often used to specify that a Transfer is for the
 specified Transaction. The relationship from Transaction to Transfer is 
 encoded using the transfer property. The relationship 
 from Transfer to Transaction is encoded using this property.
@@ -254,8 +225,7 @@ from Transfer to Transaction is encoded using this property.
 
 <https://w3id.org/commerce#gatewayApprovalCode> a rdf:Property;
    rdfs:label "gatewayApprovalCode"@en;
-   rdfs:comment """
-The gateway approval code is typically used to express the result of a credit
+   rdfs:comment """The gateway approval code is typically used to express the result of a credit
 card processing gateway. These codes are typically a string that is specific to
 the processing gateway software.
         """@en;
@@ -265,8 +235,7 @@ the processing gateway software.
 
 <https://w3id.org/commerce#gatewayError> a rdf:Property;
    rdfs:label "gatewayError"@en;
-   rdfs:comment """
-The gateway error is typically used to encode an error that occurred when
+   rdfs:comment """The gateway error is typically used to encode an error that occurred when
 processing a credit card or debit card. An error code is typically a string
 that is specific to the processing gateway software.
         """@en;
@@ -276,8 +245,7 @@ that is specific to the processing gateway software.
 
 <https://w3id.org/commerce#limitation> a rdf:Property;
    rdfs:label "limitation"@en;
-   rdfs:comment """
-This property is often used with a PayeeRule and expresses a restriction on 
+   rdfs:comment """This property is often used with a PayeeRule and expresses a restriction on 
 a Payee. For example, a PayeeRule may provide restrictions on the type of a 
 Payee or the amounts that Payee may receive as a participant in a commercial 
 transaction.
@@ -288,8 +256,7 @@ transaction.
 
 <https://w3id.org/commerce#maximumRate> a rdf:Property;
    rdfs:label "maximumRate"@en;
-   rdfs:comment """
-This property is typically used in a PayeeRule to limit the maximum rate that
+   rdfs:comment """This property is typically used in a PayeeRule to limit the maximum rate that
 a Payee can receive as a part of a transaction. These types of rules ensure that
 no single Payee can capture more of the final sale price than the asset owner 
 is willing to give up. Maximum rate limitations allow statements like the
@@ -302,8 +269,7 @@ can collect to less than 4%".
 
 <https://w3id.org/commerce#minimumAmount> a rdf:Property;
    rdfs:label "minimumAmount"@en;
-   rdfs:comment """
-This property is typically used in a Payee to express a minimum amount that
+   rdfs:comment """This property is typically used in a Payee to express a minimum amount that
 a Payee MUST receive as a part of a transaction. These types of rules ensure 
 that a floor is set for a particular percentage-based Payee. Minimum amount 
 claims enable statement like the following to be made: "I want 2% of the sale
@@ -315,8 +281,7 @@ or $0.02 USD, whichever is greater".
 
 <https://w3id.org/commerce#payee> a rdf:Property;
    rdfs:label "payee"@en;
-   rdfs:comment """
-This property is used to specify an entity that should be paid, or
+   rdfs:comment """This property is used to specify an entity that should be paid, or
 has been paid, as a result of a commercial exchange. 
         """@en;
    rdfs:domain schema:Thing;
@@ -325,8 +290,7 @@ has been paid, as a result of a commercial exchange.
 
 <https://w3id.org/commerce#payeePosition> a rdf:Property;
    rdfs:label "payeePosition"@en;
-   rdfs:comment """
-This property is used to coerce a set of Payees into an ordered list. The
+   rdfs:comment """This property is used to coerce a set of Payees into an ordered list. The
 order in which Payees are evaluated is vital to the final amount and 
 Transfer list that is generated by processing the list of Payees.
         """@en;
@@ -336,8 +300,7 @@ Transfer list that is generated by processing the list of Payees.
 
 <https://w3id.org/commerce#paymentGateway> a rdf:Property;
    rdfs:label "paymentGateway"@en;
-   rdfs:comment """
-This property is used to specify the payment gateway. The gateway is typically
+   rdfs:comment """This property is used to specify the payment gateway. The gateway is typically
 a string and is used by the transaction processing software to process payments
 via credit card or debit card. 
         """@en;
@@ -347,8 +310,7 @@ via credit card or debit card.
 
 <https://w3id.org/commerce#rate> a rdf:Property;
    rdfs:label "rate"@en;
-   rdfs:comment """
-This property can be used to specify the fixed amount or a percentage-based
+   rdfs:comment """This property can be used to specify the fixed amount or a percentage-based
 rate of a Payee. The rate specifies the amount that the Payee should be or
 has been paid as a result of a commercial exchange.
         """@en;
@@ -358,8 +320,7 @@ has been paid as a result of a commercial exchange.
 
 <https://w3id.org/commerce#rateContext> a rdf:Property;
    rdfs:label "rateContext"@en;
-   rdfs:comment """
-The rate context is used to specify at which point in a payment calculation 
+   rdfs:comment """The rate context is used to specify at which point in a payment calculation 
 a rate should apply. It allows Payees to be deferred until the end of 
 payment calculation, or for Payees to be marked as Tax or TaxDeferred.
         """@en;
@@ -369,8 +330,7 @@ payment calculation, or for Payees to be marked as Tax or TaxDeferred.
 
 <https://w3id.org/commerce#rateType> a rdf:Property;
    rdfs:label "rateType"@en;
-   rdfs:comment """
-The rate type property is used to specify whether the rate property of a
+   rdfs:comment """The rate type property is used to specify whether the rate property of a
 Payee is a fixed amount, an inclusive percentage or an exclusive percentage.
 The rateType coupled with the currency, and rate specifies the exact 
 monetary amount or calculation that must be employed during the final cost
@@ -382,8 +342,7 @@ calculation among a list of Payees.
 
 <https://w3id.org/commerce#source> a rdf:Property;
    rdfs:label "source"@en;
-   rdfs:comment """
-This property is used to specify a source account for a commercial 
+   rdfs:comment """This property is used to specify a source account for a commercial 
 transaction.
         """@en;
    rdfs:domain schema:Thing;
@@ -392,8 +351,7 @@ transaction.
 
 <https://w3id.org/commerce#transfer> a rdf:Property;
    rdfs:label "transfer"@en;
-   rdfs:comment """
-This property is used to associate the commercial transfer of monetary funds 
+   rdfs:comment """This property is used to associate the commercial transfer of monetary funds 
 during a Transaction. A list of transfers associated with a Transaction is the
 complete record of the monetary funds, the source accounts and the destination
 accounts for a particular Transaction.

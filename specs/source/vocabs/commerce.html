@@ -100,9 +100,6 @@ express commerce transactions using Linked Data on the Web. These include
 things such as deposits, withdrawals, how entities should be paid for goods or
 services rendered, receipts, payment details, and digital signatures on 
 financial transactions.
-Where GoodRelations provides a means for finding product offerings or
-expressing product needs, this vocabulary can be used for the next step:
-recording and expressing the commerce transaction.
       </p>
       <p class="issue">
 This entire document is a work in progress and is thus incredibly
@@ -110,6 +107,48 @@ incomplete and unstable. Like Jello, it MUST NOT be used for any production
 use. Like any unstable financial system, it may result in great financial 
 loss or great financial gain. With your luck, it will most probably be the 
 former. You have been warned.
+      </p>
+    </section>
+
+    <section>
+      <h2>Relationship to Good Relations and schema.org</h2>
+      <p>
+GoodRelations, and the schema.org implementation of GoodRelations, provides 
+a means for expressing offerings or needs. The Commerce vocabulary is 
+typically used for the next step: recording and expressing the economic 
+transaction. The general goal is to ensure that the Commerce vocabulary is
+complementary to the GoodRelations and schema.org vocabularies.
+      </p>
+
+      </p>
+      <p class="issue">
+We have not yet worked out exactly how the Commerce, Good Relations,
+and schema.org vocabularies will align, except for there being a desire 
+for them to align. There's a long way to go to REC for this document, so
+there is time. None of the terminology in this document will be marked as
+'stable' until it's clear how it aligns with the GR and schema vocabularies.
+<br><br>
+At times we may need to subclass GR in schema.org in the commerce vocabulary 
+because there are technical requirements for some of the terms that are more 
+specific. For example, <a href="http://schema.org/Offer">Offer</a> and 
+<a href="https://web-payments.org/vocabs/payswarm#Listing">Listing</a> are 
+the same general concept:
+<br><br>
+Listing has stricter machine-readable requirements. For 
+example, we need assets (items for sale) to be digitally signed and have 
+hashes assigned to them to support non-repudiation w/ product offers. That's 
+important because when a payment processor processes the payment, you don't 
+want the merchant claiming that they never made the offer in the first place.
+<br><br>
+GR and schema.org are probably not going to want the same restrictions for 
+the "Offer" term, so it may be that we keep Listing, or make Listing a subclass 
+of schema:Offer.
+<br><br>
+Another example is the expression of currency. schema:priceCurrency says to 
+use an ISO currency code, this vocabulary says to use a URL so that 
+organizations can mint new currencies. The latter is more flexible because
+it enables communities, like the cryptocurrency community, to launch their own 
+non-fiat currencies (within the bounds of the laws in their country).
       </p>
     </section>
 

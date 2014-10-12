@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html about="https://w3id.org/commerce" typeof="owl:Ontology" lang="en" dir="ltr">
+<head> 
+    <title property="rdfs:label">Commerce Vocabulary</title> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    
+
+     
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;    
+}
+
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="stylesheet" href="https://www.w3.org/community/src/css/spec/cg-draft.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--><script type="text/javascript" src="data:text/javascript;base64,d2luZG93LkdyZWVuVHVydGxlT3B0aW9ucyA9IHsgbWljcm9kYXRhRW5hYmxlZDogZmFsc2UgfTs="></script><script type="text/javascript" src="chrome-extension://loggcajcfkpdeoaeihclldihfefijjam/RDFa.js"></script></head> 
+  <body class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    <a href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+  </p>
+  <h1 class="title p-name" id="title">Commerce Vocabulary</h1>
+  
+  <h2 id="draft-community-group-specification-12-october-2014">Draft Community Group Specification <time class="dt-published" datetime="2014-10-12">12 October 2014</time></h2>
+  <dl>
+    
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="https://web-payments.org/specs/source/vocabs/commerce.html">https://web-payments.org/specs/source/vocabs/commerce.html</a></dd>
+    
+    
+    
+    
+    
+      
+    
+    <dt>Editor:</dt>
+    <dd class="p-author h-card vcard"><a class="u-url url p-name fn" href="https://manu.sporny.org/">Manu Sporny</a>, <a class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></dd>
+
+    
+  </dl>
+  
+  <p class="copyright">
+    <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+    2014
+    the Contributors to the Commerce Vocabulary Specification, published by the
+    <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a> under the
+    
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+      A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available.
+    
+  </p>
+  <hr>
+</div>
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype=""><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2>
+      <p property="rdfs:comment">
+This document describes a number of classes and properties that can be used to
+express commercial transactions using Linked Data on the Web. These include 
+things such as deposits, withdrawals, how entities should be paid for goods or
+services rendered, receipts, payment details, and digital signatures on 
+financial transactions.
+      </p>
+    </section><section id="sotd" class="introductory"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  <p>
+    This specification was published by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>.
+    It is not a W3C Standard nor is it on the W3C Standards Track.
+    
+      Please note that under the 
+      <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>
+      there is a limited opt-out and other conditions apply.
+    
+    Learn more about 
+    <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.
+  </p>
+  
+      <p>
+This is an experimental document that is being actively worked on by the
+W3C <a href="https://web-payments.org/">Web Payments Community Group</a>. All
+feedback on this document should be sent to 
+<a href="mailto:public-webpayments@w3.org">public-webpayments@w3.org</a>
+(<a href="http://lists.w3.org/Archives/Public/public-webpayments/">archive</a>).
+      </p>
+    
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#classes" class="tocxref"><span class="secno">2. </span>Classes</a><ul class="toc"><li class="tocline"><a href="#Account" class="tocxref"><span class="secno">2.1 </span><span property="rdfs:label">Account</span></a></li><li class="tocline"><a href="#Deposit" class="tocxref"><span class="secno">2.2 </span><span property="rdfs:label">Deposit</span></a></li><li class="tocline"><a href="#Payee" class="tocxref"><span class="secno">2.3 </span><span property="rdfs:label">Payee</span></a></li><li class="tocline"><a href="#PayeeRule" class="tocxref"><span class="secno">2.4 </span><span property="rdfs:label">PayeeRule</span></a></li><li class="tocline"><a href="#Transfer" class="tocxref"><span class="secno">2.5 </span><span property="rdfs:label">Transfer</span></a></li><li class="tocline"><a href="#Transaction" class="tocxref"><span class="secno">2.6 </span><span property="rdfs:label">Transaction</span></a></li><li class="tocline"><a href="#Withdrawal" class="tocxref"><span class="secno">2.7 </span><span property="rdfs:label">Withdrawal</span></a></li></ul></li><li class="tocline"><a href="#constants" class="tocxref"><span class="secno">3. </span>Constants</a><ul class="toc"><li class="tocline"><a href="#Cumulative" class="tocxref"><span class="secno">3.1 </span><span property="rdfs:label">Cumulative</span></a></li><li class="tocline"><a href="#Deferred" class="tocxref"><span class="secno">3.2 </span><span property="rdfs:label">Deferred</span></a></li><li class="tocline"><a href="#ExclusivePercentage" class="tocxref"><span class="secno">3.3 </span><span property="rdfs:label">ExclusivePercentage</span></a></li><li class="tocline"><a href="#FlatAmount" class="tocxref"><span class="secno">3.4 </span><span property="rdfs:label">FlatAmount</span></a></li><li class="tocline"><a href="#InclusivePercentage" class="tocxref"><span class="secno">3.5 </span><span property="rdfs:label">InclusivePercentage</span></a></li><li class="tocline"><a href="#Tax" class="tocxref"><span class="secno">3.6 </span><span property="rdfs:label">Tax</span></a></li><li class="tocline"><a href="#TaxExempt" class="tocxref"><span class="secno">3.7 </span><span property="rdfs:label">TaxExempt</span></a></li></ul></li><li class="tocline"><a href="#properties" class="tocxref"><span class="secno">4. </span>Properties</a><ul class="toc"><li class="tocline"><a href="#account" class="tocxref"><span class="secno">4.1 </span><span property="rdfs:label">account</span></a></li><li class="tocline"><a href="#amount" class="tocxref"><span class="secno">4.2 </span><span property="rdfs:label">amount</span></a></li><li class="tocline"><a href="#currency" class="tocxref"><span class="secno">4.3 </span><span property="rdfs:label">currency</span></a></li><li class="tocline"><a href="#date" class="tocxref"><span class="secno">4.4 </span><span property="rdfs:label">date</span></a></li><li class="tocline"><a href="#destination" class="tocxref"><span class="secno">4.5 </span><span property="rdfs:label">destination</span></a></li><li class="tocline"><a href="#destinationOwnerType" class="tocxref"><span class="secno">4.6 </span><span property="rdfs:label">destinationOwnerType</span></a></li><li class="tocline"><a href="#gatewayApprovalCode" class="tocxref"><span class="secno">4.7 </span><span property="rdfs:label">gatewayApprovalCode</span></a></li><li class="tocline"><a href="#gatewayError" class="tocxref"><span class="secno">4.8 </span><span property="rdfs:label">gatewayError</span></a></li><li class="tocline"><a href="#maximumRate" class="tocxref"><span class="secno">4.9 </span><span property="rdfs:label">maximumRate</span></a></li><li class="tocline"><a href="#forTransaction" class="tocxref"><span class="secno">4.10 </span><span property="rdfs:label">forTransaction</span></a></li><li class="tocline"><a href="#limitation" class="tocxref"><span class="secno">4.11 </span><span property="rdfs:label">limitation</span></a></li><li class="tocline"><a href="#minimumAmount" class="tocxref"><span class="secno">4.12 </span><span property="rdfs:label">minimumAmount</span></a></li><li class="tocline"><a href="#payeePosition" class="tocxref"><span class="secno">4.13 </span><span property="rdfs:label">payeePosition</span></a></li><li class="tocline"><a href="#paymentGateway" class="tocxref"><span class="secno">4.14 </span><span property="rdfs:label">paymentGateway</span></a></li><li class="tocline"><a href="#payee" class="tocxref"><span class="secno">4.15 </span><span property="rdfs:label">payee</span></a></li><li class="tocline"><a href="#rate" class="tocxref"><span class="secno">4.16 </span><span property="rdfs:label">rate</span></a></li><li class="tocline"><a href="#rateContext" class="tocxref"><span class="secno">4.17 </span><span property="rdfs:label">rateContext</span></a></li><li class="tocline"><a href="#rateType" class="tocxref"><span class="secno">4.18 </span><span property="rdfs:label">rateType</span></a></li><li class="tocline"><a href="#source" class="tocxref"><span class="secno">4.19 </span><span property="rdfs:label">source</span></a></li><li class="tocline"><a href="#transfer" class="tocxref"><span class="secno">4.20 </span><span property="rdfs:label">transfer</span></a></li></ul></li></ul></section> 
+
+     
+
+    <section id="introduction">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_introduction"><span class="secno">1. </span>Introduction</h2>
+      <p>
+This document describes a number of classes and properties that can be used to
+express commercial transactions using Linked Data on the Web. These include 
+things such as deposits, withdrawals, how entities should be paid for goods or
+services rendered, receipts, payment details, and digital signatures on 
+financial transactions.
+Where GoodRelations provides a means for finding product offerings or
+expressing product needs, this vocabulary can be used for the next step:
+recording and expressing the commercial transaction.
+      </p>
+      <div class="issue"><div class="issue-title" aria-level="2" role="heading" id="h_issue_1"><span>Issue 1</span></div><p class="">
+This entire document is a work in progress and is thus incredibly
+incomplete and unstable. Like Jello, it <em class="rfc2119" title="MUST NOT">MUST NOT</em> be used for any production 
+use. Like any unstable financial system, it may result in great financial 
+loss or great financial gain. With your luck, it will most probably be the 
+former. You have been warned.
+      </p></div>
+    </section>
+
+    <section id="classes">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_classes"><span class="secno">2. </span>Classes</h2>
+
+      <section id="Account" about="https://w3id.org/commerce#Account" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_Account"><span class="secno">2.1 </span><span property="rdfs:label">Account</span></h3>
+          <p property="rdfs:comment">
+A financial device that can operate as a source or destination for funds 
+transfered during a commercial exchange.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
+            <dd>amount, currency, label</dd>
+          </dl>
+          <p>
+The following example expresses an account belonging to a person named
+"John" with a balance of $50.40.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://payswarm.example.com/people/john-doe#account-3"
+   "type": "Account",
+   "label": "John's Financial Account",
+   "amount": "50.40",
+   "currency": "USD"
+}</pre></div>
+      </section>
+
+
+      <section id="Deposit" about="https://w3id.org/commerce#Deposit" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_Deposit"><span class="secno">2.2 </span><span property="rdfs:label">Deposit</span></h3>
+          <p property="rdfs:comment">
+A transfer of funds from a source account into a destination account typically
+performed as a means for storing monetary amounts in the destination account.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a property="rdfs:subclassOf" href="https://w3id.org/commerce#Transaction">Transaction</a></dd>
+            <dt>Common Properties</dt>
+            <dd>date, source, payee, transfer, signature</dd>
+          </dl>
+          <p>
+The following example describes a deposit made using a debit card:
+          </p>
+          <div class="example"><div class="example-title"><span>Example 2</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": ["Transaction", "Deposit"],
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
+   {
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
+      {
+         "type": "Address",
+         "street": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
+      }
+   },
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "signature":
+   {
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}</pre></div>
+      </section>
+
+      <section id="Payee" about="https://w3id.org/commerce#Payee" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_Payee"><span class="secno">2.3 </span><span property="rdfs:label">Payee</span></h3>
+          <p property="rdfs:comment">
+An entity that defines how monetary funds should be transferred to a destination 
+account during a <a href="#Transaction">Transaction</a>. A list of Payees can be 
+processed to produce a list of Transfers.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd>Thing</dd>
+            <dt>Common Properties</dt>
+            <dd>rate, rateType, currency, destination, comment, rateContext</dd>
+          </dl>
+<p>
+The following example expresses a flat payment of $0.05 USD.
+</p>
+<div class="example"><div class="example-title"><span>Example 3</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "Description about payment reason",
+}</pre></div>
+      </section>
+
+      <section id="PayeeRule" about="https://w3id.org/commerce#PayeeRule" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_PayeeRule"><span class="secno">2.4 </span><span property="rdfs:label">PayeeRule</span></h3>
+          <p property="rdfs:comment">
+A Payee Rule is a mechanism that can describe limits and allowances on the 
+payees during a transaction. These rules are typically used to apply 
+algorithmic formulas to the final price of a particular good. For example,
+minimum and maximum prices, tax rates, when taxes are applied, and preventing
+additional payees are a few examples of the types of payee rules that can be
+specified using PayeeRules.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
+            <dd>maximumRate, minimumRate, destinationOwnerType,
+rateType, limitation</dd>
+          </dl>
+          <p>
+The example below expresses a maximum payment rate of 10% to go to a
+PaySwarm Authority. This limits the amount of profit a PaySwarm Authority can
+make to 10% of the final sale price.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 4</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "maximumRate": "10",
+    "rateType": "InclusivePercentage",
+    "destinationOwnerType": "ps:Authority"
+}</pre></div>
+          <p>
+The following example expresses that all rateTypes must be either flat
+rates or exclusive percentages. That is, inclusive percentages are not allowed.
+</p><div class="issue"><div class="issue-title" aria-level="3" role="heading" id="h_issue_2"><span>Issue 2</span></div><div class="">Why would anyone ever need this? We need to explain.</div></div>
+          <p></p>
+          <div class="example"><div class="example-title"><span>Example 5</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "rateType": ["FlatAmount", "ExclusivePercentage"]
+}</pre></div>
+
+          <p>
+The example below specifies that no additional payees are allowed to be
+added to the list of payees for a transaction.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 6</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "limitation": "ps:NoAdditionalPayees"
+}</pre></div>
+      </section>
+
+      <section id="Transfer" about="https://w3id.org/commerce#Transfer" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_Transfer"><span class="secno">2.5 </span><span property="rdfs:label">Transfer</span></h3>
+          <p property="rdfs:comment">
+A record of the movement of monetary funds from a source account into a
+destination account.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
+            <dd>forTransaction, source, destination, amount,
+currency, comment</dd>
+          </dl>
+          <p>
+The example below shows a transaction processor transfering funds from a
+local financial account to an external financial account.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 7</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Transfer",
+   "forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+}</pre></div>
+      </section>
+
+      <section id="Transaction" about="https://w3id.org/commerce#Transaction" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_Transaction"><span class="secno">2.6 </span><span property="rdfs:label">Transaction</span></h3>
+          <p property="rdfs:comment">
+A record of a commercial exchange between two entities resulting in the 
+transfer of monetary funds from one or more source accounts to 
+one or more destination accounts.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a property="rdfs:subclassOf" href="http://www.w3.org/2000/01/rdf-schema#Class">Class</a></dd>
+            <dt>Common Properties</dt>
+            <dd>transfer, amount, currency, comment, 
+date, ps:originatingClient</dd>
+          </dl>
+          <p>
+The example below describes a commercial transaction that resulted in the
+transfer of $1.04 USD from a source account to two destination accounts. The
+transfers show part of the payment going to the retailer and the other going
+to a tax account.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 8</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/transactions/1.A.F23BC"
+   "type": "Transaction",
+   "transfer": [<a href="#Transfer">Transfer</a>+]
+   "amount": "1.04",
+   "currency": "USD",
+   "comment": "Purchase of Bad Romance by Lady Gaga for $0.89 from Best Buy"
+   "date": "2010-10-16T12:34:36.14532",
+   "ps:originatingClient": "10.113.15.142"
+}</pre></div>
+      </section>
+
+      <section id="Withdrawal" about="https://w3id.org/commerce#Withdrawal" typeof="rdfs:Class">
+        <h3 aria-level="2" role="heading" id="h3_Withdrawal"><span class="secno">2.7 </span><span property="rdfs:label">Withdrawal</span></h3>
+          <p property="rdfs:comment">
+A transfer of funds from a source account into a destination account typically
+performed as a means for retrieving previously stored monetary amounts.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">unstable</dd>
+            <dt>Parent Class</dt>
+            <dd><a property="rdfs:subclassOf" href="https://w3id.org/commerce#Transaction">Transaction</a></dd>
+            <dt>Common Properties</dt>
+            <dd>destination, ps:transfer, amount, currency, 
+comment, ps:originatingClient</dd>
+          </dl>
+          <p>
+The example below demonstrates the withdrawal of funds from an online account
+into a more traditional offline account. The example uses a fictionalized
+vocabulary called <code>bank</code>, which would be used for expressing
+bank account information.
+          </p>
+          <div class="example"><div class="example-title"><span>Example 9</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/transactions/1.A.F23BC"
+   "type": "Withdrawal",
+   "destination": 
+   {
+      "type": "bank:BankAccount",
+      "bank:routing": "102000076",
+      "bank:account": "5874523668972",
+      "bank:name": "Wells Fargo",
+   },
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "amount": "14.34",
+   "currency": "USD",
+   "comment": "Withdrawal of $14.34 on 2010-10-16 at 12:34pm - I want to buy a new pair of shoes",
+   "ps:originatingClient": "10.113.15.142"
+}</pre></div>
+      </section>
+
+    </section>
+
+    <section id="constants">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_constants"><span class="secno">3. </span>Constants</h2>
+
+      <section id="Cumulative" about="https://w3id.org/commerce#Cumulative" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_Cumulative"><span class="secno">3.1 </span><span property="rdfs:label">Cumulative</span></h3>
+        <p property="rdfs:comment">
+This constant term is used to specify a cumulative rate context in a Payee. 
+Normally a percentage-based Payee's amount would be calculated by applying its 
+percentage rate to the total of all flat amount Payees from the Payee list. By 
+specifying that a Payee uses cumulative rate context, the total amount will also 
+include amounts calculated for other percentage-based Payees that appear in 
+positions prior to the Payee with the cumulative rate context. Therefore, the 
+more ExclusivePercentage Payees that appear before a cumulative Payee, the 
+larger the total will be that the percentage is applied to in order to calculate 
+its amount.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
+        </dl>
+        <p>
+The following example demonstrates how a cumulative rate type is specified:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 10</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the cumulative rule goes here.",
+   "rateContext": "Cumulative"
+}</pre></div>
+      </section>
+
+      <section id="Deferred" about="https://w3id.org/commerce#Deferred" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_Deferred"><span class="secno">3.2 </span><span property="rdfs:label">Deferred</span></h3>
+        <p property="rdfs:comment">
+This constant term is used to specify a deferred rate context. A deferred
+rate context specifies that the amount of a percentage-based Payee must be 
+calculated after all non-deferred Payee amounts have already been calculated. 
+This is most useful when a Payee should be applied to the total cost of a good 
+or service. Whilst Payees that are Taxes are automatically deferred, if a Payee 
+that is not a Tax wishes to behave like one, it should use this rate context.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateContext">rateContext</a></dd>
+        </dl>
+        <p>
+The following example demonstrates how a deferred rate context can be specified:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 11</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the deferred payee goes here.",
+   "rateContext": "Deferred"
+}</pre></div>
+      </section>
+
+      <section id="ExclusivePercentage" about="https://w3id.org/commerce#ExclusivePercentage" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_ExclusivePercentage"><span class="secno">3.3 </span><span property="rdfs:label">ExclusivePercentage</span></h3>
+        <p property="rdfs:comment">
+This constant term is used to specify an exclusive percentage-based rate type.
+An exclusive percentage-based rate type specifies that the rate is a percentage
+and the percentage should be applied to the total price of all payees that are
+not also percentage-based. There are some exceptions to this rule when using a 
+cumulative rate context (see: Cumulative). The amount that results from this 
+percentage will be added to the total amount calculated from all of the Payees. 
+This behavior is the opposite of that of an InclusivePercentage, where the total 
+would not be altered. Real world examples of ExclusivePercentages include most 
+sales taxes in the United States.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
+        </dl>
+        <p>
+The following example demonstrates how an exclusive percentage can be specified:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 12</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the exclusive percentage goes here."
+}</pre></div>
+      </section>
+
+      <section id="FlatAmount" about="https://w3id.org/commerce#FlatAmount" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_FlatAmount"><span class="secno">3.4 </span><span property="rdfs:label">FlatAmount</span></h3>
+        <p property="rdfs:comment">
+A flat amount rate type expresses that a payment amount is a specific amount
+in a given currency. That is, the rate is to be interpreted as a fixed amount,
+not as a percentage.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
+        </dl>
+        <p>
+The following example demonstrates a payment amount of $1.42 USD to a specified 
+Payee.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 13</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "1.42",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the flat amount goes here."
+}</pre></div>
+      </section>
+
+      <section id="InclusivePercentage" about="https://w3id.org/commerce#InclusivePercentage" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_InclusivePercentage"><span class="secno">3.5 </span><span property="rdfs:label">InclusivePercentage</span></h3>
+        <p property="rdfs:comment">
+This constant term is used to specify an inclusive percentage-based rate type.
+An inclusive percentage-based rate type specifies that the rate is a percentage
+and the percentage should be applied to the total price of all payees that are
+not also percentage-based. There are some exceptions to this rule when using 
+a cumulative rate context (see: Cumulative). The amount that results from 
+this percentage will be evenly deducted from all other Payees, thus leaving 
+the total the same. This behavior is the opposite of that of an 
+ExclusivePercentage, where the amount would be added to the total and the 
+other Payees would remain the same. Real world examples of InclusivePercentages 
+include most income taxes in the United States.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateType">rateType</a></dd>
+        </dl>
+        <p>
+The following example describes an inclusive percentage.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 14</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "InclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the inclusive percentage goes here."
+}</pre></div>
+      </section>
+
+      <section id="Tax" about="https://w3id.org/commerce#Tax" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_Tax"><span class="secno">3.6 </span><span property="rdfs:label">Tax</span></h3>
+        <p property="rdfs:comment">
+This constant specifies that the Payee's rate specified is a tax.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateContext">rateContext</a></dd>
+        </dl>
+        <p>
+The following example describes the payment of a sales tax to the state of
+Virginia of 5%.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 15</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "5.0",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/states/virginia#account-1",
+   "comment": "Virginia sales tax.",
+   "rateContext": "Tax"
+}</pre></div>
+      </section>
+
+      <section id="TaxExempt" about="https://w3id.org/commerce#TaxExempt" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_TaxExempt"><span class="secno">3.7 </span><span property="rdfs:label">TaxExempt</span></h3>
+        <p property="rdfs:comment">
+This constant specifies that a payment to the Payee should not have any
+taxes collected for the transfer of funds. Typically, these Payees are 
+non-profit corporations or other organizations that are under a non-taxable
+status.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Commonly Used With</dt>
+          <dd><a href="#rateContext">rateContext</a></dd>
+        </dl>
+        <p>
+The following example demonstrates a tax-exempt donation to the Red Cross
+for the amount of $5.00 USD.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 16</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "5.00",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/organizations/red-cross#account-6",
+   "comment": "Donation to the Red Cross",
+   "rateContext": "TaxExempt"
+}</pre></div>
+      </section>
+    </section>
+
+    <section id="properties">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_properties"><span class="secno">4. </span>Properties</h2>
+
+      <section id="account" about="https://w3id.org/commerce#account" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_account"><span class="secno">4.1 </span><span property="rdfs:label">account</span></h3>
+        <p property="rdfs:comment">
+The account property specifies a resource that is used to keep track of
+economic value that is under the control of a particular entity.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="http://schema.org/Person">Person</a>, 
+<a href="http://schema.org/Organization">Organization</a>, 
+<a href="http://xmlns.com/foaf/spec/#term_Agent">Agent</a>
+          </dd>
+          <dt>Associated value must be an</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Account">Account</a>
+          </dd>
+        </dl>
+        <p>
+The following example demonstrates the proper use of the account property:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 17</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/people/joe",
+   "type": "foaf:Agent",
+   "account":
+   {
+      "id": "http://redbankexample.com/accounts/vacation",
+      "type": "Account",
+      "label": "Vacation Savings Account",
+      "amount": "7563.00",
+      "currency": "USD",
+   }
+}</pre></div>
+      </section>
+
+      <section id="amount" about="https://w3id.org/commerce#amount" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_amount"><span class="secno">4.2 </span><span property="rdfs:label">amount</span></h3>
+        <p property="rdfs:comment">
+The amount property is used to specify the total value of a financial
+resource or action such as an account, transfer, or transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The following example shows the use of the amount property in a Transfer.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 18</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Transfer",
+   "forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+}</pre></div>
+        <p>
+The next example demonstrates the use of the amount property in an Account.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 19</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://payswarm.example.com/people/john-doe#account-3"
+   "type": "Account",
+   "label": "John's Financial Account",
+   "amount": "50.40",
+   "currency": "USD"
+}</pre></div>
+      </section>
+
+      <section id="currency" about="https://w3id.org/commerce#currency" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_currency"><span class="secno">4.3 </span><span property="rdfs:label">currency</span></h3>
+        <p property="rdfs:comment">
+The currency property is used to specify the monetary system that is used when
+specifying the financial amount of a commercial exchange. The value <em class="rfc2119" title="SHOULD">SHOULD</em> 
+be an ISO-4217 currency or a dereference-able IRI to a monetary system that 
+is not specified in ISO-4217.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
+        </dl>
+        <p>
+The following example demonstrates how to use the currency property in a
+Transfer:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 20</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Transfer",
+   "forTransaction": "http://redbankexample.com/transactions/20110104#7827982";
+   "source": "http://redbankexample.com/accounts/12345#account",
+   "destination": "http://greencardexample.com/accounts/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Transfer of $8.00 on 2010-10-16 at 12:34pm - Paying Jane back for pizza last Monday"
+}</pre></div>
+      </section>
+
+      <section id="date" about="https://w3id.org/commerce#date" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_date"><span class="secno">4.4 </span><span property="rdfs:label">date</span></h3>
+        <p property="rdfs:comment">
+The date property specifies the date and time on which a commercial transaction 
+occurred. The value <em class="rfc2119" title="MUST">MUST</em> be expressed using an ISO-8601 date/time string.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Event">Event</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" resource="http://www.w3.org/2001/XMLSchema#dateTime" href="http://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</a>
+          </dd>
+        </dl>
+        <p>
+The example below states that the Transaction occurred on October 16th, 2010 at
+12:34 UTC.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 21</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://example.com/transactions/1.A.F23BC"
+   "type": "Transaction",
+   "transfer": [<a href="#Transfer">Transfer</a>+]
+   "amount": "1.04",
+   "currency": "USD",
+   "comment": "Purchase of Bad Romance by Lady Gaga from Best Buy"
+   "date": "2010-10-16T12:34:36.14532",
+   "ps:originatingClient": "10.113.15.142"
+}</pre></div>
+      </section>
+
+      <section id="destination" about="https://w3id.org/commerce#destination" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_destination"><span class="secno">4.5 </span><span property="rdfs:label">destination</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify a destination account for a commercial 
+transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Payee">Payee</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Account">Account</a>
+          </dd>
+        </dl>
+        <p>
+The following example expresses a Payee where an amount of $1 USD should be 
+placed into the destination account identified by
+<code>http://payswarm.example.com/people/john-doe#account-3</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 22</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "1.00",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "Description about payment reason",
+}</pre></div>
+      </section>
+
+      <section id="destinationOwnerType" about="https://w3id.org/commerce#destinationOwnerType" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_destinationOwnerType"><span class="secno">4.6 </span><span property="rdfs:label">destinationOwnerType</span></h3>
+        <p property="rdfs:comment">
+Specifies the type of the destination account, typically used in a PayeeRule 
+where the type of destination account payment is to be restricted.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#PayeeRule">PayeeRule</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://schema.org/Thing">Thing</a>
+          </dd>
+        </dl>
+        <p>
+The following example describes a PayeeRule where the destination account owner 
+must be a PaySwarm Authority and the maximum rate that the PaySwarm authority
+can charge is 10%.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 23</span></div><pre class="example prettyprint language-jsonld">{
+    "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "maximumRate": "10",
+    "rateType": "InclusivePercentage",
+    "destinationOwnerType": ["ps:Authority"]
+}</pre></div>
+      </section>
+
+      <section id="gatewayApprovalCode" about="https://w3id.org/commerce#gatewayApprovalCode" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_gatewayApprovalCode"><span class="secno">4.7 </span><span property="rdfs:label">gatewayApprovalCode</span></h3>
+        <p property="rdfs:comment">
+The gateway approval code is typically used to express the result of a credit
+card processing gateway. These codes are typically a string that is specific to
+the processing gateway software.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The following example notes that the deposit was successful with a gateway
+approval code of <code>8FGk9347Bo2N83</code>.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 24</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
+   {
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
+      {
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
+      }
+   },
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "gatewayApprovalCode": "8FGk9347Bo2N83",
+   "signature":
+   {
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}</pre></div>
+      </section>
+
+      <section id="gatewayError" about="https://w3id.org/commerce#gatewayError" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_gatewayError"><span class="secno">4.8 </span><span property="rdfs:label">gatewayError</span></h3>
+        <p property="rdfs:comment">
+The gateway error is typically used to encode an error that occurred when
+processing a credit card or debit card. An error code is typically a string
+that is specific to the processing gateway software.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The following example demonstrates that the deposit was a failure and lists
+the reason in the gateway error code:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 25</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
+   {
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
+      {
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
+      }
+   },
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "gatewayError": "CREDIT_CARD_DECLINED",
+   "signature":
+   {
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}</pre></div>
+      </section>
+
+      <section id="maximumRate" about="https://w3id.org/commerce#maximumRate" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_maximumRate"><span class="secno">4.9 </span><span property="rdfs:label">maximumRate</span></h3>
+        <p property="rdfs:comment">
+This property is typically used in a PayeeRule to limit the maximum rate that
+a Payee can receive as a part of a transaction. These types of rules ensure that
+no single Payee can capture more of the final sale price than the asset owner 
+is willing to give up. Maximum rate limitations allow statements like the
+following: "I want to limit the amount of money that a payment gateway
+can collect to less than 4%".
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#PayeeRule">PayeeRule</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The example below specifies a PayeeRule that limits the total amount that a
+PaySwarm Authority can collect in fees to 10% of the final price:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 26</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+    "type": "PayeeRule",
+    "maximumRate": "10",
+    "rateType": "InclusivePercentage",
+    "destinationOwnerType": "ps:Authority"
+}</pre></div>
+      </section>
+
+      <section id="forTransaction" about="https://w3id.org/commerce#forTransaction" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_forTransaction"><span class="secno">4.10 </span><span property="rdfs:label">forTransaction</span></h3>
+        <p property="rdfs:comment">
+This property is most often used to specify that a Transfer is for the
+specified Transaction. The relationship from Transaction to Transfer is 
+encoded using the <a href="#transfer">transfer</a> property. The relationship 
+from Transfer to Transaction is encoded using this property.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="https://w3id.org/commerce#Transfer">Transfer</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Transaction">Transaction</a>
+          </dd>
+        </dl>
+        <p>
+The example below specifies that the Transfer is meant for the transaction
+identified by 
+<code>http://whitelabel.com/transactions/7f83fab44cd8d91#transaction</code>:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 27</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "ps:Transfer",
+   "ps:forTransaction": "http://whitelabel.com/transactions/7f83fab44cd8d91#transaction";
+   "source": "http://whitelabel.payswarm.com/api/accounts/12345#account",
+   "destination": "http://yellowlabel.payswarm.com/people/bob/54321#account",
+   "amount": "8.00",
+   "currency": "USD",
+   "comment": "Thanks for the memory card."
+}</pre></div>
+      </section>
+
+      <section id="limitation" about="https://w3id.org/commerce#limitation" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_limitation"><span class="secno">4.11 </span><span property="rdfs:label">limitation</span></h3>
+        <p property="rdfs:comment">
+This property is often used with a PayeeRule and expresses a restriction on 
+a Payee. For example, a PayeeRule may provide restrictions on the type of a 
+Payee or the amounts that Payee may receive as a participant in a commercial 
+transaction.
+        </p>
+        <div class="issue"><div class="issue-title" aria-level="3" role="heading" id="h_issue_3"><span>Issue 3</span></div><p class="">
+Perhaps the limitation property should be applied to all limitations. Why
+doesn't it apply to destinationAccountType?
+        </p></div>
+        <dl>
+         <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#PayeeRule">PayeeRule</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
+        </dl>
+        <p>
+The example below specifies that no additional payees are allowed to be added
+to the list of payees. This mechanism is often used when asset owners do not
+want their content to be sold through affiliate relationships:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 28</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+         "type": "PayeeRule",
+         "ps:limitation": "ps:NoAdditionalPayees"
+}</pre></div>
+      </section>
+
+      <section id="minimumAmount" about="https://w3id.org/commerce#minimumAmount" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_minimumAmount"><span class="secno">4.12 </span><span property="rdfs:label">minimumAmount</span></h3>
+        <p property="rdfs:comment">
+This property is typically used in a Payee to express a minimum amount that
+a Payee <em class="rfc2119" title="MUST">MUST</em> receive as a part of a transaction. These types of rules ensure 
+that a floor is set for a particular percentage-based Payee. Minimum amount 
+claims enable statement like the following to be made: "I want 2% of the sale
+or $0.02 USD, whichever is greater".
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The following example expresses a Payee that should receive 2% or $0.05 USD of
+the final amount of the transaction, whichever is higher.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 29</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "2",
+   "rateType": "InclusivePercentage",
+   "minimumAmount": "0.05",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/organizations/zombo-com#account-1",
+   "comment": "Zombocom value-added fee",
+}</pre></div>
+      </section>
+
+      <section id="payeePosition" about="https://w3id.org/commerce#payeePosition" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_payeePosition"><span class="secno">4.13 </span><span property="rdfs:label">payeePosition</span></h3>
+        <p property="rdfs:comment">
+This property is used to coerce a set of Payees into an ordered list. The
+order in which Payees are evaluated is vital to the final amount and 
+Transfer list that is generated by processing the list of Payees.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The following example shows a Payee that should, when accessed in a list format,
+be processed in the 4th position:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 30</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "payeePosition": "4",
+   "rate": "2",
+   "rateType": "InclusivePercentage",
+   "minimumAmount": "0.05",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/organizations/zombo-com#account-1",
+   "comment": "Zombocom value-added fee",
+}</pre></div>
+      </section>
+
+      <section id="paymentGateway" about="https://w3id.org/commerce#paymentGateway" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_paymentGateway"><span class="secno">4.14 </span><span property="rdfs:label">paymentGateway</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify the payment gateway. The gateway is typically
+a string and is used by the transaction processing software to process payments
+via credit card or debit card. 
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+
+        <p>
+The example below expresses that the payment gateway is CyberSource:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 31</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
+   {
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
+      {
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
+      }
+   },
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "paymentGateway": "CyberSource",
+   "signature":
+   {
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}</pre></div>
+      </section>
+
+      <section id="payee" about="https://w3id.org/commerce#payee" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_payee"><span class="secno">4.15 </span><span property="rdfs:label">payee</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify an entity that should be paid, or
+has been paid, as a result of a commercial exchange. 
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/payswarm#Listing">Listing</a>,
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+        </dl>
+        <p>
+The example below shows the sale listing for an electronic book called 
+"The Dawntreader". The listing has a single payee listed for $8.35 USD.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 32</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+    "id": "http://example.org/books/dawntreader#listing",
+    "type": "ps:Listing",
+    "ps:forAsset": "http://example.org/books/dawntreader#asset",
+    "ps:assetHash": "85331e47eb55ea0a706675db9a9076688171ff86f78a",
+    "ps:license": "http://example.org/licenses#mylicense",
+    "ps:licenseHash": "128e85bdac26cc838284c1e0180a4b34e182f94f",
+    "ps:validFrom": "2010-11-15T21:34:01+0000",
+    "ps:validThrough": "2010-11-16T21:34:01+0000",
+    "ps:payee": 
+    {
+        "type": "Payee",
+        "rate": "8.35",
+        "rateType": "FlatAmount",
+        "currency": "USD",
+        "destination": "http://payswarm.example.com/people/seymour#account-9",
+        "comment": "Book: The Dawntreader - Awakening, Second Coming",
+    },
+    "ps:payeeRule":
+    [{
+         "type": "PayeeRule",
+         "maximumRate": "10",
+         "rateType": "InclusivePercentage",
+         "destinationOwnerType": "ps:Authority"
+    },
+    {
+         "type": "PayeeRule",
+         "ps:limitation": "ps:NoAdditionalPayees"
+    }],
+    "ps:signature": [<a href="https://w3id.org/security#Signature">Signature</a>*]
+}</pre></div>
+      </section>
+
+      <section id="rate" about="https://w3id.org/commerce#rate" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_rate"><span class="secno">4.16 </span><span property="rdfs:label">rate</span></h3>
+        <p property="rdfs:comment">
+This property can be used to specify the fixed amount or a percentage-based
+rate of a Payee. The rate specifies the amount that the Payee should be or
+has been paid as a result of a commercial exchange.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Literal">Literal</a>
+          </dd>
+        </dl>
+        <p>
+The following example shows a fixed amount of $0.05 USD specified using the
+rate property:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 33</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "FlatAmount",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The",
+}</pre></div>
+        <p>
+The rate property can also be used to specify percentage-based amounts. The
+example below specifies a 4% Virginia sales tax:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 34</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "4",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/states/virginia#sales-tax",
+   "comment": "Virginia sales tax",
+   "rateContext": "Tax"
+}</pre></div>
+      </section>
+
+      <section id="rateContext" about="https://w3id.org/commerce#rateContext" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_rateContext"><span class="secno">4.17 </span><span property="rdfs:label">rateContext</span></h3>
+        <p property="rdfs:comment">
+The rate context is used to specify at which point in a payment calculation 
+a rate should apply. It allows Payees to be deferred until the end of 
+payment calculation, or for Payees to be marked as Tax or TaxDeferred.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
+          <dt>Typical values are</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Cumulative">Cumulative</a>, 
+<a href="https://w3id.org/commerce#Deferred">Deferred</a>, 
+<a href="https://w3id.org/commerce#Tax">Tax</a>, 
+<a href="https://w3id.org/commerce#TaxExempt">TaxExempt</a>
+          </dd>
+        </dl>
+        <p>
+The following example uses the rate context property to expresses that a 
+Virginia sales tax of 5% should be collected:
+        </p>
+        <div class="example"><div class="example-title"><span>Example 35</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "5.0",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/states/virginia#account-1",
+   "comment": "Virginia sales tax.",
+   "rateContext": "Tax"
+}</pre></div>
+      </section>
+
+      <section id="rateType" about="https://w3id.org/commerce#rateType" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_rateType"><span class="secno">4.18 </span><span property="rdfs:label">rateType</span></h3>
+        <p property="rdfs:comment">
+The rate type property is used to specify whether the rate property of a
+Payee is a fixed amount, an inclusive percentage or an exclusive percentage.
+The rateType coupled with the currency, and rate specifies the exact 
+monetary amount or calculation that must be employed during the final cost
+calculation among a list of Payees.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Payee">Payee</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="http://www.w3.org/2000/01/rdf-schema#Resource">Resource</a>
+          </dd>
+          <dt>Typical values are</dt>
+          <dd>
+<a href="https://w3id.org/commerce#InclusivePercentage">Cumulative</a>, 
+<a href="https://w3id.org/commerce#ExclusivePercentage">Deferred</a>, 
+<a href="https://w3id.org/commerce#FlatAmount">Tax</a>
+          </dd>
+        </dl>
+        <p>
+The example below specifies an exclusive percentage rate type
+        </p>
+        <div class="example"><div class="example-title"><span>Example 36</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "type": "Payee",
+   "rate": "0.05",
+   "rateType": "ExclusivePercentage",
+   "currency": "USD",
+   "destination": "http://payswarm.example.com/people/john-doe#account-3",
+   "comment": "The explanation of the deferred payee goes here.",
+}</pre></div>
+      </section>
+
+      <section id="source" about="https://w3id.org/commerce#source" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_source"><span class="secno">4.19 </span><span property="rdfs:label">source</span></h3>
+        <p property="rdfs:comment">
+This property is used to specify a source account for a commercial 
+transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>, 
+<a href="https://w3id.org/commerce#Transfer">Transfer</a>, 
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Account">Account</a>
+          </dd>
+        </dl>
+        <p>
+The example below shows a source being expressed as a debit card.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 37</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": ["Transaction", "Deposit"],
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
+   {
+      "id": "http://mybank.example.com/accounts/3879279824",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
+      {
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
+      }
+   },
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": [<a href="#Transfer">Transfer</a>*],
+   "signature":
+   {
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}</pre></div>
+      </section>
+
+      <section id="transfer" about="https://w3id.org/commerce#transfer" typeof="rdf:Property">
+        <h3 aria-level="2" role="heading" id="h3_transfer"><span class="secno">4.20 </span><span property="rdfs:label">transfer</span></h3>
+        <p property="rdfs:comment">
+This property is used to associate the commercial transfer of monetary funds 
+during a Transaction. A list of transfers associated with a Transaction is the
+complete record of the monetary funds, the source accounts and the destination
+accounts for a particular Transaction.
+        </p>
+        <dl>
+          <dt>Status</dt>
+          <dd property="vs:term_status">unstable</dd>
+          <dt>Attribute of</dt>
+          <dd><a property="rdfs:domain" href="http://schema.org/Thing">Thing</a></dd>
+          <dt>Typically used by</dt>
+          <dd>
+<a href="https://w3id.org/commerce#Deposit">Deposit</a>, 
+<a href="https://w3id.org/commerce#Transaction">Transaction</a>,
+<a href="https://w3id.org/commerce#Withdrawal">Withdrawal</a>
+          </dd>
+          <dt>Associated value must be a</dt>
+          <dd>
+<a property="rdfs:range" href="https://w3id.org/commerce#Transfer">Transfer</a>
+          </dd>
+        </dl>
+        <p>
+The example below shows the transfer information for a debit card deposit
+from the owner's bank into their PaySwarm account.
+        </p>
+        <div class="example"><div class="example-title"><span>Example 38</span></div><pre class="example prettyprint language-jsonld">{
+   "@context": "https://w3id.org/payswarm/v1",
+   "id": "http://mybank.example.com/deposits/7f7f62ab53cc623cd28#deposit",
+   "type": "Deposit",
+   "date": "2010-10-16T12:34:36.14532",
+   "source":
+   {
+      "id": "http://mybank.example.com/accounts/3879279824#account",
+      "type": "DebitCard",
+      "brand": "Visa",
+      "number": "3847573872837483",
+      "expirationMonth": "11",
+      "expirationYear": "2013",
+      "verificationCode": "372",
+      "name": "JOHN DOE",
+      "firstName": "JOHN",
+      "lastName": "DOE",
+      "address":
+      {
+         "type": "Address",
+         "street-address": "28 Rivertail Lane",
+         "locality": "Upsilanty",
+         "region": "New York",
+         "postal-code": "83748",
+         "country-name": "United States of America"
+      }
+   },
+   "payee": [<a href="#Payee">Payee</a>*],
+   "transfer": 
+   {
+      "type": "Transfer",
+      "source": "http://mybank.example.com/accounts/3879279824#account",
+      "destination": "http://greencardexample.com/accounts/54321#account",
+      "amount": "20.00",
+      "currency": "USD",
+      "comment": "Monthly entertainment budget deposit into PaySwarm account."
+   },
+   "signature":
+   {
+       "type": "JsonLdSignature",
+       "creator": "http://payswarm.example.com/people/john-doe#key-5",
+       "signatureValue": "OWM3YzI4OGQzNGVkMzVmMmQ3ODIyZDY3NjI4NTIyZTk2MzQzNmExMgo="
+   }
+}</pre></div>
+      </section>
+    </section>
+
+   
+
+
+</body></html>

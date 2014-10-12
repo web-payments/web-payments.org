@@ -1,0 +1,186 @@
+<https://w3id.org/commerce> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Ontology> .
+<https://w3id.org/commerce> <http://www.w3.org/2000/01/rdf-schema#label> "Commerce Vocabulary"@en .
+<https://w3id.org/commerce> <http://purl.org/dc/terms/abstract> "This document describes a number of classes and properties that can be used to\nexpress commercial transactions using Linked Data on the Web. These include \nthings such as deposits, withdrawals, how entities should be paid for goods or\nservices rendered, receipts, payment details, and digital signatures on \nfinancial transactions.\n      \n    "@en .
+<https://w3id.org/commerce> <http://www.w3.org/2000/01/rdf-schema#comment> "This document describes a number of classes and properties that can be used to\nexpress commercial transactions using Linked Data on the Web. These include \nthings such as deposits, withdrawals, how entities should be paid for goods or\nservices rendered, receipts, payment details, and digital signatures on \nfinancial transactions.\n      "@en .
+<https://w3id.org/commerce#Account> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Account> <http://www.w3.org/2000/01/rdf-schema#label> "Account"@en .
+<https://w3id.org/commerce#Account> <http://www.w3.org/2000/01/rdf-schema#comment> "A financial device that can operate as a source or destination for funds \ntransfered during a commercial exchange.\n          "@en .
+<https://w3id.org/commerce#Account> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Account> <http://www.w3.org/2000/01/rdf-schema#subclassOf> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Deposit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Deposit> <http://www.w3.org/2000/01/rdf-schema#label> "Deposit"@en .
+<https://w3id.org/commerce#Deposit> <http://www.w3.org/2000/01/rdf-schema#comment> "A transfer of funds from a source account into a destination account typically\nperformed as a means for storing monetary amounts in the destination account.\n          "@en .
+<https://w3id.org/commerce#Deposit> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Deposit> <http://www.w3.org/2000/01/rdf-schema#subclassOf> <https://w3id.org/commerce#Transaction> .
+<https://w3id.org/commerce#Payee> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Payee> <http://www.w3.org/2000/01/rdf-schema#label> "Payee"@en .
+<https://w3id.org/commerce#Payee> <http://www.w3.org/2000/01/rdf-schema#comment> "An entity that defines how monetary funds should be transferred to a destination \naccount during a Transaction. A list of Payees can be \nprocessed to produce a list of Transfers.\n          "@en .
+<https://w3id.org/commerce#Payee> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#PayeeRule> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#PayeeRule> <http://www.w3.org/2000/01/rdf-schema#label> "PayeeRule"@en .
+<https://w3id.org/commerce#PayeeRule> <http://www.w3.org/2000/01/rdf-schema#comment> "A Payee Rule is a mechanism that can describe limits and allowances on the \npayees during a transaction. These rules are typically used to apply \nalgorithmic formulas to the final price of a particular good. For example,\nminimum and maximum prices, tax rates, when taxes are applied, and preventing\nadditional payees are a few examples of the types of payee rules that can be\nspecified using PayeeRules.\n          "@en .
+<https://w3id.org/commerce#PayeeRule> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#PayeeRule> <http://www.w3.org/2000/01/rdf-schema#subclassOf> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Transfer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Transfer> <http://www.w3.org/2000/01/rdf-schema#label> "Transfer"@en .
+<https://w3id.org/commerce#Transfer> <http://www.w3.org/2000/01/rdf-schema#comment> "A record of the movement of monetary funds from a source account into a\ndestination account.\n          "@en .
+<https://w3id.org/commerce#Transfer> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Transfer> <http://www.w3.org/2000/01/rdf-schema#subclassOf> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Transaction> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Transaction> <http://www.w3.org/2000/01/rdf-schema#label> "Transaction"@en .
+<https://w3id.org/commerce#Transaction> <http://www.w3.org/2000/01/rdf-schema#comment> "A record of a commercial exchange between two entities resulting in the \ntransfer of monetary funds from one or more source accounts to \none or more destination accounts.\n          "@en .
+<https://w3id.org/commerce#Transaction> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Transaction> <http://www.w3.org/2000/01/rdf-schema#subclassOf> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Withdrawal> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<https://w3id.org/commerce#Withdrawal> <http://www.w3.org/2000/01/rdf-schema#label> "Withdrawal"@en .
+<https://w3id.org/commerce#Withdrawal> <http://www.w3.org/2000/01/rdf-schema#comment> "A transfer of funds from a source account into a destination account typically\nperformed as a means for retrieving previously stored monetary amounts.\n          "@en .
+<https://w3id.org/commerce#Withdrawal> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Withdrawal> <http://www.w3.org/2000/01/rdf-schema#subclassOf> <https://w3id.org/commerce#Transaction> .
+<https://w3id.org/commerce#Cumulative> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#Cumulative> <http://www.w3.org/2000/01/rdf-schema#label> "Cumulative"@en .
+<https://w3id.org/commerce#Cumulative> <http://www.w3.org/2000/01/rdf-schema#comment> "This constant term is used to specify a cumulative rate context in a Payee. \nNormally a percentage-based Payee's amount would be calculated by applying its \npercentage rate to the total of all flat amount Payees from the Payee list. By \nspecifying that a Payee uses cumulative rate context, the total amount will also \ninclude amounts calculated for other percentage-based Payees that appear in \npositions prior to the Payee with the cumulative rate context. Therefore, the \nmore ExclusivePercentage Payees that appear before a cumulative Payee, the \nlarger the total will be that the percentage is applied to in order to calculate \nits amount.\n        "@en .
+<https://w3id.org/commerce#Cumulative> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Deferred> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#Deferred> <http://www.w3.org/2000/01/rdf-schema#label> "Deferred"@en .
+<https://w3id.org/commerce#Deferred> <http://www.w3.org/2000/01/rdf-schema#comment> "This constant term is used to specify a deferred rate context. A deferred\nrate context specifies that the amount of a percentage-based Payee must be \ncalculated after all non-deferred Payee amounts have already been calculated. \nThis is most useful when a Payee should be applied to the total cost of a good \nor service. Whilst Payees that are Taxes are automatically deferred, if a Payee \nthat is not a Tax wishes to behave like one, it should use this rate context.\n        "@en .
+<https://w3id.org/commerce#Deferred> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#ExclusivePercentage> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#ExclusivePercentage> <http://www.w3.org/2000/01/rdf-schema#label> "ExclusivePercentage"@en .
+<https://w3id.org/commerce#ExclusivePercentage> <http://www.w3.org/2000/01/rdf-schema#comment> "This constant term is used to specify an exclusive percentage-based rate type.\nAn exclusive percentage-based rate type specifies that the rate is a percentage\nand the percentage should be applied to the total price of all payees that are\nnot also percentage-based. There are some exceptions to this rule when using a \ncumulative rate context (see: Cumulative). The amount that results from this \npercentage will be added to the total amount calculated from all of the Payees. \nThis behavior is the opposite of that of an InclusivePercentage, where the total \nwould not be altered. Real world examples of ExclusivePercentages include most \nsales taxes in the United States.\n        "@en .
+<https://w3id.org/commerce#ExclusivePercentage> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#FlatAmount> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#FlatAmount> <http://www.w3.org/2000/01/rdf-schema#label> "FlatAmount"@en .
+<https://w3id.org/commerce#FlatAmount> <http://www.w3.org/2000/01/rdf-schema#comment> "A flat amount rate type expresses that a payment amount is a specific amount\nin a given currency. That is, the rate is to be interpreted as a fixed amount,\nnot as a percentage.\n        "@en .
+<https://w3id.org/commerce#FlatAmount> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#InclusivePercentage> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#InclusivePercentage> <http://www.w3.org/2000/01/rdf-schema#label> "InclusivePercentage"@en .
+<https://w3id.org/commerce#InclusivePercentage> <http://www.w3.org/2000/01/rdf-schema#comment> "This constant term is used to specify an inclusive percentage-based rate type.\nAn inclusive percentage-based rate type specifies that the rate is a percentage\nand the percentage should be applied to the total price of all payees that are\nnot also percentage-based. There are some exceptions to this rule when using \na cumulative rate context (see: Cumulative). The amount that results from \nthis percentage will be evenly deducted from all other Payees, thus leaving \nthe total the same. This behavior is the opposite of that of an \nExclusivePercentage, where the amount would be added to the total and the \nother Payees would remain the same. Real world examples of InclusivePercentages \ninclude most income taxes in the United States.\n        "@en .
+<https://w3id.org/commerce#InclusivePercentage> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#Tax> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#Tax> <http://www.w3.org/2000/01/rdf-schema#label> "Tax"@en .
+<https://w3id.org/commerce#Tax> <http://www.w3.org/2000/01/rdf-schema#comment> "This constant specifies that the Payee's rate specified is a tax.\n        "@en .
+<https://w3id.org/commerce#Tax> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#TaxExempt> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#TaxExempt> <http://www.w3.org/2000/01/rdf-schema#label> "TaxExempt"@en .
+<https://w3id.org/commerce#TaxExempt> <http://www.w3.org/2000/01/rdf-schema#comment> "This constant specifies that a payment to the Payee should not have any\ntaxes collected for the transfer of funds. Typically, these Payees are \nnon-profit corporations or other organizations that are under a non-taxable\nstatus.\n        "@en .
+<https://w3id.org/commerce#TaxExempt> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#account> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#account> <http://www.w3.org/2000/01/rdf-schema#label> "account"@en .
+<https://w3id.org/commerce#account> <http://www.w3.org/2000/01/rdf-schema#comment> "The account property specifies a resource that is used to keep track of\neconomic value that is under the control of a particular entity.\n        "@en .
+<https://w3id.org/commerce#account> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#account> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#account> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/commerce#Account> .
+<https://w3id.org/commerce#amount> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#amount> <http://www.w3.org/2000/01/rdf-schema#label> "amount"@en .
+<https://w3id.org/commerce#amount> <http://www.w3.org/2000/01/rdf-schema#comment> "The amount property is used to specify the total value of a financial\nresource or action such as an account, transfer, or transaction.\n        "@en .
+<https://w3id.org/commerce#amount> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#amount> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#amount> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#currency> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#currency> <http://www.w3.org/2000/01/rdf-schema#label> "currency"@en .
+<https://w3id.org/commerce#currency> <http://www.w3.org/2000/01/rdf-schema#comment> "The currency property is used to specify the monetary system that is used when\nspecifying the financial amount of a commercial exchange. The value SHOULD \nbe an ISO-4217 currency or a dereference-able IRI to a monetary system that \nis not specified in ISO-4217.\n        "@en .
+<https://w3id.org/commerce#currency> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#currency> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#currency> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Resource> .
+<https://w3id.org/commerce#date> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#date> <http://www.w3.org/2000/01/rdf-schema#label> "date"@en .
+<https://w3id.org/commerce#date> <http://www.w3.org/2000/01/rdf-schema#comment> "The date property specifies the date and time on which a commercial transaction \noccurred. The value MUST be expressed using an ISO-8601 date/time string.\n        "@en .
+<https://w3id.org/commerce#date> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#date> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Event> .
+<https://w3id.org/commerce#date> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2001/XMLSchema#dateTime> .
+<https://w3id.org/commerce#destination> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#destination> <http://www.w3.org/2000/01/rdf-schema#label> "destination"@en .
+<https://w3id.org/commerce#destination> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is used to specify a destination account for a commercial \ntransaction.\n        "@en .
+<https://w3id.org/commerce#destination> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#destination> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#destination> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/commerce#Account> .
+<https://w3id.org/commerce#destinationOwnerType> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#destinationOwnerType> <http://www.w3.org/2000/01/rdf-schema#label> "destinationOwnerType"@en .
+<https://w3id.org/commerce#destinationOwnerType> <http://www.w3.org/2000/01/rdf-schema#comment> "Specifies the type of the destination account, typically used in a PayeeRule \nwhere the type of destination account payment is to be restricted.\n        "@en .
+<https://w3id.org/commerce#destinationOwnerType> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#destinationOwnerType> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#destinationOwnerType> <http://www.w3.org/2000/01/rdf-schema#range> <http://schema.org/Thing> .
+<https://w3id.org/commerce#gatewayApprovalCode> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#gatewayApprovalCode> <http://www.w3.org/2000/01/rdf-schema#label> "gatewayApprovalCode"@en .
+<https://w3id.org/commerce#gatewayApprovalCode> <http://www.w3.org/2000/01/rdf-schema#comment> "The gateway approval code is typically used to express the result of a credit\ncard processing gateway. These codes are typically a string that is specific to\nthe processing gateway software.\n        "@en .
+<https://w3id.org/commerce#gatewayApprovalCode> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#gatewayApprovalCode> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#gatewayApprovalCode> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#gatewayError> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#gatewayError> <http://www.w3.org/2000/01/rdf-schema#label> "gatewayError"@en .
+<https://w3id.org/commerce#gatewayError> <http://www.w3.org/2000/01/rdf-schema#comment> "The gateway error is typically used to encode an error that occurred when\nprocessing a credit card or debit card. An error code is typically a string\nthat is specific to the processing gateway software.\n        "@en .
+<https://w3id.org/commerce#gatewayError> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#gatewayError> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#gatewayError> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#maximumRate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#maximumRate> <http://www.w3.org/2000/01/rdf-schema#label> "maximumRate"@en .
+<https://w3id.org/commerce#maximumRate> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is typically used in a PayeeRule to limit the maximum rate that\na Payee can receive as a part of a transaction. These types of rules ensure that\nno single Payee can capture more of the final sale price than the asset owner \nis willing to give up. Maximum rate limitations allow statements like the\nfollowing: \"I want to limit the amount of money that a payment gateway\ncan collect to less than 4%\".\n        "@en .
+<https://w3id.org/commerce#maximumRate> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#maximumRate> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#maximumRate> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#forTransaction> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#forTransaction> <http://www.w3.org/2000/01/rdf-schema#label> "forTransaction"@en .
+<https://w3id.org/commerce#forTransaction> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is most often used to specify that a Transfer is for the\nspecified Transaction. The relationship from Transaction to Transfer is \nencoded using the transfer property. The relationship \nfrom Transfer to Transaction is encoded using this property.\n        "@en .
+<https://w3id.org/commerce#forTransaction> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#forTransaction> <http://www.w3.org/2000/01/rdf-schema#domain> <https://w3id.org/commerce#Transfer> .
+<https://w3id.org/commerce#forTransaction> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/commerce#Transaction> .
+<https://w3id.org/commerce#limitation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#limitation> <http://www.w3.org/2000/01/rdf-schema#label> "limitation"@en .
+<https://w3id.org/commerce#limitation> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is often used with a PayeeRule and expresses a restriction on \na Payee. For example, a PayeeRule may provide restrictions on the type of a \nPayee or the amounts that Payee may receive as a participant in a commercial \ntransaction.\n        "@en .
+<https://w3id.org/commerce#limitation> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#limitation> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#limitation> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Resource> .
+<https://w3id.org/commerce#minimumAmount> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#minimumAmount> <http://www.w3.org/2000/01/rdf-schema#label> "minimumAmount"@en .
+<https://w3id.org/commerce#minimumAmount> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is typically used in a Payee to express a minimum amount that\na Payee MUST receive as a part of a transaction. These types of rules ensure \nthat a floor is set for a particular percentage-based Payee. Minimum amount \nclaims enable statement like the following to be made: \"I want 2% of the sale\nor $0.02 USD, whichever is greater\".\n        "@en .
+<https://w3id.org/commerce#minimumAmount> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#minimumAmount> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#minimumAmount> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#payeePosition> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#payeePosition> <http://www.w3.org/2000/01/rdf-schema#label> "payeePosition"@en .
+<https://w3id.org/commerce#payeePosition> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is used to coerce a set of Payees into an ordered list. The\norder in which Payees are evaluated is vital to the final amount and \nTransfer list that is generated by processing the list of Payees.\n        "@en .
+<https://w3id.org/commerce#payeePosition> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#payeePosition> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#payeePosition> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#paymentGateway> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#paymentGateway> <http://www.w3.org/2000/01/rdf-schema#label> "paymentGateway"@en .
+<https://w3id.org/commerce#paymentGateway> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is used to specify the payment gateway. The gateway is typically\na string and is used by the transaction processing software to process payments\nvia credit card or debit card. \n        "@en .
+<https://w3id.org/commerce#paymentGateway> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#paymentGateway> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#paymentGateway> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#payee> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#payee> <http://www.w3.org/2000/01/rdf-schema#label> "payee"@en .
+<https://w3id.org/commerce#payee> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is used to specify an entity that should be paid, or\nhas been paid, as a result of a commercial exchange. \n        "@en .
+<https://w3id.org/commerce#payee> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#payee> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#payee> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/commerce#Payee> .
+<https://w3id.org/commerce#rate> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#rate> <http://www.w3.org/2000/01/rdf-schema#label> "rate"@en .
+<https://w3id.org/commerce#rate> <http://www.w3.org/2000/01/rdf-schema#comment> "This property can be used to specify the fixed amount or a percentage-based\nrate of a Payee. The rate specifies the amount that the Payee should be or\nhas been paid as a result of a commercial exchange.\n        "@en .
+<https://w3id.org/commerce#rate> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#rate> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#rate> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Literal> .
+<https://w3id.org/commerce#rateContext> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#rateContext> <http://www.w3.org/2000/01/rdf-schema#label> "rateContext"@en .
+<https://w3id.org/commerce#rateContext> <http://www.w3.org/2000/01/rdf-schema#comment> "The rate context is used to specify at which point in a payment calculation \na rate should apply. It allows Payees to be deferred until the end of \npayment calculation, or for Payees to be marked as Tax or TaxDeferred.\n        "@en .
+<https://w3id.org/commerce#rateContext> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#rateContext> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#rateContext> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Resource> .
+<https://w3id.org/commerce#rateType> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#rateType> <http://www.w3.org/2000/01/rdf-schema#label> "rateType"@en .
+<https://w3id.org/commerce#rateType> <http://www.w3.org/2000/01/rdf-schema#comment> "The rate type property is used to specify whether the rate property of a\nPayee is a fixed amount, an inclusive percentage or an exclusive percentage.\nThe rateType coupled with the currency, and rate specifies the exact \nmonetary amount or calculation that must be employed during the final cost\ncalculation among a list of Payees.\n        "@en .
+<https://w3id.org/commerce#rateType> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#rateType> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#rateType> <http://www.w3.org/2000/01/rdf-schema#range> <http://www.w3.org/2000/01/rdf-schema#Resource> .
+<https://w3id.org/commerce#source> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#source> <http://www.w3.org/2000/01/rdf-schema#label> "source"@en .
+<https://w3id.org/commerce#source> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is used to specify a source account for a commercial \ntransaction.\n        "@en .
+<https://w3id.org/commerce#source> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#source> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#source> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/commerce#Account> .
+<https://w3id.org/commerce#transfer> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<https://w3id.org/commerce#transfer> <http://www.w3.org/2000/01/rdf-schema#label> "transfer"@en .
+<https://w3id.org/commerce#transfer> <http://www.w3.org/2000/01/rdf-schema#comment> "This property is used to associate the commercial transfer of monetary funds \nduring a Transaction. A list of transfers associated with a Transaction is the\ncomplete record of the monetary funds, the source accounts and the destination\naccounts for a particular Transaction.\n        "@en .
+<https://w3id.org/commerce#transfer> <vs:term_status> "unstable"@en .
+<https://w3id.org/commerce#transfer> <http://www.w3.org/2000/01/rdf-schema#domain> <http://schema.org/Thing> .
+<https://w3id.org/commerce#transfer> <http://www.w3.org/2000/01/rdf-schema#range> <https://w3id.org/commerce#Transfer> .

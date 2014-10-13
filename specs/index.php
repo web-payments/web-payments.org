@@ -56,6 +56,13 @@ following use cases focus on concrete scenarios that the technology created
 by the group should enable.
 <?php dirContents("ED/use-cases"); ?>
       </p>
+      <p>
+<a href="source/roadmap">Roadmap</a>:
+The Web Payments CG Roadmap outlines the proposed technology stack and 
+development timeline for the set of technologies being worked on by the 
+Web Payments Community Group.
+<?php dirContents("ED/roadmap"); ?>
+      </p>
     </div><!-- col-lg-6 -->
   </div><!-- row -->
 </div><!-- container -->

@@ -68,9 +68,46 @@
           // Team Contact.
           wgPatentURI:  "",
           maxTocLevel: 4,
-          preProcess: [ webpayments.preProcess ] /*,
+          preProcess: [ webpayments.preProcess ], /*,
           alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
           */
+          localBiblio:  {
+            'IDENTITY-CREDENTIALS': {
+              title: 'Identity Credentials',
+              href: 'opencreds.org/specs/source/identity-credentials/',
+              authors: ['Manu Sporny', 'Dave Longley'],
+              status:   'CG-DRAFT',
+              publisher:  'W3C Credentials Community Group'
+            },
+            'RDF-NORMALIZATION': {
+              title: 'RDF Dataset Normalization',
+              href: 'http://json-ld.org/spec/latest/rdf-graph-normalization/',
+              authors: ['Dave Longley', 'Manu Sporny'],
+              status:   'CG-DRAFT',
+              publisher:  'W3C JSON for Linking Data Community Group'
+            },
+            'SECURE-MESSAGING': {
+              title: 'Secure Messaging',
+              href: 'https://web-payments.org/specs/source/secure-messaging/',
+              authors: ['Dave Longley', 'Manu Sporny', 'David I. Lehn'],
+              status:   'CG-DRAFT',
+              publisher:  'W3C Web Payments Community Group'
+            },
+            'WEB-COMMERCE': {
+              title: 'Web Commerce',
+              href: 'https://web-payments.org/specs/source/web-commerce/',
+              authors: ['Dave Longley', 'Manu Sporny', 'David I. Lehn'],
+              status:   'CG-DRAFT',
+              publisher:  'W3C Web Payments Community Group'
+            },
+            'WEB-COMMERCE-API': {
+              title: 'Web Commerce API',
+              href: 'https://web-payments.org/specs/source/web-commerce-api/',
+              authors: ['Manu Sporny', 'Dave Longley', 'David I. Lehn'],
+              status:   'CG-DRAFT',
+              publisher:  'W3C Web Payments Community Group'
+            }
+          }
       };
     </script> 
     <script type="text/javascript" class="remove">
@@ -124,15 +161,109 @@ roadmap, not the final roadmap for version 1.0.
 The Web Payments technology stack is designed on generally accepted design
 principles outlined for the Architecture of the World Wide Web[[WEBARCH]]. It
 also heavily re-uses W3C and IETF technology, such as JSON-LD [[JSON-LD-SYNTAX]]
-and HTTP [[RFC7230]]. A brief overview of the technology stack is shown below
-for reference:
+and HTTP [[RFC7230]]. A high-level diagram of the technology stack is shown 
+below for reference:
 
 <img id="diagram-stack" 
   style="display: block; margin-left: auto; margin-right: auto; 
   max-height:100%; max-width:75%;" src="technologyStack.svg">
 
       </p>
-      
+      <p>
+A description of the technologies shown in the diagram above is provided for 
+those that may be unfamiliar with the technologies:
+      </p>
+      <dl>
+        <dt>Javascript Object Notation [[RFC4627]]</dt>
+        <dd>
+JavaScript Object Notation (JSON) is a text format for the serialization of 
+structured data. JSON can represent four primitive types (strings, numbers, 
+booleans, and null) and two structured types (objects and arrays). It is a
+very popular format among Web developers.
+        </dd>
+
+        <dt>HyperText Transport Protocol [[RFC7230]]</dt>
+        <dd>
+The Hypertext Transfer Protocol (HTTP) is a generic interface protocol for 
+information systems.  It is
+designed to hide the details of how a service is implemented by
+presenting a uniform interface to clients that is independent of the
+types of resources provided.  Likewise, servers do not need to be
+aware of each client's purpose: an HTTP request can be considered in
+isolation rather than being associated with a specific type of client
+or a predetermined sequence of application steps.  The result is a
+protocol that can be used effectively in many different contexts and
+for which implementations can evolve independently over time.
+        </dd>
+
+        <dt>JSON for Linking Data [[JSON-LD-SYNTAX]]</dt>
+        <dd>
+JSON-LD is a lightweight syntax to serialize Linked Data in JSON [[RFC4627]]. 
+Its design allows existing JSON to be interpreted as Linked Data with minimal 
+changes. JSON-LD is primarily intended to be a way to use Linked Data in 
+Web-based programming environments, to build interoperable Web services, 
+and to store Linked Data in JSON-based storage engines. 
+        </dd>
+
+        <dt>Signing HTTP Messages [[HTTP-SIGNATURES]]</dt>
+        <dd>
+When communicating over the Internet using the HTTP protocol, it can be 
+desirable for a server or client to authenticate the sender of a particular 
+message.  It can also be desirable to ensure that the message was not tampered 
+with during transit.  The "Signing HTTP Messages" specification describes a 
+way for servers and clients to simultaneously add authentication and message 
+integrity to HTTP messages by using a digital signature.
+        </dd>
+
+        <dt>RDF Dataset Normalization [[RDF-NORMALIZATION]]</dt>
+        <dd>
+RDF (which JSON-LD uses) utilizes a graph-based data model for making claims 
+about the world and provides the foundation for reasoning upon that graph 
+of information. At times, it becomes necessary to compare the differences 
+between graphs, digitally sign graphs, or generate short identifiers for 
+graphs via hashing algorithms. RDF Dataset Normalization outlines an 
+algorithm for normalizing RDF graphs such that these operations can be 
+performed on the normalized graphs.
+        </dd>
+
+        <dt>Secure Messaging [[SECURE-MESSAGING]]</dt>
+        <dd>
+The Secure Messaging specification describes a simple, decentralized security 
+infrastructure for the Web based on public key cryptography. This system 
+enables Web applications to establish identities for agents on the Web, 
+associate security credentials with those identities, and then use those 
+security credentials to send and receive messages that are both encrypted 
+and verifiable via digital signatures.
+        </dd>
+
+        <dt>Web Commerce [[WEB-COMMERCE]]</dt>
+        <dd>
+In order to support standardized commerce over the Web, it is vital that 
+product offers and the result of purchases can be expressed in a simple 
+manner. This specification enables the decentralized offer of products and 
+services for sale and the transaction process resulting in a digitally 
+verifiable receipt between the buyer and the vendor.          
+        </dd>
+
+        <dt>Identity Credentials [[IDENTITY-CREDENTIALS]]</dt>
+        <dd>
+An identity is a description of a particular entity such as a person, software 
+agent, or organization. A credential is a qualification, achievement, quality, 
+or information about an identity's background such as a name, government ID, 
+home address, or university degree. The Identity Credentials specification 
+describes mechanisms for reading credentials from and writing credentials to an 
+identity while ensuring that the information is only accessible to 
+authorized applications.          
+        </dd>
+
+        <dt>Web Commerce API [[WEB-COMMERCE-API]]</dt>
+        <dd>
+This specification outlines a browser polyfill that makes financial 
+transactions easier to initiate and verify while also making them more secure. 
+The solution is designed to work with both proprietary (PayPal, Google Wallet) 
+and non-proprietary (PaySwarm, Bitcoin, Ripple) payment solutions.
+        </dd>
+      </dl>
       
     </section>
 
@@ -152,14 +283,14 @@ to high-level:
     </section>
 
     <section>
-      <h2>Organization Ecosystem</h2>
+      <h2>Active Collaborators</h2>
       <p>
 The following organizations are expected to be directly involved in the
 creation of the technologies outlined in this roadmap:
 
 <img id="diagram-timeline" 
   style="display: block; margin-left: auto; margin-right: auto; 
-  max-height:100%; max-width:75%;" src="organizations.svg">
+  max-height:100%; max-width:75%;" src="collaborators.svg">
       
       </p>
     </section>

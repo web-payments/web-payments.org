@@ -56,11 +56,27 @@
    -->
 
     <div class="slide future">
-      <header><h1>Brief</h1><h2>History</h2></header>
-      <subheader><h3>2010-2014 Web Payments History</h3></subheader>
+      <header><h1>WP</h1><h2>CG</h2></header>
+      <subheader><h3>What is the Web Payments CG?</h3></subheader>
         <section class="center"><br>
           <ul>
+            <li>Pre-standards payment technology community<br><br></li>
+            <li>184 members, international and cross-domain<br><br></li>
+            <li>Incubator for tech w/ standards-potential (unofficial)<br><br></li>
+            <li>Inclusive and transparent<br><br></li>
+            <li>Discussion, Use Cases, Requirements, Specs<br><br></li>
+          </ul>
+        </section>
+    </div>
+
+
+    <div class="slide future">
+      <header><h1>Brief</h1><h2>History</h2></header>
+      <subheader><h3>2010-2014 Web Payments History</h3></subheader>
+        <section class="center"><br><br>
+          <ul>
             <li>2010 - Technology initiative started<br></li>
+            <li>2011 - <a href="https://web-payments.org/">Web Payments CG Founded</a><br></li>
             <li>2013 - <a href="http://www.intgovforum.org/cms/2013/scripts/wks2013/report_view.php?xpsltipq_je=86">UN IGF - Routing Money</a><br></li>
             <li>2013 - <a href="https://web-payments.org/minutes/2013-11-13-workshop/">W3C TPAC - Building org. support</a><br></li>
             <li>2014 - <a href="http://www.w3.org/2013/10/payments/minutes/">W3C Web Payments Workshop</a><br></li>
@@ -70,14 +86,13 @@
         </section>
     </div>
 
-
     <div class="slide future">
       <header><h1>What's</h1><h2>Broken</h2></header>
       <subheader><h3>The Web Platform's current failures</h3></subheader>
-        <section class="center"><br>
+        <section class="center"><br><br>
           <ul>
-            <li>Credentials - no standardized 3rd party credentials<br><br></li>
-            <li>Payment Initiation - no standard way to initiate payment (aka wallet)<br><br></li>
+            <li>Credentials - no standardized, verifiable 3rd party credentials<br><br></li>
+            <li>Payment Initiation - no standard way to initiate payments<br><br></li>
             <li>Digital Receipts - no standard proof-of-purchase mechanism<br><br></li>
           </ul>
         </section>
@@ -96,63 +111,55 @@
     </div>
 
     <div class="slide future">
-      <header><h1>Identity</h1><h2>Goal</h2></header>
-      <subheader><h3>Workshop Findings on Identity</h3></subheader>
+      <header><h1>Use</h1><h2>Cases</h2></header>
+      <subheader><h3>Focus and priorities?</h3></subheader>
         <section class="center"><br>
           <ul>
-            <li>A secure way of storing and transmitting 3rd party credentials<br><br></li>
-            <li>Proposal: <a href="http://manu.sporny.org/2014/credential-based-login/">Identity Credentials</a><br><br></li>
-            <li>Bonus: Works like Persona, so can be used for Web login problem as well<br><br></li>
-            <li>Interested? <a href="http://www.w3.org/community/credentials/">Credentials Community Group</a><br><br></li>
+            <li><a href="https://web-payments.org/specs/source/use-cases">Web Payments CG Use Cases</a><br><br></li>
+            <li>Design Criteria: Support existing payment instruments, emerging instruments, digital/physical receipts, smart contracts, etc.<br><br></li>
+            <li>Use Cases: push-payments, subscriptions, digital receipts, pseudo-anonymity, wallet portability, account portability, etc.<br><br></li>
           </ul>
         </section>
     </div>
 
     <div class="slide future">
-      <header><h1>Trust</h1><h2>Goal</h2></header>
-      <subheader><h3>What is needed for a trustworthy Web?</h3></subheader>
-        <section class="center"><br>
+      <header><h1>Tech</h1><h2>Stack</h2></header>
+      <subheader><h3>What do you need for a digital wallet?</h3></subheader>
+        <div class="imagecontainer">
+            <img style="margin-top: 7em;" src="images/technologyStack.svg"></img>
+        </div>
+    </div>
+
+    <div class="slide future">
+      <header><h1>Collaborators</h1></header>
+      <subheader><h3>Where is active collaboration happening?</h3></subheader>
+        <div class="imagecontainer">
+            <img style="margin-top: 12em;" src="images/collaborators.svg"></img>
+        </div>
+    </div>
+
+    <div class="slide future">
+      <header><h1>WPCG -&gt;</h1><h2>&lt;- WPIG</h2></header>
+      <subheader><h3>WPCG will support WPIG</h3></subheader>
+        <section class="center"><br><br>
           <ul>
-            <li>A way to transmit digitally signed Linked Data messages.<br><br></li>
-            <li>Proposals: <a href="http://json-ld.org/spec/latest/rdf-graph-normalization/">RDF Graph Normalization</a>, <a href="http://tools.ietf.org/html/draft-cavage-http-signatures">HTTP Signatures</a><br><br></li>
-            <li>Interested? <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a><br><br></li>
+            <li>Web Payments CG will provide input technology to WPIG for consideration<br><br></li>
+            <li>Web Payments CG will continue to experiment with pre-standardization payment technology<br><br></li>
+            <li>Web Payments CG will continue to perform outreach and collect review input for WPIG consideration<br><br></li>
           </ul>
         </section>
     </div>
 
-    <div class="slide future">
-      <header><h1>Initiating</h1><h2>Problem</h2></header>
-      <subheader><h3>Offers and Initiating Payment</h3></subheader>
-        <section class="center"><br>
-          <ul>
-            <li>How do most people initiate a payment online?<br><br></li>
-            <li>This system was built in 1970s, hasn't changed much since.<br><br></li>
-            <li>Need payment initiation standard that can take digitally signed Linked Data offers of sale as input.<br><br></li>
-            <li>Proposal: <a href="https://web-payments.org/specs/source/web-commerce-api/">Web Commerce API</a><br><br></li>
-          </ul>
-        </section>
-    </div>
 
     <div class="slide future">
-      <header><h1>Receipts</h1><h2>Problem</h2></header>
-      <subheader><h3>Proof of Purchase</h3></subheader>
-        <section class="center"><br>
+      <header><h1>Questions?</h1></header>
+      <subheader><h3>Choose your own adventure...</h3></subheader>
+        <section class="center"><br><br>
           <ul>
-            <li>How do we prove that we've purchased something?<br><br></li>
-            <li>Move from pull-based payments to push-based payments.<br><br></li>
-            <li>Need digital receipt standard - should be very extensible, based on JSON-LD?<br><br></li>
-            <li>Proposal: <a href="https://web-payments.org/specs/source/web-commerce">Web Commerce</a><br><br></li>
-          </ul>
-        </section>
-    </div>
-
-    <div class="slide future">
-      <header><h1>Next</h1><h2>Steps</h2></header>
-      <subheader><h3>Next 2 months are crucial</h3></subheader>
-        <section class="center"><br>
-          <ul>
-            <li>RIGHT NOW: <a href="https://lists.w3.org/Archives/Member/w3c-ac-members/2014JulSep/0043.html">Web Payments Activity Vote</a><br><br></li>
-            <li>Oct 27th: <a href="http://www.w3.org/2014/11/TPAC/">W3C TPAC 2014</a>, first Web Payments face-to-face<br><br></li>
+            <li>Briefly review <a href="https://web-payments.org/specs/source/use-cases">use cases</a><br><br></li>
+            <li>Glance at <a href="https://web-payments.org/specs/">pre-standards specifications</a><br><br></li>
+            <li>Look at <a href="https://dev.payswarm.com/">demo</a><br><br></li>
+            <li>Input from <a href="https://web-payments.org/minutes/2014-09-04-igf/">Internet Governance Forum</a><br><br></li>
           </ul>
         </section>
     </div>

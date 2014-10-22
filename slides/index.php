@@ -48,7 +48,7 @@ foreach($allSlides as $match)
    
    if($deckYear == "2010") $deckYear = "(Historical Document) 2010";
    
-   print("                 <li><a href=\"$deck\">$deckYear - $deckTitle</a> (<a href=\"$zipfile\">zip archive</a>)</li>");
+   print("                 <li><a href=\"$deck\">$deckYear - $deckTitle</a> (<a href=\"$zipfile\">zip archive</a>)</li>\n");
 }
 ?>
       </ul>

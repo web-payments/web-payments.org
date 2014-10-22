@@ -470,8 +470,8 @@ a.twitter-button:hover {
 
 div.slide .imagecontainer{
 	position: relative;
-    display: inline-block;
-    margin-bottom: 10px;
+  width: 100%;
+  margin-bottom: 10px;
 	line-height: 0;
 }
 

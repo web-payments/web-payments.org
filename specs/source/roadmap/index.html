@@ -153,6 +153,55 @@ implemented and are in production, others may be changed or modified heavily
 if driven through a standardization track at W3C. This document is a proposed
 roadmap, not the final roadmap for version 1.0.
       </p>
+      <p>
+A common question that's raised when someone is introduced to the Web Payments
+work is whether or not a particular payment technology, like blockchain-based 
+ledgers, are supported or whether their existence invalidates the specification 
+stack that is being proposed. In general, the realization that the Web Payments 
+Community Group has come to over the many years that it has been operating is 
+that there will never be only one way of doing payments. Therefore, the 
+specifications that are being proposed do not assume a single dominating payment
+instrument or technology. Instead, the specifications focus on the more general
+mechanisms that are required to express a transaction and not the specifics
+that move value from one account to another. For example, the technology
+proposed by this group primarily focuses on the following:
+      </p>
+      <ul>
+        <li>
+The expression of digitally verifiable claims via credentials. For example,
+proof-of-age, government-issued ID cards, corporate ID cards, 
+proof-of-skillset, and other things necessary to fulfill Know Your Customer 
+(KYC) and Anti-Money Laundering (AML) requirements.
+        </li>
+        <li>
+Machine-readable expression of product and service offers for sale via the Web.
+For example, BigRecordsInc is selling SuperstarBand's new song One Hit Wonder 
+for $5 USD.
+        </li>
+        <li>
+Payment initiation on the Web which would allow browsers and other Web clients
+to have one standardized way of initiating a payment that is payment instrument
+and payment processor agnostic.
+        </li>
+        <li>
+Digital receipts that would be able to be used as a proof-of-purchase and
+would support multiple types of payment instruments and networks.
+        </li>
+      </ul>
+      <p>
+The Web Payments Community Group realizes the importance of supporting the 
+current payment instruments that exist today (e.g. credit cards, ACH, 
+electronic checks, etc.) as well as the established value benchmarks 
+(e.g. WM Reuters Spot Rate) while also ensuring that the proposed technologies 
+take other more future-facing solutions into account (e.g. blockchains, 
+sidechains, smart contracts, DAOs, etc.) as well as new methods for 
+algorithmic pricing and benchmarking. Rather than hard-coding each of these
+technologies into the Web Payments specifications, we take a more 
+general approach. Each one of these current and future systems and technologies 
+is supported in a generic way in order to ensure that the specifications
+remain as agnostic as possible to the underlying operation of each
+payment instrument, value benchmark, and payment clearing technology.
+      </p>
     </section>
 
     <section>

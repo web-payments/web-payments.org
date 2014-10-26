@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html> 
   <head> 
-    <title>Web Payments Use Cases</title> 
+    <title>Web Payments Community Group Use Cases</title> 
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
     <!-- 
       === NOTA BENE ===
@@ -16,7 +16,7 @@
           specStatus:           "CG-DRAFT",
           
           // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "web-payments-use-cases",
+          shortName:            "web-payments-cg-use-cases",
  
           // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
@@ -489,20 +489,28 @@ in the set of Web Payments 1.0 specifications.
    
       <p>
 A buyer selects an item to purchase on merchant's site, merchant generates a 
-purchase request that will be processed by the buyer's payment processor.
+payment request that will be processed by the buyer's payment processor.
       </p>
 
       <section> 
         <h3>Examples</h3> 
         <ul>
           <li>
+Penny logs into a website, providing her payment processor credential in
+the process. Penny selects a model train set to buy in an online shop. The store generates a payment request and hands it off to the browser which
+then forwards the her preferred payment processor.
           </li>
         </ul>
       </section>
 
       <section> 
         <h3>Details</h3> 
-
+        <p>
+A payment request contains all of the details necessary to perform a
+purchase. The payment request should be a self-contained document that
+can be used interchangeably with any payment processor that supports
+the payment instrument specified in the payment request.
+        </p>
         <section> 
           <h4>Roles</h4> 
      
@@ -558,12 +566,21 @@ the payment process.
         <h3>Examples</h3> 
         <ul>
           <li>
+Gus is a web developer and creates a donation link on his website. He
+inserts a <pre>&lt;a href="payto:bitcoin:3782436823487?message=Donation"&gt;Donate&lt;/a&gt;</pre> link in the web page
+markup such that when someone clicks the "Donate" link, a payment 
+will be initiated using the <tref title="payer">payer's</tref>
+payment processor.
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+A new payment protocol would enable a new type of hyperlink on the
+Web that would be specialized for payments.
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -610,12 +627,15 @@ payment processors that are advertised by the merchant/payee.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -661,12 +681,15 @@ based on potential payment processor choice.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -712,12 +735,15 @@ transaction to receive a discount or other benefits.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -762,12 +788,15 @@ Leveraging variable degrees of pseudo-anonymity per requirements of the payment 
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -817,12 +846,15 @@ price or speed) before executing the most desirable transaction.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -872,12 +904,15 @@ Parity; Commodity Index; etc.)
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -923,12 +958,15 @@ or a web browser to make a purchase at an app store.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -973,12 +1011,15 @@ A buyer makes a purchase from within an application for premium content, virtual
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1025,12 +1066,15 @@ and merchant from theft of credentials.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1079,12 +1123,15 @@ repeat purchases.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1133,12 +1180,15 @@ to the merchant's website with a digital receipt confirming the purchase.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1186,12 +1236,15 @@ merchant.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1241,12 +1294,15 @@ in the background with no interactive purchase process required.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1294,12 +1350,15 @@ and all wallet, receipt, and credential data comes with them.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1346,12 +1405,15 @@ regulatory compliance.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 
@@ -1400,12 +1462,15 @@ payee) may then use the receipt as a proof-of-purchase for the good or service.
         <h3>Examples</h3> 
         <ul>
           <li>
+
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h3>Details</h3>
+        <p>
+        </p>
 
         <section> 
           <h4>Roles</h4> 

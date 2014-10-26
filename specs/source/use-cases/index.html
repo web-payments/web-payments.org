@@ -250,15 +250,24 @@ while designing the overall web payments system.
       <h2>Web Intents / Protocol Handlers</h2> 
    
       <p>
-Consider using Web Intents or Protocol Handlers to provide an abstraction 
-layer that could be used to solve both payment initiation and other problems 
-on the Web.
+Consider using a Web Intents or Protocol Handler-like mechanism
+to provide an abstraction layer that could be used to solve both payment 
+initiation and other problems on the Web.
       </p>
 
       <section> 
         <h3>Examples</h3> 
         <ul>
           <li>
+Trisha signs up with a new payment processor service, and during the
+registration, the service asks if it may be used to process the 
+"buy:" intent/protocol.
+          </li>
+          <li>
+Ravi finishes placing all the items to buy into his shopping cart, when
+he clicks the "Pay" button, the "buy:" intent/protocol handler is initiated, 
+resulting in a UI flow that requests that he picks which of his payment
+processors he'd like to use for the purchase.
           </li>
         </ul>
       </section>
@@ -266,7 +275,14 @@ on the Web.
       <section> 
         <h3>Details</h3> 
         <p>
-
+Web Intents or Protocol Handlers could be used as a simple way of solving
+the payment selection NASCAR problem. Instead of showing a large array of
+payment providers that are supported by the merchant, a dialog can be shown
+instead that only shows the payment mechanisms that are supported by both
+the <tref>payer</tref> and the <tref>payee</tref>. A payment provider may
+register as one potential handler for a particular intent/protocol scheme,
+and when the scheme is invoked, the <tref>payer</tref> is asked which
+handler they'd like to use to handle the request.
         </p>
       </section>
     </section>
@@ -283,6 +299,10 @@ for core transaction functionality.
         <h3>Examples</h3> 
         <ul>
           <li>
+Ginger would like to move her banking provider from MehBank to GoodBank. 
+She goes to GoodBank and initiates a "Transfer My Account" process. GoodBank
+connects to MehBank, with the authorization of Ginger, and pulls her entire
+account history, digital receipt data, and balance to MehBank.
           </li>
         </ul>
       </section>
@@ -290,7 +310,13 @@ for core transaction functionality.
       <section> 
         <h3>Details</h3> 
         <p>
-
+It is often difficult to easily switch financial providers. This will become
+more difficult if the use of digital receipts becomes pervasive. If one needs
+a digital receipt to prove that a purchase has been made, then the curator
+of those digital receipts, like a bank, could use them as a customer 
+lock-in mechanism. Therefore, it is important that any information that is
+expected to be used in transactions has a provable data portability
+story.
         </p>
       </section>
     </section>
@@ -308,6 +334,19 @@ debit card, Premium SMS, etc.)
         <h3>Examples</h3> 
         <ul>
           <li>
+Harold buys a movie ticket to his local movie theatre via the Web. He is
+given a choice of paying with a credit card, PayPal, or Bitcoin. The
+digital receipt delivered to the merchant will be in one machine-readable
+format to ensure that the merchant can process each type of digital receipt
+in a generic fashion.
+          </li>
+          <li>
+Reece gets a weekly share of vegetables through a community-supported
+agriculture initiative. He may choose to pay using fiat money, or 
+via work credits based on the number of hours he's worked on the farm.
+He pays in work credits, which is a hyper-local currency issued by
+the community-supported agriculture program. The digital receipt format
+only differs in the type of currency that was used to complete the sale.
           </li>
         </ul>
       </section>
@@ -315,7 +354,9 @@ debit card, Premium SMS, etc.)
       <section> 
         <h3>Details</h3> 
         <p>
-
+In order for the Web Payments initiative to be successful, it must not
+discriminate based upon payment instrument or currency. As many types of
+payment instrument as possible should be supported.
         </p>
       </section>
     </section>
@@ -334,6 +375,19 @@ Secure Element for large amounts.
         <h3>Examples</h3> 
         <ul>
           <li>
+Sven buys a single play for an online video game. His payment processor
+allows the purchase with no authorization due to the low value of the
+transaction.
+          </li>
+          <li>
+Joyce initiates a monthly mortgage payment. She is asked to verify the
+purchase using a 2-factor authentication method that she had previously
+registered with her payment processor.
+          </li>
+          <li>
+Nimo buys a new car online. He is asked to authorize the purchase by
+digitally signing a purchase contract and then using his two-factor
+authentication device to verify the transfer of funds.
           </li>
         </ul>
       </section>
@@ -341,7 +395,12 @@ Secure Element for large amounts.
       <section> 
         <h3>Details</h3> 
         <p>
-
+There is an important balance between convenience and security that
+is typically context-sensitive. It not only depends on the 
+situation and the type of transaction, but the payment processor and
+the payee's preferences as well. It is important that the type of
+authentication used for transaction is left to the entity's involved
+in the transaction, and is not hard-coded into the payment protocol.
         </p>
       </section>
     </section>
@@ -358,6 +417,16 @@ of simple digital contracts and smart contracts.
         <h3>Examples</h3> 
         <ul>
           <li>
+Quoma owns a small-scale bakery that sells bread to local stores. She
+creates a smart contract for pricing goods with her local stores ensuring
+that she can make a 20% profit over the input of goods into her bread.
+She ties the cost of wheat, energy, and water to the smart contract so that
+the price per loaf of bread tracks the market price for the inputs.
+          </li>
+          <li>
+Harim buys a piece of land on a 15 year mortgage. The smart contract that
+he executes with the mortgage lender will execute a withdrawal from his
+account to the lender's account on a monthly basis.
           </li>
         </ul>
       </section>
@@ -365,7 +434,12 @@ of simple digital contracts and smart contracts.
       <section> 
         <h3>Details</h3> 
         <p>
-
+Smart contracts, which are typically referenced when discussing 
+Distributed Autonomous Organizations, provide the capability of 
+algorithmically defining the distribution of economic value. While it is
+too early to define a smart contract platform for the Web Payments work,
+the creation of such a platform or set of protocols and formats in the
+future should not be prevented.
         </p>
       </section>
     </section>
@@ -383,6 +457,10 @@ information.
         <h3>Examples</h3> 
         <ul>
           <li>
+Bertrand purchases a bus ticket at a booth using his mobile phone. The digital
+receipt for the ticket is printed out on a piece of paper, which he then
+takes and presents to a gate with a barcode scanner that scans the ticket
+and gives him access to the public transportation building.
           </li>
         </ul>
       </section>
@@ -390,7 +468,9 @@ information.
       <section> 
         <h3>Details</h3> 
         <p>
-
+In designing the protocols and formats for the Web Payments work, it is
+important that offline-only is taken into account. One manifestation of this
+design requirement is the paper receipt or magnetic-stripe ticket.
         </p>
       </section>
     </section>

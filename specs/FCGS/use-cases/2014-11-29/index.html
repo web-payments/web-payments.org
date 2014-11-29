@@ -1,84 +1,161 @@
-<!DOCTYPE html> 
-<html> 
-  <head> 
+<!DOCTYPE html>
+<html lang="en" dir="ltr" typeof="bibo:Document " about="" property="dcterms:language" content="en">
+<head> 
     <title>Web Payments Community Group Use Cases</title> 
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"> 
     <!-- 
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      --> 
-    <script src='../../respec-w3c-common.js' class='remove'></script> 
-    <script src='../../web-payments-common.js' class='remove'></script> 
-    <script class='remove'> 
-      var respecConfig = {
-          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
-          specStatus:           "CG-FINAL",
-          
-          // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "web-payments-cg-use-cases",
- 
-          // if you wish the publication date to be other than today, set this
-          // publishDate:  "2009-08-06",
- 
-          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
-          // and its maturity status
-          // previousPublishDate:  "1977-03-15",
-          previousMaturity:  "CG-DRAFT",
- 
-          // if there a publicly available Editor's Draft, this is the link
-          //edDraftURI:           "https://web-payments.org/specs/source/use-cases",
- 
-          // if this is a LCWD, uncomment and set the end of its review period
-          // lcEnd: "2009-08-05",
- 
-          // if you want to have extra CSS, append them to this list
-          // it is recommended that the respec.css stylesheet be kept
-          //extraCSS:             [],
- 
-          // editors, add as many as you like
-          // only "name" is required
-          editors:  [
-              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
-                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
-          ],
- 
-          // authors, add as many as you like. 
-          // This is optional, uncomment if you have authors as well as editors.
-          // only "name" is required. Same format as editors.
- 
-          //authors:  [
-          //    { name: "Your Name", url: "http://example.org/",
-          //      company: "Your Company", companyURL: "http://example.com/" },
-          //],
+     
+     
+     
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
 
-          // maximum level of table of contents
-          maxTocLevel: 2,
-      
-          // name of the WG
-          wg:           "Web Payments Community Group",
-          
-          // URI of the public WG page
-          wgURI:        "http://www.w3.org/community/webpayments/",
-          
-          // name (with the @w3c.org) of the public mailing to which comments are due
-          wgPublicList: "public-webpayments@w3.org",
-          
-          // URI of the patent status for this WG, for Rec-track documents
-          // !!!! IMPORTANT !!!!
-          // This is important for Rec-track documents, do not copy a patent URI from a random
-          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
-          // Team Contact.
-          wgPatentURI:  "",
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
 
-          preProcess: [ webpayments.preProcess ]/*,
-          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
-          */
-      };
-    </script> 
-  </head> 
-<body> 
-  <section id='abstract'> 
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+</style><link rel="stylesheet" href="https://www.w3.org/community/src/css/spec/cg-final.css"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head> 
+<body class="h-entry" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    <a href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">Web Payments Community Group Use Cases</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-11-30T01:36:10.000Z" id="final-community-group-specification-29-november-2014">Final Community Group Specification <time class="dt-published" datetime="2014-11-29">29 November 2014</time></h2>
+  <dl>
+    
+    
+    
+    
+    
+    
+    
+    <dt>Editor:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Manu Sporny" href="http://digitalbazaar.com/">Manu Sporny</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://digitalbazaar.com/">Digital Bazaar, Inc.</a></span>
+</dd>
+
+    
+  </dl>
+  
+  <p class="copyright">
+    <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 
+    2014
+    the Contributors to the Web Payments Community Group Use Cases Specification, published by the
+    <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a> under the
+    
+      <a href="https://www.w3.org/community/about/agreements/fsa/">W3C Community Final Specification Agreement (FSA)</a>. 
+      A human-readable <a href="http://www.w3.org/community/about/agreements/fsa-deed/">summary</a> is available.
+    
+  </p>
+  <hr>
+</div> 
+  <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2> 
     <p> 
 The purpose of the Web Payments Community Group at the 
 World Wide Web Consortium (W3C) is to create systems that enable people 
@@ -92,9 +169,19 @@ pursue endeavors that improve upon the human condition. The following use
 cases outline the basic functionality that the group is attempting to
 achieve.
     </p> 
-  </section> 
-
-  <section id='sotd'> 
+  </section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  <p>
+    This specification was published by the <a href="http://www.w3.org/community/webpayments/">Web Payments Community Group</a>.
+    It is not a W3C Standard nor is it on the W3C Standards Track.
+    
+      Please note that under the 
+      <a href="https://www.w3.org/community/about/agreements/final/">W3C Community Final Specification Agreement (FSA)</a> 
+      other conditions apply.
+    
+    Learn more about 
+    <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>.
+  </p>
+   
     <p> 
 This document was created in the Web Payments Community Group and, in November
 2014, was handed off to the 
@@ -102,10 +189,13 @@ This document was created in the Web Payments Community Group and, in November
 for further refinement, development, and integration into the official set of 
 Web Payments IG use cases.
     </p> 
-  </section> 
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#glossary" class="tocxref"><span class="secno">2. </span>Glossary</a></li><li class="tocline"><a href="#roles" class="tocxref"><span class="secno">3. </span>Roles</a></li><li class="tocline"><a href="#credentials" class="tocxref"><span class="secno">4. </span>Credentials</a></li><li class="tocline"><a href="#design-criteria" class="tocxref"><span class="secno">5. </span>Design Criteria</a><ul class="toc"><li class="tocline"><a href="#web-intents-protocol-handlers" class="tocxref"><span class="secno">5.1 </span>Web Intents / Protocol Handlers</a></li><li class="tocline"><a href="#data-portability" class="tocxref"><span class="secno">5.2 </span>Data Portability</a></li><li class="tocline"><a href="#legacy-support" class="tocxref"><span class="secno">5.3 </span>Legacy Support</a></li><li class="tocline"><a href="#authorization-configurability" class="tocxref"><span class="secno">5.4 </span>Authorization Configurability</a></li><li class="tocline"><a href="#smart-contracts" class="tocxref"><span class="secno">5.5 </span>Smart Contracts</a></li><li class="tocline"><a href="#physical-receipts" class="tocxref"><span class="secno">5.6 </span>Physical Receipts</a></li></ul></li><li class="tocline"><a href="#use-cases" class="tocxref"><span class="secno">6. </span>Use Cases</a><ul class="toc"><li class="tocline"><a href="#purchase-request" class="tocxref"><span class="secno">6.1 </span>Purchase Request</a></li><li class="tocline"><a href="#payment-links" class="tocxref"><span class="secno">6.2 </span>Payment Links</a></li><li class="tocline"><a href="#choice-of-payment-processor" class="tocxref"><span class="secno">6.3 </span>Choice of Payment Processor</a></li><li class="tocline"><a href="#parametric-offers" class="tocxref"><span class="secno">6.4 </span>Parametric Offers</a></li><li class="tocline"><a href="#coupons-and-loyalty-cards" class="tocxref"><span class="secno">6.5 </span>Coupons and Loyalty Cards</a></li><li class="tocline"><a href="#pseudo-anonymity" class="tocxref"><span class="secno">6.6 </span>Pseudo-anonymity</a></li><li class="tocline"><a href="#transaction-fee-optimization" class="tocxref"><span class="secno">6.7 </span>Transaction Fee Optimization</a></li><li class="tocline"><a href="#choosing-the-attributes-of-price" class="tocxref"><span class="secno">6.8 </span>Choosing the Attributes of Price</a></li><li class="tocline"><a href="#app-store-purchases" class="tocxref"><span class="secno">6.9 </span>App-Store Purchases</a></li><li class="tocline"><a href="#in-app-purchases" class="tocxref"><span class="secno">6.10 </span>In-App Purchases</a></li><li class="tocline"><a href="#payment-tokenization" class="tocxref"><span class="secno">6.11 </span>Payment Tokenization</a></li><li class="tocline"><a href="#registration-less-purchases" class="tocxref"><span class="secno">6.12 </span>Registration-less Purchases</a></li><li class="tocline"><a href="#push-based-payments" class="tocxref"><span class="secno">6.13 </span>Push-based Payments</a></li><li class="tocline"><a href="#subscriptions" class="tocxref"><span class="secno">6.14 </span>Subscriptions</a></li><li class="tocline"><a href="#non-interactive-purchases" class="tocxref"><span class="secno">6.15 </span>Non-interactive Purchases</a></li><li class="tocline"><a href="#digital-wallet-portability" class="tocxref"><span class="secno">6.16 </span>Digital Wallet Portability</a></li><li class="tocline"><a href="#real-time-regulatory-reporting" class="tocxref"><span class="secno">6.17 </span>Real-time Regulatory Reporting</a></li><li class="tocline"><a href="#digital-receipts" class="tocxref"><span class="secno">6.18 </span>Digital Receipts</a></li></ul></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">7. </span>Acknowledgements</a></li></ul></section> 
 
-  <section> 
-    <h2>Introduction</h2> 
+   
+
+  <section id="introduction"> 
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_introduction"><span class="secno">1. </span>Introduction</h2> 
     <p>
 The Web continues to transform the way humankind communicates and builds
 our world. At the heart of most of these endeavors is the exchange of
@@ -137,8 +227,8 @@ human condition.
     </p>
   </section>
 
-  <section>
-    <h2>Glossary</h2>
+  <section id="glossary">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_glossary"><span class="secno">2. </span>Glossary</h2>
   
     <p>
 There is certain terminology used throughout this document that has a very
@@ -147,107 +237,107 @@ following definitions are provided:
     </p>
 
     <dl>
-      <dt><tdef>entity</tdef></dt>
+      <dt><dfn title="entity" id="dfn-entity">entity</dfn></dt>
       <dd>
 a thing with distinct and independent existence such as a person, organization,
 or instance of a software program.
       </dd>
-      <dt><tdef>credential</tdef></dt>
+      <dt><dfn title="credential" id="dfn-credential">credential</dfn></dt>
       <dd>
 a qualification, achievement, quality, or piece of information about an 
-<tref title="entity">entity’s</tref> background such as a name, government ID, 
-<tref>payment processor</tref>, home address, or university degree.
+<a class="tref internalDFN" title="entity" href="#dfn-entity">entity’s</a> background such as a name, government ID, 
+<a class="tref internalDFN" title="payment_processor" href="#dfn-payment_processor">payment processor</a>, home address, or university degree.
       </dd>
-      <dt><tdef>transaction</tdef></dt>
+      <dt><dfn title="transaction" id="dfn-transaction">transaction</dfn></dt>
       <dd>
-a transfer of value from one <tref>entity</tref> to another.
+a transfer of value from one <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> to another.
       </dd>
-      <dt><tdef>digital receipt</tdef></dt>
+      <dt><dfn title="digital_receipt" id="dfn-digital_receipt">digital receipt</dfn></dt>
       <dd>
-a proof of purchase that verifies that a particular <tref>entity</tref> was 
-involved in a <tref>transaction</tref>.
+a proof of purchase that verifies that a particular <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> was 
+involved in a <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a>.
       </dd>
     </dl>
   </section>
 
-  <section>
-    <h2>Roles</h2>
+  <section id="roles">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_roles"><span class="secno">3. </span>Roles</h2>
   
     <p>
 Each interaction in a Web Payments scenario involves a number of 
-<tref title="entity">entities</tref>. In order to make it clear who the
+<a class="tref internalDFN" title="entity" href="#dfn-entity">entities</a>. In order to make it clear who the
 actors are, the following roles are defined:
     </p>
 
     <dl>
-      <dt><tdef>payer</tdef></dt>
+      <dt><dfn title="payer" id="dfn-payer">payer</dfn></dt>
       <dd>
-the <tref>entity</tref> sending value in a <tref>transaction</tref>.
+the <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> sending value in a <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a>.
       </dd>
-      <dt><tdef>payee</tdef></dt>
+      <dt><dfn title="payee" id="dfn-payee">payee</dfn></dt>
       <dd>
-the <tref>entity</tref> receiving value in a <tref>transaction</tref>.
+the <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> receiving value in a <a class="tref internalDFN" title="transaction" href="#dfn-transaction">transaction</a>.
       </dd>
-      <dt><tdef>buyer</tdef></dt>
+      <dt><dfn title="buyer" id="dfn-buyer">buyer</dfn></dt>
       <dd>
-an <tref>entity</tref> purchasing a product or service.
+an <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> purchasing a product or service.
       </dd>
-      <dt><tdef>merchant</tdef></dt>
+      <dt><dfn title="merchant" id="dfn-merchant">merchant</dfn></dt>
       <dd>
-an <tref>entity</tref> that is offering a product or service for sale.
+an <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> that is offering a product or service for sale.
       </dd>
-      <dt><tdef>payment processor</tdef></dt>
+      <dt><dfn title="payment_processor" id="dfn-payment_processor">payment processor</dfn></dt>
       <dd>
-an <tref>entity</tref> that is responsible for transferring value between 
-<tref title="entity">entities</tref> and 
-generating verifiable <tref title="digital receipt">digital receipts</tref>.
+an <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> that is responsible for transferring value between 
+<a class="tref internalDFN" title="entity" href="#dfn-entity">entities</a> and 
+generating verifiable <a class="tref internalDFN" title="digital_receipt" href="#dfn-digital_receipt">digital receipts</a>.
       </dd>
     </dl>
   </section>
 
-  <section>
-    <h2>Credentials</h2>
+  <section id="credentials">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_credentials"><span class="secno">4. </span>Credentials</h2>
   
     <p>
-In order to interact, an <tref>entity</tref> may require one or more pieces 
+In order to interact, an <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> may require one or more pieces 
 of information from another entity. Each of these pieces of information, which 
-may be digitally signed by a 3rd party, are called a <tref>credential</tref>. 
+may be digitally signed by a 3rd party, are called a <a class="tref internalDFN" title="credential" href="#dfn-credential">credential</a>. 
 The following credentials are commonly used throughout this document:
     </p>
 
     <dl>
-      <dt><tdef>identity credential</tdef></dt>
+      <dt><dfn title="identity_credential" id="dfn-identity_credential">identity credential</dfn></dt>
       <dd>
-An identity <tref>credential</tref> contains a pseudo-anonymous URL that can
-be used to uniquely identify an <tref>entity</tref>. The URI typically doesn't
+An identity <a class="tref internalDFN" title="credential" href="#dfn-credential">credential</a> contains a pseudo-anonymous URL that can
+be used to uniquely identify an <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a>. The URI typically doesn't
 contain any personally identifiable information.
       </dd>
 
-      <dt><tdef>email credential</tdef></dt>
+      <dt><dfn title="email_credential" id="dfn-email_credential">email credential</dfn></dt>
       <dd>
-An email <tref>credential</tref> contains a verified email address and proves 
-that the <tref>entity</tref> associated with the credential has verified their
+An email <a class="tref internalDFN" title="credential" href="#dfn-credential">credential</a> contains a verified email address and proves 
+that the <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> associated with the credential has verified their
 email address with a 3rd party.
       </dd>
-      <dt><tdef>payment processor credential</tdef></dt>
+      <dt><dfn title="payment_processor_credential" id="dfn-payment_processor_credential">payment processor credential</dfn></dt>
       <dd>
-A <tref>payment processor</tref> <tref>credential</tref> contains a verified 
-payment processor URL that was assigned to the <tref>entity</tref> associated 
+A <a class="tref internalDFN" title="payment_processor" href="#dfn-payment_processor">payment processor</a> <a class="tref internalDFN" title="credential" href="#dfn-credential">credential</a> contains a verified 
+payment processor URL that was assigned to the <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> associated 
 with the credential by their payment processor.
       </dd>
-      <dt><tdef>shipping address credential</tdef></dt>
+      <dt><dfn title="shipping_address_credential" id="dfn-shipping_address_credential">shipping address credential</dfn></dt>
       <dd>
-A shipping address <tref>credential</tref> contains a verified address where
+A shipping address <a class="tref internalDFN" title="credential" href="#dfn-credential">credential</a> contains a verified address where
 shipping deliveries may be made that is also associated with the
-<tref>entity</tref> associated with the credential. Typically, organizations
-that are capable of associating a shipping address with an <tref>entity</tref>,
+<a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a> associated with the credential. Typically, organizations
+that are capable of associating a shipping address with an <a class="tref internalDFN" title="entity" href="#dfn-entity">entity</a>,
 such as the United States Postal Service, provide these credentials.
       </dd>
     </dl>
   </section>
 
-  <section>
-    <h2>Design Criteria</h2>
+  <section id="design-criteria">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_design-criteria"><span class="secno">5. </span>Design Criteria</h2>
   
     <p>
 When exploring systems design, there are concepts that clearly fit into use 
@@ -256,8 +346,8 @@ concepts <em>design criteria</em>, which are goals that should be kept in mind
 while designing the overall web payments system.
     </p>
 
-    <section> 
-      <h2>Web Intents / Protocol Handlers</h2> 
+    <section id="web-intents-protocol-handlers"> 
+      <h3 aria-level="2" role="heading" id="h3_web-intents-protocol-handlers"><span class="secno">5.1 </span>Web Intents / Protocol Handlers</h3> 
    
       <p>
 Consider using a Web Intents or Protocol Handler-like mechanism
@@ -266,7 +356,7 @@ initiation and other problems on the Web.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Trisha signs up with a new payment processor service, and during the
@@ -283,22 +373,22 @@ processors he'd like to use for the purchase.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details" aria-level="3" role="heading">Details</h4> 
         <p>
 Web Intents or Protocol Handlers could be used as a simple way of solving
 the payment selection NASCAR problem. Instead of showing a large array of
 payment providers that are supported by the merchant, a dialog can be shown
 instead that only shows the payment mechanisms that are supported by both
-the <tref>payer</tref> and the <tref>payee</tref>. A payment provider may
+the <a class="tref internalDFN" title="payer" href="#dfn-payer">payer</a> and the <a class="tref internalDFN" title="payee" href="#dfn-payee">payee</a>. A payment provider may
 register as one potential handler for a particular intent/protocol scheme,
-and when the scheme is invoked, the <tref>payer</tref> is asked which
+and when the scheme is invoked, the <a class="tref internalDFN" title="payer" href="#dfn-payer">payer</a> is asked which
 handler they'd like to use to handle the request.
         </p>
       </section>
     </section>
 
-    <section> 
-      <h2>Data Portability</h2> 
+    <section id="data-portability"> 
+      <h3 aria-level="2" role="heading" id="h3_data-portability"><span class="secno">5.2 </span>Data Portability</h3> 
    
       <p>
 Require data portability for financial data and credentials that is required 
@@ -306,7 +396,7 @@ for core transaction functionality.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-1" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Ginger would like to move her banking provider from MehBank to GoodBank. 
@@ -318,7 +408,7 @@ account history, digital receipt data, and balance to MehBank.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details-1" aria-level="3" role="heading">Details</h4> 
         <p>
 It is often difficult to easily switch financial providers. This will become
 more difficult if the use of digital receipts becomes pervasive. If one needs
@@ -331,8 +421,8 @@ story.
       </section>
     </section>
 
-    <section> 
-      <h2>Legacy Support</h2> 
+    <section id="legacy-support"> 
+      <h3 aria-level="2" role="heading" id="h3_legacy-support"><span class="secno">5.3 </span>Legacy Support</h3> 
    
       <p>
 Ensure the Web payments solution can provide an abstraction layer that 
@@ -341,7 +431,7 @@ debit card, Premium SMS, etc.)
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-2" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Harold buys a movie ticket to his local movie theatre via the Web. He is
@@ -362,7 +452,7 @@ only differs in the type of currency that was used to complete the sale.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details-2" aria-level="3" role="heading">Details</h4> 
         <p>
 In order for the Web Payments initiative to be successful, it must not
 discriminate based upon payment instrument or currency. As many types of
@@ -371,8 +461,8 @@ payment instrument as possible should be supported.
       </section>
     </section>
 
-    <section> 
-      <h2>Authorization Configurability</h2> 
+    <section id="authorization-configurability"> 
+      <h3 aria-level="2" role="heading" id="h3_authorization-configurability"><span class="secno">5.4 </span>Authorization Configurability</h3> 
    
       <p>
 Allow payment processors to define the required level of authorization for 
@@ -382,7 +472,7 @@ Secure Element for large amounts.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-3" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Sven buys a single play for an online video game. His payment processor
@@ -403,7 +493,7 @@ authentication device to verify the transfer of funds.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details-3" aria-level="3" role="heading">Details</h4> 
         <p>
 There is an important balance between convenience and security that
 is typically context-sensitive. It not only depends on the 
@@ -415,8 +505,8 @@ in the transaction, and is not hard-coded into the payment protocol.
       </section>
     </section>
 
-    <section> 
-      <h2>Smart Contracts</h2> 
+    <section id="smart-contracts"> 
+      <h3 aria-level="2" role="heading" id="h3_smart-contracts"><span class="secno">5.5 </span>Smart Contracts</h3> 
    
       <p>
 Ensure the technology can be extended or does not prohibit the implementation 
@@ -424,7 +514,7 @@ of simple digital contracts and smart contracts.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-4" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Quoma owns a small-scale bakery that sells bread to local stores. She
@@ -442,7 +532,7 @@ account to the lender's account on a monthly basis.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details-4" aria-level="3" role="heading">Details</h4> 
         <p>
 Smart contracts, which are typically referenced when discussing 
 Distributed Autonomous Organizations, provide the capability of 
@@ -454,8 +544,8 @@ future should not be prevented.
       </section>
     </section>
 
-    <section> 
-      <h2>Physical Receipts</h2> 
+    <section id="physical-receipts"> 
+      <h3 aria-level="2" role="heading" id="h3_physical-receipts"><span class="secno">5.6 </span>Physical Receipts</h3> 
    
       <p>
 Don't prevent a physical version of a digital receipt that can be verified, 
@@ -464,7 +554,7 @@ information.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-5" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Bertrand purchases a bus ticket at a booth using his mobile phone. The digital
@@ -476,7 +566,7 @@ and gives him access to the public transportation building.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details-5" aria-level="3" role="heading">Details</h4> 
         <p>
 In designing the protocols and formats for the Web Payments work, it is
 important that offline-only is taken into account. One manifestation of this
@@ -487,15 +577,15 @@ design requirement is the paper receipt or magnetic-stripe ticket.
 
   </section>
 
-  <section>
-    <h2>Use Cases</h2>
+  <section id="use-cases">
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_use-cases"><span class="secno">6. </span>Use Cases</h2>
     <p>
 The following use cases outline scenarios that are targeted to be supported
 in the set of Web Payments 1.0 specifications.
     </p>
 
-    <section> 
-      <h2>Purchase Request</h2> 
+    <section id="purchase-request"> 
+      <h3 aria-level="2" role="heading" id="h3_purchase-request"><span class="secno">6.1 </span>Purchase Request</h3> 
    
       <p>
 A buyer selects an item to purchase on merchant's site, merchant generates a 
@@ -503,7 +593,7 @@ payment request that will be processed by the buyer's payment processor.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-6" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Penny logs into a website, providing her payment processor credential in
@@ -514,7 +604,7 @@ then forwards the her preferred payment processor.
       </section>
 
       <section> 
-        <h3>Details</h3> 
+        <h4 id="details-6" aria-level="3" role="heading">Details</h4> 
         <p>
 A payment request contains all of the details necessary to perform a
 purchase. The payment request should be a self-contained document that
@@ -522,49 +612,49 @@ can be used interchangeably with any payment processor that supports
 the payment instrument specified in the payment request.
         </p>
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-1" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
-<tref>buyer</tref>
+<a class="tref internalDFN" title="buyer" href="#dfn-buyer">buyer</a>
             </li>
             <li>
-<tref>merchant</tref>
+<a class="tref internalDFN" title="merchant" href="#dfn-merchant">merchant</a>
             </li>
             <li>
-<tref>payment processor</tref>
+<a class="tref internalDFN" title="payment_processor" href="#dfn-payment_processor">payment processor</a>
             </li>
           </ul>
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-1" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
-<tref>payment processor credential</tref>
+<a class="tref internalDFN" title="payment_processor_credential" href="#dfn-payment_processor_credential">payment processor credential</a>
             </li>
           </ul>
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
 A mechanism that enables the buyer's payment processor to be discovered 
-MUST be standardized.
+<em class="rfc2119" title="MUST">MUST</em> be standardized.
             </li>
             <li>
-A purchase request format MUST be standardized.
+A purchase request format <em class="rfc2119" title="MUST">MUST</em> be standardized.
             </li>
           </ul>
         </section>
       </section>
     </section>
 
-    <section> 
-      <h2>Payment Links</h2> 
+    <section id="payment-links"> 
+      <h3 aria-level="2" role="heading" id="h3_payment-links"><span class="secno">6.2 </span>Payment Links</h3> 
    
       <p>
 A developer can create a link with a specific payment URI scheme or rel-type 
@@ -573,27 +663,27 @@ the payment process.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-7" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 Gus is a web developer and creates a donation link on his website. He
 inserts a <pre>&lt;a href="payto:bitcoin:3782436823487?message=Donation"&gt;Donate&lt;/a&gt;</pre> link in the web page
 markup such that when someone clicks the "Donate" link, a payment 
-will be initiated using the <tref title="payer">payer's</tref>
+will be initiated using the <a class="tref internalDFN" title="payer" href="#dfn-payer">payer's</a>
 payment processor.
           </li>
         </ul>
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-7" aria-level="3" role="heading">Details</h4>
         <p>
 A new payment protocol would enable a new type of hyperlink on the
 Web that would be specialized for payments.
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-2" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -603,7 +693,7 @@ Web that would be specialized for payments.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-2" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -613,7 +703,7 @@ Web that would be specialized for payments.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-1" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -624,8 +714,8 @@ Web that would be specialized for payments.
       </section>
     </section>
 
-    <section> 
-      <h2>Choice of Payment Processor</h2> 
+    <section id="choice-of-payment-processor"> 
+      <h3 aria-level="2" role="heading" id="h3_choice-of-payment-processor"><span class="secno">6.3 </span>Choice of Payment Processor</h3> 
    
       <p>
 When a payee intends to make a payment, they are given a choice to pick among 
@@ -634,7 +724,7 @@ payment processors that are advertised by the merchant/payee.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-8" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -643,12 +733,12 @@ payment processors that are advertised by the merchant/payee.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-8" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-3" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -658,7 +748,7 @@ payment processors that are advertised by the merchant/payee.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-3" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -668,7 +758,7 @@ payment processors that are advertised by the merchant/payee.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-2" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -679,8 +769,8 @@ payment processors that are advertised by the merchant/payee.
       </section>
     </section>
 
-    <section> 
-      <h2>Parametric Offers</h2> 
+    <section id="parametric-offers"> 
+      <h3 aria-level="2" role="heading" id="h3_parametric-offers"><span class="secno">6.4 </span>Parametric Offers</h3> 
    
       <p>
 A merchant advertises different details, such as price, for an offer of sale 
@@ -688,7 +778,7 @@ based on potential payment processor choice.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-9" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -697,12 +787,12 @@ based on potential payment processor choice.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-9" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-4" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -712,7 +802,7 @@ based on potential payment processor choice.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-4" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -722,7 +812,7 @@ based on potential payment processor choice.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-3" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -733,8 +823,8 @@ based on potential payment processor choice.
       </section>
     </section>
 
-    <section> 
-      <h2>Coupons and Loyalty Cards</h2> 
+    <section id="coupons-and-loyalty-cards"> 
+      <h3 aria-level="2" role="heading" id="h3_coupons-and-loyalty-cards"><span class="secno">6.5 </span>Coupons and Loyalty Cards</h3> 
    
       <p>
 A buyer can associate a membership card, coupon, or similar token with a 
@@ -742,7 +832,7 @@ transaction to receive a discount or other benefits.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-10" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -751,12 +841,12 @@ transaction to receive a discount or other benefits.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-10" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-5" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -766,7 +856,7 @@ transaction to receive a discount or other benefits.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-5" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -776,7 +866,7 @@ transaction to receive a discount or other benefits.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-4" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -787,15 +877,15 @@ transaction to receive a discount or other benefits.
       </section>
     </section>
 
-    <section> 
-      <h2>Pseudo-anonymity</h2> 
+    <section id="pseudo-anonymity"> 
+      <h3 aria-level="2" role="heading" id="h3_pseudo-anonymity"><span class="secno">6.6 </span>Pseudo-anonymity</h3> 
    
       <p>
 Leveraging variable degrees of pseudo-anonymity per requirements of the payment transaction.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-11" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -804,12 +894,12 @@ Leveraging variable degrees of pseudo-anonymity per requirements of the payment 
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-11" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-6" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -819,7 +909,7 @@ Leveraging variable degrees of pseudo-anonymity per requirements of the payment 
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-6" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -829,7 +919,7 @@ Leveraging variable degrees of pseudo-anonymity per requirements of the payment 
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-5" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -840,8 +930,8 @@ Leveraging variable degrees of pseudo-anonymity per requirements of the payment 
       </section>
     </section>
 
-    <section> 
-      <h2>Transaction Fee Optimization</h2> 
+    <section id="transaction-fee-optimization"> 
+      <h3 aria-level="2" role="heading" id="h3_transaction-fee-optimization"><span class="secno">6.7 </span>Transaction Fee Optimization</h3> 
    
       <p>
 A buyer discovers an offer for sale by a merchant under terms that the 
@@ -853,7 +943,7 @@ price or speed) before executing the most desirable transaction.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-12" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -862,12 +952,12 @@ price or speed) before executing the most desirable transaction.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-12" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-7" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -877,7 +967,7 @@ price or speed) before executing the most desirable transaction.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-7" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -887,7 +977,7 @@ price or speed) before executing the most desirable transaction.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-6" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -898,8 +988,8 @@ price or speed) before executing the most desirable transaction.
       </section>
     </section>
 
-    <section> 
-      <h2>Choosing the Attributes of Price</h2> 
+    <section id="choosing-the-attributes-of-price"> 
+      <h3 aria-level="2" role="heading" id="h3_choosing-the-attributes-of-price"><span class="secno">6.8 </span>Choosing the Attributes of Price</h3> 
    
       <p>
 Payee and payers negotiate secure price in an open market. They are free to 
@@ -911,7 +1001,7 @@ Parity; Commodity Index; etc.)
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-13" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -920,12 +1010,12 @@ Parity; Commodity Index; etc.)
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-13" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-8" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -935,7 +1025,7 @@ Parity; Commodity Index; etc.)
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-8" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -945,7 +1035,7 @@ Parity; Commodity Index; etc.)
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-7" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -956,8 +1046,8 @@ Parity; Commodity Index; etc.)
       </section>
     </section>
 
-    <section> 
-      <h2>App-Store Purchases</h2> 
+    <section id="app-store-purchases"> 
+      <h3 aria-level="2" role="heading" id="h3_app-store-purchases"><span class="secno">6.9 </span>App-Store Purchases</h3> 
    
       <p>
 A buyer uses a native non-browser application on their mobile phone or tablet, 
@@ -965,7 +1055,7 @@ or a web browser to make a purchase at an app store.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-14" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -974,12 +1064,12 @@ or a web browser to make a purchase at an app store.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-14" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-9" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -989,7 +1079,7 @@ or a web browser to make a purchase at an app store.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-9" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -999,7 +1089,7 @@ or a web browser to make a purchase at an app store.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-8" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1010,15 +1100,15 @@ or a web browser to make a purchase at an app store.
       </section>
     </section>
 
-    <section> 
-      <h2>In-App Purchases</h2> 
+    <section id="in-app-purchases"> 
+      <h3 aria-level="2" role="heading" id="h3_in-app-purchases"><span class="secno">6.10 </span>In-App Purchases</h3> 
    
       <p>
 A buyer makes a purchase from within an application for premium content, virtual goods, or subscriptions.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-15" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1027,12 +1117,12 @@ A buyer makes a purchase from within an application for premium content, virtual
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-15" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-10" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1042,7 +1132,7 @@ A buyer makes a purchase from within an application for premium content, virtual
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-10" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1052,7 +1142,7 @@ A buyer makes a purchase from within an application for premium content, virtual
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-9" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1063,8 +1153,8 @@ A buyer makes a purchase from within an application for premium content, virtual
       </section>
     </section>
 
-    <section> 
-      <h2>Payment Tokenization</h2> 
+    <section id="payment-tokenization"> 
+      <h3 aria-level="2" role="heading" id="h3_payment-tokenization"><span class="secno">6.11 </span>Payment Tokenization</h3> 
    
       <p>
 Temporary payment tokens for merchants. If token is stolen, thief does not 
@@ -1073,7 +1163,7 @@ and merchant from theft of credentials.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-16" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1082,12 +1172,12 @@ and merchant from theft of credentials.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-16" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-11" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1097,7 +1187,7 @@ and merchant from theft of credentials.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-11" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1107,7 +1197,7 @@ and merchant from theft of credentials.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-10" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1118,8 +1208,8 @@ and merchant from theft of credentials.
       </section>
     </section>
 
-    <section> 
-      <h2>Registration-less Purchases</h2> 
+    <section id="registration-less-purchases"> 
+      <h3 aria-level="2" role="heading" id="h3_registration-less-purchases"><span class="secno">6.12 </span>Registration-less Purchases</h3> 
    
       <p>
 The buyer goes to a merchant website and clicks a buy button to complete a 
@@ -1130,7 +1220,7 @@ repeat purchases.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-17" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1139,12 +1229,12 @@ repeat purchases.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-17" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-12" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1154,7 +1244,7 @@ repeat purchases.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-12" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1164,7 +1254,7 @@ repeat purchases.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-11" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1175,8 +1265,8 @@ repeat purchases.
       </section>
     </section>
 
-    <section> 
-      <h2>Push-based Payments</h2> 
+    <section id="push-based-payments"> 
+      <h3 aria-level="2" role="heading" id="h3_push-based-payments"><span class="secno">6.13 </span>Push-based Payments</h3> 
    
       <p>
 The buyer goes to a merchant website and clicks buy to initiate a purchase. 
@@ -1187,7 +1277,7 @@ to the merchant's website with a digital receipt confirming the purchase.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-18" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1196,12 +1286,12 @@ to the merchant's website with a digital receipt confirming the purchase.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-18" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-13" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1211,7 +1301,7 @@ to the merchant's website with a digital receipt confirming the purchase.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-13" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1221,7 +1311,7 @@ to the merchant's website with a digital receipt confirming the purchase.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-12" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1232,8 +1322,8 @@ to the merchant's website with a digital receipt confirming the purchase.
       </section>
     </section>
 
-    <section> 
-      <h2>Subscriptions</h2> 
+    <section id="subscriptions"> 
+      <h3 aria-level="2" role="heading" id="h3_subscriptions"><span class="secno">6.14 </span>Subscriptions</h3> 
    
       <p>
 A buyer visits a merchant's website and initiates a payment. Their payment 
@@ -1243,7 +1333,7 @@ merchant.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-19" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1252,12 +1342,12 @@ merchant.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-19" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-14" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1267,7 +1357,7 @@ merchant.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-14" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1277,7 +1367,7 @@ merchant.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-13" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1288,8 +1378,8 @@ merchant.
       </section>
     </section>
 
-    <section> 
-      <h2>Non-interactive Purchases</h2> 
+    <section id="non-interactive-purchases"> 
+      <h3 aria-level="2" role="heading" id="h3_non-interactive-purchases"><span class="secno">6.15 </span>Non-interactive Purchases</h3> 
    
       <p>
 A buyer visits a merchant's website and initiates a payment. Their payment 
@@ -1301,7 +1391,7 @@ in the background with no interactive purchase process required.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-20" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1310,12 +1400,12 @@ in the background with no interactive purchase process required.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-20" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-15" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1325,7 +1415,7 @@ in the background with no interactive purchase process required.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-15" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1335,7 +1425,7 @@ in the background with no interactive purchase process required.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-14" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1346,8 +1436,8 @@ in the background with no interactive purchase process required.
       </section>
     </section>
 
-    <section> 
-      <h2>Digital Wallet Portability</h2> 
+    <section id="digital-wallet-portability"> 
+      <h3 aria-level="2" role="heading" id="h3_digital-wallet-portability"><span class="secno">6.16 </span>Digital Wallet Portability</h3> 
    
       <p>
 An entity (payer, payee, merchant, buyer) stores wallet, credentials, and 
@@ -1357,7 +1447,7 @@ and all wallet, receipt, and credential data comes with them.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-21" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1366,12 +1456,12 @@ and all wallet, receipt, and credential data comes with them.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-21" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-16" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1381,7 +1471,7 @@ and all wallet, receipt, and credential data comes with them.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-16" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1391,7 +1481,7 @@ and all wallet, receipt, and credential data comes with them.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-15" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1402,8 +1492,8 @@ and all wallet, receipt, and credential data comes with them.
       </section>
     </section>
 
-    <section> 
-      <h2>Real-time Regulatory Reporting</h2> 
+    <section id="real-time-regulatory-reporting"> 
+      <h3 aria-level="2" role="heading" id="h3_real-time-regulatory-reporting"><span class="secno">6.17 </span>Real-time Regulatory Reporting</h3> 
    
       <p>
 A payment processor tracks mandatory financial regulatory events and submits 
@@ -1412,7 +1502,7 @@ regulatory compliance.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-22" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1421,12 +1511,12 @@ regulatory compliance.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-22" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-17" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1436,7 +1526,7 @@ regulatory compliance.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-17" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1446,7 +1536,7 @@ regulatory compliance.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-16" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1457,8 +1547,8 @@ regulatory compliance.
       </section>
     </section>
 
-    <section> 
-      <h2>Digital Receipts</h2> 
+    <section id="digital-receipts"> 
+      <h3 aria-level="2" role="heading" id="h3_digital-receipts"><span class="secno">6.18 </span>Digital Receipts</h3> 
    
       <p>
 A merchant cryptographically-signs a standardized offer for a good or service. 
@@ -1469,7 +1559,7 @@ payee) may then use the receipt as a proof-of-purchase for the good or service.
       </p>
 
       <section> 
-        <h3>Examples</h3> 
+        <h4 id="examples-23" aria-level="3" role="heading">Examples</h4> 
         <ul>
           <li>
 
@@ -1478,12 +1568,12 @@ payee) may then use the receipt as a proof-of-purchase for the good or service.
       </section>
 
       <section> 
-        <h3>Details</h3>
+        <h4 id="details-23" aria-level="3" role="heading">Details</h4>
         <p>
         </p>
 
         <section> 
-          <h4>Roles</h4> 
+          <h5 id="roles-18" aria-level="4" role="heading">Roles</h5> 
      
           <ul> 
             <li>
@@ -1493,7 +1583,7 @@ payee) may then use the receipt as a proof-of-purchase for the good or service.
         </section>
 
         <section> 
-          <h4>Credentials</h4> 
+          <h5 id="credentials-18" aria-level="4" role="heading">Credentials</h5> 
      
           <ul> 
             <li>
@@ -1503,7 +1593,7 @@ payee) may then use the receipt as a proof-of-purchase for the good or service.
         </section>
 
         <section> 
-          <h4>Requirements</h4> 
+          <h5 id="requirements-17" aria-level="4" role="heading">Requirements</h5> 
      
           <ul> 
             <li>
@@ -1516,8 +1606,8 @@ payee) may then use the receipt as a proof-of-purchase for the good or service.
 
   </section>
 
-  <section> 
-    <h2>Acknowledgements</h2>
+  <section id="acknowledgements"> 
+    <!--OddPage--><h2 aria-level="1" role="heading" id="h2_acknowledgements"><span class="secno">7. </span>Acknowledgements</h2>
  
     <p>
 The editor is thankful to the following contributions from the 
@@ -1530,6 +1620,7 @@ Mahmoud Abdelkader, Jonas Öberg, Ben Adida, Mike Amundsen, Erik Anderson, Gavin
 
   </section>
 
-  </body> 
-</html>
+   
 
+
+</body></html>

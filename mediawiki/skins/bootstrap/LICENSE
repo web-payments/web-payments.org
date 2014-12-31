@@ -1,0 +1,76 @@
+All the PHP, prefs.css, and skin.js are originally derived from
+MediaWiki's vector theme, which is GPLv2:
+http://gnu.org/licenses/gpl-2.0
+
+Bootstrap is licensed under Apache License v2.0:
+http://apache.org/licenses/LICENSE-2.0
+
+Bootstrap icons are licensed under the CC BY 3.0
+http://creativecommons.org/licenses/by/3.0/
+
+csshover.htc, the hover fixer for IE, is licensed under the LGPL v2.1:
+http://gnu.org/licenses/lgpl-2.1
+
+All other modified CSS files (i.e. bootstrap-blue.css or any other file css that uses bootstrap-color.css) were created by Lee Miller are licensed under the EULA;
+
+Licence types;
+
+OPEN SOURCE
+
+All Open Source extensions, skins and Software are covered by the following;
+
+This license is a legal agreement between you and Lee Miller for the use of his "Software". By obtaining the Software you agree to comply with the terms and conditions of this license.
+
+Permitted use
+
+You are permitted to use, copy, modify, and distribute the Software and its documentation, with or without modification, for any purpose, provided that the following conditions are met:
+
+1. A copy of this license agreement must be included with the distribution.
+
+2. Redistributions of source code must retain the copyright notice.
+
+3. Redistributions in binary form must reproduce the copyright notice in the documentation and/or other materials provided with the distribution.
+
+4. Any files that have been modified must carry notices stating the nature of the change and the names of those who changed them.
+
+5. Products derived from the Software must include an acknowledgement that they are derived from Lee Millers software in their documentation and/or other materials provided with the distribution.
+
+Indemnity
+
+You agree to indemnify and hold harmless the authors of the Software and any contributors for any direct, indirect, incidental, or consequential third-party claims, actions or suits, as well as any related expenses, liabilities, damages, settlements or fees arising from your use or misuse of the Software, or a violation of any terms of this license.
+
+COMMERCIAL SOFTWARE
+
+Commercial Software is classified as any product purchased from Lee Miller.
+
+When purchasing Commercial Software you are also buying a license to use it, there are three licenses, each with its own set of legal requirements which you, the customer agree to when making a purchase.
+
+Regular License
+
+The Regular License allows use of the Commercial Software in one single end product which end users are not charged to access or use. You can do this directly or, if you're a freelancer, you can create the end product for one client to distribute free to a single end user. Redistribution of source files is strictly prohibited!
+
+Extended Licence
+
+The Extended License allows use of the Commercial Software in one single end product, which you or one client may sell to a single end user (charge end users to access or use the end product). Redistribution of source files is strictly prohibited!
+
+Developer Licence
+
+The Developer License allows use of the Commercial Software in multiple end products, which you may sell to multiple clients (charge end users to access or use the end product). Free redistribution of source files is strictly prohibited!
+
+Permitted use
+
+The following conditions also apply;
+
+1. A copy of this license agreement must be included with the distribution.
+
+2. Source code must retain the copyright notice.
+
+3. Binary form must reproduce the copyright notice in the documentation and/or other materials provided with the distribution.
+
+4. Any files that have been modified must carry notices stating the nature of the change and the names of those who changed them.
+
+5. Products derived from the Software must include an acknowledgement that they are derived from Lee Millers software in their documentation and/or other materials provided with the distribution.
+
+Indemnity
+
+You agree to indemnify and hold harmless the authors of the Software and any contributors for any direct, indirect, incidental, or consequential third-party claims, actions or suits, as well as any related expenses, liabilities, damages, settlements or fees arising from your use or misuse, or a violation of any terms of this license.

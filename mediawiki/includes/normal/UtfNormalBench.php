@@ -3,7 +3,7 @@
  * Approximate benchmark for some basic operations.
  *
  * Copyright © 2004 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,14 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
- * 
+ *
  * @file
  * @ingroup UtfNormal
  */
+
+if( PHP_SAPI != 'cli' ) {
+	die( "Run me from the command line please.\n" );
+}
 
 if( isset( $_SERVER['argv'] ) && in_array( '--icu', $_SERVER['argv'] ) ) {
 	dl( 'php_utfnormal.so' );
@@ -33,10 +37,6 @@ require_once 'UtfNormalUtil.php';
 require_once 'UtfNormal.php';
 
 define( 'BENCH_CYCLES', 5 );
-
-if( php_sapi_name() != 'cli' ) {
-	die( "Run me from the command line please.\n" );
-}
 
 $testfiles = array(
 	'testdata/washington.txt' => 'English text',
@@ -80,7 +80,7 @@ function benchmarkTest( &$u, $filename, $desc ) {
 	}
 }
 
-function benchTime(){
+function benchTime() {
 	$st = explode( ' ', microtime() );
 	return (float)$st[0] + (float)$st[1];
 }

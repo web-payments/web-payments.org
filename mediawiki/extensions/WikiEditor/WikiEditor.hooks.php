@@ -12,7 +12,7 @@ class WikiEditorHooks {
 
 	protected static $features = array(
 
-		/* Beta Features */
+		/* Toolbar Features */
 
 		'toolbar' => array(
 			'preferences' => array(
@@ -20,7 +20,7 @@ class WikiEditorHooks {
 				'usebetatoolbar' => array(
 					'type' => 'toggle',
 					'label-message' => 'wikieditor-toolbar-preference',
-					'section' => 'editing/beta',
+					'section' => 'editing/editor',
 				),
 			),
 			'requirements' => array(
@@ -29,9 +29,6 @@ class WikiEditorHooks {
 			'modules' => array(
 				'ext.wikiEditor.toolbar',
 			),
-			'configurations' => array(
-				'wgWikiEditorToolbarClickTracking',
-			),
 		),
 		'dialogs' => array(
 			'preferences' => array(
@@ -39,7 +36,7 @@ class WikiEditorHooks {
 				'usebetatoolbar-cgd' => array(
 					'type' => 'toggle',
 					'label-message' => 'wikieditor-toolbar-dialogs-preference',
-					'section' => 'editing/beta',
+					'section' => 'editing/editor',
 				),
 			),
 			'requirements' => array(
@@ -55,7 +52,7 @@ class WikiEditorHooks {
 				'wikieditor-toolbar-hidesig' => array(
 					'type' => 'toggle',
 					'label-message' => 'wikieditor-toolbar-hidesig',
-					'section' => 'editing/beta',
+					'section' => 'editing/editor',
 				),
 			),
 			'requirements' => array(
@@ -69,36 +66,6 @@ class WikiEditorHooks {
 
 		/* Labs Features */
 
-		'templateEditor' => array(
-			'preferences' => array(
-				'wikieditor-template-editor' => array(
-					'type' => 'toggle',
-					'label-message' => 'wikieditor-template-editor-preference',
-					'section' => 'editing/labs',
-				),
-			),
-			'requirements' => array(
-				'wikieditor-template-editor' => true,
-			),
-			'modules' => array(
-				'ext.wikiEditor.templateEditor',
-			),
-		),
-		'templates' => array(
-			'preferences' => array(
-				'wikieditor-templates' => array(
-					'type' => 'toggle',
-					'label-message' => 'wikieditor-templates-preference',
-					'section' => 'editing/labs',
-				),
-			),
-			'requirements' => array(
-				'wikieditor-templates' => true,
-			),
-			'modules' => array(
-				'ext.wikiEditor.templates',
-			),
-		),
 		'preview' => array(
 			'preferences' => array(
 				'wikieditor-preview' => array(
@@ -143,23 +110,7 @@ class WikiEditorHooks {
 			'modules' => array(
 				'ext.wikiEditor.publish',
 			),
-		),
-		'toc' => array(
-			'preferences' => array(
-				// Ideally this key would be 'wikieditor-toc'
-			 	'usenavigabletoc' => array(
-					'type' => 'toggle',
-					'label-message' => 'wikieditor-toc-preference',
-					'section' => 'editing/labs',
-				),
-			),
-			'requirements' => array(
-				'usenavigabletoc' => true,
-			),
-			'modules' => array(
-				'ext.wikiEditor.toc',
-			),
-		),
+		)
 	);
 
 	/* Static Methods */
@@ -287,6 +238,8 @@ class WikiEditorHooks {
 		if ( count( $configurations ) ) {
 			$vars = array_merge( $vars, $configurations );
 		}
+		//expose magic words for use by the wikieditor toolbar
+		WikiEditorHooks::getMagicWords( $vars );
 		return true;
 	}
 
@@ -304,4 +257,27 @@ class WikiEditorHooks {
 		$vars['wgWikiEditorEnabledModules'] = $enabledModules;
 		return true;
 	}
+
+	/**
+	 * Expose useful magic words which are used by the wikieditor toolbar
+	 * @param $vars array
+	 * @return bool
+	 */
+	private static function getMagicWords( &$vars ){
+		$requiredMagicWords = array(
+			'redirect',
+			'img_right',
+			'img_left',
+			'img_none',
+			'img_center',
+			'img_thumbnail',
+			'img_framed',
+			'img_frameless',
+		);
+		foreach ( $requiredMagicWords as $name ) {
+				$magicWords[$name] = MagicWord::get( $name )->getSynonym( 0 );
+			}
+		$vars['wgWikiEditorMagicWords'] = $magicWords;
+	}
+
 }

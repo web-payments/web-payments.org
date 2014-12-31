@@ -18,11 +18,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to rollback all edits by a given user or IP provided
+ * they're the most recent edit.
+ *
+ * @ingroup Maintenance
+ */
 class RollbackEdits extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -97,4 +104,4 @@ class RollbackEdits extends Maintenance {
 }
 
 $maintClass = 'RollbackEdits';
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

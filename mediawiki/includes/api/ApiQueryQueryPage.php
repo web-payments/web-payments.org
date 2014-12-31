@@ -4,7 +4,7 @@
  *
  * Created on Dec 22, 2010
  *
- * Copyright © 2010 Roan Kattouw <Firstname>.<Lastname>@gmail.com
+ * Copyright © 2010 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,27 +32,13 @@
 class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 	private $qpMap;
 
-	/**
-	 * Some query pages are useless because they're available elsewhere in the API
-	 */
-	private $uselessQueryPages = array(
-		'MIMEsearch', // aiprop=mime
-		'LinkSearch', // list=exturlusage
-		'FileDuplicateSearch', // prop=duplicatefiles
-	);
-
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'qp' );
-		// We need to do this to make sure $wgQueryPages is set up
-		// This SUCKS
-		global $IP;
-		require_once( "$IP/includes/QueryPage.php" );
-
 		// Build mapping from special page names to QueryPage classes
-		global $wgQueryPages;
+		global $wgAPIUselessQueryPages;
 		$this->qpMap = array();
-		foreach ( $wgQueryPages as $page ) {
-			if( !in_array( $page[1], $this->uselessQueryPages ) ) {
+		foreach ( QueryPage::getPages() as $page ) {
+			if ( !in_array( $page[1], $wgAPIUselessQueryPages ) ) {
 				$this->qpMap[$page[1]] = $page[0];
 			}
 		}
@@ -70,9 +56,12 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 	 * @param $resultPageSet ApiPageSet
 	 */
 	public function run( $resultPageSet = null ) {
+		global $wgQueryCacheLimit;
+
 		$params = $this->extractRequestParams();
 		$result = $this->getResult();
 
+		/** @var $qp QueryPage */
 		$qp = new $this->qpMap[$params['page']]();
 		if ( !$qp->userCanExecute( $this->getUser() ) ) {
 			$this->dieUsageMsg( 'specialpage-cantexecute' );
@@ -88,6 +77,7 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 				if ( $ts ) {
 					$r['cachedtimestamp'] = wfTimestamp( TS_ISO_8601, $ts );
 				}
+				$r['maxresults'] = $wgQueryCacheLimit;
 			}
 		}
 		$result->addValue( array( 'query' ), $this->getModuleName(), $r );
@@ -131,17 +121,22 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 			}
 		}
 		if ( is_null( $resultPageSet ) ) {
-			$result->setIndexedTagName_internal( array( 'query', $this->getModuleName(), 'results' ), 'page' );
+			$result->setIndexedTagName_internal(
+				array( 'query', $this->getModuleName(), 'results' ),
+				'page'
+			);
 		} else {
 			$resultPageSet->populateFromTitles( $titles );
 		}
 	}
 
 	public function getCacheMode( $params ) {
+		/** @var $qp QueryPage */
 		$qp = new $this->qpMap[$params['page']]();
 		if ( $qp->getRestriction() != '' ) {
 			return 'private';
 		}
+
 		return 'public';
 	}
 
@@ -170,13 +165,45 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 		);
 	}
 
+	public function getResultProperties() {
+		return array(
+			ApiBase::PROP_ROOT => array(
+				'name' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => false
+				),
+				'disabled' => array(
+					ApiBase::PROP_TYPE => 'boolean',
+					ApiBase::PROP_NULLABLE => false
+				),
+				'cached' => array(
+					ApiBase::PROP_TYPE => 'boolean',
+					ApiBase::PROP_NULLABLE => false
+				),
+				'cachedtimestamp' => array(
+					ApiBase::PROP_TYPE => 'timestamp',
+					ApiBase::PROP_NULLABLE => true
+				)
+			),
+			'' => array(
+				'value' => 'string',
+				'timestamp' => array(
+					ApiBase::PROP_TYPE => 'timestamp',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'ns' => 'namespace',
+				'title' => 'string'
+			)
+		);
+	}
+
 	public function getDescription() {
-		return 'Get a list provided by a QueryPage-based special page';
+		return 'Get a list provided by a QueryPage-based special page.';
 	}
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			 array( 'specialpage-cantexecute' )
+			array( 'specialpage-cantexecute' )
 		) );
 	}
 
@@ -186,7 +213,7 @@ class ApiQueryQueryPage extends ApiQueryGeneratorBase {
 		);
 	}
 
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
+	public function getHelpUrls() {
+		return 'https://www.mediawiki.org/wiki/API:Querypage';
 	}
 }

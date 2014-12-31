@@ -22,7 +22,7 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
 class InitEditCount extends Maintenance {
 	public function __construct() {
@@ -47,7 +47,7 @@ in the load balancer, usually indicating a replication environment.' );
 
 		// Autodetect mode...
 		$backgroundMode = wfGetLB()->getServerCount() > 1 ||
-			( $dbw instanceof DatabaseMysql && version_compare( $dbver, '4.1' ) < 0 );
+			( $dbw instanceof DatabaseMysql );
 
 		if ( $this->hasOption( 'background' ) ) {
 			$backgroundMode = true;
@@ -107,4 +107,4 @@ in the load balancer, usually indicating a replication environment.' );
 }
 
 $maintClass = "InitEditCount";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

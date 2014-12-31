@@ -1,13 +1,13 @@
 <?php
 /**
- * Script to clean up broken, unparseable upload filenames.
+ * Clean up broken, unparseable upload filenames.
  *
  * Usage: php cleanupImages.php [--fix]
  * Options:
  *   --fix  Actually clean up titles; otherwise just checks for them
  *
- * Copyright (C) 2005-2006 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * Copyright © 2005-2006 Brion Vibber <brion@pobox.com>
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,8 +29,13 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/cleanupTable.inc' );
+require_once __DIR__ . '/cleanupTable.inc';
 
+/**
+ * Maintenance script to clean up broken, unparseable upload filenames.
+ *
+ * @ingroup Maintenance
+ */
 class ImageCleanup extends TableCleanup {
 	protected $defaultParams = array(
 		'table' => 'image',
@@ -156,7 +161,7 @@ class ImageCleanup extends TableCleanup {
 		} else {
 			$this->output( "renaming $path to $finalPath\n" );
 			// @todo FIXME: Should this use File::move()?
-			$db->begin();
+			$db->begin( __METHOD__ );
 			$db->update( 'image',
 				array( 'img_name' => $final ),
 				array( 'img_name' => $orig ),
@@ -173,15 +178,15 @@ class ImageCleanup extends TableCleanup {
 			if ( !file_exists( $dir ) ) {
 				if ( !wfMkdirParents( $dir, null, __METHOD__ ) ) {
 					$this->output( "RENAME FAILED, COULD NOT CREATE $dir" );
-					$db->rollback();
+					$db->rollback( __METHOD__ );
 					return;
 				}
 			}
 			if ( rename( $path, $finalPath ) ) {
-				$db->commit();
+				$db->commit( __METHOD__ );
 			} else {
 				$this->error( "RENAME FAILED" );
-				$db->rollback();
+				$db->rollback( __METHOD__ );
 			}
 		}
 	}
@@ -192,9 +197,8 @@ class ImageCleanup extends TableCleanup {
 	}
 
 	private function buildSafeTitle( $name ) {
-		global $wgLegalTitleChars;
 		$x = preg_replace_callback(
-			"/([^$wgLegalTitleChars]|~)/",
+			'/([^' . Title::legalChars() . ']|~)/',
 			array( $this, 'hexChar' ),
 			$name );
 
@@ -209,4 +213,4 @@ class ImageCleanup extends TableCleanup {
 }
 
 $maintClass = "ImageCleanup";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

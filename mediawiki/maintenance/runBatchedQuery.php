@@ -19,11 +19,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to run a database query in batches and wait for slaves.
+ *
+ * @ingroup Maintenance
+ */
 class BatchedQueryRunner extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -32,8 +38,9 @@ class BatchedQueryRunner extends Maintenance {
 	}
 
 	public function execute() {
-		if ( !$this->hasArg() )
+		if ( !$this->hasArg() ) {
 			$this->error( "No query specified. Specify the query as a command line parameter.", true );
+		}
 
 		$query = $this->getArg();
 		$n = 1;
@@ -53,6 +60,5 @@ class BatchedQueryRunner extends Maintenance {
 	}
 }
 
-
 $maintClass = "BatchedQueryRunner";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

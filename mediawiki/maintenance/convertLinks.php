@@ -1,7 +1,6 @@
 <?php
 /**
- * Convert from the old links schema (string->ID) to the new schema (ID->ID)
- * The wiki should be put into read-only mode while this script executes
+ * Convert from the old links schema (string->ID) to the new schema (ID->ID).
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,14 +21,22 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to convert from the old links schema (string->ID)
+ * to the new schema (ID->ID).
+ *
+ * The wiki should be put into read-only mode while this script executes.
+ *
+ * @ingroup Maintenance
+ */
 class ConvertLinks extends Maintenance {
 	private $logPerformance;
 
 	public function __construct() {
 		parent::__construct();
-		$this->mDescription = "Convert from the old links schema (string->ID) to the new schema (ID->ID)
+		$this->mDescription = "Convert from the old links schema (string->ID) to the new schema (ID->ID).
 The wiki should be put into read-only mode while this script executes";
 
 		$this->addArg( 'logperformance', "Log performance to perfLogFilename.", false );
@@ -73,9 +80,9 @@ This gives a huge speed improvement for very large links tables which are MyISAM
 
 		# --------------------------------------------------------------------
 
-		list ( $cur, $links, $links_temp, $links_backup ) = $dbw->tableNamesN( 'cur', 'links', 'links_temp', 'links_backup' );
+		list( $cur, $links, $links_temp, $links_backup ) = $dbw->tableNamesN( 'cur', 'links', 'links_temp', 'links_backup' );
 
-		if( $dbw->tableExists( 'pagelinks' ) ) {
+		if ( $dbw->tableExists( 'pagelinks' ) ) {
 			$this->output( "...have pagelinks; skipping old links table updates\n" );
 			return;
 		}
@@ -170,15 +177,16 @@ This gives a huge speed improvement for very large links tables which are MyISAM
 				}
 				$dbw->freeResult( $res );
 				# $this->output( "rowOffset: $rowOffset\ttuplesAdded: $tuplesAdded\tnumBadLinks: $numBadLinks\n" );
-				if ( $tuplesAdded != 0  ) {
+				if ( $tuplesAdded != 0 ) {
 					if ( $reportLinksConvProgress ) {
 						$this->output( "Inserting $tuplesAdded tuples into $links_temp..." );
 					}
 					$dbw->query( implode( "", $sqlWrite ) );
 					$totalTuplesInserted += $tuplesAdded;
-					if ( $reportLinksConvProgress )
+					if ( $reportLinksConvProgress ) {
 						$this->output( " done. Total $totalTuplesInserted tuples inserted.\n" );
-						$this->performanceLog( $fh, $totalTuplesInserted . " " . ( $this->getMicroTime() - $baseTime ) . "\n"  );
+						$this->performanceLog( $fh, $totalTuplesInserted . " " . ( $this->getMicroTime() - $baseTime ) . "\n" );
+					}
 				}
 			}
 			$this->output( "$totalTuplesInserted valid titles and $numBadLinks invalid titles were processed.\n\n" );
@@ -201,7 +209,6 @@ This gives a huge speed improvement for very large links tables which are MyISAM
 			$dbw->query( "RENAME TABLE links TO $links_backup, $links_temp TO $links", __METHOD__ );
 			$this->output( " done.\n\n" );
 
-			$dbw->close();
 			$this->output( "Conversion complete. The old table remains at $links_backup;\n" );
 			$this->output( "delete at your leisure.\n" );
 		} else {
@@ -251,4 +258,4 @@ This gives a huge speed improvement for very large links tables which are MyISAM
 }
 
 $maintClass = "ConvertLinks";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

@@ -28,9 +28,8 @@
  * @ingroup SpecialPage
  */
 class SpecialStatistics extends SpecialPage {
-
 	private $views, $edits, $good, $images, $total, $users,
-			$activeUsers = 0;
+		$activeUsers = 0;
 
 	public function __construct() {
 		parent::__construct( 'Statistics' );
@@ -53,18 +52,18 @@ class SpecialStatistics extends SpecialPage {
 
 		# Staticic - views
 		$viewsStats = '';
-		if( !$wgDisableCounters ) {
+		if ( !$wgDisableCounters ) {
 			$viewsStats = $this->getViewsStats();
 		}
 
 		# Set active user count
-		if( !$wgMiserMode ) {
+		if ( !$wgMiserMode ) {
 			$key = wfMemcKey( 'sitestats', 'activeusers-updated' );
 			// Re-calculate the count if the last tally is old...
-			if( !$wgMemc->get($key) ) {
+			if ( !$wgMemc->get( $key ) ) {
 				$dbw = wfGetDB( DB_MASTER );
 				SiteStatsUpdate::cacheUpdate( $dbw );
-				$wgMemc->set( $key, '1', 24*3600 ); // don't update for 1 day
+				$wgMemc->set( $key, '1', 24 * 3600 ); // don't update for 1 day
 			}
 		}
 
@@ -84,20 +83,20 @@ class SpecialStatistics extends SpecialPage {
 		$text .= $viewsStats;
 
 		# Statistic - popular pages
-		if( !$wgDisableCounters && !$wgMiserMode ) {
+		if ( !$wgDisableCounters && !$wgMiserMode ) {
 			$text .= $this->getMostViewedPages();
 		}
 
 		# Statistic - other
 		$extraStats = array();
-		if( wfRunHooks( 'SpecialStatsAddExtra', array( &$extraStats ) ) ) {
+		if ( wfRunHooks( 'SpecialStatsAddExtra', array( &$extraStats ) ) ) {
 			$text .= $this->getOtherStats( $extraStats );
 		}
 
 		$text .= Xml::closeElement( 'table' );
 
 		# Customizable footer
-		$footer = wfMessage( 'statistics-footer' );
+		$footer = $this->msg( 'statistics-footer' );
 		if ( !$footer->isBlank() ) {
 			$text .= "\n" . $footer->parse();
 		}
@@ -107,22 +106,25 @@ class SpecialStatistics extends SpecialPage {
 
 	/**
 	 * Format a row
-	 * @param $text  String: description of the row
-	 * @param $number  Float: a statistical number
-	 * @param $trExtraParams  Array: params to table row, see Html::elememt
-	 * @param $descMsg  String: message key
-	 * @param $descMsgParam  Array: message params
-	 * @return string table row in HTML format
+	 * @param string $text Description of the row
+	 * @param float $number A statistical number
+	 * @param array $trExtraParams Params to table row, see Html::elememt
+	 * @param string $descMsg Message key
+	 * @param array|string $descMsgParam Message parameters
+	 * @return string Table row in HTML format
 	 */
-	private function formatRow( $text, $number, $trExtraParams = array(), $descMsg = '', $descMsgParam = '' ) {
-		if( $descMsg ) {
-			$msg = wfMessage( $descMsg, $descMsgParam );
+	private function formatRow( $text, $number, $trExtraParams = array(),
+		$descMsg = '', $descMsgParam = ''
+	) {
+		if ( $descMsg ) {
+			$msg = $this->msg( $descMsg, $descMsgParam );
 			if ( $msg->exists() ) {
-				$descriptionText = $msg->parse();
-				$text .= "<br />" . Xml::element( 'small', array( 'class' => 'mw-statistic-desc'),
-					" ($descriptionText)" );
+				$descriptionText = $this->msg( 'parentheses' )->rawParams( $msg->parse() )->escaped();
+				$text .= "<br />" . Xml::element( 'small', array( 'class' => 'mw-statistic-desc' ),
+					" $descriptionText" );
 			}
 		}
+
 		return Html::rawElement( 'tr', $trExtraParams,
 			Html::rawElement( 'td', array(), $text ) .
 			Html::rawElement( 'td', array( 'class' => 'mw-statistics-numbers' ), $number )
@@ -136,68 +138,75 @@ class SpecialStatistics extends SpecialPage {
 	 */
 	private function getPageStats() {
 		return Xml::openElement( 'tr' ) .
-			Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-header-pages', array( 'parseinline' ) ) ) .
+			Xml::tags( 'th', array( 'colspan' => '2' ), $this->msg( 'statistics-header-pages' )->parse() ) .
 			Xml::closeElement( 'tr' ) .
 				$this->formatRow( Linker::linkKnown( SpecialPage::getTitleFor( 'Allpages' ),
-						wfMsgExt( 'statistics-articles', array( 'parseinline' ) ) ),
-						$this->getLanguage()->formatNum( $this->good ),
-						array( 'class' => 'mw-statistics-articles' ) ) .
-				$this->formatRow( wfMsgExt( 'statistics-pages', array( 'parseinline' ) ),
-						$this->getLanguage()->formatNum( $this->total ),
-						array( 'class' => 'mw-statistics-pages' ),
-						'statistics-pages-desc' ) .
+					$this->msg( 'statistics-articles' )->parse() ),
+					$this->getLanguage()->formatNum( $this->good ),
+					array( 'class' => 'mw-statistics-articles' ) ) .
+				$this->formatRow( $this->msg( 'statistics-pages' )->parse(),
+					$this->getLanguage()->formatNum( $this->total ),
+					array( 'class' => 'mw-statistics-pages' ),
+					'statistics-pages-desc' ) .
 				$this->formatRow( Linker::linkKnown( SpecialPage::getTitleFor( 'Listfiles' ),
-						wfMsgExt( 'statistics-files', array( 'parseinline' ) ) ),
-						$this->getLanguage()->formatNum( $this->images ),
-						array( 'class' => 'mw-statistics-files' ) );
+					$this->msg( 'statistics-files' )->parse() ),
+					$this->getLanguage()->formatNum( $this->images ),
+					array( 'class' => 'mw-statistics-files' ) );
 	}
+
 	private function getEditStats() {
 		return Xml::openElement( 'tr' ) .
-			Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-header-edits', array( 'parseinline' ) ) ) .
+			Xml::tags( 'th', array( 'colspan' => '2' ), $this->msg( 'statistics-header-edits' )->parse() ) .
 			Xml::closeElement( 'tr' ) .
-				$this->formatRow( wfMsgExt( 'statistics-edits', array( 'parseinline' ) ),
-						$this->getLanguage()->formatNum( $this->edits ),
-						array( 'class' => 'mw-statistics-edits' ) ) .
-				$this->formatRow( wfMsgExt( 'statistics-edits-average', array( 'parseinline' ) ),
-						$this->getLanguage()->formatNum( sprintf( '%.2f', $this->total ? $this->edits / $this->total : 0 ) ),
-						array( 'class' => 'mw-statistics-edits-average' ) );
+			$this->formatRow( $this->msg( 'statistics-edits' )->parse(),
+				$this->getLanguage()->formatNum( $this->edits ),
+				array( 'class' => 'mw-statistics-edits' )
+			) .
+			$this->formatRow( $this->msg( 'statistics-edits-average' )->parse(),
+				$this->getLanguage()
+					->formatNum( sprintf( '%.2f', $this->total ? $this->edits / $this->total : 0 ) ),
+				array( 'class' => 'mw-statistics-edits-average' )
+			);
 	}
 
 	private function getUserStats() {
 		global $wgActiveUserDays;
+
 		return Xml::openElement( 'tr' ) .
-			Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-header-users', array( 'parseinline' ) ) ) .
+			Xml::tags( 'th', array( 'colspan' => '2' ), $this->msg( 'statistics-header-users' )->parse() ) .
 			Xml::closeElement( 'tr' ) .
-				$this->formatRow( wfMsgExt( 'statistics-users', array( 'parseinline' ) ),
-						$this->getLanguage()->formatNum( $this->users ),
-						array( 'class' => 'mw-statistics-users' ) ) .
-				$this->formatRow( wfMsgExt( 'statistics-users-active', array( 'parseinline' ) ) . ' ' .
-							Linker::linkKnown(
-								SpecialPage::getTitleFor( 'Activeusers' ),
-								wfMsgHtml( 'listgrouprights-members' )
-							),
-						$this->getLanguage()->formatNum( $this->activeUsers ),
-						array( 'class' => 'mw-statistics-users-active' ),
-						'statistics-users-active-desc',
-						$this->getLanguage()->formatNum( $wgActiveUserDays ) );
+			$this->formatRow( $this->msg( 'statistics-users' )->parse(),
+				$this->getLanguage()->formatNum( $this->users ),
+				array( 'class' => 'mw-statistics-users' )
+			) .
+			$this->formatRow( $this->msg( 'statistics-users-active' )->parse() . ' ' .
+				Linker::linkKnown(
+					SpecialPage::getTitleFor( 'Activeusers' ),
+					$this->msg( 'listgrouprights-members' )->escaped()
+				),
+				$this->getLanguage()->formatNum( $this->activeUsers ),
+				array( 'class' => 'mw-statistics-users-active' ),
+				'statistics-users-active-desc',
+				$this->getLanguage()->formatNum( $wgActiveUserDays )
+			);
 	}
 
 	private function getGroupStats() {
 		global $wgGroupPermissions, $wgImplicitGroups;
 		$text = '';
-		foreach( $wgGroupPermissions as $group => $permissions ) {
+		foreach ( $wgGroupPermissions as $group => $permissions ) {
 			# Skip generic * and implicit groups
 			if ( in_array( $group, $wgImplicitGroups ) || $group == '*' ) {
 				continue;
 			}
 			$groupname = htmlspecialchars( $group );
-			$msg = wfMessage( 'group-' . $groupname );
+			$msg = $this->msg( 'group-' . $groupname );
 			if ( $msg->isBlank() ) {
 				$groupnameLocalized = $groupname;
 			} else {
 				$groupnameLocalized = $msg->text();
 			}
-			$msg = wfMessage( 'grouppage-' . $groupname )->inContentLanguage();
+			$msg = $this->msg( 'grouppage-' . $groupname )->inContentLanguage();
 			if ( $msg->isBlank() ) {
 				$grouppageLocalized = MWNamespace::getCanonicalName( NS_PROJECT ) . ':' . $groupname;
 			} else {
@@ -210,88 +219,139 @@ class SpecialStatistics extends SpecialPage {
 			);
 			$grouplink = Linker::linkKnown(
 				SpecialPage::getTitleFor( 'Listusers' ),
-				wfMsgHtml( 'listgrouprights-members' ),
+				$this->msg( 'listgrouprights-members' )->escaped(),
 				array(),
 				array( 'group' => $group )
 			);
 			# Add a class when a usergroup contains no members to allow hiding these rows
 			$classZero = '';
 			$countUsers = SiteStats::numberingroup( $groupname );
-			if( $countUsers == 0 ) {
+			if ( $countUsers == 0 ) {
 				$classZero = ' statistics-group-zero';
 			}
 			$text .= $this->formatRow( $grouppage . ' ' . $grouplink,
 				$this->getLanguage()->formatNum( $countUsers ),
-				array( 'class' => 'statistics-group-' . Sanitizer::escapeClass( $group ) . $classZero )  );
+				array( 'class' => 'statistics-group-' . Sanitizer::escapeClass( $group ) . $classZero ) );
 		}
+
 		return $text;
 	}
 
 	private function getViewsStats() {
 		return Xml::openElement( 'tr' ) .
-			Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-header-views', array( 'parseinline' ) ) ) .
+			Xml::tags( 'th', array( 'colspan' => '2' ), $this->msg( 'statistics-header-views' )->parse() ) .
 			Xml::closeElement( 'tr' ) .
-				$this->formatRow( wfMsgExt( 'statistics-views-total', array( 'parseinline' ) ),
+				$this->formatRow( $this->msg( 'statistics-views-total' )->parse(),
 					$this->getLanguage()->formatNum( $this->views ),
-						array ( 'class' => 'mw-statistics-views-total' ), 'statistics-views-total-desc' ) .
-				$this->formatRow( wfMsgExt( 'statistics-views-peredit', array( 'parseinline' ) ),
+						array( 'class' => 'mw-statistics-views-total' ), 'statistics-views-total-desc' ) .
+				$this->formatRow( $this->msg( 'statistics-views-peredit' )->parse(),
 					$this->getLanguage()->formatNum( sprintf( '%.2f', $this->edits ?
 						$this->views / $this->edits : 0 ) ),
-						array ( 'class' => 'mw-statistics-views-peredit' ) );
+						array( 'class' => 'mw-statistics-views-peredit' ) );
 	}
 
 	private function getMostViewedPages() {
 		$text = '';
 		$dbr = wfGetDB( DB_SLAVE );
 		$res = $dbr->select(
-				'page',
-				array(
-					'page_namespace',
-					'page_title',
-					'page_counter',
-				),
-				array(
-					'page_is_redirect' => 0,
-					'page_counter > 0',
-				),
-				__METHOD__,
-				array(
-					'ORDER BY' => 'page_counter DESC',
-					'LIMIT' => 10,
-				)
-			);
-			if( $res->numRows() > 0 ) {
-				$text .= Xml::openElement( 'tr' );
-				$text .= Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-mostpopular', array( 'parseinline' ) ) );
-				$text .= Xml::closeElement( 'tr' );
-				foreach ( $res as $row ) {
-					$title = Title::makeTitleSafe( $row->page_namespace, $row->page_title );
-					if( $title instanceof Title ) {
-						$text .= $this->formatRow( Linker::link( $title ),
-								$this->getLanguage()->formatNum( $row->page_counter ) );
+			'page',
+			array(
+				'page_namespace',
+				'page_title',
+				'page_counter',
+			),
+			array(
+				'page_is_redirect' => 0,
+				'page_counter > 0',
+			),
+			__METHOD__,
+			array(
+				'ORDER BY' => 'page_counter DESC',
+				'LIMIT' => 10,
+			)
+		);
 
-					}
+		if ( $res->numRows() > 0 ) {
+			$text .= Xml::openElement( 'tr' );
+			$text .= Xml::tags(
+				'th',
+				array( 'colspan' => '2' ),
+				$this->msg( 'statistics-mostpopular' )->parse()
+			);
+			$text .= Xml::closeElement( 'tr' );
+
+			foreach ( $res as $row ) {
+				$title = Title::makeTitleSafe( $row->page_namespace, $row->page_title );
+
+				if ( $title instanceof Title ) {
+					$text .= $this->formatRow( Linker::link( $title ),
+						$this->getLanguage()->formatNum( $row->page_counter ) );
 				}
-				$res->free();
 			}
+			$res->free();
+		}
+
 		return $text;
 	}
 
-	private function getOtherStats( $stats ) {
-		if ( !count( $stats ) )
-			return '';
+	/**
+	 * Conversion of external statistics into an internal representation
+	 * Following a ([<header-message>][<item-message>] = number) pattern
+	 *
+	 * @param array $stats
+	 * @return string
+	 */
+	private function getOtherStats( array $stats ) {
+		$return = '';
 
-		$return = Xml::openElement( 'tr' ) .
-			Xml::tags( 'th', array( 'colspan' => '2' ), wfMsgExt( 'statistics-header-hooks', array( 'parseinline' ) ) ) .
-			Xml::closeElement( 'tr' );
+		foreach ( $stats as $header => $items ) {
+			// Identify the structure used
+			if ( is_array( $items ) ) {
 
-		foreach( $stats as $name => $number ) {
-			$name = htmlspecialchars( $name );
-			$number = htmlspecialchars( $number );
+				// Ignore headers that are recursively set as legacy header
+				if ( $header !== 'statistics-header-hooks' ) {
+					$return .= $this->formatRowHeader( $header );
+				}
 
-			$return .= $this->formatRow( $name, $this->getLanguage()->formatNum( $number ), array( 'class' => 'mw-statistics-hook' ) );
+				// Collect all items that belong to the same header
+				foreach ( $items as $key => $value ) {
+					$name = $this->msg( $key )->parse();
+					$number = htmlspecialchars( $value );
+
+					$return .= $this->formatRow(
+						$name,
+						$this->getLanguage()->formatNum( $number ),
+						array( 'class' => 'mw-statistics-hook', 'id' => 'mw-' . $key )
+					);
+				}
+			} else {
+				// Create the legacy header only once
+				if ( $return === '' ) {
+					$return .= $this->formatRowHeader( 'statistics-header-hooks' );
+				}
+
+				// Recursively remap the legacy structure
+				$return .= $this->getOtherStats( array( 'statistics-header-hooks' =>
+					array( $header => $items ) ) );
+			}
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Format row header
+	 *
+	 * @param string $header
+	 * @return string
+	 */
+	private function formatRowHeader( $header ) {
+		return Xml::openElement( 'tr' ) .
+			Xml::tags( 'th', array( 'colspan' => '2' ), $this->msg( $header )->parse() ) .
+			Xml::closeElement( 'tr' );
+	}
+
+	protected function getGroupName() {
+		return 'wiki';
 	}
 }

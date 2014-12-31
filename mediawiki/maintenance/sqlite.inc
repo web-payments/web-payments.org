@@ -23,6 +23,8 @@
 
 /**
  * This class contains code common to different SQLite-related maintenance scripts
+ *
+ * @ingroup Maintenance
  */
 class Sqlite {
 
@@ -31,16 +33,15 @@ class Sqlite {
 	 * @return bool
 	 */
 	public static function isPresent() {
-		wfSuppressWarnings();
-		$compiled = wfDl( 'pdo_sqlite' );
-		wfRestoreWarnings();
-		return $compiled;
+		return extension_loaded( 'pdo_sqlite' );
 	}
 
 	/**
 	 * Checks given files for correctness of SQL syntax. MySQL DDL will be converted to
 	 * SQLite-compatible during processing.
 	 * Will throw exceptions on SQL errors
+	 * @param $files
+	 * @throws MWException
 	 * @return mixed true if no error or error string in case of errors
 	 */
 	public static function checkSqlSyntax( $files ) {
@@ -69,7 +70,9 @@ class Sqlite {
 
 			$tables = $db->query( "SELECT name FROM sqlite_master WHERE type='table'", __METHOD__ );
 			foreach ( $tables as $table ) {
-				if ( strpos( $table->name, 'sqlite_' ) === 0 ) continue;
+				if ( strpos( $table->name, 'sqlite_' ) === 0 ) {
+					continue;
+				}
 
 				$columns = $db->query( "PRAGMA table_info({$table->name})", __METHOD__ );
 				foreach ( $columns as $col ) {
@@ -85,4 +88,4 @@ class Sqlite {
 		$db->close();
 		return true;
 	}
- };
+};

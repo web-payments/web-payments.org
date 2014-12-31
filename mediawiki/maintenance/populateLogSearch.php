@@ -18,11 +18,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that makes the required database updates for populating the
+ * log_search table retroactively
+ *
+ * @ingroup Maintenance
+ */
 class PopulateLogSearch extends LoggedUpdateMaintenance {
 	static $tableMap = array( 'rev' => 'revision', 'fa' => 'filearchive', 'oi' => 'oldimage', 'ar' => 'archive' );
 
@@ -68,7 +75,9 @@ class PopulateLogSearch extends LoggedUpdateMaintenance {
 				if ( LogEventsList::typeAction( $row, $delTypes, 'revision' ) ) {
 					$params = LogPage::extractParams( $row->log_params );
 					// Param format: <urlparam> <item CSV> [<ofield> <nfield>]
-					if ( count( $params ) < 2 ) continue; // bad row?
+					if ( count( $params ) < 2 ) {
+						continue; // bad row?
+					}
 					$field = RevisionDeleter::getRelationType( $params[0] );
 					// B/C, the params may start with a title key (<title> <urlparam> <CSV>)
 					if ( $field == null ) {
@@ -90,8 +99,9 @@ class PopulateLogSearch extends LoggedUpdateMaintenance {
 					$log->addRelations( $field, $items, $row->log_id );
 					// Determine what table to query...
 					$prefix = substr( $field, 0, strpos( $field, '_' ) ); // db prefix
-					if ( !isset( self::$tableMap[$prefix] ) )
+					if ( !isset( self::$tableMap[$prefix] ) ) {
 						continue; // bad row?
+					}
 					$table = self::$tableMap[$prefix];
 					$userField = $prefix . '_user';
 					$userTextField = $prefix . '_user_text';
@@ -102,10 +112,11 @@ class PopulateLogSearch extends LoggedUpdateMaintenance {
 						array( $field => $items )
 					);
 					foreach ( $sres as $srow ) {
-						if ( $srow->$userField > 0 )
+						if ( $srow->$userField > 0 ) {
 							$userIds[] = intval( $srow->$userField );
-						elseif ( $srow->$userTextField != '' )
+						} elseif ( $srow->$userTextField != '' ) {
 							$userIPs[] = $srow->$userTextField;
+						}
 					}
 					// Add item author relations...
 					$log->addRelations( 'target_author_id', $userIds, $row->log_id );
@@ -114,7 +125,9 @@ class PopulateLogSearch extends LoggedUpdateMaintenance {
 				} elseif ( LogEventsList::typeAction( $row, $delTypes, 'event' ) ) {
 					$params = LogPage::extractParams( $row->log_params );
 					// Param format: <item CSV> [<ofield> <nfield>]
-					if ( count( $params ) < 1 ) continue; // bad row
+					if ( count( $params ) < 1 ) {
+						continue; // bad row
+					}
 					$items = explode( ',', $params[0] );
 					$log = new LogPage( $row->log_type );
 					// Add item relations...
@@ -126,10 +139,11 @@ class PopulateLogSearch extends LoggedUpdateMaintenance {
 						array( 'log_id' => $items )
 					);
 					foreach ( $sres as $srow ) {
-						if ( $srow->log_user > 0 )
+						if ( $srow->log_user > 0 ) {
 							$userIds[] = intval( $srow->log_user );
-						elseif ( IP::isIPAddress( $srow->log_user_text ) )
+						} elseif ( IP::isIPAddress( $srow->log_user_text ) ) {
 							$userIPs[] = $srow->log_user_text;
+						}
 					}
 					$log->addRelations( 'target_author_id', $userIds, $row->log_id );
 					$log->addRelations( 'target_author_ip', $userIPs, $row->log_id );
@@ -145,4 +159,4 @@ class PopulateLogSearch extends LoggedUpdateMaintenance {
 }
 
 $maintClass = "PopulateLogSearch";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

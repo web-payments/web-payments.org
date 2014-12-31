@@ -38,7 +38,7 @@ class ApiQueryTags extends ApiQueryBase {
 
 	private $limit;
 	private $fld_displayname = false, $fld_description = false,
-			$fld_hitcount = false;
+		$fld_hitcount = false;
 
 	public function __construct( $query, $moduleName ) {
 		parent::__construct( $query, $moduleName, 'tg' );
@@ -59,7 +59,7 @@ class ApiQueryTags extends ApiQueryBase {
 		$this->addTables( 'change_tag' );
 		$this->addFields( 'ct_tag' );
 
-		$this->addFieldsIf( 'count(*) AS hitcount', $this->fld_hitcount );
+		$this->addFieldsIf( array( 'hitcount' => 'COUNT(*)' ), $this->fld_hitcount );
 
 		$this->addOption( 'LIMIT', $this->limit + 1 );
 		$this->addOption( 'GROUP BY', 'ct_tag' );
@@ -73,7 +73,7 @@ class ApiQueryTags extends ApiQueryBase {
 			if ( !$ok ) {
 				break;
 			}
-			$ok = $this->doTag( $row->ct_tag, $row->hitcount );
+			$ok = $this->doTag( $row->ct_tag, $this->fld_hitcount ? $row->hitcount : 0 );
 		}
 
 		// include tags with no hits yet
@@ -97,6 +97,7 @@ class ApiQueryTags extends ApiQueryBase {
 
 		if ( ++$count > $this->limit ) {
 			$this->setContinueEnumParameter( 'continue', $tagName );
+
 			return false;
 		}
 
@@ -121,6 +122,7 @@ class ApiQueryTags extends ApiQueryBase {
 		$fit = $this->result->addValue( array( 'query', $this->getModuleName() ), null, $tag );
 		if ( !$fit ) {
 			$this->setContinueEnumParameter( 'continue', $tagName );
+
 			return false;
 		}
 
@@ -133,8 +135,7 @@ class ApiQueryTags extends ApiQueryBase {
 
 	public function getAllowedParams() {
 		return array(
-			'continue' => array(
-			),
+			'continue' => null,
 			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
 				ApiBase::PARAM_TYPE => 'limit',
@@ -162,15 +163,32 @@ class ApiQueryTags extends ApiQueryBase {
 			'prop' => array(
 				'Which properties to get',
 				' name         - Adds name of tag',
-				' displayname  - Adds system messsage for the tag',
+				' displayname  - Adds system message for the tag',
 				' description  - Adds description of the tag',
 				' hitcount     - Adds the amount of revisions that have this tag',
 			),
 		);
 	}
 
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'name' => 'string'
+			),
+			'displayname' => array(
+				'displayname' => 'string'
+			),
+			'description' => array(
+				'description' => 'string'
+			),
+			'hitcount' => array(
+				'hitcount' => 'integer'
+			)
+		);
+	}
+
 	public function getDescription() {
-		return 'List change tags';
+		return 'List change tags.';
 	}
 
 	public function getExamples() {
@@ -179,7 +197,7 @@ class ApiQueryTags extends ApiQueryBase {
 		);
 	}
 
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
+	public function getHelpUrls() {
+		return 'https://www.mediawiki.org/wiki/API:Tags';
 	}
 }

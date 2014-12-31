@@ -1,14 +1,32 @@
 <?php
 /**
- * A License class for use on Special:Upload
+ * License selector for use on Special:Upload.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
  * @ingroup SpecialPage
- *
  * @author Ævar Arnfjörð Bjarmason <avarab@gmail.com>
  * @copyright Copyright © 2005, Ævar Arnfjörð Bjarmason
  * @license http://www.gnu.org/copyleft/gpl.html GNU General Public License 2.0 or later
  */
 
+/**
+ * A License class for use on Special:Upload
+ */
 class Licenses extends HTMLFormField {
 	/**
 	 * @var string
@@ -34,7 +52,7 @@ class Licenses extends HTMLFormField {
 	public function __construct( $params ) {
 		parent::__construct( $params );
 
-		$this->msg = empty( $params['licenses'] ) ? wfMsgForContent( 'licenses' ) : $params['licenses'];
+		$this->msg = empty( $params['licenses'] ) ? wfMessage( 'licenses' )->inContentLanguage()->plain() : $params['licenses'];
 		$this->selected = null;
 
 		$this->makeLicenses();
@@ -87,7 +105,7 @@ class Licenses extends HTMLFormField {
 	protected function stackItem( &$list, $path, $item ) {
 		$position =& $list;
 		if ( $path ) {
-			foreach( $path as $key ) {
+			foreach ( $path as $key ) {
 				$position =& $position[$key];
 			}
 		}
@@ -99,10 +117,10 @@ class Licenses extends HTMLFormField {
 	 * @param $depth int
 	 */
 	protected function makeHtml( $tagset, $depth = 0 ) {
-		foreach ( $tagset as $key => $val )
+		foreach ( $tagset as $key => $val ) {
 			if ( is_array( $val ) ) {
 				$this->html .= $this->outputOption(
-					$this->msg( $key ), '',
+					$key, '',
 					array(
 						'disabled' => 'disabled',
 						'style' => 'color: GrayText', // for MSIE
@@ -112,35 +130,31 @@ class Licenses extends HTMLFormField {
 				$this->makeHtml( $val, $depth + 1 );
 			} else {
 				$this->html .= $this->outputOption(
-					$this->msg( $val->text ), $val->template,
+					$val->text, $val->template,
 					array( 'title' => '{{' . $val->template . '}}' ),
 					$depth
 				);
 			}
+		}
 	}
 
 	/**
-	 * @param $text
+	 * @param $message
 	 * @param $value
 	 * @param $attribs null
 	 * @param $depth int
 	 * @return string
 	 */
-	protected function outputOption( $text, $value, $attribs = null, $depth = 0 ) {
+	protected function outputOption( $message, $value, $attribs = null, $depth = 0 ) {
+		$msgObj = $this->msg( $message );
+		$text = $msgObj->exists() ? $msgObj->text() : $message;
 		$attribs['value'] = $value;
-		if ( $value === $this->selected )
+		if ( $value === $this->selected ) {
 			$attribs['selected'] = 'selected';
+		}
+
 		$val = str_repeat( /* &nbsp */ "\xc2\xa0", $depth * 2 ) . $text;
 		return str_repeat( "\t", $depth ) . Xml::element( 'option', $attribs, $val ) . "\n";
-	}
-
-	/**
-	 * @param $str string
-	 * @return String
-	 */
-	protected function msg( $str ) {
-		$msg = wfMessage( $str );
-		return $msg->exists() ? $msg->text() : $str;
 	}
 
 	/**#@-*/
@@ -164,7 +178,7 @@ class Licenses extends HTMLFormField {
 	public function getInputHTML( $value ) {
 		$this->selected = $value;
 
-		$this->html = $this->outputOption( wfMsg( 'nolicense' ), '',
+		$this->html = $this->outputOption( wfMessage( 'nolicense' )->text(), '',
 			(bool)$this->selected ? null : array( 'selected' => 'selected' ) );
 		$this->makeHtml( $this->getLicenses() );
 
@@ -197,7 +211,7 @@ class License {
 	/**
 	 * Constructor
 	 *
-	 * @param $str String: license name??
+	 * @param string $str license name??
 	 */
 	function __construct( $str ) {
 		list( $text, $template ) = explode( '|', strrev( $str ), 2 );

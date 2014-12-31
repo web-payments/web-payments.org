@@ -78,7 +78,7 @@ usage evenly), make its entry a subarray:
 == PHP client for memcached ==
 
 MediaWiki uses a fork of Ryan T. Dean's pure-PHP memcached client.
-The newer PECL module is not yet supported.
+It also supports the PECL PHP extension for memcached.
 
 MediaWiki uses three object for object caching:
 * $wgMemc, controlled by $wgMainCacheType
@@ -91,7 +91,7 @@ database. If the cache daemon can't be contacted, it should also
 disable itself fairly smoothly.
 
 By default, $wgMemc is used but when it is $parserMemc or $messageMemc
-this is mentionned below.
+this is mentioned below.
 
 == Keys used ==
 
@@ -138,7 +138,7 @@ Message Cache:
 	key: $wgDBname:messages, $wgDBname:messages-hash, $wgDBname:messages-status
 	ex: wikidb:messages, wikidb:messages-hash, wikidb:messages-status
 	stores: an array where the keys are DB keys and the values are messages
-	set in: wfMsg(), Article::editUpdates() and Title::moveTo()
+	set in: wfMessage(), Article::editUpdates() and Title::moveTo()
 	expriy: $wgMsgCacheExpiry
 	cleared by: nothing
 
@@ -198,7 +198,7 @@ Revision text:
 	expriry: $wgRevisionCacheExpiry
 
 Sessions:
-	controlled by: $wgSessionsInMemcached
+	controlled by: $wgSessionsInObjectCache
 	key: $wgBDname:session:$id
 	ex: wikidb:session:38d7c5b8d3bfc51egf40c69bc40f8be3
 	stores: $SESSION, useful when using a multi-sever wiki
@@ -237,9 +237,9 @@ Statistics:
 	controlled by: $wgStatsMethod
 	key: $wgDBname:stats:$key
 	ex: wikibd:stats:request_with_session
-	stores: counter for statistics (see maintenance/stats.php script)
+	stores: counter for statistics (see maintenance/showCacheStats.php script)
 	expiry: none (?)
-	cleared by: maintenance/clear_stats.php script
+	cleared by: maintenance/clearCacheStats.php script
 
 User:
 	key: $wgDBname:user:id:$sId

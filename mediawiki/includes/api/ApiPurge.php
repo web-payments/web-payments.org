@@ -30,71 +30,47 @@
  * @ingroup API
  */
 class ApiPurge extends ApiBase {
-
-	public function __construct( $main, $action ) {
-		parent::__construct( $main, $action );
-	}
+	private $mPageSet;
 
 	/**
 	 * Purges the cache of a page
 	 */
 	public function execute() {
-		$user = $this->getUser();
 		$params = $this->extractRequestParams();
-		if ( !$user->isAllowed( 'purge' ) && !$this->getMain()->isInternalMode() &&
-				!$this->getRequest()->wasPosted() ) {
-			$this->dieUsageMsg( array( 'mustbeposted', $this->getModuleName() ) );
-		}
 
 		$forceLinkUpdate = $params['forcelinkupdate'];
-		$pageSet = new ApiPageSet( $this );
+		$forceRecursiveLinkUpdate = $params['forcerecursivelinkupdate'];
+		$pageSet = $this->getPageSet();
 		$pageSet->execute();
 
-		$result = array();
-		foreach( $pageSet->getInvalidTitles() as $title ) {
-			$r = array();
-			$r['title'] = $title;
-			$r['invalid'] = '';
-			$result[] = $r;
-		}
-		foreach( $pageSet->getMissingPageIDs() as $p ) {
-			$page = array();
-			$page['pageid'] = $p;
-			$page['missing'] = '';
-			$result[] = $page;
-		}
-		foreach( $pageSet->getMissingRevisionIDs() as $r ) {
-			$rev = array();
-			$rev['revid'] = $r;
-			$rev['missing'] = '';
-			$result[] = $rev;
-		}
+		$result = $pageSet->getInvalidTitlesAndRevisions();
 
-		foreach ( $pageSet->getTitles() as $title ) {
+		foreach ( $pageSet->getGoodTitles() as $title ) {
 			$r = array();
-
 			ApiQueryBase::addTitleInfo( $r, $title );
-			if ( !$title->exists() ) {
-				$r['missing'] = '';
-				$result[] = $r;
-				continue;
-			}
-
 			$page = WikiPage::factory( $title );
 			$page->doPurge(); // Directly purge and skip the UI part of purge().
 			$r['purged'] = '';
 
-			if( $forceLinkUpdate ) {
-				if ( !$user->pingLimiter() ) {
-					global $wgParser, $wgEnableParserCache;
+			if ( $forceLinkUpdate || $forceRecursiveLinkUpdate ) {
+				if ( !$this->getUser()->pingLimiter( 'linkpurge' ) ) {
+					global $wgEnableParserCache;
 
-					$popts = ParserOptions::newFromContext( $this->getContext() );
-					$p_result = $wgParser->parse( $page->getRawText(), $title, $popts,
-						true, true, $page->getLatest() );
+					$popts = $page->makeParserOptions( 'canonical' );
+
+					# Parse content; note that HTML generation is only needed if we want to cache the result.
+					$content = $page->getContent( Revision::RAW );
+					$p_result = $content->getParserOutput(
+						$title,
+						$page->getLatest(),
+						$popts,
+						$wgEnableParserCache
+					);
 
 					# Update the links tables
-					$u = new LinksUpdate( $title, $p_result );
-					$u->doUpdate();
+					$updates = $content->getSecondaryDataUpdates(
+						$title, null, $forceRecursiveLinkUpdate, $p_result );
+					DataUpdate::runUpdates( $updates );
 
 					$r['linkupdate'] = '';
 
@@ -103,7 +79,8 @@ class ApiPurge extends ApiBase {
 						$pcache->save( $p_result, $page, $popts );
 					}
 				} else {
-					$this->setWarning( $this->parseMsg( array( 'actionthrottledtext' ) ) );
+					$error = $this->parseMsg( array( 'actionthrottledtext' ) );
+					$this->setWarning( $error['info'] );
 					$forceLinkUpdate = false;
 				}
 			}
@@ -113,23 +90,93 @@ class ApiPurge extends ApiBase {
 		$apiResult = $this->getResult();
 		$apiResult->setIndexedTagName( $result, 'page' );
 		$apiResult->addValue( null, $this->getModuleName(), $result );
+
+		$values = $pageSet->getNormalizedTitlesAsResult( $apiResult );
+		if ( $values ) {
+			$apiResult->addValue( null, 'normalized', $values );
+		}
+		$values = $pageSet->getConvertedTitlesAsResult( $apiResult );
+		if ( $values ) {
+			$apiResult->addValue( null, 'converted', $values );
+		}
+		$values = $pageSet->getRedirectTitlesAsResult( $apiResult );
+		if ( $values ) {
+			$apiResult->addValue( null, 'redirects', $values );
+		}
+	}
+
+	/**
+	 * Get a cached instance of an ApiPageSet object
+	 * @return ApiPageSet
+	 */
+	private function getPageSet() {
+		if ( !isset( $this->mPageSet ) ) {
+			$this->mPageSet = new ApiPageSet( $this );
+		}
+
+		return $this->mPageSet;
 	}
 
 	public function isWriteMode() {
 		return true;
 	}
 
-	public function getAllowedParams() {
-		$psModule = new ApiPageSet( $this );
-		return $psModule->getAllowedParams() + array(
+	public function mustBePosted() {
+		// Anonymous users are not allowed a non-POST request
+		return !$this->getUser()->isAllowed( 'purge' );
+	}
+
+	public function getAllowedParams( $flags = 0 ) {
+		$result = array(
 			'forcelinkupdate' => false,
+			'forcerecursivelinkupdate' => false
 		);
+		if ( $flags ) {
+			$result += $this->getPageSet()->getFinalParams( $flags );
+		}
+
+		return $result;
 	}
 
 	public function getParamDescription() {
-		$psModule = new ApiPageSet( $this );
-		return $psModule->getParamDescription() + array(
-			'forcelinkupdate' => 'Update the links tables',
+		return $this->getPageSet()->getFinalParamDescription()
+			+ array(
+				'forcelinkupdate' => 'Update the links tables',
+				'forcerecursivelinkupdate' => 'Update the links table, and update ' .
+					'the links tables for any page that uses this page as a template',
+			);
+	}
+
+	public function getResultProperties() {
+		return array(
+			ApiBase::PROP_LIST => true,
+			'' => array(
+				'ns' => array(
+					ApiBase::PROP_TYPE => 'namespace',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'title' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'pageid' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'revid' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'invalid' => 'boolean',
+				'special' => 'boolean',
+				'missing' => 'boolean',
+				'purged' => 'boolean',
+				'linkupdate' => 'boolean',
+				'iw' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				),
+			)
 		);
 	}
 
@@ -140,11 +187,9 @@ class ApiPurge extends ApiBase {
 	}
 
 	public function getPossibleErrors() {
-		$psModule = new ApiPageSet( $this );
 		return array_merge(
 			parent::getPossibleErrors(),
-			array( array( 'cantpurge' ), ),
-			$psModule->getPossibleErrors()
+			$this->getPageSet()->getFinalPossibleErrors()
 		);
 	}
 
@@ -156,9 +201,5 @@ class ApiPurge extends ApiBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Purge';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

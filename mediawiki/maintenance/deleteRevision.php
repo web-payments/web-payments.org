@@ -17,11 +17,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that deletes one or more revisions by moving them
+ * to the archive table.
+ *
+ * @ingroup Maintenance
+ */
 class DeleteRevision extends Maintenance {
 
 	public function __construct() {
@@ -78,4 +85,4 @@ class DeleteRevision extends Maintenance {
 }
 
 $maintClass = "DeleteRevision";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

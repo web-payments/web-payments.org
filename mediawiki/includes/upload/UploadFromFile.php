@@ -1,5 +1,27 @@
 <?php
 /**
+ * Backend for regular file upload.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Upload
+ */
+
+/**
  * Implements regular file uploads
  *
  * @ingroup Upload
@@ -16,12 +38,13 @@ class UploadFromFile extends UploadBase {
 	 * @param $request WebRequest
 	 */
 	function initializeFromRequest( &$request ) {
-		$upload = $request->getUpload( 'wpUploadFile' );		
+		$upload = $request->getUpload( 'wpUploadFile' );
 		$desiredDestName = $request->getText( 'wpDestFile' );
-		if( !$desiredDestName )
+		if ( !$desiredDestName ) {
 			$desiredDestName = $upload->getName();
-			
-		return $this->initialize( $desiredDestName, $upload );
+		}
+
+		$this->initialize( $desiredDestName, $upload );
 	}
 
 	/**
@@ -31,7 +54,7 @@ class UploadFromFile extends UploadBase {
 	 */
 	function initialize( $name, $webRequestUpload ) {
 		$this->mUpload = $webRequestUpload;
-		return $this->initializePathInfo( $name, 
+		$this->initializePathInfo( $name,
 			$this->mUpload->getTempName(), $this->mUpload->getSize() );
 	}
 
@@ -56,21 +79,21 @@ class UploadFromFile extends UploadBase {
 	 * @return array
 	 */
 	public function verifyUpload() {
-		# Check for a post_max_size or upload_max_size overflow, so that a 
+		# Check for a post_max_size or upload_max_size overflow, so that a
 		# proper error can be shown to the user
 		if ( is_null( $this->mTempPath ) || $this->isEmptyFile() ) {
 			if ( $this->mUpload->isIniSizeOverflow() ) {
-				return array( 
+				return array(
 					'status' => UploadBase::FILE_TOO_LARGE,
-					'max' => min( 
-						self::getMaxUploadSize( $this->getSourceType() ), 
-						wfShorthandToInteger( ini_get( 'upload_max_filesize' ) ), 
+					'max' => min(
+						self::getMaxUploadSize( $this->getSourceType() ),
+						wfShorthandToInteger( ini_get( 'upload_max_filesize' ) ),
 						wfShorthandToInteger( ini_get( 'post_max_size' ) )
 					),
 				);
 			}
 		}
-		
+
 		return parent::verifyUpload();
 	}
 }

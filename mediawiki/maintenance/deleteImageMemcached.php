@@ -1,6 +1,6 @@
 <?php
 /**
- * This script delete image information from the cache.
+ * Delete image information from the object cache.
  *
  * Usage example:
  * php deleteImageMemcached.php --until "2005-09-05 00:00:00" --sleep 0
@@ -20,11 +20,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that deletes image information from the object cache.
+ *
+ * @ingroup Maintenance
+ */
 class DeleteImageCache extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -53,13 +59,15 @@ class DeleteImageCache extends Maintenance {
 		$total = $this->getImageCount();
 
 		foreach ( $res as $row ) {
-			if ( $i % $this->report == 0 )
+			if ( $i % $this->report == 0 ) {
 				$this->output( sprintf( "%s: %13s done (%s)\n", wfWikiID(), "$i/$total", wfPercent( $i / $total * 100 ) ) );
+			}
 			$md5 = md5( $row->img_name );
 			$wgMemc->delete( wfMemcKey( 'Image', $md5 ) );
 
-			if ( $sleep != 0 )
+			if ( $sleep != 0 ) {
 				usleep( $sleep );
+			}
 
 			++$i;
 		}
@@ -72,4 +80,4 @@ class DeleteImageCache extends Maintenance {
 }
 
 $maintClass = "DeleteImageCache";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

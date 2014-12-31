@@ -17,11 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that re-assigns users from an old group to a new one.
+ *
+ * @ingroup Maintenance
+ */
 class MigrateUserGroup extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -49,22 +55,55 @@ class MigrateUserGroup extends Maintenance {
 		$blockEnd = $start + $this->mBatchSize - 1;
 		// Migrate users over in batches...
 		while ( $blockEnd <= $end ) {
+			$affected = 0;
 			$this->output( "Doing users $blockStart to $blockEnd\n" );
-			$dbw->begin();
+
+			$dbw->begin( __METHOD__ );
 			$dbw->update( 'user_groups',
 				array( 'ug_group' => $newGroup ),
 				array( 'ug_group' => $oldGroup,
-					"ug_user BETWEEN $blockStart AND $blockEnd" )
+					"ug_user BETWEEN $blockStart AND $blockEnd" ),
+				__METHOD__,
+				array( 'IGNORE' )
 			);
-			$count += $dbw->affectedRows();
-			$dbw->commit();
+			$affected += $dbw->affectedRows();
+			// Delete rows that the UPDATE operation above had to ignore.
+			// This happens when a user is in both the old and new group.
+			// Updating the row for the old group membership failed since
+			// user/group is UNIQUE.
+			$dbw->delete( 'user_groups',
+				array( 'ug_group' => $oldGroup,
+					"ug_user BETWEEN $blockStart AND $blockEnd" ),
+				__METHOD__
+			);
+			$affected += $dbw->affectedRows();
+			$dbw->commit( __METHOD__ );
+
+			// Clear cache for the affected users (bug 40340)
+			if ( $affected > 0 ) {
+				// XXX: This also invalidates cache of unaffected users that
+				// were in the new group and not in the group.
+				$res = $dbw->select( 'user_groups', 'ug_user',
+					array( 'ug_group' => $newGroup,
+						"ug_user BETWEEN $blockStart AND $blockEnd" ),
+					__METHOD__
+				);
+				if ( $res !== false ) {
+					foreach ( $res as $row ) {
+						$user = User::newFromId( $row->ug_user );
+						$user->invalidateCache();
+					}
+				}
+			}
+
+			$count += $affected;
 			$blockStart += $this->mBatchSize;
 			$blockEnd += $this->mBatchSize;
 			wfWaitForSlaves();
 		}
-		$this->output( "Done! $count user(s) in group '$oldGroup' are now in '$newGroup' instead.\n" );
+		$this->output( "Done! $count users in group '$oldGroup' are now in '$newGroup' instead.\n" );
 	}
 }
 
 $maintClass = "MigrateUserGroup";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

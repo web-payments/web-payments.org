@@ -16,15 +16,15 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	die( 1 );
 }
 
-if ( version_compare( $wgVersion, '1.18alpha', '<' ) ) {
-	die( "This version of Extension:Gadgets requires MediaWiki 1.18+\n" );
+if ( version_compare( $wgVersion, '1.19', '<' ) ) {
+	die( "This version of Extension:Gadgets requires MediaWiki 1.19+\n" );
 }
 
 $wgExtensionCredits['other'][] = array(
 	'path' => __FILE__,
 	'name' => 'Gadgets',
 	'author' => array( 'Daniel Kinzler', 'Max Semenik' ),
-	'url' => 'http://mediawiki.org/wiki/Extension:Gadgets',
+	'url' => 'https://www.mediawiki.org/wiki/Extension:Gadgets',
 	'descriptionmsg' => 'gadgets-desc',
 );
 
@@ -33,16 +33,17 @@ $wgHooks['BeforePageDisplay'][]             = 'GadgetHooks::beforePageDisplay';
 $wgHooks['UserGetDefaultOptions'][]         = 'GadgetHooks::userGetDefaultOptions';
 $wgHooks['GetPreferences'][]                = 'GadgetHooks::getPreferences';
 $wgHooks['ResourceLoaderRegisterModules'][] = 'GadgetHooks::registerModules';
-$wgHooks['UnitTestsList'][]                 = 'GadgetHooks::unitTestsList';
+$wgHooks['UnitTestsList'][]                 = 'GadgetHooks::onUnitTestsList';
 
 $dir = dirname( __FILE__ ) . '/';
+$wgMessagesDirs['Gadgets'] = __DIR__ . '/i18n';
 $wgExtensionMessagesFiles['Gadgets'] = $dir . 'Gadgets.i18n.php';
 $wgExtensionMessagesFiles['GadgetsAlias'] = $dir . 'Gadgets.alias.php';
 
 $wgAutoloadClasses['ApiQueryGadgetCategories'] = $dir . 'ApiQueryGadgetCategories.php';
 $wgAutoloadClasses['ApiQueryGadgets'] = $dir . 'ApiQueryGadgets.php';
 $wgAutoloadClasses['Gadget'] = $dir . 'Gadgets_body.php';
-$wgAutoloadClasses['GadgetHooks'] = $dir . 'Gadgets_body.php';
+$wgAutoloadClasses['GadgetHooks'] = $dir . 'GadgetHooks.php';
 $wgAutoloadClasses['GadgetResourceLoaderModule'] = $dir . 'Gadgets_body.php';
 $wgAutoloadClasses['SpecialGadgets'] = $dir . 'SpecialGadgets.php';
 

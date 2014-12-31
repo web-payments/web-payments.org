@@ -4,7 +4,7 @@
  *
  * Created on May 13, 2007
  *
- * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
+ * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -86,8 +86,12 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 				break;
 			}
 			$entry = array();
-			// We *could* run this through wfExpandUrl() but I think it's better to output the link verbatim, even if it's protocol-relative --Roan
-			ApiResult::setContent( $entry, $row->el_to );
+			$to = $row->el_to;
+			// expand protocol-relative urls
+			if ( $params['expandurl'] ) {
+				$to = wfExpandUrl( $to, PROTO_CANONICAL );
+			}
+			ApiResult::setContent( $entry, $to );
 			$fit = $this->addPageSubItem( $row->el_from, $entry );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'offset', $offset + $count - 1 );
@@ -117,24 +121,36 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 				ApiBase::PARAM_DFLT => '',
 			),
 			'query' => null,
+			'expandurl' => false,
 		);
 	}
 
 	public function getParamDescription() {
 		$p = $this->getModulePrefix();
+
 		return array(
 			'limit' => 'How many links to return',
 			'offset' => 'When more results are available, use this to continue',
 			'protocol' => array(
-				"Protocol of the url. If empty and {$p}query set, the protocol is http.",
+				"Protocol of the URL. If empty and {$p}query set, the protocol is http.",
 				"Leave both this and {$p}query empty to list all external links"
 			),
-			'query' => 'Search string without protocol. Useful for checking whether a certain page contains a certain external url',
+			'query' => 'Search string without protocol. Useful for checking ' .
+				'whether a certain page contains a certain external url',
+			'expandurl' => 'Expand protocol-relative URLs with the canonical protocol',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'*' => 'string'
+			)
 		);
 	}
 
 	public function getDescription() {
-		return 'Returns all external urls (not interwikies) from the given page(s)';
+		return 'Returns all external URLs (not interwikis) from the given page(s).';
 	}
 
 	public function getPossibleErrors() {
@@ -145,15 +161,12 @@ class ApiQueryExternalLinks extends ApiQueryBase {
 
 	public function getExamples() {
 		return array(
-			'api.php?action=query&prop=extlinks&titles=Main%20Page' => 'Get a list of external links on the [[Main Page]]',
+			'api.php?action=query&prop=extlinks&titles=Main%20Page'
+				=> 'Get a list of external links on the [[Main Page]]',
 		);
 	}
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Properties#extlinks_.2F_el';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

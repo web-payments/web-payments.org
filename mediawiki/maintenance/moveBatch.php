@@ -1,6 +1,6 @@
 <?php
 /**
- * Maintenance script to move a batch of pages
+ * Move a batch of pages.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  * @author Tim Starling
  *
- * USAGE: php moveBatch.php [-u <user>] [-r <reason>] [-i <interval>] [listfile]
+ * USAGE: php moveBatch.php [-u <user>] [-r <reason>] [-i <interval>] [-noredirects] [listfile]
  *
  * [listfile] - file with two titles per line, separated with pipe characters;
  * the first title is the source, the second is the destination.
@@ -28,13 +29,19 @@
  * <user> - username to perform moves as
  * <reason> - reason to be given for moves
  * <interval> - number of seconds to sleep after each move
+ * <noredirects> - suppress creation of redirects
  *
  * This will print out error codes from Title::moveTo() if something goes wrong,
  * e.g. immobile_namespace for namespaces which can't be moved
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to move a batch of pages.
+ *
+ * @ingroup Maintenance
+ */
 class MoveBatch extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -42,6 +49,7 @@ class MoveBatch extends Maintenance {
 		$this->addOption( 'u', "User to perform move", false, true );
 		$this->addOption( 'r', "Reason to move page", false, true );
 		$this->addOption( 'i', "Interval to sleep between moves" );
+		$this->addOption( 'noredirects', "Suppress creation of redirects" );
 		$this->addArg( 'listfile', 'List of pages to move, newline delimited', false );
 	}
 
@@ -56,6 +64,7 @@ class MoveBatch extends Maintenance {
 		$user = $this->getOption( 'u', 'Move page script' );
 		$reason = $this->getOption( 'r', '' );
 		$interval = $this->getOption( 'i', 0 );
+		$noredirects = $this->getOption( 'noredirects', false );
 		if ( $this->hasArg() ) {
 			$file = fopen( $this->getArg(), 'r' );
 		} else {
@@ -90,15 +99,14 @@ class MoveBatch extends Maintenance {
 				continue;
 			}
 
-
 			$this->output( $source->getPrefixedText() . ' --> ' . $dest->getPrefixedText() );
-			$dbw->begin();
-			$err = $source->moveTo( $dest, false, $reason );
+			$dbw->begin( __METHOD__ );
+			$err = $source->moveTo( $dest, false, $reason, !$noredirects );
 			if ( $err !== true ) {
 				$msg = array_shift( $err[0] );
-				$this->output( "\nFAILED: " . wfMsg( $msg, $err[0] ) );
+				$this->output( "\nFAILED: " . wfMessage( $msg, $err[0] )->text() );
 			}
-			$dbw->commit();
+			$dbw->commit( __METHOD__ );
 			$this->output( "\n" );
 
 			if ( $interval ) {
@@ -110,4 +118,4 @@ class MoveBatch extends Maintenance {
 }
 
 $maintClass = "MoveBatch";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

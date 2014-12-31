@@ -30,6 +30,7 @@
 class PhpXmlBugTester {
 	private $parsedData = '';
 	public $ok = false;
+
 	public function __construct() {
 		$charData = '<b>c</b>';
 		$xml = '<a>' . htmlspecialchars( $charData ) . '</a>';
@@ -39,33 +40,8 @@ class PhpXmlBugTester {
 		$parsedOk = xml_parse( $parser, $xml, true );
 		$this->ok = $parsedOk && ( $this->parsedData == $charData );
 	}
+
 	public function chardata( $parser, $data ) {
 		$this->parsedData .= $data;
-	}
-}
-
-/**
- * Test for PHP bug #50394 (PHP 5.3.x conversion to null only, not 5.2.x)
- * @see http://bugs.php.net/bug.php?id=50394
- * @ingroup PHPBugTests
- */
-class PhpRefCallBugTester {
-	public $ok = false;
-
-	function __call( $name, $args ) {
-		$old = error_reporting( E_ALL & ~E_WARNING );
-		call_user_func_array( array( $this, 'checkForBrokenRef' ), $args );
-		error_reporting( $old );
-	}
-
-	function checkForBrokenRef( &$var ) {
-		if ( $var ) {
-			$this->ok = true;
-		}
-	}
-
-	function execute() {
-		$var = true;
-		call_user_func_array( array( $this, 'foo' ), array( &$var ) );
 	}
 }

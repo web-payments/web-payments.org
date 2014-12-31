@@ -1,4 +1,24 @@
 <?php
+/**
+ * Accessors and mutators for the site-wide statistics.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
 
 /**
  * Static accessor class for site_stats and related things
@@ -28,8 +48,7 @@ class SiteStats {
 			# Update schema
 			$u = new SiteStatsUpdate( 0, 0, 0 );
 			$u->doUpdate();
-			$dbr = wfGetDB( DB_SLAVE );
-			self::$row = $dbr->selectRow( 'site_stats', '*', false, __METHOD__ );
+			self::$row = self::doLoad( wfGetDB( DB_SLAVE ) );
 		}
 
 		self::$loaded = true;
@@ -42,13 +61,13 @@ class SiteStats {
 		wfDebug( __METHOD__ . ": reading site_stats from slave\n" );
 		$row = self::doLoad( wfGetDB( DB_SLAVE ) );
 
-		if( !self::isSane( $row ) ) {
+		if ( !self::isSane( $row ) ) {
 			// Might have just been initialized during this request? Underflow?
 			wfDebug( __METHOD__ . ": site_stats damaged or missing on slave\n" );
 			$row = self::doLoad( wfGetDB( DB_MASTER ) );
 		}
 
-		if( !self::isSane( $row ) ) {
+		if ( !self::isSane( $row ) ) {
 			// Normally the site_stats table is initialized at install time.
 			// Some manual construction scenarios may leave the table empty or
 			// broken, however, for instance when importing from a dump into a
@@ -60,7 +79,7 @@ class SiteStats {
 			$row = self::doLoad( wfGetDB( DB_MASTER ) );
 		}
 
-		if( !self::isSane( $row ) ) {
+		if ( !self::isSane( $row ) ) {
 			wfDebug( __METHOD__ . ": site_stats persistently nonsensical o_O\n" );
 		}
 		return $row;
@@ -71,7 +90,16 @@ class SiteStats {
 	 * @return Bool|ResultWrapper
 	 */
 	static function doLoad( $db ) {
-		return $db->selectRow( 'site_stats', '*', false, __METHOD__ );
+		return $db->selectRow( 'site_stats', array(
+				'ss_row_id',
+				'ss_total_views',
+				'ss_total_edits',
+				'ss_good_articles',
+				'ss_total_pages',
+				'ss_users',
+				'ss_active_users',
+				'ss_images',
+			), false, __METHOD__ );
 	}
 
 	/**
@@ -132,7 +160,7 @@ class SiteStats {
 
 	/**
 	 * Find the number of users in a given user group.
-	 * @param $group String: name of group
+	 * @param string $group name of group
 	 * @return Integer
 	 */
 	static function numberingroup( $group ) {
@@ -161,7 +189,7 @@ class SiteStats {
 	static function jobs() {
 		if ( !isset( self::$jobs ) ) {
 			$dbr = wfGetDB( DB_SLAVE );
-			self::$jobs = $dbr->estimateRowCount( 'job' );
+			self::$jobs = array_sum( JobQueueGroup::singleton()->getQueueSizes() );
 			/* Zero rows still do single row read for row that doesn't exist, but people are annoyed by that */
 			if ( self::$jobs == 1 ) {
 				self::$jobs = 0;
@@ -177,7 +205,7 @@ class SiteStats {
 	 */
 	static function pagesInNs( $ns ) {
 		wfProfileIn( __METHOD__ );
-		if( !isset( self::$pageCount[$ns] ) ) {
+		if ( !isset( self::$pageCount[$ns] ) ) {
 			$dbr = wfGetDB( DB_SLAVE );
 			self::$pageCount[$ns] = (int)$dbr->selectField(
 				'page',
@@ -193,114 +221,33 @@ class SiteStats {
 	/**
 	 * Is the provided row of site stats sane, or should it be regenerated?
 	 *
+	 * Checks only fields which are filled by SiteStatsInit::refresh.
+	 *
 	 * @param $row
 	 *
 	 * @return bool
 	 */
 	private static function isSane( $row ) {
-		if(
-			$row === false
+		if ( $row === false
 			|| $row->ss_total_pages < $row->ss_good_articles
 			|| $row->ss_total_edits < $row->ss_total_pages
 		) {
 			return false;
 		}
 		// Now check for underflow/overflow
-		foreach( array( 'total_views', 'total_edits', 'good_articles',
-		'total_pages', 'users', 'images' ) as $member ) {
-			if(
-				$row->{"ss_$member"} > 2000000000
-				|| $row->{"ss_$member"} < 0
-			) {
+		foreach ( array(
+			'ss_total_views',
+			'ss_total_edits',
+			'ss_good_articles',
+			'ss_total_pages',
+			'ss_users',
+			'ss_images',
+		) as $member ) {
+			if ( $row->$member > 2000000000 || $row->$member < 0 ) {
 				return false;
 			}
 		}
 		return true;
-	}
-}
-
-/**
- * Class for handling updates to the site_stats table
- */
-class SiteStatsUpdate implements DeferrableUpdate {
-
-	var $mViews, $mEdits, $mGood, $mPages, $mUsers;
-
-	function __construct( $views, $edits, $good, $pages = 0, $users = 0 ) {
-		$this->mViews = $views;
-		$this->mEdits = $edits;
-		$this->mGood = $good;
-		$this->mPages = $pages;
-		$this->mUsers = $users;
-	}
-
-	/**
-	 * @param $sql
-	 * @param $field
-	 * @param $delta
-	 */
-	function appendUpdate( &$sql, $field, $delta ) {
-		if ( $delta ) {
-			if ( $sql ) {
-				$sql .= ',';
-			}
-			if ( $delta < 0 ) {
-				$sql .= "$field=$field-1";
-			} else {
-				$sql .= "$field=$field+1";
-			}
-		}
-	}
-
-	function doUpdate() {
-		$dbw = wfGetDB( DB_MASTER );
-
-		$updates = '';
-
-		$this->appendUpdate( $updates, 'ss_total_views', $this->mViews );
-		$this->appendUpdate( $updates, 'ss_total_edits', $this->mEdits );
-		$this->appendUpdate( $updates, 'ss_good_articles', $this->mGood );
-		$this->appendUpdate( $updates, 'ss_total_pages', $this->mPages );
-		$this->appendUpdate( $updates, 'ss_users', $this->mUsers );
-
-		if ( $updates ) {
-			$site_stats = $dbw->tableName( 'site_stats' );
-			$sql = "UPDATE $site_stats SET $updates";
-
-			# Need a separate transaction because this a global lock
-			$dbw->begin( __METHOD__ );
-			$dbw->query( $sql, __METHOD__ );
-			$dbw->commit( __METHOD__ );
-		}
-	}
-
-	/**
-	 * @param $dbw DatabaseBase
-	 * @return bool|mixed
-	 */
-	public static function cacheUpdate( $dbw ) {
-		global $wgActiveUserDays;
-		$dbr = wfGetDB( DB_SLAVE, array( 'SpecialStatistics', 'vslow' ) );
-		# Get non-bot users than did some recent action other than making accounts.
-		# If account creation is included, the number gets inflated ~20+ fold on enwiki.
-		$activeUsers = $dbr->selectField(
-			'recentchanges',
-			'COUNT( DISTINCT rc_user_text )',
-			array(
-				'rc_user != 0',
-				'rc_bot' => 0,
-				"rc_log_type != 'newusers' OR rc_log_type IS NULL",
-				"rc_timestamp >= '{$dbw->timestamp( wfTimestamp( TS_UNIX ) - $wgActiveUserDays*24*3600 )}'",
-			),
-			__METHOD__
-		);
-		$dbw->update(
-			'site_stats',
-			array( 'ss_active_users' => intval( $activeUsers ) ),
-			array( 'ss_row_id' => 1 ),
-			__METHOD__
-		);
-		return $activeUsers;
 	}
 }
 
@@ -313,7 +260,8 @@ class SiteStatsInit {
 	private $db;
 
 	// Various stats
-	private $mEdits, $mArticles, $mPages, $mUsers, $mViews, $mFiles = 0;
+	private $mEdits = null, $mArticles = null, $mPages = null;
+	private $mUsers = null, $mViews = null, $mFiles = null;
 
 	/**
 	 * Constructor
@@ -412,8 +360,7 @@ class SiteStatsInit {
 	 * @param $database DatabaseBase|bool
 	 * - Boolean: whether to use the master DB
 	 * - DatabaseBase: database connection to use
-	 * @param $options Array of options, may contain the following values
-	 * - update Boolean: whether to update the current stats (true) or write fresh (false) (default: false)
+	 * @param array $options of options, may contain the following values
 	 * - views Boolean: when true, do not update the number of page views (default: true)
 	 * - activeUsers Boolean: whether to update the number of active users (default: false)
 	 */
@@ -430,57 +377,35 @@ class SiteStatsInit {
 		$counter->files();
 
 		// Only do views if we don't want to not count them
-		if( $options['views'] ) {
+		if ( $options['views'] ) {
 			$counter->views();
 		}
 
-		// Update/refresh
-		if( $options['update'] ) {
-			$counter->update();
-		} else {
-			$counter->refresh();
-		}
+		$counter->refresh();
 
 		// Count active users if need be
-		if( $options['activeUsers'] ) {
+		if ( $options['activeUsers'] ) {
 			SiteStatsUpdate::cacheUpdate( wfGetDB( DB_MASTER ) );
 		}
 	}
 
 	/**
-	 * Update the current row with the selected values
-	 */
-	public function update() {
-		list( $values, $conds ) = $this->getDbParams();
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->update( 'site_stats', $values, $conds, __METHOD__ );
-	}
-
-	/**
-	 * Refresh site_stats. Erase the current record and save all
-	 * the new values.
+	 * Refresh site_stats. If you want ss_total_views to be updated, be sure to
+	 * call views() first.
 	 */
 	public function refresh() {
-		list( $values, $conds, $views ) = $this->getDbParams();
-		$dbw = wfGetDB( DB_MASTER );
-		$dbw->delete( 'site_stats', $conds, __METHOD__ );
-		$dbw->insert( 'site_stats', array_merge( $values, $conds, $views ), __METHOD__ );
-	}
-
-	/**
-	 * Return three arrays of params for the db queries
-	 * @return Array
-	 */
-	private function getDbParams() {
 		$values = array(
-			'ss_total_edits' => $this->mEdits,
-			'ss_good_articles' => $this->mArticles,
-			'ss_total_pages' => $this->mPages,
-			'ss_users' => $this->mUsers,
-			'ss_images' => $this->mFiles
+			'ss_row_id' => 1,
+			'ss_total_edits' => ( $this->mEdits === null ? $this->edits() : $this->mEdits ),
+			'ss_good_articles' => ( $this->mArticles === null ? $this->articles() : $this->mArticles ),
+			'ss_total_pages' => ( $this->mPages === null ? $this->pages() : $this->mPages ),
+			'ss_users' => ( $this->mUsers === null ? $this->users() : $this->mUsers ),
+			'ss_images' => ( $this->mFiles === null ? $this->files() : $this->mFiles ),
+		) + (
+			$this->mViews ? array( 'ss_total_views' => $this->mViews ) : array()
 		);
-		$conds = array( 'ss_row_id' => 1 );
-		$views = array( 'ss_total_views' => $this->mViews );
-		return array( $values, $conds, $views );
+
+		$dbw = wfGetDB( DB_MASTER );
+		$dbw->upsert( 'site_stats', $values, array( 'ss_row_id' ), $values, __METHOD__ );
 	}
 }

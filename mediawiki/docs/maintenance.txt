@@ -15,7 +15,7 @@ subdirectories, all of which have unique purposes.
 level /maintenance directory.
 
 Example:
-  php clear_stats.php
+  php clearCacheStats.php
   
 The following parameters are available to all maintenance scripts
 --help   : Print a help message
@@ -34,7 +34,7 @@ In it, write the following:
 
 <?php
 
-require_once( "Maintenance.php" );
+require_once 'Maintenance.php';
 
 class DemoMaint extends Maintenance {
 
@@ -47,11 +47,11 @@ class DemoMaint extends Maintenance {
 }
 
 $maintClass = "DemoMaint";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;
 
 ==END==
 
 That's it. In the execute() method, you have access to all of the normal
 MediaWiki functions, so you can get a DB connection, use the cache, etc.
 For full docs on the Maintenance class, see the auto-generated docs at
-http://svn.wikimedia.org/doc/classMaintenance.html
+https://doc.wikimedia.org/mediawiki-core/master/php/html/classMaintenance.html

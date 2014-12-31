@@ -1,7 +1,29 @@
 <?php
 /**
- * Contain the FileCacheBase class
+ * Data storage in the file system.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
+ * @ingroup Cache
+ */
+
+/**
+ * Base class for data storage in the file system.
+ *
  * @ingroup Cache
  */
 abstract class FileCacheBase {
@@ -13,7 +35,7 @@ abstract class FileCacheBase {
 	/* lazy loaded */
 	protected $mCached;
 
-	/* @TODO: configurable? */
+	/* @todo configurable? */
 	const MISS_FACTOR = 15; // log 1 every MISS_FACTOR cache misses
 	const MISS_TTL_SEC = 3600; // how many seconds ago is "recent"
 
@@ -29,6 +51,7 @@ abstract class FileCacheBase {
 	 */
 	final protected function baseCacheDirectory() {
 		global $wgFileCacheDirectory;
+
 		return $wgFileCacheDirectory;
 	}
 
@@ -69,15 +92,17 @@ abstract class FileCacheBase {
 		if ( $this->mCached === null ) {
 			$this->mCached = file_exists( $this->cachePath() );
 		}
+
 		return $this->mCached;
 	}
 
 	/**
 	 * Get the last-modified timestamp of the cache file
-	 * @return string|false TS_MW timestamp
+	 * @return string|bool TS_MW timestamp
 	 */
 	public function cacheTimestamp() {
 		$timestamp = filemtime( $this->cachePath() );
+
 		return ( $timestamp !== false )
 			? wfTimestamp( TS_MW, $timestamp )
 			: false;
@@ -85,7 +110,7 @@ abstract class FileCacheBase {
 
 	/**
 	 * Check if up to date cache file exists
-	 * @param $timestamp string MW_TS timestamp
+	 * @param string $timestamp MW_TS timestamp
 	 *
 	 * @return bool
 	 */
@@ -98,7 +123,8 @@ abstract class FileCacheBase {
 
 		$cachetime = $this->cacheTimestamp();
 		$good = ( $timestamp <= $cachetime && $wgCacheEpoch <= $cachetime );
-		wfDebug( __METHOD__ . ": cachetime $cachetime, touched '{$timestamp}' epoch {$wgCacheEpoch}, good $good\n" );
+		wfDebug( __METHOD__ .
+			": cachetime $cachetime, touched '{$timestamp}' epoch {$wgCacheEpoch}, good $good\n" );
 
 		return $good;
 	}
@@ -116,13 +142,18 @@ abstract class FileCacheBase {
 	 * @return string
 	 */
 	public function fetchText() {
-		// gzopen can transparently read from gziped or plain text
-		$fh = gzopen( $this->cachePath(), 'rb' );
-		return stream_get_contents( $fh );
+		if ( $this->useGzip() ) {
+			$fh = gzopen( $this->cachePath(), 'rb' );
+
+			return stream_get_contents( $fh );
+		} else {
+			return file_get_contents( $this->cachePath() );
+		}
 	}
 
 	/**
 	 * Save and compress text to the cache
+	 * @param string $text
 	 * @return string compressed text
 	 */
 	public function saveText( $text ) {
@@ -138,12 +169,14 @@ abstract class FileCacheBase {
 
 		$this->checkCacheDirs(); // build parent dir
 		if ( !file_put_contents( $this->cachePath(), $text, LOCK_EX ) ) {
-			wfDebug( __METHOD__ . "() failed saving ". $this->cachePath() . "\n");
+			wfDebug( __METHOD__ . "() failed saving " . $this->cachePath() . "\n" );
 			$this->mCached = null;
+
 			return false;
 		}
 
 		$this->mCached = true;
+
 		return $text;
 	}
 
@@ -204,7 +237,7 @@ abstract class FileCacheBase {
 	public function incrMissesRecent( WebRequest $request ) {
 		global $wgMemc;
 		if ( mt_rand( 0, self::MISS_FACTOR - 1 ) == 0 ) {
-			# Get a large IP range that should include the user  even if that 
+			# Get a large IP range that should include the user  even if that
 			# person's IP address changes
 			$ip = $request->getIP();
 			if ( !IP::isValid( $ip ) ) {
@@ -237,6 +270,7 @@ abstract class FileCacheBase {
 	 */
 	public function getMissesRecent() {
 		global $wgMemc;
+
 		return self::MISS_FACTOR * $wgMemc->get( $this->cacheMissKey() );
 	}
 

@@ -4,7 +4,7 @@
  * wrapper format for export or backup
  *
  * Copyright © 2005 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,10 +27,10 @@
 
 $originalDir = getcwd();
 
-$optionsWithArgs = array( 'pagelist', 'start', 'end', 'revstart', 'revend');
+$optionsWithArgs = array( 'pagelist', 'start', 'end', 'revstart', 'revend' );
 
-require_once( dirname( __FILE__ ) . '/commandLine.inc' );
-require_once( 'backup.inc' );
+require_once __DIR__ . '/commandLine.inc';
+require_once __DIR__ . '/backup.inc';
 
 $dumper = new BackupDumper( $argv );
 
@@ -44,8 +44,8 @@ if ( isset( $options['pagelist'] ) ) {
 	$pages = file( $options['pagelist'] );
 	chdir( $olddir );
 	if ( $pages === false ) {
-		echo( "Unable to open file {$options['pagelist']}\n" );
-		die(1);
+		echo "Unable to open file {$options['pagelist']}\n";
+		die( 1 );
 	}
 	$pages = array_map( 'trim', $pages );
 	$dumper->pages = array_filter( $pages, create_function( '$x', 'return $x !== "";' ) );
@@ -79,7 +79,7 @@ if ( isset( $options['full'] ) ) {
 	$dumper->dump( WikiExporter::STABLE, $textMode );
 } elseif ( isset( $options['logs'] ) ) {
 	$dumper->dump( WikiExporter::LOGS );
-} elseif ( isset($options['revrange'] ) ) {
+} elseif ( isset( $options['revrange'] ) ) {
 	$dumper->dump( WikiExporter::RANGE, $textMode );
 } else {
 	$dumper->progress( <<<ENDS
@@ -87,6 +87,10 @@ This script dumps the wiki page or logging database into an
 XML interchange wrapper format for export or backup.
 
 XML output is sent to stdout; progress reports are sent to stderr.
+
+WARNING: this is not a full database dump! It is merely for public export
+		 of your wiki. For full backup, see our online help at:
+         https://www.mediawiki.org/wiki/Backup
 
 Usage: php dumpBackup.php <action> [<options>]
 Actions:

@@ -1,5 +1,7 @@
 <?php
 /**
+ * Check digit transformation
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -15,11 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup MaintenanceLanguage
  */
 
-require_once( dirname( __FILE__ ) . '/../Maintenance.php' );
+require_once __DIR__ . '/../Maintenance.php';
 
+/**
+ * Maintenance script that check digit transformation.
+ *
+ * @ingroup MaintenanceLanguage
+ */
 class Digit2Html extends Maintenance {
 
 	# A list of unicode numerals is available at:
@@ -41,7 +49,7 @@ class Digit2Html extends Maintenance {
 			$filename = Language::getMessagesFileName( $code );
 			$this->output( "Loading language [$code] ... " );
 			unset( $digitTransformTable );
-			require_once( $filename );
+			require_once $filename;
 			if ( !isset( $digitTransformTable ) ) {
 				$this->error( "\$digitTransformTable not found for lang: $code" );
 				continue;
@@ -58,4 +66,4 @@ class Digit2Html extends Maintenance {
 }
 
 $maintClass = "Digit2Html";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

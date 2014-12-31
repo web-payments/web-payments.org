@@ -23,7 +23,7 @@
  */
 
 $optionsWithArgs = RecompressTracked::getOptionsWithArgs();
-require( dirname( __FILE__ ) . '/../commandLine.inc' );
+require __DIR__ . '/../commandLine.inc';
 
 if ( count( $args ) < 1 ) {
 	echo "Usage: php recompressTracked.php [options] <cluster> [... <cluster>...]
@@ -42,20 +42,26 @@ Options:
 $job = RecompressTracked::newFromCommandLine( $args, $options );
 $job->execute();
 
+/**
+ * Maintenance script that moves blobs indexed by trackBlobs.php to a specified
+ * list of destination clusters, and recompresses them in the process.
+ *
+ * @ingroup Maintenance ExternalStorage
+ */
 class RecompressTracked {
-	var $destClusters;
-	var $batchSize = 1000;
-	var $orphanBatchSize = 1000;
-	var $reportingInterval = 10;
-	var $numProcs = 1;
-	var $useDiff, $pageBlobClass, $orphanBlobClass;
-	var $slavePipes, $slaveProcs, $prevSlaveId;
-	var $copyOnly = false;
-	var $isChild = false;
-	var $slaveId = false;
-	var $noCount = false;
-	var $debugLog, $infoLog, $criticalLog;
-	var $store;
+	public $destClusters;
+	public $batchSize = 1000;
+	public $orphanBatchSize = 1000;
+	public $reportingInterval = 10;
+	public $numProcs = 1;
+	public $useDiff, $pageBlobClass, $orphanBlobClass;
+	public $slavePipes, $slaveProcs, $prevSlaveId;
+	public $copyOnly = false;
+	public $isChild = false;
+	public $slaveId = false;
+	public $noCount = false;
+	public $debugLog, $infoLog, $criticalLog;
+	public $store;
 
 	static $optionsWithArgs = array( 'procs', 'slave-id', 'debug-log', 'info-log', 'critical-log' );
 	static $cmdLineOptionMap = array(
@@ -273,7 +279,7 @@ class RecompressTracked {
 	 */
 	function dispatchToSlave( $slaveId, $args ) {
 		$args = (array)$args;
-		$cmd = implode( ' ',  $args );
+		$cmd = implode( ' ', $args );
 		fwrite( $this->slavePipes[$slaveId], "$cmd\n" );
 	}
 
@@ -517,7 +523,7 @@ class RecompressTracked {
 	 *
 	 * Write the new URL to the text table and set the bt_moved flag.
 	 *
-	 * This is done in a single transaction to provide restartable behaviour
+	 * This is done in a single transaction to provide restartable behavior
 	 * without data loss.
 	 *
 	 * The transaction is kept short to reduce locking.
@@ -528,7 +534,7 @@ class RecompressTracked {
 			exit( 1 );
 		}
 		$dbw = wfGetDB( DB_MASTER );
-		$dbw->begin();
+		$dbw->begin( __METHOD__ );
 		$dbw->update( 'text',
 			array( // set
 				'old_text' => $url,
@@ -544,7 +550,7 @@ class RecompressTracked {
 			array( 'bt_text_id' => $textId ),
 			__METHOD__
 		);
-		$dbw->commit();
+		$dbw->commit( __METHOD__ );
 	}
 
 	/**
@@ -670,10 +676,10 @@ class RecompressTracked {
  * Class to represent a recompression operation for a single CGZ blob
  */
 class CgzCopyTransaction {
-	var $parent;
-	var $blobClass;
-	var $cgz;
-	var $referrers;
+	public $parent;
+	public $blobClass;
+	public $cgz;
+	public $referrers;
 
 	/**
 	 * Create a transaction from a RecompressTracked object
@@ -739,7 +745,7 @@ class CgzCopyTransaction {
 		//
 		// We do a locking read to prevent closer-run race conditions.
 		$dbw = wfGetDB( DB_MASTER );
-		$dbw->begin();
+		$dbw->begin( __METHOD__ );
 		$res = $dbw->select( 'blob_tracking',
 			array( 'bt_text_id', 'bt_moved' ),
 			array( 'bt_text_id' => array_keys( $this->referrers ) ),
@@ -773,7 +779,7 @@ class CgzCopyTransaction {
 		$store = $this->parent->store;
 		$targetDB = $store->getMaster( $targetCluster );
 		$targetDB->clearFlag( DBO_TRX ); // we manage the transactions
-		$targetDB->begin();
+		$targetDB->begin( __METHOD__ );
 		$baseUrl = $this->parent->store->store( $targetCluster, serialize( $this->cgz ) );
 
 		// Write the new URLs to the blob_tracking table
@@ -789,10 +795,10 @@ class CgzCopyTransaction {
 			);
 		}
 
-		$targetDB->commit();
+		$targetDB->commit( __METHOD__ );
 		// Critical section here: interruption at this point causes blob duplication
 		// Reversing the order of the commits would cause data loss instead
-		$dbw->commit();
+		$dbw->commit( __METHOD__ );
 
 		// Write the new URLs to the text table and set the moved flag
 		if ( !$this->parent->copyOnly ) {
@@ -803,4 +809,3 @@ class CgzCopyTransaction {
 		}
 	}
 }
-

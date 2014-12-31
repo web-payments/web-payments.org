@@ -26,10 +26,9 @@
  * Special page lists images which haven't been categorised
  *
  * @ingroup SpecialPage
+ * @todo FIXME: Use an instance of UncategorizedPagesPage or something
  */
-// @todo FIXME: Use an instance of UncategorizedPagesPage or something
 class UncategorizedImagesPage extends ImageQueryPage {
-
 	function __construct( $name = 'Uncategorizedimages' ) {
 		parent::__construct( $name );
 	}
@@ -47,17 +46,20 @@ class UncategorizedImagesPage extends ImageQueryPage {
 	}
 
 	function getQueryInfo() {
-		return array (
+		return array(
 			'tables' => array( 'page', 'categorylinks' ),
-			'fields' => array( 'page_namespace AS namespace',
-					'page_title AS title',
-					'page_title AS value' ),
+			'fields' => array( 'namespace' => 'page_namespace',
+				'title' => 'page_title',
+				'value' => 'page_title' ),
 			'conds' => array( 'cl_from IS NULL',
-					'page_namespace' => NS_FILE,
-					'page_is_redirect' => 0 ),
+				'page_namespace' => NS_FILE,
+				'page_is_redirect' => 0 ),
 			'join_conds' => array( 'categorylinks' => array(
-					'LEFT JOIN', 'cl_from=page_id' ) )
+				'LEFT JOIN', 'cl_from=page_id' ) )
 		);
 	}
 
+	protected function getGroupName() {
+		return 'maintenance';
+	}
 }

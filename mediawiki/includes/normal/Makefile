@@ -8,7 +8,7 @@
 # Explicitly using Unicode 6.0
 BASE=http://www.unicode.org/Public/6.0.0/ucd
 
-# Can override to php-cli or php5 or whatevah
+# Can override to php-cli or php5 or whatever
 PHP=php
 #PHP=php-cli
 
@@ -16,13 +16,10 @@ PHP=php
 FETCH=wget
 #FETCH=fetch
 
-all : UtfNormalData.inc Utf8Case.php
+all : UtfNormalData.inc
 
 UtfNormalData.inc : UtfNormalGenerate.php UtfNormalUtil.php UnicodeData.txt CompositionExclusions.txt NormalizationCorrections.txt DerivedNormalizationProps.txt
 	$(PHP) UtfNormalGenerate.php
-
-Utf8Case.php : Utf8CaseGenerate.php UtfNormalUtil.php UnicodeData.txt
-	$(PHP) Utf8CaseGenerate.php
 
 test : testutf8 UtfNormalTest.php UtfNormalData.inc NormalizationTest.txt
 	$(PHP) UtfNormalTest.php

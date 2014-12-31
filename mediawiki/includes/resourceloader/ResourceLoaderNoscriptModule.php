@@ -1,5 +1,7 @@
 <?php
 /**
+ * Resource loader for site customizations for users without JavaScript enabled.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -43,7 +45,7 @@ class ResourceLoaderNoscriptModule extends ResourceLoaderWikiModule {
 
 	/**
 	 * Gets group name
-	 * 
+	 *
 	 * @return String: Name of group
 	 */
 	public function getGroup() {

@@ -1,6 +1,21 @@
 <?php
 /**
- * File without associated database record
+ * File without associated database record.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  * @ingroup FileAbstraction
@@ -12,23 +27,34 @@
  *
  * Read-only.
  *
- * TODO: Currently it doesn't really work in the repository role, there are
+ * @todo Currently it doesn't really work in the repository role, there are
  * lots of functions missing. It is used by the WebStore extension in the
  * standalone role.
  *
  * @ingroup FileAbstraction
  */
 class UnregisteredLocalFile extends File {
-	var $title, $path, $mime, $dims;
+	/** @var Title */
+	protected $title;
+
+	/** @var string */
+	protected $path;
+
+	/** @var bool|string */
+	protected $mime;
+
+	/** @var array Dimension data */
+	protected $dims;
+
+	/** @var bool|string Handler-specific metadata which will be saved in the img_metadata field */
+	protected $metadata;
+
+	/** @var MediaHandler */
+	public $handler;
 
 	/**
-	 * @var MediaHandler
-	 */
-	var $handler;
-
-	/**
-	 * @param $path string Storage path
-	 * @param $mime string
+	 * @param string $path Storage path
+	 * @param string $mime
 	 * @return UnregisteredLocalFile
 	 */
 	static function newFromPath( $path, $mime ) {
@@ -36,8 +62,8 @@ class UnregisteredLocalFile extends File {
 	}
 
 	/**
-	 * @param $title
-	 * @param $repo
+	 * @param Title $title
+	 * @param FileRepo $repo
 	 * @return UnregisteredLocalFile
 	 */
 	static function newFromTitle( $title, $repo ) {
@@ -47,16 +73,17 @@ class UnregisteredLocalFile extends File {
 	/**
 	 * Create an UnregisteredLocalFile based on a path or a (title,repo) pair.
 	 * A FileRepo object is not required here, unlike most other File classes.
-	 * 
+	 *
 	 * @throws MWException
-	 * @param $title Title|false
-	 * @param $repo FileRepo
-	 * @param $path string
-	 * @param $mime string
+	 * @param Title|bool $title
+	 * @param FileRepo|bool $repo
+	 * @param string|bool $path
+	 * @param string|bool $mime
 	 */
 	function __construct( $title = false, $repo = false, $path = false, $mime = false ) {
 		if ( !( $title && $repo ) && !$path ) {
-			throw new MWException( __METHOD__.': not enough parameters, must specify title and repo, or a full path' );
+			throw new MWException( __METHOD__ .
+				': not enough parameters, must specify title and repo, or a full path' );
 		}
 		if ( $title instanceof Title ) {
 			$this->title = File::normalizeTitle( $title, 'exception' );
@@ -79,6 +106,10 @@ class UnregisteredLocalFile extends File {
 		$this->dims = array();
 	}
 
+	/**
+	 * @param int $page
+	 * @return bool
+	 */
 	private function cachePageDimensions( $page = 1 ) {
 		if ( !isset( $this->dims[$page] ) ) {
 			if ( !$this->getHandler() ) {
@@ -86,34 +117,57 @@ class UnregisteredLocalFile extends File {
 			}
 			$this->dims[$page] = $this->handler->getPageDimensions( $this, $page );
 		}
+
 		return $this->dims[$page];
 	}
 
+	/**
+	 * @param int $page
+	 * @return int
+	 */
 	function getWidth( $page = 1 ) {
 		$dim = $this->cachePageDimensions( $page );
+
 		return $dim['width'];
 	}
 
+	/**
+	 * @param int $page
+	 * @return int
+	 */
 	function getHeight( $page = 1 ) {
 		$dim = $this->cachePageDimensions( $page );
+
 		return $dim['height'];
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	function getMimeType() {
 		if ( !isset( $this->mime ) ) {
 			$magic = MimeMagic::singleton();
 			$this->mime = $magic->guessMimeType( $this->getLocalRefPath() );
 		}
+
 		return $this->mime;
 	}
 
+	/**
+	 * @param string $filename
+	 * @return array|bool
+	 */
 	function getImageSize( $filename ) {
 		if ( !$this->getHandler() ) {
 			return false;
 		}
+
 		return $this->handler->getImageSize( $this, $this->getLocalRefPath() );
 	}
 
+	/**
+	 * @return bool
+	 */
 	function getMetadata() {
 		if ( !isset( $this->metadata ) ) {
 			if ( !$this->getHandler() ) {
@@ -122,9 +176,13 @@ class UnregisteredLocalFile extends File {
 				$this->metadata = $this->handler->getMetadata( $this, $this->getLocalRefPath() );
 			}
 		}
+
 		return $this->metadata;
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	function getURL() {
 		if ( $this->repo ) {
 			return $this->repo->getZoneUrl( 'public' ) . '/' .
@@ -134,12 +192,24 @@ class UnregisteredLocalFile extends File {
 		}
 	}
 
+	/**
+	 * @return bool|int
+	 */
 	function getSize() {
 		$this->assertRepoDefined();
-		$props = $this->repo->getFileProps( $this->path );
-		if ( isset( $props['size'] ) ) {
-			return $props['size'];
-		}
-		return false; // doesn't exist
+
+		return $this->repo->getFileSize( $this->path );
+	}
+
+	/**
+	 * Optimize getLocalRefPath() by using an existing local reference.
+	 * The file at the path of $fsFile should not be deleted (or at least
+	 * not until the end of the request). This is mostly a performance hack.
+	 *
+	 * @param FSFile $fsFile
+	 * @return void
+	 */
+	public function setLocalReference( FSFile $fsFile ) {
+		$this->fsFile = $fsFile;
 	}
 }

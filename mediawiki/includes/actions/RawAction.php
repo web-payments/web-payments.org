@@ -7,7 +7,20 @@
  *
  * Based on HistoryPage and SpecialExport
  *
- * License: GPL (http://www.gnu.org/copyleft/gpl.html)
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @author Gabriel Wicke <wicke@wikidev.net>
  * @file
@@ -16,6 +29,8 @@
 /**
  * A simple method to retrieve the plain source of an article,
  * using "action=raw" in the GET request string.
+ *
+ * @ingroup Actions
  */
 class RawAction extends FormlessAction {
 	private $mGen;
@@ -33,7 +48,7 @@ class RawAction extends FormlessAction {
 	}
 
 	function onView() {
-		global $wgGroupPermissions, $wgSquidMaxage, $wgForcedRawSMaxage, $wgJsMimeType;
+		global $wgSquidMaxage, $wgForcedRawSMaxage;
 
 		$this->getOutput()->disable();
 		$request = $this->getRequest();
@@ -62,9 +77,10 @@ class RawAction extends FormlessAction {
 
 		$contentType = $this->getContentType();
 
-		# Force caching for CSS and JS raw content, default: 5 minutes
+		# Force caching for CSS and JS raw content, default: 5 minutes.
+		# Note: If using a canonical url for userpage css/js, we send an HTCP purge.
 		if ( $smaxage === null ) {
-			if ( $contentType == 'text/css' || $contentType == $wgJsMimeType ) {
+			if ( $contentType == 'text/css' || $contentType == 'text/javascript' ) {
 				$smaxage = intval( $wgForcedRawSMaxage );
 			} else {
 				$smaxage = 0;
@@ -78,10 +94,15 @@ class RawAction extends FormlessAction {
 		$response->header( 'Content-type: ' . $contentType . '; charset=UTF-8' );
 		# Output may contain user-specific data;
 		# vary generated content for open sessions on private wikis
-		$privateCache = !$wgGroupPermissions['*']['read'] && ( $smaxage == 0 || session_id() != '' );
+		$privateCache = !User::isEveryoneAllowed( 'read' ) && ( $smaxage == 0 || session_id() != '' );
+		// Bug 53032 - make this private if user is logged in,
+		// so we don't accidentally cache cookies
+		$privateCache = $privateCache ?: $this->getUser()->isLoggedIn();
 		# allow the client to cache this for 24 hours
 		$mode = $privateCache ? 'private' : 'public';
-		$response->header( 'Cache-Control: ' . $mode . ', s-maxage=' . $smaxage . ', max-age=' . $maxage );
+		$response->header(
+			'Cache-Control: ' . $mode . ', s-maxage=' . $smaxage . ', max-age=' . $maxage
+		);
 
 		$text = $this->getRawText();
 
@@ -104,13 +125,13 @@ class RawAction extends FormlessAction {
 	 * Get the text that should be returned, or false if the page or revision
 	 * was not found.
 	 *
-	 * @return String|Bool
+	 * @return string|bool
 	 */
 	public function getRawText() {
 		global $wgParser;
 
 		# No longer used
-		if( $this->mGen ) {
+		if ( $this->mGen ) {
 			return '';
 		}
 
@@ -120,10 +141,14 @@ class RawAction extends FormlessAction {
 
 		// If it's a MediaWiki message we can just hit the message cache
 		if ( $request->getBool( 'usemsgcache' ) && $title->getNamespace() == NS_MEDIAWIKI ) {
-			$key = $title->getDBkey();
-			$msg = wfMessage( $key )->inContentLanguage();
-			# If the message doesn't exist, return a blank
-			$text = !$msg->exists() ? '' : $msg->plain();
+			// The first "true" is to use the database, the second is to use
+			// the content langue and the last one is to specify the message
+			// key already contains the language in it ("/de", etc.).
+			$text = MessageCache::singleton()->get( $title->getDBkey(), true, true, true );
+			// If the message doesn't exist, return a blank
+			if ( $text === false ) {
+				$text = '';
+			}
 		} else {
 			// Get it from the DB
 			$rev = Revision::newFromTitle( $title, $this->getOldId() );
@@ -132,16 +157,39 @@ class RawAction extends FormlessAction {
 				$request->response()->header( "Last-modified: $lastmod" );
 
 				// Public-only due to cache headers
-				$text = $rev->getText();
-				$section = $request->getIntOrNull( 'section' );
-				if ( $section !== null ) {
-					$text = $wgParser->getSection( $text, $section );
+				$content = $rev->getContent();
+
+				if ( $content === null ) {
+					// revision not found (or suppressed)
+					$text = false;
+				} elseif ( !$content instanceof TextContent ) {
+					// non-text content
+					wfHttpError( 415, "Unsupported Media Type", "The requested page uses the content model `"
+						. $content->getModel() . "` which is not supported via this interface." );
+					die();
+				} else {
+					// want a section?
+					$section = $request->getIntOrNull( 'section' );
+					if ( $section !== null ) {
+						$content = $content->getSection( $section );
+					}
+
+					if ( $content === null || $content === false ) {
+						// section not found (or section not supported, e.g. for JS and CSS)
+						$text = false;
+					} else {
+						$text = $content->getNativeData();
+					}
 				}
 			}
 		}
 
 		if ( $text !== false && $text !== '' && $request->getVal( 'templates' ) === 'expand' ) {
-			$text = $wgParser->preprocess( $text, $title, ParserOptions::newFromContext( $this->getContext() ) );
+			$text = $wgParser->preprocess(
+				$text,
+				$title,
+				ParserOptions::newFromContext( $this->getContext() )
+			);
 		}
 
 		return $text;
@@ -150,54 +198,53 @@ class RawAction extends FormlessAction {
 	/**
 	 * Get the ID of the revision that should used to get the text.
 	 *
-	 * @return Integer
+	 * @return int
 	 */
 	public function getOldId() {
 		$oldid = $this->getRequest()->getInt( 'oldid' );
 		switch ( $this->getRequest()->getText( 'direction' ) ) {
 			case 'next':
 				# output next revision, or nothing if there isn't one
-				if( $oldid ) {
-					$oldid = $this->getTitle()->getNextRevisionId( $oldid );
+				if ( $oldid ) {
+					$oldid = $this->getTitle()->getNextRevisionID( $oldid );
 				}
 				$oldid = $oldid ? $oldid : -1;
 				break;
 			case 'prev':
 				# output previous revision, or nothing if there isn't one
-				if( !$oldid ) {
+				if ( !$oldid ) {
 					# get the current revision so we can get the penultimate one
 					$oldid = $this->page->getLatest();
 				}
-				$prev = $this->getTitle()->getPreviousRevisionId( $oldid );
-				$oldid = $prev ? $prev : -1 ;
+				$prev = $this->getTitle()->getPreviousRevisionID( $oldid );
+				$oldid = $prev ? $prev : -1;
 				break;
 			case 'cur':
 				$oldid = 0;
 				break;
 		}
+
 		return $oldid;
 	}
 
 	/**
 	 * Get the content type to use for the response
 	 *
-	 * @return String
+	 * @return string
 	 */
 	public function getContentType() {
-		global $wgJsMimeType;
-
 		$ctype = $this->getRequest()->getVal( 'ctype' );
 
 		if ( $ctype == '' ) {
 			$gen = $this->getRequest()->getVal( 'gen' );
 			if ( $gen == 'js' ) {
-				$ctype = $wgJsMimeType;
+				$ctype = 'text/javascript';
 			} elseif ( $gen == 'css' ) {
 				$ctype = 'text/css';
 			}
 		}
 
-		$allowedCTypes = array( 'text/x-wiki', $wgJsMimeType, 'text/css', 'application/x-zope-edit' );
+		$allowedCTypes = array( 'text/x-wiki', 'text/javascript', 'text/css', 'application/x-zope-edit' );
 		if ( $ctype == '' || !in_array( $ctype, $allowedCTypes ) ) {
 			$ctype = 'text/x-wiki';
 		}
@@ -214,6 +261,10 @@ class RawAction extends FormlessAction {
 class RawPage extends RawAction {
 	public $mOldId;
 
+	/**
+	 * @param Page $page
+	 * @param WebRequest|bool $request The WebRequest (default: false).
+	 */
 	function __construct( Page $page, $request = false ) {
 		wfDeprecated( __CLASS__, '1.19' );
 		parent::__construct( $page );
@@ -234,6 +285,7 @@ class RawPage extends RawAction {
 		if ( $this->mOldId !== null ) {
 			return $this->mOldId;
 		}
+
 		return parent::getOldId();
 	}
 }

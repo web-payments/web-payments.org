@@ -1,7 +1,7 @@
 <?php
 /**
- * This script makes several 'set', 'incr' and 'get' requests on every
- * memcached server and shows a report.
+ * Makes several 'set', 'incr' and 'get' requests on every memcached
+ * server and shows a report.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,38 +18,69 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
-class mcTest extends Maintenance {
+/**
+ * Maintenance script that  makes several 'set', 'incr' and 'get' requests
+ * on every memcached server and shows a report.
+ *
+ * @ingroup Maintenance
+ */
+class McTest extends Maintenance {
 	public function __construct() {
 		parent::__construct();
 		$this->mDescription = "Makes several 'set', 'incr' and 'get' requests on every"
-							  . " memcached server and shows a report";
+			. " memcached server and shows a report";
 		$this->addOption( 'i', 'Number of iterations', false, true );
+		$this->addOption( 'cache', 'Use servers from this $wgObjectCaches store', false, true );
 		$this->addArg( 'server[:port]', 'Memcached server to test, with optional port', false );
 	}
 
 	public function execute() {
-		global $wgMemCachedServers;
+		global $wgMainCacheType, $wgMemCachedTimeout, $wgObjectCaches;
 
+		$cache = $this->getOption( 'cache' );
 		$iterations = $this->getOption( 'i', 100 );
-		if ( $this->hasArg() ) {
-			$wgMemCachedServers = array( $this->getArg() );
+		if ( $cache ) {
+			if ( !isset( $wgObjectCaches[$cache] ) ) {
+				$this->error( "MediaWiki isn't configured with a cache named '$cache'", 1 );
+			}
+			$servers = $wgObjectCaches[$cache]['servers'];
+		} elseif ( $this->hasArg() ) {
+			$servers = array( $this->getArg() );
+		} elseif ( $wgMainCacheType === CACHE_MEMCACHED ) {
+			global $wgMemCachedServers;
+			$servers = $wgMemCachedServers;
+		} elseif ( isset( $wgObjectCaches[$wgMainCacheType]['servers'] ) ) {
+			$servers = $wgObjectCaches[$wgMainCacheType]['servers'];
+		} else {
+			$this->error( "MediaWiki isn't configured for Memcached usage", 1 );
 		}
 
-		foreach ( $wgMemCachedServers as $server ) {
-			$this->output( $server . " ", $server );
-			$mcc = new MemCachedClientforWiki( array( 'persistant' => true ) );
+		# find out the longest server string to nicely align output later on
+		$maxSrvLen = $servers ? max( array_map( 'strlen', $servers ) ) : 0;
+
+		foreach ( $servers as $server ) {
+			$this->output(
+				str_pad( $server, $maxSrvLen ),
+				$server  # output channel
+			);
+
+			$mcc = new MemCachedClientforWiki( array(
+				'persistant' => true,
+				'timeout' => $wgMemCachedTimeout
+			) );
 			$mcc->set_servers( array( $server ) );
 			$set = 0;
 			$incr = 0;
 			$get = 0;
 			$time_start = $this->microtime_float();
 			for ( $i = 1; $i <= $iterations; $i++ ) {
-				if ( !is_null( $mcc->set( "test$i", $i ) ) ) {
+				if ( $mcc->set( "test$i", $i ) ) {
 					$set++;
 				}
 			}
@@ -66,7 +97,7 @@ class mcTest extends Maintenance {
 			}
 			$exectime = $this->microtime_float() - $time_start;
 
-			$this->output( "set: $set   incr: $incr   get: $get time: $exectime", $server );
+			$this->output( " set: $set   incr: $incr   get: $get time: $exectime", $server );
 		}
 	}
 
@@ -80,5 +111,5 @@ class mcTest extends Maintenance {
 	}
 }
 
-$maintClass = "mcTest";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+$maintClass = "McTest";
+require_once RUN_MAINTENANCE_IF_MAIN;

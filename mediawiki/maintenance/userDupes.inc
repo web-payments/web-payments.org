@@ -1,9 +1,9 @@
 <?php
 /**
- * Helper class for update.php and upgrade1_5.php.
+ * Helper class for update.php.
  *
  * Copyright © 2005 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,13 +26,17 @@
 
 /**
  * Look for duplicate user table entries and optionally prune them.
+ *
+ * This is still used by our MysqlUpdater at:
+ * includes/installer/MysqlUpdater.php
+ *
  * @ingroup Maintenance
  */
 class UserDupes {
-	var $db;
-	var $reassigned;
-	var $trimmed;
-	var $failed;
+	private $db;
+	private $reassigned;
+	private $trimmed;
+	private $failed;
 	private $outputCallback;
 
 	function __construct( &$database, $outputCallback ) {
@@ -108,9 +112,9 @@ class UserDupes {
 		$count = count( $dupes );
 
 		$this->out( "Found $count accounts with duplicate records on " . wfWikiID() . ".\n" );
-		$this->trimmed    = 0;
+		$this->trimmed = 0;
 		$this->reassigned = 0;
-		$this->failed     = 0;
+		$this->failed = 0;
 		foreach ( $dupes as $name ) {
 			$this->examine( $name, $doDelete );
 		}
@@ -154,11 +158,7 @@ class UserDupes {
 	 * @access private
 	 */
 	function lock() {
-		if ( $this->newSchema() ) {
-			$set = array( 'user', 'revision' );
-		} else {
-			$set = array( 'user', 'cur', 'old' );
-		}
+		$set = array( 'user', 'revision' );
 		$names = array_map( array( $this, 'lockTable' ), $set );
 		$tables = implode( ',', $names );
 
@@ -167,14 +167,6 @@ class UserDupes {
 
 	function lockTable( $table ) {
 		return $this->db->tableName( $table ) . ' WRITE';
-	}
-
-	/**
-	 * @return bool
-	 * @access private
-	 */
-	function newSchema() {
-		return MWInit::classExists( 'Revision' );
 	}
 
 	/**
@@ -192,7 +184,7 @@ class UserDupes {
 	function getDupes() {
 		$user = $this->db->tableName( 'user' );
 		$result = $this->db->query(
-			 "SELECT user_name,COUNT(*) AS n
+			"SELECT user_name,COUNT(*) AS n
 				FROM $user
 			GROUP BY user_name
 			  HAVING n > 1", __METHOD__ );
@@ -219,7 +211,7 @@ class UserDupes {
 			__METHOD__ );
 
 		$firstRow = $this->db->fetchObject( $result );
-		$firstId  = $firstRow->user_id;
+		$firstId = $firstRow->user_id;
 		$this->out( "Record that will be used for '$name' is user_id=$firstId\n" );
 
 		foreach ( $result as $row ) {
@@ -262,27 +254,10 @@ class UserDupes {
 	 * @access private
 	 */
 	function editCount( $userid ) {
-		if ( $this->newSchema() ) {
-			return $this->editCountOn( 'revision', 'rev_user', $userid );
-		} else {
-			return $this->editCountOn( 'cur', 'cur_user', $userid ) +
-				$this->editCountOn( 'old', 'old_user', $userid );
-		}
-	}
-
-	/**
-	 * Count the number of hits on a given table for this account.
-	 * @param $table string
-	 * @param $field string
-	 * @param $userid int
-	 * @return int
-	 * @access private
-	 */
-	function editCountOn( $table, $field, $userid ) {
 		return intval( $this->db->selectField(
-			$table,
+			'revision',
 			'COUNT(*)',
-			array( $field => $userid ),
+			array( 'rev_user' => $userid ),
 			__METHOD__ ) );
 	}
 
@@ -292,26 +267,10 @@ class UserDupes {
 	 * @access private
 	 */
 	function reassignEdits( $from, $to ) {
-		$set = $this->newSchema()
-			? array( 'revision' => 'rev_user' )
-			: array( 'cur' => 'cur_user', 'old' => 'old_user' );
-		foreach ( $set as $table => $field ) {
-			$this->reassignEditsOn( $table, $field, $from, $to );
-		}
-	}
-
-	/**
-	 * @param $table string
-	 * @param $field string
-	 * @param $from int
-	 * @param $to int
-	 * @access private
-	 */
-	function reassignEditsOn( $table, $field, $from, $to ) {
-		$this->out( "reassigning on $table... " );
-		$this->db->update( $table,
-			array( $field => $to ),
-			array( $field => $from ),
+		$this->out( 'reassigning... ' );
+		$this->db->update( 'revision',
+			array( 'rev_user' => $to ),
+			array( 'rev_user' => $from ),
 			__METHOD__ );
 		$this->out( "ok. " );
 	}

@@ -1,4 +1,25 @@
 <?php
+/**
+ * Interface definition for deletable items.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup RevisionDelete
+ */
 
 /**
  * Abstract base class for a list of deletable items. The list class
@@ -16,44 +37,91 @@ abstract class RevDel_List extends RevisionListBase {
 	 * Get the DB field name associated with the ID list.
 	 * This used to populate the log_search table for finding log entries.
 	 * Override this function.
+	 * @return string|null
 	 */
 	public static function getRelationType() {
 		return null;
 	}
 
 	/**
+	 * Get the user right required for this list type
+	 * Override this function.
+	 * @since 1.22
+	 * @return string|null
+	 */
+	public static function getRestriction() {
+		return null;
+	}
+
+	/**
+	 * Get the revision deletion constant for this list type
+	 * Override this function.
+	 * @since 1.22
+	 * @return int|null
+	 */
+	public static function getRevdelConstant() {
+		return null;
+	}
+
+	/**
+	 * Suggest a target for the revision deletion
+	 * Optionally override this function.
+	 * @since 1.22
+	 * @param Title|null $target User-supplied target
+	 * @param array $ids
+	 * @return Title|null
+	 */
+	public static function suggestTarget( $target, array $ids ) {
+		return $target;
+	}
+
+	/**
 	 * Set the visibility for the revisions in this list. Logging and
 	 * transactions are done here.
 	 *
-	 * @param $params Associative array of parameters. Members are:
-	 *     value:       The integer value to set the visibility to
-	 *     comment:     The log comment.
+	 * @param array $params Associative array of parameters. Members are:
+	 *     value:         The integer value to set the visibility to
+	 *     comment:       The log comment.
+	 *     perItemStatus: Set if you want per-item status reports
 	 * @return Status
+	 * @since 1.23 Added 'perItemStatus' param
 	 */
 	public function setVisibility( $params ) {
 		$bitPars = $params['value'];
 		$comment = $params['comment'];
+		$perItemStatus = isset( $params['perItemStatus'] ) ? $params['perItemStatus'] : false;
 
 		$this->res = false;
 		$dbw = wfGetDB( DB_MASTER );
 		$this->doQuery( $dbw );
-		$dbw->begin();
+		$dbw->begin( __METHOD__ );
 		$status = Status::newGood();
 		$missing = array_flip( $this->ids );
 		$this->clearFileOps();
 		$idsForLog = array();
 		$authorIds = $authorIPs = array();
 
+		if ( $perItemStatus ) {
+			$status->itemStatuses = array();
+		}
+
 		for ( $this->reset(); $this->current(); $this->next() ) {
 			$item = $this->current();
-			unset( $missing[ $item->getId() ] );
+			unset( $missing[$item->getId()] );
+
+			if ( $perItemStatus ) {
+				$itemStatus = Status::newGood();
+				$status->itemStatuses[$item->getId()] = $itemStatus;
+			} else {
+				$itemStatus = $status;
+			}
 
 			$oldBits = $item->getBits();
 			// Build the actual new rev_deleted bitfield
-			$newBits = SpecialRevisionDelete::extractBitfield( $bitPars, $oldBits );
+			$newBits = RevisionDeleter::extractBitfield( $bitPars, $oldBits );
 
 			if ( $oldBits == $newBits ) {
-				$status->warning( 'revdelete-no-change', $item->formatDate(), $item->formatTime() );
+				$itemStatus->warning( 'revdelete-no-change', $item->formatDate(), $item->formatTime() );
 				$status->failCount++;
 				continue;
 			} elseif ( $oldBits == 0 && $newBits != 0 ) {
@@ -66,21 +134,21 @@ abstract class RevDel_List extends RevisionListBase {
 
 			if ( $item->isHideCurrentOp( $newBits ) ) {
 				// Cannot hide current version text
-				$status->error( 'revdelete-hide-current', $item->formatDate(), $item->formatTime() );
+				$itemStatus->error( 'revdelete-hide-current', $item->formatDate(), $item->formatTime() );
 				$status->failCount++;
 				continue;
 			}
 			if ( !$item->canView() ) {
 				// Cannot access this revision
-				$msg = ($opType == 'show') ?
+				$msg = ( $opType == 'show' ) ?
 					'revdelete-show-no-access' : 'revdelete-modify-no-access';
-				$status->error( $msg, $item->formatDate(), $item->formatTime() );
+				$itemStatus->error( $msg, $item->formatDate(), $item->formatTime() );
 				$status->failCount++;
 				continue;
 			}
 			// Cannot just "hide from Sysops" without hiding any fields
-			if( $newBits == Revision::DELETED_RESTRICTED ) {
-				$status->warning( 'revdelete-only-restricted', $item->formatDate(), $item->formatTime() );
+			if ( $newBits == Revision::DELETED_RESTRICTED ) {
+				$itemStatus->warning( 'revdelete-only-restricted', $item->formatDate(), $item->formatTime() );
 				$status->failCount++;
 				continue;
 			}
@@ -91,26 +159,29 @@ abstract class RevDel_List extends RevisionListBase {
 			if ( $ok ) {
 				$idsForLog[] = $item->getId();
 				$status->successCount++;
-				if( $item->getAuthorId() > 0 ) {
+				if ( $item->getAuthorId() > 0 ) {
 					$authorIds[] = $item->getAuthorId();
-				} elseif( IP::isIPAddress( $item->getAuthorName() ) ) {
+				} elseif ( IP::isIPAddress( $item->getAuthorName() ) ) {
 					$authorIPs[] = $item->getAuthorName();
 				}
 			} else {
-				$status->error( 'revdelete-concurrent-change', $item->formatDate(), $item->formatTime() );
+				$itemStatus->error( 'revdelete-concurrent-change', $item->formatDate(), $item->formatTime() );
 				$status->failCount++;
 			}
 		}
 
 		// Handle missing revisions
 		foreach ( $missing as $id => $unused ) {
-			$status->error( 'revdelete-modify-missing', $id );
+			if ( $perItemStatus ) {
+				$status->itemStatuses[$id] = Status::newFatal( 'revdelete-modify-missing', $id );
+			} else {
+				$status->error( 'revdelete-modify-missing', $id );
+			}
 			$status->failCount++;
 		}
 
 		if ( $status->successCount == 0 ) {
-			$status->ok = false;
-			$dbw->rollback();
+			$dbw->rollback( __METHOD__ );
 			return $status;
 		}
 
@@ -121,7 +192,7 @@ abstract class RevDel_List extends RevisionListBase {
 		$status->merge( $this->doPreCommitUpdates() );
 		if ( !$status->isOK() ) {
 			// Fatal error, such as no configured archive directory
-			$dbw->rollback();
+			$dbw->rollback( __METHOD__ );
 			return $status;
 		}
 
@@ -136,7 +207,7 @@ abstract class RevDel_List extends RevisionListBase {
 			'authorIds' => $authorIds,
 			'authorIPs' => $authorIPs
 		) );
-		$dbw->commit();
+		$dbw->commit( __METHOD__ );
 
 		// Clear caches
 		$status->merge( $this->doPostCommitUpdates() );
@@ -154,7 +225,7 @@ abstract class RevDel_List extends RevisionListBase {
 
 	/**
 	 * Record a log entry on the action
-	 * @param $params Associative array of parameters:
+	 * @param array $params Associative array of parameters:
 	 *     newBits:         The new value of the *_deleted bitfield
 	 *     oldBits:         The old value of the *_deleted bitfield.
 	 *     title:           The target title
@@ -162,11 +233,12 @@ abstract class RevDel_List extends RevisionListBase {
 	 *     comment:         The log comment
 	 *     authorsIds:      The array of the user IDs of the offenders
 	 *     authorsIPs:      The array of the IP/anon user offenders
+	 * @throws MWException
 	 */
 	protected function updateLog( $params ) {
 		// Get the URL param's corresponding DB field
 		$field = RevisionDeleter::getRelationType( $this->getType() );
-		if( !$field ) {
+		if ( !$field ) {
 			throw new MWException( "Bad log URL param type!" );
 		}
 		// Put things hidden from sysops in the oversight log
@@ -180,7 +252,7 @@ abstract class RevDel_List extends RevisionListBase {
 		// Actually add the deletion log entry
 		$log = new LogPage( $logType );
 		$logid = $log->addEntry( $this->getLogAction(), $params['title'],
-			$params['comment'], $logParams );
+			$params['comment'], $logParams, $this->getUser() );
 		// Allow for easy searching of deletion log items for revision/log items
 		$log->addRelations( $field, $params['ids'], $logid );
 		$log->addRelations( 'target_author_id', $params['authorIds'], $logid );
@@ -189,6 +261,7 @@ abstract class RevDel_List extends RevisionListBase {
 
 	/**
 	 * Get the log action for this list type
+	 * @return string
 	 */
 	public function getLogAction() {
 		return 'revision';
@@ -196,7 +269,7 @@ abstract class RevDel_List extends RevisionListBase {
 
 	/**
 	 * Get log parameter array.
-	 * @param $params Associative array of log parameters, same as updateLog()
+	 * @param array $params Associative array of log parameters, same as updateLog()
 	 * @return array
 	 */
 	public function getLogParams( $params ) {
@@ -247,6 +320,7 @@ abstract class RevDel_Item extends RevisionItemBase {
 	 * Returns true if the item is "current", and the operation to set the given
 	 * bits can't be executed for that reason
 	 * STUB
+	 * @return bool
 	 */
 	public function isHideCurrentOp( $newBits ) {
 		return false;
@@ -268,4 +342,12 @@ abstract class RevDel_Item extends RevisionItemBase {
 	 * @return boolean success
 	 */
 	abstract public function setBits( $newBits );
+
+	/**
+	 * Get the return information about the revision for the API
+	 * @since 1.23
+	 * @param ApiResult $result API result object
+	 * @return array Data for the API result
+	 */
+	abstract public function getApiData( ApiResult $result );
 }

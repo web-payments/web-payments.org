@@ -2,6 +2,21 @@
 /**
  * Foreign file accessible through api.php requests.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup FileAbstraction
  */
@@ -19,7 +34,7 @@ class ForeignAPIFile extends File {
 
 	/**
 	 * @param $title
-	 * @param $repo ForeignApiRepo
+	 * @param ForeignApiRepo $repo
 	 * @param $info
 	 * @param bool $exists
 	 */
@@ -33,33 +48,37 @@ class ForeignAPIFile extends File {
 	}
 
 	/**
-	 * @param $title Title
-	 * @param $repo ForeignApiRepo
+	 * @param Title $title
+	 * @param ForeignApiRepo $repo
 	 * @return ForeignAPIFile|null
 	 */
 	static function newFromTitle( Title $title, $repo ) {
 		$data = $repo->fetchImageQuery( array(
-			'titles' => 'File:' . $title->getDBKey(),
+			'titles' => 'File:' . $title->getDBkey(),
 			'iiprop' => self::getProps(),
-			'prop'   => 'imageinfo',
-			'iimetadataversion' => MediaHandler::getMetadataVersion()
+			'prop' => 'imageinfo',
+			'iimetadataversion' => MediaHandler::getMetadataVersion(),
+			// extmetadata is language-dependant, accessing the current language here
+			// would be problematic, so we just get them all
+			'iiextmetadatamultilang' => 1,
 		) );
 
 		$info = $repo->getImageInfo( $data );
 
-		if( $info ) {
+		if ( $info ) {
 			$lastRedirect = isset( $data['query']['redirects'] )
 				? count( $data['query']['redirects'] ) - 1
 				: -1;
-			if( $lastRedirect >= 0 ) {
-				$newtitle = Title::newFromText( $data['query']['redirects'][$lastRedirect]['to']);
+			if ( $lastRedirect >= 0 ) {
+				$newtitle = Title::newFromText( $data['query']['redirects'][$lastRedirect]['to'] );
 				$img = new self( $newtitle, $repo, $info, true );
-				if( $img ) {
+				if ( $img ) {
 					$img->redirectedFrom( $title->getDBkey() );
 				}
 			} else {
 				$img = new self( $title, $repo, $info, true );
 			}
+
 			return $img;
 		} else {
 			return null;
@@ -68,22 +87,35 @@ class ForeignAPIFile extends File {
 
 	/**
 	 * Get the property string for iiprop and aiprop
+	 * @return string
 	 */
 	static function getProps() {
-		return 'timestamp|user|comment|url|size|sha1|metadata|mime';
+		return 'timestamp|user|comment|url|size|sha1|metadata|mime|mediatype|extmetadata';
 	}
 
 	// Dummy functions...
+
+	/**
+	 * @return bool
+	 */
 	public function exists() {
 		return $this->mExists;
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function getPath() {
 		return false;
 	}
 
+	/**
+	 * @param array $params
+	 * @param int $flags
+	 * @return bool|MediaTransformOutput
+	 */
 	function transform( $params, $flags = 0 ) {
-		if( !$this->canRender() ) {
+		if ( !$this->canRender() ) {
 			// show icon
 			return parent::transform( $params, $flags );
 		}
@@ -91,68 +123,130 @@ class ForeignAPIFile extends File {
 		// Note, the this->canRender() check above implies
 		// that we have a handler, and it can do makeParamString.
 		$otherParams = $this->handler->makeParamString( $params );
+		$width = isset( $params['width'] ) ? $params['width'] : -1;
+		$height = isset( $params['height'] ) ? $params['height'] : -1;
 
 		$thumbUrl = $this->repo->getThumbUrlFromCache(
 			$this->getName(),
-			isset( $params['width'] ) ? $params['width'] : -1,
-			isset( $params['height'] ) ? $params['height'] : -1,
-			$otherParams );
+			$width,
+			$height,
+			$otherParams
+		);
+		if ( $thumbUrl === false ) {
+			global $wgLang;
+
+			return $this->repo->getThumbError(
+				$this->getName(),
+				$width,
+				$height,
+				$otherParams,
+				$wgLang->getCode()
+			);
+		}
+
 		return $this->handler->getTransform( $this, 'bogus', $thumbUrl, $params );
 	}
 
 	// Info we can get from API...
+
+	/**
+	 * @param int $page
+	 * @return int|number
+	 */
 	public function getWidth( $page = 1 ) {
 		return isset( $this->mInfo['width'] ) ? intval( $this->mInfo['width'] ) : 0;
 	}
 
 	/**
-	 * @param $page int
+	 * @param int $page
 	 * @return int
 	 */
 	public function getHeight( $page = 1 ) {
 		return isset( $this->mInfo['height'] ) ? intval( $this->mInfo['height'] ) : 0;
 	}
 
+	/**
+	 * @return bool|null|string
+	 */
 	public function getMetadata() {
 		if ( isset( $this->mInfo['metadata'] ) ) {
 			return serialize( self::parseMetadata( $this->mInfo['metadata'] ) );
 		}
+
 		return null;
 	}
 
+	/**
+	 * @return array|null Extended metadata (see imageinfo API for format) or
+	 *   null on error
+	 */
+	public function getExtendedMetadata() {
+		if ( isset( $this->mInfo['extmetadata'] ) ) {
+			return $this->mInfo['extmetadata'];
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param array $metadata
+	 * @return array
+	 */
 	public static function parseMetadata( $metadata ) {
-		if( !is_array( $metadata ) ) {
+		if ( !is_array( $metadata ) ) {
 			return $metadata;
 		}
 		$ret = array();
-		foreach( $metadata as $meta ) {
-			$ret[ $meta['name'] ] = self::parseMetadata( $meta['value'] );
+		foreach ( $metadata as $meta ) {
+			$ret[$meta['name']] = self::parseMetadata( $meta['value'] );
 		}
+
 		return $ret;
 	}
 
+	/**
+	 * @return bool|int|null
+	 */
 	public function getSize() {
 		return isset( $this->mInfo['size'] ) ? intval( $this->mInfo['size'] ) : null;
 	}
 
+	/**
+	 * @return null|string
+	 */
 	public function getUrl() {
 		return isset( $this->mInfo['url'] ) ? strval( $this->mInfo['url'] ) : null;
 	}
 
-	public function getUser( $method='text' ) {
+	/**
+	 * @param string $method
+	 * @return int|null|string
+	 */
+	public function getUser( $method = 'text' ) {
 		return isset( $this->mInfo['user'] ) ? strval( $this->mInfo['user'] ) : null;
 	}
 
-	public function getDescription() {
+	/**
+	 * @param int $audience
+	 * @param User $user
+	 * @return null|string
+	 */
+	public function getDescription( $audience = self::FOR_PUBLIC, User $user = null ) {
 		return isset( $this->mInfo['comment'] ) ? strval( $this->mInfo['comment'] ) : null;
 	}
 
+	/**
+	 * @return null|String
+	 */
 	function getSha1() {
 		return isset( $this->mInfo['sha1'] )
 			? wfBaseConvert( strval( $this->mInfo['sha1'] ), 16, 36, 31 )
 			: null;
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	function getTimestamp() {
 		return wfTimestamp( TS_MW,
 			isset( $this->mInfo['timestamp'] )
@@ -161,20 +255,33 @@ class ForeignAPIFile extends File {
 		);
 	}
 
+	/**
+	 * @return string
+	 */
 	function getMimeType() {
-		if( !isset( $this->mInfo['mime'] ) ) {
+		if ( !isset( $this->mInfo['mime'] ) ) {
 			$magic = MimeMagic::singleton();
 			$this->mInfo['mime'] = $magic->guessTypesForExtension( $this->getExtension() );
 		}
+
 		return $this->mInfo['mime'];
 	}
 
-	/// @todo FIXME: May guess wrong on file types that can be eg audio or video
+	/**
+	 * @return int|string
+	 */
 	function getMediaType() {
+		if ( isset( $this->mInfo['mediatype'] ) ) {
+			return $this->mInfo['mediatype'];
+		}
 		$magic = MimeMagic::singleton();
+
 		return $magic->getMediaType( null, $this->getMimeType() );
 	}
 
+	/**
+	 * @return bool|string
+	 */
 	function getDescriptionUrl() {
 		return isset( $this->mInfo['descriptionurl'] )
 			? $this->mInfo['descriptionurl']
@@ -183,19 +290,25 @@ class ForeignAPIFile extends File {
 
 	/**
 	 * Only useful if we're locally caching thumbs anyway...
+	 * @param string $suffix
+	 * @return null|string
 	 */
 	function getThumbPath( $suffix = '' ) {
 		if ( $this->repo->canCacheThumbs() ) {
-			$path = $this->repo->getZonePath('thumb') . '/' . $this->getHashPath( $this->getName() );
+			$path = $this->repo->getZonePath( 'thumb' ) . '/' . $this->getHashPath( $this->getName() );
 			if ( $suffix ) {
 				$path = $path . $suffix . '/';
 			}
+
 			return $path;
 		} else {
 			return null;
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	function getThumbnails() {
 		$dir = $this->getThumbPath( $this->getName() );
 		$iter = $this->repo->getBackend()->getFileList( array( 'dir' => $dir ) );
@@ -220,11 +333,14 @@ class ForeignAPIFile extends File {
 		global $wgMemc, $wgContLang;
 
 		$url = $this->repo->getDescriptionRenderUrl( $this->getName(), $wgContLang->getCode() );
-		$key = $this->repo->getLocalCacheKey( 'RemoteFileDescription', 'url', md5($url) );
+		$key = $this->repo->getLocalCacheKey( 'RemoteFileDescription', 'url', md5( $url ) );
 
 		$wgMemc->delete( $key );
 	}
 
+	/**
+	 * @param array $options
+	 */
 	function purgeThumbnails( $options = array() ) {
 		global $wgMemc;
 
@@ -245,8 +361,8 @@ class ForeignAPIFile extends File {
 		}
 
 		# Delete the thumbnails
-		$this->repo->cleanupBatch( $purgeList, FileRepo::SKIP_LOCKING );
+		$this->repo->quickPurgeBatch( $purgeList );
 		# Clear out the thumbnail directory if empty
-		$this->repo->getBackend()->clean( array( 'dir' => $dir ) );
+		$this->repo->quickCleanDir( $dir );
 	}
 }

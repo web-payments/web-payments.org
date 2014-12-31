@@ -4,7 +4,7 @@
  *
  * Created on July 7, 2007
  *
- * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
+ * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 		$query = $params['query'];
 		$protocol = self::getProtocolPrefix( $params['protocol'] );
 
-		$this->addTables( array( 'page', 'externallinks' ) );	// must be in this order for 'USE INDEX'
+		$this->addTables( array( 'page', 'externallinks' ) ); // must be in this order for 'USE INDEX'
 		$this->addOption( 'USE INDEX', 'el_index' );
 		$this->addWhere( 'page_id=el_from' );
 
@@ -101,8 +101,9 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 		$result = $this->getResult();
 		$count = 0;
 		foreach ( $res as $row ) {
-			if ( ++ $count > $limit ) {
-				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
+			if ( ++$count > $limit ) {
+				// We've reached the one extra which shows that there are
+				// additional pages to be had. Stop here...
 				$this->setContinueEnumParameter( 'offset', $offset + $limit );
 				break;
 			}
@@ -121,8 +122,12 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 					ApiQueryBase::addTitleInfo( $vals, $title );
 				}
 				if ( $fld_url ) {
-					// We *could* run this through wfExpandUrl() but I think it's better to output the link verbatim, even if it's protocol-relative --Roan
-					$vals['url'] = $row->el_to;
+					$to = $row->el_to;
+					// expand protocol-relative urls
+					if ( $params['expandurl'] ) {
+						$to = wfExpandUrl( $to, PROTO_CANONICAL );
+					}
+					$vals['url'] = $to;
 				}
 				$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $vals );
 				if ( !$fit ) {
@@ -136,7 +141,7 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 
 		if ( is_null( $resultPageSet ) ) {
 			$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ),
-					$this->getModulePrefix() );
+				$this->getModulePrefix() );
 		}
 	}
 
@@ -169,7 +174,8 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1,
 				ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
-			)
+			),
+			'expandurl' => false,
 		);
 	}
 
@@ -181,6 +187,7 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 				$protocols[] = substr( $p, 0, strpos( $p, ':' ) );
 			}
 		}
+
 		return $protocols;
 	}
 
@@ -213,12 +220,14 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 			),
 			'offset' => 'Used for paging. Use the value returned for "continue"',
 			'protocol' => array(
-				"Protocol of the url. If empty and {$p}query set, the protocol is http.",
+				"Protocol of the URL. If empty and {$p}query set, the protocol is http.",
 				"Leave both this and {$p}query empty to list all external links"
 			),
-			'query' => 'Search string without protocol. See [[Special:LinkSearch]]. Leave empty to list all external links',
+			'query' => 'Search string without protocol. See [[Special:LinkSearch]]. ' .
+				'Leave empty to list all external links',
 			'namespace' => 'The page namespace(s) to enumerate.',
-			'limit' => 'How many pages to return.'
+			'limit' => 'How many pages to return.',
+			'expandurl' => 'Expand protocol-relative URLs with the canonical protocol',
 		);
 
 		if ( $wgMiserMode ) {
@@ -232,8 +241,23 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 		return $desc;
 	}
 
+	public function getResultProperties() {
+		return array(
+			'ids' => array(
+				'pageid' => 'integer'
+			),
+			'title' => array(
+				'ns' => 'namespace',
+				'title' => 'string'
+			),
+			'url' => array(
+				'url' => 'string'
+			)
+		);
+	}
+
 	public function getDescription() {
-		return 'Enumerate pages that contain a given URL';
+		return 'Enumerate pages that contain a given URL.';
 	}
 
 	public function getPossibleErrors() {
@@ -250,9 +274,5 @@ class ApiQueryExtLinksUsage extends ApiQueryGeneratorBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Exturlusage';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

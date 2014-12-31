@@ -19,11 +19,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that fixes any entriy for protocol-relative URLs
+ * in the externallinks table.
+ *
+ * @ingroup Maintenance
+ */
 class FixExtLinksProtocolRelative extends LoggedUpdateMaintenance {
 	public function __construct() {
 		parent::__construct();
@@ -59,11 +66,13 @@ class FixExtLinksProtocolRelative extends LoggedUpdateMaintenance {
 			$db->insert( 'externallinks',
 				array(
 					array(
+						'el_id' => $db->nextSequenceValue( 'externallinks_el_id_seq' ),
 						'el_from' => $row->el_from,
 						'el_to' => $row->el_to,
 						'el_index' => "http:{$row->el_index}",
 					),
 					array(
+						'el_id' => $db->nextSequenceValue( 'externallinks_el_id_seq' ),
 						'el_from' => $row->el_from,
 						'el_to' => $row->el_to,
 						'el_index' => "https:{$row->el_index}",
@@ -78,4 +87,4 @@ class FixExtLinksProtocolRelative extends LoggedUpdateMaintenance {
 }
 
 $maintClass = "FixExtLinksProtocolRelative";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

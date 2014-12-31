@@ -1,4 +1,24 @@
 <?php
+/**
+ * Fake title class that triggers an error if any members are called.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
 
 /**
  * Fake title class that triggers an error if any members are called
@@ -19,6 +39,7 @@ class FakeTitle extends Title {
 	function canTalk() { $this->error(); }
 	function getInterwiki() { $this->error(); }
 	function getFragment() { $this->error(); }
+	function hasFragment() { $this->error(); }
 	function getFragmentForURL() { $this->error(); }
 	function getDefaultNamespace() { $this->error(); }
 	function getIndexTitle() { $this->error(); }
@@ -59,7 +80,6 @@ class FakeTitle extends Title {
 	function getSkinFromCssJsSubpage() { $this->error(); }
 	function isCssSubpage() { $this->error(); }
 	function isJsSubpage() { $this->error(); }
-	function userCanEditCssJsSubpage() { $this->error(); }
 	function userCanEditCssSubpage() { $this->error(); }
 	function userCanEditJsSubpage() { $this->error(); }
 	function isCascadeProtected() { $this->error(); }
@@ -88,8 +108,6 @@ class FakeTitle extends Title {
 	function moveNoAuth( &$nt ) { $this->error(); }
 	function isValidMoveOperation( &$nt, $auth = true, $reason = '' ) { $this->error(); }
 	function moveTo( &$nt, $auth = true, $reason = '', $createRedirect = true ) { $this->error(); }
-	function moveOverExistingRedirect( &$nt, $reason = '', $createRedirect = true ) { $this->error(); }
-	function moveToNewTitle( &$nt, $reason = '', $createRedirect = true ) { $this->error(); }
 	function moveSubpages( $nt, $auth = true, $reason = '', $createRedirect = true ) { $this->error(); }
 	function isSingleRevRedirect() { $this->error(); }
 	function isValidMoveTarget( $nt ) { $this->error(); }
@@ -97,9 +115,9 @@ class FakeTitle extends Title {
 	function getParentCategories() { $this->error(); }
 	function getParentCategoryTree( $children = array() ) { $this->error(); }
 	function pageCond() { $this->error(); }
-	function getPreviousRevisionID( $revId, $flags=0 ) { $this->error(); }
-	function getNextRevisionID( $revId, $flags=0 ) { $this->error(); }
-	function getFirstRevision( $flags=0 ) { $this->error(); }
+	function getPreviousRevisionID( $revId, $flags = 0 ) { $this->error(); }
+	function getNextRevisionID( $revId, $flags = 0 ) { $this->error(); }
+	function getFirstRevision( $flags = 0 ) { $this->error(); }
 	function isNewPage() { $this->error(); }
 	function getEarliestRevTime( $flags = 0 ) { $this->error(); }
 	function countRevisionsBetween( $old, $new ) { $this->error(); }

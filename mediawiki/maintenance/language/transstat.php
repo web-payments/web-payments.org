@@ -24,14 +24,13 @@
  * @author Antoine Musso <hashar at free dot fr>
  *
  * Output is posted from time to time on:
- * http://www.mediawiki.org/wiki/Localisation_statistics
+ * https://www.mediawiki.org/wiki/Localisation_statistics
  */
 $optionsWithArgs = array( 'output' );
 
-require_once( dirname( __FILE__ ) . '/../commandLine.inc' );
-require_once( 'languages.inc' );
-require_once( dirname( __FILE__ ) . '/StatOutputs.php' );
-
+require_once __DIR__ . '/../commandLine.inc';
+require_once 'languages.inc';
+require_once __DIR__ . '/StatOutputs.php';
 
 if ( isset( $options['help'] ) ) {
 	showUsage();
@@ -57,25 +56,23 @@ TEXT;
 	exit( 1 );
 }
 
-
-
 # Select an output engine
 switch ( $options['output'] ) {
 	case 'wiki':
-		$output = new wikiStatsOutput();
+		$output = new WikiStatsOutput();
 		break;
 	case 'text':
-		$output = new textStatsOutput();
+		$output = new TextStatsOutput();
 		break;
 	case 'csv':
-		$output = new csvStatsOutput();
+		$output = new CsvStatsOutput();
 		break;
 	default:
 		showUsage();
 }
 
 # Languages
-$wgLanguages = new languages();
+$wgLanguages = new Languages();
 
 # Header
 $output->heading();
@@ -96,27 +93,45 @@ $wgRequiredMessagesNumber = count( $wgGeneralMessages['required'] );
 
 foreach ( $wgLanguages->getLanguages() as $code ) {
 	# Don't check English, RTL English or dummy language codes
-	if ( $code == 'en' || $code == 'enRTL' || (is_array( $wgDummyLanguageCodes ) &&
-		isset( $wgDummyLanguageCodes[$code] ) ) ) {
+	if ( $code == 'en' || $code == 'enRTL' || ( is_array( $wgDummyLanguageCodes ) &&
+			isset( $wgDummyLanguageCodes[$code] ) )
+	) {
 		continue;
 	}
 
 	# Calculate the numbers
-	$language = $wgContLang->getLanguageName( $code );
+	$language = Language::fetchLanguageName( $code );
 	$fallback = $wgLanguages->getFallback( $code );
 	$messages = $wgLanguages->getMessages( $code );
 	$messagesNumber = count( $messages['translated'] );
 	$requiredMessagesNumber = count( $messages['required'] );
-	$requiredMessagesPercent = $output->formatPercent( $requiredMessagesNumber, $wgRequiredMessagesNumber );
+	$requiredMessagesPercent = $output->formatPercent(
+		$requiredMessagesNumber,
+		$wgRequiredMessagesNumber
+	);
 	$obsoleteMessagesNumber = count( $messages['obsolete'] );
-	$obsoleteMessagesPercent = $output->formatPercent( $obsoleteMessagesNumber, $messagesNumber, true );
+	$obsoleteMessagesPercent = $output->formatPercent(
+		$obsoleteMessagesNumber,
+		$messagesNumber,
+		true
+	);
 	$messagesWithMismatchVariables = $wgLanguages->getMessagesWithMismatchVariables( $code );
 	$emptyMessages = $wgLanguages->getEmptyMessages( $code );
 	$messagesWithWhitespace = $wgLanguages->getMessagesWithWhitespace( $code );
 	$nonXHTMLMessages = $wgLanguages->getNonXHTMLMessages( $code );
 	$messagesWithWrongChars = $wgLanguages->getMessagesWithWrongChars( $code );
-	$problematicMessagesNumber = count( array_unique( array_merge( $messagesWithMismatchVariables, $emptyMessages, $messagesWithWhitespace, $nonXHTMLMessages, $messagesWithWrongChars ) ) );
-	$problematicMessagesPercent = $output->formatPercent( $problematicMessagesNumber, $messagesNumber, true );
+	$problematicMessagesNumber = count( array_unique( array_merge(
+		$messagesWithMismatchVariables,
+		$emptyMessages,
+		$messagesWithWhitespace,
+		$nonXHTMLMessages,
+		$messagesWithWrongChars
+	) ) );
+	$problematicMessagesPercent = $output->formatPercent(
+		$problematicMessagesNumber,
+		$messagesNumber,
+		true
+	);
 
 	# Output them
 	$output->blockstart();
@@ -134,5 +149,3 @@ foreach ( $wgLanguages->getLanguages() as $code ) {
 
 # Footer
 $output->footer();
-
-

@@ -1,6 +1,21 @@
 <?php
 /**
- * Prioritized list of file repositories
+ * Prioritized list of file repositories.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  * @ingroup FileRepo
@@ -12,21 +27,29 @@
  * @ingroup FileRepo
  */
 class RepoGroup {
+	/** @var LocalRepo */
+	protected $localRepo;
 
-	/**
-	 * @var LocalRepo
-	 */
-	var $localRepo;
+	/** @var FileRepo[] */
+	protected $foreignRepos;
 
-	var $foreignRepos, $reposInitialised = false;
-	var $localInfo, $foreignInfo;
-	var $cache;
+	/** @var bool */
+	protected $reposInitialised = false;
 
-	/**
-	 * @var RepoGroup
-	 */
+	/** @var array */
+	protected $localInfo;
+
+	/** @var array */
+	protected $foreignInfo;
+
+	/** @var ProcessCacheLRU */
+	protected $cache;
+
+	/** @var RepoGroup */
 	protected static $instance;
-	const MAX_CACHE_SIZE = 1000;
+
+	/** Maximum number of cache items */
+	const MAX_CACHE_SIZE = 500;
 
 	/**
 	 * Get a RepoGroup instance. At present only one instance of RepoGroup is
@@ -39,6 +62,7 @@ class RepoGroup {
 		}
 		global $wgLocalFileRepo, $wgForeignFileRepos;
 		self::$instance = new RepoGroup( $wgLocalFileRepo, $wgForeignFileRepos );
+
 		return self::$instance;
 	}
 
@@ -56,7 +80,7 @@ class RepoGroup {
 	 * It's not enough to just create a superclass ... you have
 	 * to get people to call into it even though all they know is RepoGroup::singleton()
 	 *
-	 * @param $instance RepoGroup
+	 * @param RepoGroup $instance
 	 */
 	static function setSingleton( $instance ) {
 		self::$instance = $instance;
@@ -65,16 +89,16 @@ class RepoGroup {
 	/**
 	 * Construct a group of file repositories.
 	 *
-	 * @param $localInfo Associative array for local repo's info
-	 * @param $foreignInfo Array of repository info arrays.
-	 *     Each info array is an associative array with the 'class' member
-	 *     giving the class name. The entire array is passed to the repository
-	 *     constructor as the first parameter.
+	 * @param array $localInfo Associative array for local repo's info
+	 * @param array $foreignInfo of repository info arrays.
+	 *   Each info array is an associative array with the 'class' member
+	 *   giving the class name. The entire array is passed to the repository
+	 *   constructor as the first parameter.
 	 */
 	function __construct( $localInfo, $foreignInfo ) {
 		$this->localInfo = $localInfo;
 		$this->foreignInfo = $foreignInfo;
-		$this->cache = array();
+		$this->cache = new ProcessCacheLRU( self::MAX_CACHE_SIZE );
 	}
 
 	/**
@@ -82,19 +106,16 @@ class RepoGroup {
 	 * You can also use wfFindFile() to do this.
 	 *
 	 * @param $title Title|string Title object or string
-	 * @param $options array Associative array of options:
-	 *     time:           requested time for an archived image, or false for the
-	 *                     current version. An image object will be returned which was
-	 *                     created at the specified time.
-	 *
-	 *     ignoreRedirect: If true, do not follow file redirects
-	 *
-	 *     private:        If true, return restricted (deleted) files if the current
-	 *                     user is allowed to view them. Otherwise, such files will not
-	 *                     be found.
-	 *
-	 *     bypassCache:    If true, do not use the process-local cache of File objects
-	 * @return File object or false if it is not found
+	 * @param array $options Associative array of options:
+	 *   time:           requested time for an archived image, or false for the
+	 *                   current version. An image object will be returned which was
+	 *                   created at the specified time.
+	 *   ignoreRedirect: If true, do not follow file redirects
+	 *   private:        If true, return restricted (deleted) files if the current
+	 *                   user is allowed to view them. Otherwise, such files will not
+	 *                   be found.
+	 *   bypassCache:    If true, do not use the process-local cache of File objects
+	 * @return File|bool False if title is not found
 	 */
 	function findFile( $title, $options = array() ) {
 		if ( !is_array( $options ) ) {
@@ -112,53 +133,62 @@ class RepoGroup {
 		# Check the cache
 		if ( empty( $options['ignoreRedirect'] )
 			&& empty( $options['private'] )
-			&& empty( $options['bypassCache'] ) )
-		{
-			$useCache = true;
+			&& empty( $options['bypassCache'] )
+		) {
 			$time = isset( $options['time'] ) ? $options['time'] : '';
 			$dbkey = $title->getDBkey();
-			if ( isset( $this->cache[$dbkey][$time] ) ) {
-				wfDebug( __METHOD__.": got File:$dbkey from process cache\n" );
-				# Move it to the end of the list so that we can delete the LRU entry later
-				$tmp = $this->cache[$dbkey];
-				unset( $this->cache[$dbkey] );
-				$this->cache[$dbkey] = $tmp;
-				# Return the entry
-				return $this->cache[$dbkey][$time];
-			} else {
-				# Add a negative cache entry, may be overridden
-				$this->trimCache();
-				$this->cache[$dbkey][$time] = false;
-				$cacheEntry =& $this->cache[$dbkey][$time];
+			if ( $this->cache->has( $dbkey, $time, 60 ) ) {
+				return $this->cache->get( $dbkey, $time );
 			}
+			$useCache = true;
 		} else {
 			$useCache = false;
 		}
 
 		# Check the local repo
 		$image = $this->localRepo->findFile( $title, $options );
-		if ( $image ) {
-			if ( $useCache ) {
-				$cacheEntry = $image;
-			}
-			return $image;
-		}
 
 		# Check the foreign repos
-		foreach ( $this->foreignRepos as $repo ) {
-			$image = $repo->findFile( $title, $options );
-			if ( $image ) {
-				if ( $useCache ) {
-					$cacheEntry = $image;
+		if ( !$image ) {
+			foreach ( $this->foreignRepos as $repo ) {
+				$image = $repo->findFile( $title, $options );
+				if ( $image ) {
+					break;
 				}
-				return $image;
 			}
 		}
-		# Not found, do not override negative cache
-		return false;
+
+		$image = $image ? $image : false; // type sanity
+		# Cache file existence or non-existence
+		if ( $useCache && ( !$image || $image->isCacheable() ) ) {
+			$this->cache->set( $dbkey, $time, $image );
+		}
+
+		return $image;
 	}
 
-	function findFiles( $inputItems ) {
+	/**
+	 * Search repositories for many files at once.
+	 *
+	 * @param array $items An array of titles, or an array of findFile() options with
+	 *    the "title" option giving the title. Example:
+	 *
+	 *     $findItem = array( 'title' => $title, 'private' => true );
+	 *     $findBatch = array( $findItem );
+	 *     $repo->findFiles( $findBatch );
+	 *
+	 *    No title should appear in $items twice, as the result use titles as keys
+	 * @param int $flags Supports:
+	 *     - FileRepo::NAME_AND_TIME_ONLY : return a (search title => (title,timestamp)) map.
+	 *       The search title uses the input titles; the other is the final post-redirect title.
+	 *       All titles are returned as string DB keys and the inner array is associative.
+	 * @return array Map of (file name => File objects) for matches
+	 *
+	 * @param array $inputItems
+	 * @param integer $flags
+	 * @return array
+	 */
+	function findFiles( array $inputItems, $flags = 0 ) {
 		if ( !$this->reposInitialised ) {
 			$this->initialiseRepos();
 		}
@@ -174,7 +204,7 @@ class RepoGroup {
 			}
 		}
 
-		$images = $this->localRepo->findFiles( $items );
+		$images = $this->localRepo->findFiles( $items, $flags );
 
 		foreach ( $this->foreignRepos as $repo ) {
 			// Remove found files from $items
@@ -182,13 +212,16 @@ class RepoGroup {
 				unset( $items[$name] );
 			}
 
-			$images = array_merge( $images, $repo->findFiles( $items ) );
+			$images = array_merge( $images, $repo->findFiles( $items, $flags ) );
 		}
+
 		return $images;
 	}
 
 	/**
 	 * Interface for FileRepo::checkRedirect()
+	 * @param $title Title
+	 * @return bool
 	 */
 	function checkRedirect( Title $title ) {
 		if ( !$this->reposInitialised ) {
@@ -196,15 +229,17 @@ class RepoGroup {
 		}
 
 		$redir = $this->localRepo->checkRedirect( $title );
-		if( $redir ) {
+		if ( $redir ) {
 			return $redir;
 		}
+
 		foreach ( $this->foreignRepos as $repo ) {
 			$redir = $repo->checkRedirect( $title );
 			if ( $redir ) {
 				return $redir;
 			}
 		}
+
 		return false;
 	}
 
@@ -212,8 +247,8 @@ class RepoGroup {
 	 * Find an instance of the file with this key, created at the specified time
 	 * Returns false if the file does not exist.
 	 *
-	 * @param $hash String base 36 SHA-1 hash
-	 * @param $options Option array, same as findFile()
+	 * @param string $hash base 36 SHA-1 hash
+	 * @param array $options Option array, same as findFile()
 	 * @return File object or false if it is not found
 	 */
 	function findFileFromKey( $hash, $options = array() ) {
@@ -225,16 +260,19 @@ class RepoGroup {
 		if ( !$file ) {
 			foreach ( $this->foreignRepos as $repo ) {
 				$file = $repo->findFileFromKey( $hash, $options );
-				if ( $file ) break;
+				if ( $file ) {
+					break;
+				}
 			}
 		}
+
 		return $file;
 	}
 
 	/**
 	 * Find all instances of files with this key
 	 *
-	 * @param $hash String base 36 SHA-1 hash
+	 * @param string $hash base 36 SHA-1 hash
 	 * @return Array of File objects
 	 */
 	function findBySha1( $hash ) {
@@ -246,11 +284,38 @@ class RepoGroup {
 		foreach ( $this->foreignRepos as $repo ) {
 			$result = array_merge( $result, $repo->findBySha1( $hash ) );
 		}
+		usort( $result, 'File::compare' );
+
+		return $result;
+	}
+
+	/**
+	 * Find all instances of files with this keys
+	 *
+	 * @param array $hashes base 36 SHA-1 hashes
+	 * @return array of array of File objects
+	 */
+	function findBySha1s( array $hashes ) {
+		if ( !$this->reposInitialised ) {
+			$this->initialiseRepos();
+		}
+
+		$result = $this->localRepo->findBySha1s( $hashes );
+		foreach ( $this->foreignRepos as $repo ) {
+			$result = array_merge_recursive( $result, $repo->findBySha1s( $hashes ) );
+		}
+		//sort the merged (and presorted) sublist of each hash
+		foreach ( $result as $hash => $files ) {
+			usort( $result[$hash], 'File::compare' );
+		}
+
 		return $result;
 	}
 
 	/**
 	 * Get the repo instance with a given key.
+	 * @param string|int $index
+	 * @return bool|LocalRepo
 	 */
 	function getRepo( $index ) {
 		if ( !$this->reposInitialised ) {
@@ -264,17 +329,22 @@ class RepoGroup {
 			return false;
 		}
 	}
+
 	/**
 	 * Get the repo instance by its name
+	 * @param string $name
+	 * @return bool
 	 */
 	function getRepoByName( $name ) {
 		if ( !$this->reposInitialised ) {
 			$this->initialiseRepos();
 		}
 		foreach ( $this->foreignRepos as $repo ) {
-			if ( $repo->name == $name)
+			if ( $repo->name == $name ) {
 				return $repo;
+			}
 		}
+
 		return false;
 	}
 
@@ -292,22 +362,24 @@ class RepoGroup {
 	 * Call a function for each foreign repo, with the repo object as the
 	 * first parameter.
 	 *
-	 * @param $callback Callback: the function to call
-	 * @param $params Array: optional additional parameters to pass to the function
+	 * @param callable $callback The function to call
+	 * @param array $params Optional additional parameters to pass to the function
+	 * @return bool
 	 */
 	function forEachForeignRepo( $callback, $params = array() ) {
-		foreach( $this->foreignRepos as $repo ) {
+		foreach ( $this->foreignRepos as $repo ) {
 			$args = array_merge( array( $repo ), $params );
-			if( call_user_func_array( $callback, $args ) ) {
+			if ( call_user_func_array( $callback, $args ) ) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
 	/**
 	 * Does the installation have any foreign repos set up?
-	 * @return Boolean
+	 * @return bool
 	 */
 	function hasForeignRepos() {
 		return (bool)$this->foreignRepos;
@@ -334,25 +406,33 @@ class RepoGroup {
 	 */
 	protected function newRepo( $info ) {
 		$class = $info['class'];
+
 		return new $class( $info );
 	}
 
 	/**
 	 * Split a virtual URL into repo, zone and rel parts
-	 * @return an array containing repo, zone and rel
+	 * @param string $url
+	 * @throws MWException
+	 * @return array containing repo, zone and rel
 	 */
 	function splitVirtualUrl( $url ) {
 		if ( substr( $url, 0, 9 ) != 'mwrepo://' ) {
-			throw new MWException( __METHOD__.': unknown protocol' );
+			throw new MWException( __METHOD__ . ': unknown protocol' );
 		}
 
 		$bits = explode( '/', substr( $url, 9 ), 3 );
 		if ( count( $bits ) != 3 ) {
-			throw new MWException( __METHOD__.": invalid mwrepo URL: $url" );
+			throw new MWException( __METHOD__ . ": invalid mwrepo URL: $url" );
 		}
+
 		return $bits;
 	}
 
+	/**
+	 * @param string $fileName
+	 * @return array
+	 */
 	function getFileProps( $fileName ) {
 		if ( FileRepo::isVirtualUrl( $fileName ) ) {
 			list( $repoName, /* $zone */, /* $rel */ ) = $this->splitVirtualUrl( $fileName );
@@ -360,6 +440,7 @@ class RepoGroup {
 				$repoName = 'local';
 			}
 			$repo = $this->getRepo( $repoName );
+
 			return $repo->getFileProps( $fileName );
 		} else {
 			return FSFile::getPropsFromPath( $fileName );
@@ -367,29 +448,14 @@ class RepoGroup {
 	}
 
 	/**
-	 * Limit cache memory
-	 */
-	protected function trimCache() {
-		while ( count( $this->cache ) >= self::MAX_CACHE_SIZE ) {
-			reset( $this->cache );
-			$key = key( $this->cache );
-			wfDebug( __METHOD__.": evicting $key\n" );
-			unset( $this->cache[$key] );
-		}
-	}
-
-	/**
 	 * Clear RepoGroup process cache used for finding a file
-	 * @param $title Title|null Title of the file or null to clear all files
+	 * @param Title|null $title Title of the file or null to clear all files
 	 */
 	public function clearCache( Title $title = null ) {
 		if ( $title == null ) {
-			$this->cache = array();
+			$this->cache->clear();
 		} else {
-			$dbKey = $title->getDBkey();
-			if ( isset( $this->cache[$dbKey] ) ) {
-				unset( $this->cache[$dbKey] );
-			}
+			$this->cache->clear( $title->getDBkey() );
 		}
 	}
 }

@@ -21,8 +21,13 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to check syntax of all PHP files in MediaWiki.
+ *
+ * @ingroup Maintenance
+ */
 class CheckSyntax extends Maintenance {
 
 	// List of files we're going to check
@@ -36,7 +41,7 @@ class CheckSyntax extends Maintenance {
 		$this->addOption( 'path', 'Specific path (file or directory) to check, either with absolute path or relative to the root of this MediaWiki installation',
 			false, true );
 		$this->addOption( 'list-file', 'Text file containing list of files or directories to check', false, true );
-		$this->addOption( 'modified', 'Check only files that were modified (requires SVN command-line client)' );
+		$this->addOption( 'modified', 'Check only files that were modified (requires Git command-line client)' );
 		$this->addOption( 'syntax-only', 'Check for syntax validity only, skip code style warnings' );
 	}
 
@@ -114,18 +119,10 @@ class CheckSyntax extends Maintenance {
 			fclose( $f );
 			return;
 		} elseif ( $this->hasOption( 'modified' ) ) {
-			$this->output( "Retrieving list from Subversion... " );
-			$parentDir = wfEscapeShellArg( dirname( __FILE__ ) . '/..' );
-			$retval = null;
-			$output = wfShellExec( "svn status --ignore-externals $parentDir", $retval );
-			if ( $retval ) {
-				$this->error( "Error retrieving list from Subversion!\n", true );
-			} else {
-				$this->output( "done\n" );
-			}
-
-			preg_match_all( '/^\s*[AM].{7}(.*?)\r?$/m', $output, $matches );
-			foreach ( $matches[1] as $file ) {
+			$this->output( "Retrieving list from Git... " );
+			$files = $this->getGitModifiedFiles( $IP );
+			$this->output( "done\n" );
+			foreach ( $files as $file ) {
 				if ( $this->isSuitableFile( $file ) && !is_dir( $file ) ) {
 					$this->mFiles[] = $file;
 				}
@@ -156,11 +153,61 @@ class CheckSyntax extends Maintenance {
 		if ( file_exists( "$IP/LocalSettings.php" ) ) {
 			$this->mFiles[] = "$IP/LocalSettings.php";
 		}
-		if ( file_exists( "$IP/AdminSettings.php" ) ) {
-			$this->mFiles[] = "$IP/AdminSettings.php";
-		}
 
 		$this->output( 'done.', 'listfiles' );
+	}
+
+	/**
+	 * Returns a list of tracked files in a Git work tree differing from the master branch.
+	 * @param $path string: Path to the repository
+	 * @return array: Resulting list of changed files
+	 */
+	private function getGitModifiedFiles( $path ) {
+
+		global $wgMaxShellMemory;
+
+		if ( !is_dir( "$path/.git" ) ) {
+			$this->error( "Error: Not a Git repository!\n", true );
+		}
+
+		// git diff eats memory.
+		$oldMaxShellMemory = $wgMaxShellMemory;
+		if ( $wgMaxShellMemory < 1024000 ) {
+			$wgMaxShellMemory = 1024000;
+		}
+
+		$ePath = wfEscapeShellArg( $path );
+
+		// Find an ancestor in common with master (rather than just using its HEAD)
+		// to prevent files only modified there from showing up in the list.
+		$cmd = "cd $ePath && git merge-base master HEAD";
+		$retval = 0;
+		$output = wfShellExec( $cmd, $retval );
+		if ( $retval !== 0 ) {
+			$this->error( "Error retrieving base SHA1 from Git!\n", true );
+		}
+
+		// Find files in the working tree that changed since then.
+		$eBase = wfEscapeShellArg( rtrim( $output, "\n" ) );
+		$cmd = "cd $ePath && git diff --name-only --diff-filter AM $eBase";
+		$retval = 0;
+		$output = wfShellExec( $cmd, $retval );
+		if ( $retval !== 0 ) {
+			$this->error( "Error retrieving list from Git!\n", true );
+		}
+
+		$wgMaxShellMemory = $oldMaxShellMemory;
+
+		$arr = array();
+		$filename = strtok( $output, "\n" );
+		while ( $filename !== false ) {
+			if ( $filename !== '' ) {
+				$arr[] = "$path/$filename";
+			}
+			$filename = strtok( "\n" );
+		}
+
+		return $arr;
 	}
 
 	/**
@@ -171,12 +218,14 @@ class CheckSyntax extends Maintenance {
 	private function isSuitableFile( $file ) {
 		$file = str_replace( '\\', '/', $file );
 		$ext = pathinfo( $file, PATHINFO_EXTENSION );
-		if ( $ext != 'php' && $ext != 'inc' && $ext != 'php5' )
+		if ( $ext != 'php' && $ext != 'inc' && $ext != 'php5' ) {
 			return false;
+		}
 		foreach ( $this->mIgnorePaths as $regex ) {
 			$m = array();
-			if ( preg_match( "~{$regex}~", $file, $m ) )
+			if ( preg_match( "~{$regex}~", $file, $m ) ) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -278,14 +327,15 @@ class CheckSyntax extends Maintenance {
 	private function checkForMistakes( $file ) {
 		foreach ( $this->mNoStyleCheckPaths as $regex ) {
 			$m = array();
-			if ( preg_match( "~{$regex}~", $file, $m ) )
+			if ( preg_match( "~{$regex}~", $file, $m ) ) {
 				return;
+			}
 		}
 
 		$text = file_get_contents( $file );
 		$tokens = token_get_all( $text );
 
-		$this->checkEvilToken( $file, $tokens, '@', 'Error supression operator (@)');
+		$this->checkEvilToken( $file, $tokens, '@', 'Error supression operator (@)' );
 		$this->checkRegex( $file, $text, '/^[\s\r\n]+<\?/', 'leading whitespace' );
 		$this->checkRegex( $file, $text, '/\?>[\s\r\n]*$/', 'trailing ?>' );
 		$this->checkRegex( $file, $text, '/^[\xFF\xFE\xEF]/', 'byte-order mark' );
@@ -317,5 +367,4 @@ class CheckSyntax extends Maintenance {
 }
 
 $maintClass = "CheckSyntax";
-require_once( RUN_MAINTENANCE_IF_MAIN );
-
+require_once RUN_MAINTENANCE_IF_MAIN;

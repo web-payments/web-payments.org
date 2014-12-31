@@ -44,6 +44,7 @@ class QuestyCaptcha extends SimpleCaptcha {
 				'name' => 'wpCaptchaWord',
 				'id'   => 'wpCaptchaWord',
 				'required',
+				'autocomplete' => 'off',
 				'tabindex' => 1 ) ) . // tab in before the edit textarea
 			"</p>\n" .
 			Xml::element( 'input', array(
@@ -55,18 +56,18 @@ class QuestyCaptcha extends SimpleCaptcha {
 
 	function getMessage( $action ) {
 		$name = 'questycaptcha-' . $action;
-		$text = wfMsg( $name );
+		$text = wfMessage( $name )->text();
 		# Obtain a more tailored message, if possible, otherwise, fall back to
 		# the default for edits
-		return wfEmptyMsg( $name, $text ) ? wfMsg( 'questycaptcha-edit' ) : $text;
+		return wfMessage( $name, $text )->isDisabled() ? wfMessage( 'questycaptcha-edit' )->text() : $text;
 	}
 
 	function showHelp() {
 		global $wgOut;
-		$wgOut->setPageTitle( wfMsg( 'captchahelp-title' ) );
-		$wgOut->addWikiText( wfMsg( 'questycaptchahelp-text' ) );
+		$wgOut->setPageTitle( wfMessage( 'captchahelp-title' )->text() );
+		$wgOut->addWikiMsg( 'questycaptchahelp-text' );
 		if ( CaptchaStore::get()->cookiesNeeded() ) {
-			$wgOut->addWikiText( wfMsg( 'captchahelp-cookies-needed' ) );
+			$wgOut->addWikiMsg( 'captchahelp-cookies-needed' );
 		}
 	}
 }

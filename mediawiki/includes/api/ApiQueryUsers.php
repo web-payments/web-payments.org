@@ -4,7 +4,7 @@
  *
  * Created on July 30, 2007
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
+ * Copyright © 2007 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,15 +58,17 @@ class ApiQueryUsers extends ApiQueryBase {
 			'userrights' => array( 'ApiQueryUsers', 'getUserrightsToken' ),
 		);
 		wfRunHooks( 'APIQueryUsersTokens', array( &$this->tokenFunctions ) );
+
 		return $this->tokenFunctions;
 	}
 
-	 /**
-	  * @param $user User
-	  * @return String
-	  */
+	/**
+	 * @param $user User
+	 * @return String
+	 */
 	public static function getUserrightsToken( $user ) {
 		global $wgUser;
+
 		// Since the permissions check for userrights is non-trivial,
 		// don't bother with it here
 		return $wgUser->getEditToken( $user->getName() );
@@ -90,10 +92,10 @@ class ApiQueryUsers extends ApiQueryBase {
 			if ( $n === false || $n === '' ) {
 				$vals = array( 'name' => $u, 'invalid' => '' );
 				$fit = $result->addValue( array( 'query', $this->getModuleName() ),
-						null, $vals );
+					null, $vals );
 				if ( !$fit ) {
 					$this->setContinueEnumParameter( 'users',
-							implode( '|', array_diff( $users, $done ) ) );
+						implode( '|', array_diff( $users, $done ) ) );
 					$goodNames = array();
 					break;
 				}
@@ -107,29 +109,49 @@ class ApiQueryUsers extends ApiQueryBase {
 
 		if ( count( $goodNames ) ) {
 			$this->addTables( 'user' );
-			$this->addFields( '*' );
+			$this->addFields( User::selectFields() );
 			$this->addWhereFld( 'user_name', $goodNames );
-
-			if ( isset( $this->prop['groups'] ) || isset( $this->prop['rights'] ) ) {
-				$this->addTables( 'user_groups' );
-				$this->addJoinConds( array( 'user_groups' => array( 'LEFT JOIN', 'ug_user=user_id' ) ) );
-				$this->addFields( 'ug_group' );
-			}
 
 			$this->showHiddenUsersAddBlockInfo( isset( $this->prop['blockinfo'] ) );
 
 			$data = array();
 			$res = $this->select( __METHOD__ );
+			$this->resetQueryParams();
+
+			// get user groups if needed
+			if ( isset( $this->prop['groups'] ) || isset( $this->prop['rights'] ) ) {
+				$userGroups = array();
+
+				$this->addTables( 'user' );
+				$this->addWhereFld( 'user_name', $goodNames );
+				$this->addTables( 'user_groups' );
+				$this->addJoinConds( array( 'user_groups' => array( 'INNER JOIN', 'ug_user=user_id' ) ) );
+				$this->addFields( array( 'user_name', 'ug_group' ) );
+				$userGroupsRes = $this->select( __METHOD__ );
+
+				foreach ( $userGroupsRes as $row ) {
+					$userGroups[$row->user_name][] = $row->ug_group;
+				}
+			}
 
 			foreach ( $res as $row ) {
-				$user = User::newFromRow( $row );
+				// create user object and pass along $userGroups if set
+				// that reduces the number of database queries needed in User dramatically
+				if ( !isset( $userGroups ) ) {
+					$user = User::newFromRow( $row );
+				} else {
+					if ( !isset( $userGroups[$row->user_name] ) || !is_array( $userGroups[$row->user_name] ) ) {
+						$userGroups[$row->user_name] = array();
+					}
+					$user = User::newFromRow( $row, array( 'user_groups' => $userGroups[$row->user_name] ) );
+				}
 				$name = $user->getName();
 
 				$data[$name]['userid'] = $user->getId();
 				$data[$name]['name'] = $name;
 
 				if ( isset( $this->prop['editcount'] ) ) {
-					$data[$name]['editcount'] = intval( $user->getEditCount() );
+					$data[$name]['editcount'] = $user->getEditCount();
 				}
 
 				if ( isset( $this->prop['registration'] ) ) {
@@ -137,35 +159,23 @@ class ApiQueryUsers extends ApiQueryBase {
 				}
 
 				if ( isset( $this->prop['groups'] ) ) {
-					if ( !isset( $data[$name]['groups'] ) ) {
-						$data[$name]['groups'] = self::getAutoGroups( $user );
-					}
-
-					if ( !is_null( $row->ug_group ) ) {
-						// This row contains only one group, others will be added from other rows
-						$data[$name]['groups'][] = $row->ug_group;
-					}
+					$data[$name]['groups'] = $user->getEffectiveGroups();
 				}
 
-				if ( isset( $this->prop['implicitgroups'] ) && !isset( $data[$name]['implicitgroups'] ) ) {
-					$data[$name]['implicitgroups'] =  self::getAutoGroups( $user );
+				if ( isset( $this->prop['implicitgroups'] ) ) {
+					$data[$name]['implicitgroups'] = $user->getAutomaticGroups();
 				}
 
 				if ( isset( $this->prop['rights'] ) ) {
-					if ( !isset( $data[$name]['rights'] ) ) {
-						$data[$name]['rights'] = User::getGroupPermissions( $user->getAutomaticGroups() );
-					}
-
-					if ( !is_null( $row->ug_group ) ) {
-						$data[$name]['rights'] = array_unique( array_merge( $data[$name]['rights'],
-							User::getGroupPermissions( array( $row->ug_group ) ) ) );
-					}
+					$data[$name]['rights'] = $user->getRights();
 				}
 				if ( $row->ipb_deleted ) {
 					$data[$name]['hidden'] = '';
 				}
 				if ( isset( $this->prop['blockinfo'] ) && !is_null( $row->ipb_by_text ) ) {
+					$data[$name]['blockid'] = $row->ipb_id;
 					$data[$name]['blockedby'] = $row->ipb_by_text;
+					$data[$name]['blockedbyid'] = $row->ipb_by;
 					$data[$name]['blockreason'] = $row->ipb_reason;
 					$data[$name]['blockexpiry'] = $row->ipb_expiry;
 				}
@@ -196,11 +206,13 @@ class ApiQueryUsers extends ApiQueryBase {
 			}
 		}
 
+		$context = $this->getContext();
 		// Second pass: add result data to $retval
 		foreach ( $goodNames as $u ) {
 			if ( !isset( $data[$u] ) ) {
 				$data[$u] = array( 'name' => $u );
 				$urPage = new UserrightsPage;
+				$urPage->setContext( $context );
 				$iwUser = $urPage->fetchUser( $u );
 
 				if ( $iwUser instanceof UserRightsProxy ) {
@@ -234,39 +246,32 @@ class ApiQueryUsers extends ApiQueryBase {
 			}
 
 			$fit = $result->addValue( array( 'query', $this->getModuleName() ),
-					null, $data[$u] );
+				null, $data[$u] );
 			if ( !$fit ) {
 				$this->setContinueEnumParameter( 'users',
-						implode( '|', array_diff( $users, $done ) ) );
+					implode( '|', array_diff( $users, $done ) ) );
 				break;
 			}
 			$done[] = $u;
 		}
-		return $result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
+		$result->setIndexedTagName_internal( array( 'query', $this->getModuleName() ), 'user' );
 	}
 
 	/**
-	* Gets all the groups that a user is automatically a member of (implicit groups)
-	* @param $user User
-	* @return array
-	*/
+	 * Gets all the groups that a user is automatically a member of (implicit groups)
+	 *
+	 * @deprecated since 1.20; call User::getAutomaticGroups() directly.
+	 * @param $user User
+	 * @return array
+	 */
 	public static function getAutoGroups( $user ) {
-		$groups = array();
-		$groups[] = '*';
+		wfDeprecated( __METHOD__, '1.20' );
 
-		if ( !$user->isAnon() ) {
-			$groups[] = 'user';
-		}
-
-		return array_merge( $groups, Autopromote::getAutopromoteGroups( $user ) );
+		return $user->getAutomaticGroups();
 	}
 
 	public function getCacheMode( $params ) {
-		if ( isset( $params['token'] ) ) {
-			return 'private';
-		} else {
-			return 'anon-public-user-private';
-		}
+		return isset( $params['token'] ) ? 'private' : 'anon-public-user-private';
 	}
 
 	public function getAllowedParams() {
@@ -305,7 +310,8 @@ class ApiQueryUsers extends ApiQueryBase {
 				'  rights         - Lists all the rights the user(s) has',
 				'  editcount      - Adds the user\'s edit count',
 				'  registration   - Adds the user\'s registration timestamp',
-				'  emailable      - Tags if the user can and wants to receive e-mail through [[Special:Emailuser]]',
+				'  emailable      - Tags if the user can and wants to receive ' .
+					'email through [[Special:Emailuser]]',
 				'  gender         - Tags the gender of the user. Returns "male", "female", or "unknown"',
 			),
 			'users' => 'A list of users to obtain the same information for',
@@ -313,8 +319,75 @@ class ApiQueryUsers extends ApiQueryBase {
 		);
 	}
 
+	public function getResultProperties() {
+		$props = array(
+			'' => array(
+				'userid' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'name' => 'string',
+				'invalid' => 'boolean',
+				'hidden' => 'boolean',
+				'interwiki' => 'boolean',
+				'missing' => 'boolean'
+			),
+			'editcount' => array(
+				'editcount' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				)
+			),
+			'registration' => array(
+				'registration' => array(
+					ApiBase::PROP_TYPE => 'timestamp',
+					ApiBase::PROP_NULLABLE => true
+				)
+			),
+			'blockinfo' => array(
+				'blockid' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'blockedby' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'blockedbyid' => array(
+					ApiBase::PROP_TYPE => 'integer',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'blockedreason' => array(
+					ApiBase::PROP_TYPE => 'string',
+					ApiBase::PROP_NULLABLE => true
+				),
+				'blockedexpiry' => array(
+					ApiBase::PROP_TYPE => 'timestamp',
+					ApiBase::PROP_NULLABLE => true
+				)
+			),
+			'emailable' => array(
+				'emailable' => 'boolean'
+			),
+			'gender' => array(
+				'gender' => array(
+					ApiBase::PROP_TYPE => array(
+						'male',
+						'female',
+						'unknown'
+					),
+					ApiBase::PROP_NULLABLE => true
+				)
+			)
+		);
+
+		self::addTokenProperties( $props, $this->getTokenFunctions() );
+
+		return $props;
+	}
+
 	public function getDescription() {
-		return 'Get information about a list of users';
+		return 'Get information about a list of users.';
 	}
 
 	public function getExamples() {
@@ -323,9 +396,5 @@ class ApiQueryUsers extends ApiQueryBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Users';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

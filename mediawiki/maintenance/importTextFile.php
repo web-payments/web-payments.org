@@ -1,8 +1,6 @@
 <?php
-
 /**
- * Maintenance script allows creating or editing pages using
- * the contents of a text file
+ * Create or edit pages using the contents of a text file.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,24 +24,25 @@
 
 $options = array( 'help', 'nooverwrite', 'norc' );
 $optionsWithArgs = array( 'title', 'user', 'comment' );
-require_once( dirname( __FILE__ ) . '/commandLine.inc' );
-echo( "Import Text File\n\n" );
+require_once __DIR__ . '/commandLine.inc';
+echo "Import Text File\n\n";
 
 if ( count( $args ) < 1 || isset( $options['help'] ) ) {
 	showHelp();
 } else {
 
 	$filename = $args[0];
-	echo( "Using {$filename}..." );
+	echo "Using {$filename}...";
 	if ( is_file( $filename ) ) {
 
 		$title = isset( $options['title'] ) ? $options['title'] : titleFromFilename( $filename );
-		$title = Title::newFromURL( $title );
+		$title = Title::newFromText( $title );
 
 		if ( is_object( $title ) ) {
 
-			echo( "\nUsing title '" . $title->getPrefixedText() . "'..." );
+			echo "\nUsing title '" . $title->getPrefixedText() . "'...";
 			if ( !$title->exists() || !isset( $options['nooverwrite'] ) ) {
+				RequestContext::getMain()->setTitle( $title );
 
 				$text = file_get_contents( $filename );
 				$user = isset( $options['user'] ) ? $options['user'] : 'Maintenance script';
@@ -51,30 +50,31 @@ if ( count( $args ) < 1 || isset( $options['help'] ) ) {
 
 				if ( is_object( $user ) ) {
 
-					echo( "\nUsing username '" . $user->getName() . "'..." );
+					echo "\nUsing username '" . $user->getName() . "'...";
 					$wgUser =& $user;
 					$comment = isset( $options['comment'] ) ? $options['comment'] : 'Importing text file';
 					$flags = 0 | ( isset( $options['norc'] ) ? EDIT_SUPPRESS_RC : 0 );
 
-					echo( "\nPerforming edit..." );
+					echo "\nPerforming edit...";
 					$page = WikiPage::factory( $title );
-					$page->doEdit( $text, $comment, $flags, false, $user );
-					echo( "done.\n" );
+					$content = ContentHandler::makeContent( $text, $title );
+					$page->doEditContent( $content, $comment, $flags, false, $user );
+					echo "done.\n";
 
 				} else {
-					echo( "invalid username.\n" );
+					echo "invalid username.\n";
 				}
 
 			} else {
-				echo( "page exists.\n" );
+				echo "page exists.\n";
 			}
 
 		} else {
-			echo( "invalid title.\n" );
+			echo "invalid title.\n";
 		}
 
 	} else {
-		echo( "does not exist.\n" );
+		echo "does not exist.\n";
 	}
 
 }

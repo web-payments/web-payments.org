@@ -4,7 +4,7 @@
  *
  * Created on Jul 2, 2007
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
+ * Copyright © 2007 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,7 +39,10 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$user = $this->getUser();
 		// Before doing anything at all, let's check permissions
 		if ( !$user->isAllowed( 'deletedhistory' ) ) {
-			$this->dieUsage( 'You don\'t have permission to view deleted revision information', 'permissiondenied' );
+			$this->dieUsage(
+				'You don\'t have permission to view deleted revision information',
+				'permissiondenied'
+			);
 		}
 
 		$db = $this->getDB();
@@ -50,12 +53,23 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$fld_user = isset( $prop['user'] );
 		$fld_userid = isset( $prop['userid'] );
 		$fld_comment = isset( $prop['comment'] );
-		$fld_parsedcomment = isset ( $prop['parsedcomment'] );
+		$fld_parsedcomment = isset( $prop['parsedcomment'] );
 		$fld_minor = isset( $prop['minor'] );
 		$fld_len = isset( $prop['len'] );
 		$fld_sha1 = isset( $prop['sha1'] );
 		$fld_content = isset( $prop['content'] );
 		$fld_token = isset( $prop['token'] );
+		$fld_tags = isset( $prop['tags'] );
+
+		// If we're in JSON callback mode, no tokens can be obtained
+		if ( !is_null( $this->getMain()->getRequest()->getVal( 'callback' ) ) ) {
+			$fld_token = false;
+		}
+
+		// If user can't undelete, no tokens
+		if ( !$user->isAllowed( 'undelete' ) ) {
+			$fld_token = false;
+		}
 
 		$result = $this->getResult();
 		$pageSet = $this->getPageSet();
@@ -74,15 +88,15 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 		if ( $mode == 'revs' || $mode == 'user' ) {
 			// Ignore namespace and unique due to inability to know whether they were purposely set
-			foreach( array( 'from', 'to', 'prefix', /*'namespace',*/ 'continue', /*'unique'*/ ) as $p ) {
+			foreach ( array( 'from', 'to', 'prefix', /*'namespace', 'unique'*/ ) as $p ) {
 				if ( !is_null( $params[$p] ) ) {
-					$this->dieUsage( "The '{$p}' parameter cannot be used in modes 1 or 2", 'badparams');
+					$this->dieUsage( "The '{$p}' parameter cannot be used in modes 1 or 2", 'badparams' );
 				}
 			}
 		} else {
-			foreach( array( 'start', 'end' ) as $p ) {
+			foreach ( array( 'start', 'end' ) as $p ) {
 				if ( !is_null( $params[$p] ) ) {
-					$this->dieUsage( "The {$p} parameter cannot be used in mode 3", 'badparams');
+					$this->dieUsage( "The {$p} parameter cannot be used in mode 3", 'badparams' );
 				}
 			}
 		}
@@ -92,8 +106,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		}
 
 		$this->addTables( 'archive' );
-		$this->addWhere( 'ar_deleted = 0' );
-		$this->addFields( array( 'ar_title', 'ar_namespace', 'ar_timestamp' ) );
+		$this->addFields( array( 'ar_title', 'ar_namespace', 'ar_timestamp', 'ar_deleted', 'ar_id' ) );
 
 		$this->addFieldsIf( 'ar_parent_id', $fld_parentid );
 		$this->addFieldsIf( 'ar_rev_id', $fld_revid );
@@ -104,19 +117,40 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		$this->addFieldsIf( 'ar_len', $fld_len );
 		$this->addFieldsIf( 'ar_sha1', $fld_sha1 );
 
+		if ( $fld_tags ) {
+			$this->addTables( 'tag_summary' );
+			$this->addJoinConds(
+				array( 'tag_summary' => array( 'LEFT JOIN', array( 'ar_rev_id=ts_rev_id' ) ) )
+			);
+			$this->addFields( 'ts_tags' );
+		}
+
+		if ( !is_null( $params['tag'] ) ) {
+			$this->addTables( 'change_tag' );
+			$this->addJoinConds(
+				array( 'change_tag' => array( 'INNER JOIN', array( 'ar_rev_id=ct_rev_id' ) ) )
+			);
+			$this->addWhereFld( 'ct_tag', $params['tag'] );
+		}
+
 		if ( $fld_content ) {
 			$this->addTables( 'text' );
+			$this->addJoinConds(
+				array( 'text' => array( 'INNER JOIN', array( 'ar_text_id=old_id' ) ) )
+			);
 			$this->addFields( array( 'ar_text', 'ar_text_id', 'old_text', 'old_flags' ) );
-			$this->addWhere( 'ar_text_id = old_id' );
 
 			// This also means stricter restrictions
-			if ( !$user->isAllowed( 'undelete' ) ) {
-				$this->dieUsage( 'You don\'t have permission to view deleted revision content', 'permissiondenied' );
+			if ( !$user->isAllowedAny( 'undelete', 'deletedtext' ) ) {
+				$this->dieUsage(
+					'You don\'t have permission to view deleted revision content',
+					'permissiondenied'
+				);
 			}
 		}
 		// Check limits
 		$userMax = $fld_content ? ApiBase::LIMIT_SML1 : ApiBase::LIMIT_BIG1;
-		$botMax  = $fld_content ? ApiBase::LIMIT_SML2 : ApiBase::LIMIT_BIG2;
+		$botMax = $fld_content ? ApiBase::LIMIT_SML2 : ApiBase::LIMIT_BIG2;
 
 		$limit = $params['limit'];
 
@@ -142,12 +176,18 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 		} elseif ( $mode == 'all' ) {
 			$this->addWhereFld( 'ar_namespace', $params['namespace'] );
 
-			$from = is_null( $params['from'] ) ? null : $this->titleToKey( $params['from'] );
-			$to = is_null( $params['to'] ) ? null : $this->titleToKey( $params['to'] );
+			$from = $params['from'] === null
+				? null
+				: $this->titlePartToKey( $params['from'], $params['namespace'] );
+			$to = $params['to'] === null
+				? null
+				: $this->titlePartToKey( $params['to'], $params['namespace'] );
 			$this->addWhereRange( 'ar_title', $dir, $from, $to );
 
 			if ( isset( $params['prefix'] ) ) {
-				$this->addWhere( 'ar_title' . $db->buildLike( $this->titlePartToKey( $params['prefix'] ), $db->anyString() ) );
+				$this->addWhere( 'ar_title' . $db->buildLike(
+					$this->titlePartToKey( $params['prefix'], $params['namespace'] ),
+					$db->anyString() ) );
 			}
 		}
 
@@ -155,32 +195,70 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			$this->addWhereFld( 'ar_user_text', $params['user'] );
 		} elseif ( !is_null( $params['excludeuser'] ) ) {
 			$this->addWhere( 'ar_user_text != ' .
-				$this->getDB()->addQuotes( $params['excludeuser'] ) );
+				$db->addQuotes( $params['excludeuser'] ) );
 		}
 
-		if ( !is_null( $params['continue'] ) && ( $mode == 'all' || $mode == 'revs' ) ) {
-			$cont = explode( '|', $params['continue'] );
-			if ( count( $cont ) != 3 ) {
-				$this->dieUsage( 'Invalid continue param. You should pass the original value returned by the previous query', 'badcontinue' );
+		if ( !is_null( $params['user'] ) || !is_null( $params['excludeuser'] ) ) {
+			// Paranoia: avoid brute force searches (bug 17342)
+			// (shouldn't be able to get here without 'deletedhistory', but
+			// check it again just in case)
+			if ( !$user->isAllowed( 'deletedhistory' ) ) {
+				$bitmask = Revision::DELETED_USER;
+			} elseif ( !$user->isAllowed( 'suppressrevision' ) ) {
+				$bitmask = Revision::DELETED_USER | Revision::DELETED_RESTRICTED;
+			} else {
+				$bitmask = 0;
 			}
-			$ns = intval( $cont[0] );
-			$title = $this->getDB()->strencode( $this->titleToKey( $cont[1] ) );
-			$ts = $this->getDB()->strencode( $cont[2] );
+			if ( $bitmask ) {
+				$this->addWhere( $db->bitAnd( 'ar_deleted', $bitmask ) . " != $bitmask" );
+			}
+		}
+
+		if ( !is_null( $params['continue'] ) ) {
+			$cont = explode( '|', $params['continue'] );
 			$op = ( $dir == 'newer' ? '>' : '<' );
-			$this->addWhere( "ar_namespace $op $ns OR " .
+			if ( $mode == 'all' || $mode == 'revs' ) {
+				$this->dieContinueUsageIf( count( $cont ) != 4 );
+				$ns = intval( $cont[0] );
+				$this->dieContinueUsageIf( strval( $ns ) !== $cont[0] );
+				$title = $db->addQuotes( $cont[1] );
+				$ts = $db->addQuotes( $db->timestamp( $cont[2] ) );
+				$ar_id = (int)$cont[3];
+				$this->dieContinueUsageIf( strval( $ar_id ) !== $cont[3] );
+				$this->addWhere( "ar_namespace $op $ns OR " .
 					"(ar_namespace = $ns AND " .
-					"(ar_title $op '$title' OR " .
-					"(ar_title = '$title' AND " .
-					"ar_timestamp $op= '$ts')))" );
+					"(ar_title $op $title OR " .
+					"(ar_title = $title AND " .
+					"(ar_timestamp $op $ts OR " .
+					"(ar_timestamp = $ts AND " .
+					"ar_id $op= $ar_id)))))" );
+			} else {
+				$this->dieContinueUsageIf( count( $cont ) != 2 );
+				$ts = $db->addQuotes( $db->timestamp( $cont[0] ) );
+				$ar_id = (int)$cont[1];
+				$this->dieContinueUsageIf( strval( $ar_id ) !== $cont[1] );
+				$this->addWhere( "ar_timestamp $op $ts OR " .
+					"(ar_timestamp = $ts AND " .
+					"ar_id $op= $ar_id)" );
+			}
 		}
 
 		$this->addOption( 'LIMIT', $limit + 1 );
-		$this->addOption( 'USE INDEX', array( 'archive' => ( $mode == 'user' ? 'usertext_timestamp' : 'name_title_timestamp' ) ) );
+		$this->addOption(
+			'USE INDEX',
+			array( 'archive' => ( $mode == 'user' ? 'usertext_timestamp' : 'name_title_timestamp' ) )
+		);
 		if ( $mode == 'all' ) {
 			if ( $params['unique'] ) {
+				// @todo Does this work on non-MySQL?
 				$this->addOption( 'GROUP BY', 'ar_title' );
 			} else {
-				$this->addOption( 'ORDER BY', 'ar_title, ar_timestamp' );
+				$sort = ( $dir == 'newer' ? '' : ' DESC' );
+				$this->addOption( 'ORDER BY', array(
+					'ar_title' . $sort,
+					'ar_timestamp' . $sort,
+					'ar_id' . $sort,
+				) );
 			}
 		} else {
 			if ( $mode == 'revs' ) {
@@ -189,6 +267,8 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				$this->addWhereRange( 'ar_title', $dir, null, null );
 			}
 			$this->addTimestampWhereRange( 'ar_timestamp', $dir, $params['start'], $params['end'] );
+			// Include in ORDER BY for uniqueness
+			$this->addWhereRange( 'ar_id', $dir, null, null );
 		}
 		$res = $this->select( __METHOD__ );
 		$pageMap = array(); // Maps ns&title to (fake) pageid
@@ -198,15 +278,18 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			if ( ++$count > $limit ) {
 				// We've had enough
 				if ( $mode == 'all' || $mode == 'revs' ) {
-					$this->setContinueEnumParameter( 'continue', intval( $row->ar_namespace ) . '|' .
-						$this->keyToTitle( $row->ar_title ) . '|' . $row->ar_timestamp );
+					$this->setContinueEnumParameter( 'continue',
+						"$row->ar_namespace|$row->ar_title|$row->ar_timestamp|$row->ar_id"
+					);
 				} else {
-					$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->ar_timestamp ) );
+					$this->setContinueEnumParameter( 'continue', "$row->ar_timestamp|$row->ar_id" );
 				}
 				break;
 			}
 
 			$rev = array();
+			$anyHidden = false;
+
 			$rev['timestamp'] = wfTimestamp( TS_ISO_8601, $row->ar_timestamp );
 			if ( $fld_revid ) {
 				$rev['revid'] = intval( $row->ar_rev_id );
@@ -214,21 +297,37 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			if ( $fld_parentid && !is_null( $row->ar_parent_id ) ) {
 				$rev['parentid'] = intval( $row->ar_parent_id );
 			}
-			if ( $fld_user ) {
-				$rev['user'] = $row->ar_user_text;
-			}
-			if ( $fld_userid ) {
-				$rev['userid'] = $row->ar_user;
-			}
-			if ( $fld_comment ) {
-				$rev['comment'] = $row->ar_comment;
+			if ( $fld_user || $fld_userid ) {
+				if ( $row->ar_deleted & Revision::DELETED_USER ) {
+					$rev['userhidden'] = '';
+					$anyHidden = true;
+				}
+				if ( Revision::userCanBitfield( $row->ar_deleted, Revision::DELETED_USER, $user ) ) {
+					if ( $fld_user ) {
+						$rev['user'] = $row->ar_user_text;
+					}
+					if ( $fld_userid ) {
+						$rev['userid'] = $row->ar_user;
+					}
+				}
 			}
 
-			$title = Title::makeTitle( $row->ar_namespace, $row->ar_title );
-
-			if ( $fld_parsedcomment ) {
-				$rev['parsedcomment'] = Linker::formatComment( $row->ar_comment, $title );
+			if ( $fld_comment || $fld_parsedcomment ) {
+				if ( $row->ar_deleted & Revision::DELETED_COMMENT ) {
+					$rev['commenthidden'] = '';
+					$anyHidden = true;
+				}
+				if ( Revision::userCanBitfield( $row->ar_deleted, Revision::DELETED_COMMENT, $user ) ) {
+					if ( $fld_comment ) {
+						$rev['comment'] = $row->ar_comment;
+					}
+					if ( $fld_parsedcomment ) {
+						$title = Title::makeTitle( $row->ar_namespace, $row->ar_title );
+						$rev['parsedcomment'] = Linker::formatComment( $row->ar_comment, $title );
+					}
+				}
 			}
+
 			if ( $fld_minor && $row->ar_minor_edit == 1 ) {
 				$rev['minor'] = '';
 			}
@@ -236,14 +335,40 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				$rev['len'] = $row->ar_len;
 			}
 			if ( $fld_sha1 ) {
-				if ( $row->ar_sha1 != '' ) {
-					$rev['sha1'] = wfBaseConvert( $row->ar_sha1, 36, 16, 40 );
-				} else {
-					$rev['sha1'] = '';
+				if ( $row->ar_deleted & Revision::DELETED_TEXT ) {
+					$rev['sha1hidden'] = '';
+					$anyHidden = true;
+				}
+				if ( Revision::userCanBitfield( $row->ar_deleted, Revision::DELETED_TEXT, $user ) ) {
+					if ( $row->ar_sha1 != '' ) {
+						$rev['sha1'] = wfBaseConvert( $row->ar_sha1, 36, 16, 40 );
+					} else {
+						$rev['sha1'] = '';
+					}
 				}
 			}
 			if ( $fld_content ) {
-				ApiResult::setContent( $rev, Revision::getRevisionText( $row ) );
+				if ( $row->ar_deleted & Revision::DELETED_TEXT ) {
+					$rev['texthidden'] = '';
+					$anyHidden = true;
+				}
+				if ( Revision::userCanBitfield( $row->ar_deleted, Revision::DELETED_TEXT, $user ) ) {
+					ApiResult::setContent( $rev, Revision::getRevisionText( $row ) );
+				}
+			}
+
+			if ( $fld_tags ) {
+				if ( $row->ts_tags ) {
+					$tags = explode( ',', $row->ts_tags );
+					$this->getResult()->setIndexedTagName( $tags, 'tag' );
+					$rev['tags'] = $tags;
+				} else {
+					$rev['tags'] = array();
+				}
+			}
+
+			if ( $anyHidden && ( $row->ar_deleted & Revision::DELETED_RESTRICTED ) ) {
+				$rev['suppressed'] = '';
 			}
 
 			if ( !isset( $pageMap[$row->ar_namespace][$row->ar_title] ) ) {
@@ -251,6 +376,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				$pageMap[$row->ar_namespace][$row->ar_title] = $pageID;
 				$a['revisions'] = array( $rev );
 				$result->setIndexedTagName( $a['revisions'], 'rev' );
+				$title = Title::makeTitle( $row->ar_namespace, $row->ar_title );
 				ApiQueryBase::addTitleInfo( $a, $title );
 				if ( $fld_token ) {
 					$a['token'] = $token;
@@ -264,10 +390,11 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			}
 			if ( !$fit ) {
 				if ( $mode == 'all' || $mode == 'revs' ) {
-					$this->setContinueEnumParameter( 'continue', intval( $row->ar_namespace ) . '|' .
-						$this->keyToTitle( $row->ar_title ) . '|' . $row->ar_timestamp );
+					$this->setContinueEnumParameter( 'continue',
+						"$row->ar_namespace|$row->ar_title|$row->ar_timestamp|$row->ar_id"
+					);
 				} else {
-					$this->setContinueEnumParameter( 'start', wfTimestamp( TS_ISO_8601, $row->ar_timestamp ) );
+					$this->setContinueEnumParameter( 'continue', "$row->ar_timestamp|$row->ar_id" );
 				}
 				break;
 			}
@@ -295,6 +422,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			'prefix' => null,
 			'continue' => null,
 			'unique' => false,
+			'tag' => null,
 			'user' => array(
 				ApiBase::PARAM_TYPE => 'user'
 			),
@@ -303,7 +431,7 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 			),
 			'namespace' => array(
 				ApiBase::PARAM_TYPE => 'namespace',
-				ApiBase::PARAM_DFLT => 0,
+				ApiBase::PARAM_DFLT => NS_MAIN,
 			),
 			'limit' => array(
 				ApiBase::PARAM_DFLT => 10,
@@ -325,7 +453,8 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 					'len',
 					'sha1',
 					'content',
-					'token'
+					'token',
+					'tags'
 				),
 				ApiBase::PARAM_ISMULTI => true
 			),
@@ -334,8 +463,8 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 	public function getParamDescription() {
 		return array(
-			'start' => 'The timestamp to start enumerating from (1,2)',
-			'end' => 'The timestamp to stop enumerating at (1,2)',
+			'start' => 'The timestamp to start enumerating from (1, 2)',
+			'end' => 'The timestamp to stop enumerating at (1, 2)',
 			'dir' => $this->getDirectionDescription( $this->getModulePrefix(), ' (1, 3)' ),
 			'from' => 'Start listing at this title (3)',
 			'to' => 'Stop listing at this title (3)',
@@ -354,38 +483,62 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 				' sha1           - Adds the SHA-1 (base 16) of the revision',
 				' content        - Adds the content of the revision',
 				' token          - Gives the edit token',
+				' tags           - Tags for the revision',
 			),
 			'namespace' => 'Only list pages in this namespace (3)',
 			'user' => 'Only list revisions by this user',
 			'excludeuser' => 'Don\'t list revisions by this user',
-			'continue' => 'When more results are available, use this to continue (3)',
+			'continue' => 'When more results are available, use this to continue',
 			'unique' => 'List only one revision for each page (3)',
+			'tag' => 'Only list revisions tagged with this tag',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'ns' => 'namespace',
+				'title' => 'string'
+			),
+			'token' => array(
+				'token' => 'string'
+			)
 		);
 	}
 
 	public function getDescription() {
 		$p = $this->getModulePrefix();
+
 		return array(
 			'List deleted revisions.',
 			'Operates in three modes:',
-			' 1) List deleted revisions for the given title(s), sorted by timestamp',
-			' 2) List deleted contributions for the given user, sorted by timestamp (no titles specified)',
-			" 3) List all deleted revisions in the given namespace, sorted by title and timestamp (no titles specified, {$p}user not set)",
+			' 1) List deleted revisions for the given title(s), sorted by timestamp.',
+			' 2) List deleted contributions for the given user, sorted by timestamp (no titles specified).',
+			' 3) List all deleted revisions in the given namespace, sorted by title and timestamp',
+			"    (no titles specified, {$p}user not set).",
 			'Certain parameters only apply to some modes and are ignored in others.',
-			'For instance, a parameter marked (1) only applies to mode 1 and is ignored in modes 2 and 3',
+			'For instance, a parameter marked (1) only applies to mode 1 and is ignored in modes 2 and 3.',
 		);
 	}
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
-			array( 'code' => 'permissiondenied', 'info' => 'You don\'t have permission to view deleted revision information' ),
-			array( 'code' => 'badparams', 'info' => 'user and excludeuser cannot be used together' ),
-			array( 'code' => 'permissiondenied', 'info' => 'You don\'t have permission to view deleted revision content' ),
-			array( 'code' => 'badcontinue', 'info' => 'Invalid continue param. You should pass the original value returned by the previous query' ),
+			array(
+				'code' => 'permissiondenied',
+				'info' => 'You don\'t have permission to view deleted revision information'
+			),
+			array( 'code' => 'badparams', 'info' => 'user and excludeuser cannot be used together'
+			),
+			array(
+				'code' => 'permissiondenied',
+				'info' => 'You don\'t have permission to view deleted revision content'
+			),
 			array( 'code' => 'badparams', 'info' => "The 'from' parameter cannot be used in modes 1 or 2" ),
 			array( 'code' => 'badparams', 'info' => "The 'to' parameter cannot be used in modes 1 or 2" ),
-			array( 'code' => 'badparams', 'info' => "The 'prefix' parameter cannot be used in modes 1 or 2" ),
-			array( 'code' => 'badparams', 'info' => "The 'continue' parameter cannot be used in modes 1 or 2" ),
+			array(
+				'code' => 'badparams',
+				'info' => "The 'prefix' parameter cannot be used in modes 1 or 2"
+			),
 			array( 'code' => 'badparams', 'info' => "The 'start' parameter cannot be used in mode 3" ),
 			array( 'code' => 'badparams', 'info' => "The 'end' parameter cannot be used in mode 3" ),
 		) );
@@ -393,7 +546,8 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 	public function getExamples() {
 		return array(
-			'api.php?action=query&list=deletedrevs&titles=Main%20Page|Talk:Main%20Page&drprop=user|comment|content'
+			'api.php?action=query&list=deletedrevs&titles=Main%20Page|Talk:Main%20Page&' .
+				'drprop=user|comment|content'
 				=> 'List the last deleted revisions of Main Page and Talk:Main Page, with content (mode 1)',
 			'api.php?action=query&list=deletedrevs&druser=Bob&drlimit=50'
 				=> 'List the last 50 deleted contributions by Bob (mode 2)',
@@ -406,9 +560,5 @@ class ApiQueryDeletedrevs extends ApiQueryBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Deletedrevs';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

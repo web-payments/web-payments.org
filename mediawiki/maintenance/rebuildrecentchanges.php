@@ -1,7 +1,7 @@
 <?php
 /**
- * Rebuild link tracking tables from scratch.  This takes several
- * hours, depending on the database size and server configuration.
+ * Rebuild recent changes from scratch.  This takes several hours,
+ * depending on the database size and server configuration.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,12 +18,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  * @todo Document
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that rebuilds recent changes from scratch.
+ *
+ * @ingroup Maintenance
+ */
 class RebuildRecentchanges extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -55,16 +61,15 @@ class RebuildRecentchanges extends Maintenance {
 		$this->output( '$wgRCMaxAge=' . $wgRCMaxAge );
 		$days = $wgRCMaxAge / 24 / 3600;
 		if ( intval( $days ) == $days ) {
-				$this->output( " (" . $days . " days)\n" );
+			$this->output( " (" . $days . " days)\n" );
 		} else {
-				$this->output( " (approx. " .  intval( $days ) . " days)\n" );
+			$this->output( " (approx. " . intval( $days ) . " days)\n" );
 		}
 
 		$cutoff = time() - $wgRCMaxAge;
 		$dbw->insertSelect( 'recentchanges', array( 'page', 'revision' ),
 			array(
 				'rc_timestamp'  => 'rev_timestamp',
-				'rc_cur_time'   => 'rev_timestamp',
 				'rc_user'       => 'rev_user',
 				'rc_user_text'  => 'rev_user_text',
 				'rc_namespace'  => 'page_namespace',
@@ -77,6 +82,7 @@ class RebuildRecentchanges extends Maintenance {
 				'rc_this_oldid' => 'rev_id',
 				'rc_last_oldid' => 0, // is this ok?
 				'rc_type'       => $dbw->conditional( 'page_is_new != 0', RC_NEW, RC_EDIT ),
+				'rc_source'     => $dbw->conditional( 'page_is_new != 0', $dbw->addQuotes( RecentChange::SRC_NEW ), $dbw->addQuotes( RecentChange::SRC_EDIT ) ),
 				'rc_deleted'    => 'rev_deleted'
 			), array(
 				'rev_timestamp > ' . $dbw->addQuotes( $dbw->timestamp( $cutoff ) ),
@@ -93,13 +99,13 @@ class RebuildRecentchanges extends Maintenance {
 	 */
 	private function rebuildRecentChangesTablePass2() {
 		$dbw = wfGetDB( DB_MASTER );
-		list ( $recentchanges, $revision ) = $dbw->tableNamesN( 'recentchanges', 'revision' );
+		list( $recentchanges, $revision ) = $dbw->tableNamesN( 'recentchanges', 'revision' );
 
 		$this->output( "Updating links and size differences...\n" );
 
 		# Fill in the rc_last_oldid field, which points to the previous edit
 		$sql = "SELECT rc_cur_id,rc_this_oldid,rc_timestamp FROM $recentchanges " .
-		  "ORDER BY rc_cur_id,rc_timestamp";
+			"ORDER BY rc_cur_id,rc_timestamp";
 		$res = $dbw->query( $sql, DB_MASTER );
 
 		$lastCurId = 0;
@@ -136,12 +142,13 @@ class RebuildRecentchanges extends Maintenance {
 				$dbw->update( 'recentchanges',
 					array(
 						'rc_last_oldid' => $lastOldId,
-						'rc_new'        => $new,
-						'rc_type'       => $new,
-						'rc_old_len'    => $lastSize,
-						'rc_new_len'    => $size,
+						'rc_new' => $new,
+						'rc_type' => $new,
+						'rc_source' => $new === 1 ? RecentChange::SRC_NEW : RecentChange::SRC_EDIT,
+						'rc_old_len' => $lastSize,
+						'rc_new_len' => $size,
 					), array(
-						'rc_cur_id'     => $lastCurId,
+						'rc_cur_id' => $lastCurId,
 						'rc_this_oldid' => $obj->rc_this_oldid,
 					),
 					__METHOD__
@@ -178,7 +185,6 @@ class RebuildRecentchanges extends Maintenance {
 		$dbw->insertSelect( 'recentchanges', array( 'user', "$logging LEFT JOIN $page ON (log_namespace=page_namespace AND log_title=page_title)" ),
 			array(
 				'rc_timestamp'  => 'log_timestamp',
-				'rc_cur_time'   => 'log_timestamp',
 				'rc_user'       => 'log_user',
 				'rc_user_text'  => 'user_name',
 				'rc_namespace'  => 'log_namespace',
@@ -191,6 +197,7 @@ class RebuildRecentchanges extends Maintenance {
 				'rc_this_oldid' => 0,
 				'rc_last_oldid' => 0,
 				'rc_type'       => RC_LOG,
+				'rc_source'     => $dbw->addQuotes( RecentChange::SRC_LOG ),
 				'rc_cur_id'     => $dbw->cascadingDeletes() ? 'page_id' : 'COALESCE(page_id, 0)',
 				'rc_log_type'   => 'log_type',
 				'rc_log_action' => 'log_action',
@@ -212,24 +219,17 @@ class RebuildRecentchanges extends Maintenance {
 	 * DOCUMENT ME!
 	 */
 	private function rebuildRecentChangesTablePass4() {
-		global $wgGroupPermissions, $wgUseRCPatrol;
+		global $wgUseRCPatrol;
 
 		$dbw = wfGetDB( DB_MASTER );
 
 		list( $recentchanges, $usergroups, $user ) = $dbw->tableNamesN( 'recentchanges', 'user_groups', 'user' );
 
-		$botgroups = $autopatrolgroups = array();
-		foreach ( $wgGroupPermissions as $group => $rights ) {
-			if ( isset( $rights['bot'] ) && $rights['bot'] ) {
-				$botgroups[] = $dbw->addQuotes( $group );
-			}
-			if ( $wgUseRCPatrol && isset( $rights['autopatrol'] ) && $rights['autopatrol'] ) {
-				$autopatrolgroups[] = $dbw->addQuotes( $group );
-			}
-		}
+		$botgroups = User::getGroupsWithPermission( 'bot' );
+		$autopatrolgroups = $wgUseRCPatrol ? User::getGroupsWithPermission( 'autopatrol' ) : array();
 		# Flag our recent bot edits
 		if ( !empty( $botgroups ) ) {
-			$botwhere = implode( ',', $botgroups );
+			$botwhere = $dbw->makeList( $botgroups );
 			$botusers = array();
 
 			$this->output( "Flagging bot account edits...\n" );
@@ -253,7 +253,7 @@ class RebuildRecentchanges extends Maintenance {
 		global $wgMiserMode;
 		# Flag our recent autopatrolled edits
 		if ( !$wgMiserMode && !empty( $autopatrolgroups ) ) {
-			$patrolwhere = implode( ',', $autopatrolgroups );
+			$patrolwhere = $dbw->makeList( $autopatrolgroups );
 			$patrolusers = array();
 
 			$this->output( "Flagging auto-patrolled edits...\n" );
@@ -293,4 +293,4 @@ class RebuildRecentchanges extends Maintenance {
 }
 
 $maintClass = "RebuildRecentchanges";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

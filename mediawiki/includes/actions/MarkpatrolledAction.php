@@ -22,6 +22,11 @@
  * @ingroup Actions
  */
 
+/**
+ * Mark a revision as patrolled on a page
+ *
+ * @ingroup Actions
+ */
 class MarkpatrolledAction extends FormlessAction {
 
 	public function getName() {
@@ -65,6 +70,7 @@ class MarkpatrolledAction extends FormlessAction {
 			$this->getOutput()->setPageTitle( $this->msg( 'markedaspatrollederror' ) );
 			$this->getOutput()->addWikiMsg( 'markedaspatrollederror-noautopatrol' );
 			$this->getOutput()->returnToMain( null, $return );
+
 			return;
 		}
 

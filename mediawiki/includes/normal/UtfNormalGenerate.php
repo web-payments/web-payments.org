@@ -4,7 +4,7 @@
  * and supplementary files.
  *
  * Copyright (C) 2004 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@
  * @ingroup UtfNormal
  */
 
-if( php_sapi_name() != 'cli' ) {
+if( PHP_SAPI != 'cli' ) {
 	die( "Run me from the command line please.\n" );
 }
 
@@ -177,7 +177,7 @@ if( $out ) {
  *
  * @file
  */
- 
+
 UtfNormal::\$utfCombiningClass = unserialize( '$serCombining' );
 UtfNormal::\$utfCanonicalComp = unserialize( '$serComp' );
 UtfNormal::\$utfCanonicalDecomp = unserialize( '$serCanon' );

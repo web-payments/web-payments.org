@@ -38,14 +38,18 @@ class ShortPagesPage extends QueryPage {
 	}
 
 	function getQueryInfo() {
-		return array (
-			'tables' => array ( 'page' ),
-			'fields' => array ( 'page_namespace AS namespace',
-					'page_title AS title',
-					'page_len AS value' ),
-			'conds' => array ( 'page_namespace' => NS_MAIN,
-					'page_is_redirect' => 0 ),
-			'options' => array ( 'USE INDEX' => 'page_redirect_namespace_len' )
+		return array(
+			'tables' => array( 'page' ),
+			'fields' => array(
+				'namespace' => 'page_namespace',
+				'title' => 'page_title',
+				'value' => 'page_len'
+			),
+			'conds' => array(
+				'page_namespace' => MWNamespace::getContentNamespaces(),
+				'page_is_redirect' => 0
+			),
+			'options' => array( 'USE INDEX' => 'page_redirect_namespace_len' )
 		);
 	}
 
@@ -55,48 +59,66 @@ class ShortPagesPage extends QueryPage {
 
 	/**
 	 * @param $db DatabaseBase
-	 * @param $res
-	 * @return void
+	 * @param ResultWrapper $res
 	 */
 	function preprocessResults( $db, $res ) {
 		# There's no point doing a batch check if we aren't caching results;
 		# the page must exist for it to have been pulled out of the table
-		if( $this->isCached() ) {
-			$batch = new LinkBatch();
-			foreach ( $res as $row ) {
-				$batch->add( $row->namespace, $row->title );
-			}
-			$batch->execute();
-			if ( $db->numRows( $res ) > 0 ) {
-				$db->dataSeek( $res, 0 );
-			}
+		if ( !$this->isCached() || !$res->numRows() ) {
+			return;
 		}
+
+		$batch = new LinkBatch();
+		foreach ( $res as $row ) {
+			$batch->add( $row->namespace, $row->title );
+		}
+		$batch->execute();
+
+		$res->seek( 0 );
 	}
 
 	function sortDescending() {
 		return false;
 	}
 
+	/**
+	 * @param Skin $skin
+	 * @param object $result Result row
+	 * @return string
+	 */
 	function formatResult( $skin, $result ) {
 		$dm = $this->getLanguage()->getDirMark();
 
-		$title = Title::makeTitle( $result->namespace, $result->title );
+		$title = Title::makeTitleSafe( $result->namespace, $result->title );
 		if ( !$title ) {
-			return '<!-- Invalid title ' .  htmlspecialchars( "{$result->namespace}:{$result->title}" ). '-->';
+			return Html::element( 'span', array( 'class' => 'mw-invalidtitle' ),
+				Linker::getInvalidTitleDescription( $this->getContext(), $result->namespace, $result->title ) );
 		}
+
 		$hlink = Linker::linkKnown(
 			$title,
-			wfMsgHtml( 'hist' ),
+			$this->msg( 'hist' )->escaped(),
 			array(),
 			array( 'action' => 'history' )
 		);
-		$plink = $this->isCached()
-					? Linker::link( $title )
-					: Linker::linkKnown( $title );
+		$hlinkInParentheses = $this->msg( 'parentheses' )->rawParams( $hlink )->escaped();
+
+		if ( $this->isCached() ) {
+			$plink = Linker::link( $title );
+			$exists = $title->exists();
+		} else {
+			$plink = Linker::linkKnown( $title );
+			$exists = true;
+		}
+
 		$size = $this->msg( 'nbytes' )->numParams( $result->value )->escaped();
 
-		return $title->exists()
-				? "({$hlink}) {$dm}{$plink} {$dm}[{$size}]"
-				: "<del>({$hlink}) {$dm}{$plink} {$dm}[{$size}]</del>";
+		return $exists
+			? "${hlinkInParentheses} {$dm}{$plink} {$dm}[{$size}]"
+			: "<del>${hlinkInParentheses} {$dm}{$plink} {$dm}[{$size}]</del>";
+	}
+
+	protected function getGroupName() {
+		return 'maintenance';
 	}
 }

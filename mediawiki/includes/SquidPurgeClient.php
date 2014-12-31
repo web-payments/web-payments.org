@@ -1,8 +1,29 @@
 <?php
 /**
- * An HTTP 1.0 client built for the purposes of purging Squid and Varnish. 
- * Uses asynchronous I/O, allowing purges to be done in a highly parallel 
- * manner. 
+ * Squid and Varnish cache purging.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
+
+/**
+ * An HTTP 1.0 client built for the purposes of purging Squid and Varnish.
+ * Uses asynchronous I/O, allowing purges to be done in a highly parallel
+ * manner.
  *
  * Could be replaced by curl_multi_exec() or some such.
  */
@@ -23,7 +44,15 @@ class SquidPurgeClient {
 	 * The socket resource, or null for unconnected, or false for disabled due to error
 	 */
 	var $socket;
-	
+
+	var $readBuffer;
+
+	var $bodyRemaining;
+
+	/**
+	 * @param $server string
+	 * @param $options array
+	 */
 	public function __construct( $server, $options = array() ) {
 		$parts = explode( ':', $server, 2 );
 		$this->host = $parts[0];
@@ -34,7 +63,7 @@ class SquidPurgeClient {
 	 * Open a socket if there isn't one open already, return it.
 	 * Returns false on error.
 	 *
-	 * @return false|resource
+	 * @return bool|resource
 	 */
 	protected function getSocket() {
 		if ( $this->socket !== null ) {
@@ -94,7 +123,7 @@ class SquidPurgeClient {
 		return array( $socket );
 	}
 
-	/** 
+	/**
 	 * Get the host's IP address.
 	 * Does not support IPv6 at present due to the lack of a convenient interface in PHP.
 	 */
@@ -147,11 +176,32 @@ class SquidPurgeClient {
 	 * @param $url string
 	 */
 	public function queuePurge( $url ) {
+		global $wgSquidPurgeUseHostHeader;
 		$url = SquidUpdate::expand( str_replace( "\n", '', $url ) );
-		$this->requests[] = "PURGE $url HTTP/1.0\r\n" .
-			"Connection: Keep-Alive\r\n" .
-			"Proxy-Connection: Keep-Alive\r\n" .
-			"User-Agent: " . Http::userAgent() . ' ' . __CLASS__ . "\r\n\r\n";
+		$request = array();
+		if ( $wgSquidPurgeUseHostHeader ) {
+			$url = wfParseUrl( $url );
+			$host = $url['host'];
+			if ( isset( $url['port'] ) && strlen( $url['port'] ) > 0 ) {
+				$host .= ":" . $url['port'];
+			}
+			$path = $url['path'];
+			if ( isset( $url['query'] ) && is_string( $url['query'] ) ) {
+				$path = wfAppendQuery( $path, $url['query'] );
+			}
+			$request[] = "PURGE $path HTTP/1.1";
+			$request[] = "Host: $host";
+		} else {
+			$request[] = "PURGE $url HTTP/1.0";
+		}
+		$request[] = "Connection: Keep-Alive";
+		$request[] = "Proxy-Connection: Keep-Alive";
+		$request[] = "User-Agent: " . Http::userAgent() . ' ' . __CLASS__;
+		// Two ''s to create \r\n\r\n
+		$request[] = '';
+		$request[] = '';
+
+		$this->requests[] = implode( "\r\n", $request );
 		if ( $this->currentRequestIndex === null ) {
 			$this->nextRequest();
 		}
@@ -243,7 +293,7 @@ class SquidPurgeClient {
 			if ( count( $lines ) < 2 ) {
 				return 'done';
 			}
-			if ( $this->readState == 'status' )  {
+			if ( $this->readState == 'status' ) {
 				$this->processStatusLine( $lines[0] );
 			} else { // header
 				$this->processHeaderLine( $lines[0] );
@@ -268,7 +318,7 @@ class SquidPurgeClient {
 				return 'done';
 			}
 		default:
-			throw new MWException( __METHOD__.': unexpected state' );
+			throw new MWException( __METHOD__ . ': unexpected state' );
 		}
 	}
 
@@ -319,8 +369,11 @@ class SquidPurgeClient {
 		$this->bodyRemaining = null;
 	}
 
+	/**
+	 * @param $msg string
+	 */
 	protected function log( $msg ) {
-		wfDebugLog( 'squid', __CLASS__." ($this->host): $msg\n" );
+		wfDebugLog( 'squid', __CLASS__ . " ($this->host): $msg" );
 	}
 }
 
@@ -332,6 +385,9 @@ class SquidPurgeClientPool {
 	var $clients = array();
 	var $timeout = 5;
 
+	/**
+	 * @param $options array
+	 */
 	function __construct( $options = array() ) {
 		if ( isset( $options['timeout'] ) ) {
 			$this->timeout = $options['timeout'];
@@ -351,6 +407,9 @@ class SquidPurgeClientPool {
 		$startTime = microtime( true );
 		while ( !$done ) {
 			$readSockets = $writeSockets = array();
+			/**
+			 * @var $client SquidPurgeClient
+			 */
 			foreach ( $this->clients as $clientIndex => $client ) {
 				$sockets = $client->getReadSocketsForSelect();
 				foreach ( $sockets as $i => $socket ) {
@@ -370,14 +429,14 @@ class SquidPurgeClientPool {
 			$numReady = socket_select( $readSockets, $writeSockets, $exceptSockets, $timeout );
 			wfRestoreWarnings();
 			if ( $numReady === false ) {
-				wfDebugLog( 'squid', __METHOD__.': Error in stream_select: ' . 
+				wfDebugLog( 'squid', __METHOD__ . ': Error in stream_select: ' .
 					socket_strerror( socket_last_error() ) . "\n" );
 				break;
 			}
 			// Check for timeout, use 1% tolerance since we aimed at having socket_select()
 			// exit at precisely the overall timeout
 			if ( microtime( true ) - $startTime > $this->timeout * 0.99 ) {
-				wfDebugLog( 'squid', __CLASS__.": timeout ({$this->timeout}s)\n" );
+				wfDebugLog( 'squid', __CLASS__ . ": timeout ({$this->timeout}s)\n" );
 				break;
 			} elseif ( !$numReady ) {
 				continue;

@@ -4,7 +4,8 @@
  * Used as a base class for CompareParsers and PreprocessDump.
  * We implement below the simple task of searching inside a dump.
  *
- * Copyright (C) 2011 Platonides - http://www.mediawiki.org/
+ * Copyright © 2011 Platonides
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +26,13 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Base class for interating over a dump.
+ *
+ * @ingroup Maintenance
+ */
 abstract class DumpIterator extends Maintenance {
 
 	private $count = 0;
@@ -41,13 +47,13 @@ abstract class DumpIterator extends Maintenance {
 	}
 
 	public function execute() {
-		if (! ( $this->hasOption('file') ^ $this->hasOption('dump') ) ) {
-			$this->error("You must provide a file or dump", true);
+		if ( !( $this->hasOption( 'file' ) ^ $this->hasOption( 'dump' ) ) ) {
+			$this->error( "You must provide a file or dump", true );
 		}
 
 		$this->checkOptions();
 
-		if ( $this->hasOption('file') ) {
+		if ( $this->hasOption( 'file' ) ) {
 			$revision = new WikiRevision;
 
 			$revision->setText( file_get_contents( $this->getOption( 'file' ) ) );
@@ -56,12 +62,12 @@ abstract class DumpIterator extends Maintenance {
 			return;
 		}
 
-		$this->startTime = wfTime();
+		$this->startTime = microtime( true );
 
-		if ( $this->getOption('dump') == '-' ) {
+		if ( $this->getOption( 'dump' ) == '-' ) {
 			$source = new ImportStreamSource( $this->getStdin() );
 		} else {
-			$this->error("Sorry, I don't support dump filenames yet. Use - and provide it on stdin on the meantime.", true);
+			$this->error( "Sorry, I don't support dump filenames yet. Use - and provide it on stdin on the meantime.", true );
 		}
 		$importer = new WikiImporter( $source );
 
@@ -74,10 +80,11 @@ abstract class DumpIterator extends Maintenance {
 
 		$this->conclusions();
 
-		$delta = wfTime() - $this->startTime;
-		$this->error( "Done {$this->count} revisions in " . round($delta, 2) . " seconds " );
-		if ($delta > 0)
-			$this->error( round($this->count / $delta, 2) . " pages/sec" );
+		$delta = microtime( true ) - $this->startTime;
+		$this->error( "Done {$this->count} revisions in " . round( $delta, 2 ) . " seconds " );
+		if ( $delta > 0 ) {
+			$this->error( round( $this->count / $delta, 2 ) . " pages/sec" );
+		}
 
 		# Perform the memory_get_peak_usage() when all the other data has been output so there's no damage if it dies.
 		# It is only available since 5.2.0 (since 5.2.1 if you haven't compiled with --enable-memory-limit)
@@ -90,7 +97,7 @@ abstract class DumpIterator extends Maintenance {
 		if ( $this->getDbType() == Maintenance::DB_NONE ) {
 			global $wgUseDatabaseMessages, $wgLocalisationCacheConf, $wgHooks;
 			$wgUseDatabaseMessages = false;
-			$wgLocalisationCacheConf['storeClass'] =  'LCStore_Null';
+			$wgLocalisationCacheConf['storeClass'] = 'LCStoreNull';
 			$wgHooks['InterwikiLoadPrefix'][] = 'DumpIterator::disableInterwikis';
 		}
 	}
@@ -116,9 +123,10 @@ abstract class DumpIterator extends Maintenance {
 
 		$this->count++;
 		if ( isset( $this->from ) ) {
-			if ( $this->from != $title )
+			if ( $this->from != $title ) {
 				return;
-			$this->output( "Skipped " . ($this->count - 1) . " pages\n" );
+			}
+			$this->output( "Skipped " . ( $this->count - 1 ) . " pages\n" );
 
 			$this->count = 1;
 			$this->from = null;
@@ -141,6 +149,11 @@ abstract class DumpIterator extends Maintenance {
 	abstract public function processRevision( $rev );
 }
 
+/**
+ * Maintenance script that runs a regex in the revisions from a dump.
+ *
+ * @ingroup Maintenance
+ */
 class SearchDump extends DumpIterator {
 
 	public function __construct() {
@@ -157,11 +170,11 @@ class SearchDump extends DumpIterator {
 	 * @param $rev Revision
 	 */
 	public function processRevision( $rev ) {
-		if ( preg_match( $this->getOption( 'regex' ), $rev->getText() ) ) {
+		if ( preg_match( $this->getOption( 'regex' ), $rev->getContent()->getTextForSearchIndex() ) ) {
 			$this->output( $rev->getTitle() . " matches at edit from " . $rev->getTimestamp() . "\n" );
 		}
 	}
 }
 
 $maintClass = "SearchDump";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

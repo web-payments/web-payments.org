@@ -22,46 +22,56 @@
  * @defgroup MaintenanceLanguage MaintenanceLanguage
  */
 
-require_once( dirname( __FILE__ ) . '/../commandLine.inc' );
-require_once( 'languages.inc' );
-require_once( 'writeMessagesArray.inc' );
+require_once __DIR__ . '/../commandLine.inc';
+require_once 'languages.inc';
+require_once 'writeMessagesArray.inc';
 
 /**
  * Rewrite a messages array.
  *
  * @param $languages
- * @param $code The language code.
+ * @param $code string The language code.
  * @param bool $write Write to the messages file?
  * @param bool $listUnknown List the unknown messages?
  * @param bool $removeUnknown Remove the unknown messages?
  * @param bool $removeDupes Remove the duplicated messages?
- * @param $dupeMsgSource The source file intended to remove from the array.
+ * @param $dupeMsgSource string The source file intended to remove from the array.
+ * @param $messagesFolder String: path to a folder to store the MediaWiki messages.
  */
-function rebuildLanguage( $languages, $code, $write, $listUnknown, $removeUnknown, $removeDupes, $dupeMsgSource ) {
+function rebuildLanguage( $languages, $code, $write, $listUnknown, $removeUnknown,
+	$removeDupes, $dupeMsgSource, $messagesFolder
+) {
 	$messages = $languages->getMessages( $code );
 	$messages = $messages['all'];
 	if ( $removeDupes ) {
 		$messages = removeDupes( $messages, $dupeMsgSource );
 	}
-	MessageWriter::writeMessagesToFile( $messages, $code, $write, $listUnknown, $removeUnknown );
+	MessageWriter::writeMessagesToFile(
+		$messages,
+		$code,
+		$write,
+		$listUnknown,
+		$removeUnknown,
+		$messagesFolder
+	);
 }
 
 /**
  * Remove duplicates from a message array.
  *
- * @param $oldMsgArray The input message array.
- * @param $dupeMsgSource The source file path for duplicates.
+ * @param $oldMsgArray array The input message array.
+ * @param $dupeMsgSource string The source file path for duplicates.
  * @return Array $newMsgArray The output message array, with duplicates removed.
  */
 function removeDupes( $oldMsgArray, $dupeMsgSource ) {
 	if ( file_exists( $dupeMsgSource ) ) {
-		include( $dupeMsgSource );
+		include $dupeMsgSource;
 		if ( !isset( $dupeMessages ) ) {
-			echo( "There are no duplicated messages in the source file provided." );
+			echo "There are no duplicated messages in the source file provided.";
 			exit( 1 );
 		}
 	} else {
-		echo ( "The specified file $dupeMsgSource cannot be found." );
+		echo "The specified file $dupeMsgSource cannot be found.";
 		exit( 1 );
 	}
 	$newMsgArray = $oldMsgArray;
@@ -70,21 +80,25 @@ function removeDupes( $oldMsgArray, $dupeMsgSource ) {
 			unset( $newMsgArray[$key] );
 		}
 	}
+
 	return $newMsgArray;
 }
 
 # Show help
 if ( isset( $options['help'] ) ) {
 	echo <<<TEXT
-Run this script to rewrite the messages array in the files languages/messages/MessagesXX.php.
+Run this script to rewrite the messages array in the files
+languages/messages/MessagesXX.php.
 Parameters:
-	* lang: Language code (default: the installation default language). You can also specify "all" to check all the languages.
+	* lang: Language code (default: the installation default language).
+	  You can also specify "all" to check all the languages.
 	* help: Show this help.
 Options:
 	* dry-run: Do not write the array to the file.
 	* no-unknown: Do not list the unknown messages.
 	* remove-unknown: Remove unknown messages.
 	* remove-duplicates: Remove duplicated messages based on a PHP source file.
+	* messages-folder: An alternative folder with MediaWiki messages.
 
 TEXT;
 	exit( 1 );
@@ -109,15 +123,34 @@ $wgWriteToFile = !isset( $options['dry-run'] );
 $wgListUnknownMessages = !isset( $options['no-unknown'] );
 $wgRemoveUnknownMessages = isset( $options['remove-unknown'] );
 $wgRemoveDuplicateMessages = isset( $options['remove-duplicates'] );
+$messagesFolder = isset( $options['messages-folder'] ) ? $options['messages-folder'] : false;
 
 # Get language objects
-$languages = new languages();
+$languages = new Languages();
 
 # Write all the language
 if ( $wgCode == 'all' ) {
 	foreach ( $languages->getLanguages() as $languageCode ) {
-		rebuildLanguage( $languages, $languageCode, $wgWriteToFile, $wgListUnknownMessages, $wgRemoveUnknownMessages, $wgRemoveDuplicateMessages, $wgDupeMessageSource );
+		rebuildLanguage(
+			$languages,
+			$languageCode,
+			$wgWriteToFile,
+			$wgListUnknownMessages,
+			$wgRemoveUnknownMessages,
+			$wgRemoveDuplicateMessages,
+			$wgDupeMessageSource,
+			$messagesFolder
+		);
 	}
 } else {
-	rebuildLanguage( $languages, $wgCode, $wgWriteToFile, $wgListUnknownMessages, $wgRemoveUnknownMessages, $wgRemoveDuplicateMessages, $wgDupeMessageSource );
+	rebuildLanguage(
+		$languages,
+		$wgCode,
+		$wgWriteToFile,
+		$wgListUnknownMessages,
+		$wgRemoveUnknownMessages,
+		$wgRemoveDuplicateMessages,
+		$wgDupeMessageSource,
+		$messagesFolder
+	);
 }

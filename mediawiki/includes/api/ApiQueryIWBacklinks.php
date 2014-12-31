@@ -5,7 +5,7 @@
  * Created on May 14, 2010
  *
  * Copyright © 2010 Sam Reed
- * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
+ * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,20 +56,19 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 
 		if ( !is_null( $params['continue'] ) ) {
 			$cont = explode( '|', $params['continue'] );
-			if ( count( $cont ) != 3 ) {
-				$this->dieUsage( 'Invalid continue param. You should pass the ' .
-					'original value returned by the previous query', '_badcontinue' );
-			}
+			$this->dieContinueUsageIf( count( $cont ) != 3 );
 
-			$prefix = $this->getDB()->strencode( $cont[0] );
-			$title = $this->getDB()->strencode( $this->titleToKey( $cont[1] ) );
+			$db = $this->getDB();
+			$op = $params['dir'] == 'descending' ? '<' : '>';
+			$prefix = $db->addQuotes( $cont[0] );
+			$title = $db->addQuotes( $cont[1] );
 			$from = intval( $cont[2] );
 			$this->addWhere(
-				"iwl_prefix > '$prefix' OR " .
-				"(iwl_prefix = '$prefix' AND " .
-				"(iwl_title > '$title' OR " .
-				"(iwl_title = '$title' AND " .
-				"iwl_from >= $from)))"
+				"iwl_prefix $op $prefix OR " .
+				"(iwl_prefix = $prefix AND " .
+				"(iwl_title $op $title OR " .
+				"(iwl_title = $title AND " .
+				"iwl_from $op= $from)))"
 			);
 		}
 
@@ -83,16 +82,24 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 		$this->addFields( array( 'page_id', 'page_title', 'page_namespace', 'page_is_redirect',
 			'iwl_from', 'iwl_prefix', 'iwl_title' ) );
 
+		$sort = ( $params['dir'] == 'descending' ? ' DESC' : '' );
 		if ( isset( $params['prefix'] ) ) {
 			$this->addWhereFld( 'iwl_prefix', $params['prefix'] );
 			if ( isset( $params['title'] ) ) {
 				$this->addWhereFld( 'iwl_title', $params['title'] );
-				$this->addOption( 'ORDER BY', 'iwl_from' );
+				$this->addOption( 'ORDER BY', 'iwl_from' . $sort );
 			} else {
-				$this->addOption( 'ORDER BY', 'iwl_title, iwl_from' );
+				$this->addOption( 'ORDER BY', array(
+					'iwl_title' . $sort,
+					'iwl_from' . $sort
+				) );
 			}
 		} else {
-			$this->addOption( 'ORDER BY', 'iwl_prefix, iwl_title, iwl_from' );
+			$this->addOption( 'ORDER BY', array(
+				'iwl_prefix' . $sort,
+				'iwl_title' . $sort,
+				'iwl_from' . $sort
+			) );
 		}
 
 		$this->addOption( 'LIMIT', $params['limit'] + 1 );
@@ -104,10 +111,15 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 		$count = 0;
 		$result = $this->getResult();
 		foreach ( $res as $row ) {
-			if ( ++ $count > $params['limit'] ) {
-				// We've reached the one extra which shows that there are additional pages to be had. Stop here...
-				// Continue string preserved in case the redirect query doesn't pass the limit
-				$this->setContinueEnumParameter( 'continue', "{$row->iwl_prefix}|{$row->iwl_title}|{$row->iwl_from}" );
+			if ( ++$count > $params['limit'] ) {
+				// We've reached the one extra which shows that there are
+				// additional pages to be had. Stop here...
+				// Continue string preserved in case the redirect query doesn't
+				// pass the limit
+				$this->setContinueEnumParameter(
+					'continue',
+					"{$row->iwl_prefix}|{$row->iwl_title}|{$row->iwl_from}"
+				);
 				break;
 			}
 
@@ -133,7 +145,10 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 
 				$fit = $result->addValue( array( 'query', $this->getModuleName() ), null, $entry );
 				if ( !$fit ) {
-					$this->setContinueEnumParameter( 'continue', "{$row->iwl_prefix}|{$row->iwl_title}|{$row->iwl_from}" );
+					$this->setContinueEnumParameter(
+						'continue',
+						"{$row->iwl_prefix}|{$row->iwl_title}|{$row->iwl_from}"
+					);
 					break;
 				}
 			}
@@ -170,6 +185,13 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 					'iwtitle',
 				),
 			),
+			'dir' => array(
+				ApiBase::PARAM_DFLT => 'ascending',
+				ApiBase::PARAM_TYPE => array(
+					'ascending',
+					'descending'
+				)
+			),
 		);
 	}
 
@@ -184,6 +206,24 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 				' iwtitle        - Adds the title of the interwiki',
 			),
 			'limit' => 'How many total pages to return',
+			'dir' => 'The direction in which to list',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'pageid' => 'integer',
+				'ns' => 'namespace',
+				'title' => 'string',
+				'redirect' => 'boolean'
+			),
+			'iwprefix' => array(
+				'iwprefix' => 'string'
+			),
+			'iwtitle' => array(
+				'iwtitle' => 'string'
+			)
 		);
 	}
 
@@ -191,25 +231,24 @@ class ApiQueryIWBacklinks extends ApiQueryGeneratorBase {
 		return array( 'Find all pages that link to the given interwiki link.',
 			'Can be used to find all links with a prefix, or',
 			'all links to a title (with a given prefix).',
-			'Using neither parameter is effectively "All IW Links"',
+			'Using neither parameter is effectively "All IW Links".',
 		);
 	}
 
 	public function getPossibleErrors() {
 		return array_merge( parent::getPossibleErrors(), array(
 			array( 'missingparam', 'prefix' ),
-			array( 'code' => '_badcontinue', 'info' => 'Invalid continue param. You should pass the original value returned by the previous query' ),
 		) );
 	}
 
 	public function getExamples() {
 		return array(
 			'api.php?action=query&list=iwbacklinks&iwbltitle=Test&iwblprefix=wikibooks',
-			'api.php?action=query&generator=iwbacklinks&giwbltitle=Test&iwblprefix=wikibooks&prop=info'
+			'api.php?action=query&generator=iwbacklinks&giwbltitle=Test&giwblprefix=wikibooks&prop=info'
 		);
 	}
 
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
+	public function getHelpUrls() {
+		return 'https://www.mediawiki.org/wiki/API:Iwbacklinks';
 	}
 }

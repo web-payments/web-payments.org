@@ -1,10 +1,10 @@
 <?php
 /**
  * Take page text out of an XML dump file and preprocess it to obj.
- * It may be useful for getting preprocessor statistics or filling the 
+ * It may be useful for getting preprocessor statistics or filling the
  * preprocessor cache.
  *
- * Copyright (C) 2011 Platonides - http://www.mediawiki.org/
+ * Copyright © 2011 Platonides - https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,14 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/dumpIterator.php' );
+require_once __DIR__ . '/dumpIterator.php';
 
+/**
+ * Maintenance script that takes page text out of an XML dump file and
+ * preprocesses it to obj.
+ *
+ * @ingroup Maintenance
+ */
 class PreprocessDump extends DumpIterator {
 
 	/* Variables for dressing up as a parser */
@@ -72,15 +78,19 @@ class PreprocessDump extends DumpIterator {
 	 * @param $rev Revision
 	 */
 	public function processRevision( $rev ) {
-		try {
-			$this->mPreprocessor->preprocessToObj( $rev->getText(), 0 );
+		$content = $rev->getContent( Revision::RAW );
+
+		if ( $content->getModel() !== CONTENT_MODEL_WIKITEXT ) {
+			return;
 		}
-		catch(Exception $e) {
-			$this->error("Caught exception " . $e->getMessage() . " in " . $rev->getTitle()->getPrefixedText() );
+
+		try {
+			$this->mPreprocessor->preprocessToObj( strval( $content->getNativeData() ), 0 );
+		} catch ( Exception $e ) {
+			$this->error( "Caught exception " . $e->getMessage() . " in " . $rev->getTitle()->getPrefixedText() );
 		}
 	}
 }
 
 $maintClass = "PreprocessDump";
-require_once( RUN_MAINTENANCE_IF_MAIN );
-
+require_once RUN_MAINTENANCE_IF_MAIN;

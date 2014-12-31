@@ -2,12 +2,27 @@
 /**
  * Cologne Blue: A nicer-looking alternative to Standard.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @todo document
  * @file
  * @ingroup Skins
  */
 
-if( !defined( 'MEDIAWIKI' ) ) {
+if ( !defined( 'MEDIAWIKI' ) ) {
 	die( -1 );
 }
 
@@ -15,123 +30,346 @@ if( !defined( 'MEDIAWIKI' ) ) {
  * @todo document
  * @ingroup Skins
  */
-class SkinCologneBlue extends SkinLegacy {
+class SkinCologneBlue extends SkinTemplate {
 	var $skinname = 'cologneblue', $stylename = 'cologneblue',
 		$template = 'CologneBlueTemplate';
+	var $useHeadElement = true;
 
 	/**
 	 * @param $out OutputPage
 	 */
-	function setupSkinUserCss( OutputPage $out ){
+	function setupSkinUserCss( OutputPage $out ) {
 		parent::setupSkinUserCss( $out );
+		$out->addModuleStyles( 'mediawiki.legacy.oldshared' );
 		$out->addModuleStyles( 'skins.cologneblue' );
-
-		$qb = $this->qbSetting();
-		$rules = array();
-
-		if ( 2 == $qb ) { # Right
-			$rules[] = "/* @noflip */#quickbar { position: absolute; right: 4px; }";
-			$rules[] = "/* @noflip */#article { margin-left: 4px; margin-right: 148px; }";
-			$rules[] = "/* @noflip */#footer { margin-right: 152px; }";
-		} elseif ( 1 == $qb ) {
-			$rules[] = "/* @noflip */#quickbar { position: absolute; left: 4px; }";
-			$rules[] = "/* @noflip */#article { margin-left: 148px; margin-right: 4px; }";
-			$rules[] = "/* @noflip */#footer { margin-left: 152px; }";
-		} elseif ( 3 == $qb ) { # Floating left
-			$rules[] = "/* @noflip */#quickbar { position:absolute; left:4px }";
-			$rules[] = "/* @noflip */#topbar { margin-left: 148px }";
-			$rules[] = "/* @noflip */#article { margin-left:148px; margin-right: 4px; }";
-			$rules[] = "/* @noflip */body>#quickbar { position:fixed; left:4px; top:4px; overflow:auto; bottom:4px;}"; # Hides from IE
-			$rules[] = "/* @noflip */#footer { margin-left: 152px; }";
-		} elseif ( 4 == $qb ) { # Floating right
-			$rules[] = "/* @noflip */#quickbar { position: fixed; right: 4px; }";
-			$rules[] = "/* @noflip */#topbar { margin-right: 148px }";
-			$rules[] = "/* @noflip */#article { margin-right: 148px; margin-left: 4px; }";
-			$rules[] = "/* @noflip */body>#quickbar { position: fixed; right: 4px; top: 4px; overflow: auto; bottom:4px;}"; # Hides from IE
-			$rules[] = "/* @noflip */#footer { margin-right: 152px; }";
-		}
-		$style = implode( "\n", $rules );
-		$out->addInlineStyle( $style, 'flip' );
 	}
 
+	/**
+	 * Override langlink formatting behavior not to uppercase the language names.
+	 * See otherLanguages() in CologneBlueTemplate.
+	 */
+	function formatLanguageName( $name ) {
+		return $name;
+	}
 }
 
-class CologneBlueTemplate extends LegacyTemplate {
+class CologneBlueTemplate extends BaseTemplate {
+	function execute() {
+		// Suppress warnings to prevent notices about missing indexes in $this->data
+		wfSuppressWarnings();
+		$this->html( 'headelement' );
+		echo $this->beforeContent();
+		$this->html( 'bodytext' );
+		echo "\n";
+		echo $this->afterContent();
+		$this->html( 'dataAfterContent' );
+		$this->printTrail();
+		echo "\n</body></html>";
+		wfRestoreWarnings();
+	}
+
+	/**
+	 * Language/charset variant links for classic-style skins
+	 * @return string
+	 */
+	function variantLinks() {
+		$s = array();
+
+		$variants = $this->data['content_navigation']['variants'];
+
+		foreach ( $variants as $key => $link ) {
+			$s[] = $this->makeListItem( $key, $link, array( 'tag' => 'span' ) );
+		}
+
+		return $this->getSkin()->getLanguage()->pipeList( $s );
+	}
+
+	function otherLanguages() {
+		global $wgHideInterlanguageLinks;
+		if ( $wgHideInterlanguageLinks ) {
+			return "";
+		}
+
+		$html = '';
+
+		// We override SkinTemplate->formatLanguageName() in SkinCologneBlue
+		// not to capitalize the language names.
+		$language_urls = $this->data['language_urls'];
+		if ( !empty( $language_urls ) ) {
+			$s = array();
+			foreach ( $language_urls as $key => $data ) {
+				$s[] = $this->makeListItem( $key, $data, array( 'tag' => 'span' ) );
+			}
+
+			$html = wfMessage( 'otherlanguages' )->text()
+				. wfMessage( 'colon-separator' )->text()
+				. $this->getSkin()->getLanguage()->pipeList( $s );
+		}
+
+		$html .= $this->renderAfterPortlet( 'lang' );
+
+		return $html;
+	}
+
+	/**
+	 * @param string $name
+	 */
+	protected function renderAfterPortlet( $name ) {
+		$content = '';
+		wfRunHooks( 'BaseTemplateAfterPortlet', array( $this, $name, &$content ) );
+
+		$html = $content !== '' ? "<div class='after-portlet after-portlet-$name'>$content</div>" : '';
+
+		return $html;
+	}
+
+	function pageTitleLinks() {
+		$s = array();
+		$footlinks = $this->getFooterLinks();
+
+		foreach ( $footlinks['places'] as $item ) {
+			$s[] = $this->data[$item];
+		}
+
+		return $this->getSkin()->getLanguage()->pipeList( $s );
+	}
+
+	/**
+	 * Used in bottomLinks() to eliminate repetitive code.
+	 *
+	 * @param $key string Key to be passed to makeListItem()
+	 * @param $navlink array Navlink suitable for processNavlinkForDocument()
+	 * @param $message string Key of the message to use in place of standard text
+	 *
+	 * @return string
+	 */
+	function processBottomLink( $key, $navlink, $message = null ) {
+		if ( !$navlink ) {
+			// Empty navlinks might be passed.
+			return null;
+		}
+
+		if ( $message ) {
+			$navlink['text'] = wfMessage( $message )->escaped();
+		}
+
+		return $this->makeListItem( $key, $this->processNavlinkForDocument( $navlink ), array( 'tag' => 'span' ) );
+	}
+
+	function bottomLinks() {
+		$toolbox = $this->getToolbox();
+		$content_nav = $this->data['content_navigation'];
+
+		$lines = array();
+
+		if ( $this->getSkin()->getOutput()->isArticleRelated() ) {
+			// First row. Regular actions.
+			$element = array();
+
+			$editLinkMessage = $this->getSkin()->getTitle()->exists() ? 'editthispage' : 'create-this-page';
+			$element[] = $this->processBottomLink( 'edit', $content_nav['views']['edit'], $editLinkMessage );
+			$element[] = $this->processBottomLink( 'viewsource', $content_nav['views']['viewsource'], 'viewsource' );
+
+			$element[] = $this->processBottomLink( 'watch', $content_nav['actions']['watch'], 'watchthispage' );
+			$element[] = $this->processBottomLink( 'unwatch', $content_nav['actions']['unwatch'], 'unwatchthispage' );
+
+			$element[] = $this->talkLink();
+
+			$element[] = $this->processBottomLink( 'history', $content_nav['views']['history'], 'history' );
+			$element[] = $this->processBottomLink( 'info', $toolbox['info'] );
+			$element[] = $this->processBottomLink( 'whatlinkshere', $toolbox['whatlinkshere'] );
+			$element[] = $this->processBottomLink( 'recentchangeslinked', $toolbox['recentchangeslinked'] );
+
+			$element[] = $this->processBottomLink( 'contributions', $toolbox['contributions'] );
+			$element[] = $this->processBottomLink( 'emailuser', $toolbox['emailuser'] );
+
+			$lines[] = $this->getSkin()->getLanguage()->pipeList( array_filter( $element ) );
+
+			// Second row. Privileged actions.
+			$element = array();
+
+			$element[] = $this->processBottomLink( 'delete', $content_nav['actions']['delete'], 'deletethispage' );
+			$element[] = $this->processBottomLink( 'undelete', $content_nav['actions']['undelete'], 'undeletethispage' );
+
+			$element[] = $this->processBottomLink( 'protect', $content_nav['actions']['protect'], 'protectthispage' );
+			$element[] = $this->processBottomLink( 'unprotect', $content_nav['actions']['unprotect'], 'unprotectthispage' );
+
+			$element[] = $this->processBottomLink( 'move', $content_nav['actions']['move'], 'movethispage' );
+
+			$lines[] = $this->getSkin()->getLanguage()->pipeList( array_filter( $element ) );
+
+			// Third row. Language links.
+			$lines[] = $this->otherLanguages();
+		}
+
+		return implode( array_filter( $lines ), "<br />\n" ) . "<br />\n";
+	}
+
+	function talkLink() {
+		$title = $this->getSkin()->getTitle();
+
+		if ( $title->getNamespace() == NS_SPECIAL ) {
+			// No discussion links for special pages
+			return "";
+		}
+
+		$companionTitle = $title->isTalkPage() ? $title->getSubjectPage() : $title->getTalkPage();
+		$companionNamespace = $companionTitle->getNamespace();
+
+		// TODO these messages are only be used by CologneBlue,
+		// kill and replace with something more sensibly named?
+		$nsToMessage = array(
+			NS_MAIN => 'articlepage',
+			NS_USER => 'userpage',
+			NS_PROJECT => 'projectpage',
+			NS_FILE => 'imagepage',
+			NS_MEDIAWIKI => 'mediawikipage',
+			NS_TEMPLATE => 'templatepage',
+			NS_HELP => 'viewhelppage',
+			NS_CATEGORY => 'categorypage',
+			NS_FILE => 'imagepage',
+		);
+
+		// Find out the message to use for link text. Use either the array above or,
+		// for non-talk pages, a generic "discuss this" message.
+		// Default is the same as for main namespace.
+		if ( isset( $nsToMessage[$companionNamespace] ) ) {
+			$message = $nsToMessage[$companionNamespace];
+		} else {
+			$message = $companionTitle->isTalkPage() ? 'talkpage' : 'articlepage';
+		}
+
+		// Obviously this can't be reasonable and just return the key for talk namespace, only for content ones.
+		// Thus we have to mangle it in exactly the same way SkinTemplate does. (bug 40805)
+		$key = $companionTitle->getNamespaceKey( '' );
+		if ( $companionTitle->isTalkPage() ) {
+			$key = ( $key == 'main' ? 'talk' : $key . "_talk" );
+		}
+
+		// Use the regular navigational link, but replace its text. Everything else stays unmodified.
+		$namespacesLinks = $this->data['content_navigation']['namespaces'];
+		return $this->processBottomLink( $message, $namespacesLinks[$key], $message );
+	}
+
+	/**
+	 * Takes a navigational link generated by SkinTemplate in whichever way
+	 * and mangles attributes unsuitable for repeated use. In particular, this modifies the ids
+	 * and removes the accesskeys. This is necessary to be able to use the same navlink twice,
+	 * e.g. in sidebar and in footer.
+	 *
+	 * @param $navlink array Navigational link generated by SkinTemplate
+	 * @param $idPrefix mixed Prefix to add to id of this navlink. If false, id is removed entirely. Default is 'cb-'.
+	 */
+	function processNavlinkForDocument( $navlink, $idPrefix = 'cb-' ) {
+		if ( $navlink['id'] ) {
+			$navlink['single-id'] = $navlink['id']; // to allow for tooltip generation
+			$navlink['tooltiponly'] = true; // but no accesskeys
+
+			// mangle or remove the id
+			if ( $idPrefix === false ) {
+				unset( $navlink['id'] );
+			} else {
+				$navlink['id'] = $idPrefix . $navlink['id'];
+			}
+		}
+
+		return $navlink;
+	}
 
 	/**
 	 * @return string
 	 */
-	function doBeforeContent() {
-		$mainPageObj = Title::newMainPage();
+	function beforeContent() {
+		ob_start();
+?>
+<div id="content">
+	<div id="topbar">
+		<p id="sitetitle" role="banner">
+			<a href="<?php echo htmlspecialchars( $this->data['nav_urls']['mainpage']['href'] ) ?>">
+				<?php echo wfMessage( 'sitetitle' )->escaped() ?>
+			</a>
+		</p>
+		<p id="sitesub"><?php echo wfMessage( 'sitesubtitle' )->escaped() ?></p>
+		<div id="linkcollection" role="navigation">
+			<div id="langlinks"><?php echo str_replace( '<br />', '', $this->otherLanguages() ) ?></div>
+			<?php echo $this->getSkin()->getCategories() ?>
+			<div id="titlelinks"><?php echo $this->pageTitleLinks() ?></div>
+			<?php if ( $this->data['newtalk'] ) { ?>
+			<div class="usermessage"><strong><?php echo $this->data['newtalk'] ?></strong></div>
+			<?php } ?>
+		</div>
+	</div>
+	<div id="article" class="mw-body" role="main">
+		<?php if ( $this->getSkin()->getSiteNotice() ) { ?>
+		<div id="siteNotice"><?php echo $this->getSkin()->getSiteNotice() ?></div>
+		<?php } ?>
+		<h1 id="firstHeading" lang="<?php
+			$this->data['pageLanguage'] = $this->getSkin()->getTitle()->getPageViewLanguage()->getHtmlCode();
+			$this->text( 'pageLanguage' );
+		?>"><span dir="auto"><?php echo $this->data['title'] ?></span></h1>
+		<?php if ( $this->translator->translate( 'tagline' ) ) { ?>
+		<p class="tagline"><?php echo htmlspecialchars( $this->translator->translate( 'tagline' ) ) ?></p>
+		<?php } ?>
+		<?php if ( $this->getSkin()->getOutput()->getSubtitle() ) { ?>
+		<p class="subtitle"><?php echo $this->getSkin()->getOutput()->getSubtitle() ?></p>
+		<?php } ?>
+		<?php if ( $this->getSkin()->subPageSubtitle() ) { ?>
+		<p class="subpages"><?php echo $this->getSkin()->subPageSubtitle() ?></p>
+		<?php } ?>
+<?php
+		$s = ob_get_contents();
+		ob_end_clean();
 
-		$s = "\n<div id='content'>\n<div id='topbar'>" .
-		  '<table width="100%" border="0" cellspacing="0" cellpadding="8"><tr>';
-
-		$s .= '<td class="top" nowrap="nowrap">';
-		$s .= '<a href="' . htmlspecialchars( $mainPageObj->getLocalURL() ) . '">';
-		$s .= '<span id="sitetitle">' . wfMsg( 'sitetitle' ) . '</span></a>';
-
-		$s .= '</td><td class="top" id="top-syslinks" width="100%">';
-		$s .= $this->sysLinks();
-		$s .= '</td></tr><tr><td class="top-subheader">';
-
-		$s .= '<font size="-1"><span id="sitesub">';
-		$s .= htmlspecialchars( wfMsg( 'sitesubtitle' ) ) . '</span></font>';
-		$s .= '</td><td class="top-linkcollection">';
-
-		$s .= '<font size="-1"><span id="langlinks">';
-		$s .= str_replace( '<br />', '', $this->otherLanguages() );
-
-		$s .= $this->getSkin()->getCategories();
-
-		$s .= '<br />' . $this->pageTitleLinks();
-		$s .= '</span></font>';
-
-		$s .= "</td></tr></table>\n";
-
-		$s .= "\n</div>\n<div id='article'>";
-
-		$notice = $this->getSkin()->getSiteNotice();
-		if( $notice ) {
-			$s .= "\n<div id='siteNotice'>$notice</div>\n";
-		}
-		$s .= $this->pageTitle();
-		$s .= $this->pageSubtitle() . "\n";
 		return $s;
 	}
 
 	/**
 	 * @return string
 	 */
-	function doAfterContent(){
-		$s = "\n</div><br clear='all' />\n";
+	function afterContent() {
+		ob_start();
+?>
+	</div>
+	<div id="footer">
+		<div id="footer-navigation" role="navigation">
+<?php
+		// Page-related links
+		echo $this->bottomLinks();
+		echo "\n<br />";
 
-		$s .= "\n<div id='footer'>";
-		$s .= '<table width="98%" border="0" cellspacing="0"><tr>';
-
-		$s .= '<td class="bottom">';
-
-		$s .= $this->bottomLinks();
-		$s .= $this->getSkin()->getLanguage()->pipeList( array(
-			"\n<br />" . Linker::link(
-				Title::newMainPage(),
-				null,
-				array(),
-				array(),
-				array( 'known', 'noclasses' )
-			),
+		// Footer and second searchbox
+		echo $this->getSkin()->getLanguage()->pipeList( array(
+			$this->getSkin()->mainPageLink(),
 			$this->getSkin()->aboutLink(),
-			$this->searchForm( wfMsg( 'qbfind' ) )
+			$this->searchForm( 'footer' )
 		) );
-
-		$s .= "\n<br />" . $this->pageStats();
-
-		$s .= '</td>';
-		$s .= "</tr></table>\n</div>\n</div>\n";
-
-		if ( $this->getSkin()->qbSetting() != 0 ) {
-			$s .= $this->quickBar();
+?>
+		</div>
+		<div id="footer-info" role="contentinfo">
+<?php
+		// Standard footer info
+		$footlinks = $this->getFooterLinks();
+		if ( $footlinks['info'] ) {
+			foreach ( $footlinks['info'] as $item ) {
+				echo $this->data[$item] . ' ';
+			}
 		}
+?>
+		</div>
+	</div>
+</div>
+<div id="mw-navigation">
+	<h2><?php echo wfMessage( 'navigation-heading' )->escaped() ?></h2>
+	<div id="toplinks" role="navigation">
+		<p id="syslinks"><?php echo $this->sysLinks() ?></p>
+		<p id="variantlinks"><?php echo $this->variantLinks() ?></p>
+	</div>
+	<?php echo $this->quickBar() ?>
+</div>
+<?php
+		$s = ob_get_contents();
+		ob_end_clean();
+
 		return $s;
 	}
 
@@ -139,57 +377,75 @@ class CologneBlueTemplate extends LegacyTemplate {
 	 * @return string
 	 */
 	function sysLinks() {
-		$li = SpecialPage::getTitleFor( 'Userlogin' );
-		$lo = SpecialPage::getTitleFor( 'Userlogout' );
-
-		$rt = $this->getSkin()->getTitle()->getPrefixedURL();
-		if ( 0 == strcasecmp( urlencode( $lo ), $rt ) ) {
-			$q = array();
-		} else {
-			$q = array( 'returnto' => $rt );
-		}
-
 		$s = array(
 			$this->getSkin()->mainPageLink(),
 			Linker::linkKnown(
-				Title::newFromText( wfMsgForContent( 'aboutpage' ) ),
-				wfMsg( 'about' )
+				Title::newFromText( wfMessage( 'aboutpage' )->inContentLanguage()->text() ),
+				wfMessage( 'about' )->text()
+			),
+			Linker::makeExternalLink(
+				Skin::makeInternalOrExternalUrl( wfMessage( 'helppage' )->inContentLanguage()->text() ),
+				wfMessage( 'help' )->text(),
+				false
 			),
 			Linker::linkKnown(
-				Title::newFromText( wfMsgForContent( 'helppage' ) ),
-				wfMsg( 'help' )
+				Title::newFromText( wfMessage( 'faqpage' )->inContentLanguage()->text() ),
+				wfMessage( 'faq' )->text()
 			),
-			Linker::linkKnown(
-				Title::newFromText( wfMsgForContent( 'faqpage' ) ),
-				wfMsg( 'faq' )
-			),
-			Linker::specialLink( 'Specialpages' )
 		);
 
-		/* show links to different language variants */
-		if( $this->variantLinks() ) {
-			$s[] = $this->variantLinks();
-		}
-		if( $this->extensionTabLinks() ) {
-			$s[] = $this->extensionTabLinks();
-		}
-		if ( $this->data['loggedin'] ) {
-			$s[] = Linker::linkKnown(
-				$lo,
-				wfMsg( 'logout' ),
-				array(),
-				$q
-			);
-		} else {
-			$s[] = Linker::linkKnown(
-				$li,
-				wfMsg( 'login' ),
-				array(),
-				$q
-			);
+		$personalUrls = $this->getPersonalTools();
+		foreach ( array( 'logout', 'createaccount', 'login' ) as $key ) {
+			if ( $personalUrls[$key] ) {
+				$s[] = $this->makeListItem( $key, $personalUrls[$key], array( 'tag' => 'span' ) );
+			}
 		}
 
 		return $this->getSkin()->getLanguage()->pipeList( $s );
+	}
+
+	/**
+	 * Adds CologneBlue-specific items to the sidebar: qbedit, qbpageoptions and qbmyoptions menus.
+	 *
+	 * @param $bar sidebar data
+	 * @return array modified sidebar data
+	 */
+	function sidebarAdditions( $bar ) {
+		// "This page" and "Edit" menus
+		// We need to do some massaging here... we reuse all of the items, except for $...['views']['view'],
+		// as $...['namespaces']['main'] and $...['namespaces']['talk'] together serve the same purpose.
+		// We also don't use $...['variants'], these are displayed in the top menu.
+		$content_navigation = $this->data['content_navigation'];
+		$qbpageoptions = array_merge(
+			$content_navigation['namespaces'],
+			array(
+				'history' => $content_navigation['views']['history'],
+				'watch' => $content_navigation['actions']['watch'],
+				'unwatch' => $content_navigation['actions']['unwatch'],
+			)
+		);
+		$content_navigation['actions']['watch'] = null;
+		$content_navigation['actions']['unwatch'] = null;
+		$qbedit = array_merge(
+			array(
+				'edit' => $content_navigation['views']['edit'],
+				'addsection' => $content_navigation['views']['addsection'],
+			),
+			$content_navigation['actions']
+		);
+
+		// Personal tools ("My pages")
+		$qbmyoptions = $this->getPersonalTools();
+		foreach ( array( 'logout', 'createaccount', 'login', ) as $key ) {
+			$qbmyoptions[$key] = null;
+		}
+
+		// Use the closest reasonable name
+		$bar['cactions'] = $qbedit;
+		$bar['pageoptions'] = $qbpageoptions; // this is a non-standard portlet name, but nothing fits
+		$bar['personal'] = $qbmyoptions;
+
+		return $bar;
 	}
 
 	/**
@@ -198,166 +454,91 @@ class CologneBlueTemplate extends LegacyTemplate {
 	 *
 	 * @return string
 	 */
-	function quickBar(){
-		$s = "\n<div id='quickbar'>";
+	function quickBar() {
+		// Massage the sidebar. We want to:
+		// * place SEARCH at the beginning
+		// * add new portlets before TOOLBOX (or at the end, if it's missing)
+		// * remove LANGUAGES (langlinks are displayed elsewhere)
+		$orig_bar = $this->data['sidebar'];
+		$bar = array();
+		$hasToolbox = false;
 
-		$sep = '<br />';
-		$s .= $this->menuHead( 'qbfind' );
-		$s .= $this->searchForm();
-
-		$s .= $this->menuHead( 'qbbrowse' );
-
-		# Use the first heading from the Monobook sidebar as the "browse" section
-		$bar = $this->getSkin()->buildSidebar();
-		unset( $bar['SEARCH'] );
-		unset( $bar['LANGUAGES'] );
-		unset( $bar['TOOLBOX'] );
-
-		$barnumber = 1;
-		foreach ( $bar as $heading => $browseLinks ) {
-			if ( $barnumber > 1 ) {
-				$headingMsg = wfMessage( $heading );
-				if ( $headingMsg->exists() ) {
-					$h = $headingMsg->text();
-				} else {
-					$h = $heading;
-				}
-				$s .= "\n<h6>" . htmlspecialchars( $h ) . "</h6>";
+		// Always display search first
+		$bar['SEARCH'] = true;
+		// Copy everything except for langlinks, inserting new items before toolbox
+		foreach ( $orig_bar as $heading => $data ) {
+			if ( $heading == 'TOOLBOX' ) {
+				// Insert the stuff
+				$bar = $this->sidebarAdditions( $bar );
+				$hasToolbox = true;
 			}
-			if( is_array( $browseLinks ) ) {
-				foreach ( $browseLinks as $link ) {
-					if ( $link['text'] != '-' ) {
-						$s .= "<a href=\"{$link['href']}\">" .
-							htmlspecialchars( $link['text'] ) . '</a>' . $sep;
-					}
-				}
+
+			if ( $heading != 'LANGUAGES' ) {
+				$bar[$heading] = $data;
 			}
-			$barnumber++;
+		}
+		// If toolbox is missing, add our items at the end
+		if ( !$hasToolbox ) {
+			$bar = $this->sidebarAdditions( $bar );
 		}
 
-		$user = $this->getSkin()->getUser();
-
-		if ( $this->data['isarticle'] ) {
-			$s .= $this->menuHead( 'qbedit' );
-			$s .= '<strong>' . $this->editThisPage() . '</strong>';
-
-			$s .= $sep . Linker::linkKnown(
-				Title::newFromText( wfMsgForContent( 'edithelppage' ) ),
-				wfMsg( 'edithelp' )
-			);
-
-			if( $this->data['loggedin'] ) {
-				$s .= $sep . $this->moveThisPage();
+		// Fill out special sidebar items with content
+		$orig_bar = $bar;
+		$bar = array();
+		foreach ( $orig_bar as $heading => $data ) {
+			if ( $heading == 'SEARCH' ) {
+				$bar['search'] = $this->searchForm( 'sidebar' );
+			} elseif ( $heading == 'TOOLBOX' ) {
+				$bar['tb'] = $this->getToolbox();
+			} else {
+				$bar[$heading] = $data;
 			}
-			if ( $user->isAllowed( 'delete' ) ) {
-				$dtp = $this->deleteThisPage();
-				if ( $dtp != '' ) {
-					$s .= $sep . $dtp;
-				}
-			}
-			if ( $user->isAllowed( 'protect' ) ) {
-				$ptp = $this->protectThisPage();
-				if ( $ptp != '' ) {
-					$s .= $sep . $ptp;
-				}
-			}
-			$s .= $sep;
-
-			$s .= $this->menuHead( 'qbpageoptions' );
-			$s .= $this->talkLink()
-					. $sep . $this->commentLink()
-					. $sep . $this->printableLink();
-			if ( $this->data['loggedin'] ) {
-				$s .= $sep . $this->watchThisPage();
-			}
-
-			$s .= $sep;
-
-			$s .= $this->menuHead( 'qbpageinfo' )
-					. $this->historyLink()
-					. $sep . $this->whatLinksHere()
-					. $sep . $this->watchPageLinksLink();
-
-			$title = $this->getSkin()->getTitle();
-			$tns = $title->getNamespace();
-			if ( $tns == NS_USER || $tns == NS_USER_TALK ) {
-				$id = User::idFromName( $title->getText() );
-				if( $id != 0 ) {
-					$s .= $sep . $this->userContribsLink();
-					if( $this->getSkin()->showEmailUser( $id ) ) {
-						$s .= $sep . $this->emailUserLink();
-					}
-				}
-			}
-			$s .= $sep;
 		}
 
-		$s .= $this->menuHead( 'qbmyoptions' );
-		if ( $this->data['loggedin'] ) {
-			$tl = Linker::link(
-				$user->getTalkPage(),
-				wfMsg( 'mytalk' ),
-				array(),
-				array(),
-				array( 'known', 'noclasses' )
-			);
-			if ( $user->getNewtalk() ) {
-				$tl .= ' *';
-			}
-
-			$s .= Linker::link(
-					$user->getUserPage(),
-					wfMsg( 'mypage' ),
-					array(),
-					array(),
-					array( 'known', 'noclasses' )
-				) . $sep . $tl . $sep . Linker::specialLink( 'Watchlist' )
-					. $sep .
-				Linker::link(
-					SpecialPage::getSafeTitleFor( 'Contributions', $user->getName() ),
-					wfMsg( 'mycontris' ),
-					array(),
-					array(),
-					array( 'known', 'noclasses' )
-				) . $sep . Linker::specialLink( 'Preferences' )
-				. $sep . Linker::specialLink( 'Userlogout' );
-		} else {
-			$s .= Linker::specialLink( 'Userlogin' );
-		}
-
-		$s .= $this->menuHead( 'qbspecialpages' )
-			. Linker::specialLink( 'Newpages' )
-			. $sep . Linker::specialLink( 'Listfiles' )
-			. $sep . Linker::specialLink( 'Statistics' );
-		if( UploadBase::isEnabled() && UploadBase::isAllowed( $user ) === true ) {
-			$s .= $sep . $this->getUploadLink();
-		}
-
-		global $wgSiteSupportPage;
-
-		if( $wgSiteSupportPage ) {
-			$s .= $sep . '<a href="' . htmlspecialchars( $wgSiteSupportPage ) . '" class="internal">'
-					. wfMsg( 'sitesupport' ) . '</a>';
-		}
-
-		$s .= $sep . Linker::link(
-			SpecialPage::getTitleFor( 'Specialpages' ),
-			wfMsg( 'moredotdotdot' ),
-			array(),
-			array(),
-			array( 'known', 'noclasses' )
+		// Output the sidebar
+		// CologneBlue uses custom messages for some portlets, but we should keep the ids for consistency
+		$idToMessage = array(
+			'search' => 'qbfind',
+			'navigation' => 'qbbrowse',
+			'tb' => 'toolbox',
+			'cactions' => 'qbedit',
+			'personal' => 'qbmyoptions',
+			'pageoptions' => 'qbpageoptions',
 		);
 
-		$s .= $sep . "\n</div>\n";
-		return $s;
-	}
+		$s = "<div id='quickbar'>\n";
 
-	/**
-	 * @param $key string
-	 * @return string
-	 */
-	function menuHead( $key ) {
-		$s = "\n<h6>" . wfMsg( $key ) . "</h6>";
+		foreach ( $bar as $heading => $data ) {
+			$portletId = Sanitizer::escapeId( "p-$heading" );
+			$headingMsg = wfMessage( $idToMessage[$heading] ? $idToMessage[$heading] : $heading );
+			$headingHTML = "<h3>" . ( $headingMsg->exists() ? $headingMsg->escaped() : htmlspecialchars( $heading ) ) . "</h3>";
+			$listHTML = "";
+
+			if ( is_array( $data ) ) {
+				// $data is an array of links
+				foreach ( $data as $key => $link ) {
+					// Can be empty due to how the sidebar additions are done
+					if ( $link ) {
+						$listHTML .= $this->makeListItem( $key, $link );
+					}
+				}
+				if ( $listHTML ) {
+					$listHTML = "<ul>$listHTML</ul>";
+				}
+			} else {
+				// $data is a HTML <ul>-list string
+				$listHTML = $data;
+			}
+
+			if ( $listHTML ) {
+				$role = ( $heading == 'search' ) ? 'search' : 'navigation';
+				$s .= "<div class=\"portlet\" id=\"$portletId\" role=\"$role\">\n$headingHTML\n$listHTML\n</div>\n";
+			}
+
+			$s .= $this->renderAfterPortlet( $heading );
+		}
+
+		$s .= "</div>\n";
 		return $s;
 	}
 
@@ -365,30 +546,27 @@ class CologneBlueTemplate extends LegacyTemplate {
 	 * @param $label string
 	 * @return string
 	 */
-	function searchForm( $label = '' ) {
+	function searchForm( $which ) {
 		global $wgUseTwoButtonsSearchForm;
 
 		$search = $this->getSkin()->getRequest()->getText( 'search' );
 		$action = $this->data['searchaction'];
-		$s = "<form id=\"searchform{$this->searchboxes}\" method=\"get\" class=\"inline\" action=\"$action\">";
-		if( $label != '' ) {
-			$s .= "{$label}: ";
+		$s = "<form id=\"searchform-" . htmlspecialchars( $which ) . "\" method=\"get\" class=\"inline\" action=\"$action\">";
+		if ( $which == 'footer' ) {
+			$s .= wfMessage( 'qbfind' )->text() . ": ";
 		}
 
-		$s .= "<input type='text' id=\"searchInput{$this->searchboxes}\" class=\"mw-searchInput\" name=\"search\" size=\"14\" value=\""
-			. htmlspecialchars( substr( $search, 0, 256 ) ) . "\" /><br />"
-			. "<input type='submit' id=\"searchGoButton{$this->searchboxes}\" class=\"searchButton\" name=\"go\" value=\"" . htmlspecialchars( wfMsg( 'searcharticle' ) ) . "\" />";
+		$s .= $this->makeSearchInput( array( 'class' => 'mw-searchInput', 'type' => 'text', 'size' => '14' ) );
+		$s .= ( $which == 'footer' ? " " : "<br />" );
+		$s .= $this->makeSearchButton( 'go', array( 'class' => 'searchButton' ) );
 
-		if( $wgUseTwoButtonsSearchForm ) {
-			$s .= "<input type='submit' id=\"mw-searchButton{$this->searchboxes}\" class=\"searchButton\" name=\"fulltext\" value=\"" . htmlspecialchars( wfMsg( 'search' ) ) . "\" />\n";
+		if ( $wgUseTwoButtonsSearchForm ) {
+			$s .= $this->makeSearchButton( 'fulltext', array( 'class' => 'searchButton' ) );
 		} else {
-			$s .= '<div><a href="' . $action . '" rel="search">' . wfMsg( 'powersearch-legend' ) . "</a></div>\n";
+			$s .= '<div><a href="' . $action . '" rel="search">' . wfMessage( 'powersearch-legend' )->escaped() . "</a></div>\n";
 		}
 
 		$s .= '</form>';
-
-		// Ensure unique id's for search boxes made after the first
-		$this->searchboxes = $this->searchboxes == '' ? 2 : $this->searchboxes + 1;
 
 		return $s;
 	}

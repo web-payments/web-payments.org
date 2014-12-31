@@ -1,26 +1,51 @@
 <?php
 /**
- * Functions to be used with PHP's output buffer
+ * Functions to be used with PHP's output buffer.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  */
 
 /**
  * Standard output handler for use with ob_start
- * 
+ *
  * @param $s string
- * 
+ *
  * @return string
  */
 function wfOutputHandler( $s ) {
-	global $wgDisableOutputCompression, $wgValidateAllHtml;
-	$s = wfMangleFlashPolicy( $s );
+	global $wgDisableOutputCompression, $wgValidateAllHtml, $wgMangleFlashPolicy;
+	if ( $wgMangleFlashPolicy ) {
+		$s = wfMangleFlashPolicy( $s );
+	}
 	if ( $wgValidateAllHtml ) {
-		$headers = apache_response_headers();
-		$isHTML = true;
-		foreach ( $headers as $name => $value ) {
-			if ( strtolower( $name ) == 'content-type' && strpos( $value, 'text/html' ) === false && strpos( $value, 'application/xhtml+xml' ) === false ) {
-				$isHTML = false;
+		$headers = headers_list();
+		$isHTML = false;
+		foreach ( $headers as $header ) {
+			$parts = explode( ':', $header, 2 );
+			if ( count( $parts ) !== 2 ) {
+				continue;
+			}
+			$name = strtolower( trim( $parts[0] ) );
+			$value = trim( $parts[1] );
+			if ( $name == 'content-type' && ( strpos( $value, 'text/html' ) === 0
+				|| strpos( $value, 'application/xhtml+xml' ) === 0 )
+			) {
+				$isHTML = true;
 				break;
 			}
 		}
@@ -49,10 +74,10 @@ function wfOutputHandler( $s ) {
  */
 function wfRequestExtension() {
 	/// @todo FIXME: this sort of dupes some code in WebRequest::getRequestUrl()
-	if( isset( $_SERVER['REQUEST_URI'] ) ) {
+	if ( isset( $_SERVER['REQUEST_URI'] ) ) {
 		// Strip the query string...
 		list( $path ) = explode( '?', $_SERVER['REQUEST_URI'], 2 );
-	} elseif( isset( $_SERVER['SCRIPT_NAME'] ) ) {
+	} elseif ( isset( $_SERVER['SCRIPT_NAME'] ) ) {
 		// Probably IIS. QUERY_STRING appears separately.
 		$path = $_SERVER['SCRIPT_NAME'];
 	} else {
@@ -61,7 +86,7 @@ function wfRequestExtension() {
 	}
 
 	$period = strrpos( $path, '.' );
-	if( $period !== false ) {
+	if ( $period !== false ) {
 		return strtolower( substr( $path, $period ) );
 	}
 	return '';
@@ -70,18 +95,23 @@ function wfRequestExtension() {
 /**
  * Handler that compresses data with gzip if allowed by the Accept header.
  * Unlike ob_gzhandler, it works for HEAD requests too.
- * 
+ *
  * @param $s string
  *
  * @return string
  */
 function wfGzipHandler( $s ) {
-	if( !function_exists( 'gzencode' ) || headers_sent() ) {
+	if ( !function_exists( 'gzencode' ) ) {
+		wfDebug( __FUNCTION__ . "() skipping compression (gzencode unavailable)\n" );
+		return $s;
+	}
+	if ( headers_sent() ) {
+		wfDebug( __FUNCTION__ . "() skipping compression (headers already sent)\n" );
 		return $s;
 	}
 
 	$ext = wfRequestExtension();
-	if( $ext == '.gz' || $ext == '.tgz' ) {
+	if ( $ext == '.gz' || $ext == '.tgz' ) {
 		// Don't do gzip compression if the URL path ends in .gz or .tgz
 		// This confuses Safari and triggers a download of the page,
 		// even though it's pretty clearly labeled as viewable HTML.
@@ -89,7 +119,8 @@ function wfGzipHandler( $s ) {
 		return $s;
 	}
 
-	if( wfClientAcceptsGzip() ) {
+	if ( wfClientAcceptsGzip() ) {
+		wfDebug( __FUNCTION__ . "() is compressing output\n" );
 		header( 'Content-Encoding: gzip' );
 		$s = gzencode( $s, 6 );
 	}
@@ -135,7 +166,7 @@ function wfMangleFlashPolicy( $s ) {
  * @param $length int
  */
 function wfDoContentLength( $length ) {
-	if ( !headers_sent() && $_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0' ) {
+	if ( !headers_sent() && isset( $_SERVER['SERVER_PROTOCOL'] ) && $_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0' ) {
 		header( "Content-Length: $length" );
 	}
 }
@@ -156,20 +187,8 @@ function wfHtmlValidationHandler( $s ) {
 
 	header( 'Cache-Control: no-cache' );
 
-	$out = <<<EOT
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" dir="ltr">
-<head>
-<title>HTML validation error</title>
-<style>
-.highlight { background-color: #ffc }
-li { white-space: pre }
-</style>
-</head>
-<body>
-<h1>HTML validation error</h1>
-<ul>
-EOT;
+	$out = Html::element( 'h1', null, 'HTML validation error' );
+	$out .= Html::openElement( 'ul' );
 
 	$error = strtok( $errors, "\n" );
 	$badLines = array();
@@ -177,26 +196,40 @@ EOT;
 		if ( preg_match( '/^line (\d+)/', $error, $m ) ) {
 			$lineNum = intval( $m[1] );
 			$badLines[$lineNum] = true;
-			$out .= "<li><a href=\"#line-{$lineNum}\">" . htmlspecialchars( $error ) . "</a></li>\n";
+			$out .= Html::rawElement( 'li', null,
+				Html::element( 'a', array( 'href' => "#line-{$lineNum}" ), $error ) ) . "\n";
 		}
 		$error = strtok( "\n" );
 	}
 
-	$out .= '</ul>';
-	$out .= '<pre>' . htmlspecialchars( $errors ) . '</pre>';
-	$out .= "<ol>\n";
+	$out .= Html::closeElement( 'ul' );
+	$out .= Html::element( 'pre', null, $errors );
+	$out .= Html::openElement( 'ol' ) . "\n";
 	$line = strtok( $s, "\n" );
 	$i = 1;
 	while ( $line !== false ) {
+		$attrs = array();
 		if ( isset( $badLines[$i] ) ) {
-			$out .= "<li class=\"highlight\" id=\"line-$i\">";
-		} else {
-			$out .= '<li>';
+			$attrs['class'] = 'highlight';
+			$attrs['id'] = "line-$i";
 		}
-		$out .= htmlspecialchars( $line ) . "</li>\n";
+		$out .= Html::element( 'li', $attrs, $line ) . "\n";
 		$line = strtok( "\n" );
 		$i++;
 	}
-	$out .= '</ol></body></html>';
+	$out .= Html::closeElement( 'ol' );
+
+	$style = <<<CSS
+.highlight { background-color: #ffc }
+li { white-space: pre }
+CSS;
+
+	$out = Html::htmlHeader( array( 'lang' => 'en', 'dir' => 'ltr' ) ) .
+		Html::rawElement( 'head', null,
+			Html::element( 'title', null, 'HTML validation error' ) .
+			Html::inlineStyle( $style ) ) .
+		Html::rawElement( 'body', null, $out ) .
+		Html::closeElement( 'html' );
+
 	return $out;
 }

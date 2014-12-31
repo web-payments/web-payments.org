@@ -27,7 +27,6 @@
  * @ingroup SpecialPage
  */
 class SpecialUserlogout extends UnlistedSpecialPage {
-
 	function __construct() {
 		parent::__construct( 'Userlogout' );
 	}
@@ -39,7 +38,7 @@ class SpecialUserlogout extends UnlistedSpecialPage {
 		 */
 		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( $_SERVER['REQUEST_URI'], '&amp;' ) !== false ) {
 			wfDebug( "Special:Userlogout request {$_SERVER['REQUEST_URI']} looks suspicious, denying.\n" );
-			throw new HttpError( 400, wfMessage( 'suspicious-userlogout' ), wfMessage( 'loginerror' ) );
+			throw new HttpError( 400, $this->msg( 'suspicious-userlogout' ), $this->msg( 'loginerror' ) );
 		}
 
 		$this->setHeaders();
@@ -49,8 +48,11 @@ class SpecialUserlogout extends UnlistedSpecialPage {
 		$oldName = $user->getName();
 		$user->logout();
 
+		$loginURL = SpecialPage::getTitleFor( 'Userlogin' )->getFullURL(
+			$this->getRequest()->getValues( 'returnto', 'returntoquery' ) );
+
 		$out = $this->getOutput();
-		$out->addWikiMsg( 'logouttext' );
+		$out->addWikiMsg( 'logouttext', $loginURL );
 
 		// Hook.
 		$injected_html = '';
@@ -58,5 +60,9 @@ class SpecialUserlogout extends UnlistedSpecialPage {
 		$out->addHTML( $injected_html );
 
 		$out->returnToMain();
+	}
+
+	protected function getGroupName() {
+		return 'login';
 	}
 }

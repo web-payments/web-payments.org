@@ -1,9 +1,25 @@
 <?php
 /**
  * PNG frame counter and metadata extractor.
+ *
  * Slightly derived from GIFMetadataExtractor.php
  * Deliberately not using MWExceptions to avoid external dependencies, encouraging
  * redistribution.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  * @ingroup Media
@@ -15,40 +31,45 @@
  * @ingroup Media
  */
 class PNGMetadataExtractor {
-	static $png_sig;
-	static $CRC_size;
-	static $text_chunks;
+	/** @var string */
+	private static $pngSig;
+
+	/** @var int */
+	private static $crcSize;
+
+	/** @var array */
+	private static $textChunks;
 
 	const VERSION = 1;
 	const MAX_CHUNK_SIZE = 3145728; // 3 megabytes
 
 	static function getMetadata( $filename ) {
-		self::$png_sig = pack( "C8", 137, 80, 78, 71, 13, 10, 26, 10 );
-		self::$CRC_size = 4;
+		self::$pngSig = pack( "C8", 137, 80, 78, 71, 13, 10, 26, 10 );
+		self::$crcSize = 4;
 		/* based on list at http://owl.phy.queensu.ca/~phil/exiftool/TagNames/PNG.html#TextualData
 		 * and http://www.w3.org/TR/PNG/#11keywords
 		 */
-		self::$text_chunks = array(
+		self::$textChunks = array(
 			'xml:com.adobe.xmp' => 'xmp',
 			# Artist is unofficial. Author is the recommended
 			# keyword in the PNG spec. However some people output
 			# Artist so support both.
-			'artist'      => 'Artist',
-			'model'       => 'Model',
-			'make'        => 'Make',
-			'author'      => 'Artist',
-			'comment'     => 'PNGFileComment',
+			'artist' => 'Artist',
+			'model' => 'Model',
+			'make' => 'Make',
+			'author' => 'Artist',
+			'comment' => 'PNGFileComment',
 			'description' => 'ImageDescription',
-			'title'       => 'ObjectName',
-			'copyright'   => 'Copyright',
+			'title' => 'ObjectName',
+			'copyright' => 'Copyright',
 			# Source as in original device used to make image
 			# not as in who gave you the image
-			'source'      => 'Model',
-			'software'    => 'Software',
-			'disclaimer'  => 'Disclaimer',
-			'warning'     => 'ContentWarning',
-			'url'         => 'Identifier', # Not sure if this is best mapping. Maybe WebStatement.
-			'label'       => 'Label',
+			'source' => 'Model',
+			'software' => 'Software',
+			'disclaimer' => 'Disclaimer',
+			'warning' => 'ContentWarning',
+			'url' => 'Identifier', # Not sure if this is best mapping. Maybe WebStatement.
+			'label' => 'Label',
 			'creation time' => 'DateTimeDigitized',
 			/* Other potentially useful things - Document */
 		);
@@ -74,7 +95,7 @@ class PNGMetadataExtractor {
 
 		// Check for the PNG header
 		$buf = fread( $fh, 8 );
-		if ( $buf != self::$png_sig ) {
+		if ( $buf != self::$pngSig ) {
 			throw new Exception( __METHOD__ . ": Not a valid PNG file; header: $buf" );
 		}
 
@@ -108,7 +129,7 @@ class PNGMetadataExtractor {
 					case 0:
 						$colorType = 'greyscale';
 						break;
-					case 2: 
+					case 2:
 						$colorType = 'truecolour';
 						break;
 					case 3:
@@ -126,7 +147,7 @@ class PNGMetadataExtractor {
 				}
 			} elseif ( $chunk_type == "acTL" ) {
 				$buf = fread( $fh, $chunk_size );
-				if( !$buf || strlen( $buf ) < $chunk_size || $chunk_size < 4 ) {
+				if ( !$buf || strlen( $buf ) < $chunk_size || $chunk_size < 4 ) {
 					throw new Exception( __METHOD__ . ": Read error" );
 				}
 
@@ -165,9 +186,9 @@ class PNGMetadataExtractor {
 
 					// Theoretically should be case-sensitive, but in practise...
 					$items[1] = strtolower( $items[1] );
-					if ( !isset( self::$text_chunks[$items[1]] ) ) {
+					if ( !isset( self::$textChunks[$items[1]] ) ) {
 						// Only extract textual chunks on our list.
-						fseek( $fh, self::$CRC_size, SEEK_CUR );
+						fseek( $fh, self::$crcSize, SEEK_CUR );
 						continue;
 					}
 
@@ -186,27 +207,24 @@ class PNGMetadataExtractor {
 
 							if ( $items[5] === false ) {
 								// decompression failed
-								wfDebug( __METHOD__ . ' Error decompressing iTxt chunk - ' . $items[1] );
-								fseek( $fh, self::$CRC_size, SEEK_CUR );
+								wfDebug( __METHOD__ . ' Error decompressing iTxt chunk - ' . $items[1] . "\n" );
+								fseek( $fh, self::$crcSize, SEEK_CUR );
 								continue;
 							}
-
 						} else {
 							wfDebug( __METHOD__ . ' Skipping compressed png iTXt chunk due to lack of zlib,'
-								. ' or potentially invalid compression method' );
-							fseek( $fh, self::$CRC_size, SEEK_CUR );
+								. " or potentially invalid compression method\n" );
+							fseek( $fh, self::$crcSize, SEEK_CUR );
 							continue;
 						}
 					}
-					$finalKeyword = self::$text_chunks[ $items[1] ];
-					$text[ $finalKeyword ][ $items[3] ] = $items[5];
-					$text[ $finalKeyword ]['_type'] = 'lang';
-
+					$finalKeyword = self::$textChunks[$items[1]];
+					$text[$finalKeyword][$items[3]] = $items[5];
+					$text[$finalKeyword]['_type'] = 'lang';
 				} else {
 					// Error reading iTXt chunk
 					throw new Exception( __METHOD__ . ": Read error on iTXt chunk" );
 				}
-
 			} elseif ( $chunk_type == 'tEXt' ) {
 				$buf = self::read( $fh, $chunk_size );
 
@@ -222,9 +240,9 @@ class PNGMetadataExtractor {
 
 				// Theoretically should be case-sensitive, but in practise...
 				$keyword = strtolower( $keyword );
-				if ( !isset( self::$text_chunks[ $keyword ] ) ) {
+				if ( !isset( self::$textChunks[$keyword] ) ) {
 					// Don't recognize chunk, so skip.
-					fseek( $fh, self::$CRC_size, SEEK_CUR );
+					fseek( $fh, self::$crcSize, SEEK_CUR );
 					continue;
 				}
 				wfSuppressWarnings();
@@ -235,10 +253,9 @@ class PNGMetadataExtractor {
 					throw new Exception( __METHOD__ . ": Read error (error with iconv)" );
 				}
 
-				$finalKeyword = self::$text_chunks[ $keyword ];
-				$text[ $finalKeyword ][ 'x-default' ] = $content;
-				$text[ $finalKeyword ]['_type'] = 'lang';
-
+				$finalKeyword = self::$textChunks[$keyword];
+				$text[$finalKeyword]['x-default'] = $content;
+				$text[$finalKeyword]['_type'] = 'lang';
 			} elseif ( $chunk_type == 'zTXt' ) {
 				if ( function_exists( 'gzuncompress' ) ) {
 					$buf = self::read( $fh, $chunk_size );
@@ -255,16 +272,16 @@ class PNGMetadataExtractor {
 					// Theoretically should be case-sensitive, but in practise...
 					$keyword = strtolower( $keyword );
 
-					if ( !isset( self::$text_chunks[ $keyword ] ) ) {
+					if ( !isset( self::$textChunks[$keyword] ) ) {
 						// Don't recognize chunk, so skip.
-						fseek( $fh, self::$CRC_size, SEEK_CUR );
+						fseek( $fh, self::$crcSize, SEEK_CUR );
 						continue;
 					}
 					$compression = substr( $postKeyword, 0, 1 );
 					$content = substr( $postKeyword, 1 );
 					if ( $compression !== "\x00" ) {
-						wfDebug( __METHOD__ . " Unrecognized compression method in zTXt ($keyword). Skipping." );
-						fseek( $fh, self::$CRC_size, SEEK_CUR );
+						wfDebug( __METHOD__ . " Unrecognized compression method in zTXt ($keyword). Skipping.\n" );
+						fseek( $fh, self::$crcSize, SEEK_CUR );
 						continue;
 					}
 
@@ -274,8 +291,8 @@ class PNGMetadataExtractor {
 
 					if ( $content === false ) {
 						// decompression failed
-						wfDebug( __METHOD__ . ' Error decompressing zTXt chunk - ' . $keyword );
-						fseek( $fh, self::$CRC_size, SEEK_CUR );
+						wfDebug( __METHOD__ . ' Error decompressing zTXt chunk - ' . $keyword . "\n" );
+						fseek( $fh, self::$crcSize, SEEK_CUR );
 						continue;
 					}
 
@@ -287,12 +304,11 @@ class PNGMetadataExtractor {
 						throw new Exception( __METHOD__ . ": Read error (error with iconv)" );
 					}
 
-					$finalKeyword = self::$text_chunks[ $keyword ];
-					$text[ $finalKeyword ][ 'x-default' ] = $content;
-					$text[ $finalKeyword ]['_type'] = 'lang';
-
+					$finalKeyword = self::$textChunks[$keyword];
+					$text[$finalKeyword]['x-default'] = $content;
+					$text[$finalKeyword]['_type'] = 'lang';
 				} else {
-					wfDebug( __METHOD__ . " Cannot decompress zTXt chunk due to lack of zlib. Skipping." );
+					wfDebug( __METHOD__ . " Cannot decompress zTXt chunk due to lack of zlib. Skipping.\n" );
 					fseek( $fh, $chunk_size, SEEK_CUR );
 				}
 			} elseif ( $chunk_type == 'tIME' ) {
@@ -316,7 +332,6 @@ class PNGMetadataExtractor {
 				if ( $exifTime ) {
 					$text['DateTime'] = $exifTime;
 				}
-
 			} elseif ( $chunk_type == 'pHYs' ) {
 				// how big pixels are (dots per meter).
 				if ( $chunk_size !== 9 ) {
@@ -343,13 +358,12 @@ class PNGMetadataExtractor {
 						// 3 = dots per cm (from Exif).
 					}
 				}
-
 			} elseif ( $chunk_type == "IEND" ) {
 				break;
 			} else {
 				fseek( $fh, $chunk_size, SEEK_CUR );
 			}
-			fseek( $fh, self::$CRC_size, SEEK_CUR );
+			fseek( $fh, self::$crcSize, SEEK_CUR );
 		}
 		fclose( $fh );
 
@@ -383,6 +397,7 @@ class PNGMetadataExtractor {
 				}
 			}
 		}
+
 		return array(
 			'frameCount' => $frameCount,
 			'loopCount' => $loopCount,
@@ -391,21 +406,22 @@ class PNGMetadataExtractor {
 			'bitDepth' => $bitDepth,
 			'colorType' => $colorType,
 		);
-
 	}
+
 	/**
 	 * Read a chunk, checking to make sure its not too big.
 	 *
-	 * @param $fh resource The file handle
-	 * @param $size Integer size in bytes.
+	 * @param resource $fh The file handle
+	 * @param int $size Size in bytes.
 	 * @throws Exception if too big.
-	 * @return String The chunk.
+	 * @return string The chunk.
 	 */
-	static private function read( $fh, $size ) {
+	private static function read( $fh, $size ) {
 		if ( $size > self::MAX_CHUNK_SIZE ) {
 			throw new Exception( __METHOD__ . ': Chunk size of ' . $size .
 				' too big. Max size is: ' . self::MAX_CHUNK_SIZE );
 		}
+
 		return fread( $fh, $size );
 	}
 }

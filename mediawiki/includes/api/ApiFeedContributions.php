@@ -29,10 +29,6 @@
  */
 class ApiFeedContributions extends ApiBase {
 
-	public function __construct( $main, $action ) {
-		parent::__construct( $main, $action );
-	}
-
 	/**
 	 * This module uses a custom feed wrapper printer.
 	 *
@@ -45,13 +41,13 @@ class ApiFeedContributions extends ApiBase {
 	public function execute() {
 		$params = $this->extractRequestParams();
 
-		global $wgFeed, $wgFeedClasses, $wgSitename, $wgLanguageCode;
+		global $wgFeed, $wgFeedClasses, $wgFeedLimit, $wgSitename, $wgLanguageCode;
 
-		if( !$wgFeed ) {
+		if ( !$wgFeed ) {
 			$this->dieUsage( 'Syndication feeds are not available', 'feed-unavailable' );
 		}
 
-		if( !isset( $wgFeedClasses[ $params['feedformat'] ] ) ) {
+		if ( !isset( $wgFeedClasses[$params['feedformat']] ) ) {
 			$this->dieUsage( 'Invalid subscription feed type', 'feed-invalid' );
 		}
 
@@ -60,13 +56,13 @@ class ApiFeedContributions extends ApiBase {
 			$this->dieUsage( 'Size difference is disabled in Miser Mode', 'sizediffdisabled' );
 		}
 
-		$msg = wfMsgForContent( 'Contributions' );
+		$msg = wfMessage( 'Contributions' )->inContentLanguage()->text();
 		$feedTitle = $wgSitename . ' - ' . $msg . ' [' . $wgLanguageCode . ']';
 		$feedUrl = SpecialPage::getTitleFor( 'Contributions', $params['user'] )->getFullURL();
 
 		$target = $params['user'] == 'newbies'
-				? 'newbies'
-				: Title::makeTitleSafe( NS_USER, $params['user'] )->getText();
+			? 'newbies'
+			: Title::makeTitleSafe( NS_USER, $params['user'] )->getText();
 
 		$feed = new $wgFeedClasses[$params['feedformat']] (
 			$feedTitle,
@@ -82,12 +78,23 @@ class ApiFeedContributions extends ApiBase {
 			'tagFilter' => $params['tagfilter'],
 			'deletedOnly' => $params['deletedonly'],
 			'topOnly' => $params['toponly'],
+			'newOnly' => $params['newonly'],
 			'showSizeDiff' => $params['showsizediff'],
 		) );
 
+		if ( $pager->getLimit() > $wgFeedLimit ) {
+			$pager->setLimit( $wgFeedLimit );
+		}
+
 		$feedItems = array();
-		if( $pager->getNumRows() > 0 ) {
+		if ( $pager->getNumRows() > 0 ) {
+			$count = 0;
+			$limit = $pager->getLimit();
 			foreach ( $pager->mResult as $row ) {
+				// ContribsPager selects one more row for navigation, skip that row
+				if ( ++$count > $limit ) {
+					break;
+				}
 				$feedItems[] = $this->feedItem( $row );
 			}
 		}
@@ -96,8 +103,8 @@ class ApiFeedContributions extends ApiBase {
 	}
 
 	protected function feedItem( $row ) {
-		$title = Title::MakeTitle( intval( $row->page_namespace ), $row->page_title );
-		if( $title ) {
+		$title = Title::makeTitle( intval( $row->page_namespace ), $row->page_title );
+		if ( $title && $title->userCan( 'read', $this->getUser() ) ) {
 			$date = $row->rev_timestamp;
 			$comments = $title->getTalkPage()->getFullURL();
 			$revision = Revision::newFromRow( $row );
@@ -110,9 +117,9 @@ class ApiFeedContributions extends ApiBase {
 				$this->feedItemAuthor( $revision ),
 				$comments
 			);
-		} else {
-			return null;
 		}
+
+		return null;
 	}
 
 	/**
@@ -128,19 +135,34 @@ class ApiFeedContributions extends ApiBase {
 	 * @return string
 	 */
 	protected function feedItemDesc( $revision ) {
-		if( $revision ) {
-			return '<p>' . htmlspecialchars( $revision->getUserText() ) . wfMsgForContent( 'colon-separator' ) .
+		if ( $revision ) {
+			$msg = wfMessage( 'colon-separator' )->inContentLanguage()->text();
+			$content = $revision->getContent();
+
+			if ( $content instanceof TextContent ) {
+				// only textual content has a "source view".
+				$html = nl2br( htmlspecialchars( $content->getNativeData() ) );
+			} else {
+				//XXX: we could get an HTML representation of the content via getParserOutput, but that may
+				//     contain JS magic and generally may not be suitable for inclusion in a feed.
+				//     Perhaps Content should have a getDescriptiveHtml method and/or a getSourceText method.
+				//Compare also FeedUtils::formatDiffRow.
+				$html = '';
+			}
+
+			return '<p>' . htmlspecialchars( $revision->getUserText() ) . $msg .
 				htmlspecialchars( FeedItem::stripComment( $revision->getComment() ) ) .
-				"</p>\n<hr />\n<div>" .
-				nl2br( htmlspecialchars( $revision->getText() ) ) . "</div>";
+				"</p>\n<hr />\n<div>" . $html . "</div>";
 		}
+
 		return '';
 	}
 
 	public function getAllowedParams() {
 		global $wgFeedClasses;
 		$feedFormatNames = array_keys( $wgFeedClasses );
-		return array (
+
+		return array(
 			'feedformat' => array(
 				ApiBase::PARAM_DFLT => 'rss',
 				ApiBase::PARAM_TYPE => $feedFormatNames
@@ -150,8 +172,7 @@ class ApiFeedContributions extends ApiBase {
 				ApiBase::PARAM_REQUIRED => true,
 			),
 			'namespace' => array(
-				ApiBase::PARAM_TYPE => 'namespace',
-				ApiBase::PARAM_ISMULTI => true
+				ApiBase::PARAM_TYPE => 'namespace'
 			),
 			'year' => array(
 				ApiBase::PARAM_TYPE => 'integer'
@@ -166,6 +187,7 @@ class ApiFeedContributions extends ApiBase {
 			),
 			'deletedonly' => false,
 			'toponly' => false,
+			'newonly' => false,
 			'showsizediff' => false,
 		);
 	}
@@ -180,12 +202,13 @@ class ApiFeedContributions extends ApiBase {
 			'tagfilter' => 'Filter contributions that have these tags',
 			'deletedonly' => 'Show only deleted contributions',
 			'toponly' => 'Only show edits that are latest revisions',
+			'newonly' => 'Only show edits that are page creations',
 			'showsizediff' => 'Show the size difference between revisions. Disabled in Miser Mode',
 		);
 	}
 
 	public function getDescription() {
-		return 'Returns a user contributions feed';
+		return 'Returns a user contributions feed.';
 	}
 
 	public function getPossibleErrors() {
@@ -200,9 +223,5 @@ class ApiFeedContributions extends ApiBase {
 		return array(
 			'api.php?action=feedcontributions&user=Reedy',
 		);
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

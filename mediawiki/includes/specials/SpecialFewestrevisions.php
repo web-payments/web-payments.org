@@ -28,7 +28,6 @@
  * @author Martin Drashkov
  */
 class FewestrevisionsPage extends QueryPage {
-
 	function __construct( $name = 'Fewestrevisions' ) {
 		parent::__construct( $name );
 	}
@@ -42,39 +41,52 @@ class FewestrevisionsPage extends QueryPage {
 	}
 
 	function getQueryInfo() {
-		return array (
-			'tables' => array ( 'revision', 'page' ),
-			'fields' => array ( 'page_namespace AS namespace',
-					'page_title AS title',
-					'COUNT(*) AS value',
-					'page_is_redirect AS redirect' ),
-			'conds' => array ( 'page_namespace' => MWNamespace::getContentNamespaces(),
-					'page_id = rev_page' ),
-			'options' => array ( 'HAVING' => 'COUNT(*) > 1',
-			// ^^^ This was probably here to weed out redirects.
-			// Since we mark them as such now, it might be
-			// useful to remove this. People _do_ create pages
-			// and never revise them, they aren't necessarily
-			// redirects.
-			'GROUP BY' => 'page_namespace, page_title, page_is_redirect' )
+		return array(
+			'tables' => array( 'revision', 'page' ),
+			'fields' => array(
+				'namespace' => 'page_namespace',
+				'title' => 'page_title',
+				'value' => 'COUNT(*)',
+				'redirect' => 'page_is_redirect'
+			),
+			'conds' => array(
+				'page_namespace' => MWNamespace::getContentNamespaces(),
+				'page_id = rev_page' ),
+			'options' => array(
+				'HAVING' => 'COUNT(*) > 1',
+				// ^^^ This was probably here to weed out redirects.
+				// Since we mark them as such now, it might be
+				// useful to remove this. People _do_ create pages
+				// and never revise them, they aren't necessarily
+				// redirects.
+				'GROUP BY' => array( 'page_namespace', 'page_title', 'page_is_redirect' )
+			)
 		);
 	}
-
 
 	function sortDescending() {
 		return false;
 	}
 
 	/**
-	 * @param $skin Skin object
-	 * @param $result Object: database row
+	 * @param Skin $skin
+	 * @param object $result Database row
+	 * @return String
 	 */
 	function formatResult( $skin, $result ) {
 		global $wgContLang;
 
 		$nt = Title::makeTitleSafe( $result->namespace, $result->title );
-		if( !$nt ) {
-			return '<!-- bad title -->';
+		if ( !$nt ) {
+			return Html::element(
+				'span',
+				array( 'class' => 'mw-invalidtitle' ),
+				Linker::getInvalidTitleDescription(
+					$this->getContext(),
+					$result->namespace,
+					$result->title
+				)
+			);
 		}
 
 		$text = htmlspecialchars( $wgContLang->convert( $nt->getPrefixedText() ) );
@@ -82,7 +94,7 @@ class FewestrevisionsPage extends QueryPage {
 
 		$nl = $this->msg( 'nrevisions' )->numParams( $result->value )->escaped();
 		$redirect = isset( $result->redirect ) && $result->redirect ?
-			' - ' . wfMsgHtml( 'isredirect' ) : '';
+			' - ' . $this->msg( 'isredirect' )->escaped() : '';
 		$nlink = Linker::linkKnown(
 			$nt,
 			$nl,
@@ -91,5 +103,9 @@ class FewestrevisionsPage extends QueryPage {
 		) . $redirect;
 
 		return $this->getLanguage()->specialList( $plink, $nlink );
+	}
+
+	protected function getGroupName() {
+		return 'maintenance';
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Prune file cache for pages, objects, resources, ect...
+ * Prune file cache for pages, objects, resources, etc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that prunes file cache for pages, objects, resources, etc.
+ *
+ * @ingroup Maintenance
+ */
 class PruneFileCache extends Maintenance {
 
 	protected $minSurviveTimestamp;
@@ -89,8 +95,8 @@ class PruneFileCache extends Maintenance {
 					// Sanity check the file extension against known cache types
 					if ( $mts < $this->minSurviveTimestamp
 						&& preg_match( '/\.(?:html|cache)(?:\.gz)?$/', $file )
-						&& unlink( $path ) )
-					{
+						&& unlink( $path )
+					) {
 						$daysOld = round( ( $tsNow - $mts ) / 86400, 2 );
 						$this->output( "Deleted `$path` [days=$daysOld]\n" );
 					}
@@ -102,4 +108,4 @@ class PruneFileCache extends Maintenance {
 }
 
 $maintClass = "PruneFileCache";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

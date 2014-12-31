@@ -8,12 +8,6 @@
  * Usage:
  *   php mwdocgen.php
  *
- * KNOWN BUGS:
- *
- * - pass_thru seems to always use buffering (even with ob_implicit_flush()),
- * that make output slow when doxygen parses language files.
- * - the menu doesnt work, got disabled at revision 13740. Need to code it.
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -39,276 +33,135 @@
  * @version first release
  */
 
-#
-# Variables / Configuration
-#
-
-if ( php_sapi_name() != 'cli' ) {
-	echo 'Run "' . __FILE__ . '" from the command line.';
-	die( -1 );
-}
-
-/** Figure out the base directory for MediaWiki location */
-$mwPath = dirname( dirname( __FILE__ ) ) . DIRECTORY_SEPARATOR;
-
-/** doxygen binary script */
-$doxygenBin = 'doxygen';
-
-/** doxygen configuration template for mediawiki */
-$doxygenTemplate = $mwPath . 'maintenance/Doxyfile';
-
-/** svnstat command, used to get the version of each file */
-$svnstat = $mwPath . 'bin/svnstat';
-
-/** where Phpdoc should output documentation */
-$doxyOutput = $mwPath . 'docs' . DIRECTORY_SEPARATOR ;
-
-/** MediaWiki subpaths */
-$mwPathI = $mwPath . 'includes/';
-$mwPathL = $mwPath . 'languages/';
-$mwPathM = $mwPath . 'maintenance/';
-$mwPathS = $mwPath . 'skins/';
-
-/** Ignored paths relative to $mwPath */
-$mwExcludePaths = array(
-	'images',
-	'static',
-);
-
-/** Variable to get user input */
-$input = '';
-$exclude_patterns = '';
-
-#
-# Functions
-#
-
-define( 'MEDIAWIKI', true );
-require_once( "$mwPath/includes/GlobalFunctions.php" );
+require_once __DIR__ . '/Maintenance.php';
 
 /**
- * Read a line from the shell
- * @param $prompt String
- * @return string
+ * Maintenance script that builds doxygen documentation.
+ * @ingroup Maintenance
  */
-function readaline( $prompt = '' ) {
-	print $prompt;
-	$fp = fopen( "php://stdin", "r" );
-	$resp = trim( fgets( $fp, 1024 ) );
-	fclose( $fp );
-	return $resp;
-}
+class MWDocGen extends Maintenance {
 
-/**
- * Copied from SpecialVersion::getSvnRevision()
- * @param $dir String
- * @return Mixed: string or false
- */
-function getSvnRevision( $dir ) {
-	// http://svnbook.red-bean.com/nightly/en/svn.developer.insidewc.html
-	$entries = $dir . '/.svn/entries';
+	/**
+	 * Prepare Maintenance class
+	 */
+	public function __construct() {
+		parent::__construct();
+		$this->mDescription = 'Build doxygen documentation';
 
-	if ( !file_exists( $entries ) ) {
-		return false;
+		$this->addOption( 'doxygen',
+			'Path to doxygen',
+			false, true );
+		$this->addOption( 'version',
+			'Pass a MediaWiki version',
+			false, true );
+		$this->addOption( 'generate-man',
+			'Whether to generate man files' );
+		$this->addOption( 'file',
+			"Only process given file or directory. Multiple values " .
+			"accepted with comma separation. Path relative to \$IP.",
+			false, true );
+		$this->addOption( 'output',
+			'Path to write doc to',
+			false, true );
+		$this->addOption( 'no-extensions',
+			'Ignore extensions' );
 	}
 
-	$content = file( $entries );
+	public function getDbType() {
+		return Maintenance::DB_NONE;
+	}
 
-	// check if file is xml (subversion release <= 1.3) or not (subversion release = 1.4)
-	if ( preg_match( '/^<\?xml/', $content[0] ) ) {
-		// subversion is release <= 1.3
-		if ( !function_exists( 'simplexml_load_file' ) ) {
-			// We could fall back to expat... YUCK
-			return false;
+	protected function init() {
+		global $IP;
+
+		$this->doxygen = $this->getOption( 'doxygen', 'doxygen' );
+		$this->mwVersion = $this->getOption( 'version', 'master' );
+
+		$this->input = '';
+		$inputs = explode( ',', $this->getOption( 'file', '' ) );
+		foreach ( $inputs as $input ) {
+			# Doxygen inputs are space separted and double quoted
+			$this->input .= " \"$IP/$input\"";
 		}
 
-		$xml = simplexml_load_file( $entries );
+		$this->output = $this->getOption( 'output', "$IP/docs" );
 
-		if ( $xml ) {
-			foreach ( $xml->entry as $entry ) {
-				if ( $xml->entry[0]['name'] == '' ) {
-					// The directory entry should always have a revision marker.
-					if ( $entry['revision'] ) {
-						return intval( $entry['revision'] );
-					}
-				}
-			}
+		$this->inputFilter = wfShellWikiCmd(
+			$IP . '/maintenance/mwdoc-filter.php' );
+		$this->template = $IP . '/maintenance/Doxyfile';
+		$this->excludes = array(
+			'vendor',
+			'images',
+			'static',
+		);
+		$this->excludePatterns = array();
+		if ( $this->hasOption( 'no-extensions' ) ) {
+			$this->excludePatterns[] = 'extensions';
 		}
-		return false;
-	} else {
-		// subversion is release 1.4
-		return intval( $content[3] );
+
+		$this->doDot = `which dot`;
+		$this->doMan = $this->hasOption( 'generate-man' );
 	}
-}
 
-/**
- * Generate a configuration file given user parameters and return the temporary filename.
- * @param $doxygenTemplate String: full path for the template.
- * @param $outputDirectory String: directory where the stuff will be output.
- * @param $stripFromPath String: path that should be stripped out (usually mediawiki base path).
- * @param $currentVersion String: Version number of the software
- * @param $svnstat String: path to the svnstat file
- * @param $input String: Path to analyze.
- * @param $exclude String: Additionals path regex to exclude
- * @param $exclude_patterns String: Additionals path regex to exclude
- *                 (LocalSettings.php, AdminSettings.php, .svn and .git directories are always excluded)
- * @return string
- */
-function generateConfigFile( $doxygenTemplate, $outputDirectory, $stripFromPath, $currentVersion, $svnstat, $input, $exclude, $exclude_patterns ) {
+	public function execute() {
+		global $IP;
 
-	global $wgDoxyGenerateMan;
+		$this->init();
 
-	$template = file_get_contents( $doxygenTemplate );
-
-	// Replace template placeholders by correct values.
-	$replacements = array(
-		'{{OUTPUT_DIRECTORY}}' => $outputDirectory,
-		'{{STRIP_FROM_PATH}}'  => $stripFromPath,
-		'{{CURRENT_VERSION}}'  => $currentVersion,
-		'{{SVNSTAT}}'          => $svnstat,
-		'{{INPUT}}'            => $input,
-		'{{EXCLUDE}}'          => $exclude,
-		'{{EXCLUDE_PATTERNS}}' => $exclude_patterns,
-		'{{HAVE_DOT}}'         => `which dot` ? 'YES' : 'NO',
-		'{{GENERATE_MAN}}'     => $wgDoxyGenerateMan ? 'YES' : 'NO',
-	);
-	$tmpCfg = str_replace( array_keys( $replacements ), array_values( $replacements ), $template );
-	$tmpFileName = tempnam( wfTempDir(), 'mwdocgen-' );
-	file_put_contents( $tmpFileName , $tmpCfg ) or die( "Could not write doxygen configuration to file $tmpFileName\n" );
-
-	return $tmpFileName;
-}
-
-#
-# Main !
-#
-
-unset( $file );
-
-if ( is_array( $argv ) ) {
-	for ($i = 0; $i < count($argv); $i++ ) {
-		switch( $argv[$i] ) {
-		case '--all':         $input = 0; break;
-		case '--includes':    $input = 1; break;
-		case '--languages':   $input = 2; break;
-		case '--maintenance': $input = 3; break;
-		case '--skins':       $input = 4; break;
-		case '--file':
-			$input = 5;
-			$i++;
-			if ( isset( $argv[$i] ) ) {
-				$file = $argv[$i];
-			}
-			break;
-		case '--no-extensions': $input = 6; break;
-		case '--output':
-			$i++;
-			if ( isset( $argv[$i] ) ) {
-				$doxyOutput = realpath( $argv[$i] );
-			}
-			break;
-		case '--generate-man':
-			$wgDoxyGenerateMan = true;
-			break;
-		case '--help':
-			print <<<END
-Usage: php mwdocgen.php [<command>] [<options>]
-
-Commands:
-    --all           Process entire codebase
-    --includes      Process only files in includes/ dir
-    --languages     Process only files in languages/ dir
-    --maintenance   Process only files in maintenance/ dir
-    --skins         Process only files in skins/ dir
-    --file <file>   Process only the given file
-    --no-extensions Process everything but extensions directorys
-
-If no command is given, you will be prompted.
-
-Other options:
-    --output <dir>  Set output directory (default $doxyOutput)
-    --generate-man  Generates man page documentation
-    --help          Show this help and exit.
-
-
-END;
-			exit(0);
-			break;
+		# Build out directories we want to exclude
+		$exclude = '';
+		foreach ( $this->excludes as $item ) {
+			$exclude .= " $IP/$item";
 		}
-	}
-}
 
-// TODO : generate a list of paths ))
+		$excludePatterns = implode( ' ', $this->excludePatterns );
 
-if ( $input === '' ) {
-	echo <<<OPTIONS
-Several documentation possibilities:
- 0 : whole documentation (1 + 2 + 3 + 4)
- 1 : only includes
- 2 : only languages
- 3 : only maintenance
- 4 : only skins
- 5 : only a given file
- 6 : all but the extensions directory
-OPTIONS;
-	while ( !is_numeric( $input ) )
-	{
-		$input = readaline( "\nEnter your choice [0]:" );
-		if ( $input == '' ) {
-			$input = 0;
+		$conf = strtr( file_get_contents( $this->template ),
+			array(
+				'{{OUTPUT_DIRECTORY}}' => $this->output,
+				'{{STRIP_FROM_PATH}}' => $IP,
+				'{{CURRENT_VERSION}}' => $this->mwVersion,
+				'{{INPUT}}' => $this->input,
+				'{{EXCLUDE}}' => $exclude,
+				'{{EXCLUDE_PATTERNS}}' => $excludePatterns,
+				'{{HAVE_DOT}}' => $this->doDot ? 'YES' : 'NO',
+				'{{GENERATE_MAN}}' => $this->doMan ? 'YES' : 'NO',
+				'{{INPUT_FILTER}}' => $this->inputFilter,
+			)
+		);
+
+		$tmpFile = tempnam( wfTempDir(), 'MWDocGen-' );
+		if ( file_put_contents( $tmpFile, $conf ) === false ) {
+			$this->error( "Could not write doxygen configuration to file $tmpFile\n",
+				/** exit code: */ 1 );
 		}
-	}
-}
 
-switch ( $input ) {
-case 0: $input = $mwPath;  break;
-case 1: $input = $mwPathI; break;
-case 2: $input = $mwPathL; break;
-case 3: $input = $mwPathM; break;
-case 4: $input = $mwPathS; break;
-case 5:
-	if ( !isset( $file ) ) {
-		$file = readaline( "Enter file name $mwPath" );
-	}
-	$input = $mwPath . $file;
-case 6:
-	$input = $mwPath;
-	$exclude_patterns = 'extensions';
-}
+		$command = $this->doxygen . ' ' . $tmpFile;
+		$this->output( "Executing command:\n$command\n" );
 
-$versionNumber = getSvnRevision( $input );
-if ( $versionNumber === false ) { # Not using subversion ?
-	$svnstat = ''; # Not really useful if subversion not available
-	# @todo FIXME
-	$version = 'trunk';
-} else {
-	$version = "trunk (r$versionNumber)";
-}
+		$exitcode = 1;
+		system( $command, $exitcode );
 
-// Generate path exclusions
-$excludedPaths = $mwPath . join( " $mwPath", $mwExcludePaths );
-print "EXCLUDE: $excludedPaths\n\n";
-
-$generatedConf = generateConfigFile( $doxygenTemplate, $doxyOutput, $mwPath, $version, $svnstat, $input, $excludedPaths, $exclude_patterns );
-$command = $doxygenBin . ' ' . $generatedConf;
-
-echo <<<TEXT
----------------------------------------------------
-Launching the command:
-
-$command
-
----------------------------------------------------
-
-TEXT;
-
-passthru( $command );
-
-echo <<<TEXT
+		$this->output( <<<TEXT
 ---------------------------------------------------
 Doxygen execution finished.
 Check above for possible errors.
 
-You might want to delete the temporary file $generatedConf
+You might want to delete the temporary file:
+ $tmpFile
+---------------------------------------------------
 
-TEXT;
+TEXT
+	);
+
+		if ( $exitcode !== 0 ) {
+			$this->error( "Something went wrong (exit: $exitcode)\n",
+				$exitcode );
+		}
+
+	}
+
+}
+
+$maintClass = 'MWDocGen';
+require_once RUN_MAINTENANCE_IF_MAIN;

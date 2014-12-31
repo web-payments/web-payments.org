@@ -4,7 +4,7 @@
  *
  * Created on Feb 2, 2009
  *
- * Copyright © 2009 Roan Kattouw <Firstname>.<Lastname>@gmail.com
+ * Copyright © 2009 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ class ApiFormatRaw extends ApiFormatBase {
 		$data = $this->getResultData();
 		if ( isset( $data['error'] ) ) {
 			$this->mErrorFallback->execute();
+
 			return;
 		}
 
@@ -65,9 +66,5 @@ class ApiFormatRaw extends ApiFormatBase {
 			ApiBase::dieDebug( __METHOD__, 'No text given for raw formatter' );
 		}
 		$this->printText( $data['text'] );
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

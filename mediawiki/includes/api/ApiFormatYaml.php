@@ -4,7 +4,7 @@
  *
  * Created on Sep 19, 2006
  *
- * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
+ * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,10 +35,6 @@ class ApiFormatYaml extends ApiFormatJson {
 	}
 
 	public function getDescription() {
-		return 'Output data in YAML format' . parent::getDescription();
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
+		return 'Output data in YAML format' . ApiFormatBase::getDescription();
 	}
 }

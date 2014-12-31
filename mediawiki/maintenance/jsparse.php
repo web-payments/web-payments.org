@@ -1,6 +1,6 @@
 <?php
 /**
- * Maintenance script to do test JavaScript validity parses using jsmin+'s parser
+ * Test JavaScript validity parses using jsmin+'s parser
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to do test JavaScript validity parses using jsmin+'s parser
+ *
+ * @ingroup Maintenance
+ */
 class JSParseHelper extends Maintenance {
-	var $errs = 0;
+	public $errs = 0;
 
 	public function __construct() {
 		parent::__construct();
@@ -35,7 +41,7 @@ class JSParseHelper extends Maintenance {
 		if ( $this->hasArg() ) {
 			$files = $this->mArgs;
 		} else {
-			$this->maybeHelp( true ); // @fixme this is a lame API :)
+			$this->maybeHelp( true ); // @todo fixme this is a lame API :)
 			exit( 1 ); // it should exit from the above first...
 		}
 
@@ -44,7 +50,7 @@ class JSParseHelper extends Maintenance {
 			wfSuppressWarnings();
 			$js = file_get_contents( $filename );
 			wfRestoreWarnings();
-			if ($js === false) {
+			if ( $js === false ) {
 				$this->output( "$filename ERROR: could not read file\n" );
 				$this->errs++;
 				continue;
@@ -52,7 +58,7 @@ class JSParseHelper extends Maintenance {
 
 			try {
 				$parser->parse( $js, $filename, 1 );
-			} catch (Exception $e) {
+			} catch ( Exception $e ) {
 				$this->errs++;
 				$this->output( "$filename ERROR: " . $e->getMessage() . "\n" );
 				continue;
@@ -61,11 +67,11 @@ class JSParseHelper extends Maintenance {
 			$this->output( "$filename OK\n" );
 		}
 
-		if ($this->errs > 0) {
-			exit(1);
+		if ( $this->errs > 0 ) {
+			exit( 1 );
 		}
 	}
 }
 
 $maintClass = "JSParseHelper";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

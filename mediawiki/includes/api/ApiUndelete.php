@@ -4,7 +4,7 @@
  *
  * Created on Jul 3, 2007
  *
- * Copyright © 2007 Roan Kattouw <Firstname>.<Lastname>@gmail.com
+ * Copyright © 2007 Roan Kattouw "<Firstname>.<Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,10 +29,6 @@
  */
 class ApiUndelete extends ApiBase {
 
-	public function __construct( $main, $action ) {
-		parent::__construct( $main, $action );
-	}
-
 	public function execute() {
 		$params = $this->extractRequestParams();
 
@@ -45,7 +41,7 @@ class ApiUndelete extends ApiBase {
 		}
 
 		$titleObj = Title::newFromText( $params['title'] );
-		if ( !$titleObj ) {
+		if ( !$titleObj || $titleObj->isExternal() ) {
 			$this->dieUsageMsg( array( 'invalidtitle', $params['title'] ) );
 		}
 
@@ -61,7 +57,13 @@ class ApiUndelete extends ApiBase {
 		}
 
 		$pa = new PageArchive( $titleObj );
-		$retval = $pa->undelete( ( isset( $params['timestamps'] ) ? $params['timestamps'] : array() ), $params['reason'] );
+		$retval = $pa->undelete(
+			( isset( $params['timestamps'] ) ? $params['timestamps'] : array() ),
+			$params['reason'],
+			array(),
+			false,
+			$this->getUser()
+		);
 		if ( !is_array( $retval ) ) {
 			$this->dieUsageMsg( 'cannotundelete' );
 		}
@@ -76,7 +78,7 @@ class ApiUndelete extends ApiBase {
 		$info['title'] = $titleObj->getPrefixedText();
 		$info['revisions'] = intval( $retval[0] );
 		$info['fileversions'] = intval( $retval[1] );
-		$info['reason'] = intval( $retval[2] );
+		$info['reason'] = $retval[2];
 		$this->getResult()->addValue( null, $this->getModuleName(), $info );
 	}
 
@@ -94,7 +96,10 @@ class ApiUndelete extends ApiBase {
 				ApiBase::PARAM_TYPE => 'string',
 				ApiBase::PARAM_REQUIRED => true
 			),
-			'token' => null,
+			'token' => array(
+				ApiBase::PARAM_TYPE => 'string',
+				ApiBase::PARAM_REQUIRED => true
+			),
 			'reason' => '',
 			'timestamps' => array(
 				ApiBase::PARAM_TYPE => 'timestamp',
@@ -116,16 +121,29 @@ class ApiUndelete extends ApiBase {
 		return array(
 			'title' => 'Title of the page you want to restore',
 			'token' => 'An undelete token previously retrieved through list=deletedrevs',
-			'reason' => 'Reason for restoring (optional)',
-			'timestamps' => 'Timestamps of the revisions to restore. If not set, all revisions will be restored.',
-			'watchlist' => 'Unconditionally add or remove the page from your watchlist, use preferences or do not change watch',
+			'reason' => 'Reason for restoring',
+			'timestamps' => 'Timestamps of the revisions to restore. If not set, all ' .
+				'revisions will be restored.',
+			'watchlist' => 'Unconditionally add or remove the page from your ' .
+				'watchlist, use preferences or do not change watch',
+		);
+	}
+
+	public function getResultProperties() {
+		return array(
+			'' => array(
+				'title' => 'string',
+				'revisions' => 'integer',
+				'filerevisions' => 'integer',
+				'reason' => 'string'
+			)
 		);
 	}
 
 	public function getDescription() {
 		return array(
-			'Restore certain revisions of a deleted page. A list of deleted revisions (including timestamps) can be',
-			'retrieved through list=deletedrevs'
+			'Restore certain revisions of a deleted page. A list of deleted revisions ',
+			'(including timestamps) can be retrieved through list=deletedrevs.'
 		);
 	}
 
@@ -155,9 +173,5 @@ class ApiUndelete extends ApiBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Undelete';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

@@ -4,7 +4,7 @@
  * http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt
  *
  * Copyright © 2004 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,10 @@
 
 /** */
 
+if ( PHP_SAPI != 'cli' ) {
+	die( "Run me from the command line please.\n" );
+}
+
 require_once 'UtfNormalDefines.php';
 require_once 'UtfNormalUtil.php';
 require_once 'UtfNormal.php';
@@ -34,9 +38,6 @@ mb_internal_encoding( "utf-8" );
 
 $verbose = false;
 #$verbose = true;
-if( php_sapi_name() != 'cli' ) {
-	die( "Run me from the command line please.\n" );
-}
 
 $in = fopen( "UTF-8-test.txt", "rt" );
 if( !$in ) {

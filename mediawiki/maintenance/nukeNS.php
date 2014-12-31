@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Remove pages with only 1 revision from the MediaWiki namespace, without
  * flooding recent changes, delete logs, etc.
@@ -28,13 +27,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  * @author Steve Sanbeg
  * based on nukePage by Rob Church
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that removes pages with only one revision from the
+ * MediaWiki namespace.
+ *
+ * @ingroup Maintenance
+ */
 class NukeNS extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -49,7 +55,7 @@ class NukeNS extends Maintenance {
 		$delete = $this->getOption( 'delete', false );
 		$all = $this->getOption( 'all', false );
 		$dbw = wfGetDB( DB_MASTER );
-		$dbw->begin();
+		$dbw->begin( __METHOD__ );
 
 		$tbl_pag = $dbw->tableName( 'page' );
 		$tbl_rev = $dbw->tableName( 'revision' );
@@ -60,7 +66,7 @@ class NukeNS extends Maintenance {
 		foreach ( $res as $row ) {
 			// echo "$ns_name:".$row->page_title, "\n";
 			$title = Title::makeTitle( $ns, $row->page_title );
-			$id   = $title->getArticleID();
+			$id = $title->getArticleID();
 
 			// Get corresponding revisions
 			$res2 = $dbw->query( "SELECT rev_id FROM $tbl_rev WHERE rev_page = $id" );
@@ -80,7 +86,7 @@ class NukeNS extends Maintenance {
 				// I already have the id & revs
 				if ( $delete ) {
 					$dbw->query( "DELETE FROM $tbl_pag WHERE page_id = $id" );
-					$dbw->commit();
+					$dbw->commit( __METHOD__ );
 					// Delete revisions as appropriate
 					$child = $this->runChild( 'NukePage', 'nukePage.php' );
 					$child->deleteRevisions( $revs );
@@ -88,10 +94,10 @@ class NukeNS extends Maintenance {
 					$n_deleted ++;
 				}
 			} else {
-			  $this->output( "skip: " . $title->getPrefixedText() . "\n" );
+				$this->output( "skip: " . $title->getPrefixedText() . "\n" );
 			}
 		}
-		$dbw->commit();
+		$dbw->commit( __METHOD__ );
 
 		if ( $n_deleted > 0 ) {
 			# update statistics - better to decrement existing count, or just count
@@ -113,4 +119,4 @@ class NukeNS extends Maintenance {
 }
 
 $maintClass = "NukeNS";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

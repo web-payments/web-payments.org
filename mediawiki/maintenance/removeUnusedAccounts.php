@@ -18,12 +18,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  * @author Rob Church <robchur@gmail.com>
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that removes unused user accounts from the database.
+ *
+ * @ingroup Maintenance
+ */
 class RemoveUnusedAccounts extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -68,9 +74,14 @@ class RemoveUnusedAccounts extends Maintenance {
 
 		# If required, go back and delete each marked account
 		if ( $count > 0 && $this->hasOption( 'delete' ) ) {
-			$this->output( "\nDeleting inactive accounts..." );
+			$this->output( "\nDeleting unused accounts..." );
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->delete( 'user', array( 'user_id' => $del ), __METHOD__ );
+			$dbw->delete( 'user_groups', array( 'ug_user' => $del ), __METHOD__ );
+			$dbw->delete( 'user_former_groups', array( 'ufg_user' => $del ), __METHOD__ );
+			$dbw->delete( 'user_properties', array( 'up_user' => $del ), __METHOD__ );
+			$dbw->delete( 'logging', array( 'log_user' => $del ), __METHOD__ );
+			$dbw->delete( 'recentchanges', array( 'rc_user' => $del ), __METHOD__ );
 			$this->output( "done.\n" );
 			# Update the site_stats.ss_users field
 			$users = $dbw->selectField( 'user', 'COUNT(*)', array(), __METHOD__ );
@@ -86,25 +97,34 @@ class RemoveUnusedAccounts extends Maintenance {
 	 * (No edits, no deleted edits, no log entries, no current/old uploads)
 	 *
 	 * @param $id User's ID
-	 * @param $master Perform checking on the master
+	 * @param $master bool Perform checking on the master
 	 * @return bool
 	 */
 	private function isInactiveAccount( $id, $master = false ) {
 		$dbo = wfGetDB( $master ? DB_MASTER : DB_SLAVE );
-		$checks = array( 'revision' => 'rev', 'archive' => 'ar', 'logging' => 'log',
-						 'image' => 'img', 'oldimage' => 'oi', 'filearchive' => 'fa' );
+		$checks = array(
+			'revision' => 'rev',
+			'archive' => 'ar',
+			'image' => 'img',
+			'oldimage' => 'oi',
+			'filearchive' => 'fa'
+		);
 		$count = 0;
 
-		$dbo->begin();
+		$dbo->begin( __METHOD__ );
 		foreach ( $checks as $table => $fprefix ) {
 			$conds = array( $fprefix . '_user' => $id );
 			$count += (int)$dbo->selectField( $table, 'COUNT(*)', $conds, __METHOD__ );
 		}
-		$dbo->commit();
+
+		$conds = array( 'log_user' => $id, 'log_type != ' . $dbo->addQuotes( 'newusers' ) );
+		$count += (int)$dbo->selectField( 'logging', 'COUNT(*)', $conds, __METHOD__ );
+
+		$dbo->commit( __METHOD__ );
 
 		return $count == 0;
 	}
 }
 
 $maintClass = "RemoveUnusedAccounts";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

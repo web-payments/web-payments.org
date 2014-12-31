@@ -17,6 +17,12 @@ a.new {
 	border: 1px solid #aaaaaa;
 	background-color: #f9f9f9;
 	padding: 5px;
+	display: -moz-inline-block;
+	display: inline-block;
+	display: table;
+	/* IE7 and earlier */
+	zoom: 1;
+	*display: inline;
 }
 
 /* images */
@@ -111,7 +117,8 @@ div#jump-to-nav,
 div.top,
 div#column-one,
 #colophon,
-.editsection,
+.mw-editsection,
+.mw-editsection-like,
 .toctoggle,
 .tochidden,
 div#f-poweredbyico,
@@ -125,7 +132,10 @@ li#privacy,
 .mw-hidden-catlinks,
 tr.mw-metadata-show-hide-extended,
 span.mw-filepage-other-resolutions,
-#filetoc {
+#filetoc,
+.usermessage,
+.patrollink,
+#mw-navigation {
 	/* Hides all the elements irrelevant for printing */
 	display: none;
 }
@@ -153,12 +163,16 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
 
+dt {
+	font-weight: bold;
+}
+
 p {
 	margin: 1em 0;
 	line-height: 1.2em;
 }
 
-pre {
+pre, .mw-code {
 	border: 1pt dashed black;
 	white-space: pre;
 	font-size: 8pt;
@@ -189,7 +203,7 @@ a:link, a:visited {
 #content a.external.text:after,
 #content a.external.autonumber:after {
 	/* Expand URLs for printing */
-	content: " (" attr(href) ") ";
+	content: " (" attr(href) ")";
 }
 
 #globalWrapper {
@@ -246,7 +260,6 @@ span.texhtml {
 /* Galleries (see shared.css for more info) */
 li.gallerybox {
 	vertical-align: top;
-	border: solid 2px white;
 	display: -moz-inline-box;
 	display: inline-block;
 }
@@ -320,7 +333,7 @@ td.diff-context {
  */
 table.wikitable,
 table.mw_metadata {
-	margin: 1em 1em 1em 0;
+	margin: 1em 0;
 	border: 1px #aaa solid;
 	background: white;
 	border-collapse: collapse;
@@ -351,7 +364,7 @@ a.sortheader {
 .wikitable, .thumb, img {
 	page-break-inside: avoid;
 }
-h2, h3, h4, h5, h6, h7 {
+h2, h3, h4, h5, h6 {
 	page-break-after: avoid;
 }
 p {

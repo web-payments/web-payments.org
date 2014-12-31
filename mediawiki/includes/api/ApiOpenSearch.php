@@ -1,10 +1,8 @@
 <?php
 /**
- *
- *
  * Created on Oct 13, 2006
  *
- * Copyright © 2006 Yuri Astrakhan <Firstname><Lastname>@gmail.com
+ * Copyright © 2006 Yuri Astrakhan "<Firstname><Lastname>@gmail.com"
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,12 +27,21 @@
  */
 class ApiOpenSearch extends ApiBase {
 
-	public function __construct( $main, $action ) {
-		parent::__construct( $main, $action );
-	}
-
+	/**
+	 * Override built-in handling of format parameter.
+	 * Only JSON is supported.
+	 *
+	 * @return ApiFormatBase
+	 */
 	public function getCustomPrinter() {
-		return $this->getMain()->createPrinterByName( 'json' );
+		$params = $this->extractRequestParams();
+		$format = $params['format'];
+		$allowed = array( 'json', 'jsonfm' );
+		if ( in_array( $format, $allowed ) ) {
+			return $this->getMain()->createPrinterByName( $format );
+		}
+
+		return $this->getMain()->createPrinterByName( $allowed[0] );
 	}
 
 	public function execute() {
@@ -45,7 +52,7 @@ class ApiOpenSearch extends ApiBase {
 		$namespaces = $params['namespace'];
 		$suggest = $params['suggest'];
 
-		// MWSuggest or similar hit
+		// Some script that was loaded regardless of wgEnableOpenSearchSuggest, likely cached.
 		if ( $suggest && !$wgEnableOpenSearchSuggest ) {
 			$searches = array();
 		} else {
@@ -53,28 +60,8 @@ class ApiOpenSearch extends ApiBase {
 			$this->getMain()->setCacheMaxAge( $wgSearchSuggestCacheExpiry );
 			$this->getMain()->setCacheMode( 'public' );
 
-			$searches = PrefixSearch::titleSearch( $search, $limit,
-				$namespaces );
-
-			// if the content language has variants, try to retrieve fallback results
-			$fallbackLimit = $limit - count( $searches );
-			if ( $fallbackLimit > 0 ) {
-				global $wgContLang;
-
-				$fallbackSearches = $wgContLang->autoConvertToAllVariants( $search );
-				$fallbackSearches = array_diff( array_unique( $fallbackSearches ), array( $search ) );
-
-				foreach ( $fallbackSearches as $fbs ) {
-					$fallbackSearchResult = PrefixSearch::titleSearch( $fbs, $fallbackLimit,
-						$namespaces );
-					$searches = array_merge( $searches, $fallbackSearchResult );
-					$fallbackLimit -= count( $fallbackSearchResult );
-
-					if ( $fallbackLimit == 0 ) {
-						break;
-					}
-				}
-			}
+			$searcher = new StringPrefixSearch;
+			$searches = $searcher->searchWithVariants( $search, $limit, $namespaces );
 		}
 		// Set top level elements
 		$result = $this->getResult();
@@ -83,10 +70,12 @@ class ApiOpenSearch extends ApiBase {
 	}
 
 	public function getAllowedParams() {
+		global $wgOpenSearchDefaultLimit;
+
 		return array(
 			'search' => null,
 			'limit' => array(
-				ApiBase::PARAM_DFLT => 10,
+				ApiBase::PARAM_DFLT => $wgOpenSearchDefaultLimit,
 				ApiBase::PARAM_TYPE => 'limit',
 				ApiBase::PARAM_MIN => 1,
 				ApiBase::PARAM_MAX => 100,
@@ -98,6 +87,10 @@ class ApiOpenSearch extends ApiBase {
 				ApiBase::PARAM_ISMULTI => true
 			),
 			'suggest' => false,
+			'format' => array(
+				ApiBase::PARAM_DFLT => 'json',
+				ApiBase::PARAM_TYPE => array( 'json', 'jsonfm' ),
+			)
 		);
 	}
 
@@ -107,11 +100,12 @@ class ApiOpenSearch extends ApiBase {
 			'limit' => 'Maximum amount of results to return',
 			'namespace' => 'Namespaces to search',
 			'suggest' => 'Do nothing if $wgEnableOpenSearchSuggest is false',
+			'format' => 'The format of the output',
 		);
 	}
 
 	public function getDescription() {
-		return 'Search the wiki using the OpenSearch protocol';
+		return 'Search the wiki using the OpenSearch protocol.';
 	}
 
 	public function getExamples() {
@@ -122,9 +116,5 @@ class ApiOpenSearch extends ApiBase {
 
 	public function getHelpUrls() {
 		return 'https://www.mediawiki.org/wiki/API:Opensearch';
-	}
-
-	public function getVersion() {
-		return __CLASS__ . ': $Id$';
 	}
 }

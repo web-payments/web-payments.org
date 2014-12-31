@@ -3,7 +3,8 @@
 #p-personal,
 #jump-to-nav,
 #footer,
-span.editsection,
+.mw-editsection,
+.mw-editsection-like,
 .noprint {
 	display: none;
 }

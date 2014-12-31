@@ -1,13 +1,13 @@
 <?php
 /**
- * Script to remove broken, unparseable titles in the Watchlist.
+ * Remove broken, unparseable titles in the watchlist table.
  *
  * Usage: php cleanupWatchlist.php [--fix]
  * Options:
  *   --fix  Actually remove entries; without will only report.
  *
- * Copyright (C) 2005,2006 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * Copyright © 2005,2006 Brion Vibber <brion@pobox.com>
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,8 +29,13 @@
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/cleanupTable.inc' );
+require_once __DIR__ . '/cleanupTable.inc';
 
+/**
+ * Maintenance script to remove broken, unparseable titles in the watchlist table.
+ *
+ * @ingroup Maintenance
+ */
 class WatchlistCleanup extends TableCleanup {
 	protected $defaultParams = array(
 		'table' => 'watchlist',
@@ -72,9 +77,9 @@ class WatchlistCleanup extends TableCleanup {
 		if ( !$this->dryrun && $this->hasOption( 'fix' ) ) {
 			$dbw = wfGetDB( DB_MASTER );
 			$dbw->delete( 'watchlist', array(
-				'wl_user'      => $row->wl_user,
+				'wl_user' => $row->wl_user,
 				'wl_namespace' => $row->wl_namespace,
-				'wl_title'     => $row->wl_title ),
+				'wl_title' => $row->wl_title ),
 			__METHOD__ );
 			$this->output( "- removed\n" );
 			return 1;
@@ -85,4 +90,4 @@ class WatchlistCleanup extends TableCleanup {
 }
 
 $maintClass = "WatchlistCleanup";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

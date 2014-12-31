@@ -1,5 +1,7 @@
 <?php
 /**
+ * Display replication lag times.
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -15,11 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script that displays replication lag times.
+ *
+ * @ingroup Maintenance
+ */
 class GetLagTimes extends Maintenance {
 	public function __construct() {
 		parent::__construct();
@@ -31,7 +39,7 @@ class GetLagTimes extends Maintenance {
 
 		if ( $lb->getServerCount() == 1 ) {
 			$this->error( "This script dumps replication lag times, but you don't seem to have\n"
-						  . "a multi-host db server configuration." );
+				. "a multi-host db server configuration." );
 		} else {
 			$lags = $lb->getLagTimes();
 			foreach ( $lags as $n => $lag ) {
@@ -51,4 +59,4 @@ class GetLagTimes extends Maintenance {
 }
 
 $maintClass = "GetLagTimes";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

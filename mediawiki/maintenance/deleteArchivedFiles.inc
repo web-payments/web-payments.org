@@ -17,26 +17,37 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
  * http://www.gnu.org/copyleft/gpl.html
  *
+ * @file
  * @ingroup Maintenance
  */
 
+/**
+ * Core functions for deleteArchivedFiles.php
+ *
+ * @ingroup Maintenance
+ */
 class DeleteArchivedFilesImplementation {
-	static public function doDelete( $output, $force ) {
+	public static function doDelete( $output, $force ) {
 		# Data should come off the master, wrapped in a transaction
 		$dbw = wfGetDB( DB_MASTER );
-		$dbw->begin();
+		$dbw->begin( __METHOD__ );
 		$tbl_arch = $dbw->tableName( 'filearchive' );
 		$repo = RepoGroup::singleton()->getLocalRepo();
 		# Get "active" revisions from the filearchive table
 		$output->handleOutput( "Searching for and deleting archived files...\n" );
-		$res = $dbw->query( "SELECT fa_id,fa_storage_group,fa_storage_key FROM $tbl_arch" );
+		$res = $dbw->query( "SELECT fa_id,fa_storage_group,fa_storage_key,fa_sha1 FROM $tbl_arch" );
 		$count = 0;
 		foreach ( $res as $row ) {
 			$key = $row->fa_storage_key;
 			$group = $row->fa_storage_group;
 			$id = $row->fa_id;
 			$path = $repo->getZonePath( 'deleted' ) . '/' . $repo->getDeletedHashPath( $key ) . $key;
-			$sha1 = substr( $key, 0, strcspn( $key, '.' ) );
+			if ( isset( $row->fa_sha1 ) ) {
+				$sha1 = $row->fa_sha1;
+			} else {
+				// old row, populate from key
+				$sha1 = LocalRepo::getHashFromKey( $key );
+			}
 			// Check if the file is used anywhere...
 			$inuse = $dbw->selectField( 'oldimage', '1',
 				array( 'oi_sha1' => $sha1,
@@ -44,8 +55,8 @@ class DeleteArchivedFilesImplementation {
 				__METHOD__,
 				array( 'FOR UPDATE' )
 			);
-			if ( $path && file_exists( $path ) && !$inuse ) {
-				if( unlink( $path ) ) { // delete
+			if ( $path && $repo->fileExists( $path ) && !$inuse ) {
+				if ( $repo->quickPurge( $path ) ) {
 					$count++;
 					$dbw->query( "DELETE FROM $tbl_arch WHERE fa_id = $id" );
 				} else {
@@ -59,7 +70,7 @@ class DeleteArchivedFilesImplementation {
 				}
 			}
 		}
-		$dbw->commit();
+		$dbw->commit( __METHOD__ );
 		$output->handleOutput( "Done! [$count file(s)]\n" );
 	}
 }

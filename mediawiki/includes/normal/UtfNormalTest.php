@@ -4,7 +4,7 @@
  * http://www.unicode.org/Public/UNIDATA/NormalizationTest.txt
  *
  * Copyright © 2004 Brion Vibber <brion@pobox.com>
- * http://www.mediawiki.org/
+ * https://www.mediawiki.org/
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,23 +25,25 @@
  * @ingroup UtfNormal
  */
 
+if( PHP_SAPI != 'cli' ) {
+	die( "Run me from the command line please.\n" );
+}
+
 $verbose = true;
 #define( 'PRETTY_UTF8', true );
 
 if( defined( 'PRETTY_UTF8' ) ) {
 	function pretty( $string ) {
-		return preg_replace( '/([\x00-\xff])/e',
-			'sprintf("%02X", ord("$1"))',
-			$string );
+		return strtoupper( bin2hex( $string ) );
 	}
 } else {
 	/**
 	 * @ignore
+	 * @param string $string
+	 * @return string
 	 */
 	function pretty( $string ) {
-		return trim( preg_replace( '/(.)/use',
-			'sprintf("%04X ", utf8ToCodepoint("$1"))',
-			$string ) );
+		return strtoupper( utf8ToHexSequence( $string ) );
 	}
 }
 
@@ -52,10 +54,6 @@ if( isset( $_SERVER['argv'] ) && in_array( '--icu', $_SERVER['argv'] ) ) {
 require_once 'UtfNormalDefines.php';
 require_once 'UtfNormalUtil.php';
 require_once 'UtfNormal.php';
-
-if( php_sapi_name() != 'cli' ) {
-	die( "Run me from the command line please.\n" );
-}
 
 $in = fopen("NormalizationTest.txt", "rt");
 if( !$in ) {

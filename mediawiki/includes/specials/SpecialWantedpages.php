@@ -27,10 +27,13 @@
  * @ingroup SpecialPage
  */
 class WantedPagesPage extends WantedQueryPage {
-	
+
 	function __construct( $name = 'Wantedpages' ) {
 		parent::__construct( $name );
-		$this->mIncludable = true;
+	}
+
+	function isIncludable() {
+		return true;
 	}
 
 	function execute( $par ) {
@@ -60,19 +63,18 @@ class WantedPagesPage extends WantedQueryPage {
 				'pg2' => 'page'
 			),
 			'fields' => array(
-				'pl_namespace AS namespace',
-				'pl_title AS title',
-				'COUNT(*) AS value'
+				'namespace' => 'pl_namespace',
+				'title' => 'pl_title',
+				'value' => 'COUNT(*)'
 			),
 			'conds' => array(
 				'pg1.page_namespace IS NULL',
-				"pl_namespace NOT IN ( '" . NS_USER .
-					"', '" . NS_USER_TALK . "' )",
+				"pl_namespace NOT IN ( '" . NS_USER . "', '" . NS_USER_TALK . "' )",
 				"pg2.page_namespace != '" . NS_MEDIAWIKI . "'"
 			),
 			'options' => array(
 				'HAVING' => "COUNT(*) > $count",
-				'GROUP BY' => 'pl_namespace, pl_title'
+				'GROUP BY' => array( 'pl_namespace', 'pl_title' )
 			),
 			'join_conds' => array(
 				'pg1' => array(
@@ -86,6 +88,11 @@ class WantedPagesPage extends WantedQueryPage {
 		);
 		// Replacement for the WantedPages::getSQL hook
 		wfRunHooks( 'WantedPages::getQueryInfo', array( &$this, &$query ) );
+
 		return $query;
+	}
+
+	protected function getGroupName() {
+		return 'maintenance';
 	}
 }

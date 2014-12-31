@@ -25,7 +25,7 @@
  * @ingroup MaintenanceLanguage
  */
 class CheckLanguageCLI {
-	protected $code  = null;
+	protected $code = null;
 	protected $level = 2;
 	protected $doLinks = false;
 	protected $linksPrefix = '';
@@ -41,12 +41,12 @@ class CheckLanguageCLI {
 
 	/**
 	 * Constructor.
-	 * @param $options Options for script.
+	 * @param $options array Options for script.
 	 */
-	public function __construct( Array $options ) {
+	public function __construct( array $options ) {
 		if ( isset( $options['help'] ) ) {
 			echo $this->help();
-			exit(1);
+			exit( 1 );
 		}
 
 		if ( isset( $options['lang'] ) ) {
@@ -89,12 +89,12 @@ class CheckLanguageCLI {
 			$this->output = $options['output'];
 		}
 
-		$this->L = new languages( $this->includeExif );
+		$this->L = new Languages( $this->includeExif );
 	}
 
 	/**
 	 * Get the default checks.
-	 * @return A list of the default checks.
+	 * @return array A list of the default checks.
 	 */
 	protected function defaultChecks() {
 		return array(
@@ -107,7 +107,7 @@ class CheckLanguageCLI {
 
 	/**
 	 * Get the checks which check other things than messages.
-	 * @return A list of the non-message checks.
+	 * @return array A list of the non-message checks.
 	 */
 	protected function nonMessageChecks() {
 		return array(
@@ -129,82 +129,86 @@ class CheckLanguageCLI {
 
 	/**
 	 * Get all checks.
-	 * @return An array of all check names mapped to their function names.
+	 * @return array An array of all check names mapped to their function names.
 	 */
 	protected function getChecks() {
 		return array(
 			'untranslated' => 'getUntranslatedMessages',
-			'duplicate'    => 'getDuplicateMessages',
-			'obsolete'     => 'getObsoleteMessages',
-			'variables'    => 'getMessagesWithMismatchVariables',
-			'plural'       => 'getMessagesWithoutPlural',
-			'empty'        => 'getEmptyMessages',
-			'whitespace'   => 'getMessagesWithWhitespace',
-			'xhtml'        => 'getNonXHTMLMessages',
-			'chars'        => 'getMessagesWithWrongChars',
-			'links'        => 'getMessagesWithDubiousLinks',
-			'unbalanced'   => 'getMessagesWithUnbalanced',
-			'namespace'    => 'getUntranslatedNamespaces',
-			'projecttalk'  => 'getProblematicProjectTalks',
-			'magic'        => 'getUntranslatedMagicWords',
-			'magic-old'    => 'getObsoleteMagicWords',
-			'magic-over'   => 'getOverridingMagicWords',
-			'magic-case'   => 'getCaseMismatchMagicWords',
-			'special'      => 'getUntraslatedSpecialPages',
-			'special-old'  => 'getObsoleteSpecialPages',
+			'duplicate' => 'getDuplicateMessages',
+			'obsolete' => 'getObsoleteMessages',
+			'variables' => 'getMessagesWithMismatchVariables',
+			'plural' => 'getMessagesWithoutPlural',
+			'empty' => 'getEmptyMessages',
+			'whitespace' => 'getMessagesWithWhitespace',
+			'xhtml' => 'getNonXHTMLMessages',
+			'chars' => 'getMessagesWithWrongChars',
+			'links' => 'getMessagesWithDubiousLinks',
+			'unbalanced' => 'getMessagesWithUnbalanced',
+			'namespace' => 'getUntranslatedNamespaces',
+			'projecttalk' => 'getProblematicProjectTalks',
+			'magic' => 'getUntranslatedMagicWords',
+			'magic-old' => 'getObsoleteMagicWords',
+			'magic-over' => 'getOverridingMagicWords',
+			'magic-case' => 'getCaseMismatchMagicWords',
+			'special' => 'getUntraslatedSpecialPages',
+			'special-old' => 'getObsoleteSpecialPages',
 		);
 	}
 
 	/**
 	 * Get total count for each check non-messages check.
-	 * @return An array of all check names mapped to a two-element array:
+	 * @return array An array of all check names mapped to a two-element array:
 	 * function name to get the total count and language code or null
 	 * for checked code.
 	 */
 	protected function getTotalCount() {
 		return array(
-			'namespace'    => array( 'getNamespaceNames', 'en' ),
-			'projecttalk'  => null,
-			'magic'        => array( 'getMagicWords', 'en' ),
-			'magic-old'    => array( 'getMagicWords', null ),
-			'magic-over'   => array( 'getMagicWords', null ),
-			'magic-case'   => array( 'getMagicWords', null ),
-			'special'      => array( 'getSpecialPageAliases', 'en' ),
-			'special-old'  => array( 'getSpecialPageAliases', null ),
+			'namespace' => array( 'getNamespaceNames', 'en' ),
+			'projecttalk' => null,
+			'magic' => array( 'getMagicWords', 'en' ),
+			'magic-old' => array( 'getMagicWords', null ),
+			'magic-over' => array( 'getMagicWords', null ),
+			'magic-case' => array( 'getMagicWords', null ),
+			'special' => array( 'getSpecialPageAliases', 'en' ),
+			'special-old' => array( 'getSpecialPageAliases', null ),
 		);
 	}
 
 	/**
 	 * Get all check descriptions.
-	 * @return An array of all check names mapped to their descriptions.
+	 * @return array An array of all check names mapped to their descriptions.
 	 */
 	protected function getDescriptions() {
 		return array(
 			'untranslated' => '$1 message(s) of $2 are not translated to $3, but exist in en:',
-			'duplicate'    => '$1 message(s) of $2 are translated the same in en and $3:',
-			'obsolete'     => '$1 message(s) of $2 do not exist in en or are in the ignore list, but exist in $3:',
-			'variables'    => '$1 message(s) of $2 in $3 don\'t match the variables used in en:',
-			'plural'       => '$1 message(s) of $2 in $3 don\'t use {{plural}} while en uses:',
-			'empty'        => '$1 message(s) of $2 in $3 are empty or -:',
-			'whitespace'   => '$1 message(s) of $2 in $3 have trailing whitespace:',
-			'xhtml'        => '$1 message(s) of $2 in $3 contain illegal XHTML:',
-			'chars'        => '$1 message(s) of $2 in $3 include hidden chars which should not be used in the messages:',
-			'links'        => '$1 message(s) of $2 in $3 have problematic link(s):',
-			'unbalanced'   => '$1 message(s) of $2 in $3 have unbalanced {[]}:',
-			'namespace'    => '$1 namespace name(s) of $2 are not translated to $3, but exist in en:',
-			'projecttalk'  => '$1 namespace name(s) and alias(es) in $3 are project talk namespaces without the parameter:',
-			'magic'        => '$1 magic word(s) of $2 are not translated to $3, but exist in en:',
-			'magic-old'    => '$1 magic word(s) of $2 do not exist in en, but exist in $3:',
-			'magic-over'   => '$1 magic word(s) of $2 in $3 do not contain the original en word(s):',
-			'magic-case'   => '$1 magic word(s) of $2 in $3 change the case-sensitivity of the original en word:',
-			'special'      => '$1 special page alias(es) of $2 are not translated to $3, but exist in en:',
-			'special-old'  => '$1 special page alias(es) of $2 do not exist in en, but exist in $3:',
+			'duplicate' => '$1 message(s) of $2 are translated the same in en and $3:',
+			'obsolete' =>
+				'$1 message(s) of $2 do not exist in en or are in the ignore list, but exist in $3:',
+			'variables' => '$1 message(s) of $2 in $3 don\'t match the variables used in en:',
+			'plural' => '$1 message(s) of $2 in $3 don\'t use {{plural}} while en uses:',
+			'empty' => '$1 message(s) of $2 in $3 are empty or -:',
+			'whitespace' => '$1 message(s) of $2 in $3 have trailing whitespace:',
+			'xhtml' => '$1 message(s) of $2 in $3 contain illegal XHTML:',
+			'chars' =>
+				'$1 message(s) of $2 in $3 include hidden chars which should not be used in the messages:',
+			'links' => '$1 message(s) of $2 in $3 have problematic link(s):',
+			'unbalanced' => '$1 message(s) of $2 in $3 have unbalanced {[]}:',
+			'namespace' => '$1 namespace name(s) of $2 are not translated to $3, but exist in en:',
+			'projecttalk' =>
+				'$1 namespace name(s) and alias(es) in $3 are project talk namespaces without the parameter:',
+			'magic' => '$1 magic word(s) of $2 are not translated to $3, but exist in en:',
+			'magic-old' => '$1 magic word(s) of $2 do not exist in en, but exist in $3:',
+			'magic-over' => '$1 magic word(s) of $2 in $3 do not contain the original en word(s):',
+			'magic-case' =>
+				'$1 magic word(s) of $2 in $3 change the case-sensitivity of the original en word:',
+			'special' => '$1 special page alias(es) of $2 are not translated to $3, but exist in en:',
+			'special-old' => '$1 special page alias(es) of $2 do not exist in en, but exist in $3:',
 		);
 	}
 
 	/**
 	 * Get help.
-	 * @return The help string.
+	 * @return string The help string.
 	 */
 	protected function help() {
 		return <<<ENDS
@@ -216,35 +220,49 @@ Parameters:
 	--all: Check all customized languages.
 	--level: Show the following display level (default: 2):
 		* 0: Skip the checks (useful for checking syntax).
-		* 1: Show only the stub headers and number of wrong messages, without list of messages.
-		* 2: Show only the headers and the message keys, without the message values.
-		* 3: Show both the headers and the complete messages, with both keys and values.
+		* 1: Show only the stub headers and number of wrong messages, without
+		     list of messages.
+		* 2: Show only the headers and the message keys, without the message
+		     values.
+		* 3: Show both the headers and the complete messages, with both keys and
+		     values.
 	--links: Link the message values (default off).
 	--prefix: prefix to add to links.
-	--wikilang: For the links, what is the content language of the wiki to display the output in (default en).
-	--noexif: Don't check for EXIF messages (a bit hard and boring to translate), if you know
-		that they are currently not translated and want to focus on other problems (default off).
+	--wikilang: For the links, what is the content language of the wiki to
+	    display the output in (default en).
+	--noexif: Do not check for Exif messages (a bit hard and boring to
+	    translate), if you know what they are currently not translated and want
+	    to focus on other problems (default off).
 	--whitelist: Do only the following checks (form: code,code).
-	--blacklist: Don't do the following checks (form: code,code).
-	--easy: Do only the easy checks, which can be treated by non-speakers of the language.
+	--blacklist: Do not do the following checks (form: code,code).
+	--easy: Do only the easy checks, which can be treated by non-speakers of
+	    the language.
 
-Check codes (ideally, all of them should result 0; all the checks are executed by default (except language-specific check blacklists in checkLanguage.inc):
-	* untranslated: Messages which are required to translate, but are not translated.
-	* duplicate: Messages which translation equal to fallback
-	* obsolete: Messages which are untranslatable or do not exist, but are translated.
-	* variables: Messages without variables which should be used, or with variables which shouldn't be used.
+Check codes (ideally, all of them should result 0; all the checks are executed
+by default (except language-specific check blacklists in checkLanguage.inc):
+	* untranslated: Messages which are required to translate, but are not
+	  translated.
+	* duplicate: Messages which translation equal to fallback.
+	* obsolete: Messages which are untranslatable or do not exist, but are
+	  translated.
+	* variables: Messages without variables which should be used, or with
+	  variables which should not be used.
 	* empty: Empty messages and messages that contain only -.
 	* whitespace: Messages which have trailing whitespace.
-	* xhtml: Messages which are not well-formed XHTML (checks only few common errors).
+	* xhtml: Messages which are not well-formed XHTML (checks only few common
+	  errors).
 	* chars: Messages with hidden characters.
 	* links: Messages which contains broken links to pages (does not find all).
-	* unbalanced: Messages which contains unequal numbers of opening {[ and closing ]}.
+	* unbalanced: Messages which contains unequal numbers of opening {[ and
+	  closing ]}.
 	* namespace: Namespace names that were not translated.
-	* projecttalk: Namespace names and aliases where the project talk does not contain $1.
+	* projecttalk: Namespace names and aliases where the project talk does not
+	  contain $1.
 	* magic: Magic words that were not translated.
 	* magic-old: Magic words which do not exist.
 	* magic-over: Magic words that override the original English word.
-	* magic-case: Magic words whose translation changes the case-sensitivity of the original English word.
+	* magic-case: Magic words whose translation changes the case-sensitivity of
+	  the original English word.
 	* special: Special page names that were not translated.
 	* special-old: Special page names which do not exist.
 
@@ -291,20 +309,77 @@ ENDS;
 				$this->results[$this->code] = $this->checkLanguage( $this->code );
 			}
 		}
+
+		$results = $this->results;
+		foreach ( $results as $code => $checks ) {
+			foreach ( $checks as $check => $messages ) {
+				foreach ( $messages as $key => $details ) {
+					if ( $this->isCheckBlacklisted( $check, $code, $key ) ) {
+						unset( $this->results[$code][$check][$key] );
+					}
+				}
+			}
+		}
 	}
 
 	/**
 	 * Get the check blacklist.
-	 * @return The list of checks which should not be executed.
+	 * @return array The list of checks which should not be executed.
 	 */
 	protected function getCheckBlacklist() {
+		static $blacklist = null;
+
+		if ( $blacklist !== null ) {
+			return $blacklist;
+		}
+
+		// @codingStandardsIgnoreStart Ignore that globals should have a "wg" prefix.
 		global $checkBlacklist;
-		return $checkBlacklist;
+		// @codingStandardsIgnoreEnd
+
+		$blacklist = $checkBlacklist;
+
+		wfRunHooks( 'LocalisationChecksBlacklist', array( &$blacklist ) );
+
+		return $blacklist;
+	}
+
+	/**
+	 * Verify whether a check is blacklisted.
+	 *
+	 * @param string $check Check name
+	 * @param string $code Language code
+	 * @param string|bool $message Message name, or False for a whole language
+	 * @return bool Whether the check is blacklisted
+	 */
+	protected function isCheckBlacklisted( $check, $code, $message ) {
+		$blacklist = $this->getCheckBlacklist();
+
+		foreach ( $blacklist as $item ) {
+			if ( isset( $item['check'] ) && $check !== $item['check'] ) {
+				continue;
+			}
+
+			if ( isset( $item['code'] ) && !in_array( $code, $item['code'] ) ) {
+				continue;
+			}
+
+			if ( isset( $item['message'] ) &&
+				( $message === false || !in_array( $message, $item['message'] ) )
+			) {
+				continue;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
 	 * Check a language.
 	 * @param $code string The language code.
+	 * @throws MWException
 	 * @return array The results.
 	 */
 	protected function checkLanguage( $code ) {
@@ -312,14 +387,13 @@ ENDS;
 		$results = array();
 		if ( $this->level === 0 ) {
 			$this->L->getMessages( $code );
+
 			return $results;
 		}
 
 		$checkFunctions = $this->getChecks();
-		$checkBlacklist = $this->getCheckBlacklist();
 		foreach ( $this->checks as $check ) {
-			if ( isset( $checkBlacklist[$code] ) &&
-				in_array( $check, $checkBlacklist[$code] ) ) {
+			if ( $this->isCheckBlacklisted( $check, $code, false ) ) {
 				$results[$check] = array();
 				continue;
 			}
@@ -336,9 +410,9 @@ ENDS;
 
 	/**
 	 * Format a message key.
-	 * @param $key The message key.
-	 * @param $code The language code.
-	 * @return The formatted message key.
+	 * @param $key string The message key.
+	 * @param $code string The language code.
+	 * @return string The formatted message key.
 	 */
 	protected function formatKey( $key, $code ) {
 		if ( $this->doLinks ) {
@@ -355,7 +429,6 @@ ENDS;
 
 	/**
 	 * Output the checks results as plain text.
-	 * @return The checks results as plain text.
 	 */
 	protected function outputText() {
 		foreach ( $this->results as $code => $results ) {
@@ -384,7 +457,7 @@ ENDS;
 						echo "[messages are hidden]\n";
 					} else {
 						foreach ( $messages as $key => $value ) {
-							if( !in_array( $check, $this->nonMessageChecks() ) ) {
+							if ( !in_array( $check, $this->nonMessageChecks() ) ) {
 								$key = $this->formatKey( $key, $code );
 							}
 							if ( $this->level == 2 || empty( $value ) ) {
@@ -401,19 +474,18 @@ ENDS;
 
 	/**
 	 * Output the checks results as wiki text.
-	 * @return The checks results as wiki text.
 	 */
 	function outputWiki() {
-		global $wgContLang;
 		$detailText = '';
-		$rows[] = '! Language !! Code !! Total !! ' . implode( ' !! ', array_diff( $this->checks, $this->nonMessageChecks() ) );
+		$rows[] = '! Language !! Code !! Total !! ' .
+			implode( ' !! ', array_diff( $this->checks, $this->nonMessageChecks() ) );
 		foreach ( $this->results as $code => $results ) {
 			$detailTextForLang = "==$code==\n";
 			$numbers = array();
 			$problems = 0;
 			$detailTextForLangChecks = array();
 			foreach ( $results as $check => $messages ) {
-				if( in_array( $check, $this->nonMessageChecks() ) ) {
+				if ( in_array( $check, $this->nonMessageChecks() ) ) {
 					continue;
 				}
 				$count = count( $messages );
@@ -429,7 +501,6 @@ ENDS;
 				} else {
 					$numbers[] = $count;
 				}
-
 			}
 
 			if ( count( $detailTextForLangChecks ) ) {
@@ -440,13 +511,14 @@ ENDS;
 				# Don't list languages without problems
 				continue;
 			}
-			$language = $wgContLang->getLanguageName( $code );
+			$language = Language::fetchLanguageName( $code );
 			$rows[] = "| $language || $code || $problems || " . implode( ' || ', $numbers );
 		}
 
 		$tableRows = implode( "\n|-\n", $rows );
 
 		$version = SpecialVersion::getVersion( 'nodb' );
+		// @codingStandardsIgnoreStart Long line.
 		echo <<<EOL
 '''Check results are for:''' <code>$version</code>
 
@@ -458,20 +530,22 @@ $tableRows
 $detailText
 
 EOL;
+		// @codingStandardsIgnoreEnd
 	}
 
 	/**
 	 * Check if there are any results for the checks, in any language.
-	 * @return True if there are any results, false if not.
+	 * @return bool True if there are any results, false if not.
 	 */
 	protected function isEmpty() {
-		foreach( $this->results as $results ) {
-			foreach( $results as $messages ) {
-				if( !empty( $messages ) ) {
+		foreach ( $this->results as $results ) {
+			foreach ( $results as $messages ) {
+				if ( !empty( $messages ) ) {
 					return false;
 				}
 			}
 		}
+
 		return true;
 	}
 }
@@ -484,13 +558,13 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 
 	/**
 	 * Constructor.
-	 * @param $options Options for script.
-	 * @param $extension The extension name (or names).
+	 * @param $options array Options for script.
+	 * @param $extension string The extension name (or names).
 	 */
-	public function __construct( Array $options, $extension ) {
+	public function __construct( array $options, $extension ) {
 		if ( isset( $options['help'] ) ) {
 			echo $this->help();
-			exit(1);
+			exit( 1 );
 		}
 
 		if ( isset( $options['lang'] ) ) {
@@ -538,19 +612,19 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 		if ( $extension == 'all' ) {
 			foreach ( MessageGroups::singleton()->getGroups() as $group ) {
 				if ( strpos( $group->getId(), 'ext-' ) === 0 && !$group->isMeta() ) {
-					$this->extensions[] = new extensionLanguages( $group );
+					$this->extensions[] = new ExtensionLanguages( $group );
 				}
 			}
 		} elseif ( $extension == 'wikimedia' ) {
 			$wikimedia = MessageGroups::getGroup( 'ext-0-wikimedia' );
 			foreach ( $wikimedia->wmfextensions() as $extension ) {
 				$group = MessageGroups::getGroup( $extension );
-				$this->extensions[] = new extensionLanguages( $group );
+				$this->extensions[] = new ExtensionLanguages( $group );
 			}
 		} elseif ( $extension == 'flaggedrevs' ) {
 			foreach ( MessageGroups::singleton()->getGroups() as $group ) {
 				if ( strpos( $group->getId(), 'ext-flaggedrevs-' ) === 0 && !$group->isMeta() ) {
-					$this->extensions[] = new extensionLanguages( $group );
+					$this->extensions[] = new ExtensionLanguages( $group );
 				}
 			}
 		} else {
@@ -558,7 +632,7 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 			foreach ( $extensions as $extension ) {
 				$group = MessageGroups::getGroup( 'ext-' . $extension );
 				if ( $group ) {
-					$extension = new extensionLanguages( $group );
+					$extension = new ExtensionLanguages( $group );
 					$this->extensions[] = $extension;
 				} else {
 					print "No such extension $extension.\n";
@@ -569,7 +643,7 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 
 	/**
 	 * Get the default checks.
-	 * @return A list of the default checks.
+	 * @return array A list of the default checks.
 	 */
 	protected function defaultChecks() {
 		return array(
@@ -580,7 +654,7 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 
 	/**
 	 * Get the checks which check other things than messages.
-	 * @return A list of the non-message checks.
+	 * @return array A list of the non-message checks.
 	 */
 	protected function nonMessageChecks() {
 		return array();
@@ -588,7 +662,7 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 
 	/**
 	 * Get the checks that can easily be treated by non-speakers of the language.
-	 * @return A list of the easy checks.
+	 * @return arrayA list of the easy checks.
 	 */
 	protected function easyChecks() {
 		return array(
@@ -598,38 +672,54 @@ class CheckExtensionsCLI extends CheckLanguageCLI {
 
 	/**
 	 * Get help.
-	 * @return The help string.
+	 * @return string The help string.
 	 */
 	protected function help() {
 		return <<<ENDS
-Run this script to check the status of a specific language in extensions, or all of them.
-Command line settings are in form --parameter[=value], except for the first one.
+Run this script to check the status of a specific language in extensions, or
+all of them. Command line settings are in form --parameter[=value], except for
+the first one.
 Parameters:
-	* First parameter (mandatory): Extension name, multiple extension names (separated by commas), "all" for all the extensions, "wikimedia" for extensions used by Wikimedia or "flaggedrevs" for all FLaggedRevs extension messages.
+	* First parameter (mandatory): Extension name, multiple extension names
+	  (separated by commas), "all" for all the extensions, "wikimedia" for
+	  extensions used by Wikimedia or "flaggedrevs" for all FLaggedRevs
+	  extension messages.
 	* lang: Language code (default: the installation default language).
 	* help: Show this help.
 	* level: Show the following display level (default: 2).
 	* links: Link the message values (default off).
-	* wikilang: For the links, what is the content language of the wiki to display the output in (default en).
+	* wikilang: For the links, what is the content language of the wiki to
+	  display the output in (default en).
 	* whitelist: Do only the following checks (form: code,code).
 	* blacklist: Do not perform the following checks (form: code,code).
-	* easy: Do only the easy checks, which can be treated by non-speakers of the language.
-Check codes (ideally, all of them should result 0; all the checks are executed by default (except language-specific check blacklists in checkLanguage.inc):
-	* untranslated: Messages which are required to translate, but are not translated.
-	* duplicate: Messages which translation equal to fallback
+	* easy: Do only the easy checks, which can be treated by non-speakers of
+	  the language.
+
+Check codes (ideally, all of them should result 0; all the checks are executed
+by default (except language-specific check blacklists in checkLanguage.inc):
+	* untranslated: Messages which are required to translate, but are not
+	  translated.
+	* duplicate: Messages which translation equal to fallback.
 	* obsolete: Messages which are untranslatable, but translated.
-	* variables: Messages without variables which should be used, or with variables which should not be used.
+	* variables: Messages without variables which should be used, or with
+	  variables which should not be used.
 	* empty: Empty messages.
 	* whitespace: Messages which have trailing whitespace.
-	* xhtml: Messages which are not well-formed XHTML (checks only few common errors).
+	* xhtml: Messages which are not well-formed XHTML (checks only few common
+	  errors).
 	* chars: Messages with hidden characters.
 	* links: Messages which contains broken links to pages (does not find all).
-	* unbalanced: Messages which contains unequal numbers of opening {[ and closing ]}.
+	* unbalanced: Messages which contains unequal numbers of opening {[ and
+	  closing ]}.
+
 Display levels (default: 2):
 	* 0: Skip the checks (useful for checking syntax).
-	* 1: Show only the stub headers and number of wrong messages, without list of messages.
-	* 2: Show only the headers and the message keys, without the message values.
-	* 3: Show both the headers and the complete messages, with both keys and values.
+	* 1: Show only the stub headers and number of wrong messages, without list
+	  of messages.
+	* 2: Show only the headers and the message keys, without the message
+	  values.
+	* 3: Show both the headers and the complete messages, with both keys and
+	  values.
 
 ENDS;
 	}
@@ -644,18 +734,19 @@ ENDS;
 	/**
 	 * Check a language and show the results.
 	 * @param $code string The language code.
+	 * @throws MWException
 	 */
 	protected function checkLanguage( $code ) {
-		foreach( $this->extensions as $extension ) {
+		foreach ( $this->extensions as $extension ) {
 			$this->L = $extension;
 			$this->results = array();
 			$this->results[$code] = parent::checkLanguage( $code );
 
-			if( !$this->isEmpty() ) {
+			if ( !$this->isEmpty() ) {
 				echo $extension->name() . ":\n";
 
-				if( $this->level > 0 ) {
-					switch( $this->output ) {
+				if ( $this->level > 0 ) {
+					switch ( $this->output ) {
 						case 'plain':
 							$this->outputText();
 							break;
@@ -673,51 +764,21 @@ ENDS;
 	}
 }
 
-# Blacklist some checks for some languages
+// Blacklist some checks for some languages or some messages
+// Possible keys of the sub arrays are: 'check', 'code' and 'message'.
 $checkBlacklist = array(
-#'code'        => array( 'check1', 'check2' ... )
-'az'           => array( 'plural' ),
-'bo'           => array( 'plural' ),
-'dz'           => array( 'plural' ),
-'id'           => array( 'plural' ),
-'fa'           => array( 'plural' ),
-'gan'          => array( 'plural' ),
-'gan-hans'     => array( 'plural' ),
-'gan-hant'     => array( 'plural' ),
-'gn'           => array( 'plural' ),
-'hak'          => array( 'plural' ),
-'hu'           => array( 'plural' ),
-'ja'           => array( 'plural' ), // Does not use plural
-'jv'           => array( 'plural' ),
-'ka'           => array( 'plural' ),
-'kk-arab'      => array( 'plural' ),
-'kk-cyrl'      => array( 'plural' ),
-'kk-latn'      => array( 'plural' ),
-'km'           => array( 'plural' ),
-'kn'           => array( 'plural' ),
-'ko'           => array( 'plural' ),
-'lzh'          => array( 'plural' ),
-'mn'           => array( 'plural' ),
-'ms'           => array( 'plural' ),
-'my'           => array( 'plural', 'chars' ),  // Uses a lot zwnj
-'sah'          => array( 'plural' ),
-'sq'           => array( 'plural' ),
-'tet'          => array( 'plural' ),
-'th'           => array( 'plural' ),
-'to'           => array( 'plural' ),
-'tr'           => array( 'plural' ),
-'vi'           => array( 'plural' ),
-'wuu'          => array( 'plural' ),
-'xmf'          => array( 'plural' ),
-'yo'           => array( 'plural' ),
-'yue'          => array( 'plural' ),
-'zh'           => array( 'plural' ),
-'zh-classical' => array( 'plural' ),
-'zh-cn'        => array( 'plural' ),
-'zh-hans'      => array( 'plural' ),
-'zh-hant'      => array( 'plural' ),
-'zh-hk'        => array( 'plural' ),
-'zh-sg'        => array( 'plural' ),
-'zh-tw'        => array( 'plural' ),
-'zh-yue'       => array( 'plural' ),
+	array(
+		'check' => 'plural',
+		'code' => array( 'az', 'bo', 'cdo', 'dz', 'id', 'fa', 'gan', 'gan-hans',
+			'gan-hant', 'gn', 'hak', 'hu', 'ja', 'jv', 'ka', 'kk-arab',
+			'kk-cyrl', 'kk-latn', 'km', 'kn', 'ko', 'lzh', 'mn', 'ms',
+			'my', 'sah', 'sq', 'tet', 'th', 'to', 'tr', 'vi', 'wuu', 'xmf',
+			'yo', 'yue', 'zh', 'zh-classical', 'zh-cn', 'zh-hans',
+			'zh-hant', 'zh-hk', 'zh-sg', 'zh-tw', 'zh-yue'
+		),
+	),
+	array(
+		'check' => 'chars',
+		'code' => array( 'my' ),
+	),
 );

@@ -22,7 +22,7 @@
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
-	require_once( dirname( __FILE__ ) . '/../commandLine.inc' );
+	require_once __DIR__ . '/../commandLine.inc';
 
 	$cs = new CheckStorage;
 	$fix = isset( $options['fix'] );
@@ -34,18 +34,19 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 	$cs->check( $fix, $xml );
 }
 
-
 // ----------------------------------------------------------------------------------
 
 /**
+ * Maintenance script to do various checks on external storage.
+ *
  * @ingroup Maintenance ExternalStorage
  */
 class CheckStorage {
 	const CONCAT_HEADER = 'O:27:"concatenatedgziphistoryblob"';
-	var $oldIdMap, $errors;
-	var $dbStore = null;
+	public $oldIdMap, $errors;
+	public $dbStore = null;
 
-	var $errorDescriptions = array(
+	public $errorDescriptions = array(
 		'restore text' => 'Damaged text, need to be restored from a backup',
 		'restore revision' => 'Damaged revision row, need to be restored from a backup',
 		'unfixable' => 'Unexpected errors with no automated fixing method',
@@ -73,7 +74,7 @@ class CheckStorage {
 			'fixable' => array(),
 		);
 
-		for ( $chunkStart = 1 ; $chunkStart < $maxRevId; $chunkStart += $chunkSize ) {
+		for ( $chunkStart = 1; $chunkStart < $maxRevId; $chunkStart += $chunkSize ) {
 			$chunkEnd = $chunkStart + $chunkSize - 1;
 			// print "$chunkStart of $maxRevId\n";
 
@@ -329,7 +330,6 @@ class CheckStorage {
 		}
 	}
 
-
 	function error( $type, $msg, $ids ) {
 		if ( is_array( $ids ) && count( $ids ) == 1 ) {
 			$ids = reset( $ids );
@@ -381,14 +381,15 @@ class CheckStorage {
 			$extDb->freeResult( $res );
 
 			// Print errors for missing blobs rows
-			foreach ( $oldIds as $blobId => $oldIds ) {
-				$this->error( 'restore text', "Error: missing target $cluster/$blobId for two-part ES URL", $oldIds );
+			foreach ( $oldIds as $blobId => $oldIds2 ) {
+				$this->error( 'restore text', "Error: missing target $cluster/$blobId for two-part ES URL", $oldIds2 );
 			}
 		}
 	}
 
 	function restoreText( $revIds, $xml ) {
-		global $wgTmpDirectory, $wgDBname;
+		global $wgDBname;
+		$tmpDir = wfTempDir();
 
 		if ( !count( $revIds ) ) {
 			return;
@@ -396,8 +397,8 @@ class CheckStorage {
 
 		print "Restoring text from XML backup...\n";
 
-		$revFileName = "$wgTmpDirectory/broken-revlist-$wgDBname";
-		$filteredXmlFileName = "$wgTmpDirectory/filtered-$wgDBname.xml";
+		$revFileName = "$tmpDir/broken-revlist-$wgDBname";
+		$filteredXmlFileName = "$tmpDir/filtered-$wgDBname.xml";
 
 		// Write revision list
 		if ( !file_put_contents( $revFileName, implode( "\n", $revIds ) ) ) {
@@ -440,18 +441,26 @@ class CheckStorage {
 
 	function importRevision( &$revision, &$importer ) {
 		$id = $revision->getID();
-		$text = $revision->getText();
+		$content = $revision->getContent( Revision::RAW );
+		$id = $id ? $id : '';
+
+		if ( $content === null ) {
+			echo "Revision $id is broken, we have no content available\n";
+			return;
+		}
+
+		$text = $content->serialize();
 		if ( $text === '' ) {
 			// This is what happens if the revision was broken at the time the
 			// dump was made. Unfortunately, it also happens if the revision was
 			// legitimately blank, so there's no way to tell the difference. To
 			// be safe, we'll skip it and leave it broken
-			$id = $id ? $id : '';
+
 			echo "Revision $id is blank in the dump, may have been broken before export\n";
 			return;
 		}
 
-		if ( !$id )  {
+		if ( !$id ) {
 			// No ID, can't import
 			echo "No id tag in revision, can't import\n";
 			return;
@@ -481,4 +490,3 @@ class CheckStorage {
 		$this->errors['fixed'][$id] = true;
 	}
 }
-

@@ -1,4 +1,25 @@
 <?php
+/**
+ * Batch query to determine page existence.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ * @ingroup Cache
+ */
 
 /**
  * Class representing a list of titles
@@ -10,7 +31,7 @@ class LinkBatch {
 	/**
 	 * 2-d array, first index namespace, second index dbkey, value arbitrary
 	 */
-	var $data = array();
+	public $data = array();
 
 	/**
 	 * For debugging which method is using this class.
@@ -18,7 +39,7 @@ class LinkBatch {
 	protected $caller;
 
 	function __construct( $arr = array() ) {
-		foreach( $arr as $item ) {
+		foreach ( $arr as $item ) {
 			$this->addObj( $item );
 		}
 	}
@@ -45,6 +66,11 @@ class LinkBatch {
 		}
 	}
 
+	/**
+	 * @param $ns int
+	 * @param $dbkey string
+	 * @return mixed
+	 */
 	public function add( $ns, $dbkey ) {
 		if ( $ns < 0 ) {
 			return;
@@ -72,7 +98,7 @@ class LinkBatch {
 	 * @return bool
 	 */
 	public function isEmpty() {
-		return ($this->getSize() == 0);
+		return $this->getSize() == 0;
 	}
 
 	/**
@@ -91,6 +117,7 @@ class LinkBatch {
 	 */
 	public function execute() {
 		$linkCache = LinkCache::singleton();
+
 		return $this->executeInto( $linkCache );
 	}
 
@@ -107,6 +134,7 @@ class LinkBatch {
 		$this->doGenderQuery();
 		$ids = $this->addResultToCache( $cache, $res );
 		wfProfileOut( __METHOD__ );
+
 		return $ids;
 	}
 
@@ -144,6 +172,7 @@ class LinkBatch {
 				$ids[$title->getPrefixedDBkey()] = 0;
 			}
 		}
+
 		return $ids;
 	}
 
@@ -171,6 +200,7 @@ class LinkBatch {
 		}
 		$res = $dbr->select( $table, $fields, $conds, $caller );
 		wfProfileOut( __METHOD__ );
+
 		return $res;
 	}
 
@@ -190,14 +220,15 @@ class LinkBatch {
 		}
 
 		$genderCache = GenderCache::singleton();
-		$genderCache->dolinkBatch( $this->data, $this->caller );
+		$genderCache->doLinkBatch( $this->data, $this->caller );
+
 		return true;
 	}
 
 	/**
 	 * Construct a WHERE clause which will match all the given titles.
 	 *
-	 * @param $prefix String: the appropriate table's field name prefix ('page', 'pl', etc)
+	 * @param string $prefix the appropriate table's field name prefix ('page', 'pl', etc)
 	 * @param $db DatabaseBase object to use
 	 * @return mixed string with SQL where clause fragment, or false if no items.
 	 */

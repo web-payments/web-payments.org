@@ -35,17 +35,14 @@ class SpecialPreferences extends SpecialPage {
 		$this->setHeaders();
 		$this->outputHeader();
 		$out = $this->getOutput();
-		$out->disallowUserJs();  # Prevent hijacked user scripts from sniffing passwords etc.
+		$out->disallowUserJs(); # Prevent hijacked user scripts from sniffing passwords etc.
 
-		$user = $this->getUser();
-		if ( $user->isAnon() ) {
-			$out->showErrorPage( 'prefsnologin', 'prefsnologintext', array( $this->getTitle()->getPrefixedDBkey() ) );
-			return;
-		}
+		$this->requireLogin( 'prefsnologintext2' );
 		$this->checkReadOnly();
 
 		if ( $par == 'reset' ) {
 			$this->showResetForm();
+
 			return;
 		}
 
@@ -53,24 +50,29 @@ class SpecialPreferences extends SpecialPage {
 
 		if ( $this->getRequest()->getCheck( 'success' ) ) {
 			$out->wrapWikiMsg(
-				"<div class=\"successbox\"><strong>\n$1\n</strong></div><div id=\"mw-pref-clear\"></div>",
+				"<div class=\"successbox\">\n$1\n</div>",
 				'savedprefs'
 			);
 		}
 
-		$htmlForm = Preferences::getFormObject( $user, $this->getContext() );
+		$htmlForm = Preferences::getFormObject( $this->getUser(), $this->getContext() );
 		$htmlForm->setSubmitCallback( array( 'Preferences', 'tryUISubmit' ) );
 
 		$htmlForm->show();
 	}
 
 	private function showResetForm() {
+		if ( !$this->getUser()->isAllowed( 'editmyoptions' ) ) {
+			throw new PermissionsError( 'editmyoptions' );
+		}
+
 		$this->getOutput()->addWikiMsg( 'prefs-reset-intro' );
 
-		$htmlForm = new HTMLForm( array(), $this->getContext(), 'prefs-restore' );
+		$context = new DerivativeContext( $this->getContext() );
+		$context->setTitle( $this->getPageTitle( 'reset' ) ); // Reset subpage
+		$htmlForm = new HTMLForm( array(), $context, 'prefs-restore' );
 
-		$htmlForm->setSubmitText( wfMsg( 'restoreprefs' ) );
-		$htmlForm->setTitle( $this->getTitle( 'reset' ) );
+		$htmlForm->setSubmitTextMsg( 'restoreprefs' );
 		$htmlForm->setSubmitCallback( array( $this, 'submitReset' ) );
 		$htmlForm->suppressReset();
 
@@ -78,14 +80,22 @@ class SpecialPreferences extends SpecialPage {
 	}
 
 	public function submitReset( $formData ) {
+		if ( !$this->getUser()->isAllowed( 'editmyoptions' ) ) {
+			throw new PermissionsError( 'editmyoptions' );
+		}
+
 		$user = $this->getUser();
-		$user->resetOptions();
+		$user->resetOptions( 'all', $this->getContext() );
 		$user->saveSettings();
 
-		$url = SpecialPage::getTitleFor( 'Preferences' )->getFullURL( 'success' );
+		$url = $this->getPageTitle()->getFullURL( 'success' );
 
 		$this->getOutput()->redirect( $url );
 
 		return true;
+	}
+
+	protected function getGroupName() {
+		return 'users';
 	}
 }

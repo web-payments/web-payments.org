@@ -2,7 +2,23 @@
 /**
  * HTML validation and correction
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
+ * @ingroup Parser
  */
 
 /**
@@ -14,6 +30,8 @@
  *
  * This re-uses some of the parser's UNIQ tricks, though some of it is private so it's
  * duplicated. Perhaps we should create an abstract marker hiding class.
+ *
+ * @ingroup Parser
  */
 class MWTidyWrapper {
 
@@ -41,12 +59,21 @@ class MWTidyWrapper {
 			dechex( mt_rand( 0, 0x7fffffff ) ) . dechex( mt_rand( 0, 0x7fffffff ) );
 		$this->mMarkerIndex = 0;
 
+		// Replace <mw:editsection> elements with placeholders
 		$wrappedtext = preg_replace_callback( ParserOutput::EDITSECTION_REGEX,
-			array( &$this, 'replaceEditSectionLinksCallback' ), $text );
+			array( &$this, 'replaceCallback' ), $text );
+		// ...and <mw:toc> markers
+		$wrappedtext = preg_replace_callback( '/\<\\/?mw:toc\>/',
+			array( &$this, 'replaceCallback' ), $wrappedtext );
 
-		$wrappedtext = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"'.
-			' "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>'.
-			'<head><title>test</title></head><body>'.$wrappedtext.'</body></html>';
+		// Modify inline Microdata <link> and <meta> elements so they say <html-link> and <html-meta> so
+		// we can trick Tidy into not stripping them out by including them in tidy's new-empty-tags config
+		$wrappedtext = preg_replace( '!<(link|meta)([^>]*?)(/{0,1}>)!', '<html-$1$2$3', $wrappedtext );
+
+		// Wrap the whole thing in a doctype and body for Tidy.
+		$wrappedtext = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"' .
+			' "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html>' .
+			'<head><title>test</title></head><body>' . $wrappedtext . '</body></html>';
 
 		return $wrappedtext;
 	}
@@ -56,7 +83,7 @@ class MWTidyWrapper {
 	 *
 	 * @return string
 	 */
-	function replaceEditSectionLinksCallback( $m ) {
+	function replaceCallback( $m ) {
 		$marker = "{$this->mUniqPrefix}-item-{$this->mMarkerIndex}" . Parser::MARKER_SUFFIX;
 		$this->mMarkerIndex++;
 		$this->mTokens->setPair( $marker, $m[0] );
@@ -68,7 +95,13 @@ class MWTidyWrapper {
 	 * @return string
 	 */
 	public function postprocess( $text ) {
-		return $this->mTokens->replace( $text );
+		// Revert <html-{link,meta}> back to <{link,meta}>
+		$text = preg_replace( '!<html-(link|meta)([^>]*?)(/{0,1}>)!', '<$1$2$3', $text );
+
+		// Restore the contents of placeholder tokens
+		$text = $this->mTokens->replace( $text );
+
+		return $text;
 	}
 
 }
@@ -88,7 +121,7 @@ class MWTidy {
 	 * If tidy isn't able to correct the markup, the original will be
 	 * returned in all its glory with a warning comment appended.
 	 *
-	 * @param $text String: hideous HTML input
+	 * @param string $text hideous HTML input
 	 * @return String: corrected HTML output
 	 */
 	public static function tidy( $text ) {
@@ -128,7 +161,7 @@ class MWTidy {
 		global $wgTidyInternal;
 
 		$retval = 0;
-		if( $wgTidyInternal ) {
+		if ( $wgTidyInternal ) {
 			$errorStr = self::execInternalTidy( $text, true, $retval );
 		} else {
 			$errorStr = self::execExternalTidy( $text, true, $retval );
@@ -141,9 +174,9 @@ class MWTidy {
 	 * Spawn an external HTML tidy process and get corrected markup back from it.
 	 * Also called in OutputHandler.php for full page validation
 	 *
-	 * @param $text String: HTML to check
+	 * @param string $text HTML to check
 	 * @param $stderr Boolean: Whether to read result from STDERR rather than STDOUT
-	 * @param &$retval Exit code (-1 on internal error)
+	 * @param &$retval int Exit code (-1 on internal error)
 	 * @return mixed String or null
 	 */
 	private static function execExternalTidy( $text, $stderr = false, &$retval = null ) {
@@ -172,6 +205,9 @@ class MWTidy {
 
 		$process = proc_open(
 			"$wgTidyBin -config $wgTidyConf $wgTidyOpts$opts", $descriptorspec, $pipes );
+
+		//NOTE: At least on linux, the process will be created even if tidy is not installed.
+		//      This means that missing tidy will be treated as a validation failure.
 
 		if ( is_resource( $process ) ) {
 			// Theoretically, this style of communication could cause a deadlock
@@ -205,16 +241,16 @@ class MWTidy {
 	 * Use the HTML tidy extension to use the tidy library in-process,
 	 * saving the overhead of spawning a new process.
 	 *
-	 * @param $text String: HTML to check
+	 * @param string $text HTML to check
 	 * @param $stderr Boolean: Whether to read result from error status instead of output
-	 * @param &$retval Exit code (-1 on internal error)
+	 * @param &$retval int Exit code (-1 on internal error)
 	 * @return mixed String or null
 	 */
 	private static function execInternalTidy( $text, $stderr = false, &$retval = null ) {
 		global $wgTidyConf, $wgDebugTidy;
 		wfProfileIn( __METHOD__ );
 
-		if ( !MWInit::classExists( 'tidy' ) ) {
+		if ( !class_exists( 'tidy' ) ) {
 			wfWarn( "Unable to load internal tidy class." );
 			$retval = -1;
 
@@ -230,24 +266,24 @@ class MWTidy {
 
 			wfProfileOut( __METHOD__ );
 			return $tidy->errorBuffer;
-		} else {
-			$tidy->cleanRepair();
-			$retval = $tidy->getStatus();
-			if ( $retval == 2 ) {
-				// 2 is magic number for fatal error
-				// http://www.php.net/manual/en/function.tidy-get-status.php
-				$cleansource = null;
-			} else {
-				$cleansource = tidy_get_output( $tidy );
-				if ( $wgDebugTidy && $retval > 0 ) {
-					$cleansource .= "<!--\nTidy reports:\n" .
-						str_replace( '-->', '--&gt;', $tidy->errorBuffer ) .
-						"\n-->";
-				}
-			}
-
-			wfProfileOut( __METHOD__ );
-			return $cleansource;
 		}
+
+		$tidy->cleanRepair();
+		$retval = $tidy->getStatus();
+		if ( $retval == 2 ) {
+			// 2 is magic number for fatal error
+			// http://www.php.net/manual/en/function.tidy-get-status.php
+			$cleansource = null;
+		} else {
+			$cleansource = tidy_get_output( $tidy );
+			if ( $wgDebugTidy && $retval > 0 ) {
+				$cleansource .= "<!--\nTidy reports:\n" .
+					str_replace( '-->', '--&gt;', $tidy->errorBuffer ) .
+					"\n-->";
+			}
+		}
+
+		wfProfileOut( __METHOD__ );
+		return $cleansource;
 	}
 }

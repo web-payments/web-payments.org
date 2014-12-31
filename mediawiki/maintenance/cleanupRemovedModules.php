@@ -1,7 +1,6 @@
 <?php
 /**
- * Maintenance script to remove cache entries for removed ResourceLoader modules
- * from the database
+ * Remove cache entries for removed ResourceLoader modules from the database.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +22,14 @@
  * @author Roan Kattouw
  */
 
-require_once( dirname( __FILE__ ) . '/Maintenance.php' );
+require_once __DIR__ . '/Maintenance.php';
 
+/**
+ * Maintenance script to remove cache entries for removed ResourceLoader modules
+ * from the database.
+ *
+ * @ingroup Maintenance
+ */
 class CleanupRemovedModules extends Maintenance {
 
 	public function __construct() {
@@ -53,7 +58,7 @@ class CleanupRemovedModules extends Maintenance {
 			$this->output( "Batch $i: $numRows rows\n" );
 			$i++;
 			wfWaitForSlaves( $maxlag );
-		} while( $numRows > 0 );
+		} while ( $numRows > 0 );
 		$this->output( "done\n" );
 
 		$this->output( "Cleaning up msg_resource table...\n" );
@@ -67,7 +72,7 @@ class CleanupRemovedModules extends Maintenance {
 			$this->output( "Batch $i: $numRows rows\n" );
 			$i++;
 			wfWaitForSlaves( $maxlag );
-		} while( $numRows > 0 );
+		} while ( $numRows > 0 );
 		$this->output( "done\n" );
 
 		$this->output( "Cleaning up msg_resource_links table...\n" );
@@ -80,10 +85,10 @@ class CleanupRemovedModules extends Maintenance {
 			$this->output( "Batch $i: $numRows rows\n" );
 			$i++;
 			wfWaitForSlaves( $maxlag );
-		} while( $numRows > 0 );
+		} while ( $numRows > 0 );
 		$this->output( "done\n" );
 	}
 }
 
 $maintClass = "CleanupRemovedModules";
-require_once( RUN_MAINTENANCE_IF_MAIN );
+require_once RUN_MAINTENANCE_IF_MAIN;

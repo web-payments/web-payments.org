@@ -1,7 +1,7 @@
 <?php
 /**
- * Script to convert history stubs that point to an external row to direct
- * external pointers.
+ * Convert history stubs that point to an external row to direct external
+ * pointers.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ define( 'REPORTING_INTERVAL', 100 );
 if ( !defined( 'MEDIAWIKI' ) ) {
 	$optionsWithArgs = array( 'm' );
 
-	require_once( dirname( __FILE__ ) . '/../commandLine.inc' );
+	require_once __DIR__ . '/../commandLine.inc';
 
 	resolveStubs();
 }
@@ -110,4 +110,3 @@ function resolveStub( $id, $stubText, $flags ) {
 		), $fname
 	);
 }
-

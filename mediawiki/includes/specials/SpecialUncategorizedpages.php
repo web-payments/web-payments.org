@@ -25,8 +25,8 @@
  * A special page looking for page without any category.
  *
  * @ingroup SpecialPage
+ * @todo FIXME: Make $requestedNamespace selectable, unify all subclasses into one
  */
-// @todo FIXME: Make $requestedNamespace selectable, unify all subclasses into one
 class UncategorizedPagesPage extends PageQueryPage {
 	protected $requestedNamespace = false;
 
@@ -41,29 +41,45 @@ class UncategorizedPagesPage extends PageQueryPage {
 	function isExpensive() {
 		return true;
 	}
-	function isSyndicated() { return false; }
+
+	function isSyndicated() {
+		return false;
+	}
 
 	function getQueryInfo() {
-		return array (
-			'tables' => array ( 'page', 'categorylinks' ),
-			'fields' => array ( 'page_namespace AS namespace',
-					'page_title AS title',
-					'page_title AS value' ),
+		return array(
+			'tables' => array( 'page', 'categorylinks' ),
+			'fields' => array(
+				'namespace' => 'page_namespace',
+				'title' => 'page_title',
+				'value' => 'page_title'
+			),
 			// default for page_namespace is all content namespaces (if requestedNamespace is false)
 			// otherwise, page_namespace is requestedNamespace
-			'conds' => array ( 'cl_from IS NULL',
-					'page_namespace' => ( $this->requestedNamespace!==false ? $this->requestedNamespace : MWNamespace::getContentNamespaces() ),
-					'page_is_redirect' => 0 ),
-			'join_conds' => array ( 'categorylinks' => array (
-					'LEFT JOIN', 'cl_from = page_id' ) )
+			'conds' => array(
+				'cl_from IS NULL',
+				'page_namespace' => $this->requestedNamespace !== false
+						? $this->requestedNamespace
+						: MWNamespace::getContentNamespaces(),
+				'page_is_redirect' => 0
+			),
+			'join_conds' => array(
+				'categorylinks' => array( 'LEFT JOIN', 'cl_from = page_id' )
+			)
 		);
 	}
 
 	function getOrderFields() {
 		// For some crazy reason ordering by a constant
 		// causes a filesort
-		if( $this->requestedNamespace === false && count( MWNamespace::getContentNamespaces() ) > 1 )
+		if ( $this->requestedNamespace === false && count( MWNamespace::getContentNamespaces() ) > 1 ) {
 			return array( 'page_namespace', 'page_title' );
+		}
+
 		return array( 'page_title' );
+	}
+
+	protected function getGroupName() {
+		return 'maintenance';
 	}
 }

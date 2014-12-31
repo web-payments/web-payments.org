@@ -1,11 +1,32 @@
 <?php
 /**
+ * List of HTTP status codes.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
+ * @file
+ */
+
+/**
  * @todo document
  */
 class HttpStatus {
 
 	/**
-	 * Get the message associed with the HTTP response code $code
+	 * Get the message associated with HTTP response code $code
 	 *
 	 * Replace OutputPage::getStatusMessage( $code )
 	 *
@@ -54,13 +75,17 @@ class HttpStatus {
 			422 => 'Unprocessable Entity',
 			423 => 'Locked',
 			424 => 'Failed Dependency',
+			428 => 'Precondition Required',
+			429 => 'Too Many Requests',
+			431 => 'Request Header Fields Too Large',
 			500 => 'Internal Server Error',
 			501 => 'Not Implemented',
 			502 => 'Bad Gateway',
 			503 => 'Service Unavailable',
 			504 => 'Gateway Timeout',
 			505 => 'HTTP Version Not Supported',
-			507 => 'Insufficient Storage'
+			507 => 'Insufficient Storage',
+			511 => 'Network Authentication Required',
 		);
 		return isset( $statusMessage[$code] ) ? $statusMessage[$code] : null;
 	}

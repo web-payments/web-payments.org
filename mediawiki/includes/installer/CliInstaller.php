@@ -2,6 +2,21 @@
 /**
  * Core installer command line interface.
  *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
+ *
  * @file
  * @ingroup Deployment
  */
@@ -99,7 +114,7 @@ class CliInstaller extends Installer {
 	 */
 	public function execute() {
 		$vars = Installer::getExistingLocalSettings();
-		if( $vars ) {
+		if ( $vars ) {
 			$this->showStatusMessage(
 				Status::newFatal( "config-localsettings-cli-upgrade" )
 			);
@@ -114,14 +129,16 @@ class CliInstaller extends Installer {
 	/**
 	 * Write LocalSettings.php to a given path
 	 *
-	 * @param $path String Full path to write LocalSettings.php to
+	 * @param string $path Full path to write LocalSettings.php to
 	 */
 	public function writeConfigurationFile( $path ) {
-		$ls = new LocalSettingsGenerator( $this );
+		$ls = InstallerOverrides::getLocalSettingsGenerator( $this );
 		$ls->writeFile( "$path/LocalSettings.php" );
 	}
 
 	public function startStage( $step ) {
+		// Messages: config-install-database, config-install-tables, config-install-interwiki,
+		// config-install-stats, config-install-keys, config-install-sysop, config-install-mainpage
 		$this->showMessage( "config-install-$step" );
 	}
 
@@ -148,9 +165,10 @@ class CliInstaller extends Installer {
 	protected function getMessageText( $params ) {
 		$msg = array_shift( $params );
 
-		$text = wfMsgExt( $msg, array( 'parseinline' ), $params );
+		$text = wfMessage( $msg, $params )->parse();
 
 		$text = preg_replace( '/<a href="(.*?)".*?>(.*?)<\/a>/', '$2 &lt;$1&gt;', $text );
+
 		return html_entity_decode( strip_tags( $text ), ENT_QUOTES );
 	}
 
@@ -172,23 +190,25 @@ class CliInstaller extends Installer {
 
 		if ( !$status->isOk() ) {
 			echo "\n";
-			exit;
+			exit( 1 );
 		}
 	}
 
-	public function envCheckPath( ) {
+	public function envCheckPath() {
 		if ( !$this->specifiedScriptPath ) {
-			$this->showMessage( 'config-no-cli-uri', $this->getVar("wgScriptPath") );
+			$this->showMessage( 'config-no-cli-uri', $this->getVar( "wgScriptPath" ) );
 		}
+
 		return parent::envCheckPath();
 	}
 
 	protected function envGetDefaultServer() {
-		return $this->getVar( 'wgServer' );
+		return null; // Do not guess if installing from CLI
 	}
 
 	public function dirIsExecutable( $dir, $url ) {
 		$this->showMessage( 'config-no-cli-uploads-check', $dir );
+
 		return false;
 	}
 }

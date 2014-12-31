@@ -1,13 +1,25 @@
 <?php
 /**
- * Class for viewing MediaWiki category description pages.
+ * Special handling for category description pages.
  * Modelled after ImagePage.php.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * http://www.gnu.org/copyleft/gpl.html
  *
  * @file
  */
-
-if ( !defined( 'MEDIAWIKI' ) )
-	die( 1 );
 
 /**
  * Special handling for category description pages, showing pages,
@@ -18,7 +30,7 @@ class CategoryPage extends Article {
 	protected $mCategoryViewerClass = 'CategoryViewer';
 
 	/**
-	 * @param $title Title
+	 * @param Title $title
 	 * @return WikiCategoryPage
 	 */
 	protected function newPage( Title $title ) {
@@ -28,7 +40,8 @@ class CategoryPage extends Article {
 
 	/**
 	 * Constructor from a page id
-	 * @param $id Int article ID to load
+	 * @param int $id Article ID to load
+	 * @return CategoryPage|null
 	 */
 	public static function newFromID( $id ) {
 		$t = Title::newFromID( $id );
@@ -43,7 +56,7 @@ class CategoryPage extends Article {
 		$diffOnly = $request->getBool( 'diffonly',
 			$this->getContext()->getUser()->getOption( 'diffonly' ) );
 
-		if ( isset( $diff ) && $diffOnly ) {
+		if ( $diff !== null && $diffOnly ) {
 			parent::view();
 			return;
 		}
@@ -93,7 +106,13 @@ class CategoryPage extends Article {
 		unset( $reqArray["from"] );
 		unset( $reqArray["to"] );
 
-		$viewer = new $this->mCategoryViewerClass( $this->getContext()->getTitle(), $this->getContext(), $from, $until, $reqArray );
+		$viewer = new $this->mCategoryViewerClass(
+			$this->getContext()->getTitle(),
+			$this->getContext(),
+			$from,
+			$until,
+			$reqArray
+		);
 		$this->getContext()->getOutput()->addHTML( $viewer->getHTML() );
 	}
 }

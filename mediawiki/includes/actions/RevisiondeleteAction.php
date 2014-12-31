@@ -23,6 +23,11 @@
  * @author Alexandre Emsenhuber
  */
 
+/**
+ * An action that just pass the request to Special:RevisionDelete
+ *
+ * @ingroup Actions
+ */
 class RevisiondeleteAction extends FormlessAction {
 
 	public function getName() {
@@ -44,6 +49,7 @@ class RevisiondeleteAction extends FormlessAction {
 	public function show() {
 		$special = SpecialPageFactory::getPage( 'Revisiondelete' );
 		$special->setContext( $this->getContext() );
-		$special->execute( '' );
+		$special->getContext()->setTitle( $special->getPageTitle() );
+		$special->run( '' );
 	}
 }

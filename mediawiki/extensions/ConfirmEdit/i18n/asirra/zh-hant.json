@@ -1,0 +1,14 @@
+{
+    "@metadata": {
+        "authors": []
+    },
+    "asirra-desc": "ConfirmEdit的Asirra模塊",
+    "asirra-edit": "為了防止垃圾編輯攻擊，請在下面的方框中選出貓的圖片：",
+    "asirra-addurl": "您的編輯包含新的外部鏈接。為了幫助防止自動垃圾郵件，請在下面的方框中選出貓的圖片：",
+    "asirra-badlogin": "為防止自動程序破解密碼，請在下面的方框中選出貓的圖片：",
+    "asirra-createaccount": "為了防止自動程序創建帳戶，請在下面的方框中選出貓的圖片：",
+    "asirra-createaccount-fail": "請正確辨認出貓的圖片。",
+    "asirra-create": "為了防止自動程序創建頁面，請在下面的方框中選出貓的圖片：",
+    "asirra-nojs": "'''請啟動JavaScript後再提交頁面。'''",
+    "asirra-failed": "請選出所有貓的圖片"
+}

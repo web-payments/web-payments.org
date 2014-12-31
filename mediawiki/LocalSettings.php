@@ -32,7 +32,7 @@ if ( $wgCommandLineMode ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename         = "PaySwarm";
+$wgSitename         = "Web Payments";
 
 ## The URL base path to the directory containing the wiki;
 ## defaults for all runtime URL paths are based off of this.
@@ -112,16 +112,17 @@ include("$IP/LocalPrivate.php");
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
-$wgDefaultSkin = 'payswarm';
+require_once( "$IP/skins/bootstrap/bootstrapskin.php" );
+$wgDefaultSkin = 'bootstrap';
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
 ## License and Creative Commons licenses are supported so far.
 $wgEnableCreativeCommonsRdf = true;
 $wgRightsPage = ""; # Set to the title of a wiki page that describes your license/copyright
-$wgRightsUrl = "http://creativecommons.org/licenses/by-sa/3.0/";
-$wgRightsText = "Attribution-ShareAlike 3.0 Unported";
-$wgRightsIcon = "https://i.creativecommons.org/l/by-sa/3.0/88x31.png";
+$wgRightsUrl = "http://creativecommons.org/licenses/by-sa/4.0/";
+$wgRightsText = "Attribution-ShareAlike 4.0 International";
+$wgRightsIcon = "https://i.creativecommons.org/l/by-sa/4.0/88x31.png";
 # $wgRightsCode = "[license_code]"; # Not yet used
 
 $wgDiff3 = "/usr/bin/diff3";
@@ -129,7 +130,6 @@ $wgDiff3 = "/usr/bin/diff3";
 # When you make changes to this configuration file, this will make
 # sure that cached pages are cleared.
 $wgCacheEpoch = max( $wgCacheEpoch, gmdate( 'YmdHis', @filemtime( __FILE__ ) ) );
-
 
 # Default Group permissions
 $wgGroupPermissions['*']['edit'] = false;

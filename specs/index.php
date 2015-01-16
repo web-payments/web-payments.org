@@ -213,10 +213,10 @@ HTTP Trailers.
 Time-stamped drafts: <?php dirContents("ED/http-signature-trailers"); ?>
       </p>
       <p>
-<a href="source/secure-messaging">Secure Messaging</a>: A secure and verifiable 
-messaging mechanism built using Linked Data principles to produce a distributed
-Public Key Infrastructure for the Web.
-Time-stamped drafts: <?php dirContents("ED/secure-messaging"); ?>
+<a href="source/ld-signatures">Linked Data Signatures</a>: An extensible
+cryptographically verifiable messaging mechanism built using Linked Data 
+principles to produce a distributed Public Key Infrastructure for the Web.
+Time-stamped drafts: <?php dirContents("ED/ld-signatures"); ?>
       </p>
       <p>
 <a href="source/vocabs/security.html">Security Vocabulary</a>: the Web vocabulary 

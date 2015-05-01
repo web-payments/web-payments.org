@@ -175,7 +175,7 @@ cipher in
 <a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a> and a
 128-bit key (AES-128-GCM). The key has been encrypted using an RSA public key.
 The encrypted message, <code>cipherData</code>, and encrypted key,
-<code>cipherKey</code> are both base64-encoded. To decrypt the message, first
+<code>cipherKey</code>, are both base64-encoded. To decrypt the message, first
 the <code>cipherKey</code> must be decrypted using the private key associated
 with the <code>publicKey</code>. Then, the <code>cipherData</code> can be
 decrypted using the decrypted <code>cipherKey</code>,
@@ -209,6 +209,11 @@ z7u3IxpqNVcXHExjXQE=",
 
       <section id="GraphSignature2012" about="https://w3id.org/security#GraphSignature2012"
         typeof="rdfs:Class">
+
+        <p class="issue">
+          Add new GraphSignatureYEAR that uses <a href="http://json-ld.org/spec/latest/rdf-dataset-normalization/">RDF Dataset Normalization</a>.
+        </p>
+
         <h3>GraphSignature2012</h3>
           <p>
 A graph signature is used for digital signatures on RDF graphs.
@@ -255,8 +260,7 @@ canonicalized using the standard normalization algorithm for JSON-LD.
   "@type": "Person",
   "name": "Manu Sporny",
   "homepage": "http://manu.sporny.org/",
-  "signature":
-  {
+  "signature": {
     "@type": "GraphSignature2012",
     "creator": "http://manu.sporny.org/keys/5",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
@@ -679,8 +683,7 @@ in order to protect against
   "@graph": {
     "ex:request": "DELETE /private/2840-credit-card-log"
   }
-  "signature":
-  {
+  "signature": {
     "@type": "GraphSignature2012",
     "creator": "http://example.com/people/john-doe#key-5",
     "nonce": "8495723045.84957",
@@ -951,15 +954,13 @@ a JSON-LD signature:
     "https://w3id.org/security/v1",
     { "foaf": "http://xmlns.com/foaf/0.1/" }
   ]
-  "@graph":
-  {
-     "@id": "http://example.com/people#jane",
-     "@type": "foaf:Person",
-     "foaf:name": "Jane Doe",
-     "foaf:homepage": "http://example.org/jane"
+  "@graph": {
+    "@id": "http://example.com/people#jane",
+    "@type": "foaf:Person",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "http://example.org/jane"
   },
-  "signature":
-  {
+  "signature": {
     "@type": "GraphSignature2012",
     "creator": "http://example.com/people/john-doe#key-5",
     "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="
@@ -993,15 +994,13 @@ encoded in JSON-LD:
     "https://w3id.org/security/v1",
     { "foaf": "http://xmlns.com/foaf/0.1/" }
   ]
-  "@graph":
-  {
-     "@id": "http://example.com/people#jane",
-     "@type": "foaf:Person",
-     "foaf:name": "Jane Doe",
-     "foaf:homepage": "http://example.org/jane"
+  "@graph": {
+    "@id": "http://example.com/people#jane",
+    "@type": "foaf:Person",
+    "foaf:name": "Jane Doe",
+    "foaf:homepage": "http://example.org/jane"
   },
-  "signature":
-  {
+  "signature": {
     "@type": "GraphSignature2012",
     "creator": "http://example.com/people/john-doe#key-5",
     "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDYMmMzQzNmExMgoYzI43Q3ODIyOWM32NjI="

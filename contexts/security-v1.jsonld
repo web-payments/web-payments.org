@@ -11,6 +11,7 @@
     "GraphSignature2012": "sec:GraphSignature2012",
     "CryptographicKey": "sec:Key",
 
+    "authenticationTag": "sec:authenticationTag",
     "credential": {"@id": "sec:credential", "@type": "@id"},
     "cipherAlgorithm": "sec:cipherAlgorithm",
     "cipherData": "sec:cipherData",

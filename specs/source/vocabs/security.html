@@ -1,41 +1,41 @@
-<!DOCTYPE html> 
-<html> 
-  <head> 
-    <title>The Security Vocabulary</title> 
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
-    <!-- 
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>The Security Vocabulary</title>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+    <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
-     --> 
-    <script src='../../respec-w3c-common.js' class='remove'></script> 
-    <script src='../../web-payments-common.js' class='remove'></script> 
-    <script class='remove'> 
+     -->
+    <script src='../../respec-w3c-common.js' class='remove'></script>
+    <script src='../../web-payments-common.js' class='remove'></script>
+    <script class='remove'>
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:       "CG-DRAFT",
-          
+
           // the specification's short name, as in http://www.w3.org/TR/short-name/
           shortName:        "security-vocabulary",
- 
+
           // if you wish the publication date to be other than today, set this
           // publishDate:  "2009-08-06",
- 
+
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
           // previousPublishDate:  "1977-03-15",
           // previousMaturity:  "WD",
- 
+
           // if there a publicly available Editor's Draft, this is the link
           edDraftURI:       "https://web-payments.org/specs/source/vocabs/security.html",
- 
+
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
- 
+
           // if you want to have extra CSS, append them to this list
           // it is recommended that the respec.css stylesheet be kept
           extraCSS:             ["prettify.css"],
- 
+
           // editors, add as many as you like
           // only "name" is required
           editors:  [
@@ -43,10 +43,10 @@
                 company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
           ],
 
-          // authors, add as many as you like. 
+          // authors, add as many as you like.
           // This is optional, uncomment if you have authors as well as editors.
           // only "name" is required. Same format as editors.
- 
+
           //authors:  [
           //  { name: "Your Name", url: "http://example.org/",
           //      company: "Your Company", companyURL: "http://example.com/" },
@@ -54,16 +54,16 @@
 
           // extend the bibliography entries
           localBiblio: webpayments.localBiblio,
-          
+
           // name of the WG
           wg:       "Web Payments Community Group",
-          
+
           // URI of the public WG page
           wgURI:    "http://www.w3.org/community/webpayments/",
-          
+
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webpayments@w3c.org",
-          
+
           // URI of the patent status for this WG, for Rec-track documents
           // !!!! IMPORTANT !!!!
           // This is important for Rec-track documents, do not copy a patent URI from a random
@@ -74,7 +74,7 @@
           // Run the following pre-processing commands
           preProcess: []
     };
-    </script> 
+    </script>
     <script type="text/javascript" src="prettify.js" class="remove"></script>
     <script type="text/javascript" src="lang-jsonld.js" class="remove"></script>
     <script type="text/javascript" class="remove">
@@ -84,21 +84,21 @@
         prettyPrint();
       };
     </script>
-  </head> 
+  </head>
   <body prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
     rdfs: http://www.w3.org/2000/01/rdf-schema#
     owl: http://www.w3.org/2002/07/owl#
     vs: http://www.w3.org/2003/06/sw-vocab-status/ns#
-    sec: https://w3id.org/security#"> 
+    sec: https://w3id.org/security#">
 
-    <section id='abstract'> 
+    <section id='abstract'>
       <p>
 The Security vocabulary is used to enable Internet-based applications to
-encrypt, decrypt, and digitally sign information expressed as 
-<a href="http://en.wikipedia.org/wiki/Linked_data">Linked Data</a>. 
-It also provides vocabulary terms for the creation and management of a 
-decentralized 
-<a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">Public Key Infrastructure</a> 
+encrypt, decrypt, and digitally sign information expressed as
+<a href="http://en.wikipedia.org/wiki/Linked_data">Linked Data</a>.
+It also provides vocabulary terms for the creation and management of a
+decentralized
+<a href="http://en.wikipedia.org/wiki/Public_key_infrastructure">Public Key Infrastructure</a>
 via the Web.
       </p>
     </section>
@@ -109,8 +109,8 @@ via the Web.
 This document describes a number of classes and properties that can be used to
 express <a href="http://en.wikipedia.org/wiki/Digital_signatures">
 digital signatures</a> and achieve cryptographic protection for Linked Data
-resources. This specification was designed as a modular part of the 
-<a href="http://payswarm.com/">PaySwarm</a> decentralized payment system 
+resources. This specification was designed as a modular part of the
+<a href="http://payswarm.com/">PaySwarm</a> decentralized payment system
 for the Web.
       </p>
       <p class="issue">
@@ -150,13 +150,13 @@ The example below describes a cryptographic digest:
 }
 </pre>
       </section>
-      
-      <section id="EncryptedMessage" 
+
+      <section id="EncryptedMessage"
         about="https://w3id.org/security#EncryptedMessage"
         typeof="rdfs:Class">
         <h3>EncryptedMessage</h3>
           <p>
-A class of messages that are obfuscated in some cryptographic manner. These 
+A class of messages that are obfuscated in some cryptographic manner. These
 messages are incredibly difficult to decrypt without the proper decryption key
 or password.
           </p>
@@ -166,25 +166,28 @@ or password.
             <dt>Parent Class</dt>
             <dd>owl:Thing</dd>
             <dt>Expected properties</dt>
-            <dd>
-data, encryptionKey, password, cipherAlgorithm, iv, publicKey
-            </dd>
+            <dd>authenticationTag, cipherAlgorithm, cipherData, cipherKey,
+              initializationVector, publicKey</dd>
           </dl>
         <p>
-The example below expresses an password-encrypted message using the
-AES 128-bit cipher using Galois Counter Mode. The password to unlock the
-encrypted message has been encrypted using the public key provided by 
-the <code>publicKey</code> parameter. To decrypt the message, the private
-key associated with the <code>publicKey</code> is used to decrypt the password. 
-The password, <code>iv</code> (intermediate value), and the cipher algorithm 
-are then used to extract the final clear-text message from the
-the base-64 encoded <code>data</code> property.
+The example below expresses a message that has been encrypted using an
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>
+cipher in
+<a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a> and a
+128-bit key (AES-128 GCM). The key has been encrypted using an RSA public key.
+The encrypted message, <code>cipherData</code>, and encrypted key,
+<code>cipherKey</code> are both base64-encoded. To decrypt the message, first
+the <code>cipherKey</code> must be decrypted using the private key associated
+with the <code>publicKey</code>. Then, the <code>cipherData</code> can be
+decrypted using the decrypted <code>cipherKey</code>,
+<code>cipherAlgorithm</code>, <code>initializationVector</code>, and
+<code>authenticationTag</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
-  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "cipherData": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -194,14 +197,14 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "cipherKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
   "cipherAlgorithm": "aes-128-gcm",
-  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
+  "authenticationTag": "q25H1CzsE731OmeyEle93w==",
+  "initializationVector": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX=="
   "publicKey": "https://example.com/people/john/keys/23"
-}        
+}
         </pre>
       </section>
 
@@ -209,10 +212,10 @@ z7u3IxpqNVcXHExjXQE=",
         typeof="rdfs:Class">
         <h3>GraphSignature2012</h3>
           <p>
-A graph signature is used for digital signatures on RDF graphs. 
+A graph signature is used for digital signatures on RDF graphs.
 The default normalization mechanism is specified in the
-RDF Graph normalization specification, which effectively resolves all CURIEs and 
-deterministically names all unnamed nodes. The default signature mechanism 
+RDF Graph normalization specification, which effectively resolves all CURIEs and
+deterministically names all unnamed nodes. The default signature mechanism
 uses a SHA-256 digest and RSA to perform the digital signature.
           </p>
           <dl>
@@ -222,18 +225,18 @@ uses a SHA-256 digest and RSA to perform the digital signature.
             <dd>Signature</dd>
             <dt>Expected properties</dt>
             <dd>creator, signatureValue</dd>
-            <dt>Signing Properties</dt>
+            <dt>Signature Properties</dt>
             <dd>
               <dl>
                 <dt>Default Normalization Algorithm</dt>
                 <dd>
-<a rel="normalizationAlgorithm" 
+<a rel="normalizationAlgorithm"
   href="https://w3id.org/jsonld#UGNA2012">
 http://w3id.org/rdf#UGNA2012</a>
                 </dd>
                 <dt>Default Signature Algorithm</dt>
                 <dd>
-<a rel="signingAlgorithm" 
+<a rel="signatureAlgorithm"
   href="http://www.w3.org/2000/09/xmldsig#rsa-sha256">
 http://www.w3.org/2000/09/xmldsig#rsa-sha256</a>
                 </dd>
@@ -243,8 +246,8 @@ http://www.w3.org/2000/09/xmldsig#rsa-sha256</a>
           <p>
 The example below shows how a basic JSON-LD signature is expressed in a
 JSON-LD snippet. Note that the signature property is directly embedded in the
-object. The signing algorithm understands that in order to check the signature
-that the signature property must be removed and the text
+object. The signature algorithm understands that in order to check the
+signature that the signature property must be removed and the text
 canonicalized using the standard normalization algorithm for JSON-LD.
           </p>
           <pre class="example prettyprint language-jsonld">
@@ -267,8 +270,8 @@ canonicalized using the standard normalization algorithm for JSON-LD.
         typeof="rdfs:Class">
         <h3>Key</h3>
           <p>
-This class represents a cryptographic key that may be used for encryption, 
-decryption or digitally signing data.
+This class represents a cryptographic key that may be used for encryption,
+decryption, or digitally signing data.
           </p>
           <dl>
             <dt>Status</dt>
@@ -279,7 +282,7 @@ decryption or digitally signing data.
             <dd>owner, privateKeyPem, publicKeyPem</dd>
           </dl>
         <p>
-The example below describes a cryptographic key that contains both the 
+The example below describes a cryptographic key that contains both the
 public and private key as well as the owner of the key. The owner property
 is described in the <a href="https://w3id.org/commerce">Commerce Vocabulary</a>.
         </p>
@@ -300,7 +303,7 @@ is described in the <a href="https://w3id.org/commerce">Commerce Vocabulary</a>.
         <h3>Signature</h3>
           <p>
 This class represents a digital signature on serialized data. It is an abstract
-class and should not be used other than for Semantic Web reasoning purposes, 
+class and should not be used other than for Semantic Web reasoning purposes,
 such as by a reasoning agent.
           </p>
           <dl>
@@ -312,10 +315,10 @@ such as by a reasoning agent.
             <dd>none</dd>
           </dl>
           <p class="note">
-A Signature class MUST NOT be used as an RDF type. It should instead be used 
-as the base class for all signature classes. A signature sub-class SHOULD 
-express at least three signature algorithm properties: normalizationAlgorithm, 
-digestAlgorithm, and signingAlgorithm.
+A Signature class MUST NOT be used as an RDF type. It should instead be used
+as the base class for all signature classes. A signature sub-class SHOULD
+express at least three signature algorithm properties: normalizationAlgorithm,
+digestAlgorithm, and signatureAlgorithm.
           </p>
       </section>
 
@@ -328,9 +331,9 @@ digestAlgorithm, and signingAlgorithm.
         typeof="rdf:Property">
         <h3>cipherAlgorithm</h3>
         <p>
-The cipher algorithm describes the mechanism used to encrypt a message. It is 
-typically a string expressing the cipher suite, the strength of the cipher 
-and a block cipher mechanism.
+The cipher algorithm describes the mechanism used to encrypt a message. It is
+typically a string expressing the cipher suite, the strength of the cipher,
+and a block cipher mode.
         </p>
         <dl>
           <dt>Status</dt>
@@ -339,22 +342,24 @@ and a block cipher mechanism.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The example below describes the cipher as that detailed in the
-<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
-using 128 bits and <a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a>.
-The password to unlock the
-encrypted message has been encrypted using the public key provided by 
-the <code>publicKey</code> parameter. To decrypt the message, the private
-key associated with the <code>publicKey</code> is used to decrypt the password. 
-The password, <code>iv</code> (intermediate value), and the cipher algorithm 
-are then used to extract the final clear-text message from the
-the base-64 encoded <code>data</code> property.
+The example below expresses a message that has been encrypted using an
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>
+cipher in
+<a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a> and a
+128-bit key (AES-128 GCM). The key has been encrypted using an RSA public key.
+The encrypted message, <code>cipherData</code>, and encrypted key,
+<code>cipherKey</code> are both base64-encoded. To decrypt the message, first
+the <code>cipherKey</code> must be decrypted using the private key associated
+with the <code>publicKey</code>. Then, the <code>cipherData</code> can be
+decrypted using the decrypted <code>cipherKey</code>,
+<code>cipherAlgorithm</code>, <code>initializationVector</code>, and
+<code>authenticationTag</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
-  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "cipherData": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -364,23 +369,23 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "cipherKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
   "cipherAlgorithm": "aes-128-gcm",
-  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-  "publicKey": "http://example.com/people/john/keys/23"
-}        
+  "authenticationTag": "q25H1CzsE731OmeyEle93w==",
+  "initializationVector": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX=="
+  "publicKey": "https://example.com/people/john/keys/23"
+}
         </pre>
       </section>
 
-      <section id="data" about="https://w3id.org/security#data"
+      <section id="cipherData" about="https://w3id.org/security#cipherData"
         typeof="rdf:Property">
-        <h3>data</h3>
+        <h3>cipherData</h3>
         <p>
-The data property is an opaque blob of information that is typically used 
-to specify the data associated with a particular message.
+Cipher data an opaque blob of information that is used to specify an encrypted
+message.
         </p>
         <dl>
           <dt>Status</dt>
@@ -388,24 +393,24 @@ to specify the data associated with a particular message.
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
-The example below describes a secret message that has been encrypted and
-placed in the <code>data</code> property. The message has been encrypted using
-the
-<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">Advanced Encryption Standard</a>
-using 128 bits and <a href="http://en.wikipedia.org/wiki/GCM_mode">Galois Counter Mode</a>.
-The password to unlock the
-encrypted message has been encrypted using the public key provided by 
-the <code>publicKey</code> parameter. To decrypt the message, the private
-key associated with the <code>publicKey</code> is used to decrypt the password. 
-The password, <code>iv</code> (intermediate value), and the cipher algorithm 
-are then used to extract the final clear-text message from the
-the base-64 encoded <code>data</code> property.
+The example below expresses a message that has been encrypted using an
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>
+cipher in
+<a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a> and a
+128-bit key (AES-128 GCM). The key has been encrypted using an RSA public key.
+The encrypted message, <code>cipherData</code>, and encrypted key,
+<code>cipherKey</code> are both base64-encoded. To decrypt the message, first
+the <code>cipherKey</code> must be decrypted using the private key associated
+with the <code>publicKey</code>. Then, the <code>cipherData</code> can be
+decrypted using the decrypted <code>cipherKey</code>,
+<code>cipherAlgorithm</code>, <code>initializationVector</code>, and
+<code>authenticationTag</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
-  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "cipherData": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -415,14 +420,14 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "cipherKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
   "cipherAlgorithm": "aes-128-gcm",
-  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-  "publicKey": "http://example.com/people/john/keys/23"
-}        
+  "authenticationTag": "q25H1CzsE731OmeyEle93w==",
+  "initializationVector": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX=="
+  "publicKey": "https://example.com/people/john/keys/23"
+}
         </pre>
       </section>
       <section id="digestAlgorithm" about="https://w3id.org/security#digestAlgorithm"
@@ -431,9 +436,9 @@ z7u3IxpqNVcXHExjXQE=",
         <p>
 The digest algorithm is used to specify the cryptographic function to use when
 generating the data to be digitally signed. Typically, data that is to be signed
-goes through three steps: 1) normalization, 2) digest, and 3) signature. 
+goes through three steps: 1) normalization, 2) digest, and 3) signature.
 This property is used to specify the algorithm that should be used for step #2.
-A signature class typically specifies a default digest method, so this 
+A signature class typically specifies a default digest method, so this
 property is typically used to specify information for a signature algorithm.
         </p>
         <dl>
@@ -453,7 +458,7 @@ a particular signature type:
   "@type": "Signature",
   "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
   "digestAlgorithm": "http://example.com/digests#sha512",
-  "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
+  "signatureAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
         </pre>
       </section>
@@ -480,8 +485,8 @@ encoded in JSON-LD:
         <pre class="example prettyprint language-jsonld">
 {
   "@context": [
-    "https://w3id.org/security/v1", 
-    { 
+    "https://w3id.org/security/v1",
+    {
       "dc": "https://w3id.org/dc/terms/",
       "foaf": "http://xmlns.com/foaf/0.1/"
     }
@@ -499,12 +504,12 @@ encoded in JSON-LD:
         </pre>
       </section>
 
-      <section id="expires" about="https://w3id.org/security#encryptionKey"
+      <section id="cipherKey" about="https://w3id.org/security#cipherKey"
         typeof="rdf:Property">
-        <h3>encryptionKey</h3>
+        <h3>cipherKey</h3>
         <p>
-An encryption key is a value that is used to encrypt a piece of information. 
-The key itself may be expressed in clear text or encrypted.
+A cipher key is a symmetric key that is used to encrypt or decrypt a piece of
+information. The key itself may be expressed in clear text or encrypted.
         </p>
         <dl>
           <dt>Status</dt>
@@ -513,18 +518,24 @@ The key itself may be expressed in clear text or encrypted.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example shows an encrypted message that contains an encrypted
-key value that has been password-protected. The password itself has been
-encrypted against the public key of the message receiver. In order to decode
-the message, the receiver must use their public key to decrypt the password, 
-and then use the password to decrypt the encryption key. The encryption key
-can then be used to decrypt the data held in the message.
+The example below expresses a message that has been encrypted using an
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>
+cipher in
+<a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a> and a
+128-bit key (AES-128 GCM). The key has been encrypted using an RSA public key.
+The encrypted message, <code>cipherData</code>, and encrypted key,
+<code>cipherKey</code> are both base64-encoded. To decrypt the message, first
+the <code>cipherKey</code> must be decrypted using the private key associated
+with the <code>publicKey</code>. Then, the <code>cipherData</code> can be
+decrypted using the decrypted <code>cipherKey</code>,
+<code>cipherAlgorithm</code>, <code>initializationVector</code>, and
+<code>authenticationTag</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
-  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "cipherData": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -534,13 +545,13 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "cipherKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
   "cipherAlgorithm": "aes-128-gcm",
-  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-  "publicKey": "http://example.com/people/john/keys/23"
+  "authenticationTag": "q25H1CzsE731OmeyEle93w==",
+  "initializationVector": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX=="
+  "publicKey": "https://example.com/people/john/keys/23"
 }
         </pre>
       </section>
@@ -579,15 +590,15 @@ that expires on January 3rd 2014:
         </pre>
       </section>
 
-      <section id="iv" about="https://w3id.org/security#iv"
+      <section id="initializationVector"
+        about="https://w3id.org/security#initializationVector"
         typeof="rdf:Property">
-        <h3>iv</h3>
+        <h3>initializationVector</h3>
         <p>
-The <em>initialization vector</em> (iv) is a byte stream that is typically 
-used to initialize certain password-based encryption schemes. For a receiving 
-application to be able to decrypt the scheme, it must know the
-decryption password and the initialization vector. The value is
-typically base-64 encoded.
+The <em>initialization vector</em> (IV) is a byte stream that is typically
+used to initialize certain block cipher encryption schemes. For a receiving
+application to be able to decrypt a message, it must know the decryption
+key and the initialization vector. The value is typically base-64 encoded.
         </p>
         <dl>
           <dt>Status</dt>
@@ -598,16 +609,24 @@ typically base-64 encoded.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example shows a public key based encrypted message where the
-decryption password is encrypted using the public key described in the message.
-Since the cipher algorithm is AES-128-gcm, an initialization vector along with 
-the password and the public key is required in order to decrypt the data.
+The example below expresses a message that has been encrypted using an
+<a href="http://en.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>
+cipher in
+<a href="http://en.wikipedia.org/wiki/GCM_mode">Galois/Counter Mode</a> and a
+128-bit key (AES-128 GCM). The key has been encrypted using an RSA public key.
+The encrypted message, <code>cipherData</code>, and encrypted key,
+<code>cipherKey</code> are both base64-encoded. To decrypt the message, first
+the <code>cipherKey</code> must be decrypted using the private key associated
+with the <code>publicKey</code>. Then, the <code>cipherData</code> can be
+decrypted using the decrypted <code>cipherKey</code>,
+<code>cipherAlgorithm</code>, <code>initializationVector</code>, and
+<code>authenticationTag</code>.
         </p>
         <pre class="example prettyprint language-jsonld">
 {
   "@context": "https://w3id.org/security/v1",
   "@type": "EncryptedMessage",
-  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
+  "cipherData": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
 a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
 UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
 Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
@@ -617,22 +636,22 @@ ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n�
 UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
 bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
 YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
+  "cipherKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
 gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
 z7u3IxpqNVcXHExjXQE=",
-  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
   "cipherAlgorithm": "aes-128-gcm",
-  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-  "publicKey": "http://example.com/people/john/keys/23"
-}        
+  "authenticationTag": "q25H1CzsE731OmeyEle93w==",
+  "initializationVector": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX=="
+  "publicKey": "https://example.com/people/john/keys/23"
+}
         </pre>
       </section>
-      
+
       <section id="nonce" about="https://w3id.org/security#nonce"
         typeof="rdf:Property">
         <h3>nonce</h3>
         <p>
-This property is used in conjunction with the input to the signature hashing 
+This property is used in conjunction with the input to the signature hashing
 function in order to protect against
 <a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
 Typically, receivers need to track all nonce values used within a certain time
@@ -647,8 +666,8 @@ packet in order to execute a privileged request.
         </dl>
         <p>
 The following example shows a fairly sensitive request that is digitally
-signed with a nonce. How the nonce is used is up to the signature algorithm, 
-but the value is typically included as input to the signature hashing function 
+signed with a nonce. How the nonce is used is up to the signature algorithm,
+but the value is typically included as input to the signature hashing function
 in order to protect against
 <a href="http://en.wikipedia.org/wiki/Replay_attack">replay attacks</a>.
         </p>
@@ -677,8 +696,8 @@ in order to protect against
         <h3>normalizationAlgorithm</h3>
         <p>
 The normalization algorithm is used to transform the input data into a form that
-can be passed to a cryptographic digest method. The digest is then digitally 
-signed using a digital signature algorithm. Normalization ensures that a piece 
+can be passed to a cryptographic digest method. The digest is then digitally
+signed using a digital signature algorithm. Normalization ensures that a piece
 of software that is generating a digital signature is able to do so on the
 same set of information in a deterministic manner.
         </p>
@@ -691,7 +710,7 @@ same set of information in a deterministic manner.
         <p>
 The example below shows the establishment of a new signature class, using the
 three pieces of information that are typically required for a signature -
-the normalization algorithm, the digest algorithm and the signing algorithm:
+the normalization algorithm, the digest algorithm and the signature algorithm:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -700,7 +719,7 @@ the normalization algorithm, the digest algorithm and the signing algorithm:
   "@type": "Signature",
   "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
   "digestAlgorithm": "http://example.com/digests#sha512",
-  "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
+  "signatureAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
         </pre>
       </section>
@@ -711,7 +730,7 @@ the normalization algorithm, the digest algorithm and the signing algorithm:
         <p>
 An owner is an entity that claims control over a particular resource. Note
 that ownership is best validated as a two-way relationship where the owner
-claims ownership over a particular resource, and the resource clearly 
+claims ownership over a particular resource, and the resource clearly
 identifies its owner.
         </p>
         <dl>
@@ -722,7 +741,7 @@ identifies its owner.
         </dl>
         <p>
 The example below shows a cryptographic key that is owned by an entity
-identified by a URL. Presumably, this key is under the control of the owner 
+identified by a URL. Presumably, this key is under the control of the owner
 and can be used to infer that any digitally signed content using the key was
 signed by a software agent of the owner:
         </p>
@@ -741,11 +760,8 @@ signed by a software agent of the owner:
         typeof="rdf:Property">
         <h3>password</h3>
         <p>
-A secret that is used to decrypt an encrypted message. It is typically a 
-string value. Some passwords are encrypted using a public key so that only
-the intended recipient may know the password. Some passwords are provided in
-clear-text over a secure channel. The first method is the preferred approach
-for specifying a password.
+A secret that is used to generate a key that can be used to encrypt or decrypt
+message. It is typically a string value.
         </p>
         <dl>
           <dt>Status</dt>
@@ -753,43 +769,16 @@ for specifying a password.
           <dt>Range</dt>
           <dd>xsd:string</dd>
         </dl>
-        <p>
-The password example below is a public-key encrypted string that has been
-base-64 encoded.
-        </p>
-        <pre class="example prettyprint language-jsonld">
-{
-  "@context": "https://w3id.org/security/v1",
-  "@type": "EncryptedMessage",
-  "data": "VTJGc2RHVmtYMThOY3h2dnNVN290Zks1dmxWc3labi9sYkU0TGloRTdxY0dpblE4OHgrUXFNNi9l\n↩
-a1JMWjdXOApRSGtrbzh6UG5XOFo3WWI4djJBUG1abnlRNW5CVGViWkRGdklpMEliczNWSzRQTGdB\n↩
-UFhxYTR2aWFtemwrWGV3Cmw0eFF4ancvOW85dTlEckNURjMrMDBKMVFubGdtci9abkFRSmc5UjdV\n↩
-Rk55ckpYalIxZUJuKytaQ0luUTF2cUwKcm5vcDU1eWk3RFVqVnMrRXZZSkx6RVF1VlBVQ0xxdXR4\n↩
-L3lvTWd4bkdhSksxOG5ZakdiekJxSGxOYm9pVStUNwpwOTJ1Q0Y0Q2RiR1NqL0U3OUp4Vmh6OXQr\n↩
-Mjc2a1V3RUlNY3o2Z3FadXZMU004KzRtWkZiakh6K2N5a1VVQ2xHCi9RcTk3b2o3N2UrYXlhZjhS\n↩
-ZmtEZzlUeWk3Q2szREhSblprcy9WWDJWUGhUOEJ5c3RiYndnMnN4eWc5TXhkbHoKUkVESzFvR0FJ\n↩
-UDZVQ09NeWJLTGpBUm0zMTRmcWtXSFdDY29mWFNzSGNPRmM2cnp1Wko0RnVWTFNQMGROUkFRRgpB\n↩
-bFQ0QUpPbzRBZHpIb2hpTy8vVGhNOTl1U1ZER1NPQ3graFAvY3V4dGNGUFBSRzNrZS8vUk1MVFZO\n↩
-YVBlaUp2Ckg4L1ZWUVU4L3dLZUEyeTQ1TzQ2K2lYTnZsOGErbGg0NjRUS3RabktFb009Cg==",
-  "encryptionKey": "uATtey0c4nvZIsDIfpFffuCyMYGPKRLIVJCsvedE013SpEJ+1uO7x6SK9hIG9zLWRlPpwmbar2bt\n↩
-gTX5NBzYC5+c5ZkXtM1O8REwIJ7wmtLdumRYEbr/TghFl3pAgXhv0mVt8XZ+KLWlxMqXnrT+ByNw\n↩
-z7u3IxpqNVcXHExjXQE=",
-  "password": "5dTlEckNURjMrMDER1NPQ3graFABKMVFub=",
-  "cipherAlgorithm": "aes-128-gcm",
-  "iv": "vcDU1eWTy8vVGhNOszREhSblFVqVnGpBUm0zMTRmcWtMrRX==",
-  "publicKey": "http://example.com/people/john/keys/23"
-}        
-        </pre>
       </section>
 
       <section id="privateKeyPem" about="https://w3id.org/security#privateKeyPem"
         typeof="rdf:Property">
         <h3>privateKeyPem</h3>
         <p>
-A private key PEM property is used to specify the 
-<a href="http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail">PEM-encoded</a> 
-version of the private key. This encoding is compatible with almost every 
-Secure Sockets Layer library implementation and typically plugs directly into 
+A private key PEM property is used to specify the
+<a href="http://en.wikipedia.org/wiki/Privacy_Enhanced_Mail">PEM-encoded</a>
+version of the private key. This encoding is compatible with almost every
+Secure Sockets Layer library implementation and typically plugs directly into
 functions intializing private keys.
         </p>
         <dl>
@@ -802,7 +791,7 @@ functions intializing private keys.
         </dl>
         <p>
 The following example demonstrates the expression of a private key in
-PEM format. The elipsis ("...") in the middle of the string denotes more data 
+PEM format. The elipsis ("...") in the middle of the string denotes more data
 that has been abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
@@ -820,7 +809,7 @@ that has been abbreviated for the sake of the readability of the example.
         typeof="rdf:Property">
         <h3>publicKey</h3>
         <p>
-A public key property is used to specify a URL that contains information about 
+A public key property is used to specify a URL that contains information about
 a public key.
         </p>
         <dl>
@@ -843,7 +832,7 @@ to the identity <code>https://payswarm.example.com/i/bob</code>.
 }
         </pre>
       </section>
-      
+
       <section id="publicKeyPem" about="https://w3id.org/security#publicKeyPem"
         typeof="rdf:Property">
         <h3>publicKeyPem</h3>
@@ -862,8 +851,8 @@ public keys.
           <dd>xsd:string</dd>
         </dl>
         <p>
-The following example demonstrates the expression of a public key 
-in PEM format. The elipsis ("...") in the middle of the string denotes more 
+The following example demonstrates the expression of a public key
+in PEM format. The elipsis ("...") in the middle of the string denotes more
 data that has been abbreviated for the sake of the readability of the example.
         </p>
         <pre class="example prettyprint language-jsonld">
@@ -880,8 +869,8 @@ data that has been abbreviated for the sake of the readability of the example.
         typeof="rdf:Property">
         <h3>publicKeyService</h3>
         <p>
-The publicKeyService property is used to express the REST URL that provides 
-public key management services as defined by the Web Key [[!SECURE-MESSAGING]] 
+The publicKeyService property is used to express the REST URL that provides
+public key management services as defined by the Web Key [[!SECURE-MESSAGING]]
 specification.
         </p>
         <dl>
@@ -891,9 +880,9 @@ specification.
           <dd>URL</dd>
         </dl>
         <p>
-The following example shows how a website can publish the location of a 
+The following example shows how a website can publish the location of a
 public keys service via the .well-known file. The publicKeyService can be found
-at the <code>https://payswarm.example.com/public-keys</code> URL and may be 
+at the <code>https://payswarm.example.com/public-keys</code> URL and may be
 operated upon using the protocol described in [[!SECURE-MESSAGING]].
         </p>
         <pre class="example prettyprint language-jsonld">
@@ -910,9 +899,9 @@ operated upon using the protocol described in [[!SECURE-MESSAGING]].
         <h3>revoked</h3>
         <p>
 The revocation time is typically associated with a <a href="#Key">Key</a> that
-has been marked as invalid as of the date and time associated with the 
-property. Key revocations are often used when a key is compromised, such as 
-the theft of the private key, or during the course of best-practice key 
+has been marked as invalid as of the date and time associated with the
+property. Key revocations are often used when a key is compromised, such as
+the theft of the private key, or during the course of best-practice key
 rotation schedules.
         </p>
         <dl>
@@ -942,7 +931,7 @@ revoked on May 5th 2012:
         typeof="rdf:Property">
         <h3>signature</h3>
         <p>
-The signature property is used to associate a signature with a graph of 
+The signature property is used to associate a signature with a graph of
 information. The signature property is typically not included
 in the canonicalized graph that is then digested, and digitally signed.
         </p>
@@ -953,7 +942,7 @@ in the canonicalized graph that is then digested, and digitally signed.
           <dd>Signature</dd>
         </dl>
         <p>
-The following example demonstrates how a signature on the graph identified by 
+The following example demonstrates how a signature on the graph identified by
 the subject <code>http://example.com/people#jane</code> is expressed using
 a JSON-LD signature:
         </p>
@@ -1021,16 +1010,16 @@ encoded in JSON-LD:
 }
         </pre>
       </section>
-      
+
       <section id="signatureAlgorithm" about="https://w3id.org/security#signatureAlgorithm"
         typeof="rdf:Property">
-        <h3>signingAlgorithm</h3>
+        <h3>signatureAlgorithm</h3>
         <p>
-The signing algorithm is used to specify the cryptographic signature
-function to use when digitally signing the digest data. Typically, text to be 
-signed goes through three steps: 1) normalization, 2) digest, and 
-3) signature. This property is used to specify the algorithm that should be 
-used for step #3. A signature class typically specifies a default signing
+The signature algorithm is used to specify the cryptographic signature
+function to use when digitally signing the digest data. Typically, text to be
+signed goes through three steps: 1) normalization, 2) digest, and
+3) signature. This property is used to specify the algorithm that should be
+used for step #3. A signature class typically specifies a default signature
 algorithm, so this property rarely needs to be used in practice when specifying
 digital signatures.
         </p>
@@ -1043,7 +1032,7 @@ digital signatures.
           <dd>IRI</dd>
         </dl>
         <p>
-The following example shows how the signing algorithm can be specified for
+The following example shows how the signature algorithm can be specified for
 a particular class of signatures:
         </p>
         <pre class="example prettyprint language-jsonld">
@@ -1053,12 +1042,12 @@ a particular class of signatures:
   "@type": "Signature",
   "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
   "digestAlgorithm": "http://example.com/digests#sha512",
-  "signingAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
+  "signatureAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
         </pre>
       </section>
     </section>
 
-  </body> 
+  </body>
 </html>
 

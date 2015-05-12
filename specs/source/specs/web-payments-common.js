@@ -1,0 +1,1 @@
+../../web-payments-common.js

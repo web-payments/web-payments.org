@@ -1,0 +1,475 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Web Payments API 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <link rel="stylesheet" href="spec.css">
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
+    <script src='../../web-payments-common.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "CG-DRAFT",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "web-payments-api",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "https://web-payments.org/specs/source/web-payments-api/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+
+          // extend the bibliography entries
+          localBiblio: webpayments.localBiblio,
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.w3.org/community/webpayments/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3.org",
+
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ webpayments.preProcess ] /*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+          */
+      };
+    </script> 
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+<style type="text/css">
+  .diff { font-weight:bold; color:#0a3; }
+  table, thead, tr, td { padding: 5px; border-width: 1px; border-spacing: 0px; border-style: solid; border-collapse: collapse;}
+</style>
+</head>
+
+<body>
+<section id="abstract">
+  <p>
+This document outlines how to initiate and complete a payment using a 
+polyfill-able browser API.
+  </p>
+</section>
+
+<section id="sotd">
+
+  <p>There are a number of ways that one may participate in the development of
+    this specification:</p>
+
+  <ul>
+    <li>Ad-hoc technical discussion primarily occurs on the public community mailing list:
+      <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+    <li><a href="http://payswarm/minutes/">Public Web Payments Community Group teleconferences</a>
+    are held on Wednesdays at 1600UTC every other week.</li>
+
+    <li>Specification bugs and issues should be reported in the
+      <a href="https://github.com/web-payments/web-payments.org/issues">issue tracker</a>
+      if you do not want to send an e-mail to the public-webpayments mailing
+      list.</li>
+
+    <li><a href="https://github.com/web-payments/web-payments.org/tree/master/">Source code</a>
+      for the specification can be found on Github.</li>
+
+  </ul>
+</section>
+
+<section class="informative">
+  <h1>Introduction</h1>
+
+  <p>
+This API enables a web application to initiate payment for a product or 
+service by calling a <code>navigator.payment.request()</code> method. The
+implementation of this feature is expected to be provided by a JavaScript
+polyfill at first, and if deployment is successful, native browser 
+implementations will eventually surface to enhance usability and transaction 
+security.
+  </p>
+  <section class="informative">
+    <h2>How to Read this Document</h2>
+
+    <p>This document is a detailed specification for an application programming
+      interface (API) for initiating payments from within a browser
+      environment. The document is primarily intended for the following
+      audiences:</p>
+
+    <ul>
+      <li>Software developers who want to understand the design decisions and
+        algorithms behind the API.</li>
+      <li>Software developers who want to implement the API.</li>
+    </ul>
+  </section>
+  <section class="normative">
+    <h3>Terminology</h3>
+    <p>
+TODO: Add Web Payments IG terminology here.
+    </p>
+  </section>
+
+</section>
+
+<section>
+  <h2>Payment Flow Overview</h2>
+  <p>
+A web app running on the merchant's website will interact with a 
+payment service provider via 
+<code>navigator.payment.register()</code>, 
+<code>navigator.payment.request()</code>, and 
+<code>navigator.payment.acknowledge()</code>.
+Results of the payment request will be POSTed to the merchant's server.
+  </p>
+  <ol>
+    <li>
+The Web app initiates a payment by calling 
+<code>navigator.payments.request(request)</code>.
+    </li>
+    <li>
+This starts the flow by sending a purchase request to the payment service
+provider.
+    </li>
+    <li>
+An interface is provided by the payment service provider.
+    </li>
+    <li>
+The payer is authenticated by the payment service provider.
+    </li>
+    <li>
+The payer accepts or cancels the purchase request.
+    </li>
+    <li>
+A callback is called on the merchant's page that notfies the merchants software
+that the purchase was successful, or canceled.
+    </li>
+    <li>
+The merchant software receives a proof of acknowledgement by the 
+payment service provider and may then verify whether or not the payment was 
+processed successfully.
+    </li>
+  </ol>
+  <p>
+The diagram below outlines the basic payment flow described above.
+<img style="display: block; margin-left: auto; margin-right: auto; 
+  max-height:100%; max-width:50%;" src="basicOfferAndPurchase.svg">
+  </p>
+</section>
+
+<section>
+  <h2>Detailed Payment Flow</h2>
+  <p class="issue">
+Describe the payment flow in detail here using Adrian's flow diagram and Ian's
+steps.
+  </p>
+
+  <section>
+    <h3>Payment Instrument Registration</h3>
+    <ol>
+      <li>
+The payer navigates to a payment service provider website to sign up.</li>
+      </li>
+      <li>
+During sign-up, the <code>navigator.payment.register()</code> call is made
+to register a payment instrument:
+      <pre class="example" title="Example of a credit card registration">
+var card = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  scheme: 'https://w3id.org/payment-schemes#Visa',
+  label: 'ExampleBank Visa Card'
+  paymentRequestService: 'https://pay.example.com/services/cards',
+}
+
+// register the payment instrument - at this point, the interface asks the 
+// person for approval to store the new payment instrument
+navigator.payment.register(card, function(success) {
+  if(success) {
+    // card has been registered
+  } else {
+    // card has not been registered
+  }
+});
+        </pre>
+Multiple types of payment instruments may be supported using this approach:
+        <pre class="example" title="Example of Bitcoin registration">
+var bitcoin = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+  label: 'BitExample Bitcoin Account'
+  paymentRequestService: 'https://pay.example.com/services/bitcoin',
+}
+navigator.payment.register(bitcoin, function(success) {
+  if(success) {
+    // instrument has been registered
+  } else {
+    // instrument has not been registered
+  }
+});
+        </pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Processing a Payment Request</h3>
+    <ol>
+      <li>
+The payer navigates to a merchant's website.</li>
+      <li>
+The payer finds an item to purchase and initiates the payment flow 
+(by clicking a button, swiping, speaking a voice command, etc.).
+      </li>
+      <li>
+The merchant application generates a signed purchase request, which is an 
+[[!JSON-LD]] object that contains enough information to process the
+payment:
+      <pre class="example" title="Example of a purchase request">
+var req = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest'
+  description: 'Payment to ExampleMerch for widgets'
+  acceptedScheme: {
+    scheme: 'https://w3id.org/payment-schemes#Visa'
+    monetaryRequest: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398'
+  },
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298'
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+}
+
+// request payment and get a promise that is resolved on payment
+var acknowledgement = navigator.payment.request([req]);
+
+// resolve the promise
+acknowledgement.then(function(acknowledgement) {
+  if(acknowledgement.status === 'processed') {
+    // payment was processed by the payment processor
+  } else {
+    // payment was not processed by the payment processor
+  }
+});
+      </pre>
+
+A more involved example can be found here:
+
+      <pre class="example" title="Example of a complex purchase request">
+var reqOne = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest'
+  description: 'Payment to ExampleMerch for Widget 1'
+  acceptedScheme: [{
+    scheme: [
+      'https://w3id.org/payment-schemes#Visa',
+      'https://w3id.org/payment-schemes#Mastercard',
+      'https://w3id.org/payment-schemes#Discover'
+    ],
+    monetaryRequest: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398'
+  }, {
+    scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+    monetaryRequest: {
+      amount: '0.0177',
+      currency: 'BTC'
+    },
+    destination: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
+  }
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298'
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+}
+
+// second request (reqTwo) is generated here, omitted for readability
+
+// request payment and get a promise that is resolved on payment acknowledgement
+var acknowledgement = navigator.payment.request([reqOne, reqTwo]);
+
+// resolve the promise (performed in the next section)
+acknowledgement.then(function(acknowledgement) {
+  if(acknowledgement.status === 'processed') {
+    // payment was processed by the payment processor
+  } else {
+    // payment was not processed by the payment processor
+  }
+});
+      </pre>
+      </li>
+    </ol>
+  </section>
+
+  <section>
+    <h3>Processing a Payment Acknowledgement</h3>
+    <ol>
+      <li>
+The payment service provider receives a payment request, authenticates the
+payer, and gets approval to proceed with the payment from the payer.
+      </li>
+      <li>
+Once approval has been provided by the payer, the payment is processed
+      </li>
+      <li>
+The payment service processor generates a signed payment acknowledgement 
+message, which is a [[!JSON-LD]] object that contains enough information to 
+verify that the transaction has completed in success or failure by the
+merchant application:
+        <pre class="example" title="Example of a payment acknowledgement">
+var acknowledgement = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentAcknowledgement'
+  description: 'Payment to ExampleMerch for widgets"
+  status: 'processed',
+  scheme: {
+    scheme: 'https://w3id.org/payment-schemes#Visa'
+    monetaryRequest: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398'
+  },
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://payment-service-provider.example.com/keys/12',
+    created: '2015-09-23T20:23:15Z',
+    signatureValue: 'm4NTIyZTOGQzNGVkMzVkZ...OWM32NjIgoYzI43Q3ODIy='
+ }
+}
+
+// acknowledge that the payment was processed
+navigator.payment.acknowledge(acknowledgement);
+        </pre>
+      </li>
+    </ol>
+  </section>
+</section>
+
+<section>
+  <h2>The Application Programming Interface</h2>
+
+  <p class="issue">
+This browser-based API is provided for convenience purposes only. The 
+existence of the API is absolutely not a requirement for the basic operation
+of the Web Payments protocol. No browser API is necessary in order for a
+Web application to initiate payment and receive an acknowledgement of the
+result of the payment.
+  </p>
+
+  <p>This API provides a clean mechanism that enables developers to 
+    initiate payments in a User Agent. 
+    A conformant payment agent MUST implement the entirety of the 
+    following API.</p>
+
+  <section>
+    <h3>NavigatorPayment</h3>
+
+    <p>Navigator Payment is the name of the high-level programming 
+      interface that Web developers use to initiate payments. If MUST be
+      made available via the <code>navigator.payment</code> object.</p>
+
+    <dl title="interface NavigatorPayment" class="idl">
+      <dt>DOMRequest request()</dt>
+      <dd>
+        <p>
+Initiates a payment given an array of [[!JSON-LD]] encoded payment 
+requests describing the type of financial operations to perform.
+        </p>
+        <p class="issue">
+Should we break refunds out into their own method call? The downside of doing
+that is that the API is no longer fairly generic. However, .request() doesn't
+really imply "refund", unless you think of a refund like a reverse payment?
+The other thing we could do is use .process() or .transact() as the method
+call and change the interface name to something like 
+navigator.funds.transact() or navigator.wallet.transact().
+        </p>
+        <p>
+Each request object will contain a <code>typ</code> key. The value associated
+with this key will be used to perform matchmaking between the customer's list 
+of registered payment providers and the list of preferred payment providers 
+for the Merchant. Typically, a User Agent will 
+request that the customer rank their registered payment providers in most 
+preferable to least preferable order. If this ranking is performed, 
+a payment provider can be selected automatically by picking highest ranked
+payment provider in the customer's payment provider list with a payment 
+provider that also exists in the Merchant's payment provider list. 
+        </p>
+        <dl class="parameters">
+          <dt>object[] requests</dt>
+          <dd>An array of [[!JSON-LD]] encoded payment requests describing 
+          the type of financial operations to perform.</dd>
+        </dl>
+      </dd>
+    </dl>
+  </section> <!-- end of NavigatorPayment -->
+</section>
+
+<section class="appendix informative">
+  <h2>Acknowledgements</h2>
+
+  <p>
+The editor would like to thank the Web Payments Community Group, the
+Web Payments Interest Group, Andreas Gal, Fernando Jiménez, Mike Hanson, 
+and Kumar McMillan for their work on the MozPay API.
+  </p>
+
+  <p>
+Thanks to the following individuals, in order of their first name, for
+their input on the specification: ...
+  </p>
+  
+</section>
+
+</body>
+</html>

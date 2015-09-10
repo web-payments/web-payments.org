@@ -89,8 +89,8 @@
 <body>
 <section id="abstract">
   <p>
-This document outlines how to initiate and complete a payment using a 
-polyfill-able browser API.
+This document outlines how to register payment instruments, request payments,
+and acknowledge payment requests using a polyfill-able browser API.
   </p>
 </section>
 
@@ -164,10 +164,10 @@ Results of the payment request will be POSTed to the merchant's server.
   <ol>
     <li>
 The Web app initiates a payment by calling 
-<code>navigator.payments.request(request)</code>.
+<code>navigator.payment.request(request)</code>.
     </li>
     <li>
-This starts the flow by sending a purchase request to the payment service
+This starts the flow by sending a payment request to the payment service
 provider.
     </li>
     <li>
@@ -177,11 +177,11 @@ An interface is provided by the payment service provider.
 The payer is authenticated by the payment service provider.
     </li>
     <li>
-The payer accepts or cancels the purchase request.
+The payer accepts or cancels the payment request.
     </li>
     <li>
 A callback is called on the merchant's page that notfies the merchants software
-that the purchase was successful, or canceled.
+that the payment was successful, or canceled.
     </li>
     <li>
 The merchant software receives a proof of acknowledgement by the 
@@ -215,35 +215,21 @@ to register a payment instrument:
       <pre class="example" title="Example of a credit card registration">
 var card = {
   '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentInstrument',
   scheme: 'https://w3id.org/payment-schemes#Visa',
-  label: 'ExampleBank Visa Card'
-  paymentRequestService: 'https://pay.example.com/services/cards',
-}
+  label: 'ExampleBank Visa Card',
+  paymentRequestService: 'https://pay.example.com/services/cards'
+};
 
 // register the payment instrument - at this point, the interface asks the 
 // person for approval to store the new payment instrument
-navigator.payment.register(card, function(success) {
-  if(success) {
-    // card has been registered
-  } else {
-    // card has not been registered
-  }
-});
-        </pre>
-Multiple types of payment instruments may be supported using this approach:
-        <pre class="example" title="Example of Bitcoin registration">
-var bitcoin = {
-  '@context': 'https://w3id.org/web-payments/v1',
-  scheme: 'https://w3id.org/payment-schemes#Bitcoin',
-  label: 'BitExample Bitcoin Account'
-  paymentRequestService: 'https://pay.example.com/services/bitcoin',
-}
-navigator.payment.register(bitcoin, function(success) {
-  if(success) {
-    // instrument has been registered
-  } else {
-    // instrument has not been registered
-  }
+var promise = navigator.payment.register(card);
+
+// this happens when the registration completes with success or a failure
+promise.then(function(result) {
+  // card has been registered, do something
+}).catch(function(err) {
+  // card has not been registered, do something
 });
         </pre>
       </li>
@@ -256,95 +242,44 @@ navigator.payment.register(bitcoin, function(success) {
       <li>
 The payer navigates to a merchant's website.</li>
       <li>
-The payer finds an item to purchase and initiates the payment flow 
+The payer finds an item to payment and initiates the payment flow 
 (by clicking a button, swiping, speaking a voice command, etc.).
       </li>
       <li>
-The merchant application generates a signed purchase request, which is an 
+The merchant application generates a signed payment request, which is an 
 [[!JSON-LD]] object that contains enough information to process the
 payment:
-      <pre class="example" title="Example of a purchase request">
+      <pre class="example" title="Example of a payment request">
 var req = {
   '@context': 'https://w3id.org/web-payments/v1',
-  type: 'PaymentRequest'
-  description: 'Payment to ExampleMerch for widgets'
+  type: 'PaymentRequest',
+  description: 'Payment to ExampleMerch for widgets',
   acceptedScheme: {
-    scheme: 'https://w3id.org/payment-schemes#Visa'
-    monetaryRequest: {
+    scheme: 'https://w3id.org/payment-schemes#Visa',
+    transfer: {
       amount: '4.35',
       currency: 'USD'
     },
-    destination: '20389472398'
+    destination: '20389472398',
   },
-  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298'
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
   signature: {
     type: 'GraphSignature2015',
     creator: 'https://merchant.example.com/keys/23',
     created: '2015-09-23T20:21:34Z',
+    nonce: '239807882930744352',
     signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
   }
-}
+};
 
 // request payment and get a promise that is resolved on payment
-var acknowledgement = navigator.payment.request([req]);
+var promise = navigator.payment.request(req);
 
 // resolve the promise
-acknowledgement.then(function(acknowledgement) {
-  if(acknowledgement.status === 'processed') {
-    // payment was processed by the payment processor
-  } else {
-    // payment was not processed by the payment processor
-  }
-});
-      </pre>
-
-A more involved example can be found here:
-
-      <pre class="example" title="Example of a complex purchase request">
-var reqOne = {
-  '@context': 'https://w3id.org/web-payments/v1',
-  type: 'PaymentRequest'
-  description: 'Payment to ExampleMerch for Widget 1'
-  acceptedScheme: [{
-    scheme: [
-      'https://w3id.org/payment-schemes#Visa',
-      'https://w3id.org/payment-schemes#Mastercard',
-      'https://w3id.org/payment-schemes#Discover'
-    ],
-    monetaryRequest: {
-      amount: '4.35',
-      currency: 'USD'
-    },
-    destination: '20389472398'
-  }, {
-    scheme: 'https://w3id.org/payment-schemes#Bitcoin',
-    monetaryRequest: {
-      amount: '0.0177',
-      currency: 'BTC'
-    },
-    destination: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
-  }
-  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298'
-  signature: {
-    type: 'GraphSignature2015',
-    creator: 'https://merchant.example.com/keys/23',
-    created: '2015-09-23T20:21:34Z',
-    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
-  }
-}
-
-// second request (reqTwo) is generated here, omitted for readability
-
-// request payment and get a promise that is resolved on payment acknowledgement
-var acknowledgement = navigator.payment.request([reqOne, reqTwo]);
-
-// resolve the promise (performed in the next section)
-acknowledgement.then(function(acknowledgement) {
-  if(acknowledgement.status === 'processed') {
-    // payment was processed by the payment processor
-  } else {
-    // payment was not processed by the payment processor
-  }
+promise.then(function(result) {
+  // payment was processed by the payment processor
+}).catch(function(err) {
+  // payment failed to be processed by the payment processor
 });
       </pre>
       </li>
@@ -369,12 +304,13 @@ merchant application:
         <pre class="example" title="Example of a payment acknowledgement">
 var acknowledgement = {
   '@context': 'https://w3id.org/web-payments/v1',
-  type: 'PaymentAcknowledgement'
-  description: 'Payment to ExampleMerch for widgets"
-  status: 'processed',
-  scheme: {
-    scheme: 'https://w3id.org/payment-schemes#Visa'
-    monetaryRequest: {
+  type: 'PaymentAcknowledgement',
+  description: 'Payment to ExampleMerch for widgets',
+  selectedScheme: {
+    scheme: 'https://w3id.org/payment-schemes#Visa',
+    status: 'authorized',
+    token: '10025AB',
+    transfer: {
       amount: '4.35',
       currency: 'USD'
     },
@@ -384,9 +320,10 @@ var acknowledgement = {
     type: 'GraphSignature2015',
     creator: 'https://payment-service-provider.example.com/keys/12',
     created: '2015-09-23T20:23:15Z',
+    nonce: '239807882930744352',
     signatureValue: 'm4NTIyZTOGQzNGVkMzVkZ...OWM32NjIgoYzI43Q3ODIy='
- }
-}
+  }
+};
 
 // acknowledge that the payment was processed
 navigator.payment.acknowledge(acknowledgement);
@@ -420,39 +357,131 @@ result of the payment.
       made available via the <code>navigator.payment</code> object.</p>
 
     <dl title="interface NavigatorPayment" class="idl">
-      <dt>DOMRequest request()</dt>
+      <dt>Promise register()</dt>
       <dd>
         <p>
-Initiates a payment given an array of [[!JSON-LD]] encoded payment 
-requests describing the type of financial operations to perform.
-        </p>
-        <p class="issue">
-Should we break refunds out into their own method call? The downside of doing
-that is that the API is no longer fairly generic. However, .request() doesn't
-really imply "refund", unless you think of a refund like a reverse payment?
-The other thing we could do is use .process() or .transact() as the method
-call and change the interface name to something like 
-navigator.funds.transact() or navigator.wallet.transact().
-        </p>
-        <p>
-Each request object will contain a <code>typ</code> key. The value associated
-with this key will be used to perform matchmaking between the customer's list 
-of registered payment providers and the list of preferred payment providers 
-for the Merchant. Typically, a User Agent will 
-request that the customer rank their registered payment providers in most 
-preferable to least preferable order. If this ranking is performed, 
-a payment provider can be selected automatically by picking highest ranked
-payment provider in the customer's payment provider list with a payment 
-provider that also exists in the Merchant's payment provider list. 
+Typically called by a payment processor to register a payment instrument for 
+later use during a payment request.
         </p>
         <dl class="parameters">
-          <dt>object[] requests</dt>
-          <dd>An array of [[!JSON-LD]] encoded payment requests describing 
-          the type of financial operations to perform.</dd>
+          <dt>object instrument</dt>
+          <dd>
+A [[!JSON-LD]] encoded payment instrument.
+          </dd>
+        </dl>
+      </dd>
+      <dt>Promise request()</dt>
+      <dd>
+        <p>
+Typically called by a merchant to initiate a payment. The instrument is
+encoded in [[!JSON-LD]] format.
+        </p>
+        <dl class="parameters">
+          <dt>object request</dt>
+          <dd>
+Typically called by a merchant to request a payment. The request is
+encoded in [[!JSON-LD]] format.
+          </dd>
+        </dl>
+      </dd>
+      <dt>void acknowledge()</dt>
+      <dd>
+        <p>
+Typically called by a payment processor to acknowledge that a payment request 
+has been processed. The acknowledgement is encoded in [[!JSON-LD]] format.
+        </p>
+        <dl class="parameters">
+          <dt>object acknowledgement</dt>
+          <dd>
+A [[!JSON-LD]] encoded payment acknowledgement describing the result of a
+payment request.
+          </dd>
         </dl>
       </dd>
     </dl>
+
   </section> <!-- end of NavigatorPayment -->
+</section>
+
+<section class="appendix informative">
+  <h2>Messages Addendum</h2>
+
+  <p>
+Multiple types of payment instruments may be supported using this approach:
+  </p>
+  <pre class="example" title="Example of Bitcoin registration">
+var bitcoin = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentInstrument',
+  scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+  id: 'bitcoin:19Cgacam5sVryog9QQKjFo1GApy34Qat83',
+  label: 'BitExample Bitcoin Account',
+  privateKeyBitcoin: '5JSjcscTvQcCb2h7LxFGwEzVqHM6HqC6xanxwZtymRZg5Z1yWot',
+  paymentRequestService: 'https://bitcoin.example.com/services/bitcoin'
+};
+
+// register the payment instrument - at this point, the interface asks the 
+// person for approval to store the new payment instrument
+var promise = navigator.payment.register(bitcoin);
+
+// this happens when the registration completes with success or a failure
+promise.then(function(result) {
+  // bitcoin instrument has been registered, do something
+}).catch(function(err) {
+  // bitcoin instrument has not been registered, do something
+});
+  </pre>
+
+  <p>
+Multiple payment requests may be collected into a single request.
+  </p>
+
+  <pre class="example" title="Example of a complex payment request">
+var req = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest'
+  description: 'Payment to ExampleMerch for Widget 1'
+  acceptedScheme: [{
+    scheme: [
+      'https://w3id.org/payment-schemes#Visa',
+      'https://w3id.org/payment-schemes#Mastercard',
+      'https://w3id.org/payment-schemes#Discover'
+    ],
+    transfer: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398'
+  }, {
+    scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+    transfer: {
+      amount: '0.0177',
+      currency: 'BTC'
+    },
+    destination: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
+  },
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    nonce: '239847230947223423',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+};
+
+// request payment and get a promise that is resolved on payment acknowledgement
+var promise = navigator.payment.request(req);
+
+// resolve the promise (performed in the next section)
+promise.then(function(acknowledgement) {
+  // payment was processed by the payment processor
+  // acknowledgement may contain scheme-specific information
+}).catch(function(err) {
+  // payment failed to be processed by the payment processor
+});
+  </pre>
+
 </section>
 
 <section class="appendix informative">

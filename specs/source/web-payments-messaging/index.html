@@ -1,0 +1,326 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Web Payments Messaging 1.0</title> 
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/> 
+    <!-- 
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     --> 
+    <link rel="stylesheet" href="spec.css">
+    <script src='../../respec-w3c-common.js' class='remove'></script> 
+    <script src='../../web-payments-common.js' class='remove'></script> 
+    <script type="text/javascript" class="remove">
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "CG-DRAFT",
+          
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "web-payments-messaging",
+ 
+          // if you wish the publication date to be other than today, set this
+          // publishDate:  "2009-08-06",
+ 
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+ 
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "https://web-payments.org/specs/source/web-payments-messaging/",
+ 
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+ 
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Manu Sporny", url: "http://digitalbazaar.com/",
+                company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+          ],
+ 
+          // authors, add as many as you like. 
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+ 
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+
+          // extend the bibliography entries
+          localBiblio: webpayments.localBiblio,
+          
+          // name of the WG
+          wg:           "W3C Web Payments Community Group",
+          
+          // URI of the public WG page
+          wgURI:        "http://www.w3.org/community/webpayments/",
+          
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webpayments@w3.org",
+
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "",
+          maxTocLevel: 4,
+          preProcess: [ webpayments.preProcess ] /*,
+          alternateFormats: [ {uri: "diff-20111214.html", label: "diff to previous version"} ],
+          */
+      };
+    </script> 
+    <script type="text/javascript" class="remove">
+      var oldonload = window.onload;
+      window.onload = function() {
+        if (oldonload) oldonload();
+        prettyPrint();
+      };
+    </script>
+<style type="text/css">
+  .diff { font-weight:bold; color:#0a3; }
+  table, thead, tr, td { padding: 5px; border-width: 1px; border-spacing: 0px; border-style: solid; border-collapse: collapse;}
+</style>
+</head>
+
+<body>
+<section id="abstract">
+  <p>
+This document details a set of messages that can be used to register
+payment instruments, request payments, and acknowledge payment requests. The
+messages are communication channel agnostic and can be transferred via
+browser APIs, REST APIs, QRCode, NFC, or Bluetooth connections.
+  </p>
+</section>
+
+<section id="sotd">
+
+  <p>There are a number of ways that one may participate in the development of
+    this specification:</p>
+
+  <ul>
+    <li>Ad-hoc technical discussion primarily occurs on the public community mailing list:
+      <a href="http://lists.w3.org/Archives/Public/public-webpayments/">public-webpayments@w3.org</a></li>
+
+    <li><a href="http://payswarm/minutes/">Public Web Payments Community Group teleconferences</a>
+    are held on Wednesdays at 1600UTC every other week.</li>
+
+    <li>Specification bugs and issues should be reported in the
+      <a href="https://github.com/web-payments/web-payments.org/issues">issue tracker</a>
+      if you do not want to send an e-mail to the public-webpayments mailing
+      list.</li>
+
+    <li><a href="https://github.com/web-payments/web-payments.org/tree/master/">Source code</a>
+      for the specification can be found on Github.</li>
+
+  </ul>
+</section>
+
+<section class="informative">
+  <h1>Introduction</h1>
+
+  <p>
+This document details a set of messages that can be used to register
+payment instruments, request payments, and acknowledge payment requests. The
+messages are communication channel agnostic and can be transferred via
+browser APIs, REST APIs, QRCode, NFC, or Bluetooth connections.
+  </p>
+  <section class="informative">
+    <h2>How to Read this Document</h2>
+
+    <p>
+This document is a detailed specification for a set of messages that 
+can be used to register payment instruments, request payments, and 
+acknowledge payment requests. The messages are communication channel agnostic 
+and can be transferred via browser APIs, REST APIs, QRCode, NFC, or Bluetooth 
+connections. The document is primarily intended for the following
+      audiences:</p>
+
+    <ul>
+      <li>Software developers who want to understand the design decisions 
+      associated with each message.</li>
+      <li>Software developers who want to implement the messages.</li>
+    </ul>
+  </section>
+  <section class="normative">
+    <h3>Terminology</h3>
+    <p>
+TODO: Add Web Payments IG terminology here.
+    </p>
+  </section>
+
+</section>
+
+<section>
+  <h2>Message Formats</h2>
+
+  <section>
+    <h3>Payment Instrument Registration</h3>
+
+    <p>
+    </p>
+
+    <pre class="example" title="Example of a credit card registration">
+var card = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentInstrument',
+  scheme: 'https://w3id.org/payment-schemes#Visa',
+  label: 'ExampleBank Visa Card',
+  paymentRequestService: 'https://pay.example.com/services/cards'
+};
+    </pre>
+
+    <pre class="example" title="Example of Bitcoin registration">
+var bitcoin = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentInstrument',
+  scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+  id: 'bitcoin:19Cgacam5sVryog9QQKjFo1GApy34Qat83',
+  label: 'BitExample Bitcoin Account',
+  privateKeyBitcoin: '5JSjcscTvQcCb2h7LxFGwEzVqHM6HqC6xanxwZtymRZg5Z1yWot',
+  paymentRequestService: 'https://bitcoin.example.com/services/bitcoin'
+};
+
+// register the payment instrument - at this point, the interface asks the 
+// person for approval to store the new payment instrument
+var promise = navigator.payment.register(bitcoin);
+
+// this happens when the registration completes with success or a failure
+promise.then(function(result) {
+  // bitcoin instrument has been registered, do something
+}).catch(function(err) {
+  // bitcoin instrument has not been registered, do something
+});
+    </pre>
+
+  </section>
+
+  <section>
+    <h3>Payment Request</h3>
+    
+    <p>
+    </p>
+    <pre class="example" title="Example of a payment request">
+var req = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest',
+  description: 'Payment to ExampleMerch for widgets',
+  acceptedScheme: {
+    scheme: 'https://w3id.org/payment-schemes#Visa',
+    transfer: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398',
+  },
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    nonce: '239807882930744352',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+};
+    </pre>
+
+    <pre class="example" title="Example of a complex payment request">
+var req = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest'
+  description: 'Payment to ExampleMerch for Widget 1'
+  acceptedScheme: [{
+    scheme: [
+      'https://w3id.org/payment-schemes#Visa',
+      'https://w3id.org/payment-schemes#Mastercard',
+      'https://w3id.org/payment-schemes#Discover'
+    ],
+    transfer: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398'
+  }, {
+    scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+    transfer: {
+      amount: '0.0177',
+      currency: 'BTC'
+    },
+    destination: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
+  },
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    nonce: '239847230947223423',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+};
+
+// request payment and get a promise that is resolved on payment acknowledgement
+var promise = navigator.payment.request(req);
+
+// resolve the promise (performed in the next section)
+promise.then(function(acknowledgement) {
+  // payment was processed by the payment processor
+  // acknowledgement may contain scheme-specific information
+}).catch(function(err) {
+  // payment failed to be processed by the payment processor
+});
+    </pre>
+
+  </section>
+
+  <section>
+    <h3>Payment Acknowledgement</h3>
+    <p>
+    </p>
+    <pre class="example" title="Example of a payment acknowledgement">
+var acknowledgement = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentAcknowledgement',
+  description: 'Payment to ExampleMerch for widgets',
+  selectedScheme: {
+    scheme: 'https://w3id.org/payment-schemes#Visa',
+    status: 'authorized',
+    token: '10025AB',
+    transfer: {
+      amount: '4.35',
+      currency: 'USD'
+    },
+    destination: '20389472398'
+  },
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://payment-service-provider.example.com/keys/12',
+    created: '2015-09-23T20:23:15Z',
+    nonce: '239807882930744352',
+    signatureValue: 'm4NTIyZTOGQzNGVkMzVkZ...OWM32NjIgoYzI43Q3ODIy='
+  }
+};
+    </pre>
+  </section>
+
+</section>
+
+<section class="appendix informative">
+  <h2>Acknowledgements</h2>
+
+  <p>
+The editor would like to thank the Web Payments Community Group and the
+Web Payments Interest Group.
+  </p>
+
+  <p>
+Thanks to the following individuals, in order of their first name, for
+their input on the specification: ...
+  </p>
+  
+</section>
+
+</body>
+</html>

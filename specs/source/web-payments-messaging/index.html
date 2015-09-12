@@ -183,17 +183,6 @@ var bitcoin = {
   privateKeyBitcoin: '5JSjcscTvQcCb2h7LxFGwEzVqHM6HqC6xanxwZtymRZg5Z1yWot',
   paymentRequestService: 'https://bitcoin.example.com/services/bitcoin'
 };
-
-// register the payment instrument - at this point, the interface asks the 
-// person for approval to store the new payment instrument
-var promise = navigator.payment.register(bitcoin);
-
-// this happens when the registration completes with success or a failure
-promise.then(function(result) {
-  // bitcoin instrument has been registered, do something
-}).catch(function(err) {
-  // bitcoin instrument has not been registered, do something
-});
     </pre>
 
   </section>
@@ -260,17 +249,6 @@ var req = {
     signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
   }
 };
-
-// request payment and get a promise that is resolved on payment acknowledgement
-var promise = navigator.payment.request(req);
-
-// resolve the promise (performed in the next section)
-promise.then(function(acknowledgement) {
-  // payment was processed by the payment processor
-  // acknowledgement may contain scheme-specific information
-}).catch(function(err) {
-  // payment failed to be processed by the payment processor
-});
     </pre>
 
   </section>

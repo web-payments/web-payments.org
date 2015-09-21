@@ -83,6 +83,19 @@
 <style type="text/css">
   .diff { font-weight:bold; color:#0a3; }
   table, thead, tr, td { padding: 5px; border-width: 1px; border-spacing: 0px; border-style: solid; border-collapse: collapse;}
+  ol.algorithm {
+    counter-reset: numsection;
+    list-style-type: none;
+  }
+  ol.algorithm li {
+    margin: 0.5em 0;
+  }
+  ol.algorithm li:before {
+    font-weight: bold;
+    counter-increment: numsection;
+    content: counters(numsection, ".") ") ";
+  }
+
 </style>
 </head>
 
@@ -125,7 +138,7 @@ This API enables a web application to initiate payment for a product or
 service by calling a <code>navigator.payment.request()</code> method. The
 implementation of this feature is expected to be provided by a JavaScript
 polyfill at first, and if deployment is successful, native browser
-implementations will eventually surface to enhance usability and transaction
+implementations will surface to enhance usability and transaction
 security.
   </p>
   <section class="informative">
@@ -154,12 +167,12 @@ TODO: Add Web Payments IG terminology here.
 <section>
   <h2>Payment Flow Overview</h2>
   <p>
-A web app running on the merchant's website will interact with a
+A web app running on the payee's website will interact with a
 payment service provider via
 <code>navigator.payment.register()</code>,
 <code>navigator.payment.request()</code>, and
 <code>navigator.payment.acknowledge()</code>.
-Results of the payment request will be POSTed to the merchant's server.
+Results of the payment request will be POSTed to the payee's server.
   </p>
   <ol>
     <li>
@@ -180,53 +193,93 @@ The payer is authenticated by the payment service provider.
 The payer accepts or cancels the payment request.
     </li>
     <li>
-A callback is called on the merchant's page that notfies the merchants software
+A callback is called on the payee's page that notfies the payees software
 that the payment was successful, or canceled.
     </li>
     <li>
-The merchant software receives a proof of acknowledgement by the
+The payee software receives a proof of acknowledgement by the
 payment service provider and may then verify whether or not the payment was
 processed successfully.
     </li>
   </ol>
 
-  <pre>
-In both the polyfill case and the native-browser case, there are
-multiple flows that all start out like this:
-
-1) the API scans the list of registered payment instruments
-2) matches the registered instruments against the acceptedSchemes in the
-   request, and then
-2.1) selects an instrument automatically if there is only one, or
-2.2) makes a decision based on some pre-existing preferences
-     if there are more than one valid selection, or
-2.3) asks the payer which instrument they'd like to use if an
-     automatic selection cannot be made
-
-then:
-
-If the instrument is a PayPal/Google Wallet-like instrument,
-tokenized credit card, ACH, ISO20022 style instrument (push payment*):
-3) forwards the request on via a POST/postMessage to the
-   paymentRequestService in the payment instrument for approval
-
-If the instrument is a non-EMV mag-stripe card with embossed PAN and
-CVV2 (pull payment*):
-3) forwards the request on via a POST/postMessage to the
-   paymentRequestService in the acceptedScheme (note that the merchant
-   sets this, not the payment instrument)
-
-If the instrument is a cryptocurrency like Bitcoin and the wallet is a
-browser extension or built into the browser:
-3) Uses the crypto key material to generate a payment acknowledgement
-   or, redirects the payer to paymentRequestService if there is no
-   local key material.
-
-then:
-4) transfers the flow over to whatever entity is going to generate the
-   payment acknowledgment (payer-PSP, browser extension/wallet, or
-   merchant-PSP).
-  </pre>
+  <ol class="algorithm">
+    <li>
+The web page calls <code>navigator.payment.request(request)</code>.
+    </li>
+    <li>
+The user agent scans the list of previously registered payment instruments
+and finds matches against <code>acceptedSchemes</code> in
+<code>request</code>.
+    </li>
+    <li>
+A payment instrument is selected by the payment agent or the payer. The
+process MAY consist of one or more of the following steps:
+      <ol class="algorithm">
+        <li>
+If there is only one instrument that matches, that is automatically set
+to the <em>selected payment instrument</em>.
+        </li>
+        <li>
+If there is a pre-existing preference set by the payer that narrows the
+selection of the payment instrument to one match, the match is set to the
+<em>selected payment instrument</em>.
+        </li>
+        <li>
+If there is more than one potential match, the payer is asked which 
+instrument they would like to use and the selection is set to the
+<em>selected payment instrument</em>
+        </li>
+        <li>
+If there are no matches, the payer is notified and may be taken to an
+alternate flow where a matching payment instrument is acquired.
+        </li>
+      </ol>
+    </li>
+    <li>
+If the payment instrument does not require the payment flow to switch
+to a 3rd party payment processor (e.g. cryptocurrency),
+then the <a>payment acknowledgement</a> is generated locally and the web
+application that called <code>navigator.payment.request()</code> is
+sent the acknowledgement via <code>navigator.payment.acknowledge()</code>.
+    </li>
+    <li>
+If the instrument requires the payment flow to switch to a 3rd party
+payer payment processor (e.g. push-payment like a PayPal/Google Wallet-like instrument, ACH, ISO20022 style instrument):
+      <ol class="algorithm">
+        <li>
+The payment agent forwards the <code>request</code>, and 
+<em>selected payment instrument</em> via <code>postMessage</code> to the
+<code>paymentRequestService</code> in the payment instrument for approval.
+        </li>
+      </ol>
+    </li>
+    <li>
+If the instrument requires the payment flow to switch to a 3rd party 
+payee payment processor (e.g. pull-payment like non-EMV magstripe credit
+card with embossed PAN and CVV2, or tokenized credit card):
+      <ol class="algorithm">
+        <li>
+The payment agent forwards the request on via <code>postMessage()</code>
+to the <code>paymentRequestService</code> in the 
+<code>acceptedScheme</code> (note that the payee
+sets this, not the payment instrument).
+        </li>
+      </ol>
+    </li>
+    <li>
+The payment flow is then transferred to the entity that is going to 
+generate the <em>payment acknowledgment</em> (locally installed 
+payment instrument, payee's payment service provider, or payer's 
+payment service provider).
+    </li>
+    <li>
+Once the entity in control of the payment flow finalizes the
+<em>payment acknowledgement</em>, even if the message is to
+acknowledge that the payment failed, the <em>payment acknowledgement</em>
+is generated and <code>navigator.payment.acknowledge(acknowledgement)</code>
+is called.
+  </ol>
   <p>
 The diagram below outlines the basic payment flow described above.
 <img style="display: block; margin-left: auto; margin-right: auto;
@@ -278,13 +331,13 @@ promise.then(function(result) {
     <h3>Processing a Payment Request</h3>
     <ol>
       <li>
-The payer navigates to a merchant's website.</li>
+The payer navigates to a payee's website.</li>
       <li>
 The payer finds an item to payment and initiates the payment flow
 (by clicking a button, swiping, speaking a voice command, etc.).
       </li>
       <li>
-The merchant application generates a signed payment request, which is an
+The payee application generates a signed payment request, which is an
 [[!JSON-LD]] object that contains enough information to process the
 payment:
       <pre class="example" title="Example of a payment request">
@@ -300,10 +353,10 @@ var req = {
     },
     destination: '20389472398',
   },
-  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
+  paymentCompleteService: 'https://payee.example.com/services/paymentComplete?transaction=923847298',
   signature: {
     type: 'GraphSignature2015',
-    creator: 'https://merchant.example.com/keys/23',
+    creator: 'https://payee.example.com/keys/23',
     created: '2015-09-23T20:21:34Z',
     nonce: '239807882930744352',
     signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
@@ -338,7 +391,7 @@ Once approval has been provided by the payer, the payment is processed
 The payment service processor generates a signed payment acknowledgement
 message, which is a [[!JSON-LD]] object that contains enough information to
 verify that the transaction has completed in success or failure by the
-merchant application:
+payee application:
         <pre class="example" title="Example of a payment acknowledgement">
 var acknowledgement = {
   '@context': 'https://w3id.org/web-payments/v1',
@@ -411,13 +464,13 @@ A [[!JSON-LD]] encoded payment instrument.
       <dt>Promise request()</dt>
       <dd>
         <p>
-Typically called by a merchant to initiate a payment. The instrument is
+Typically called by a payee to initiate a payment. The instrument is
 encoded in [[!JSON-LD]] format.
         </p>
         <dl class="parameters">
           <dt>object request</dt>
           <dd>
-Typically called by a merchant to request a payment. The request is
+Typically called by a payee to request a payment. The request is
 encoded in [[!JSON-LD]] format.
           </dd>
         </dl>
@@ -498,10 +551,10 @@ var req = {
     },
     destination: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
   },
-  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
+  paymentCompleteService: 'https://payee.example.com/services/paymentComplete?transaction=923847298',
   signature: {
     type: 'GraphSignature2015',
-    creator: 'https://merchant.example.com/keys/23',
+    creator: 'https://payee.example.com/keys/23',
     created: '2015-09-23T20:21:34Z',
     nonce: '239847230947223423',
     signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='

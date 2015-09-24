@@ -120,19 +120,19 @@ approach is only for presenting identities that contain attributes that
 are asserted by self-signed or IdP-asserted credentials.
 
 This section should also detail best practices for creating a number of
-separate identities that aggregate similar credentials. There should be
-no doubt that this system is engineered to support many different identities
-per individual user.
+separate identities that aggregate credentials asserted by different third
+parties that are intended to be linked. There should be no doubt that this
+system is engineered to support many different identities per individual user.
       </p>
 
     <p class="issue">
 Add a section about revocation that also includes privacy concerns (leakage
-of credential use at particular consumers to issuers). Specify how either
+of credential use at particular consumers to issuers). Specify how
 credentials may self-describe their revocation rules and how issuers may
-publish revocation status credentials that can be aggregated over time or
-on demand by IdPs or how they can periodically resign existing credentials
-with new revocation validity periods (and these credentials can then be
-refetched by users, IdPs, or authorized value-add third party services).
+either publish revocation status credentials that can be aggregated over time
+or on demand by IdPs or how they can periodically resign previously issued
+credentials with new revocation validity periods (and these credentials can
+then be refetched by users, IdPs, or authorized value-add third party services).
     </p>
 
     <p class="issue">

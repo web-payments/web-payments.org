@@ -192,7 +192,7 @@ var bitcoin = {
     
     <p>
     </p>
-    <pre class="example" title="Example of a payment request">
+    <pre class="example" title="Example of a card payment request">
 var req = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentRequest',
@@ -211,6 +211,30 @@ var req = {
     creator: 'https://merchant.example.com/keys/23',
     created: '2015-09-23T20:21:34Z',
     nonce: '239807882930744352',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+};
+    </pre>
+
+    <pre class="example" title="Example of a Bitcoin payment request">
+var req = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest'
+  description: 'Payment to ExampleMerch for Widget 1'
+  acceptedScheme: [{
+    scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+    transfer: {
+      amount: '0.0177',
+      currency: 'BTC'
+    },
+    destination: '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
+  },
+  paymentCompleteService: 'https://merchant.example.com/services/paymentComplete?transaction=923847298',
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    nonce: '239847230947223423',
     signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
   }
 };
@@ -251,13 +275,119 @@ var req = {
 };
     </pre>
 
+    <pre class="example" title="Example of an ISO20022 payment request">
+var req = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentRequest',
+  description: 'Payment to ExampleMerch for widgets',
+  acceptedScheme: {
+    scheme: 'https://w3id.org/payment-schemes#iso20022',
+     CstmrCdtTrfInitn: {
+       GrpHdr: {
+         MsgId: 'ABC/120928/CCT001',
+         CreDtTm: '2012-09-28T14:07:00',
+         NbOfTxs: '1',
+         CtrlSum: '500000',
+         InitgPty: {
+           Nm: 'ABC Corporation',
+           PstlAdr: {
+             StrtNm: 'Times Square',
+             BldgNb: '7',
+             PstCd: 'NY 10036',
+             TwnNm: 'New York',
+             Ctry: 'US"
+          }
+        }
+      },
+       PmtInf: {
+         PmtInfId: 'ABC/086',
+         PmtMtd: 'TRF',
+         BtchBookg: 'false',
+         ReqdExctnDt: '2012-09-29',
+         Dbtr: {
+           Nm: 'ABC Corporation',
+           PstlAdr: {
+             StrtNm: 'Times Square',
+             BldgNb: '7',
+             PstCd: 'NY 10036',
+             TwnNm: 'New York',
+             Ctry: 'US"
+          }
+        },
+         DbtrAcct: {
+           Id: {
+             Othr: { "Id: '00125574999" }
+          }
+        },
+         DbtrAgt: {
+           FinInstnId: { "BICFI: 'BBBBUS33" }
+        },
+         CdtTrfTxInf: [
+          {
+             PmtId: {
+               InstrId: 'ABC/120928/CCT001/3',
+               EndToEndId: 'ABC/987-AC/2012-09-27"
+            },
+             Amt: {
+               InstdAmt: {
+                 Ccy: 'USD',
+                 text: '500000"
+              }
+            },
+             ChrgBr: 'SHAR',
+             CdtrAgt: {
+               FinInstnId: { "BICFI: 'BBBBUS66" }
+            },
+             Cdtr: {
+               Nm: 'ABC Corporation',
+               PstlAdr: {
+                 Dept: 'Treasury department',
+                 StrtNm: 'Bush Street',
+                 BldgNb: '13',
+                 PstCd: 'CA 94108',
+                 TwnNm: 'San Francisco',
+                 Ctry: 'US"
+              }
+            },
+             CdtrAcct: {
+               Id: {
+                 Othr: { "Id: '4895623" }
+              }
+            },
+             Purp: { "Cd: 'INTC" },
+             RmtInf: {
+               Strd: {
+                 RfrdDocInf: {
+                   Tp: {
+                     CdOrPrtry: { "Cd: 'CINV" }
+                  },
+                   Nb: '987-AC',
+                   RltdDt: '2012-09-27"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  signature: {
+    type: 'GraphSignature2015',
+    creator: 'https://merchant.example.com/keys/23',
+    created: '2015-09-23T20:21:34Z',
+    nonce: '239807882930744352',
+    signatureValue: 'OGQzNGVkMzVm4NTIyZTkZ...goYzI43Q3ODIyOWM32NjI='
+  }
+};
+    </pre>
+
   </section>
 
   <section>
     <h3>Payment Acknowledgement</h3>
     <p>
     </p>
-    <pre class="example" title="Example of a payment acknowledgement">
+    <pre class="example" title="Example of a tokenized card payment acknowledgement">
 var acknowledgement = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentAcknowledgement',
@@ -278,6 +408,61 @@ var acknowledgement = {
     created: '2015-09-23T20:23:15Z',
     nonce: '239807882930744352',
     signatureValue: 'm4NTIyZTOGQzNGVkMzVkZ...OWM32NjIgoYzI43Q3ODIy='
+  }
+};
+    </pre>
+    <pre class="example" title="Example of a Bitcoin payment acknowledgement">
+var acknowledgement = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentAcknowledgement',
+  description: 'Payment to ExampleMerch for widgets',
+  selectedScheme: {
+    id: 'bitcoin-transaction:78526206ef357c35398d3b020e6e09f38d77729cc4a70a6facd463bb146a4c90',
+    scheme: 'https://w3id.org/payment-schemes#Bitcoin',
+    transfer: {
+      amount: '0.035',
+      currency: 'BTC'
+    },
+    destination: '1LuckyR1fFHEsXYyx5QK4UFzv3PEAepPMK',
+    confirmations: 31
+  }
+};
+    </pre>
+    <pre class="example" title="Example of an ISO20022 payment acknowledgement">
+var acknowledgement = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentAcknowledgement',
+  description: 'Payment for shipment of widgets',
+  selectedScheme: {
+    '@context': 'https://w3id.org/iso20022/v1',
+    scheme: 'https://w3id.org/payment-schemes#iso20022',
+    CstmrPmtStsRpt: {
+      GrpHdr: {
+        MsgId: 'XMPL/120928-PSR/001',
+        CreDtTm: '2015-10-01T09:20:11',
+        InitgPty: {
+          Nm: 'Example Corporation',
+          PstlAdr: {
+            StrtNm: 'Main Street',
+            BldgNb: '1242',
+            PstCd: 'VA 24060',
+            TwnNm: 'Somewhereville',
+            Ctry: 'US'
+          }
+        },
+        DbtrAgt: {
+          FinInstnId: { 'BICFI': 'XMPLUS12' }
+        }
+      },
+      OrgnlGrpInfAndSts: {
+        OrgnlMsgId: 'XMPL/120928/CCT001',
+        OrgnlMsgNmId: 'pain.001.001.05',
+        OrgnlCreDtTm: '2015-10-01T12:14:42',
+        OrgnlNbOfTxs: '2',
+        OrgnlCtrlSum: '500000',
+        GrpSts: 'ACCP'
+      }
+    }
   }
 };
     </pre>

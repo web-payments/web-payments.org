@@ -166,49 +166,12 @@ TODO: Add Web Payments IG terminology here.
 
 <section>
   <h2>Payment Flow Overview</h2>
-  <p>
-A web app running on the payee's website will interact with a
-payment service provider via
-<code>navigator.payment.register()</code>,
-<code>navigator.payment.request()</code>, and
-<code>navigator.payment.acknowledge()</code>.
-Results of the payment request will be POSTed to the payee's server.
-  </p>
-  <ol>
-    <li>
-The Web app initiates a payment by calling
-<code>navigator.payment.request(request)</code>.
-    </li>
-    <li>
-This starts the flow by sending a payment request to the payment service
-provider.
-    </li>
-    <li>
-An interface is provided by the payment service provider.
-    </li>
-    <li>
-The payer is authenticated by the payment service provider.
-    </li>
-    <li>
-The payer accepts or cancels the payment request.
-    </li>
-    <li>
-A callback is called on the payee's page that notfies the payees software
-that the payment was successful, or canceled.
-    </li>
-    <li>
-The payee software receives a proof of acknowledgement by the
-payment service provider and may then verify whether or not the payment was
-processed successfully.
-    </li>
-  </ol>
-
   <ol class="algorithm">
     <li>
-The web page calls <code>navigator.payment.request(request)</code>.
+The payee's web page calls <code>navigator.payment.request(request)</code>.
     </li>
     <li>
-The user agent scans the list of previously registered payment instruments
+The payment agent scans the list of previously registered payment instruments
 and finds matches against <code>acceptedSchemes</code> in
 <code>request</code>.
     </li>

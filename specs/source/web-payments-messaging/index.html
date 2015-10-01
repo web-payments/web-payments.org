@@ -163,7 +163,7 @@ TODO: Add Web Payments IG terminology here.
     <p>
     </p>
 
-    <pre class="example" title="Example of a credit card registration">
+    <pre id="card-instrument" class="example" title="Example of a credit card payment instrument registration">
 var card = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentInstrument',
@@ -173,7 +173,7 @@ var card = {
 };
     </pre>
 
-    <pre class="example" title="Example of Bitcoin registration">
+    <pre id="bitcoin-instrument" class="example" title="Example of Bitcoin payment instrument registration">
 var bitcoin = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentInstrument',
@@ -184,6 +184,17 @@ var bitcoin = {
   paymentRequestService: 'https://bitcoin.example.com/services/bitcoin'
 };
     </pre>
+    
+    <pre id="iso20022-instrument" class="example" title="Example of ISO20022 payment instrument registration">
+var iso20022 = {
+  '@context': 'https://w3id.org/web-payments/v1',
+  type: 'PaymentInstrument',
+  scheme: 'https://w3id.org/payment-schemes#iso20022',
+  label: 'Mega Widgets Corporate Account',
+  paymentRequestService: 'https://bigbank.example.com/services/iso20022'
+};
+
+    </pre>
 
   </section>
 
@@ -192,7 +203,7 @@ var bitcoin = {
     
     <p>
     </p>
-    <pre class="example" title="Example of a card payment request">
+    <pre id="card-request" class="example" title="Example of a card payment request">
 var req = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentRequest',
@@ -216,7 +227,7 @@ var req = {
 };
     </pre>
 
-    <pre class="example" title="Example of a Bitcoin payment request">
+    <pre id="bitcoin-request" class="example" title="Example of a Bitcoin payment request">
 var req = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentRequest'
@@ -275,12 +286,13 @@ var req = {
 };
     </pre>
 
-    <pre class="example" title="Example of an ISO20022 payment request">
+    <pre id="iso20022-request" class="example" title="Example of an ISO20022 payment request">
 var req = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentRequest',
   description: 'Payment to ExampleMerch for widgets',
   acceptedScheme: {
+    '@context': 'https://w3id.org/iso20022/v1',
     scheme: 'https://w3id.org/payment-schemes#iso20022',
      CstmrCdtTrfInitn: {
        GrpHdr: {
@@ -387,7 +399,7 @@ var req = {
     <h3>Payment Acknowledgement</h3>
     <p>
     </p>
-    <pre class="example" title="Example of a tokenized card payment acknowledgement">
+    <pre id="card-ack" class="example" title="Example of a tokenized card payment acknowledgement">
 var acknowledgement = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentAcknowledgement',
@@ -411,7 +423,7 @@ var acknowledgement = {
   }
 };
     </pre>
-    <pre class="example" title="Example of a Bitcoin payment acknowledgement">
+    <pre id="bitcoin-ack" class="example" title="Example of a Bitcoin payment acknowledgement">
 var acknowledgement = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentAcknowledgement',
@@ -428,7 +440,7 @@ var acknowledgement = {
   }
 };
     </pre>
-    <pre class="example" title="Example of an ISO20022 payment acknowledgement">
+    <pre id="iso20022-ack" class="example" title="Example of an ISO20022 payment acknowledgement">
 var acknowledgement = {
   '@context': 'https://w3id.org/web-payments/v1',
   type: 'PaymentAcknowledgement',

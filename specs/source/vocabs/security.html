@@ -211,14 +211,69 @@ z7u3IxpqNVcXHExjXQE=",
         typeof="rdfs:Class">
 
         <h3>GraphSignature2012</h3>
-          <p class="issue">
-            Add new GraphSignatureYEAR that uses <a href="http://json-ld.org/spec/latest/rdf-dataset-normalization/">RDF Dataset Normalization</a>.
-          </p>
           <p>
 A graph signature is used for digital signatures on RDF graphs.
 The default normalization mechanism is specified in the
-RDF Graph normalization specification, which effectively resolves all CURIEs and
-deterministically names all unnamed nodes. The default signature mechanism
+RDF Graph normalization specification, which effectively deterministically
+names all unnamed nodes. The default signature mechanism uses a SHA-256 digest
+and RSA to perform the digital signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>Signature</dd>
+            <dt>Expected properties</dt>
+            <dd>creator, signatureValue</dd>
+            <dt>Signature Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Normalization Algorithm</dt>
+                <dd>
+<a rel="normalizationAlgorithm"
+  href="https://w3id.org/rdf#URGNA2012">
+https://w3id.org/rdf#URGNA2012</a>
+                </dd>
+                <dt>Default Signature Algorithm</dt>
+                <dd>
+<a rel="signatureAlgorithm"
+  href="http://www.w3.org/2000/09/xmldsig#rsa-sha256">
+http://www.w3.org/2000/09/xmldsig#rsa-sha256</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The example below shows how a basic JSON-LD signature is expressed in a
+JSON-LD snippet. Note that the signature property is directly embedded in the
+object. The signature algorithm specifies how a signature can be generated
+and verified.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+{
+  "@context": ["https://w3id.org/security/v1", "http://json-ld.org/contexts/person.jsonld"]
+  "@type": "Person",
+  "name": "Manu Sporny",
+  "homepage": "http://manu.sporny.org/",
+  "signature": {
+    "@type": "GraphSignature2012",
+    "creator": "http://manu.sporny.org/keys/5",
+    "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
+  }
+}
+          </pre>
+      </section>
+
+      <section id="LinkedDataSignature2015"
+        about="https://w3id.org/security#LinkedDataSignature2015"
+        typeof="rdfs:Class">
+
+        <h3>LinkedDataSignature2015</h3>
+          <p>
+A Linked Data signature is used for digital signatures on RDF Datasets.
+The default normalization mechanism is specified in the RDF Dataset
+Normalization specification, which effectively deterministically names all
+unnamed nodes. The default signature mechanism
 uses a SHA-256 digest and RSA to perform the digital signature.
           </p>
           <dl>
@@ -234,8 +289,8 @@ uses a SHA-256 digest and RSA to perform the digital signature.
                 <dt>Default Normalization Algorithm</dt>
                 <dd>
 <a rel="normalizationAlgorithm"
-  href="https://w3id.org/jsonld#UGNA2012">
-http://w3id.org/rdf#UGNA2012</a>
+  href="https://w3id.org/rdf#URDNA2015">
+https://w3id.org/rdf#URDNA2015</a>
                 </dd>
                 <dt>Default Signature Algorithm</dt>
                 <dd>
@@ -249,9 +304,8 @@ http://www.w3.org/2000/09/xmldsig#rsa-sha256</a>
           <p>
 The example below shows how a basic JSON-LD signature is expressed in a
 JSON-LD snippet. Note that the signature property is directly embedded in the
-object. The signature algorithm understands that in order to check the
-signature that the signature property must be removed and the text
-canonicalized using the standard normalization algorithm for JSON-LD.
+object. The signature algorithm specifies how the signature can be generated
+and verified.
           </p>
           <pre class="example prettyprint language-jsonld">
 {
@@ -260,8 +314,9 @@ canonicalized using the standard normalization algorithm for JSON-LD.
   "name": "Manu Sporny",
   "homepage": "http://manu.sporny.org/",
   "signature": {
-    "@type": "GraphSignature2012",
+    "@type": "LinkedDataSignature2015",
     "creator": "http://manu.sporny.org/keys/5",
+    "created": "2011-09-23T20:21:34Z",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
   }
 }

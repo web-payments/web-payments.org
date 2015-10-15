@@ -141,6 +141,24 @@ var webpayments = {
       status: "unofficial",
       publisher: "Web Payments Community Group"
     },
+    "RDF-DATASET-NORMALIZATION" :{
+      title: "RDF Dataset Normalization",
+      href: "http://json-ld.github.io/normalization/spec/",
+      authors: [
+        "Dave Longley"
+      ],
+      status: "unofficial",
+      publisher: "Credentials Community Group"
+    },
+    "SECURITY-VOCABULARY" :{
+      title: "Security Vocabulary",
+      href: "https://web-payments.org/specs/source/vocabs/security.html",
+      authors: [
+        "Manu Sporny", "Dave Longley"
+      ],
+      status: "unofficial",
+      publisher: "Web Payments Community Group"
+    },
     // aliases to known references
     "HTTP-SIGNATURES": {
       aliasOf: "http-signatures"

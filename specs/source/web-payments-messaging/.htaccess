@@ -1,3 +1,3 @@
 RewriteEngine On 
-RewriteRule ^(.*)$ http://wicg.github.io/web-payments-messaging/ [R=301,L]
+RewriteRule ^(.*)$ http://web-payments.github.io/web-payments-messaging/ [R=301,L]
 

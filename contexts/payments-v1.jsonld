@@ -1,0 +1,16 @@
+{
+  "@context": {
+    "id": "@id",
+    "type": "@type",
+
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+
+    "MasterCard": "https://mastercard.com/vocabs#MasterCard",
+    "Visa": "https://visa.com/vocabs#Visa",
+
+    "label": "rdfs:label",
+    "paymentRequestService": { "@id": "https://w3id.org/payments#paymentRequestService", "@type": "@id" },
+    "scheme": {"@id": "https://w3id.org/payments#scheme", "@type": "@vocab"}
+  }
+}
+

@@ -9,6 +9,7 @@
 
     "EncryptedMessage": "sec:EncryptedMessage",
     "GraphSignature2012": "sec:GraphSignature2012",
+    "LinkedDataSignature2015": "sec:LinkedDataSignature2015",
     "CryptographicKey": "sec:Key",
 
     "authenticationTag": "sec:authenticationTag",

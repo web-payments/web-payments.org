@@ -122,7 +122,7 @@ is not fit for production deployment.
 This specification describes a standard signature suite created in 2015 for the
 Linked Data Signatures [[LD-SIGNATURES]] specification. It uses the RDF
 Dataset Normalization Algorithm [[RDF-DATASET-NORMALIZATION]] to transform the
-input document into its normal form. It uses SHA-256 [[RFC6234]] as the
+input document into its canonical form. It uses SHA-256 [[RFC6234]] as the
 <a>message digest algorithm</a> and RSASSA-PKCS1-v1_5 [[RFC3447]] as the
 <a>signature algorithm</a>.
       </p>
@@ -140,29 +140,30 @@ generation and verification of the Linked Data Signature 2015
         <dt><dfn>signature suite</dfn></dt>
         <dd>
 A specified set of cryptographic primitives typically consisting of
-a normalization algorithm, a message digest algorithm, and a signature
+a canonicalization algorithm, a message digest algorithm, and a signature
 algorithm that are bundled together by cryptographers for developers
 for the purposes of safety and convenience.
         </dd>
-        <dt><dfn>normalization algorithm</dfn></dt>
+        <dt><dfn>canonicalization algorithm</dfn></dt>
         <dd>
 An algorithm that takes an input document that has more than one possible
-representation and always transforms it into a normal form. This process is
-sometimes also called canonicalization.
+representation and always transforms it into a canonical form. This process is
+sometimes also called normalization.
         </dd>
         <dt><dfn>message digest algorithm</dfn></dt>
         <dd>
 An algorithm that takes an input message and produces a cryptographic
-output message that is often times many orders of magnitude smaller than the
+output message that is often many orders of magnitude smaller than the
 input message. These algorithms are often 1) very fast, 2)
-non-reversible, 3) change when even one bit of the input message changes, and
-4) produce different outputs for different inputs.
+non-reversible, 3) cause the output to change significantly when even one
+bit of the input message changes, and 4) make it infeasible to find two
+different inputs for the same output.
         </dd>
         <dt><dfn>signature algorithm</dfn></dt>
         <dd>
 An algorithm that takes an input message and produces an output value where the
-receiver of the message can mathematically verify that the message came from
-a particular sender and has not been modified in transit.
+receiver of the message can mathematically verify that the message has not
+been modified in transit and came from someone possessing a particular secret.
         </dd>
       </dl>
 
@@ -186,7 +187,7 @@ the following algorithms:
         </thead>
         <tbody>
           <tr>
-            <td>normalizationAlgorithm</td>
+            <td>canonicalizationAlgorithm</td>
             <td>https://w3id.org/security#URDNA2015</td>
             <td>[[RDF-DATASET-NORMALIZATION]]</td>
           </tr>

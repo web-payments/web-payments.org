@@ -209,9 +209,74 @@ the following algorithms:
       <h2>Modification to Algorithms</h2>
 
       <p>
-No modifications to the Linked Data Signature algorithms are provided other
-than the algorithms specified in the previous signature suite section.
+The following algorithm replaces the Create Verify Hash Algorithm from the
+Linked Data Signature specification.
       </p>
+
+      <section>
+        <h3>Create Verify Hash Algorithm</h3>
+        <p>
+The following algorithm specifies how to create the data that is used
+to generate or verify a digital signature. It takes a canonicalized
+<a>linked data document</a>, <var>canonicalized document</var>, combined
+date and time string, <var>created</var>, and an optionally, a
+<a>nonce</a> and <a>domain</a>. Its output is a message digest that
+can be used to generate or verify a digital signature.
+        </p>
+
+        <ol class="algorithm">
+          <li>
+Create an empty map of header names to header values, <var>headers</var>.
+          </li>
+          <li>
+Add an entry to <var>headers</var> with a key of
+<code>http://purl.org/dc/elements/1.1/created</code> and a value of
+<var>created</var>.
+          </li>
+          <li>
+If a <a>domain</a> is specified, add an entry to <var>headers</var> with
+a key of <code>https://w3id.org/security#domain</code> and a value of the
+<a>domain</a>.
+          </li>
+          <li>
+If a <a>nonce</a> is specified, add an entry to <var>headers</var> with
+a key of <code>https://w3id.org/security#nonce</code> and a value of the
+<a>nonce</a>.
+          <li>
+Create an empty string <var>output</var> that represents the data to be signed
+or verified.
+          </li>
+          <li>
+For each <var>key</var>-<var>value</var> pair in <var>headers</var>,
+lexicographically sorted by <var>key</var>:
+            <ol class="algorithm">
+              <li>
+Append <var>key</var> to <var>output</var>.
+              </li>
+              <li>
+Append a colon, <code>:</code> (U+003A), and one space (U+0020),
+to <var>output</var>.
+              </li>
+              <li>
+Append <var>value</var> to <var>output</var>.
+              </li>
+              <li>
+Append an end of line character (U+000A), <code>\n</code>, to <var>output</var>.
+              </li>
+            </ol>
+          </li>
+          <li>
+Append <var>canonicalized document</var> to <var>output</var>.
+          </li>
+          <li>
+Hash <var>output</var> using the <a>message digest algorithm</a>
+ (e.g. SHA-256) and replace it with the result.
+          </li>
+          <li>
+Return <var>output</var>.
+          </li>
+        </ol>
+      </section>
     </section>
 
     <section>

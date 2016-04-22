@@ -230,7 +230,7 @@ and RSA to perform the digital signature.
               <dl>
                 <dt>Default Normalization Algorithm</dt>
                 <dd>
-<a rel="normalizationAlgorithm"
+<a rel="canonicalizationAlgorithm"
   href="https://w3id.org/rdf#URGNA2012">
 https://w3id.org/rdf#URGNA2012</a>
                 </dd>
@@ -288,7 +288,7 @@ uses a SHA-256 digest and RSA to perform the digital signature.
               <dl>
                 <dt>Default Normalization Algorithm</dt>
                 <dd>
-<a rel="normalizationAlgorithm"
+<a rel="canonicalizationAlgorithm"
   href="https://w3id.org/rdf#URDNA2015">
 https://w3id.org/rdf#URDNA2015</a>
                 </dd>
@@ -374,8 +374,8 @@ such as by a reasoning agent.
           <p class="note">
 A Signature class MUST NOT be used as an RDF type. It should instead be used
 as the base class for all signature classes. A signature sub-class SHOULD
-express at least three signature algorithm properties: normalizationAlgorithm,
-digestAlgorithm, and signatureAlgorithm.
+express at least three signature algorithm properties:
+canonicalizationAlgorithm, digestAlgorithm, and signatureAlgorithm.
           </p>
       </section>
 
@@ -513,7 +513,7 @@ a particular signature type:
   "@context": "https://w3id.org/security/v1",
   "@id": "https://w3id.org/security#GraphSignature2012",
   "@type": "Signature",
-  "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
+  "canonicalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
   "digestAlgorithm": "http://example.com/digests#sha512",
   "signatureAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
@@ -747,15 +747,16 @@ in order to protect against
         </pre>
       </section>
 
-      <section id="normalizationAlgorithm" about="https://w3id.org/security#normalizationAlgorithm"
+      <section id="canonicalizationAlgorithm"
+        about="https://w3id.org/security#canonicalizationAlgorithm"
         typeof="rdf:Property">
-        <h3>normalizationAlgorithm</h3>
+        <h3>canonicalizationAlgorithm</h3>
         <p>
-The normalization algorithm is used to transform the input data into a form that
-can be passed to a cryptographic digest method. The digest is then digitally
-signed using a digital signature algorithm. Normalization ensures that a piece
-of software that is generating a digital signature is able to do so on the
-same set of information in a deterministic manner.
+The canonicalization algorithm is used to transform the input data into a form
+that can be passed to a cryptographic digest method. The digest is then
+digitally signed using a digital signature algorithm. Canonicalization ensures
+that a piece of software that is generating a digital signature is able to do
+so on the same set of information in a deterministic manner.
         </p>
         <dl>
           <dt>Status</dt>
@@ -773,7 +774,7 @@ the normalization algorithm, the digest algorithm and the signature algorithm:
   "@context": "https://w3id.org/security/v1",
   "@id": "https://w3id.org/security#GraphSignature2012",
   "@type": "Signature",
-  "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
+  "canonicalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
   "digestAlgorithm": "http://example.com/digests#sha512",
   "signatureAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }
@@ -1092,7 +1093,7 @@ a particular class of signatures:
   "@context": "https://w3id.org/security/v1",
   "@id": "https://w3id.org/security#GraphSignature2012",
   "@type": "Signature",
-  "normalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
+  "canonicalizationAlgorithm": "https://w3id.org/jsonld#UGNA2012",
   "digestAlgorithm": "http://example.com/digests#sha512",
   "signatureAlgorithm": "http://www.w3.org/2000/09/xmldsig#rsa-sha1",
 }

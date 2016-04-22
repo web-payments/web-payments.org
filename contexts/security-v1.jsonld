@@ -13,6 +13,7 @@
     "CryptographicKey": "sec:Key",
 
     "authenticationTag": "sec:authenticationTag",
+    "canonicalizationAlgorithm": "sec:canonicalizationAlgorithm",
     "cipherAlgorithm": "sec:cipherAlgorithm",
     "cipherData": "sec:cipherData",
     "cipherKey": "sec:cipherKey",

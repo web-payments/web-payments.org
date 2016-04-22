@@ -213,7 +213,7 @@ z7u3IxpqNVcXHExjXQE=",
         <h3>GraphSignature2012</h3>
           <p>
 A graph signature is used for digital signatures on RDF graphs.
-The default normalization mechanism is specified in the
+The default canonicalization mechanism is specified in the
 RDF Graph normalization specification, which effectively deterministically
 names all unnamed nodes. The default signature mechanism uses a SHA-256 digest
 and RSA to perform the digital signature.
@@ -228,7 +228,7 @@ and RSA to perform the digital signature.
             <dt>Signature Properties</dt>
             <dd>
               <dl>
-                <dt>Default Normalization Algorithm</dt>
+                <dt>Default Canonicalization Algorithm</dt>
                 <dd>
 <a rel="canonicalizationAlgorithm"
   href="https://w3id.org/rdf#URGNA2012">
@@ -271,10 +271,12 @@ and verified.
         <h3>LinkedDataSignature2015</h3>
           <p>
 A Linked Data signature is used for digital signatures on RDF Datasets.
-The default normalization mechanism is specified in the RDF Dataset
+The default canonicalization mechanism is specified in the RDF Dataset
 Normalization specification, which effectively deterministically names all
 unnamed nodes. The default signature mechanism
-uses a SHA-256 digest and RSA to perform the digital signature.
+uses a SHA-256 digest and RSA to perform the digital signature. This
+signature uses a algorithm for producing the data that it signs and
+verifies that is different from other Linked Data signatures.
           </p>
           <dl>
             <dt>Status</dt>
@@ -286,7 +288,7 @@ uses a SHA-256 digest and RSA to perform the digital signature.
             <dt>Signature Properties</dt>
             <dd>
               <dl>
-                <dt>Default Normalization Algorithm</dt>
+                <dt>Default Canonicalization Algorithm</dt>
                 <dd>
 <a rel="canonicalizationAlgorithm"
   href="https://w3id.org/rdf#URDNA2015">
@@ -316,7 +318,62 @@ and verified.
   "signature": {
     "@type": "LinkedDataSignature2015",
     "creator": "http://manu.sporny.org/keys/5",
-    "created": "2011-09-23T20:21:34Z",
+    "created": "2015-09-23T20:21:34Z",
+    "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
+  }
+}
+          </pre>
+      </section>
+
+        <h3>LinkedDataSignature2016</h3>
+          <p>
+A Linked Data signature is used for digital signatures on RDF Datasets.
+The default canonicalization mechanism is specified in the RDF Dataset
+Normalization specification, which effectively deterministically names all
+unnamed nodes. The default signature mechanism
+uses a SHA-256 digest and RSA to perform the digital signature.
+          </p>
+          <dl>
+            <dt>Status</dt>
+            <dd property="vs:term_status">stable</dd>
+            <dt>Parent Class</dt>
+            <dd>Signature</dd>
+            <dt>Expected properties</dt>
+            <dd>creator, signatureValue</dd>
+            <dt>Signature Properties</dt>
+            <dd>
+              <dl>
+                <dt>Default Canonicalization Algorithm</dt>
+                <dd>
+<a rel="canonicalizationAlgorithm"
+  href="https://w3id.org/rdf#URDNA2015">
+https://w3id.org/rdf#URDNA2015</a>
+                </dd>
+                <dt>Default Signature Algorithm</dt>
+                <dd>
+<a rel="signatureAlgorithm"
+  href="http://www.w3.org/2000/09/xmldsig#rsa-sha256">
+http://www.w3.org/2000/09/xmldsig#rsa-sha256</a>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>
+The example below shows how a basic JSON-LD signature is expressed in a
+JSON-LD snippet. Note that the signature property is directly embedded in the
+object. The signature algorithm specifies how the signature can be generated
+and verified.
+          </p>
+          <pre class="example prettyprint language-jsonld">
+{
+  "@context": ["https://w3id.org/security/v1", "http://json-ld.org/contexts/person.jsonld"]
+  "@type": "Person",
+  "name": "Dave Longley",
+  "homepage": "https://w3id.org/people/dave",
+  "signature": {
+    "@type": "LinkedDataSignature2016",
+    "creator": "https://w3id.org/people/dave/keys/2",
+    "created": "2016-11-05T03:12:54Z",
     "signatureValue": "OGQzNGVkMzVmMmQ3ODIyOWM32MzQzNmExMgoYzI4ZDY3NjI4NTIyZTk="
   }
 }
@@ -493,7 +550,7 @@ z7u3IxpqNVcXHExjXQE=",
         <p>
 The digest algorithm is used to specify the cryptographic function to use when
 generating the data to be digitally signed. Typically, data that is to be signed
-goes through three steps: 1) normalization, 2) digest, and 3) signature.
+goes through three steps: 1) canonicalization, 2) digest, and 3) signature.
 This property is used to specify the algorithm that should be used for step #2.
 A signature class typically specifies a default digest method, so this
 property is typically used to specify information for a signature algorithm.
@@ -767,7 +824,8 @@ so on the same set of information in a deterministic manner.
         <p>
 The example below shows the establishment of a new signature class, using the
 three pieces of information that are typically required for a signature -
-the normalization algorithm, the digest algorithm and the signature algorithm:
+the canonicalization algorithm, the digest algorithm and the signature
+algorithm:
         </p>
         <pre class="example prettyprint language-jsonld">
 {
@@ -1070,7 +1128,7 @@ encoded in JSON-LD:
         <p>
 The signature algorithm is used to specify the cryptographic signature
 function to use when digitally signing the digest data. Typically, text to be
-signed goes through three steps: 1) normalization, 2) digest, and
+signed goes through three steps: 1) canonicalization, 2) digest, and
 3) signature. This property is used to specify the algorithm that should be
 used for step #3. A signature class typically specifies a default signature
 algorithm, so this property rarely needs to be used in practice when specifying

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Proof of Publication Signature 2016</title>
+    <title>Proof of Publication 1.0</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <!--
       === NOTA BENE ===
@@ -11,13 +11,13 @@
     <script src='../../respec-w3c-common.js' async class='remove'></script>
     <script type="text/javascript" class="remove">
       var respecConfig = {
-        subtitle: "A Merkle Tree-based Proof of Publication Signature Suite",
+        subtitle: "A Merkle tree-based proof of publication signature option",
 
         // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
         specStatus:           "CG-DRAFT",
 
         // the specification's short name, as in http://www.w3.org/TR/short-name/
-        shortName:            "pops2016",
+        shortName:            "popso",
 
         // if you wish the publication date to be other than today, set this
         // publishDate:  "2009-08-06",
@@ -41,7 +41,13 @@
         // only "name" is required
         editors:  [
           { name: "Manu Sporny", url: "http://digitalbazaar.com/",
-            company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" }
+            company: "Digital Bazaar", companyURL: "http://digitalbazaar.com/" },
+          { name: "Dave Longley", url: "http://digitalbazaar.com/",
+              company: "Digital Bazaar", companyURL: "http://digitalbazaar.com/" },
+          { name: "Shane McCarron", url: "https://github.com/halindrome",
+            company: "Spec-Ops", companyURL: "https://www.spec-ops.io/" },
+          { name: "Christopher Allen", url: "http://www.lifewithalacrity.com/",
+            company: "Blockstream", companyURL: "https://blockstream.com/" }
         ],
 
         // authors, add as many as you like.
@@ -50,9 +56,9 @@
 
         authors:  [
             { name: "Dave Longley", url: "http://digitalbazaar.com/",
-              company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" },
+              company: "Digital Bazaar", companyURL: "http://digitalbazaar.com/" },
             { name: "Manu Sporny", url: "http://digitalbazaar.com/",
-              company: "Digital Bazaar, Inc.", companyURL: "http://digitalbazaar.com/" }
+              company: "Digital Bazaar", companyURL: "http://digitalbazaar.com/" }
         ],
 
         // extend the bibliography entries
@@ -106,8 +112,8 @@
   <body>
     <section id='abstract'>
       <p>
-This specification describes a signature suite that includes the ability
-to cryptographically prove when the digital signature was created by
+This specification describes a signature option that provides the
+ability to cryptographically prove when a digital signature was created by
 anchoring the signature to a hash in a publically available merkle tree.
       </p>
     </section>
@@ -122,17 +128,12 @@ is not fit for production deployment.
     <section>
       <h2>Introduction</h2>
       <p>
-This specification describes a signature suite created in 2016 that includes
-the ability to cryptographically prove when the digital signature was
+This specification describes a signature option that provides
+the ability to cryptographically prove when a digital signature was
 created by anchoring the signature to a hash in a publically
-available merkle tree. This signature suite extends the
-Linked Data Signatures [[LD-SIGNATURES]] specification. It uses the RDF
-Dataset Normalization Algorithm [[RDF-DATASET-NORMALIZATION]] to transform the
-input document into its normal form. It uses SHA-256 [[RFC6234]] as the
-<a>message digest algorithm</a> and RSASSA-PKCS1-v1_5 [[RFC3447]] as the
-<a>signature algorithm</a>. The major change addition to the signature
-mechanism is the inclusion of several Merkle tree hashes into the signature
-hash.
+available merkle tree. This signature option is intended to be used with the
+<a>signature options</a> data structure used in the
+Linked Data Signatures [[!LD-SIGNATURES]] specification.
       </p>
     </section>
 
@@ -140,11 +141,15 @@ hash.
       <h2>Terminology</h2>
       <p>
 The following terms are used to describe concepts involved in the
-generation and verification of the Linked Data Signature 2015
-<a>signature suite</a>.
+generation and verification of the Proof of Publication signature option.
       </p>
 
       <dl>
+        <dt><dfn>signature options</dfn></dt>
+        <dd>
+A set of options that is included in the Linked Data Signatures
+[[!LD-SIGNATURES]] signature data.
+        </dd>
         <dt><dfn>merkle tree</dfn></dt>
         <dd>
 A tree in which every non-leaf node is labelled with the hash of the labels
@@ -154,79 +159,23 @@ or values (in case of leaves) of its child nodes. Wikipedia has a more
         <dt><dfn>signature suite</dfn></dt>
         <dd>
 A specified set of cryptographic primitives typically consisting of
-a normalization algorithm, a message digest algorithm, and a signature
+a canonicalization algorithm, a message digest algorithm, and a signature
 algorithm that are bundled together by cryptographers for developers
 for the purposes of safety and convenience.
-        </dd>
-        <dt><dfn>normalization algorithm</dfn></dt>
-        <dd>
-An algorithm that takes an input document that has more than one possible
-representation and always transforms it into a normal form. This process is
-sometimes also called canonicalization.
-        </dd>
-        <dt><dfn>message digest algorithm</dfn></dt>
-        <dd>
-An algorithm that takes an input message and produces a cryptographic
-output message that is often times many orders of magnitude smaller than the
-input message. These algorithms are often 1) very fast, 2)
-non-reversible, 3) change when even one bit of the input message changes, and
-4) produce different outputs for different inputs.
-        </dd>
-        <dt><dfn>signature algorithm</dfn></dt>
-        <dd>
-An algorithm that takes an input message and produces an output value where the
-receiver of the message can mathematically verify that the message came from
-a particular sender and has not been modified in transit.
         </dd>
       </dl>
     </section>
 
     <section>
-      <h2>The Proof of Publication 2016 Signature Suite</h2>
-
-      <p>
-The Proof of Publication Signature 2016 <a>signature suite</a> MUST be used in
-conjunction with the signing and verification algorithms in the
-Linked Data Signatures [[LD-SIGNATURES]] specification. The suite consists of
-the following algorithms:
-      </p>
-
-      <table class="simple">
-        <thead>
-          <th>Parameter</th>
-          <th>Value</th>
-          <th>Specification</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>normalizationAlgorithm</td>
-            <td>https://w3id.org/security#URDNA2015</td>
-            <td>[[RDF-DATASET-NORMALIZATION]]</td>
-          </tr>
-          <tr>
-            <td>digestAlgorithm</td>
-            <td>http://example.com/digests#sha256</td>
-            <td>[[RFC6234]]</td>
-          </tr>
-          <tr>
-            <td>signatureAlgorithm</td>
-            <td>http://www.w3.org/2000/09/xmldsig#rsa-sha1</td>
-            <td>[[RFC3447]]</td>
-          </tr>
-        </tbody>
-
-      </table>
-
-    <section>
-      <h2>Generating a Proof of Publication</h2>
+      <h2>Constructing a Proof of Publication</h2>
 
       <p>
 A <a>merkle tree</a>-based proof of publication is generated by adding a
 value into a public <a>merkle tree</a> and then including that value in the
 digital signature. There are several values that MUST be included in order
-to ensure the proof is valid: the <var>merkle root</var>, the
-<var>parent</var>, the <var>left sibling</var>, and
-the <var>right sibling</var>.
+to ensure the proof is valid: an identifier for the <a>merkle tree</a>,
+</a></var>the <var>merkle root</var>, the <var>parent</var>,
+the <var>left sibling</var>, and the <var>right sibling</var>.
       </p>
       <p class="issue">
 Another alternative is to include the path from our entry back to the
@@ -234,69 +183,103 @@ merkle root. We're trying to minimize the data that goes into the
 signature by making it extremely unlikely that the three hashes just happen
 to be clustered elsewhere in the same tree.
       </p>
+
+      <p class="issue">
+This algorithm is still too vague for implementers. For example: How do you
+know what information to include in the merkle leaf nodes when generating the
+hash? Do you just include all of it?
+      </p>
       <p>
-To generate the <code>merklePublicationProof</code>, perform the following
-steps:
+To generate the <var>proof</var>, perform the following steps:
       </p>
       <ol class="algorithm">
         <li>
 Add an entry to a public <a>merkle tree</a>. Generate hashes for
 the <var>merkle root</var>, the <var>parent</var>, the <var>left sibling</var>,
-and the <var>right sibling</var> using the SHA-256 message digest algorithm
-[[RFC6234]].
+and the <var>right sibling</var> using the same message digest algorithm
+that will be used by the <a>signature suite</a>.
         </li>
         <li>
 Generate <var>proof value</var> by joining the following strings in order,
 using a colon <code>:</code> (U+003A) as the separator:
           <ol class="algorithm">
             <li>
-<code>pops2016</code>
+<code>popso1</code>
             </li>
             <li>
-the SHA-256 message digest of the <var>merkle root</var>
+a URL-encoded identifier for the <a>merkle tree</a>.
             </li>
             <li>
-the SHA-256 message digest of the <var>parent</var>
+the message digest of the <var>merkle root</var> using the same message
+digest algorithm specified in the active <a>signature suite</a>
             </li>
             <li>
-the SHA-256 message digest of the <var>left sibling</var>
+the message digest of the <var>parent</var> using the same message
+digest algorithm specified in the active <a>signature suite</a>
             </li>
             <li>
-the SHA-256 message digest of the <var>right sibling</var>
+the message digest of the <var>left sibling</var> using the same message
+digest algorithm specified in the active <a>signature suite</a>
+            </li>
+            <li>
+the message digest of the <var>right sibling</var> using the same message
+digest algorithm specified in the active <a>signature suite</a>
             </li>
           </ol>
         </li>
         <li>
-Set the <code>merklePublicationProof</code> to <var>proof value</var>.
+Set <var>proof</var> to <var>proof value</var>.
         </li>
       </ol>
+
+The <var>proof</var> should then be associated with a
+<code>merklePublicationProof</code> key and included in
+<a>signature options</a> before the signature is generated.
     </section>
 
     <section>
-      <h2>Modification to Algorithms</h2>
+      <h2>Verifying a Proof of Publication</h2>
 
       <p>
-The following modifications must be made to the algorithms specified in the
-Linked Data Signatures [[LD-SIGNATURES]] specification.
+A <a>merkle tree</a>-based proof of publication is verified by checking to
+see if a value exists in a public <a>merkle tree</a> and was generated by the
+expected party and the expected time. The input is a <a>signature options</a>
+document containing a <code>merklePublicationProof</code> entry. The output is
+<em>true</em> if the proof is valid, or <em>false</em> if it is not.
       </p>
 
-      <section>
-      <h3>Signature Algorithm</h3>
       <p>
-After performing step #4 and prior to performing step #5 of the
-Signature Algorithm:
+To verify the <var>proof</var>, perform the following steps:
       </p>
-
       <ol class="algorithm">
         <li>
-If a <code>merklePublicationProof</code> value exists, add an entry to
-<var>headers</var> with a key of
-<code>https://w3id.org/security#merklePublicationProof</code> and the
-associated value.
+Extract the <var>algorithm</var>, the <var>identifier</var>,
+</var> the <var>merkle root</var>, the <var>parent</var>,
+the <var>left sibling</var>, and the <var>right sibling</var> by splitting the
+<code>merklePublicationProof</code> value using colon <code>:</code> (U+003A)
+as the separator value.
+        </li>
+        <li>
+Set <var>identifier</var> to the URL-decoded version of itself.
+        </li>
+        <li>
+Ensure that <var>algorithm</var> is equivalent to <code>popso1</code>.
+        </li>
+        <li>
+Load the <a>merkle tree</a> identified by <var>identifier</var>.
+        </li>
+        <li>
+If the <var>merkle root</var>, the <var>parent</var>,
+the <var>left sibling</var>, and the <var>right sibling</var> exist in the
+<a>merkle tree</a> return true. Otherwise, return false.
+
+          <div class="issue">
+This isn't right, we need to also check a timestamp of some kind. What
+would be the best/most generic way of doing that?
+          </div>
         </li>
       </ol>
 
-      </section>
     </section>
 
     <section>
@@ -309,6 +292,26 @@ software.
 
 <div class="issue">TODO: We need to add a complete list of security
 considerations.</div>
+    </section>
+
+    <section class="appendix">
+      <h2>Proof of Publication Examples</h2>
+      <pre class="example highlight" title="A digitally signed document containing a proof of publication">
+{
+  "@context": "https://w3id.org/identity/v1",
+  "title": "Hello World!",
+  "signature": {
+    "type": "LinkedDataSignature2015",
+    "creator": "http://example.com/i/pat/keys/5",
+    "created": "2011-09-23T20:21:34Z",
+    "domain": "example.org",
+    "nonce": "2bbgh3dgjg2302d-d2b3gi423d42",
+    "merklePublicationProof": "popso1:bitcoin:d218e3a55fdfc87a6bc0410df6aa5c6016fa01dc6a18787761e6def09f82d6e0:80ab866e989432e023b51e866545c141e00d456e59fa1e253fac3a561e1a6c14:1bf648b5a74cdf07e99a3a6ed67751c3b4c0db971a957359fc780c13b7b77bc9:ca17bcb732a51ed1e94f4ed8081b04d5c12627b8d23127dafac08edf3645b56f",
+    "signatureValue": "OGQzNGVkMzVm4NTIyZTkZDY...NmExMgoYzI43Q3ODIyOWM32NjI="
+  }
+}
+
+      </pre>
     </section>
 
   </body>

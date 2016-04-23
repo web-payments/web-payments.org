@@ -260,7 +260,7 @@ The value of <var>transaction identifier</var>.
             <dd>
 The value of <var>merkle root hash</var>.
             </dd>
-            <dt>proofs</dt>
+            <dt>proof</dt>
             <dd>
 The value of <var>array of entries</var>.
             </dd>
@@ -279,7 +279,7 @@ The data structure returned above should then be associated with a
       <p>
 A <a>merkle tree</a>-based proof of publication is verified by checking to
 see if a value exists in a ledger at the appropriate time.
-The input is a <a>signature options</a> document containing a 
+The input is a <a>signature options</a> document containing a
 <code>merklePublicationProof</code> entry. The output is
 <em>true</em> if the proof is valid, or <em>false</em> if it is not.
       </p>
@@ -292,13 +292,13 @@ To verify the proof of publication, perform the following steps:
 Ensure that the <code>type</code> value is <code>PoP2016</code>.
         </li>
         <li>
-Extract the <var>ledger identifier</var>, the 
-<var>transaction identifier</var>, and <var>merkle root hash</var> from the 
+Extract the <var>ledger identifier</var>, the
+<var>transaction identifier</var>, and <var>merkle root hash</var> from the
 <var>signature options</var>.
         </li>
         <li>
-If the <var>merkle root hash</var> does not exist in the transaction 
-identified by <var>transaction identifier</var> on the ledger identified by 
+If the <var>merkle root hash</var> does not exist in the transaction
+identified by <var>transaction identifier</var> on the ledger identified by
 <var>ledger identifier</var>, return false.
 
           <div class="issue">
@@ -356,7 +356,7 @@ considerations.</div>
       "ledger": "bitcoin",
       "transactionId": "7ea0cef6a31c65590d6c1d61abbfa02d3006da6509a018cdbc709d0a781a7c28",
       "merkleRoot": "80ab866e989432e023b51e866545c141e00d456e59fa1e253fac3a561e1a6c14",
-      "proofs": [{
+      "proof": [{
         "merkleParent": "f51cd07057a813f92a33a05ed58a0f26600d2205f9c590f3461f94bd8451b567",
         "merkleLeftSibling": "247911c653b43a2d13010538c7eae52e500a556448f17384d636857b2b63ae45",
         "merkleRightSibling": "93ca67aea78e996fb9e10368243110c6f037143dbeec726de0b9172766427399"

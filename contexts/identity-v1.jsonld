@@ -60,6 +60,8 @@
     "domain": "sec:domain",
     "expires": {"@id": "sec:expiration", "@type": "xsd:dateTime"},
     "initializationVector": "sec:initializationVector",
+    "member": {"@id": "schema:member", "@type": "@id"},
+    "memberOf": {"@id": "schema:memberOf", "@type": "@id"},
     "nonce": "sec:nonce",
     "normalizationAlgorithm": "sec:normalizationAlgorithm",
     "owner": {"@id": "sec:owner", "@type": "@id"},

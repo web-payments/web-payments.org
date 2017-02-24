@@ -6,7 +6,7 @@
       "@id": "https://w3id.org/documents#document", "@type": "@id"
     },
     "documentType": {
-      "@id": "https://w3id.org/documents#document", "@type": "@id"
+      "@id": "https://w3id.org/documents#documentType", "@type": "@id"
     },
     "LoyaltyCardCredential": "https://w3id.org/documents#LoyaltyCardCredential",
 

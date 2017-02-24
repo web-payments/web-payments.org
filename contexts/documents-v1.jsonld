@@ -1,8 +1,7 @@
 {
   "@context": [
     "https://w3id.org/identity/v1",
-    "https://w3id.org/credentials/v1"
-  }, {
+    "https://w3id.org/credentials/v1", {
     "document": {
       "@id": "https://w3id.org/documents#document", "@type": "@id"
     },
@@ -14,5 +13,5 @@
     "customer": {
       "@id": "http://schema.org/customer", "@type": "@id"
     }
-  }
+  }]
 }

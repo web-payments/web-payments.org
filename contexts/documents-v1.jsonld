@@ -1,0 +1,18 @@
+{
+  "@context": [
+    "https://w3id.org/identity/v1",
+    "https://w3id.org/credentials/v1"
+  }, {
+    "document": {
+      "@id": "https://w3id.org/documents#document", "@type": "@id"
+    },
+    "documentType": {
+      "@id": "https://w3id.org/documents#document", "@type": "@id"
+    },
+    "LoyaltyCardCredential": "https://w3id.org/documents#LoyaltyCardCredential",
+
+    "customer": {
+      "@id": "http://schema.org/customer", "@type": "@id"
+    }
+  }
+}

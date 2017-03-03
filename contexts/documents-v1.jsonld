@@ -27,7 +27,7 @@
     "logo": {
       "@id": "http://schema.org/logo", "@type": "@id"
     },
-    "text": "http://schema.org/title",
+    "text": "http://schema.org/text",
     "title": "http://schema.org/title"
   }]
 }

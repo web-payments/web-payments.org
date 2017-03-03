@@ -8,6 +8,8 @@
     "documentType": {
       "@id": "https://w3id.org/documents#documentType", "@type": "@id"
     },
+    "documentForegroundColor":
+      "https://w3id.org/documents#documentForegroundColor",
     "documentBackgroundColor":
       "https://w3id.org/documents#documentBackgroundColor",
     "documentBackgroundImage": {

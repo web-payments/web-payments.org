@@ -18,8 +18,16 @@
     },
     "LoyaltyCardCredential": "https://w3id.org/documents#LoyaltyCardCredential",
 
+    "brand": {
+      "@id": "http://schema.org/brand", "@type": "@id"
+    },
     "customer": {
       "@id": "http://schema.org/customer", "@type": "@id"
-    }
+    },
+    "logo": {
+      "@id": "http://schema.org/logo", "@type": "@id"
+    },
+    "text": "http://schema.org/title",
+    "title": "http://schema.org/title"
   }]
 }

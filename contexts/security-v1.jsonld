@@ -36,6 +36,7 @@
     "privateKey": {"@id": "sec:privateKey", "@type": "@id"},
     "privateKeyPem": "sec:privateKeyPem",
     "publicKey": {"@id": "sec:publicKey", "@type": "@id"},
+    "ownsKey": {"@reverse": "sec:owner"},
     "publicKeyPem": "sec:publicKeyPem",
     "publicKeyService": {"@id": "sec:publicKeyService", "@type": "@id"},
     "revoked": {"@id": "sec:revoked", "@type": "xsd:dateTime"},

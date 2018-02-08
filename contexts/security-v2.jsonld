@@ -1,0 +1,12 @@
+{
+  "@context": [
+    "https://w3id.org/security/v1", {
+    "@version": 1.1,
+
+    "RsaSignature2018": "sec:RsaSignature2018",
+
+    "jws": "sec:jws",
+    "proof": {"@id": "sec:proof", "@type": "@id", "@container": "@graph"}
+  }]
+}
+

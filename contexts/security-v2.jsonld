@@ -25,6 +25,7 @@
     "invocationTarget": {"@id": "sec:invocationTarget", "@type": "@id"},
     "invoker": {"@id": "sec:invoker", "@type": "@id"},
     "jws": "sec:jws",
+    "keyAgreement": {"@id": "sec:keyAgreementMethod", "@type": "@id", "@container": "@set"},
     "parentCapability": {"@id": "sec:parentCapability", "@type": "@id"},
     "proof": {"@id": "sec:proof", "@type": "@id", "@container": "@graph"},
     "proofPurpose": {"@id": "sec:proofPurpose", "@type": "@vocab"},

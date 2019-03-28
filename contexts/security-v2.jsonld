@@ -11,6 +11,7 @@
     "KmsOperation": "sec:KmsOperation",
     "RsaSignature2018": "sec:RsaSignature2018",
     "RsaVerificationKey2018": "sec:RsaVerificationKey2018",
+    "Sha256HmacKey2019": "sec:Sha256HmacKey2019",
     "SignOperation": "sec:SignOperation",
     "UnwrapKeyOperation": "sec:UnwrapKeyOperation",
     "VerifyOperation": "sec:VerifyOperation",

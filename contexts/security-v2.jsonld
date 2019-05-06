@@ -37,6 +37,7 @@
     "invoker": {"@id": "sec:invoker", "@type": "@id"},
     "jws": "sec:jws",
     "keyAgreement": {"@id": "sec:keyAgreementMethod", "@type": "@id", "@container": "@set"},
+    "kmsModule": {"@id": "sec:kmsModule"},
     "parentCapability": {"@id": "sec:parentCapability", "@type": "@id"},
     "plaintext": "sec:plaintext",
     "proof": {"@id": "sec:proof", "@type": "@id", "@container": "@graph"},

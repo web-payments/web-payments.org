@@ -3,12 +3,14 @@
     "@version": 1.1
   }, "https://w3id.org/security/v1", {
     "AesKeyWrappingKey2019": "sec:AesKeyWrappingKey2019",
+    "DeleteKeyOperation": "sec:DeleteKeyOperation",
     "Ed25519Signature2018": "sec:Ed25519Signature2018",
     "Ed25519VerificationKey2018": "sec:Ed25519VerificationKey2018",
     "EquihashProof2018": "sec:EquihashProof2018",
     "ExportKeyOperation": "sec:ExportKeyOperation",
     "GenerateKeyOperation": "sec:GenerateKeyOperation",
     "KmsOperation": "sec:KmsOperation",
+    "RevokeKeyOperation": "sec:RevokeKeyOperation",
     "RsaSignature2018": "sec:RsaSignature2018",
     "RsaVerificationKey2018": "sec:RsaVerificationKey2018",
     "Sha256HmacKey2019": "sec:Sha256HmacKey2019",

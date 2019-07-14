@@ -4,6 +4,7 @@
   }, "https://w3id.org/security/v1", {
     "AesKeyWrappingKey2019": "sec:AesKeyWrappingKey2019",
     "DeleteKeyOperation": "sec:DeleteKeyOperation",
+    "DeriveSecretOperation": "sec:DeriveSecretOperation",
     "Ed25519Signature2018": "sec:Ed25519Signature2018",
     "Ed25519VerificationKey2018": "sec:Ed25519VerificationKey2018",
     "EquihashProof2018": "sec:EquihashProof2018",

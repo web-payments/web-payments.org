@@ -1,15 +1,17 @@
 {
   "@context": {
     "@version": 1.1,
+    "@protected": true,
+
     "id": "@id",
     "type": "@type",
 
-    "jldp": "https://w3id.org/json-ld-patch#",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-
-    "frame": {"@id": "jldp:frame", "@type": "@json"},
-    "patch": {"@id": "jldp:patch", "@type": "@json", "@container": "@set"},
-    "target": {"@id": "jldp:target", "@type": "@id"},
-    "sequence": {"@id": "jldp:sequence", "@type": "xsd:integer"}
+    "frame": {"@id": "https://w3id.org/json-ld-patch#frame", "@type": "@json"},
+    "patch": {"@id": "https://w3id.org/json-ld-patch#patch", "@type": "@json", "@container": "@set"},
+    "target": {"@id": "https://w3id.org/json-ld-patch#target", "@type": "@id"},
+    "sequence": {
+      "@id": "https://w3id.org/json-ld-patch#sequence",
+      "@type": "http://www.w3.org/2001/XMLSchema#integer"
+    }
   }
 }

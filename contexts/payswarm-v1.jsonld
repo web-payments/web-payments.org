@@ -89,6 +89,7 @@
     "ApplyInclusively": "com:ApplyInclusively",
     "FinancialAccount": "com:Account",
     "FlatAmount": "com:FlatAmount",
+    "Credit": "com:Credit",
     "Deposit": "com:Deposit",
     "NoAdditionalPayeesLimitation": "com:NoAdditionalPayeesLimitation",
     "Payee": "com:Payee",
